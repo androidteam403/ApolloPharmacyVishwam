@@ -32,17 +32,40 @@ class ApnaSurveyAdapter(
 
     companion object {
         private const val VIEW_TYPE_DATA = 0;
-        private const val VIEW_TYPE_PROGRESS = 1;
+        private const val VIEW_TYPE_PROGRESS = -1;
     }
     override fun getItemViewType(position: Int): Int {
         var viewtype = approveList?.get(position)
         //if data is load, returns PROGRESSBAR viewtype.
         return if (viewtype!!.isLoading!=null) {
             VIEW_TYPE_PROGRESS
-        } else VIEW_TYPE_DATA
+        } else position
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        if (viewType == VIEW_TYPE_PROGRESS){
+            val loadingProgressLazyBinding: LoadingProgressLazyBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(mContext),
+                R.layout.loading_progress_lazy,
+                parent,
+                false)
+            return LoadingApnaSurveyViewHolder(loadingProgressLazyBinding)
+        }else{
+            val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding =
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.context),
+                    R.layout.apna_survey_layout,
+                    parent,
+                    false
+                )
+            return ViewHolder(apnaSurveyLayoutBinding)
+        }
+
+
+
+
+
+/*
         return when (viewType) {
             VIEW_TYPE_DATA -> {//inflates row layout
                 val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding =
@@ -64,6 +87,7 @@ class ApnaSurveyAdapter(
             }
             else -> throw IllegalArgumentException("Different View type")
         }
+*/
 
 
 

@@ -90,18 +90,18 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         pageNo = 1
         viewBinding.search.setText("")
         surveyStatusList = "new,inprogress,rejected,approved,cancelled"
-        dialogSurveyListFilterBinding.isNewChecked = this.surveyStatusList.contains("new")
-        dialogSurveyListFilterBinding.isInProgressChecked =
-            this.surveyStatusList.contains("inprogress")
-
-        dialogSurveyListFilterBinding.isRejectedChecked =
-            this.surveyStatusList.contains("rejected")
-
-        dialogSurveyListFilterBinding.isApproveChecked =
-            this.surveyStatusList.contains("approved")
-
-        dialogSurveyListFilterBinding.isClosedChecked =
-            this.surveyStatusList.contains("cancelled")
+//        dialogSurveyListFilterBinding.isNewChecked = this.surveyStatusList.contains("new")
+//        dialogSurveyListFilterBinding.isInProgressChecked =
+//            this.surveyStatusList.contains("inprogress")
+//
+//        dialogSurveyListFilterBinding.isRejectedChecked =
+//            this.surveyStatusList.contains("rejected")
+//
+//        dialogSurveyListFilterBinding.isApproveChecked =
+//            this.surveyStatusList.contains("approved")
+//
+//        dialogSurveyListFilterBinding.isClosedChecked =
+//            this.surveyStatusList.contains("cancelled")
 
         MainActivity.mInstance.filterIndicator.visibility = View.GONE
         callAPI(pageNo, rowSize, false)
@@ -187,8 +187,9 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
             isLoading = true
             val newdata = SurveyListResponse.Row()
             newdata.isLoading = "YES"
-            adapter!!.getData().add(newdata)
-            adapter!!.notifyItemInserted(adapter!!.getData().size - 1)
+            surveyResponseList.add(newdata)
+//            adapter!!.getData().add(newdata)
+            adapter!!.notifyItemInserted(surveyResponseList.size - 1)
             callAPI(pageNo, rowSize, false)
 
         })
@@ -236,14 +237,20 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
             if (resultCode == Activity.RESULT_OK) {
                 showLoading()
                 pageNo = 1
-                viewModel.getApnaSurveyList(
-                    this,
+                viewModel.getApnaSurveyList(this@ApnaSurveyFragment,
                     pageNo.toString(),
                     rowSize.toString(),
+                    viewBinding.search.text.toString(),
                     surveyStatusList,
-                    viewBinding.search.text.toString().trim(),
-                    false
-                )
+                    false)
+//                viewModel.getApnaSurveyList(
+//                    this,
+//                    pageNo.toString(),
+//                    rowSize.toString(),
+//                    surveyStatusList,
+//                    viewBinding.search.text.toString().trim(),
+//                    false
+//                )
             }
         }
     }

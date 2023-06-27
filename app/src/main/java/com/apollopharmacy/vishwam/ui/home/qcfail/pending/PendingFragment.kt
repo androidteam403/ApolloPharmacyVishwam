@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,8 +78,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var increment: Int = 0
     var names = ArrayList<QcListsResponse.Pending>();
 
-    var itemsPerPageList = arrayOf("5", "10", "15", "20", "25", "30")
-    var selectedItem = ""
+    var itemsPerPageCountList = arrayOf("5", "10", "15")
+    var selectedCount: Int = 0
 
 
     override val layoutRes: Int
@@ -92,39 +91,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
     @SuppressLint("ResourceType")
     override fun setup() {
-
-        val arrayAdapter = object :
-            ArrayAdapter<String>(requireContext(), R.layout.dropdown_item, itemsPerPageList) {
-            override fun getDropDownView(
-                position: Int,
-                convertView: View?,
-                parent: ViewGroup,
-            ): View {
-                val view: TextView =
-                    super.getDropDownView(position, convertView, parent) as TextView
-                return view
-            }
-        }
-
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        viewBinding.itemCountSpinner.adapter = arrayAdapter
-
-        viewBinding.itemCountSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long,
-                ) {
-                    selectedItem = itemsPerPageList[position]
-                    Log.i("SELECTED ITEM", selectedItem)
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-            }
-
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
@@ -247,7 +213,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         }
 
 
-        viewModel.qcPendingLists.observe(viewLifecycleOwner, { it ->
+        /*viewModel.qcPendingLists.observe(viewLifecycleOwner, { it ->
             viewBinding.refreshSwipe.isRefreshing = false
             storeList.clear()
             regionList.clear()
@@ -310,8 +276,39 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             viewBinding.recyclerViewPending.adapter = adapter
 
-        })
+        })*/
 
+        val arrayAdapter = object :
+            ArrayAdapter<String>(requireContext(), R.layout.dropdown_item, itemsPerPageCountList) {
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup,
+            ): View {
+                val view: TextView =
+                    super.getDropDownView(position, convertView, parent) as TextView
+                return view
+            }
+        }
+
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        viewBinding.itemCountSpinner.adapter = arrayAdapter
+
+        viewBinding.itemCountSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long,
+                ) {
+                    selectedCount = itemsPerPageCountList[position].toInt()
+                    showPendingList()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+            }
 
 
 
@@ -508,6 +505,73 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         }
     }
 
+    private fun showPendingList() {
+        viewModel.qcPendingLists.observe(viewLifecycleOwner, { it ->
+            viewBinding.refreshSwipe.isRefreshing = false
+            storeList.clear()
+            regionList.clear()
+            hideLoading()
+            if (it.pendinglist.isNullOrEmpty()) {
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.recyclerViewPending.visibility = View.GONE
+                viewBinding.continueBtn.visibility = View.GONE
+
+//                Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
+            } else {
+
+                filterPendingList = (it.pendinglist as ArrayList<QcListsResponse.Pending>?)!!
+                for (i in filterPendingList.indices) {
+                    storeList.add(filterPendingList[i].storeid.toString())
+                    regionList.add(filterPendingList[i].dcCode.toString())
+                }
+                val regionListSet: MutableSet<String> = LinkedHashSet()
+                val stroreListSet: MutableSet<String> = LinkedHashSet()
+                stroreListSet.addAll(storeList)
+                regionListSet.addAll(regionList)
+                storeList.clear()
+                regionList.clear()
+                regionList.addAll(regionListSet)
+                storeList.addAll(stroreListSet)
+
+//            subList = ListUtils.partition(it.pendinglist, 3)
+                splitTheArrayList(it.pendinglist as ArrayList<QcListsResponse.Pending>?)
+                pageNo = 1
+                increment = 0
+                if (pageNo == 1) {
+                    viewBinding.prevPage.visibility = View.GONE
+                } else {
+                    viewBinding.prevPage.visibility = View.VISIBLE
+
+                }
+                if (increment == subList?.size!!.minus(1)) {
+                    viewBinding.nextPage.visibility = View.GONE
+                } else {
+                    viewBinding.nextPage.visibility = View.VISIBLE
+
+                }
+
+                names = it.pendinglist as ArrayList<QcListsResponse.Pending>
+                viewBinding.emptyList.visibility = View.GONE
+
+                viewBinding.recyclerViewPending.visibility = View.VISIBLE
+                if (subList?.size == 1) {
+                    viewBinding.continueBtn.visibility = View.GONE
+                } else {
+                    viewBinding.continueBtn.visibility = View.VISIBLE
+
+                }
+                viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+
+                adapter = context?.let { it1 ->
+                    QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
+                }
+
+            }
+            viewBinding.recyclerViewPending.adapter = adapter
+
+        })
+    }
+
 //    fun bulkDelete() {
 //        hideLoading()
 //
@@ -621,7 +685,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         subList?.clear()
         var pendingSubList: ArrayList<QcListsResponse.Pending>? = ArrayList()
         var pageStartPos = 0;
-        var pageEndPos = 5
+        var pageEndPos = selectedCount
         for (i in pendingList!!) {
             pendingSubList!!.add(i)
             if (pendingList.indexOf(i) == (pendingList.size - 1)) {
@@ -629,13 +693,13 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                     ArrayList<QcListsResponse.Pending>(pendingList.subList(pageStartPos,
                         pendingList.size))
                 subList!!.add(list)
-            } else if ((pendingList.indexOf(i) + 1) % 5 == 0) {
+            } else if ((pendingList.indexOf(i) + 1) % selectedCount == 0) {
                 val list: ArrayList<QcListsResponse.Pending> =
                     ArrayList<QcListsResponse.Pending>(pendingList.subList(pageStartPos,
                         pageEndPos))
                 subList!!.add(list)
-                pageStartPos = pageStartPos + 5
-                pageEndPos = pageEndPos + 5
+                pageStartPos = pageStartPos + selectedCount
+                pageEndPos = pageEndPos + selectedCount
             }
         }
     }

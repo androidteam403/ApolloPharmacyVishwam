@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.retroqr.activity.RetroImagePreviewActivity">
+
+        <LinearLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:background="@color/retro_qr_actionbar_color"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/value_30dp"
+                android:layout_height="@dimen/value_30dp"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_5dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Rack 1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_18sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/headerLayout"
+            android:layout_marginBottom="@dimen/value_60dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/capture"
+                android:contentDescription="@string/app_name" />
+
+            <ImageView
+                android:layout_width="@dimen/value_45dp"
+                android:layout_height="@dimen/value_45dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:layout_marginEnd="@dimen/value_15dp"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="#19000000"
+                android:src="@drawable/closee_whitee"
+                android:contentDescription="@string/app_name" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_60dp"
+            android:layout_alignParentBottom="true"
+            android:background="#eef7f8">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="#ec9da8"
+                android:contentDescription="@string/app_name"
+                android:padding="@dimen/value_5dp"
+                android:src="@drawable/ic_outline_camera_alt_24"
+                android:tint="@color/white"
+                tools:ignore="UseAppTint" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/value_20dp"
+                android:layout_gravity="center_horizontal">
+
+                <LinearLayout
+                    android:layout_width="@dimen/value_40dp"
+                    android:layout_height="@dimen/value_60dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.10"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/value_85dp"
+                        android:layout_height="@dimen/value_85dp"
+                        android:layout_marginBottom="@dimen/value_2dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/right_greenn"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--<ImageView
+                android:layout_width="@dimen/value_40dp"
+                android:layout_height="@dimen/value_40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/value_20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/right_green" />-->
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

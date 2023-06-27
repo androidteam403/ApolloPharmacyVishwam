@@ -2,7 +2,6 @@ package com.apollopharmacy.vishwam.ui.home.qcfail.rejected
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -59,8 +58,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
     var names = ArrayList<QcListsResponse.Pending>();
 
-    var itemsPerPageList = arrayOf("5", "10", "15", "20", "25", "30")
-    var selectedItem = ""
+    var itemsPerPageCountList = arrayOf("5", "10", "15")
+    var selectedCount: Int = 0
 
     override val layoutRes: Int
         get() = R.layout.fragment_rejected_qc
@@ -70,36 +69,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
     override fun setup() {
-        val arrayAdapter = object :
-            ArrayAdapter<String>(requireContext(), R.layout.dropdown_item, itemsPerPageList) {
-            override fun getDropDownView(
-                position: Int,
-                convertView: View?,
-                parent: ViewGroup,
-            ): View {
-                var view: TextView =
-                    super.getDropDownView(position, convertView, parent) as TextView
-                return view
-            }
-        }
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        viewBinding.itemCountSpinner.adapter = arrayAdapter
-        viewBinding.itemCountSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long,
-                ) {
-                    selectedItem = itemsPerPageList.get(position)
-                    Log.i("SELECTED ITEM", selectedItem)
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-            }
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
@@ -179,7 +148,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         })
 
-        viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
+        /*viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
             viewBinding.refreshSwipe.isRefreshing = false
             storeStringList.clear()
@@ -221,8 +190,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
                 }
 
-
-
                 if (subList?.size == 1) {
                     viewBinding.continueBtn.visibility = View.GONE
                 } else {
@@ -230,9 +197,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
                 }
                 viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
-
-
-
 
                 adapter =
                     context?.let { it1 ->
@@ -250,12 +214,37 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                 viewBinding.continueBtn.visibility = View.GONE
 //                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
             }
-        })
+        })*/
 
+        val arrayAdapter = object :
+            ArrayAdapter<String>(requireContext(), R.layout.dropdown_item, itemsPerPageCountList) {
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup,
+            ): View {
+                val view: TextView =
+                    super.getDropDownView(position, convertView, parent) as TextView
+                return view
+            }
+        }
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        viewBinding.itemCountSpinner.adapter = arrayAdapter
+        viewBinding.itemCountSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long,
+                ) {
+                    selectedCount = itemsPerPageCountList[position].toInt()
+                    showRejectedList()
+                }
 
-
-
-
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+            }
 
         viewBinding.refreshSwipe.setOnRefreshListener {
             Preferences.setQcFromDate("")
@@ -371,6 +360,72 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             }
         }
 
+    }
+
+    private fun showRejectedList() {
+        viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
+            hideLoading()
+            viewBinding.refreshSwipe.isRefreshing = false
+            storeStringList.clear()
+            regionStringList.clear()
+            if (it.rejectedlist != null && it.rejectedlist!!.size > 0) {
+                viewBinding.recyclerViewPending.visibility = View.VISIBLE
+                viewBinding.emptyList.visibility = View.GONE
+                filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
+                filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
+
+                for (i in filterRejectList.indices) {
+                    storeStringList.add(filterRejectList[i].storeid.toString())
+                    regionStringList.add(filterRejectList[i].dcCode.toString())
+                }
+                val regionListSet: MutableSet<String> = LinkedHashSet()
+                val stroreListSet: MutableSet<String> = LinkedHashSet()
+                stroreListSet.addAll(storeStringList)
+                regionListSet.addAll(regionStringList)
+                storeStringList.clear()
+                regionStringList.clear()
+                regionStringList.addAll(regionListSet)
+                storeStringList.addAll(stroreListSet)
+                subList = ListUtils.partition(it.rejectedlist, selectedCount)
+                pageNo = 1
+                increment = 0
+                if (pageNo == 1) {
+                    viewBinding.prevPage.visibility = View.GONE
+                } else {
+                    viewBinding.prevPage.visibility = View.VISIBLE
+                }
+                if (increment == subList?.size!!.minus(1)) {
+                    viewBinding.nextPage.visibility = View.GONE
+                } else {
+                    viewBinding.nextPage.visibility = View.VISIBLE
+
+                }
+
+                if (subList?.size == 1) {
+                    viewBinding.continueBtn.visibility = View.GONE
+                } else {
+                    viewBinding.continueBtn.visibility = View.VISIBLE
+
+                }
+                viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+
+                adapter =
+                    context?.let { it1 ->
+                        QcRejectedListAdapter(it1, this,
+                            subList!!.get(increment),
+
+                            itemsList,
+                            statusList)
+                    }
+                viewBinding.recyclerViewPending.adapter = adapter
+
+            } else {
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.recyclerViewPending.visibility = View.GONE
+                viewBinding.continueBtn.visibility = View.GONE
+//                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
 

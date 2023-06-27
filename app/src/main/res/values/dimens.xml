@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_10sp">10sp</dimen>
+    <dimen name="text_11.5sp">11.5sp</dimen>
     <dimen name="text_12sp">12sp</dimen>
     <dimen name="text_13sp">13sp</dimen>
     <dimen name="text_14sp">14sp</dimen>
@@ -26,6 +27,7 @@
     <dimen name="value_9dp">9dp</dimen>
     <dimen name="value_10dp">10dp</dimen>
     <dimen name="value_12dp">12dp</dimen>
+    <dimen name="value_14dp">14dp</dimen>
     <dimen name="value_15dp">15dp</dimen>
     <dimen name="value_16dp">16dp</dimen>
     <dimen name="value_17dp">17dp</dimen>
