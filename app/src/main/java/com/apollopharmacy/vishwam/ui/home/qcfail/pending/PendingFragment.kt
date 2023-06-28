@@ -347,8 +347,11 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 }
                 viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
 
+//                adapter = context?.let { it1 ->
+//                    QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
+//                }
                 adapter = context?.let { it1 ->
-                    QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
+                    QcPendingListAdapter(it1, subList!!.get(increment).filter { it.omsorderno!!.contains("FL") }, this, itemsList, this)
                 }
 
             }
