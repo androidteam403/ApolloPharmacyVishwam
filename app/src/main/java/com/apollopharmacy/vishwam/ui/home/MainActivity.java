@@ -448,7 +448,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            riderNotificationLayout.setVisibility(View.GONE);
 //            toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
             if (fragment != null) {
-                fragment=new QcDashboard();
+                fragment = new QcDashboard();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
                 ft.detach(fragment);
@@ -457,8 +457,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ft.commit();
                 drawer.closeDrawer(GravityCompat.START);
             }
-
-
 
 
         });
@@ -1774,7 +1772,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
         }*/
 
-//        listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
+        listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
 
         listView.build().addOnGroupClickListener((parent, v, groupPosition, id) -> {
             List<HeaderModel> listHeader = listView.getListHeader();

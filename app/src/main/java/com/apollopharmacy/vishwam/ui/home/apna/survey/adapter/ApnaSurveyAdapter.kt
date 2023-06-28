@@ -33,15 +33,6 @@ class ApnaSurveyAdapter(
     }
 
 
-    override fun getItemViewType(position: Int): Int {
-        var viewtype = approveList?.get(position)
-        //if data is load, returns PROGRESSBAR viewtype.
-        return if (viewtype!!.isLoading != null && viewtype.isLoading.equals("YES")) {
-            VIEW_TYPE_PROGRESS
-        } else position
-
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == VIEW_TYPE_PROGRESS) {
             val loadingProgressLazyBinding: LoadingProgressLazyBinding = DataBindingUtil.inflate(
@@ -309,6 +300,14 @@ class ApnaSurveyAdapter(
         )
     }
 
+    override fun getItemViewType(position: Int): Int {
+        var viewtype = approveList?.get(position)
+        //if data is load, returns PROGRESSBAR viewtype.
+        return if (viewtype!!.isLoading != null && viewtype.isLoading.equals("YES")) {
+            VIEW_TYPE_PROGRESS
+        } else position
+
+    }
 
     override fun getItemCount(): Int {
         return approveList.size
