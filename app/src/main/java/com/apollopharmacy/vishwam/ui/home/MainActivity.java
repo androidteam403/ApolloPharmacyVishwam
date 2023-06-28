@@ -447,16 +447,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            isHomeScreen = false;
 //            riderNotificationLayout.setVisibility(View.GONE);
 //            toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
-            if (fragment != null) {
-                fragment = new QcDashboard();
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-                ft.detach(fragment);
-                ft.attach(fragment);
-                ft.replace(R.id.fragment_container, fragment);
-                ft.commit();
-                drawer.closeDrawer(GravityCompat.START);
-            }
+//            if (fragment != null) {
+//                fragment = new QcDashboard();
+//                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//
+//                ft.detach(fragment);
+//                ft.attach(fragment);
+//                ft.replace(R.id.fragment_container, fragment);
+//                ft.commit();
+//                drawer.closeDrawer(GravityCompat.START);
+//            }
 
 
         });
