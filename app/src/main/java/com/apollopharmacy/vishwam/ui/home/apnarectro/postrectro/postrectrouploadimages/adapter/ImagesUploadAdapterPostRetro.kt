@@ -653,7 +653,8 @@ class ImagesUploadAdapterPostRetro(
                         position,
                         configPosition
                     )
-                } else if (stage.equals("isPostRetroStage")) {
+                }
+                else if (stage.equals("isPostRetroStage")) {
                     callbackInterface.onClickImageView(
                         "isPostRetroStage",
                         posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
@@ -662,7 +663,8 @@ class ImagesUploadAdapterPostRetro(
                         position,
                         configPosition
                     )
-                } else if (stage.equals("isAfterCompletionStage")) {
+                }
+                else if (stage.equals("isAfterCompletionStage")) {
                     callbackInterface.onClickImageView(
                         "isAfterCompletionStage",
                         posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,

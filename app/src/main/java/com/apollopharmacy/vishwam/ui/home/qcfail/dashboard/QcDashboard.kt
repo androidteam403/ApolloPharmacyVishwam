@@ -33,6 +33,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     var isClick: Boolean = false
     var isDataFetched: Boolean = false
     var vishwamDependancyClicked: Boolean=true;
+    var isVishwamPendingTab=true;
 
     var dashboardHierarchyList = ArrayList<Getqcfailpendinghistoryforhierarchy>()
     var getdashboardHierarchyList: List<Getqcfailpendinghistoryforhierarchy>? = null
@@ -339,6 +340,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         }
 
         viewBinding.rtopendency.setOnClickListener {
+            isVishwamPendingTab=false
             if (getdashboardHistoryList.isNullOrEmpty()) {
                 viewBinding.noOrderFoundText.visibility = View.VISIBLE
 
@@ -363,6 +365,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         }
 
         viewBinding.vishwampendency.setOnClickListener {
+            isVishwamPendingTab=true
             if (pendingCountResponseList.isNullOrEmpty()) {
                 viewBinding.noOrderFoundText.visibility = View.VISIBLE
             } else {
@@ -461,6 +464,11 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     }
 
     override fun onClickQcFilterIcon() {
+        if(isVishwamPendingTab){
+            viewModel.getQcPendingList(Preferences.getToken(), Preferences.getAppLevelDesignationQCFail())
+        }else{
+            callApi()
+        }
 //        setup()
 //        showLoading()
 //        dashboardHistoryList.clear()

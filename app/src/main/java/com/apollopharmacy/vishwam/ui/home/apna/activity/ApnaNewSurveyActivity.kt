@@ -1262,35 +1262,37 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 val sqFt = activityApnaNewSurveyBinding.sqFtText.text.toString().trim()
 
                 if (location.isNotEmpty() && store.isNotEmpty() && rent.isNotEmpty() && sales.isNotEmpty() && sqFt.isNotEmpty()) {
-                    if (rent.toDouble() > 0 && sales.toDouble() > 0 && sqFt.toDouble() > 0) {
-                        neighbouringStoreList.add(
-                            NeighbouringStoreData(
-                                location,
-                                store,
-                                rent,
-                                sales,
-                                sqFt
+                    if (validateNeighbourStore()) {
+                        if (rent.toDouble() > 0 && sales.toDouble() > 0 && sqFt.toDouble() > 0) {
+                            neighbouringStoreList.add(
+                                NeighbouringStoreData(
+                                    location,
+                                    store,
+                                    rent,
+                                    sales,
+                                    sqFt
+                                )
                             )
-                        )
 
-                        neighbouringStoreAdapter = NeighbouringStoreAdapter(
-                            this@ApnaNewSurveyActivity,
-                            this@ApnaNewSurveyActivity,
-                            neighbouringStoreList
-                        )
-                        activityApnaNewSurveyBinding.neighbouringStoreRcv.adapter =
-                            neighbouringStoreAdapter
-                        activityApnaNewSurveyBinding.neighbouringStoreRcv.layoutManager =
-                            LinearLayoutManager(this@ApnaNewSurveyActivity)
+                            neighbouringStoreAdapter = NeighbouringStoreAdapter(
+                                this@ApnaNewSurveyActivity,
+                                this@ApnaNewSurveyActivity,
+                                neighbouringStoreList
+                            )
+                            activityApnaNewSurveyBinding.neighbouringStoreRcv.adapter =
+                                neighbouringStoreAdapter
+                            activityApnaNewSurveyBinding.neighbouringStoreRcv.layoutManager =
+                                LinearLayoutManager(this@ApnaNewSurveyActivity)
 
-                        activityApnaNewSurveyBinding.neighbourLocationSelect.text!!.clear()
-                        activityApnaNewSurveyBinding.storeText.text!!.clear()
-                        activityApnaNewSurveyBinding.rentText.text!!.clear()
-                        activityApnaNewSurveyBinding.salesText.text!!.clear()
-                        activityApnaNewSurveyBinding.sqFtText.text!!.clear()
-                        activityApnaNewSurveyBinding.rentText.clearFocus()
-                        activityApnaNewSurveyBinding.salesText.clearFocus()
-                        activityApnaNewSurveyBinding.sqFtText.clearFocus()
+                            activityApnaNewSurveyBinding.neighbourLocationSelect.text!!.clear()
+                            activityApnaNewSurveyBinding.storeText.text!!.clear()
+                            activityApnaNewSurveyBinding.rentText.text!!.clear()
+                            activityApnaNewSurveyBinding.salesText.text!!.clear()
+                            activityApnaNewSurveyBinding.sqFtText.text!!.clear()
+                            activityApnaNewSurveyBinding.rentText.clearFocus()
+                            activityApnaNewSurveyBinding.salesText.clearFocus()
+                            activityApnaNewSurveyBinding.sqFtText.clearFocus()
+                        }
                     }
                 } else {
                     Toast.makeText(
@@ -1316,31 +1318,33 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 val noOfHouses = activityApnaNewSurveyBinding.noOfHousesText.text.toString()
                 val distance = activityApnaNewSurveyBinding.distanceText.text.toString()
                 if (apartments.isNotEmpty() && apartmentType.isNotEmpty() && noOfHouses.isNotEmpty() && distance.isNotEmpty()) {
-                    apartmentsList.add(
-                        ApartmentData(
-                            apartments,
-                            apartmentType,
-                            noOfHouses,
-                            distance
+                    if (validateApartments()) {
+                        apartmentsList.add(
+                            ApartmentData(
+                                apartments,
+                                apartmentType,
+                                noOfHouses,
+                                distance
+                            )
                         )
-                    )
 
-                    apartmentTypeItemAdapter = ApartmentTypeItemAdapter(
-                        this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, apartmentsList
-                    )
-                    activityApnaNewSurveyBinding.apartmentsRecyclerView.adapter =
-                        apartmentTypeItemAdapter
-                    activityApnaNewSurveyBinding.apartmentsRecyclerView.layoutManager =
-                        LinearLayoutManager(this@ApnaNewSurveyActivity)
-                    apartmentTypeItemAdapter.notifyDataSetChanged()
-                    // clear
-                    activityApnaNewSurveyBinding.apartmentsOrColony.text!!.clear()
-                    activityApnaNewSurveyBinding.apartmentTypeSelect.text!!.clear()
-                    activityApnaNewSurveyBinding.noOfHousesText.text!!.clear()
-                    activityApnaNewSurveyBinding.distanceText.text!!.clear()
-                    activityApnaNewSurveyBinding.noOfHousesText.clearFocus()
-                    activityApnaNewSurveyBinding.apartmentsOrColony.clearFocus()
-                    activityApnaNewSurveyBinding.distanceText.clearFocus()
+                        apartmentTypeItemAdapter = ApartmentTypeItemAdapter(
+                            this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, apartmentsList
+                        )
+                        activityApnaNewSurveyBinding.apartmentsRecyclerView.adapter =
+                            apartmentTypeItemAdapter
+                        activityApnaNewSurveyBinding.apartmentsRecyclerView.layoutManager =
+                            LinearLayoutManager(this@ApnaNewSurveyActivity)
+                        apartmentTypeItemAdapter.notifyDataSetChanged()
+                        // clear
+                        activityApnaNewSurveyBinding.apartmentsOrColony.text!!.clear()
+                        activityApnaNewSurveyBinding.apartmentTypeSelect.text!!.clear()
+                        activityApnaNewSurveyBinding.noOfHousesText.text!!.clear()
+                        activityApnaNewSurveyBinding.distanceText.text!!.clear()
+                        activityApnaNewSurveyBinding.noOfHousesText.clearFocus()
+                        activityApnaNewSurveyBinding.apartmentsOrColony.clearFocus()
+                        activityApnaNewSurveyBinding.distanceText.clearFocus()
+                    }
                 } else {
                     Toast.makeText(
                         this@ApnaNewSurveyActivity,
@@ -1368,26 +1372,29 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 val occupancy = activityApnaNewSurveyBinding.occupancyText.text.toString()
 
                 if (name.isNotEmpty() && speciality.isNotEmpty() && beds.isNotEmpty() && noOfOpd.isNotEmpty() && occupancy.isNotEmpty()) {
-                    hospitalsList.add(HospitalData(name, beds, speciality, noOfOpd, occupancy))
+                    if (validateHospitals()) {
+                        hospitalsList.add(HospitalData(name, beds, speciality, noOfOpd, occupancy))
 
-                    hospitalsAdapter = HospitalsAdapter(
-                        this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, hospitalsList
-                    )
-                    activityApnaNewSurveyBinding.hospitalsRecyclerView.adapter = hospitalsAdapter
-                    activityApnaNewSurveyBinding.hospitalsRecyclerView.layoutManager =
-                        LinearLayoutManager(this@ApnaNewSurveyActivity)
-                    hospitalsAdapter.notifyDataSetChanged()
+                        hospitalsAdapter = HospitalsAdapter(
+                            this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, hospitalsList
+                        )
+                        activityApnaNewSurveyBinding.hospitalsRecyclerView.adapter =
+                            hospitalsAdapter
+                        activityApnaNewSurveyBinding.hospitalsRecyclerView.layoutManager =
+                            LinearLayoutManager(this@ApnaNewSurveyActivity)
+                        hospitalsAdapter.notifyDataSetChanged()
 
-                    // clear
-                    activityApnaNewSurveyBinding.hospitalNameText.text!!.clear()
-                    activityApnaNewSurveyBinding.hospitalSpecialitySelect.text!!.clear()
-                    activityApnaNewSurveyBinding.bedsText.text!!.clear()
-                    activityApnaNewSurveyBinding.noOfOpdText.text!!.clear()
-                    activityApnaNewSurveyBinding.occupancyText.text!!.clear()
-                    activityApnaNewSurveyBinding.bedsText.clearFocus()
-                    activityApnaNewSurveyBinding.hospitalNameText.clearFocus()
-                    activityApnaNewSurveyBinding.occupancyText.clearFocus()
-                    activityApnaNewSurveyBinding.noOfOpdText.clearFocus()
+                        // clear
+                        activityApnaNewSurveyBinding.hospitalNameText.text!!.clear()
+                        activityApnaNewSurveyBinding.hospitalSpecialitySelect.text!!.clear()
+                        activityApnaNewSurveyBinding.bedsText.text!!.clear()
+                        activityApnaNewSurveyBinding.noOfOpdText.text!!.clear()
+                        activityApnaNewSurveyBinding.occupancyText.text!!.clear()
+                        activityApnaNewSurveyBinding.bedsText.clearFocus()
+                        activityApnaNewSurveyBinding.hospitalNameText.clearFocus()
+                        activityApnaNewSurveyBinding.occupancyText.clearFocus()
+                        activityApnaNewSurveyBinding.noOfOpdText.clearFocus()
+                    }
                 } else {
                     Toast.makeText(
                         this@ApnaNewSurveyActivity,
@@ -1416,27 +1423,33 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     activityApnaNewSurveyBinding.unorganisedAvgSaleText.text.toString()
 
                 if (chemist.isNotEmpty() && organised.isNotEmpty() && organisedAvgSale.isNotEmpty() && unorganised.isNotEmpty() && unorganisedAvgSale.isNotEmpty()) {
-                    chemistList.add(
-                        ChemistData(
-                            chemist, organised, organisedAvgSale, unorganised, unorganisedAvgSale
+                    if (validateChemist()) {
+                        chemistList.add(
+                            ChemistData(
+                                chemist,
+                                organised,
+                                organisedAvgSale,
+                                unorganised,
+                                unorganisedAvgSale
+                            )
                         )
-                    )
-                    chemistAdapter =
-                        ChemistAdapter(this@ApnaNewSurveyActivity,
-                            this@ApnaNewSurveyActivity,
-                            chemistList)
-                    activityApnaNewSurveyBinding.chemistRecyclerView.adapter = chemistAdapter
-                    activityApnaNewSurveyBinding.chemistRecyclerView.layoutManager =
-                        LinearLayoutManager(this@ApnaNewSurveyActivity)
+                        chemistAdapter =
+                            ChemistAdapter(this@ApnaNewSurveyActivity,
+                                this@ApnaNewSurveyActivity,
+                                chemistList)
+                        activityApnaNewSurveyBinding.chemistRecyclerView.adapter = chemistAdapter
+                        activityApnaNewSurveyBinding.chemistRecyclerView.layoutManager =
+                            LinearLayoutManager(this@ApnaNewSurveyActivity)
 
-                    // Clear
-                    activityApnaNewSurveyBinding.chemistText.text!!.clear()
-                    activityApnaNewSurveyBinding.organisedSelect.text!!.clear()
-                    activityApnaNewSurveyBinding.organisedAvgSaleText.text!!.clear()
-                    activityApnaNewSurveyBinding.unorganisedSelect.text!!.clear()
-                    activityApnaNewSurveyBinding.unorganisedAvgSaleText.text!!.clear()
-                    activityApnaNewSurveyBinding.organisedAvgSaleText.clearFocus()
-                    activityApnaNewSurveyBinding.unorganisedAvgSaleText.clearFocus()
+                        // Clear
+                        activityApnaNewSurveyBinding.chemistText.text!!.clear()
+                        activityApnaNewSurveyBinding.organisedSelect.text!!.clear()
+                        activityApnaNewSurveyBinding.organisedAvgSaleText.text!!.clear()
+                        activityApnaNewSurveyBinding.unorganisedSelect.text!!.clear()
+                        activityApnaNewSurveyBinding.unorganisedAvgSaleText.text!!.clear()
+                        activityApnaNewSurveyBinding.organisedAvgSaleText.clearFocus()
+                        activityApnaNewSurveyBinding.unorganisedAvgSaleText.clearFocus()
+                    }
                 } else {
                     Toast.makeText(
                         this@ApnaNewSurveyActivity,
@@ -3172,6 +3185,100 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         onClickAgeoftheBuildingMonths()
     }
 
+    private fun validateHospitals(): Boolean {
+        val name = activityApnaNewSurveyBinding.hospitalNameText.text.toString()
+        if (!name.contains(Regex("[a-zA-Z]"))) {
+            activityApnaNewSurveyBinding.hospitalNameText.requestFocus()
+            Toast.makeText(this@ApnaNewSurveyActivity,
+                "Please enter valid hospital name",
+                Toast.LENGTH_SHORT).show()
+            return false
+        } else {
+            return true
+        }
+    }
+
+    private fun validateApartments(): Boolean {
+        val apartments = activityApnaNewSurveyBinding.apartmentsOrColony.text.toString()
+        if (!apartments.contains(Regex("[a-zA-Z]"))) {
+            activityApnaNewSurveyBinding.apartmentsOrColony.requestFocus()
+            Toast.makeText(this@ApnaNewSurveyActivity,
+                "Please enter valid name",
+                Toast.LENGTH_SHORT).show()
+            return false
+        } else {
+            return true
+        }
+    }
+
+    private fun validateChemist(): Boolean {
+        val chemist = activityApnaNewSurveyBinding.chemistText.text.toString()
+        val organisedAvgSale =
+            activityApnaNewSurveyBinding.organisedAvgSaleText.text.toString()
+        val unorganisedAvgSale =
+            activityApnaNewSurveyBinding.unorganisedAvgSaleText.text.toString()
+        if (!chemist.contains(Regex("[a-zA-Z]"))) {
+            activityApnaNewSurveyBinding.chemistText.requestFocus()
+            Toast.makeText(this@ApnaNewSurveyActivity,
+                "Please enter valid chemist name",
+                Toast.LENGTH_SHORT).show()
+            return false
+        } else if (organisedAvgSale.all { it == '.' }) {
+            activityApnaNewSurveyBinding.organisedAvgSaleText.requestFocus()
+            Toast.makeText(this@ApnaNewSurveyActivity,
+                "Please enter valid value",
+                Toast.LENGTH_SHORT).show()
+            return false
+        } else if (unorganisedAvgSale.all { it == '.' }) {
+            activityApnaNewSurveyBinding.unorganisedAvgSaleText.requestFocus()
+            Toast.makeText(this@ApnaNewSurveyActivity,
+                "Please enter valid value",
+                Toast.LENGTH_SHORT).show()
+            return false
+        } else if (organisedAvgSale.toDouble() <= 0) {
+            activityApnaNewSurveyBinding.organisedAvgSaleText.requestFocus()
+            Toast.makeText(this@ApnaNewSurveyActivity,
+                "Avg sale value should not be zero",
+                Toast.LENGTH_SHORT).show()
+            return false
+        } else if (unorganisedAvgSale.toDouble() <= 0) {
+            activityApnaNewSurveyBinding.unorganisedAvgSaleText.requestFocus()
+            Toast.makeText(this@ApnaNewSurveyActivity,
+                "Avg sale value should not be zero",
+                Toast.LENGTH_SHORT).show()
+            return false
+        } else {
+            return true
+        }
+    }
+
+    private fun validateNeighbourStore(): Boolean {
+        val store = activityApnaNewSurveyBinding.storeText.text.toString().trim()
+        val sales = activityApnaNewSurveyBinding.salesText.text.toString().trim()
+        val sqFt = activityApnaNewSurveyBinding.sqFtText.text.toString().trim()
+        if (!store.contains(Regex("[a-zA-Z]"))) {
+            activityApnaNewSurveyBinding.storeText.requestFocus()
+            Toast.makeText(this@ApnaNewSurveyActivity,
+                "Please enter valid store name",
+                Toast.LENGTH_SHORT).show()
+            return false
+        } else if (sales.all { it == '.' }) {
+            activityApnaNewSurveyBinding.salesText.requestFocus()
+            Toast.makeText(this@ApnaNewSurveyActivity,
+                "Please enter valid sales",
+                Toast.LENGTH_SHORT).show()
+            return false
+        } else if (sqFt.all { it == '.' }) {
+            activityApnaNewSurveyBinding.sqFtText.requestFocus()
+            Toast.makeText(this@ApnaNewSurveyActivity,
+                "Please enter valid sqft",
+                Toast.LENGTH_SHORT).show()
+            return false
+        } else {
+            return true
+        }
+    }
+
     fun mapMoveIssue() {
         activityApnaNewSurveyBinding.transparentImage.setOnTouchListener(View.OnTouchListener { v, event ->
             val action = event.action
@@ -4209,12 +4316,32 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     private fun validateMarketInformation(): Boolean {
         val eoSiteId = activityApnaNewSurveyBinding.existingOutletSiteId.text.toString().trim()
         val eoSiteName = activityApnaNewSurveyBinding.existingOutletSiteName.text.toString().trim()
+        val existingOutletAgeOrSale =
+            activityApnaNewSurveyBinding.ageOrSaleText.text.toString().trim()
+        val comments = activityApnaNewSurveyBinding.distributorsComments.text.toString()
+        val occupation = activityApnaNewSurveyBinding.occupationText.text.toString()
         val regex = Regex("[a-zA-Z0-9]")
         if (eoSiteId.startsWith("0", true)) {
             marketInformationErrorMessage = "Please enter valid site id"
             return false
         } else if (eoSiteName.isNotEmpty() && !regex.containsMatchIn(eoSiteName)) {
             marketInformationErrorMessage = "Please enter valid site name"
+            return false
+        } else if (eoSiteName.isNotEmpty() && eoSiteName.all { it == '0' }) {
+            marketInformationErrorMessage = "Site name should not contain all zeros"
+            return false
+        } else if (existingOutletAgeOrSale.isNotEmpty() && existingOutletAgeOrSale.all { it == '.' }) {
+            marketInformationErrorMessage = "Please enter valid Existing outlet age or sale"
+            return false
+        } else if (existingOutletAgeOrSale.isNotEmpty() && existingOutletAgeOrSale.all { it == '0' }) {
+            marketInformationErrorMessage =
+                "Existing outlet age or sale should not contain all zeros"
+            return false
+        } else if (comments.isNotEmpty() && !comments.contains(Regex("[a-zA-Z]"))) {
+            marketInformationErrorMessage = "Please enter valid comment"
+            return false
+        } else if (occupation.isNotEmpty() && !occupation.contains(Regex("[a-zA-Z]"))) {
+            marketInformationErrorMessage = "Please enter valid occupation"
             return false
         } else if (eoSiteName.isEmpty()) {
             return true
@@ -4256,6 +4383,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             activityApnaNewSurveyBinding.securityDepositText.text.toString().trim()
         var ageOfTheBuilding =
             activityApnaNewSurveyBinding.ageOfTheBuildingText.text.toString().trim()
+        var presentTrafficPatterns =
+            activityApnaNewSurveyBinding.presentTrafficPatterns.text.toString().trim()
 
         if (!activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim()
                 .isEmpty()
@@ -4320,12 +4449,18 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             activityApnaNewSurveyBinding.securityDepositText.requestFocus()
             siteSpecificationsErrorMessage = "Security deposit should be greater than zero"
             return false
-        } else if (ageOfTheBuilding.isEmpty()) {
-            return true
-        } else if (ageOfTheBuilding.toDouble() <= 0) {
+        } else if (ageOfTheBuilding.isNotEmpty() && ageOfTheBuilding.toDouble() <= 0) {
             activityApnaNewSurveyBinding.ageOfTheBuildingText.requestFocus()
             siteSpecificationsErrorMessage = "age of the building should be greater than zero"
             return false
+        } else if (presentTrafficPatterns.isNotEmpty() && presentTrafficPatterns.all { it == '0' }) {
+            activityApnaNewSurveyBinding.presentTrafficPatterns.requestFocus()
+            siteSpecificationsErrorMessage = "Present traffic patterns should not contain all zeros"
+            return false
+        } else if (ageOfTheBuilding.isEmpty()) {
+            return true
+        } else if (presentTrafficPatterns.isEmpty()) {
+            return true;
         } else {
             siteSpecificationsErrorMessage = ""
             return true
@@ -4363,6 +4498,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         } else if (landmarks.isEmpty()) {
             activityApnaNewSurveyBinding.nearByLandmarksText.requestFocus()
             errorMessage = "Please enter landmarks"
+            return false
+        } else if (!landmarks.contains(Regex("[a-zA-Z]"))) {
+            activityApnaNewSurveyBinding.nearByLandmarksText.requestFocus()
+            errorMessage = "Please enter valid landmarks"
             return false
         } else {
             errorMessage = "Please fill all mandatory fields"
@@ -4760,6 +4899,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             surveySavedConfirmDialogBinding.message.text = surveyCreateResponse.message
             surveySavedConfirmDialogBinding.okButton.setOnClickListener {
                 dialog.dismiss()
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
                 finish()
             }
             dialog.setCancelable(false)

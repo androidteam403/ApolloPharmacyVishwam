@@ -30,7 +30,6 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import org.apache.commons.collections4.ListUtils
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -126,7 +125,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             list = i.getStringArrayListExtra("selectsiteIdList")!!
 
         }
-
+        viewBinding.closeArrow.setOnClickListener {
+            viewBinding.searchView.setText("")
+        }
         viewModel.qcRegionLists.observe(viewLifecycleOwner, Observer {
             hideLoading()
             if (!it.storelist.isNullOrEmpty()) {
@@ -229,9 +230,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
 
         })
-
-
-
         viewModel.qcLists.observe(viewLifecycleOwner) { it ->
             qcListsResponse = it
             approvedListList = it.approvedlist!!

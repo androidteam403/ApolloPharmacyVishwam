@@ -25,7 +25,6 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.rejected.adapter.QcRejectedListAdapter
 import com.apollopharmacy.vishwam.ui.login.Command
-import org.apache.commons.collections4.ListUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,8 +40,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     var itemsList = ArrayList<QcItemListResponse>()
     var getRejectitemList: List<QcItemListResponse.Item>? = null
     var getRejectList: ArrayList<QcListsResponse.Reject>? = null
-    public var storeStringList=ArrayList<String>()
-    public var regionStringList=ArrayList<String>()
+    public var storeStringList = ArrayList<String>()
+    public var regionStringList = ArrayList<String>()
     var qcRejectItemsList = ArrayList<QcAcceptRejectRequest.Item>()
     var orderId: String = ""
     var reason: String = ""
@@ -93,6 +92,14 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             }.show(childFragmentManager  , "")
         }
 
+        viewBinding.selectfiltertype.setOnClickListener {
+            QcListSizeDialog().apply {
+                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+            }.show(childFragmentManager, "")
+        }
+        viewBinding.closeArrow.setOnClickListener {
+            viewBinding.searchView.setText("")
+        }
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())
 
@@ -196,7 +203,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
             qcListsResponse = it
-            rejectedListList= it.rejectedlist!!
+            rejectedListList = it.rejectedlist!!
             setQcRejectedListResponse(it.rejectedlist!!)
             hideLoading()
 
@@ -305,6 +312,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                     dialog.setTargetFragment(this, 0)
                     activity?.supportFragmentManager?.let { dialog.show(it, "") }
                 }
+
                 is Command.ShowToast -> {
                     hideLoading()
                     if (command.message.equals("no data found.please check empid")) {
@@ -317,6 +325,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                         Toast.makeText(requireContext(), command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+
                 else -> {}
             }
         }

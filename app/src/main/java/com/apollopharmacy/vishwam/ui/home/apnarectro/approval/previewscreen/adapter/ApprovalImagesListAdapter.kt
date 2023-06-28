@@ -3,8 +3,11 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.ada
 import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -72,13 +75,19 @@ class ApprovalImagesListAdapter(
 
         for (i in approvedOrders.indices) {
             if (stage.toLowerCase().contains("pre") && approvedOrders[i].stage.equals("1")) {
-                Glide.with(mContext).load(approvedOrders.get(i).url.toString())
+                if(approvedOrders.get(i).url!=null){
+                    Glide.with(mContext).load(approvedOrders.get(i).url.toString())
                     .placeholder(R.drawable.thumbnail_image)
                     .into(holder.preRetroImagesLayoutBinding.image)
+//                    if (holder.preRetroImagesLayoutBinding.image.drawable.constantState!!.equals(mContext.resources.getDrawable(R.drawable.thumbnail_image).constantState)){
+//                        holder.preRetroImagesLayoutBinding.imagetick.visibility= View.GONE
+//                    }else{
+//                        holder.preRetroImagesLayoutBinding.imagetick.visibility= View.VISIBLE
+//                    }
+
+
                 status= approvedOrders.get(i).status!!
                 if (approvedOrders.get(i).status!!.toLowerCase().contains("0")) {
-
-
                     holder.preRetroImagesLayoutBinding.imagetick.imageTintList =
                         ContextCompat.getColorStateList(
                             mContext,
@@ -94,7 +103,7 @@ class ApprovalImagesListAdapter(
                             mContext,
                             R.color.color_red)
                 }
-
+                }
             } else if (stage.toLowerCase().contains("aft") && approvedOrders[i].stage.equals("3")) {
                 Glide.with(mContext).load(approvedOrders.get(i).url.toString())
                     .placeholder(R.drawable.thumbnail_image)

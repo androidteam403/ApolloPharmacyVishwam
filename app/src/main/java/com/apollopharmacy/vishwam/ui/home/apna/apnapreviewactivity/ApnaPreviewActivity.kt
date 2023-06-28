@@ -93,7 +93,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
     //    var hospitalsEntryTwo = ArrayList<BarEntry>()
     var sales = ArrayList<Float>()
     var stores = ArrayList<String>()
-    var chemist =  ArrayList<String>()
+    var chemist = ArrayList<String>()
     var apartments = ArrayList<String>()
     var avgSales = ArrayList<Float>()
     var noOfHouses = ArrayList<Float>()
@@ -187,7 +187,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
             var locationName = ""
             var cityName = ""
-            if(approvedOrders.location!=null){
+            if (approvedOrders.location != null) {
                 if (approvedOrders.location!!.name != null) locationName =
                     approvedOrders.location!!.name!!
             }
@@ -407,17 +407,19 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
     private fun setupHospitalsChart() {
         val barDataSet = BarDataSet(hospitalsEntries, "")
-        barDataSet.isHighlightEnabled=true
+        barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         apnaPreviewActivityBinding.hospitalsChart.data = barData
         apnaPreviewActivityBinding.hospitalsChart.setDragEnabled(true)
         apnaPreviewActivityBinding.hospitalsChart.setScaleEnabled(true);
-        apnaPreviewActivityBinding.hospitalsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+        apnaPreviewActivityBinding.hospitalsChart.setOnChartValueSelectedListener(object :
+            OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(this@ApnaPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList))
                 mv.chartView = apnaPreviewActivityBinding.hospitalsChart // For bounds control
 
                 apnaPreviewActivityBinding.hospitalsChart.marker = mv
@@ -499,17 +501,19 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
     private fun setupApartmentsChart() {
         val barDataSet = BarDataSet(apartmentsEntries, "")
-        barDataSet.isHighlightEnabled=true
+        barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         apnaPreviewActivityBinding.apartmentsChart.data = barData
         apnaPreviewActivityBinding.apartmentsChart.setDragEnabled(true)
         apnaPreviewActivityBinding.apartmentsChart.setScaleEnabled(true);
-        apnaPreviewActivityBinding.apartmentsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+        apnaPreviewActivityBinding.apartmentsChart.setOnChartValueSelectedListener(object :
+            OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(this@ApnaPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList))
                 mv.chartView = apnaPreviewActivityBinding.apartmentsChart // For bounds control
 
                 apnaPreviewActivityBinding.apartmentsChart.marker = mv
@@ -572,7 +576,9 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
     private fun setApartmentsValues() {
         for (i in noOfHouses.indices) {
-            apartmentsEntries.add(BarEntry(i.toFloat(), noOfHouses.get(i), apartments.get(i).toString()))
+            apartmentsEntries.add(BarEntry(i.toFloat(),
+                noOfHouses.get(i),
+                apartments.get(i).toString()))
         }
 //        apartmentsEntries.add(BarEntry(1f, 5f))
 //        apartmentsEntries.add(BarEntry(2f, 4f))
@@ -580,17 +586,19 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
     private fun setupCompetitorsChart() {
         val lineDataSet = LineDataSet(competitorsEntries, "")
-        lineDataSet.isHighlightEnabled=true
+        lineDataSet.isHighlightEnabled = true
         val lineData = LineData(lineDataSet)
         apnaPreviewActivityBinding.competitorsChart.data = lineData
         apnaPreviewActivityBinding.competitorsChart.setDragEnabled(true)
         apnaPreviewActivityBinding.competitorsChart.setScaleEnabled(true);
-        apnaPreviewActivityBinding.competitorsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+        apnaPreviewActivityBinding.competitorsChart.setOnChartValueSelectedListener(object :
+            OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(this@ApnaPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList))
                 mv.chartView = apnaPreviewActivityBinding.competitorsChart // For bounds control
 
                 apnaPreviewActivityBinding.competitorsChart.marker = mv
@@ -654,18 +662,20 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupNeighborChart() {
         val barDataSet = BarDataSet(neighborEntries, "")
-        barDataSet.isHighlightEnabled=true
+        barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         apnaPreviewActivityBinding.neighborChart.setDragEnabled(true)
         apnaPreviewActivityBinding.neighborChart.setScaleEnabled(true);
-        apnaPreviewActivityBinding.neighborChart.data= barData
+        apnaPreviewActivityBinding.neighborChart.data = barData
         apnaPreviewActivityBinding.neighborChart.setDrawValueAboveBar(true)
-        apnaPreviewActivityBinding.neighborChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+        apnaPreviewActivityBinding.neighborChart.setOnChartValueSelectedListener(object :
+            OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(this@ApnaPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList))
                 mv.chartView = apnaPreviewActivityBinding.neighborChart // For bounds control
 
                 apnaPreviewActivityBinding.neighborChart.marker = mv
@@ -690,8 +700,6 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 //                return v?.onTouchEvent(event) ?: true
 //            }
 //        })
-
-
 
 
         // Set bar colors
@@ -754,7 +762,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         for (i in sales.indices) {
             neighborEntries.add(BarEntry(i.toFloat(), sales.get(i), stores.get(i).toString()))
         }
-    //        neighborEntries.add(BarEntry(1f, 18f))
+        //        neighborEntries.add(BarEntry(1f, 18f))
 //        neighborEntries.add(BarEntry(2f, 13f))
 //        neighborEntries.add(BarEntry(3f, 11f))
 //        neighborEntries.add(BarEntry(4f, 5f))
@@ -775,7 +783,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             }
         }
         if (value.data!!.apartments != null && value.data!!.apartments!!.size > 0) {
-            apnaPreviewActivityBinding.apartmentsHeader.visibility = View.VISIBLE
+//            apnaPreviewActivityBinding.apartmentsHeader.visibility = View.VISIBLE
             apnaPreviewActivityBinding.recyclerViewapartmnet.visibility = View.VISIBLE
             apnaPreviewActivityBinding.apartmentsNotFound.visibility = View.GONE
             apartmentAdapter = PreviewApartmentAdapter(
@@ -786,17 +794,18 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
             noOfHouses =
                 value.data!!.apartments!!.map { it.noHouses!!.toFloat() } as ArrayList<Float>
-            apartments = value.data!!.apartments!!.map { it.apartments!!.toString() } as ArrayList<String>
+            apartments =
+                value.data!!.apartments!!.map { it.apartments!!.toString() } as ArrayList<String>
             setApartmentsValues()
             setupApartmentsChart()
         } else {
-            apnaPreviewActivityBinding.apartmentsHeader.visibility = View.GONE
+//            apnaPreviewActivityBinding.apartmentsHeader.visibility = View.GONE
             apnaPreviewActivityBinding.recyclerViewapartmnet.visibility = View.GONE
             apnaPreviewActivityBinding.apartmentsNotFound.visibility = View.VISIBLE
         }
 
         if (value.data!!.chemist != null && value.data!!.chemist!!.size > 0) {
-            apnaPreviewActivityBinding.chemistHeader.visibility = View.VISIBLE
+//            apnaPreviewActivityBinding.chemistHeader.visibility = View.VISIBLE
             apnaPreviewActivityBinding.recyclerViewchemist.visibility = View.VISIBLE
             apnaPreviewActivityBinding.chemistTotal.visibility = View.VISIBLE
             apnaPreviewActivityBinding.chemistNotFound.visibility = View.GONE
@@ -828,14 +837,14 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             setCompetitorsValues()
             setupCompetitorsChart()
         } else {
-            apnaPreviewActivityBinding.chemistHeader.visibility = View.GONE
+//            apnaPreviewActivityBinding.chemistHeader.visibility = View.GONE
             apnaPreviewActivityBinding.recyclerViewchemist.visibility = View.GONE
             apnaPreviewActivityBinding.chemistTotal.visibility = View.GONE
             apnaPreviewActivityBinding.chemistNotFound.visibility = View.VISIBLE
         }
 
         if (value.data!!.hospitals != null && value.data!!.hospitals!!.size > 0) {
-            apnaPreviewActivityBinding.hospitalsHeader.visibility = View.VISIBLE
+//            apnaPreviewActivityBinding.hospitalsHeader.visibility = View.VISIBLE
             apnaPreviewActivityBinding.recyclerViewhospital.visibility = View.VISIBLE
             apnaPreviewActivityBinding.hospitalsNotFound.visibility = View.GONE
             hospitalAdapter = PreviewHospitalAdapter(
@@ -849,7 +858,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             setHospitalsValues()
             setupHospitalsChart()
         } else {
-            apnaPreviewActivityBinding.hospitalsHeader.visibility = View.GONE
+//            apnaPreviewActivityBinding.hospitalsHeader.visibility = View.GONE
             apnaPreviewActivityBinding.recyclerViewhospital.visibility = View.GONE
             apnaPreviewActivityBinding.hospitalsNotFound.visibility = View.VISIBLE
         }
@@ -880,7 +889,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         }
 
         if (value.data!!.neighboringStore != null && value.data!!.neighboringStore!!.size > 0) {
-            apnaPreviewActivityBinding.recyclerViewneighbour.visibility = View.VISIBLE
+//            apnaPreviewActivityBinding.recyclerViewneighbour.visibility = View.VISIBLE
             apnaPreviewActivityBinding.neighbouringStoreNotFound.visibility = View.GONE
             apnaPreviewActivityBinding.neighborStoreHeader.visibility = View.VISIBLE
             neighbourAdapter = PreviewNeighbouringStoreAdapter(
@@ -897,7 +906,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             }
         } else {
             apnaPreviewActivityBinding.recyclerViewneighbour.visibility = View.GONE
-            apnaPreviewActivityBinding.neighborStoreHeader.visibility = View.GONE
+//            apnaPreviewActivityBinding.neighborStoreHeader.visibility = View.GONE
             apnaPreviewActivityBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
         }
 

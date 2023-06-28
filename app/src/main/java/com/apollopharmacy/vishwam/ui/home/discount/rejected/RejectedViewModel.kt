@@ -10,6 +10,7 @@ import com.apollopharmacy.vishwam.data.model.discount.FilterDiscountRequest
 import com.apollopharmacy.vishwam.data.model.discount.PendingOrderRequest
 import com.apollopharmacy.vishwam.data.model.discount.RejectedOrderResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
+import com.apollopharmacy.vishwam.data.network.discount.PendingRepo
 import com.apollopharmacy.vishwam.data.network.discount.RejectedRepo
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utils
@@ -35,7 +36,8 @@ class RejectedViewModel : ViewModel() {
                     val loginUrl = data.APIS[i].URL
                     val result = withContext(Dispatchers.IO) {
                         RejectedRepo.getRejectedList(
-                            PendingOrderRequest(Preferences.getToken()), loginUrl)
+                            PendingOrderRequest(Preferences.getToken()), loginUrl
+                        )
                     }
                     when (result) {
                         is ApiResult.Success -> {
@@ -48,10 +50,12 @@ class RejectedViewModel : ViewModel() {
                                 state.value = State.ERROR
                             }
                         }
+
                         is ApiResult.NetworkError -> {
                             command.postValue(Command.ShowToast("Network Error"))
                             state.value = State.ERROR
                         }
+
                         is ApiResult.GenericError -> {
                             command.postValue(
                                 Command.ShowToast(
@@ -60,10 +64,12 @@ class RejectedViewModel : ViewModel() {
                             )
                             state.value = State.ERROR
                         }
+
                         is ApiResult.UnknownError -> {
                             command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                             state.value = State.ERROR
                         }
+
                         else -> {
                             command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                             state.value = State.ERROR
@@ -98,18 +104,22 @@ class RejectedViewModel : ViewModel() {
                                 state.value = State.ERROR
                             }
                         }
+
                         is ApiResult.UnknownError -> {
                             command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                             state.value = State.ERROR
                         }
+
                         is ApiResult.NetworkError -> {
                             command.postValue(Command.ShowToast("Network Error"))
                             state.value = State.ERROR
                         }
+
                         is ApiResult.GenericError -> {
                             command.postValue(Command.ShowToast(response.error ?: "Error"))
                             state.value = State.ERROR
                         }
+
                         else -> {
                             command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                             state.value = State.ERROR
@@ -119,4 +129,61 @@ class RejectedViewModel : ViewModel() {
             }
         }
     }
+
+    fun getDiscountColorDetails(rejectedFragmentCallback: RejectedFragmentCallback) {
+
+        val state = MutableLiveData<State>()
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+//        var baseUrl =
+//            "" // "https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails?type=VISDISC"
+//        var token = ""// "h72genrSSNFivOi/cfiX3A=="
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("DISCOUNT COLOR")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        baseUrl = "$baseUrl?type=VISDISC"
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                PendingRepo.getDiscountColorDetails(
+                    baseUrl,
+                    token
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response.value.status == true) {
+                        rejectedFragmentCallback.onSuccessgetColorList(response.value)
+
+                    } else {
+
+                    }
+                }
+
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
 }

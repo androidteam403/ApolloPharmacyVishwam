@@ -196,6 +196,7 @@
     <color name="pending_reshoot_color">#f26522</color>
     <color name="blue">#0054a6</color>
     <color name="apna_project_actionbar_color">#5a345e</color>
+    <color name="retro_qr_actionbar_color">#f7941d</color>
     <!--    <color name="apna_project_preview_section_bg">#265a345e</color>-->
     <color name="apna_project_preview_section_bg">#0DFF69B4</color>
     <color name="green_color_resource">#4f99b1</color>
@@ -206,5 +207,6 @@
     <color name="lightt_blue">#ecf6f8</color>
     <color name="light_green">#d4f8d4</color>
     <color name="partial_green">#5EBC5E</color>
+    <color name="subworkflow_details_text_color">#548985</color>
 
 </resources>
