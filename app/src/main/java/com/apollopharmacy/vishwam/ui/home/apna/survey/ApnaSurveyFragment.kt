@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.text.InputFilter
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -18,11 +17,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
-import com.apollopharmacy.vishwam.data.Preferences
-import com.apollopharmacy.vishwam.data.model.cms.RequestComplainList
-import com.apollopharmacy.vishwam.databinding.DialogComplaintListFilterBinding
 import com.apollopharmacy.vishwam.databinding.DialogSurveyListFilterBinding
 import com.apollopharmacy.vishwam.databinding.FragmentApnaSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
@@ -31,9 +28,8 @@ import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.ApnaPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.adapter.ApnaSurveyAdapter
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.submitButtonEnable
 import com.apollopharmacy.vishwam.util.NetworkUtil
-import com.apollopharmacy.vishwam.util.Utils
+import com.apollopharmacy.vishwam.util.Utlis
 
 
 class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurveyBinding>(),
@@ -44,7 +40,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     var isScrolling: Boolean = false
     private var isFirstTime: Boolean = true
     var surveyStatusList: String = "new,inprogress,rejected,approved,cancelled"
-
+    lateinit var dialogSurveyListFilterBinding: DialogSurveyListFilterBinding
     var handler: Handler = Handler()
     var adapter: ApnaSurveyAdapter? = null
     val APNA_NEW_SURVEY_ACTIVITY_VALUE: Int? = 1000
@@ -67,11 +63,19 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 ), APNA_NEW_SURVEY_ACTIVITY_VALUE!!
             )
         }
+
+        viewBinding.pullToRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            submitClick()
+        })
+
         viewBinding.search.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
         viewBinding.search.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    pageNo=1
+                    pageNo = 1
+                    isLoading = false
+                    isFirstTime = true
+                    showLoading()
                     callAPI(pageNo, rowSize, true)
                     return true
                 }
@@ -81,6 +85,28 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
     }
 
+    fun submitClick() {
+        if (!viewBinding.pullToRefresh.isRefreshing)
+            Utlis.showLoading(requireContext())
+        pageNo = 1
+        viewBinding.search.setText("")
+        surveyStatusList = "new,inprogress,rejected,approved,cancelled"
+//        dialogSurveyListFilterBinding.isNewChecked = this.surveyStatusList.contains("new")
+//        dialogSurveyListFilterBinding.isInProgressChecked =
+//            this.surveyStatusList.contains("inprogress")
+//
+//        dialogSurveyListFilterBinding.isRejectedChecked =
+//            this.surveyStatusList.contains("rejected")
+//
+//        dialogSurveyListFilterBinding.isApproveChecked =
+//            this.surveyStatusList.contains("approved")
+//
+//        dialogSurveyListFilterBinding.isClosedChecked =
+//            this.surveyStatusList.contains("cancelled")
+
+        MainActivity.mInstance.filterIndicator.visibility = View.GONE
+        callAPI(pageNo, rowSize, false)
+    }
 
     override fun onClick(position: Int, surveyListResponse: SurveyListResponse.Row) {
         val i = Intent(activity, ApnaPreviewActivity::class.java)
@@ -91,15 +117,22 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
     private var isLoading = false
     private var pageNo = 1
-
-    var rowSize = 10
+    private var isLastPage = false
+    var rowSize = 18
     override fun onSuccessgetSurveyDetails(surveyListResponse: SurveyListResponse) {
         hideLoading()
+        if (viewBinding.pullToRefresh.isRefreshing) {
+            viewBinding.pullToRefresh.isRefreshing = false
+            pageNo = 1;
+            isLastPage = false
+        }
         var getsurveyList = surveyListResponse.data!!.listData!!.rows
         if (getsurveyList != null && getsurveyList!!.size > 0) {
             viewBinding.recyclerViewApproved.visibility = View.VISIBLE
             viewBinding.noListFound.visibility = View.GONE
-            if (pageNo == 1 ) {
+            if (pageNo == 1) {
+                isLoading = false
+                isLastPage = false
                 surveyResponseList.clear()
                 surveyResponseList.addAll(getsurveyList!!)
                 layoutManager = LinearLayoutManager(context)
@@ -110,20 +143,31 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 addScrollerListener()
             } else {
                 if (isLoading) {
+                    isLastPage = false
                     isLoading = false
                     surveyResponseList.removeAt(surveyResponseList.size - 1)
                     surveyResponseList.addAll(getsurveyList!!)
                     pageNo++
 
                     initAdapter()
-                    addScrollerListener()
+//                    addScrollerListener()
                 }
             }
 
 
         } else {
-            viewBinding.recyclerViewApproved.visibility = View.GONE
-            viewBinding.noListFound.visibility = View.VISIBLE
+            isLastPage = true
+            if (isLoading) {
+                isLoading = false
+            }
+            if (pageNo == 1) {
+                viewBinding.recyclerViewApproved.visibility = View.GONE
+                viewBinding.noListFound.visibility = View.VISIBLE
+            } else {
+                surveyResponseList.removeAt(surveyResponseList.size - 1)
+                initAdapter()
+            }
+
         }
 
     }
@@ -143,12 +187,14 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!isLoading && !isFirstTime) {
+                if (!isLoading && !isFirstTime && !isLastPage) {
                     //findLastCompletelyVisibleItemPostition() returns position of last fully visible view.
                     ////It checks, fully visible view is the last one.
-                    if (layoutManager.findLastCompletelyVisibleItemPosition() == adapter!!.getData()?.size!! - 1 ) {
+
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == surveyResponseList.size!! - 1) {//adapter!!.getData()?
                         loadMore()
                     }
+
                 }
             }
         })
@@ -156,13 +202,15 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
     private fun loadMore() {
         handler.post(Runnable {
-            isLoading = true
-            val newdata = SurveyListResponse.Row()
-            newdata.isLoading = "YES"
-            adapter!!.getData().add(newdata)
-            adapter!!.notifyItemInserted(adapter!!.getData().size - 1)
-            callAPI(pageNo, rowSize, false)
-
+            if (!isLoading) {
+                isLoading = true
+                val newdata = SurveyListResponse.Row()
+                newdata.isLoading = "YES"
+                surveyResponseList.add(newdata)
+//            adapter!!.getData().add(newdata)
+                adapter!!.notifyItemInserted(surveyResponseList.size - 1)
+                callAPI(pageNo, rowSize, false)
+            }
         })
 
     }
@@ -207,28 +255,39 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         if (requestCode == APNA_NEW_SURVEY_ACTIVITY_VALUE) {
             if (resultCode == Activity.RESULT_OK) {
                 showLoading()
+                pageNo = 1
+                isLoading = false
+                isLastPage = false
                 viewModel.getApnaSurveyList(
-                    this,
-                    "1",
+                    this@ApnaSurveyFragment,
+                    pageNo.toString(),
                     rowSize.toString(),
+                    viewBinding.search.text.toString(),
                     surveyStatusList,
-                    viewBinding.search.text.toString().trim(),
                     false
                 )
+//                viewModel.getApnaSurveyList(
+//                    this,
+//                    pageNo.toString(),
+//                    rowSize.toString(),
+//                    surveyStatusList,
+//                    viewBinding.search.text.toString().trim(),
+//                    false
+//                )
             }
         }
     }
 
     override fun onClickFilterIcon() {
+
         val surveyListStatusFilterDialog = context?.let { Dialog(it) }
-        val dialogSurveyListFilterBinding: DialogSurveyListFilterBinding =
+        dialogSurveyListFilterBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(context),
                 R.layout.dialog_survey_list_filter,
                 null,
                 false
             )
-
         viewBinding.search.setText("")
         surveyListStatusFilterDialog!!.setContentView(dialogSurveyListFilterBinding.root)
         surveyListStatusFilterDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -276,6 +335,8 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
 
         dialogSurveyListFilterBinding.submit.setOnClickListener {
+            pageNo = 1
+
 //            this.complaintListStatus = complaintListStatusTemp
             this.surveyStatusList = ""
             if (dialogSurveyListFilterBinding.newStatus.isChecked) {
@@ -314,7 +375,8 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
             if (surveyListStatusFilterDialog != null && surveyListStatusFilterDialog.isShowing) {
                 surveyListStatusFilterDialog.dismiss()
-                pageNo=1
+
+                showLoading()
                 callAPI(pageNo, rowSize, false)
 
 

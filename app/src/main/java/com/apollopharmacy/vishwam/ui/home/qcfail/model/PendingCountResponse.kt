@@ -1,9 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.model
 
-import com.google.gson.annotations.SerializedName
-import com.google.gson.annotations.Expose
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.PendingCountResponse.Pendingcount
-import com.apollopharmacy.vishwam.ui.home.qcfail.model.PendingCountResponse
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class PendingCountResponse : Serializable {
@@ -42,6 +41,9 @@ class PendingCountResponse : Serializable {
         @Expose
         var empid: String? = null
 
+        @SerializedName("ORDERTYPE")
+        @Expose
+        var ordertype: String? = null
         @SerializedName("DESIGNATION")
         @Expose
         var designation: String? = null
@@ -60,6 +62,11 @@ class PendingCountResponse : Serializable {
             return this
         }
 
+
+        fun withOrdertype(ordertype: String?):Pendingcount? {
+            this.ordertype = ordertype
+            return this
+        }
         fun withDesignation(designation: String?): Pendingcount {
             this.designation = designation
             return this

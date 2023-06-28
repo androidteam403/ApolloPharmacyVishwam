@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.discount.PendingOrder
 import com.apollopharmacy.vishwam.databinding.ActivityDashboardFilterBinding
@@ -15,6 +16,7 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DiscountSiteDialog
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcCalender
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcCalenderToDate
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcRegionList
+import com.apollopharmacy.vishwam.util.Utlis
 
 class DashboardFilterActivity : AppCompatActivity(), QcCalender.DateSelected,
     DiscountSiteDialog.NewDialogSiteClickListner,
@@ -33,10 +35,20 @@ class DashboardFilterActivity : AppCompatActivity(), QcCalender.DateSelected,
     var regionList = ArrayList<QcRegionList.Store>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityDashboardFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard_filter)
+        activityDashboardFilterBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_dashboard_filter)
         if (intent != null) {
-            storeList = intent.getSerializableExtra("storeList") as ArrayList<PendingOrder.PENDINGLISTItem>
+            storeList =
+                intent.getSerializableExtra("storeList") as ArrayList<PendingOrder.PENDINGLISTItem>
         }
+
+
+
+        activityDashboardFilterBinding.toDateText.setText(Preferences.getDiscountToDate())
+        activityDashboardFilterBinding.fromDateText.setText(Preferences.getDiscountFromDate())
+        activityDashboardFilterBinding.regionIdSelect.setText(Preferences.getDiscountRegion())
+        activityDashboardFilterBinding.siteIdSelect.setText(Preferences.getDiscountSite())
+
         activityDashboardFilterBinding.fromDateText.setOnClickListener {
             QcCalender().apply {
                 arguments = generateParsedData(
@@ -49,6 +61,7 @@ class DashboardFilterActivity : AppCompatActivity(), QcCalender.DateSelected,
 
         }
         activityDashboardFilterBinding.toDateText.setOnClickListener {
+
             QcCalenderToDate().apply {
                 arguments = generateParsedData(
                     activityDashboardFilterBinding.toDateText.text.toString(),
@@ -56,35 +69,44 @@ class DashboardFilterActivity : AppCompatActivity(), QcCalender.DateSelected,
                     activityDashboardFilterBinding.toDateText.text.toString()
                 )
             }.show(supportFragmentManager, "")
+
+
         }
 
         activityDashboardFilterBinding.reset.setOnClickListener {
-            activityDashboardFilterBinding.siteIdSelect.setText("")
-            activityDashboardFilterBinding.regionIdSelect.setText("")
-            activityDashboardFilterBinding.toDateText.setText("")
-            activityDashboardFilterBinding.fromDateText.setText("")
-
+            val intent = Intent()
+            Preferences.setDiscountFromDate("")
+            Preferences.setDiscountToDate("")
+            Preferences.setDiscountSite("")
+            Preferences.setDiscountRegion("")
+            intent.putExtra("reset", "reset")
+            setResult(Activity.RESULT_OK, intent)
+            finish()
         }
 
 
 
         activityDashboardFilterBinding.applybutoon.setOnClickListener {
-            if (fromDateDiscount.isNullOrEmpty()){
-                Toast.makeText(context, "Mandatory Fields Should not be  Empty", Toast.LENGTH_LONG).show()
+            if (fromDateDiscount.isNullOrEmpty()) {
+                Toast.makeText(context, "Mandatory Fields Should not be  Empty", Toast.LENGTH_LONG)
+                    .show()
 
-            } else if(fromDateDiscount.isNullOrEmpty() ){
+            } else if (fromDateDiscount.isNullOrEmpty()) {
 
-                Toast.makeText(context, "Mandatory Fields Should not be  Empty", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Mandatory Fields Should not be  Empty", Toast.LENGTH_LONG)
+                    .show()
 
-            }
-
-            else {
+            } else {
                 val intent = Intent()
+                Preferences.setDiscountFromDate(fromDateDiscount)
+                Preferences.setDiscountToDate(toDateDiscount)
+                Preferences.setDiscountSite(siteId)
+                Preferences.setDiscountRegion(dcCode)
                 intent.putExtra("fromDate", fromDateDiscount)
                 intent.putExtra("toDate", toDateDiscount)
                 intent.putExtra("siteId", siteId)
                 intent.putExtra("dcCode", dcCode)
-                intent.putExtra("apply", "apply")
+                intent.putExtra("reset", "")
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             }
@@ -115,25 +137,57 @@ class DashboardFilterActivity : AppCompatActivity(), QcCalender.DateSelected,
     }
 
     override fun fromDate(fromDate: String, showingDate: String) {
-        activityDashboardFilterBinding.fromDateText.setText(fromDate)
         fromDateDiscount = fromDate
+        if (toDateDiscount.isEmpty()) {
+            activityDashboardFilterBinding.fromDateText.setText(fromDate)
+
+        } else if (Utlis.filterDateFormate(toDateDiscount)
+                .after(Utlis.filterDateFormate(fromDateDiscount)) || Utlis.filterDateFormate(
+                fromDateDiscount
+            ).equals(Utlis.filterDateFormate(toDateDiscount))
+        ) {
+
+            activityDashboardFilterBinding.fromDateText.setText(fromDate)
+
+        } else {
+            Toast.makeText(context, "From Date should not be After To Date ", Toast.LENGTH_LONG).show()
+
+        }
+
+
     }
 
     override fun toDate(dateSelected: String, showingDate: String) {
-        activityDashboardFilterBinding.toDateText.setText(dateSelected)
         toDateDiscount = dateSelected
+        if (fromDateDiscount.isNullOrEmpty()) {
+            activityDashboardFilterBinding.toDateText.setText(dateSelected)
+
+        } else {
+
+            if (Utlis.filterDateFormate(fromDateDiscount)
+                    .before(Utlis.filterDateFormate(toDateDiscount)) || Utlis.filterDateFormate(
+                    fromDateDiscount
+                ).equals(Utlis.filterDateFormate(toDateDiscount))
+            ) {
+                activityDashboardFilterBinding.toDateText.setText(dateSelected)
+            } else {
+                Toast.makeText(context, "To Date Should not be After From Date ", Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
+
 
     }
 
     override fun selectSite(departmentDto: PendingOrder.PENDINGLISTItem) {
         activityDashboardFilterBinding.siteIdSelect.setText(departmentDto.STORE)
-        siteId=departmentDto.STORE
+        siteId = departmentDto.STORE
 
     }
 
     override fun selectRegion(departmentDto: PendingOrder.PENDINGLISTItem) {
         activityDashboardFilterBinding.regionIdSelect.setText(departmentDto.DCCODE)
-        dcCode=departmentDto.DCCODE
+        dcCode = departmentDto.DCCODE
     }
 
 

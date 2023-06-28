@@ -23,6 +23,8 @@ object QcApiRepo {
         return try {
             val response =
                 Api.getClient().qcResponseList(url, empId, fromDate, toDate, storeId, region)
+
+//            Api.getClient().qcResponseList()
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -159,6 +161,8 @@ object QcApiRepo {
 
     suspend fun getqcPendingDashboardHistory(url: String, empId: String, designation: String): ApiResult<Getqcfailpendinghistorydashboard> {
         return try {
+//            val response = Api.getClient().qcPendingDashboardHistory()
+
             val response = Api.getClient().qcPendingDashboardHistory(url,empId, designation)
             ApiResult.Success(response)
         } catch (e: Exception) {

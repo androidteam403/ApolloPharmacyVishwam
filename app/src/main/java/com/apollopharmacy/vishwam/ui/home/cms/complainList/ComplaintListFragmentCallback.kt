@@ -1,6 +1,10 @@
 package com.apollopharmacy.vishwam.ui.home.cms.complainList
 
+import com.apollopharmacy.vishwam.data.model.cms.ResponseNewTicketlist
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubworkflowConfigDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketData
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketSubworkflowActionUpdateResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.UserListForSubworkflowResponse
 
 interface ComplaintListFragmentCallback {
 
@@ -13,4 +17,18 @@ interface ComplaintListFragmentCallback {
     )
 
     fun onFailureSubworkflowConfigDetailsApi(message: String)
+
+    fun onSuccessActionUpdate(
+        ticketSubworkflowActionUpdateResponse: TicketSubworkflowActionUpdateResponse,
+        row: SubworkflowConfigDetailsResponse.Rows,
+        remark: String, data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    )
+
+    fun onSuccessUsersListforSubworkflow(
+        data: TicketData,
+        responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
+        position: Int, row: SubworkflowConfigDetailsResponse.Rows,
+        userListForSubworkflowResponse: UserListForSubworkflowResponse?,
+    )
 }

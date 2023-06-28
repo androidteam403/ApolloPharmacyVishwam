@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.retroqr.activity.RetroQrUploadActivity">
+
+        <LinearLayout
+            android:id="@+id/header_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:background="@drawable/retro_qr_actionbar_bg"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_15dp"
+                android:layout_marginEnd="@dimen/value_20dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->callback.onClickBackArrow()}"
+                android:src="@drawable/icon_back_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="RETRO QR UPLOAD"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:gravity="end"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="14001"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Apollo Punjagutta"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_10sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--<androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/header_view"
+            android:layout_marginBottom="@dimen/value_50dp"
+            android:fillViewport="true">-->
+
+            <!--<FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/value_50dp"
+                    android:layout_below="@+id/header_view"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_45dp"
+                        android:background="#f4f5f4"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_25dp"
+                                android:layout_marginEnd="@dimen/value_8dp"
+                                android:text="Rack No: "
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="@dimen/value_80dp"
+                                android:layout_height="@dimen/value_25dp"
+                                android:layout_marginEnd="@dimen/value_3dp"
+                                android:background="@drawable/white_rounded_corner" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/value_25dp"
+                                android:background="@drawable/gray_rounded_bg"
+                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                android:contentDescription="@string/app_name" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/value_5dp">
+
+                                <LinearLayout
+                                    android:layout_width="@dimen/value_40dp"
+                                    android:layout_height="@dimen/value_70dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="0.10"
+                                    android:gravity="center">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/value_55dp"
+                                        android:layout_height="@dimen/value_55dp"
+                                        android:layout_gravity="center"
+                                        android:scaleType="fitXY"
+                                        android:src="@drawable/right_greenn"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--<ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/right_green"
+                                android:contentDescription="@string/app_name" />-->
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lastUpdateLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/value_8dp"
+                            android:gravity="center_vertical|end"
+                            android:visibility="visible"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="@dimen/value_5dp"
+                                android:gravity="center_vertical|end"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Last Update"
+                                    android:textColor="#666666"
+                                    android:textSize="@dimen/text_10sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/lastUpdateDate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="10 June, 2023"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimen11sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
+                                android:src="@drawable/calendar"
+                                android:tint="#979b97"
+                                tools:ignore="UseAppTint"
+                                android:contentDescription="@string/app_name" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/uploadRackRcv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:itemCount="8"
+                        tools:listitem="@layout/upload_rack_layout" />
+                </LinearLayout>
+            <!--</FrameLayout>
+        </androidx.core.widget.NestedScrollView>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:layout_alignParentBottom="true"
+            android:foreground="@drawable/gray_border_top"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Racks"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen11sp" />
+
+                <TextView
+                    android:id="@+id/totalRackCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/value_2dp"
+                android:layout_weight=".9"
+                android:background="#d1eacc"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Updated"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen11sp" />
+
+                <TextView
+                    android:id="@+id/updatedRackCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/value_2dp"
+                android:layout_weight=".9"
+                android:background="#fcd1d1"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pending"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen11sp" />
+
+                <TextView
+                    android:id="@+id/pendingRackCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/submitButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="@{()->callback.onClickSubmit()}"
+                android:layout_weight="1.2"
+                android:background="#a1a1a1"
+                android:gravity="center_vertical|center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SUBMIT"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.retroqr.activity.RetroQrUploadCallback" />
+    </data>
+</layout>

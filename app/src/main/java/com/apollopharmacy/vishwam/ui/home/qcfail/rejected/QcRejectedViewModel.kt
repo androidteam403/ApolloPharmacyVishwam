@@ -292,7 +292,9 @@ class QcRejectedViewModel : ViewModel() {
         }
     }
 
-
+    fun setRejectedList(qcListsResponse: QcListsResponse) {
+        qcRejectLists.value = qcListsResponse
+    }
     fun filterClicked() {
 
         listarrayList.add("16001")

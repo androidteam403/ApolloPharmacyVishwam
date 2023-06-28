@@ -28,18 +28,29 @@ import com.apollopharmacy.vishwam.data.model.discount.AcceptOrRejectDiscountOrde
 import com.apollopharmacy.vishwam.data.model.discount.BulkAcceptOrRejectDiscountOrder
 import com.apollopharmacy.vishwam.data.model.discount.GetDiscountColorResponse
 import com.apollopharmacy.vishwam.data.model.discount.PendingOrder
-import com.apollopharmacy.vishwam.databinding.*
+import com.apollopharmacy.vishwam.databinding.FragmentPendingOrderBinding
+import com.apollopharmacy.vishwam.databinding.OrderAdapterBinding
+import com.apollopharmacy.vishwam.databinding.PendingOrderAdapterBinding
+import com.apollopharmacy.vishwam.databinding.RemarkLayoutBinding
+import com.apollopharmacy.vishwam.databinding.StatusLayoutBinding
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
+import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivity.userDesignation
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.discount.filter.FilterFragment
 import com.apollopharmacy.vishwam.ui.home.discount.pending.dashboardfilter.DashboardFilterActivity
 import com.apollopharmacy.vishwam.ui.login.Command
-import com.apollopharmacy.vishwam.util.*
+import com.apollopharmacy.vishwam.util.CalculateDiscountAndTotalQuantity
+import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.ShowError
+import com.apollopharmacy.vishwam.util.Utils
+import com.apollopharmacy.vishwam.util.Utlis
 import com.valdesekamdem.library.mdtoast.MDToast
 import kotlin.math.roundToInt
 
 class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrderBinding>(),
-    PendingRecyclerView.ClickListener, FilterFragment.FilterClicked, PendingFragmentCallback {
+    PendingRecyclerView.ClickListener, FilterFragment.FilterClicked, PendingFragmentCallback,
+    MainActivityCallback {
 
     private lateinit var pendingRecyclerView: PendingRecyclerView
     private val TAG = "PendingOrderFragment"
@@ -58,9 +69,14 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
     override fun setup() {
         viewBinding.pendingViewModel = viewModel
         viewModel.getDiscountColorDetails(this)
-
+        MainActivity.mInstance.mainActivityCallback = this
+        MainActivity.mInstance.filterIndicator.visibility = View.GONE
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             showLoading()
+            Preferences.setDiscountFromDate("")
+            Preferences.setDiscountToDate("")
+            Preferences.setDiscountSite("")
+            Preferences.setDiscountRegion("")
             viewModel.getPendingList(false)
         } else {
             Toast.makeText(
@@ -85,7 +101,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                 pendinglistItem = it
                 viewBinding.emptyList.visibility = View.GONE
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
-                pendingRecyclerView = PendingRecyclerView(it, this,colorResponseList)
+                pendingRecyclerView = PendingRecyclerView(it, this, colorResponseList)
                 viewBinding.recyclerViewPending.adapter = pendingRecyclerView
                 checkSelectedList("")
                 hideLoading()
@@ -162,6 +178,11 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
             }
         }
         viewBinding.refreshSwipe.setOnRefreshListener {
+            MainActivity.mInstance.filterIndicator.visibility = View.GONE
+            Preferences.setDiscountFromDate("")
+            Preferences.setDiscountToDate("")
+            Preferences.setDiscountSite("")
+            Preferences.setDiscountRegion("")
             viewModel.getPendingList(true)
         }
         viewBinding.acceptClick.setOnClickListener {
@@ -197,49 +218,58 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 210) {
             if (resultCode == Activity.RESULT_OK) {
+                if (data!!.getStringExtra("reset").toString().isNullOrEmpty()) {
+                    MainActivity.mInstance.filterIndicator.visibility = View.VISIBLE
+                    var filterData = pendinglistItem.filter { m ->
+                        (Utlis.filterDateFormate(data!!.getStringExtra("fromDate").toString())
+                            .before(Utlis.filterDateFormate(Utlis.convertDateTimeZone(m.POSTEDDATE))) &&
+                                (Utlis.filterDateFormate(data!!.getStringExtra("toDate").toString())
+                                    .after(Utlis.filterDateFormate(Utlis.convertDateTimeZone(m.POSTEDDATE))))) ||
+                                Utlis.filterDateFormate(
+                                    data!!.getStringExtra("fromDate").toString()
+                                )
+                                    .equals(Utlis.filterDateFormate(Utlis.convertDateTimeZone(m.POSTEDDATE))) ||
+                                Utlis.filterDateFormate(data!!.getStringExtra("toDate").toString())
+                                    .equals(Utlis.filterDateFormate(Utlis.convertDateTimeZone(m.POSTEDDATE)))
+                    }
 
-                data!!.getStringExtra("fromDate").toString()
 
+                    if (data!!.getStringExtra("siteId").toString()
+                            .isNotEmpty() && data!!.getStringExtra("dcCode").toString().isNotEmpty()
+                    ) {
+                        viewModel.filterData(filterData.filter {
+                            it.STORE.equals(
+                                data!!.getStringExtra("siteId").toString()
+                            ) && it.DCCODE.equals(data!!.getStringExtra("dcCode").toString())
+                        } as ArrayList<PendingOrder.PENDINGLISTItem>)
+                    } else if (data!!.getStringExtra("dcCode").toString()
+                            .isNullOrEmpty() && data!!.getStringExtra("siteId").toString()
+                            .isNotEmpty()
+                    ) {
+                        viewModel.filterData(filterData.filter {
+                            it.STORE.equals(
+                                data!!.getStringExtra("siteId").toString()
+                            )
+                        } as ArrayList<PendingOrder.PENDINGLISTItem>)
+                    } else if (data!!.getStringExtra("siteId").toString()
+                            .isNullOrEmpty() && data!!.getStringExtra("dcCode").toString()
+                            .isNotEmpty()
+                    ) {
+                        viewModel.filterData(filterData.filter {
+                            it.STORE.equals(
+                                data!!.getStringExtra("dcCode").toString()
+                            )
+                        } as ArrayList<PendingOrder.PENDINGLISTItem>)
+                    } else {
+                        viewModel.filterData(filterData as ArrayList<PendingOrder.PENDINGLISTItem>)
 
-                var filterData = pendinglistItem.filter { m ->
-                    (Utlis.filterDateFormate(data!!.getStringExtra("fromDate").toString())
-                        .before(Utlis.filterDateFormate(Utlis.convertDateTimeZone(m.POSTEDDATE))) &&
-                            (Utlis.filterDateFormate(data!!.getStringExtra("toDate").toString())
-                                .after(Utlis.filterDateFormate(Utlis.convertDateTimeZone(m.POSTEDDATE))))) ||
-                            Utlis.filterDateFormate(data!!.getStringExtra("fromDate").toString())
-                                .equals(Utlis.filterDateFormate(Utlis.convertDateTimeZone(m.POSTEDDATE))) ||
-                            Utlis.filterDateFormate(data!!.getStringExtra("toDate").toString())
-                                .equals(Utlis.filterDateFormate(Utlis.convertDateTimeZone(m.POSTEDDATE)))
-                }
+                    }
 
-
-                if (data!!.getStringExtra("siteId").toString()
-                        .isNotEmpty() && data!!.getStringExtra("dcCode").toString().isNotEmpty()
-                ) {
-                    viewModel.filterData(filterData.filter {
-                        it.STORE.equals(
-                            data!!.getStringExtra("siteId").toString()
-                        ) && it.DCCODE.equals(data!!.getStringExtra("dcCode").toString())
-                    } as ArrayList<PendingOrder.PENDINGLISTItem>)
-                } else if (data!!.getStringExtra("dcCode").toString()
-                        .isNullOrEmpty() && data!!.getStringExtra("siteId").toString().isNotEmpty()
-                ) {
-                    viewModel.filterData(filterData.filter {
-                        it.STORE.equals(
-                            data!!.getStringExtra("siteId").toString()
-                        )
-                    } as ArrayList<PendingOrder.PENDINGLISTItem>)
-                } else if (data!!.getStringExtra("siteId").toString()
-                        .isNullOrEmpty() && data!!.getStringExtra("dcCode").toString().isNotEmpty()
-                ) {
-                    viewModel.filterData(filterData.filter {
-                        it.STORE.equals(
-                            data!!.getStringExtra("dcCode").toString()
-                        )
-                    } as ArrayList<PendingOrder.PENDINGLISTItem>)
                 } else {
-                    viewModel.filterData(filterData as ArrayList<PendingOrder.PENDINGLISTItem>)
+                    showLoading()
+                    MainActivity.mInstance.filterIndicator.visibility = View.GONE
 
+                    viewModel.getPendingList(false)
                 }
 
 
@@ -366,7 +396,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
         acptRejcIndentNo = item.ORDERS.INDENTNO
         AlertDialog
             .Builder(requireContext())
-            .setMessage("You are $type the order id  ${item.ORDERS.INDENTNO} for discount  \nDo you want to proceed?")
+            .setMessage("You are $type Request Discount ID ${item.ORDERS.INDENTNO} \nDo you want to proceed?")
             .setPositiveButton("YES") { _, _ ->
                 if (NetworkUtil.isNetworkConnected(requireContext())) {
                     showLoading()
@@ -547,11 +577,27 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
         colorResponseList =
             value.trainingDetails as ArrayList<GetDiscountColorResponse.TrainingDetail>
     }
+
+    override fun onClickFilterIcon() {
+        val i = Intent(context, DashboardFilterActivity::class.java)
+
+        i.putExtra("storeList", pendinglistItem)
+        startActivityForResult(i, 210)
+    }
+
+    override fun onClickSiteIdIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickQcFilterIcon() {
+        TODO("Not yet implemented")
+    }
 }
 
 class PendingRecyclerView(
     val pendingOrderList: ArrayList<PendingOrder.PENDINGLISTItem>,
-    private val listener: ClickListener,val colorList: ArrayList<GetDiscountColorResponse.TrainingDetail>,
+    private val listener: ClickListener,
+    val colorList: ArrayList<GetDiscountColorResponse.TrainingDetail>,
 
     ) :
     SimpleRecyclerView<PendingOrderAdapterBinding, PendingOrder.PENDINGLISTItem>(
@@ -565,16 +611,13 @@ class PendingRecyclerView(
         position: Int,
     ) {
 
-
-        for (i in colorList.indices){
-            for (j in  items.ITEMS.indices){
-                if (colorList.get(i).length!!.toInt()<= items.ITEMS[j].REQUEST_DISC!!.toInt()&& colorList[i].type!!.toUpperCase().equals("VISDISC")){
-                   binding.pendingLayout.setBackgroundColor(Color.parseColor(colorList.get(i).name))
-
-                }else
-                {
-                    binding.pendingLayout.setBackgroundColor(Color.parseColor("#FDB813"))
-
+        binding.pendingLayout.setBackgroundColor(Color.parseColor("#FDB813"))
+        for (i in colorList.indices) {
+            for (j in items.ITEMS.indices) {
+                if (colorList.get(i).length!!.toInt() <= items.ITEMS[j].APPROVED_DISC!!.toInt() && colorList[i].type!!.toUpperCase()
+                        .equals("VISDISC")
+                ) {
+                    binding.pendingLayout.setBackgroundColor(Color.parseColor(colorList.get(i).name))
                 }
             }
         }

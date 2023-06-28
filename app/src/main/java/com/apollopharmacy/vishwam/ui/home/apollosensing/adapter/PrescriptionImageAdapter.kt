@@ -48,8 +48,8 @@ class PrescriptionImageAdapter(
 
         holder.layoutPrescriptionImageBinding.image.setImageBitmap(
             rotateImage(
-                BitmapFactory.decodeFile(images[position].file.absolutePath),
-                images[position].file
+                BitmapFactory.decodeFile(images[position].resizedImage.absolutePath),
+                images[position].resizedImage
             )
         )
 

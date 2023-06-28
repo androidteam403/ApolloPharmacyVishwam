@@ -5,9 +5,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.Intent.getIntent
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.View
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.Toast
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +20,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.FragmentApprovedQcBinding
+import com.apollopharmacy.vishwam.dialog.QcListSizeDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.QcApproveListAdapter
@@ -25,15 +30,18 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import org.apache.commons.collections4.ListUtils
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBinding>(),
     MainActivityCallback,
     QcSiteDialog.NewDialogSiteClickListner,
-    QcListsCallback, QcFilterFragment.QcFilterClicked, QcFilterListCallBacks {
+    QcListsCallback, QcFilterFragment.QcFilterClicked, QcFilterListCallBacks,
+    QcListSizeDialog.GstDialogClickListners,
+    Filterable {
     var adapter: QcApproveListAdapter? = null
+    var qcListsResponse: QcListsResponse? = null
     var filterAdapter: QcFilterItemsAdapter? = null
     var storeAdapter: QcStoreListAdapter? = null
     var regionAdapter: QcRegionListAdapter? = null
@@ -41,17 +49,20 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var pageNo: Int = 1
     var lastIndex = 0
     var increment: Int = 0
-
+    var pageSize: Int = 0
     public var storeStringList = ArrayList<String>()
     public var regionStringList = ArrayList<String>()
     public var isBulkChecked: Boolean = false
+    var charString: String? = ""
+    private var approvedListList = ArrayList<QcListsResponse.Approved>()
+    private var approvedFilterList = ArrayList<QcListsResponse.Approved>()
     var getStatusList: List<ActionResponse>? = null
     var statusList = ArrayList<ActionResponse>()
     var getStoreList: List<QcStoreList.Store>? = null
     var storeList = ArrayList<QcStoreList.Store>()
     var regionList = ArrayList<QcRegionList.Store>()
     private var filterApproveList = ArrayList<QcListsResponse.Approved>()
-    var subList: List<List<QcListsResponse.Approved>>? = null
+    var subList= ArrayList<ArrayList<QcListsResponse.Approved>>()
     var stuff: List<List<String>> = ArrayList()
 
     var getitemList: List<QcItemListResponse>? = null
@@ -60,6 +71,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var mainMenuList = ArrayList<MainMenuList>()
     var list: ArrayList<String>? = null
     private var drawer: DrawerLayout? = null
+    var pageSizeList = ArrayList<String>()
 
     public var mInstance: ApprovedFragment? =
         null
@@ -80,6 +92,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     @SuppressLint("ResourceType")
     override fun setup() {
         showLoading()
+        pageSize = Preferences.getQcApprovedPageSiz()
+        viewBinding.selectfiltertype.setText(
+            "Rows: " + Preferences.getQcApprovedPageSiz().toString()
+        )
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
@@ -87,6 +103,15 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
         MainActivity.mInstance.qcfilterIcon.visibility = View.VISIBLE
         MainActivity.mInstance.mainActivityCallback = this
+        pageSizeList.add("5")
+        pageSizeList.add("10")
+        pageSizeList.add("15")
+
+        viewBinding.selectfiltertype.setOnClickListener {
+            QcListSizeDialog().apply {
+                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+            }.show(childFragmentManager, "")
+        }
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())
 
@@ -100,7 +125,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             list = i.getStringArrayListExtra("selectsiteIdList")!!
 
         }
-
+        viewBinding.closeArrow.setOnClickListener {
+            viewBinding.searchView.setText("")
+        }
         viewModel.qcRegionLists.observe(viewLifecycleOwner, Observer {
             hideLoading()
             if (!it.storelist.isNullOrEmpty()) {
@@ -127,6 +154,41 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                     storeAdapter?.notifyDataSetChanged()
                 }
 
+            }
+        })
+        viewBinding.searchView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s!!.length > 2) {
+                    viewBinding.closeArrow.visibility = View.VISIBLE
+
+                    viewBinding.close.visibility = View.GONE
+//                    if (adapter != null) {
+                    getFilter()!!.filter(s)
+//                    }
+                }
+//                else if (viewBinding.searchView.getText().toString().equals("")) {
+//                    viewBinding.close.visibility = View.VISIBLE
+//                    viewBinding.closeArrow.visibility = View.GONE
+//
+////                    if (adapter != null) {
+//
+//                    getFilter()!!.filter("")
+////                    }
+//                }
+                else {
+                    viewBinding.close.visibility = View.VISIBLE
+                    viewBinding.closeArrow.visibility = View.GONE
+
+//                    if (adapter != null) {
+                    getFilter()!!.filter("")
+//                    }
+                }
             }
         })
         viewModel.qcStatusLists.observe(viewLifecycleOwner, Observer {
@@ -169,88 +231,13 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
         })
         viewModel.qcLists.observe(viewLifecycleOwner) { it ->
-            viewBinding.refreshSwipe.isRefreshing = false
-            storeStringList.clear();
-            regionStringList.clear();
-            hideLoading()
-            if (it.approvedlist.isNullOrEmpty()) {
-                viewBinding.emptyList.visibility = View.VISIBLE
-                viewBinding.recyclerViewApproved.visibility = View.GONE
-                viewBinding.continueBtn.visibility = View.GONE
-//                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
-            } else {
+            qcListsResponse = it
+            approvedListList = it.approvedlist!!
+            setQcApprovedListResponse(it.approvedlist!!)
 
-                filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
-
-                for (i in filterApproveList.indices) {
-                    storeStringList.add(filterApproveList[i].storeid.toString())
-                    regionStringList.add(filterApproveList[i].dcCode.toString())
-                }
-                val regionListSet: MutableSet<String> = LinkedHashSet()
-                val stroreListSet: MutableSet<String> = LinkedHashSet()
-                stroreListSet.addAll(storeStringList)
-                regionListSet.addAll(regionStringList)
-                storeStringList.clear()
-                regionStringList.clear()
-                regionStringList.addAll(regionListSet)
-                storeStringList.addAll(stroreListSet)
-                viewBinding.recyclerViewApproved.visibility = View.VISIBLE
-                viewBinding.emptyList.visibility = View.GONE
-                filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
-                subList = ListUtils.partition(it.approvedlist, 5)
-                pageNo = 1
-                increment = 0
-                if (pageNo == 1) {
-                    viewBinding.prevPage.visibility = View.GONE
-                } else {
-                    viewBinding.prevPage.visibility = View.VISIBLE
-
-                }
-                if (increment == subList?.size!!.minus(1)) {
-                    viewBinding.nextPage.visibility = View.GONE
-                } else {
-                    viewBinding.nextPage.visibility = View.VISIBLE
-
-                }
-
-
-
-
-                if (subList?.size == 1) {
-                    viewBinding.continueBtn.visibility = View.GONE
-                } else {
-                    viewBinding.continueBtn.visibility = View.VISIBLE
-
-                }
-
-
-//                filterApproveList.subList(startPageApproved, endPageNumApproved)
-                if (subList != null) {
-                    viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
-
-                }
-
-                if (increment == 0) {
-                    viewBinding.prevPage.visibility = View.GONE
-                }
-                if (subList.isNullOrEmpty()) {
-                } else {
-                    adapter =
-                        context?.let { it1 ->
-                            QcApproveListAdapter(
-                                it1,
-                                subList!!.get(increment),
-                                this,
-                                itemsList,
-                                statusList,
-                                filterApproveList
-                            )
-                        }
-                    viewBinding.recyclerViewApproved.adapter = adapter
-                }
-            }
 
         }
+
         viewBinding.refreshSwipe.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
             submitClickApproved()
         })
@@ -259,13 +246,13 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 increment++
                 pageNo++
                 if (pageNo == 1) {
-                    viewBinding.prevPage.visibility = View.GONE
+                    viewBinding.prevPage.visibility = View.INVISIBLE
                 } else {
                     viewBinding.prevPage.visibility = View.VISIBLE
 
                 }
                 if (increment == subList?.size!!.minus(1)) {
-                    viewBinding.nextPage.visibility = View.GONE
+                    viewBinding.nextPage.visibility = View.INVISIBLE
                 } else {
                     viewBinding.nextPage.visibility = View.VISIBLE
 
@@ -284,6 +271,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             filterApproveList
                         )
                     }
+                if (viewBinding.recyclerViewApproved != null){
+                    viewBinding.recyclerViewApproved.removeAllViews()
+                }
                 viewBinding.recyclerViewApproved.adapter = adapter
 
             } else {
@@ -298,13 +288,13 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 increment--
                 pageNo--
                 if (pageNo == 1) {
-                    viewBinding.prevPage.visibility = View.GONE
+                    viewBinding.prevPage.visibility = View.INVISIBLE
                 } else {
                     viewBinding.prevPage.visibility = View.VISIBLE
 
                 }
                 if (increment == subList?.size!!.minus(1)) {
-                    viewBinding.nextPage.visibility = View.GONE
+                    viewBinding.nextPage.visibility = View.INVISIBLE
                 } else {
                     viewBinding.nextPage.visibility = View.VISIBLE
 
@@ -322,11 +312,14 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             filterApproveList
                         )
                     }
+                if (viewBinding.recyclerViewApproved != null){
+                    viewBinding.recyclerViewApproved.removeAllViews()
+                }
                 viewBinding.recyclerViewApproved.adapter = adapter
             } else {
 
                 Toast.makeText(requireContext(), "No More Data To Load", Toast.LENGTH_SHORT).show()
-                viewBinding.prevPage.visibility = View.GONE
+                viewBinding.prevPage.visibility = View.INVISIBLE
 
             }
         }
@@ -362,6 +355,130 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 else -> {}
             }
         }
+    }
+
+    private fun setQcApprovedListResponse(approvedlist: List<QcListsResponse.Approved>) {
+        viewBinding.refreshSwipe.isRefreshing = false
+        storeStringList.clear();
+        regionStringList.clear();
+        hideLoading()
+        if (approvedlist.isNullOrEmpty()) {
+           if (viewBinding.recyclerViewApproved != null){
+               viewBinding.recyclerViewApproved.removeAllViews()
+           }
+            viewBinding.emptyList.visibility = View.VISIBLE
+            viewBinding.recyclerViewApproved.visibility = View.GONE
+            viewBinding.continueBtn.visibility = View.GONE
+//                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
+        } else {
+
+            filterApproveList = (approvedlist as ArrayList<QcListsResponse.Approved>?)!!
+
+            for (i in filterApproveList.indices) {
+                storeStringList.add(filterApproveList[i].storeid.toString())
+                regionStringList.add(filterApproveList[i].dcCode.toString())
+            }
+            val regionListSet: MutableSet<String> = LinkedHashSet()
+            val stroreListSet: MutableSet<String> = LinkedHashSet()
+            stroreListSet.addAll(storeStringList)
+            regionListSet.addAll(regionStringList)
+            storeStringList.clear()
+            regionStringList.clear()
+            regionStringList.addAll(regionListSet)
+            storeStringList.addAll(stroreListSet)
+            viewBinding.recyclerViewApproved.visibility = View.VISIBLE
+            viewBinding.emptyList.visibility = View.GONE
+            filterApproveList = (approvedlist as ArrayList<QcListsResponse.Approved>?)!!
+//            subList = ListUtils.partition(approvedlist, pageSize)
+            splitTheArrayList(approvedlist)
+            pageNo = 1
+            increment = 0
+            if (pageNo == 1) {
+                viewBinding.prevPage.visibility = View.INVISIBLE
+            } else {
+                viewBinding.prevPage.visibility = View.VISIBLE
+
+            }
+            if (increment == subList?.size!!.minus(1)) {
+                viewBinding.nextPage.visibility = View.INVISIBLE
+            } else {
+                viewBinding.nextPage.visibility = View.VISIBLE
+
+            }
+
+
+
+
+            if (subList?.size == 1) {
+                viewBinding.continueBtn.visibility = View.GONE
+            } else {
+                viewBinding.continueBtn.visibility = View.VISIBLE
+
+            }
+
+
+//                filterApproveList.subList(startPageApproved, endPageNumApproved)
+            if (subList != null) {
+                viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+
+            }
+
+            if (increment == 0) {
+                viewBinding.prevPage.visibility = View.INVISIBLE
+            }
+            if (subList.isNullOrEmpty()) {
+            } else {
+                adapter =
+                    context?.let { it1 ->
+                        QcApproveListAdapter(
+                            it1,
+                            subList!!.get(increment),
+                            this,
+                            itemsList,
+                            statusList,
+                            filterApproveList
+                        )
+                    }
+                if (viewBinding.recyclerViewApproved != null){
+                    viewBinding.recyclerViewApproved.removeAllViews()
+                }
+                viewBinding.recyclerViewApproved.adapter = adapter
+            }
+        }
+    }
+    fun splitTheArrayList(approvedList: ArrayList<QcListsResponse.Approved>?) {
+        subList?.clear()
+        var approvedSubList: ArrayList<QcListsResponse.Approved>? = ArrayList()
+        var pageStartPos = 0;
+        var pageEndPos = pageSize
+        for (i in approvedList!!) {
+            approvedSubList!!.add(i)
+            if (approvedList.indexOf(i) == (approvedList.size - 1)) {
+                val list: ArrayList<QcListsResponse.Approved> =
+                    ArrayList<QcListsResponse.Approved>(
+                        approvedList.subList(
+                            pageStartPos,
+                            approvedList.size
+                        )
+                    )
+                subList!!.add(list)
+            } else if ((approvedList.indexOf(i) + 1) % pageSize == 0) {
+                val list: ArrayList<QcListsResponse.Approved> =
+                    ArrayList<QcListsResponse.Approved>(
+                        approvedList.subList(
+                            pageStartPos,
+                            pageEndPos
+                        )
+                    )
+                subList!!.add(list)
+                pageStartPos = pageStartPos + pageSize
+                pageEndPos = pageEndPos + pageSize
+            }
+        }
+//        if(adapter!=null){
+//            adapter!!.notifyDataSetChanged()
+//        }
+
     }
 
 
@@ -561,10 +678,103 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         i.putExtra("activity", "2")
         i.putStringArrayListExtra("storeList", storeStringList)
         i.putStringArrayListExtra("regionList", regionStringList)
+        i.putExtra("fragmentName", "approve")
         startActivityForResult(i, 210)
     }
 
+    override fun selectListSize(listSize: String) {
+        Preferences.setQcApprovedPageSize(listSize.toInt());
+        viewBinding.selectfiltertype.setText("Rows: " + listSize)
+        pageSize = Preferences.getQcApprovedPageSiz()
+        viewModel.setApprovedList(qcListsResponse!!)
+//        Toast.makeText(context, "selected", Toast.LENGTH_SHORT).show()
+    }
 
+//    override fun getFilter(): Filter? {
+//        return object : Filter() {
+//            override fun performFiltering(charSequence: CharSequence): FilterResults {
+//                charString = charSequence.toString()
+//                if (charString!!.isEmpty()) {
+//                    qcListsResponse!!.approvedlist = approvedListList
+//                } else {
+//                    approvedFilterList.clear()
+//                    for (row in approvedListList) {
+//                        if (!approvedFilterList.contains(row) && row.omsorderno!!.toUpperCase()
+//                                .contains(
+//                                    charString!!.toUpperCase(
+//                                        Locale.getDefault()
+//                                    )
+//                                )
+//                        ) {
+//                            approvedFilterList.add(row)
+//                        }
+//                    }
+//                    qcListsResponse!!.approvedlist = approvedFilterList
+//                }
+//                val filterResults = FilterResults()
+//                filterResults.values = qcListsResponse!!.approvedlist
+//                return filterResults
+//            }
+//
+//            @SuppressLint("NotifyDataSetChanged")
+//            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+//                if (qcListsResponse!!.approvedlist != null && !qcListsResponse!!.approvedlist!!.isEmpty()) {
+//                    qcListsResponse!!.approvedlist =
+//                        filterResults.values as java.util.ArrayList<QcListsResponse.Approved>
+//                    try {
+//                        viewModel.setApprovedList(qcListsResponse!!)
+//                    } catch (e: Exception) {
+//                        Log.e("FullfilmentAdapter", e.message!!)
+//                    }
+//                } else {
+//                    viewModel.setApprovedList(qcListsResponse!!)
+//                }
+//            }
+//        }
+//    }
+
+    override fun getFilter(): Filter? {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                charString = charSequence.toString()
+                if (charString!!.isEmpty()) {
+                    qcListsResponse!!.approvedlist = approvedListList
+                } else {
+                    approvedFilterList.clear()
+                    for (row in approvedListList) {
+                        if (!approvedFilterList.contains(row) && row.omsorderno!!.toUpperCase()
+                                .contains(
+                                    charString!!.uppercase(
+                                        Locale.getDefault()
+                                    )
+                                )
+                        ) {
+                            approvedFilterList.add(row)
+                        }
+                    }
+                    qcListsResponse!!.approvedlist = approvedFilterList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = qcListsResponse!!.approvedlist
+                return filterResults
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+                if (qcListsResponse!!.approvedlist != null && !qcListsResponse!!.approvedlist!!.isEmpty()) {
+                    qcListsResponse!!.approvedlist =
+                        filterResults.values as java.util.ArrayList<QcListsResponse.Approved>
+                    try {
+                        setQcApprovedListResponse(qcListsResponse!!.approvedlist!!)
+                    } catch (e: Exception) {
+                        Log.e("FullfilmentAdapter", e.message!!)
+                    }
+                } else {
+                    setQcApprovedListResponse(qcListsResponse!!.approvedlist!!)
+                }
+            }
+        }
+    }
 }
 
 

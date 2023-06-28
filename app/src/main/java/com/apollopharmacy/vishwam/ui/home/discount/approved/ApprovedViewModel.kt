@@ -11,6 +11,9 @@ import com.apollopharmacy.vishwam.data.model.discount.FilterData
 import com.apollopharmacy.vishwam.data.model.discount.FilterDiscountRequest
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.discount.ApprovedRepo
+import com.apollopharmacy.vishwam.data.network.discount.PendingRepo
+import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingFragmentCallback
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
@@ -79,5 +82,61 @@ class ApprovedViewModel : ViewModel() {
             FilterData("Item Name"),
             FilterData("Item ID")
         )
+    }
+
+    fun getDiscountColorDetails(approvedFragmentCallback: ApprovedFragmentCallback) {
+
+        val state = MutableLiveData<State>()
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+//        var baseUrl =
+//            "" // "https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails?type=VISDISC"
+//        var token = ""// "h72genrSSNFivOi/cfiX3A=="
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("DISCOUNT COLOR")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        baseUrl = "$baseUrl?type=VISDISC"
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                PendingRepo.getDiscountColorDetails(
+                    baseUrl,
+                    token
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response.value.status == true) {
+                        approvedFragmentCallback.onSuccessgetColorList(response.value)
+
+                    } else {
+
+                    }
+                }
+
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
     }
 }
