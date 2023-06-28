@@ -28,6 +28,46 @@ class ApnaNewSurveyViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     val command = LiveEvent<CommandsNew>()
 
+    fun getRegionList(mCallBack: ApnaNewSurveyCallBack) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+        val apnaSurveyUrl =
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/region/list/survey-region-for-select"
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    baseUrL,
+                    token,
+                    GetDetailsRequest(apnaSurveyUrl, "GET", "The", "", "")
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    val resp: String = response.value.string()
+                    val res = BackShlash.removeBackSlashes(resp)
+                    val regionResponse = Gson().fromJson(BackShlash.removeSubString(res),
+                        RegionListResponse::class.java)
+                    if (regionResponse.success!!) {
+                        mCallBack.onSuccessGetRegionListApiCall(regionResponse)
+                    } else {
+                        mCallBack.onFailureGetRegionListApiCall(regionResponse.message.toString())
+                    }
+                }
+                else -> {}
+            }
+        }
+    }
+
     fun getLocationList(mCallBack: ApnaNewSurveyCallBack) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)

@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.apna.model
 
 import android.provider.MediaStore.Video
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -15,7 +16,7 @@ class SurveyDetailsList : Serializable {
     @SerializedName("data")
     var data: Data? = null
 
-    inner class ToiletsAvailability: Serializable {
+    inner class ToiletsAvailability : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
@@ -29,7 +30,7 @@ class SurveyDetailsList : Serializable {
         var other: Other_1? = null
     }
 
-    inner class Other_1: Serializable {
+    inner class Other_1 : Serializable {
         @SerializedName("color")
         @Expose
         var color: String? = null
@@ -391,6 +392,35 @@ class SurveyDetailsList : Serializable {
         @SerializedName("hospitals")
         @Expose
         var hospitals: List<Hospital>? = null
+
+        @SerializedName("apollo_employee")
+        @Expose
+        var apolloEmployee: ApolloEmployee? = null
+
+        inner class ApolloEmployee : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+
+            @SerializedName("other")
+            @Expose
+            var other: Other_2? = null
+
+            @SerializedName("icon")
+            @Expose
+            var icon: String? = null
+        }
+
+        inner class Other_2 : Serializable {
+            @SerializedName("color")
+            @Expose
+            var color: String? = null
+        }
+
         fun withUid(uid: String?): Data {
             this.uid = uid
             return this

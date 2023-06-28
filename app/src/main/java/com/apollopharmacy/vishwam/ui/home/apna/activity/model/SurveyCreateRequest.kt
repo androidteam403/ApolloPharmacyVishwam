@@ -45,9 +45,9 @@ class SurveyCreateRequest : Serializable {
     @Expose
     var videoMb: VideoMb? = null
 
-    @SerializedName("location")
+    @SerializedName("region")
     @Expose
-    var location: Location__1? = null
+    var region: Region? = null
 
     @SerializedName("state")
     @Expose
@@ -186,6 +186,40 @@ class SurveyCreateRequest : Serializable {
     var state2: String? = null
 
     var city2: String? = null
+
+    @SerializedName("apollo_employee")
+    @Expose
+    var apolloEmployee: ApolloEmployee? = null
+
+    class ApolloEmployee : Serializable {
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+
+        @SerializedName("label")
+        @Expose
+        var label: String? = null
+
+        @SerializedName("value")
+        @Expose
+        var value: String? = null
+
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
+
+        @SerializedName("icon")
+        @Expose
+        var icon: String? = null
+
+        @SerializedName("other")
+        @Expose
+        var other: String? = null
+
+        @SerializedName("isDefault")
+        @Expose
+        var isDefault: String? = null
+    }
 
     class DimensionType : Serializable {
         @SerializedName("uid")
@@ -345,7 +379,7 @@ class SurveyCreateRequest : Serializable {
         }
     }
 
-    class Location__1 : Serializable {
+    class Region : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null

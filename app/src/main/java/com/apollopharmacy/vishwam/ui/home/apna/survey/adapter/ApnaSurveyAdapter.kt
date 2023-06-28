@@ -142,7 +142,7 @@ class ApnaSurveyAdapter(
         holder.apnaSurveyLayoutBinding.location.setText("-")
 
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val outputDateFormat = SimpleDateFormat("dd MMMM,yyyy")
+        val outputDateFormat = SimpleDateFormat("d MMM, yyyy")
         holder.apnaSurveyLayoutBinding.surveystart.setText(
             outputDateFormat.format(
                 inputDateFormat.parse(
