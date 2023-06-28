@@ -8,6 +8,13 @@
     <string name="label_completed_delivery">5. Completed Delivery</string>
     <string name="label_order_completed_successfully">Order Completed Successfully</string>
     <string name="label_order_cancel">CANCEL ORDER</string>
+    <string-array name="Pages">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+
+    </string-array>
 
 
     <string name="label_pickup_instructions">Pickup Instructions</string>

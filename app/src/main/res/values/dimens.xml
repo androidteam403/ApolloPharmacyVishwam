@@ -111,4 +111,6 @@
     <dimen name="progress_width">250dp</dimen>
     <dimen name="twenty_three23dp">23dp</dimen>
     <dimen name="dimen280dp">280dp</dimen>
+    <dimen name="dimen10sp">10sp</dimen>
+    <dimen name="dimen20dp">20dp</dimen>
 </resources>

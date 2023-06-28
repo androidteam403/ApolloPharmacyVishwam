@@ -13,10 +13,14 @@ object Preferences {
     private const val PREF_KEY_LOGIN_JSON = "PREF_KEY_LOGIN_JSON"
     private const val KEY_APP_LEVEL_DESIGNATION = "KEY_APP_LEVEL_DESIGNATION"
     private const val KEY_FROM_DATE = "KEY_FROM_DATE"
+    private const val PENDING_PAGE_SIZE_QC = "PENDING_PAGE_SIZE_QC"
+    private const val APPROVED_PAGE_SIZE_QC = "APPROVED_PAGE_SIZE_QC"
+    private const val REJECTED_PAGE_SIZE_QC = "REJECTED_PAGE_SIZE_QC"
     private const val KEY_TO_DATE = "KEY_TO_DATE"
     private const val KEY_DISC_FROM_DATE = "KEY_DISC_FROM_DATE"
     private const val KEY_DISC_TO_DATE = "KEY_DISC_TO_DATE"
     private const val KEY_QC_REGION_ID = "KEY_QC_REGION_ID"
+    private const val KEY_QC_ORDER_TYPE = "KEY_QC_ORDER_TYPE"
     private const val KEY_DISC_SITE_ID = "KEY_DISC_SITE_ID"
     private const val KEY_DISC_REGION_ID = "KEY_DISC_REGION_ID"
 
@@ -559,6 +563,25 @@ object Preferences {
         return sharedPreferences.getString(KEY_FROM_DATE, "")!!
     }
 
+    fun setQcPendingPageSize(pageSize: Int) {
+        sharedPreferences.edit().putInt(PENDING_PAGE_SIZE_QC, pageSize).apply()
+    }
+    fun getQcPendingPageSiz(): Int {
+        return sharedPreferences.getInt(PENDING_PAGE_SIZE_QC, 5)!!
+    }
+    fun setQcApprovedPageSize(pageSize: Int) {
+        sharedPreferences.edit().putInt(APPROVED_PAGE_SIZE_QC, pageSize).apply()
+    }
+    fun getQcApprovedPageSiz(): Int {
+        return sharedPreferences.getInt(APPROVED_PAGE_SIZE_QC, 5)!!
+    }
+    fun setQcRejectedPageSize(pageSize: Int) {
+        sharedPreferences.edit().putInt(REJECTED_PAGE_SIZE_QC, pageSize).apply()
+    }
+    fun getQcRejectedPageSiz(): Int {
+        return sharedPreferences.getInt(REJECTED_PAGE_SIZE_QC, 5)!!
+    }
+
     fun setDiscountToDate(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_DISC_TO_DATE, siteIdList).apply()
     }
@@ -606,6 +629,15 @@ object Preferences {
 
     fun getQcRegion(): String {
         return sharedPreferences.getString(KEY_QC_REGION_ID, "")!!
+    }
+
+    fun setQcOrderType(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_QC_ORDER_TYPE, siteIdList).apply()
+    }
+
+
+    fun getQcOrderType(): String {
+        return sharedPreferences.getString(KEY_QC_ORDER_TYPE, "")!!
     }
 
 

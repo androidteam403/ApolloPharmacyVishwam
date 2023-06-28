@@ -68,10 +68,10 @@ class QcApprovedViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcLists.value = result.value
+                        qcLists.value = result.value!!
                     } else {
                         state.value = State.ERROR
-                        qcLists.value = result.value
+                        qcLists.value = result.value!!
                     }
                 }
                 is ApiResult.GenericError -> {
@@ -94,6 +94,10 @@ class QcApprovedViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun setApprovedList(qcListsResponse: QcListsResponse) {
+        qcLists.value = qcListsResponse
     }
 
     fun getQcRegionList() {
