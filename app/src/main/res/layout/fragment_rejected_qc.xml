@@ -6,22 +6,80 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
         android:background="@color/white"
+
+        android:layout_height="match_parent"
         tools:context=".ui.DiscountActivity">
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_45dp"
+            android:id="@+id/search_layout"
+            android:layout_marginStart="@dimen/five5_sp"
+            android:layout_marginTop="@dimen/value_5dp"
+            android:layout_marginEnd="@dimen/five5_sp"
+            android:background="@drawable/search_view_pendency"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/search_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="@dimen/value_60dp"
+                android:layout_weight="1.8"
+                android:background="@color/transparent"
+                android:gravity="left|center"
+                android:hint="Search by Order ID"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:paddingStart="@dimen/text_15sp"
+
+                android:textColor="@color/black"
+                android:textColorHint="@android:color/black"
+                android:textSize="@dimen/text_14sp" />
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+
+                android:layout_marginEnd="@dimen/text_10sp"
+                android:layout_weight=".2"
+
+
+                android:src="@drawable/ic_search_24" />
+
+
+            <ImageView
+                android:id="@+id/close_arrow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/text_10sp"
+                android:layout_weight=".2"
+                android:src="@drawable/closee_black"
+
+
+                android:visibility="gone" />
+        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="@dimen/value_2dp"
             android:id="@+id/parentLayout"
+            android:layout_below="@id/search_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
 
-            android:layout_marginBottom="50dp">
-
+            android:layout_height="match_parent">
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/refreshSwipe"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -41,11 +99,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="30dp"
-                android:backgroundTint="@color/backgroundColor"
                 android:elevation="20dp"
+                android:backgroundTint="@color/backgroundColor"
 
-                android:src="@drawable/ic_filter"
                 android:visibility="gone"
+                android:src="@drawable/ic_filter"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -140,7 +198,6 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_13sp" />
         </RelativeLayout>
-
         <RelativeLayout
             android:id="@+id/continue_btn"
             android:layout_width="match_parent"
@@ -151,75 +208,102 @@
             android:visibility="visible">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/spinnerlayout"
+                android:layout_width="@dimen/value_140dp"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
+                >
 
-                <RelativeLayout
-                    android:id="@+id/spinner_layout"
-                    android:layout_width="@dimen/value_75dp"
-                    android:layout_height="@dimen/value_50dp"
-                    android:layout_marginTop="@dimen/value_3dp"
-                    android:background="@drawable/spinner_background">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/filtertype"
 
-                    <Spinner
-                        android:id="@+id/item_count_spinner"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginRight="@dimen/value_15dp"
+                    android:focusable="true"
+                    android:textColorHint="@color/white"
+
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:id="@+id/selectfiltertype"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:minHeight="0dp"
-                        android:textSize="16sp" />
+                        android:layout_height="35dp"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_baseline_arrow"
+                        android:editable="false"
+                        android:enabled="true"
+                        android:focusable="false"
+                        android:hint="Select Rows"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="@dimen/text_12sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/value_10dp"
-                        android:src="@drawable/bottomarrow" />
-                </RelativeLayout>
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/prev_page"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
-                android:contentDescription="@string/app_name"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
-                android:padding="@dimen/text_10sp"
-                android:rotation="180"
-                android:src="@drawable/ic_arrow__next_page"
-                android:textColor="@color/black"
-                android:textSize="9sp" />
-
-            <TextView
-                android:id="@+id/pgno"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/roboto_medium"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_13sp" />
-
-            <ImageView
-                android:id="@+id/next_page"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+            <RelativeLayout
+                android:layout_toEndOf="@+id/spinnerlayout"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="5dp"
-                android:contentDescription="@string/app_name"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
-                android:padding="@dimen/text_10sp"
-                android:src="@drawable/ic_arrow__next_page"
-                android:textColor="@color/black"
-                android:textSize="9sp" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:visibility="invisible"
+                    android:id="@+id/prev_page"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+
+                    android:contentDescription="@string/app_name"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:padding="@dimen/text_10sp"
+                    android:rotation="180"
+                    android:src="@drawable/ic_arrow__next_page"
+                    android:textColor="@color/black"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:layout_toEndOf="@+id/prev_page"
+                    android:gravity="center"
+                    android:id="@+id/pgno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_13sp" />
+
+                <ImageView
+                    android:id="@+id/next_page"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_toEndOf="@+id/pgno"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
+
+                    android:contentDescription="@string/app_name"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+
+                    android:padding="@dimen/text_10sp"
+                    android:src="@drawable/ic_arrow__next_page"
+                    android:textColor="@color/black"
+                    android:textSize="9sp" />
+            </RelativeLayout>
+
+
+
         </RelativeLayout>
+
     </RelativeLayout>
 </layout>

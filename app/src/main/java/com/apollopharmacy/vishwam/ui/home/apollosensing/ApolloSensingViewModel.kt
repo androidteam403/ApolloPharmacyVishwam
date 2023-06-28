@@ -149,7 +149,10 @@ class ApolloSensingViewModel : ViewModel() {
         val devUrl = "http://dev.thresholdsoft.com/Apollo-sensing"
         val ipUrl = " http://172.16.103.116:8445"
         var baseUrl =
-            "https://t.zeroco.de/index.php?format=text&url=http://172.16.103.116:8445?${customerName}_${customerMobileNumber}_${siteId}_${timeStamp}"
+            "https://apmails.in/index.php?format=text&url=https://privilegecustomer.apollopharmacy.in/ap/sensing/?${customerName}_${customerMobileNumber}_${siteId}_${timeStamp}&encryption=true&campaign=sensing&code=APLSEN&secret=1980&key=3214"
+
+
+          //  "https://t.zeroco.de/index.php?format=text&url=http://172.16.103.116:8445?${customerName}_${customerMobileNumber}_${siteId}_${timeStamp}"
         // "https://t.zeroco.de/index.php?url=http://dev.thresholdsoft.com/Apollo-sensing/?format=text&cusomer=$customerName&mobile=$customerMobileNumber&id=$timeStamp"
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("testt")) {

@@ -63,6 +63,9 @@ class SubworkflowActionDetailsAdapter(
         }
         if (row.ticket_status != null && row.ticket_status!!.name != null) {
             actionDetails = "${actionDetails}\nTicket Status: ${row.ticket_status!!.name!!}."
+        }else{
+            actionDetails = "${actionDetails}\nTicket Status: ---."
+
         }
         holder.adapterSubworkflowActionDetailsBinding.subworkflowActionDetails.setText(actionDetails)
     }
