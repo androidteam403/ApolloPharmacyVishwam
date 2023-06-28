@@ -32,6 +32,7 @@ import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBinding>(),
     MainActivityCallback,
@@ -61,7 +62,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var storeList = ArrayList<QcStoreList.Store>()
     var regionList = ArrayList<QcRegionList.Store>()
     private var filterApproveList = ArrayList<QcListsResponse.Approved>()
-    var subList = ArrayList<ArrayList<QcListsResponse.Approved>>()
+    var subList= ArrayList<ArrayList<QcListsResponse.Approved>>()
     var stuff: List<List<String>> = ArrayList()
 
     var getitemList: List<QcItemListResponse>? = null
@@ -229,9 +230,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
 
         })
-
-
-
         viewModel.qcLists.observe(viewLifecycleOwner) { it ->
             qcListsResponse = it
             approvedListList = it.approvedlist!!
@@ -273,7 +271,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             filterApproveList
                         )
                     }
-                if (viewBinding.recyclerViewApproved != null) {
+                if (viewBinding.recyclerViewApproved != null){
                     viewBinding.recyclerViewApproved.removeAllViews()
                 }
                 viewBinding.recyclerViewApproved.adapter = adapter
@@ -314,7 +312,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             filterApproveList
                         )
                     }
-                if (viewBinding.recyclerViewApproved != null) {
+                if (viewBinding.recyclerViewApproved != null){
                     viewBinding.recyclerViewApproved.removeAllViews()
                 }
                 viewBinding.recyclerViewApproved.adapter = adapter
@@ -365,9 +363,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         regionStringList.clear();
         hideLoading()
         if (approvedlist.isNullOrEmpty()) {
-            if (viewBinding.recyclerViewApproved != null) {
-                viewBinding.recyclerViewApproved.removeAllViews()
-            }
+           if (viewBinding.recyclerViewApproved != null){
+               viewBinding.recyclerViewApproved.removeAllViews()
+           }
             viewBinding.emptyList.visibility = View.VISIBLE
             viewBinding.recyclerViewApproved.visibility = View.GONE
             viewBinding.continueBtn.visibility = View.GONE
@@ -441,14 +439,13 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             filterApproveList
                         )
                     }
-                if (viewBinding.recyclerViewApproved != null) {
+                if (viewBinding.recyclerViewApproved != null){
                     viewBinding.recyclerViewApproved.removeAllViews()
                 }
                 viewBinding.recyclerViewApproved.adapter = adapter
             }
         }
     }
-
     fun splitTheArrayList(approvedList: ArrayList<QcListsResponse.Approved>?) {
         subList?.clear()
         var approvedSubList: ArrayList<QcListsResponse.Approved>? = ArrayList()

@@ -447,16 +447,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            isHomeScreen = false;
 //            riderNotificationLayout.setVisibility(View.GONE);
 //            toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
-            if (fragment != null) {
-                fragment = new QcDashboard();
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-                ft.detach(fragment);
-                ft.attach(fragment);
-                ft.replace(R.id.fragment_container, fragment);
-                ft.commit();
-                drawer.closeDrawer(GravityCompat.START);
-            }
+//            if (fragment != null) {
+//                fragment = new QcDashboard();
+//                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//
+//                ft.detach(fragment);
+//                ft.attach(fragment);
+//                ft.replace(R.id.fragment_container, fragment);
+//                ft.commit();
+//                drawer.closeDrawer(GravityCompat.START);
+//            }
 
 
         });
@@ -912,7 +912,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
-                scannerIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
@@ -1038,7 +1037,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
-                scannerIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
