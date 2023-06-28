@@ -377,6 +377,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         }
     }
 
+
     private fun LoadRecyclerView() {
         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails?.categoryDetails != null && getCategoryAndSubCategoryDetails?.categoryDetails?.get(
                 categoryPosition
