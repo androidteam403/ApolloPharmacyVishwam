@@ -49,7 +49,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="5dp"
                             android:layout_weight=".45"
-                            android:onClick="@{()-> mCallback.onClickSubCategoryDetailsItem(model)}"
+                            android:onClick="@{()-> mCallback.onClickSubCategoryDetailsItem(model, Integer.valueOf(itemPos))}"
                             android:text="@{model.categoryName.toUpperCase()}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
@@ -66,11 +66,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
-                                android:onClick="@{()-> mCallback.onClickSubCategoryDetailsItem(model)}"
+                                android:onClick="@{()-> mCallback.onClickSubCategoryDetailsItem(model, Integer.valueOf(itemPos))}"
                                 android:gravity="center">
 
                                 <TextView
-                                    android:id="@+id/cleanlinessOverallPoints"
+                                    android:id="@+id/overAllPoints"
                                     android:layout_width="@dimen/value_50dp"
                                     android:layout_height="@dimen/value_30dp"
                                     android:background="@drawable/grey_yellow_rectangle"
@@ -107,17 +107,17 @@
                                 android:layout_marginStart="@dimen/value_10dp"
                                 android:background="@drawable/blue_circle"
                                 android:contentDescription="@string/app_name"
-                                android:onClick="@{()-> mCallback.onClickEditOverall(model, sumOfSubCategoryMaxRatings, position)}"
+                                android:onClick="@{()-> mCallback.onClickEditOverall(model, sumOfSubCategoryMaxRatings, position, categoryName)}"
                                 android:padding="@dimen/value_5dp"
                                 android:src="@drawable/white_pencil" />
 
                             <ImageView
                                 android:id="@+id/arrowImage"
                                 android:layout_width="25dp"
-                                android:layout_height="25dp"
+                                android:layout_height="14dp"
                                 android:layout_marginStart="@dimen/value_5dp"
                                 android:contentDescription="@string/app_name"
-                                android:onClick="@{()-> mCallback.onClickSubCategoryDetailsItem(model)}"
+                                android:onClick="@{()-> mCallback.onClickSubCategoryDetailsItem(model, Integer.valueOf(itemPos))}"
                                 android:rotation="@{isItemExpanded ? 90 : 0}"
                                 android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
                                 android:tint="@color/black"
@@ -176,6 +176,14 @@
 
         <variable
             name="position"
+            type="String" />
+
+        <variable
+            name="itemPos"
+            type="String" />
+
+        <variable
+            name="categoryName"
             type="String" />
 
         <variable

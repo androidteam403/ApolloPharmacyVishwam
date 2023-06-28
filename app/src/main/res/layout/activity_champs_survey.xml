@@ -380,28 +380,28 @@
                                     </LinearLayout>
 
 
-                                    <!--                                    <LinearLayout-->
-                                    <!--                                        android:layout_width="0dp"-->
-                                    <!--                                        android:layout_height="wrap_content"-->
-                                    <!--                                        android:layout_weight="0.5"-->
-                                    <!--                                        android:orientation="vertical">-->
+                                                                        <LinearLayout
+                                                                            android:layout_width="0dp"
+                                                                            android:layout_height="wrap_content"
+                                                                            android:layout_weight="0.5"
+                                                                            android:orientation="vertical">
 
-                                    <!--                                        <TextView-->
-                                    <!--                                            android:layout_width="wrap_content"-->
-                                    <!--                                            android:layout_height="11dp"-->
-                                    <!--                                            android:text="State: "-->
-                                    <!--                                            android:textColor="@color/very_light_greyy"-->
-                                    <!--                                            android:textStyle="bold" />-->
+                                                                            <TextView
+                                                                                android:layout_width="wrap_content"
+                                                                                android:layout_height="wrap_content"
+                                                                                android:text="State: "
+                                                                                android:textColor="@color/very_light_greyy"
+                                                                                android:textStyle="bold" />
 
-                                    <!--                                        <TextView-->
-                                    <!--                                            android:id="@+id/State"-->
-                                    <!--                                            android:layout_width="wrap_content"-->
-                                    <!--                                            android:layout_height="wrap_content"-->
-                                    <!--                                            android:textColor="@color/black"-->
-                                    <!--                                            android:textStyle="bold" />-->
+                                                                            <TextView
+                                                                                android:id="@+id/region"
+                                                                                android:layout_width="wrap_content"
+                                                                                android:layout_height="wrap_content"
+                                                                                android:textColor="@color/black"
+                                                                                android:textStyle="bold" />
 
 
-                                    <!--                                    </LinearLayout>-->
+                                                                        </LinearLayout>
 
                                 </LinearLayout>
 
@@ -1200,7 +1200,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
-                                android:maxLength="250"
                                 android:layout_marginStart="@dimen/value_25dp"
                                 android:paddingEnd="@dimen/value_10dp"
                                 android:gravity="start"
@@ -1224,7 +1223,6 @@
                                     android:layout_height="@dimen/value_70dp"
                                     android:clickable="true"
                                     android:gravity="start"
-                                    android:maxLength="250"
                                     android:paddingStart="@dimen/value_10dp"
                                     android:paddingEnd="@dimen/value_10dp"
                                     android:textAlignment="textStart"
@@ -1272,7 +1270,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
-                                android:maxLength="250"
                                 android:layout_marginStart="@dimen/value_25dp"
                                 android:paddingEnd="@dimen/value_10dp"
                                 android:gravity="start"
@@ -1325,7 +1322,6 @@
                                     android:id="@+id/charLeft_softskills"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="250"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_12sp"
                                     android:textStyle="bold" />
@@ -1464,7 +1460,6 @@
                                 android:clickable="false"
                                 android:ellipsize="start"
                                 android:gravity="start"
-                                android:maxLength="250"
                                 android:layout_marginStart="@dimen/value_25dp"
                                 android:paddingEnd="@dimen/value_10dp"
                                 android:textAlignment="viewStart"

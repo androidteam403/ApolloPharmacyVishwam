@@ -14,6 +14,7 @@ interface AdminModuleCallBack {
         categoryDetails: GetCategoryDetailsResponse.CategoryDetails,
         sumOfSubCategoryMaxRatings: Double,
         categoryPos: String,
+        categoryName:String
     )
 
     fun onClickEditOverallHospitality()
@@ -32,7 +33,7 @@ interface AdminModuleCallBack {
 
     fun onFailureGetCategoryDetailsApiCall(message: String)
 
-    fun onClickSubCategoryDetailsItem(categoryDetails: GetCategoryDetailsResponse.CategoryDetails)
+    fun onClickSubCategoryDetailsItem(categoryDetails: GetCategoryDetailsResponse.CategoryDetails, itemPos:Int)
 
     fun onSuccessGetSubCategoryDetailsApiCall(
         getSubCategoryDetailsResponse: GetSubCategoryDetailsResponse,

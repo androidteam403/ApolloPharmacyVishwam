@@ -17,8 +17,10 @@ class GetCategoryDetailsAdapter(
     val categoryDetailsList: List<GetCategoryDetailsResponse.CategoryDetails>?,
     var mContext: Context?,
     var mCallback: AdminModuleCallBack?,
-    var subCategoryDetailsList: List<GetSubCategoryDetailsResponse.SubCategoryDetails>?,
-) : RecyclerView.Adapter<ViewHolder>() {
+//    var subCategoryDetailsList: List<GetSubCategoryDetailsResponse.SubCategoryDetails>?,
+    var categoryPosForUpdate: String?,
+
+    ) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val adapterGetCategoryDetailsBinding =
@@ -33,19 +35,26 @@ class GetCategoryDetailsAdapter(
         var getCategoryDetails = categoryDetailsList!!.get(position)
         holder.adapterGetCategoryDetailsBinding.model = getCategoryDetails
         holder.adapterGetCategoryDetailsBinding.mCallback = mCallback
+        holder.adapterGetCategoryDetailsBinding.categoryName=getCategoryDetails.categoryName
         holder.adapterGetCategoryDetailsBinding.position = "${position + 1}"
+        holder.adapterGetCategoryDetailsBinding.itemPos= position.toString()
         holder.adapterGetCategoryDetailsBinding.isItemExpanded = getCategoryDetails.isItemExpanded
         var sumOfSubCategoryMaxRating = 0.0
-        if (subCategoryDetailsList != null && subCategoryDetailsList!!.size > 0) {
-            for (i in subCategoryDetailsList!!) {
+
+        if (getCategoryDetails.subCategoryDetailsList != null && getCategoryDetails.subCategoryDetailsList!!.size > 0) {
+
+            for (i in getCategoryDetails.subCategoryDetailsList!!) {
                 sumOfSubCategoryMaxRating = sumOfSubCategoryMaxRating + i.rating!!.toDouble()
             }
             getCategoryDetails.sumOfSubCategoryRating = sumOfSubCategoryMaxRating
-            holder.adapterGetCategoryDetailsBinding.sumOfSubCategoryMaxRatings =
-                getCategoryDetails.sumOfSubCategoryRating
+//            if(!categoryPosForUpdate!!.isEmpty() && position.equals(categoryPosForUpdate!!.toInt())){
+                holder.adapterGetCategoryDetailsBinding.sumOfSubCategoryMaxRatings =
+                    getCategoryDetails.sumOfSubCategoryRating
+//           }
+
 
             var getSubCategoryDetailsAdapter =
-                GetSubCategoryDetailsAdapter(subCategoryDetailsList!!,
+                GetSubCategoryDetailsAdapter(getCategoryDetails.subCategoryDetailsList!!,
                     mContext,
                     mCallback,
                     position, getCategoryDetails.rating)
@@ -60,6 +69,10 @@ class GetCategoryDetailsAdapter(
                 getCategoryDetails.sumOfSubCategoryRating
         }
 
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
     }
 
     override fun getItemCount(): Int {

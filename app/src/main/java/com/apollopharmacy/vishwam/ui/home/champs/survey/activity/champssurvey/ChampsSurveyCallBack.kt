@@ -19,7 +19,7 @@ interface ChampsSurveyCallBack {
     fun onSuccessgetTrainingDetails(value: GetTrainingAndColorDetailsModelResponse)
      fun onFailuregetTrainingDetails(value: GetTrainingAndColorDetailsModelResponse)
      fun onSuccessgetColorDetails(value: GetTrainingAndColorDetailsModelResponse)
-     fun onSuccessSaveDetailsApi(value: SaveSurveyModelResponse)
+     fun onSuccessSaveDetailsApi(value: SaveSurveyModelResponse, type: String)
      fun onFailureSaveDetailsApi(value: SaveSurveyModelResponse)
      fun onSuccessSurveyList(value: GetSurveyDetailsModelResponse)
      fun onFailureSurveyList(value: GetSurveyDetailsModelResponse)
