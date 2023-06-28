@@ -176,7 +176,7 @@ class ComplainListViewModel : ViewModel() {
         } else {
             //${requestComplainList.empid}//SE35674....RH75774748
             baseUrl =
-                baseUrl + "employee_id=RH75774748&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
+                baseUrl + "employee_id=${requestComplainList.empid}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
                     "reason_code=new_drug&"
                 } else {
                     ""
@@ -1321,8 +1321,8 @@ class ComplainListViewModel : ViewModel() {
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS MBTICKETDTS")) {
                 baseUrL =
-                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/select/mobile-ticket-details?"
-//                    data.APIS[i].URL
+//                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/select/mobile-ticket-details?"
+                    data.APIS[i].URL
                 //val token = data.APIS[i].TOKEN
                 break
             }
@@ -1572,7 +1572,7 @@ class ComplainListViewModel : ViewModel() {
             URLEncoder.encode(
                 "step_order", "utf-8"
             )
-        }=${row.ticketSubworkflowInfo!!.subworkflow_step_order}&&ticket_id=${row.ticket_id}&&employee_id=${"RH75774748"}"//SE35674...RH75774748
+        }=${row.ticketSubworkflowInfo!!.subworkflow_step_order}&&ticket_id=${row.ticket_id}&&employee_id=${Preferences.getValidatedEmpId()}"//SE35674...RH75774748
         baseUrl = "$baseUrl$queryPath"
         viewModelScope.launch {
             state.value = State.SUCCESS
@@ -1749,7 +1749,7 @@ class ComplainListViewModel : ViewModel() {
             URLEncoder.encode("dependents[site_type]", "utf-8")
         }=${responseList.get(position)!!.site!!.site_type!!.uid}" + "&&${
             URLEncoder.encode("dependents[employee_id]", "utf-8")
-        }=RH75774748"//SE35674  RH75774748
+        }=${Preferences.getValidatedEmpId()}"//SE35674  RH75774748
 
 
         var proxyBaseUrL = ""
