@@ -56,7 +56,10 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         showLoading()
         MainActivity.mInstance.mainActivityCallback = this
         callApi()
-        viewModel.getQcPendingList(Preferences.getToken(), Preferences.getAppLevelDesignationQCFail())
+//        if(isVishwamPendingTab){
+            viewModel.getQcPendingList(Preferences.getToken(), Preferences.getAppLevelDesignationQCFail())
+//        }
+
 
         viewBinding.searchView.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
 
@@ -189,7 +192,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
         viewModel.qcPendingCountList.observe(viewLifecycleOwner) {
-
+//            Toast.makeText(context, "VishwamPendency refreshed", Toast.LENGTH_SHORT).show()
             hideLoading()
 
             designationsList.clear()
@@ -290,6 +293,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
         viewModel.qcPendingDashboardHistoryList.observe(viewLifecycleOwner) {
             hideLoading()
+//            Toast.makeText(context, "RTO refreshed", Toast.LENGTH_SHORT).show()
             if (it.status == true) {
 //                Toast.makeText(context, "Refresh done", Toast.LENGTH_SHORT).show()
 
@@ -469,16 +473,6 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         }else{
             callApi()
         }
-//        setup()
-//        showLoading()
-//        dashboardHistoryList.clear()
-//        dashboardHierarchyList.clear()
-//        designationsList.clear()
-//        callApi()
-//        viewModel.getQcPendingList(
-//            Preferences.getToken(),
-//            Preferences.getAppLevelDesignationQCFail()
-//        )
           }
 
 }
