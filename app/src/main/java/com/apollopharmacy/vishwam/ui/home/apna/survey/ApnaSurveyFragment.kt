@@ -73,8 +73,9 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     pageNo = 1
+                    isLoading = false
+                    isFirstTime = true
                     showLoading()
-
                     callAPI(pageNo, rowSize, true)
                     return true
                 }
@@ -116,18 +117,22 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
     private var isLoading = false
     private var pageNo = 1
-
+    private var isLastPage = false
     var rowSize = 18
     override fun onSuccessgetSurveyDetails(surveyListResponse: SurveyListResponse) {
         hideLoading()
         if (viewBinding.pullToRefresh.isRefreshing) {
             viewBinding.pullToRefresh.isRefreshing = false
+            pageNo = 1;
+            isLastPage = false
         }
         var getsurveyList = surveyListResponse.data!!.listData!!.rows
         if (getsurveyList != null && getsurveyList!!.size > 0) {
             viewBinding.recyclerViewApproved.visibility = View.VISIBLE
             viewBinding.noListFound.visibility = View.GONE
             if (pageNo == 1) {
+                isLoading = false
+                isLastPage = false
                 surveyResponseList.clear()
                 surveyResponseList.addAll(getsurveyList!!)
                 layoutManager = LinearLayoutManager(context)
@@ -138,20 +143,31 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 addScrollerListener()
             } else {
                 if (isLoading) {
+                    isLastPage = false
                     isLoading = false
                     surveyResponseList.removeAt(surveyResponseList.size - 1)
                     surveyResponseList.addAll(getsurveyList!!)
                     pageNo++
 
                     initAdapter()
-                    addScrollerListener()
+//                    addScrollerListener()
                 }
             }
 
 
         } else {
-            viewBinding.recyclerViewApproved.visibility = View.GONE
-            viewBinding.noListFound.visibility = View.VISIBLE
+            isLastPage = true
+            if (isLoading) {
+                isLoading = false
+            }
+            if (pageNo == 1) {
+                viewBinding.recyclerViewApproved.visibility = View.GONE
+                viewBinding.noListFound.visibility = View.VISIBLE
+            } else {
+                surveyResponseList.removeAt(surveyResponseList.size - 1)
+                initAdapter()
+            }
+
         }
 
     }
@@ -171,12 +187,14 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!isLoading && !isFirstTime) {
+                if (!isLoading && !isFirstTime && !isLastPage) {
                     //findLastCompletelyVisibleItemPostition() returns position of last fully visible view.
                     ////It checks, fully visible view is the last one.
+
                     if (layoutManager.findLastCompletelyVisibleItemPosition() == surveyResponseList.size!! - 1) {//adapter!!.getData()?
                         loadMore()
                     }
+
                 }
             }
         })
@@ -184,14 +202,15 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
     private fun loadMore() {
         handler.post(Runnable {
-            isLoading = true
-            val newdata = SurveyListResponse.Row()
-            newdata.isLoading = "YES"
-            surveyResponseList.add(newdata)
+            if (!isLoading) {
+                isLoading = true
+                val newdata = SurveyListResponse.Row()
+                newdata.isLoading = "YES"
+                surveyResponseList.add(newdata)
 //            adapter!!.getData().add(newdata)
-            adapter!!.notifyItemInserted(surveyResponseList.size - 1)
-            callAPI(pageNo, rowSize, false)
-
+                adapter!!.notifyItemInserted(surveyResponseList.size - 1)
+                callAPI(pageNo, rowSize, false)
+            }
         })
 
     }
@@ -237,12 +256,16 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
             if (resultCode == Activity.RESULT_OK) {
                 showLoading()
                 pageNo = 1
-                viewModel.getApnaSurveyList(this@ApnaSurveyFragment,
+                isLoading = false
+                isLastPage = false
+                viewModel.getApnaSurveyList(
+                    this@ApnaSurveyFragment,
                     pageNo.toString(),
                     rowSize.toString(),
                     viewBinding.search.text.toString(),
                     surveyStatusList,
-                    false)
+                    false
+                )
 //                viewModel.getApnaSurveyList(
 //                    this,
 //                    pageNo.toString(),

@@ -1130,7 +1130,6 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
 
             if (isApprovalListFragment) {
-
                 if (orderData.get(position).subworkflowConfigDetailsResponse != null && orderData!!.get(
                         position
                     ).subworkflowConfigDetailsResponse!!.data != null && orderData!!.get(position).subworkflowConfigDetailsResponse!!.data!!.listData != null && orderData!!.get(
@@ -1160,35 +1159,32 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 }
 
 
-                //Subworkflow action details adapter.....
-                /*// If required subworkflow details history uncomment
-
-                                if (orderData != null
-                                    && orderData.get(position) != null
-                                    && orderData.get(position).ticket_subworkflow_history != null
-                                    && orderData.get(position).ticket_subworkflow_history!!.size > 0
-                                ) {
-                                    if (orderData.get(position).ticketSubworkflowInfo != null
-                                        && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action != null
-                                        && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action != null
-                                    ) {
-                                        binding.subworkflowAction.text =
-                                            "${orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action}"
-                                    }
-                                    var subworkflowActionDetailsAdapter = SubworkflowActionDetailsAdapter(
-                                        context,
-                                        orderData.get(position).ticket_subworkflow_history!!
-                                    )
-                                    binding.subworkflowDetailsHistoryLayout.visibility = View.VISIBLE
-                                    var layoutManager =
-                                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                                    binding.subworkflowActionDetailsRecyclerview.layoutManager = layoutManager
-                                    binding.subworkflowActionDetailsRecyclerview.adapter =
-                                        subworkflowActionDetailsAdapter
-                                } else {
-                                    binding.subworkflowDetailsHistoryLayout.visibility = View.GONE
-                                }
-                */
+                /*  //Subworkflow action details adapter.....
+                  if (orderData != null
+                      && orderData.get(position) != null
+                      && orderData.get(position).ticket_subworkflow_history != null
+                      && orderData.get(position).ticket_subworkflow_history!!.size > 0
+                  ) {
+                      if (orderData.get(position).ticketSubworkflowInfo != null
+                          && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action != null
+                          && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action != null
+                      ) {
+                          binding.subworkflowAction.text =
+                              "${orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action}"
+                      }
+                      var subworkflowActionDetailsAdapter = SubworkflowActionDetailsAdapter(
+                          context,
+                          orderData.get(position).ticket_subworkflow_history!!
+                      )
+                      binding.subworkflowDetailsHistoryLayout.visibility = View.VISIBLE
+                      var layoutManager =
+                          LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                      binding.subworkflowActionDetailsRecyclerview.layoutManager = layoutManager
+                      binding.subworkflowActionDetailsRecyclerview.adapter =
+                          subworkflowActionDetailsAdapter
+                  } else {
+                      binding.subworkflowDetailsHistoryLayout.visibility = View.GONE
+                  }*/
             }
             binding.pendingLayout.setOnClickListener {
                 imageClickListener.onComplaintItemClick(position, orderData)
@@ -1289,7 +1285,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             override fun getItemCount(): Int {
                 return remarkList.size
             }
-
+//test code
             inner class ViewHolder(val remarkBinding: ViewOrderStatusBinding) :
                 RecyclerView.ViewHolder(remarkBinding.root) {
                 fun bind(remarks: ResponseNewTicketlist.NewTicketHistoryResponse.Row) {

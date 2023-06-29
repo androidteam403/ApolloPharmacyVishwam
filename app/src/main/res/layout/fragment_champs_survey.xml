@@ -162,7 +162,7 @@
 
                                             <TextView
                                                 android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="match_parent"
                                                 android:text="Store ID: "
                                                 android:textSize="@dimen/text_12sp" />
 
@@ -192,17 +192,53 @@
                                         </LinearLayout>
                                     </LinearLayout>
 
-
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="@dimen/value_10dp"
-                                        android:layout_marginTop="@dimen/value_5dp"
-                                        android:id="@+id/address"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_12sp"
-                                        android:textStyle="bold" />
+                                        android:orientation="horizontal">
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_10dp"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:layout_marginEnd="@dimen/value_5dp"
+                                            android:orientation="horizontal">
+
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="match_parent"
+                                                android:text="Region: "
+                                                android:textSize="@dimen/text_12sp" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:id="@+id/region"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/text_12sp"
+                                                android:textStyle="bold" />
+
+
+                                        </LinearLayout>
+
+<!--                                        <LinearLayout-->
+<!--                                            android:layout_width="match_parent"-->
+<!--                                            android:layout_height="wrap_content"-->
+<!--                                            android:layout_gravity="center"-->
+<!--                                            android:gravity="end">-->
+
+<!--                                            <ImageView-->
+<!--                                                android:layout_gravity="center"-->
+<!--                                                android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                                                android:layout_width="@dimen/value_30dp"-->
+<!--                                                android:layout_height="@dimen/value_30dp"-->
+<!--                                                android:src="@drawable/ic_baseline_chevron_right_24"/>-->
+<!--                                        </LinearLayout>-->
+                                    </LinearLayout>
+
+
 
                                     <LinearLayout
                                         android:layout_width="match_parent"

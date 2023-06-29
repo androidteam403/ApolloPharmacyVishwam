@@ -35,9 +35,9 @@ class GetStoreDetailsAdapter(
         val siteIdList = storeDetails.get(position)
         holder.adapterGetStoreDetailsBinding.storeId.text = siteIdList.siteid
         holder.adapterGetStoreDetailsBinding.address.text = siteIdList.region + siteIdList.city
-        holder.adapterGetStoreDetailsBinding.cardViewStore.setOnClickListener {
-            newSurveyCallback.onClickCardView();
-        }
+//        holder.adapterGetStoreDetailsBinding.cardViewStore.setOnClickListener {
+//            newSurveyCallback.onClickCardView( holder.adapterGetStoreDetailsBinding.address.text.toString());
+//        }
     }
 
     override fun getItemCount(): Int {
