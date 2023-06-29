@@ -4,12 +4,16 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.model.discount.*
 import com.apollopharmacy.vishwam.data.network.ApiResult
+import com.apollopharmacy.vishwam.data.network.ApnaRectroApiRepo
 import com.apollopharmacy.vishwam.data.network.discount.PendingRepo
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptRequest
+import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.previewlmageRetro.PreviewLastImageCallback
 import com.apollopharmacy.vishwam.ui.home.discount.filter.FilterFragment
 import com.apollopharmacy.vishwam.ui.home.discount.filter.FilterFragment.Companion.KEY_PENDING_DATA
 import com.apollopharmacy.vishwam.ui.login.Command
@@ -27,6 +31,8 @@ class PendingViewModel : ViewModel() {
     val acceptRequest = MutableLiveData<SimpleResponse>()
     val swipeStatus = LiveEvent<Boolean>()
     private var arrayList: List<PendingOrder.PENDINGLISTItem>? = null
+    var colorList = MutableLiveData<GetDiscountColorResponse>()
+
 
     fun getPendingList(isSwipeRequired: Boolean) {
         if (isSwipeRequired) {
@@ -60,6 +66,7 @@ class PendingViewModel : ViewModel() {
                                 command.value = result.value.MESSAGE?.let { Command.ShowToast(it) }
                             }
                         }
+
                         is ApiResult.UnknownError -> {
                             command.postValue(Command.ShowToast("Api Error"))
                             if (isSwipeRequired) {
@@ -68,6 +75,7 @@ class PendingViewModel : ViewModel() {
                             command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                             state.value = State.ERROR
                         }
+
                         is ApiResult.NetworkError -> {
                             if (isSwipeRequired) {
                                 swipeStatus.value = false
@@ -75,6 +83,7 @@ class PendingViewModel : ViewModel() {
                             command.postValue(Command.ShowToast("Network Error"))
                             state.value = State.ERROR
                         }
+
                         is ApiResult.GenericError -> {
                             if (isSwipeRequired) {
                                 swipeStatus.value = false
@@ -86,6 +95,7 @@ class PendingViewModel : ViewModel() {
                             )
                             state.value = State.ERROR
                         }
+
                         else -> {
                             if (isSwipeRequired) {
                                 swipeStatus.value = false
@@ -99,7 +109,62 @@ class PendingViewModel : ViewModel() {
         }
     }
 
+    fun getDiscountColorDetails(pendingFragmentCallback: PendingFragmentCallback) {
+
+        val state = MutableLiveData<State>()
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = "https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails?type=VISDISC"
+        var token = "h72genrSSNFivOi/cfiX3A=="
+        for (i in data.APIS.indices) {
+            baseUrl = "https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails?type=VISDISC"
+            token = "h72genrSSNFivOi/cfiX3A=="
+            break
+
+
+        }
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                PendingRepo.getDiscountColorDetails(
+                    baseUrl,
+                    token
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response.value.status == true) {
+                        pendingFragmentCallback.onSuccessgetColorList(response.value)
+
+                    } else {
+
+                    }
+                }
+
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+
     fun filterClicked() {
+
+
         if (arrayList.isNullOrEmpty()) {
             Utils.printMessage("data is empty", "data is empty")
         } else {
@@ -119,27 +184,33 @@ class PendingViewModel : ViewModel() {
                 if (data.APIS[i].NAME.equals("DISCOUNT ACCEPT AND REJECT")) {
                     val loginUrl = data.APIS[i].URL
                     val result = withContext(Dispatchers.IO) {
-                        Utils.printMessage("PendingRepo",
-                            "Acpt Rej Arr : " + acceptOrRejectDiscountOrder.toString())
+                        Utils.printMessage(
+                            "PendingRepo",
+                            "Acpt Rej Arr : " + acceptOrRejectDiscountOrder.toString()
+                        )
                         PendingRepo.acceptTheDiscount(acceptOrRejectDiscountOrder, loginUrl)
                     }
                     when (result) {
                         is ApiResult.Success -> {
                             Utils.printMessage("AcceptOrder", result.toString())
-                            acceptRequest.value = result.value
+                            acceptRequest.value = result.value!!
 //                            getPendingList(false)
                         }
+
                         is ApiResult.GenericError -> {
                             command.postValue(Command.ShowToast("Network Error"))
                         }
+
                         is ApiResult.UnknownError -> {
                             command.postValue(Command.ShowToast("Something Went wrong"))
                             state.value = State.ERROR
                         }
+
                         is ApiResult.NetworkError -> {
                             command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                             state.value = State.ERROR
                         }
+
                         else -> {
                             command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                             state.value = State.ERROR
@@ -166,20 +237,24 @@ class PendingViewModel : ViewModel() {
                     when (result) {
                         is ApiResult.Success -> {
                             Utils.printMessage("AcceptOrder", result.toString())
-                            acceptRequest.value = result.value
+                            acceptRequest.value = result.value!!
 //                            getPendingList(false)
                         }
+
                         is ApiResult.GenericError -> {
                             command.postValue(Command.ShowToast("Network Error"))
                         }
+
                         is ApiResult.UnknownError -> {
                             command.postValue(Command.ShowToast("Something Went wrong"))
                             state.value = State.ERROR
                         }
+
                         is ApiResult.NetworkError -> {
                             command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                             state.value = State.ERROR
                         }
+
                         else -> {
                             command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                             state.value = State.ERROR

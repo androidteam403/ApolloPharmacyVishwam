@@ -14,7 +14,7 @@ class StateItemAdapter(
     var mCallback: ApnaNewSurveyCallBack,
     var mContext: Context,
     var stateList: ArrayList<StateListResponse.Data.ListData.Row>,
-): RecyclerView.Adapter<StateItemAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<StateItemAdapter.ViewHolder>() {
 
     class ViewHolder(val viewItemRowBinding: ViewItemRowBinding) :
         RecyclerView.ViewHolder(viewItemRowBinding.root)
@@ -33,7 +33,9 @@ class StateItemAdapter(
         holder.viewItemRowBinding.itemName.text = stateList[position].name
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            mCallback.onSelectState(position, stateList[position].name.toString(), stateList[position].uid.toString())
+            mCallback.onSelectState(position,
+                stateList[position].name.toString(),
+                stateList[position].uid.toString())
         }
     }
 

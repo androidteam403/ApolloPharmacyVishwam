@@ -14,7 +14,7 @@ class OrganisedAdapter(
     var mContext: Context,
     var mCallback: ApnaNewSurveyCallBack,
     var unorganisedList: ArrayList<ParkingTypeResponse.Data.ListData.Row>,
-): RecyclerView.Adapter<OrganisedAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<OrganisedAdapter.ViewHolder>() {
 
     class ViewHolder(val viewItemRowBinding: ViewItemRowBinding) :
         RecyclerView.ViewHolder(viewItemRowBinding.root)

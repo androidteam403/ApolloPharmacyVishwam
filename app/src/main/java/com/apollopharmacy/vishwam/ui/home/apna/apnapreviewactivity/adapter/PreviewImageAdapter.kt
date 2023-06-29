@@ -16,9 +16,7 @@ class PreviewImageAdapter(
     val mContext: Context,
     private val imagetData: ArrayList<SurveyDetailsList.Image>,
     val imageClicklistner: ApnaNewPreviewCallBack,
-
-    ) : RecyclerView.Adapter<PreviewImageAdapter.ViewHolder>() {
-
+) : RecyclerView.Adapter<PreviewImageAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val imageAdapterLayoutBinding: ImageAdapterLayoutBinding = DataBindingUtil.inflate(
@@ -36,7 +34,7 @@ class PreviewImageAdapter(
             .placeholder(R.drawable.thumbnail_image)
             .into(holder.imageAdapterLayoutBinding.image)
         holder.imageAdapterLayoutBinding.eyeImageRes.setOnClickListener {
-            imageClicklistner.onItemClick(position, items.url!!,"")
+            imageClicklistner.onItemClick(position, items.url!!, "", imagetData)
         }
     }
 

@@ -16,7 +16,8 @@ import com.bumptech.glide.Glide
 class ImagesDisplayChampsAdapter(
     private val context: Context,
     private val champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack,
-    private val imageDataLists: MutableList<GetCategoryDetailsModelResponse.EmailDetail.ImagesDatas>?
+    private val imageDataLists: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>?,
+    private val status: String
 ) : RecyclerView.Adapter<ImagesDisplayChampsAdapter.ViewHolder>() {
 
 
@@ -54,8 +55,14 @@ class ImagesDisplayChampsAdapter(
                     .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
             }
             else {
-                holder.adapterCaptureImagesSwachBinding.imagePlusIcon.visibility = View.VISIBLE
-                holder.adapterCaptureImagesSwachBinding.uploadImageLayout1.visibility = View.GONE
+                if(status.equals("COMPLETED")){
+                    holder.adapterCaptureImagesSwachBinding.imagePlusIcon.visibility = View.GONE
+                    holder.adapterCaptureImagesSwachBinding.uploadImageLayout1.visibility = View.GONE
+                }else{
+                    holder.adapterCaptureImagesSwachBinding.imagePlusIcon.visibility = View.VISIBLE
+                    holder.adapterCaptureImagesSwachBinding.uploadImageLayout1.visibility = View.GONE
+                }
+
             }
 
 
@@ -95,6 +102,9 @@ class ImagesDisplayChampsAdapter(
 //            return imageUrls!!.size
 //        }
 
+    }
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
 

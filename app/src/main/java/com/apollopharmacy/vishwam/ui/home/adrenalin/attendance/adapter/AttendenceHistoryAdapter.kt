@@ -9,15 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.attendance.AttendanceHistoryRes
-import com.apollopharmacy.vishwam.databinding.QcStatusLayoutBinding
 import com.apollopharmacy.vishwam.databinding.ViewHistoryItemBinding
-import com.apollopharmacy.vishwam.ui.home.qcfail.model.ActionResponse
-import com.apollopharmacy.vishwam.ui.rider.orderdelivery.model.OrderStatusHistoryListRequest
 import com.apollopharmacy.vishwam.util.Utils
-import com.apollopharmacy.vishwam.util.Utlis
 import org.apache.commons.lang3.StringUtils
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 

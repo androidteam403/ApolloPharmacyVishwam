@@ -95,24 +95,24 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
                 activityPreviewBinding.enterOtherTrainingEdittext.visibility=View.GONE
             }
             if(!getCategoryAndSubCategoryDetails?.issuesToBeResolvedText!!.isEmpty()){
-                activityPreviewBinding.enterIssuesTobeResolvedEdittext.setText(getCategoryAndSubCategoryDetails?.otherTrainingText)
+                activityPreviewBinding.enterIssuesTobeResolvedEdittext.setText(getCategoryAndSubCategoryDetails?.issuesToBeResolvedText)
             }else{
                 activityPreviewBinding.enterIssuesTobeResolvedEdittext.setText("--")
             }
             overallProgressBarCount(getCategoryAndSubCategoryDetails!!.totalProgressP!!)
 
         }
-        for(i in getCategoryAndSubCategoryDetails!!.emailDetails!!.indices){
-            if(!getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).clickedSubmit!!){
-                getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails=
-                    getSubCategoryResponses!!.subCategoryDetails
-            }
-        }
+//        for(i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.indices){
+//            if(!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).clickedSubmit!!){
+//                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).subCategoryDetails=
+//                    getSubCategoryResponses!!.subCategoryDetails
+//            }
+//        }
 
 
         categoryDetailsPreviewAdapter =
             CategoryDetailsPreviewAdapter(
-                getCategoryAndSubCategoryDetails!!.emailDetails,
+                getCategoryAndSubCategoryDetails!!.categoryDetails,
                 applicationContext,
                 this
             )

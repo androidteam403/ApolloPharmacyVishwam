@@ -11,11 +11,12 @@ object Config {
     var URL_MAIN =
         "https://online.apollopharmacy.org/CPOS/APOLLO/" //"http://lms.apollopharmacy.org:8033/CPOS/APOLLO/"
     var DEVICE_ID = "34.87.87.09.909"
-    var KEY = "2034" //Producation : 2034 OTHER : 2027 UAT : 2039
+    var KEY = "2039" //Producation : 2034 OTHER : 2027 UAT : 2039
     var TYPE_REJECT = "REJECT"
     var TYPE_ACCEPT = "ACCEPT"
     var ENCRIPTION_KEY = "discount"
     var REQUEST_CODE_CAMERA = 2234243
+    var REQUEST_CODE_GALLERY = 5534244
     var REQUEST_BACK_CAMERA = 2234241
     var REQUEST_SIDE_CAMERA = 2234240
     var REQUEST_BILL_CAMERA = 2234242

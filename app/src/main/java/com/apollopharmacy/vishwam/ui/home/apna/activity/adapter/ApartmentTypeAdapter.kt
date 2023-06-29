@@ -14,7 +14,7 @@ class ApartmentTypeAdapter(
     var mContext: Context,
     var mCallback: ApnaNewSurveyCallBack,
     var apartmentTypes: ArrayList<ApartmentTypeResponse.Data.ListData.Row>,
-): RecyclerView.Adapter<ApartmentTypeAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ApartmentTypeAdapter.ViewHolder>() {
 
     class ViewHolder(val viewItemRowBinding: ViewItemRowBinding) :
         RecyclerView.ViewHolder(viewItemRowBinding.root)

@@ -150,6 +150,7 @@ object Utlis {
     fun showLoading(context: Context) {
         hideLoading()
         mProgressDialog = null
+
         mProgressDialog = Utils.showLoadingDialog(context)
     }
 
@@ -168,13 +169,6 @@ object Utlis {
         return Build.MODEL
     }
 
-//    @SuppressLint("SimpleDateFormat")
-//    fun convertDate(DatefromServer: String): String {
-//        val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-//        val destFormat = SimpleDateFormat("dd-MMM-yyyy")
-//        val convertedDate: Date = sourceFormat.parse(DatefromServer)
-//        return destFormat.format(convertedDate)
-//    }
 
     fun convertDate(DatefromServer: String): String {
         // val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
@@ -187,8 +181,8 @@ object Utlis {
 
     fun approvedConvertDate(DatefromServer: String): String {
         // val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-        val sourceFormat = SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.ENGLISH)
-        val destFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val sourceFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val destFormat = SimpleDateFormat("dd/MMM/yyyy", Locale.ENGLISH)
         // val destFormat = SimpleDateFormat("MMM-dd-yyyy")
         val convertedDate: Date = sourceFormat.parse(DatefromServer)
         return destFormat.format(convertedDate)
@@ -205,7 +199,17 @@ object Utlis {
             return ""
         }
     }
-
+    @SuppressLint("SimpleDateFormat")
+    fun convertDateTimeZone(DateFromServer: String): String {
+        try {
+            val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+            val destFormat = SimpleDateFormat("dd-MMM-yyyy")
+            val convertedDate: Date = sourceFormat.parse(DateFromServer)
+            return destFormat.format(convertedDate)
+        } catch (e: Exception) {
+            return ""
+        }
+    }
     fun formatTheDate(dateToFormat: String): String {
         val sourceFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
         val destFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
@@ -214,8 +218,8 @@ object Utlis {
     }
 
     fun filterDateFormate(dateForFilter: String): Date {
-        val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
-        val destinationFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+        val sourceFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val destinationFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         val convertedDate: Date = sourceFormat.parse(dateForFilter)
         return convertedDate
     }
@@ -256,7 +260,12 @@ object Utlis {
         return sdf.format(todate1)
     }
 
-
+    fun convertRetroDate(DatefromServer: String): String {
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH)
+        val destFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH)
+        val convertedDate: Date = sourceFormat.parse(DatefromServer)
+        return destFormat.format(convertedDate)
+    }
     fun getDatethirtyDays(pattern: String?): String? {
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
 
@@ -415,5 +424,15 @@ object Utlis {
     fun getCurrentTimeStamp(): String {
         val tsLong = System.currentTimeMillis() / 1000
         return tsLong.toString()
+    }
+    fun getCurrentTimeStampFormat(): String? {
+        return try {
+            val dateFormat =
+                SimpleDateFormat("yyyyMMddHHmmss")
+            dateFormat.format(Date())
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 }
