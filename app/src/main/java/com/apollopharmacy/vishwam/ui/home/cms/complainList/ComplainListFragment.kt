@@ -1071,6 +1071,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 }
 
             }
+/*    // soubworkflow manual
             if (items!!.have_subworkflow != null) {
                 if (items!!.have_subworkflow == true) {
                     if (items!!.is_subworkflow_completed == false) {
@@ -1103,6 +1104,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             } else {
                 binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
             }
+*/
 
 
 
