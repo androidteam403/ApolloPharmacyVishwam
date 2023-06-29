@@ -1285,7 +1285,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             override fun getItemCount(): Int {
                 return remarkList.size
             }
-
+//test code
             inner class ViewHolder(val remarkBinding: ViewOrderStatusBinding) :
                 RecyclerView.ViewHolder(remarkBinding.root) {
                 fun bind(remarks: ResponseNewTicketlist.NewTicketHistoryResponse.Row) {
