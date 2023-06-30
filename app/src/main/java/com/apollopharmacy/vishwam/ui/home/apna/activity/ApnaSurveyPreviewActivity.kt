@@ -179,16 +179,29 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         // Location Details
         val lat = surveyCreateRequest.lat
         val long = surveyCreateRequest.long
-        var location = ""
+        var region = ""
         var landMarks = ""
         var city = ""
         var state = ""
         var pin = ""
 
-        if (surveyCreateRequest.location2 != null) {
-            location = surveyCreateRequest.location2.toString()
+//        if (surveyCreateRequest.location2 != null) {
+//            location = surveyCreateRequest.location2.toString()
+//        } else {
+//            location = "-"
+//        }
+        if (surveyCreateRequest.region != null) {
+            if (surveyCreateRequest.region!!.name != null) {
+                if (surveyCreateRequest.region!!.name!!.toString().isNotEmpty()) {
+                    region = surveyCreateRequest.region!!.name!!.toString()
+                } else {
+                    region = "-"
+                }
+            } else {
+                region = "-"
+            }
         } else {
-            location = "-"
+            region = "-"
         }
         if (surveyCreateRequest.landmarks != null) {
             landMarks = surveyCreateRequest.landmarks.toString()
@@ -212,7 +225,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         }
 
         activityApnaSurveyPreviewBinding.locationDetails.setText(
-            "$location,$landMarks,$city,$state-$pin"
+            "$region,$landMarks,$city,$state-$pin"
         )
 //        if (lat != null) {
 //            activityApnaSurveyPreviewBinding.lattitude.setText(lat)

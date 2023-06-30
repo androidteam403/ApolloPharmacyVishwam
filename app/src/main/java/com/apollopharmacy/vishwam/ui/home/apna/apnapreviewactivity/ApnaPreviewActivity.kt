@@ -1435,6 +1435,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.parkingText.setTextColor(
                 ContextCompat.getColor(applicationContext, R.color.grey)
             )
+        } else {
+            apnaPreviewActivityBinding.parkingAvailable.visibility = View.GONE
+            apnaPreviewActivityBinding.parkingNotAvailable.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.parkingText.setTextColor(
+                ContextCompat.getColor(applicationContext, R.color.grey)
+            )
         }
 
         if (trafficType.equals("Low", true)) {

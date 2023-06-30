@@ -32,7 +32,7 @@ interface ApnaNewSurveyCallBack {
 
     fun onTrafficStreetItemSelect(position: Int, item: String)
 
-    fun onApnaSpecialityItemSelect(position: Int, item: String)
+    fun onApnaSpecialityItemSelect(position: Int, uid: String, name: String)
 
     fun onClickTrafficGeneratorItemDelete(position: Int, deletedItem: String)
 
