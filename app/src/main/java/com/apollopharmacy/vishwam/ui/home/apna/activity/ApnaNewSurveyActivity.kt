@@ -214,10 +214,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         Utlis.showLoading(this@ApnaNewSurveyActivity)
 
         // Location list api call
-        apnaNewSurveyViewModel.getLocationList(this@ApnaNewSurveyActivity)
+//        apnaNewSurveyViewModel.getLocationList(this@ApnaNewSurveyActivity)
 
         // Region list api call
-        apnaNewSurveyViewModel.getRegionList(this@ApnaNewSurveyActivity)
+        apnaNewSurveyViewModel.getRegionList(this@ApnaNewSurveyActivity, Preferences.getToken())
 
         // State list api call
 //        apnaNewSurveyViewModel.getStateList(this@ApnaNewSurveyActivity)
@@ -700,6 +700,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 videos.add(video)
                 videoMb.video = videos
                 surveyCreateRequest.videoMb = videoMb
+            }
+
+            if (activityApnaNewSurveyBinding.knownOfEmployeeRadioGroup.checkedRadioButtonId != -1) {
+                val knownOfEmployeeRadioGroupId =
+                    activityApnaNewSurveyBinding.knownOfEmployeeRadioGroup.checkedRadioButtonId
+                val apolloEmployee = SurveyCreateRequest.ApolloEmployee()
+                apolloEmployee.uid =
+                    findViewById<RadioButton>(knownOfEmployeeRadioGroupId).text.toString()
+                        .trim()
+                surveyCreateRequest.apolloEmployee = apolloEmployee
             }
 
 //            val location = surveyCreateRequest.location2.toString()
@@ -3814,13 +3824,15 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 region.uid = regionUid
                 surveyCreateRequest.region = region
 
-                val state = SurveyCreateRequest.State()
-                state.uid = activityApnaNewSurveyBinding.stateText.text.toString().trim()
-                surveyCreateRequest.state = state
+//                val state = SurveyCreateRequest.State()
+//                state.uid = activityApnaNewSurveyBinding.stateText.text.toString().trim()
+                surveyCreateRequest.state =
+                    activityApnaNewSurveyBinding.stateText.text.toString().trim()
 
-                val city = SurveyCreateRequest.City()
-                city.uid = activityApnaNewSurveyBinding.cityText.text.toString().trim()
-                surveyCreateRequest.city = city
+//                val city = SurveyCreateRequest.City()
+//                city.uid = activityApnaNewSurveyBinding.cityText.text.toString().trim()
+                surveyCreateRequest.city =
+                    activityApnaNewSurveyBinding.cityText.text.toString().trim()
 
                 surveyCreateRequest.pincode =
                     activityApnaNewSurveyBinding.pinText.text.toString().trim()
@@ -3879,8 +3891,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 //                    ), android.graphics.PorterDuff.Mode.SRC_IN
 //                )
 
-                surveyCreateRequest.dimensionType1 =
-                    activityApnaNewSurveyBinding.dimensionTypeSelect.text.toString().trim()
+//                surveyCreateRequest.dimensionType1 =
+//                    activityApnaNewSurveyBinding.dimensionTypeSelect.text.toString().trim()
                 surveyCreateRequest.length =
                     activityApnaNewSurveyBinding.lengthText.text.toString().trim()
                 surveyCreateRequest.width =
@@ -3892,8 +3904,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     surveyCreateRequest.totalArea =
                         activityApnaNewSurveyBinding.totalAreaText.text.toString().trim().toFloat()
                 }
-                val expectedRentRadioGroupId =
-                    activityApnaNewSurveyBinding.expectedRentRadioGroup.checkedRadioButtonId
+//                val expectedRentRadioGroupId =
+//                    activityApnaNewSurveyBinding.expectedRentRadioGroup.checkedRadioButtonId
                 val dimensionType = SurveyCreateRequest.DimensionType()
                 dimensionType.uid = dimenTypeSelectedItem.uid
                 dimensionType.name = dimenTypeSelectedItem.name
@@ -4456,10 +4468,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             activityApnaNewSurveyBinding.ceilingHeightText.requestFocus()
             siteSpecificationsErrorMessage = "Ceiling height should be greater than zero"
             return false
-        } else if (activityApnaNewSurveyBinding.expectedRentRadioGroup.checkedRadioButtonId == -1) {
-            siteSpecificationsErrorMessage = "Please select expected rent type"
-            return false
-        } else if (expectedRent.isEmpty()) {
+        }
+//        else if (activityApnaNewSurveyBinding.expectedRentRadioGroup.checkedRadioButtonId == -1) {
+//            siteSpecificationsErrorMessage = "Please select expected rent type"
+//            return false
+//        }
+        else if (expectedRent.isEmpty()) {
             activityApnaNewSurveyBinding.expectedRentText.requestFocus()
             siteSpecificationsErrorMessage = "Please enter expected rent"
             return false
@@ -4840,7 +4854,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 //            activityApnaNewSurveyBinding.expectedRentRadioGroup.check(activityApnaNewSurveyBinding.perSqFtRadioButton.id)
 
 //            activityApnaNewSurveyBinding.dimensionTypeSelect.setText(dimensionTypeList[0].name.toString())
-            this.dimenTypeSelectedItem = dimensionTypeList[0]
+//            this.dimenTypeSelectedItem = dimensionTypeList[0]
         }
     }
 
@@ -4993,6 +5007,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
     override fun onSelectDimensionTypeItem(position: Int, item: String, row: Row) {
         activityApnaNewSurveyBinding.dimensionTypeSelect.setText(item)
+        activityApnaNewSurveyBinding.dimensionOfPremisesUnit.setText(item)
+        activityApnaNewSurveyBinding.expectedRentOrDepositUnit.setText(item)
         this.dimenTypeSelectedItem = row
         dimensionTypeDialog.dismiss()
     }

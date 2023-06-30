@@ -28,7 +28,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     val command = LiveEvent<CommandsNew>()
 
-    fun getRegionList(mCallBack: ApnaNewSurveyCallBack) {
+    fun getRegionList(mCallBack: ApnaNewSurveyCallBack, empId: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrL = ""
@@ -42,7 +42,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
         }
 
         val apnaSurveyUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/region/list/survey-region-for-select"
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/region/list/survey-region-for-select?emp_id=$empId"
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(

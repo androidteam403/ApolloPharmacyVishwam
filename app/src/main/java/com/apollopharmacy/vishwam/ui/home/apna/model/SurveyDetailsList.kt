@@ -1,7 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.model
 
 import android.provider.MediaStore.Video
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -193,6 +192,14 @@ class SurveyDetailsList : Serializable {
         @Expose
         var address: String? = null
 
+        @SerializedName("city")
+        @Expose
+        var city: String? = null
+
+        @SerializedName("state")
+        @Expose
+        var state: String? = null
+
         @SerializedName("dimension_type")
         @Expose
         var dimensionType: DimensionType? = null
@@ -229,6 +236,10 @@ class SurveyDetailsList : Serializable {
         @Expose
         var landmarks: String? = null
 
+        @SerializedName("occupation")
+        @Expose
+        var occupation: String? = null
+
         @SerializedName("parking")
         @Expose
         var parking: Parking? = null
@@ -256,6 +267,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("traffic_street_type")
         @Expose
         var trafficStreetType: TrafficStreetType? = null
+
+        @SerializedName("region")
+        @Expose
+        var region: Region? = null
 
         @SerializedName("created_id")
         @Expose
@@ -419,6 +434,55 @@ class SurveyDetailsList : Serializable {
             @SerializedName("color")
             @Expose
             var color: String? = null
+        }
+
+        inner class Region : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+
+            @SerializedName("survey_region_mapping")
+            @Expose
+            var surveyRegionMapping: List<SurveyRegionMapping>? = null
+        }
+
+        inner class SurveyRegionMapping : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("project_hod")
+            @Expose
+            var projectHod: ProjectHod? = null
+
+            @SerializedName("project_regional_head")
+            @Expose
+            var projectRegionalHead: ProjectRegionalHead? = null
+
+        }
+
+        inner class ProjectHod : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("user_code")
+            @Expose
+            var userCode: String? = null
+        }
+
+        inner class ProjectRegionalHead : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("user_code")
+            @Expose
+            var userCode: String? = null
         }
 
         fun withUid(uid: String?): Data {

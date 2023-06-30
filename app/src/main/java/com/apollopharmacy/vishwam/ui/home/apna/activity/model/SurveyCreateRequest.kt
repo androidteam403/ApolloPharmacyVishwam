@@ -49,13 +49,13 @@ class SurveyCreateRequest : Serializable {
     @Expose
     var region: Region? = null
 
-    @SerializedName("state")
-    @Expose
-    var state: State? = null
-
-    @SerializedName("city")
-    @Expose
-    var city: City? = null
+//    @SerializedName("state")
+//    @Expose
+//    var state: State? = null
+//
+//    @SerializedName("city")
+//    @Expose
+//    var city: City? = null
 
     @SerializedName("pincode")
     @Expose
@@ -77,7 +77,7 @@ class SurveyCreateRequest : Serializable {
     @Expose
     var address: String? = null
 
-    var dimensionType1: String? = null
+//    var dimensionType1: String? = null
 
     @SerializedName("length")
     @Expose
@@ -167,6 +167,8 @@ class SurveyCreateRequest : Serializable {
     @Expose
     var localDisbtsComments: String? = null
 
+    @SerializedName("occupation")
+    @Expose
     var occupation: String? = null
 
     @SerializedName("service_class")
@@ -183,9 +185,13 @@ class SurveyCreateRequest : Serializable {
 
     var location2: String? = null
 
-    var state2: String? = null
+    @SerializedName("state")
+    @Expose
+    var state: String? = null
 
-    var city2: String? = null
+    @SerializedName("city")
+    @Expose
+    var city: String? = null
 
     @SerializedName("apollo_employee")
     @Expose
