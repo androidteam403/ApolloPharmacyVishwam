@@ -404,6 +404,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             if (resultCode == Activity.RESULT_OK) {
 
                 if (data != null) {
+                    siteId= data.getStringExtra("siteId").toString()
+                    regionId = data.getStringExtra("regionId").toString()
                     showLoading()
                     viewModel.getQcRejectList(Preferences.getToken(),
                         data.getStringExtra("fromQcDate").toString(),

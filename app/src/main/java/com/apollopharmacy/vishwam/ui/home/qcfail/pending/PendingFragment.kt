@@ -39,6 +39,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageAc
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -65,7 +66,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var qcAccepttList = ArrayList<QcAcceptRejectRequest.Order>()
     var qcBundleAccepttList = ArrayList<QcAcceptRejectRequest.Order>()
     var dummyqcAccepttList = ArrayList<QcAcceptRejectRequest.Order>()
-
+    var currentDate = String()
+    var fromDate = String()
+    var siteId: String=""
+    var regionId: String=""
     var qcRejectList = ArrayList<QcAcceptRejectRequest.Order>()
     var itemsList = ArrayList<QcItemListResponse>()
     var bulkList = ArrayList<QcListsResponse.Pending>()
@@ -170,11 +174,16 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 //        viewModel.getQcStoreist()
 //        Preferences.setQcToDate(Utlis.getCurrentDate("dd-MMM-yyy")!!)
 //        Preferences.setQcFromDate("1-Apr-2019")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        currentDate = simpleDateFormat.format(Date())
 
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        fromDate = simpleDateFormat.format(cal.time)
         viewModel.getQcPendingList(
             Preferences.getToken(),
-            "1 - Apr - 2019",
-            Utlis.getCurrentDate("yyyy-MM-dd")!!,
+            fromDate,
+            currentDate,
             "",
             "",
             this
@@ -307,8 +316,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
             viewModel.getQcPendingList(
                 Preferences.getToken(),
-                "1 - Apr - 2019",
-                Utlis.getCurrentDate("yyyy-MM-dd")!!,
+                fromDate,
+                currentDate,
                 "",
                 "",
                 this
@@ -735,6 +744,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             if (resultCode == Activity.RESULT_OK) {
 
                 if (data != null) {
+                    fromDate= data.getStringExtra("fromQcDate").toString()
+                    currentDate= data.getStringExtra("toDate").toString()
+                    siteId= data.getStringExtra("siteId").toString()
+                    regionId = data.getStringExtra("regionId").toString()
                     typeString = data.getStringExtra("orderType").toString()
                     showLoading()
                     viewModel.getQcPendingList(
@@ -748,10 +761,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
                     if (data.getStringExtra("fromQcDate").toString()
-                            .equals(Utlis.getDateSevenDaysEarlier("dd-MMM-yyyy")) && data.getStringExtra(
+                            .equals(fromDate) && data.getStringExtra(
                             "toDate"
                         ).toString()
-                            .equals(Utlis.getCurrentDate("dd-MMM-yyyy")) && data.getStringExtra("regionId")
+                            .equals(currentDate) && data.getStringExtra("regionId")
                             .toString().isNullOrEmpty()
                     ) {
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
@@ -766,8 +779,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
                         viewModel.getQcPendingList(
                             Preferences.getToken(),
-                            "01-Apr-2019",
-                            Utlis.getCurrentDate("yyyy-MM-dd")!!,
+                            fromDate,
+                            currentDate,
                             "",
                             "",
                             this

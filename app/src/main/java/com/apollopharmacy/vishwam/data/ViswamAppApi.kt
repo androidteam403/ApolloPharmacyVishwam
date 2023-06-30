@@ -368,19 +368,19 @@ interface ViswamAppApi {
     ): SwachModelResponse
 
 
-    @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetPendingAndAcceptAndRejectList?")//?Storeid=16001
-    suspend fun qcResponseList(
-        @Url url: String,
-        @Query("EmpId") id: String,
-        @Query("FromDate") fromDate: String,
-        @Query("ToDate") tomDate: String,
-        @Query("StoreId") storeId: String,
-        @Query("REGIONID") region: String,
-    ): QcListsResponse
+//    @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetPendingAndAcceptAndRejectList?")//?Storeid=16001
+//    suspend fun qcResponseList(
+//        @Url url: String,
+//        @Query("EmpId") id: String,
+//        @Query("FromDate") fromDate: String,
+//        @Query("ToDate") tomDate: String,
+//        @Query("StoreId") storeId: String,
+//        @Query("REGIONID") region: String,
+//    ): QcListsResponse
 
 
-//    @GET("https://jsonblob.com/api/jsonBlob/1120216438605627392")
-//    suspend fun qcResponseList(): QcListsResponse
+    @GET("https://jsonblob.com/api/jsonBlob/1120216438605627392")
+    suspend fun qcResponseList(): QcListsResponse
 
     @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetLineItems?")//qcfail
     suspend fun qcItemsResponseList(

@@ -50,6 +50,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var lastIndex = 0
     var increment: Int = 0
     var pageSize: Int = 0
+    var siteId: String=""
+    var regionId: String=""
     public var storeStringList = ArrayList<String>()
     public var regionStringList = ArrayList<String>()
     public var isBulkChecked: Boolean = false
@@ -503,7 +505,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 //        if (!viewBinding.refreshSwipe.isRefreshing)
 //            Utlis.showLoading(requireContext())
 
-        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
+        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, siteId, regionId)
 
 
     }
@@ -517,6 +519,11 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             if (resultCode == Activity.RESULT_OK) {
 
                 if (data != null) {
+                   fromDate= data.getStringExtra("fromQcDate").toString()
+                    currentDate= data.getStringExtra("toDate").toString()
+                    siteId= data.getStringExtra("siteId").toString()
+                    regionId = data.getStringExtra("regionId").toString()
+
                     showLoading()
                     viewModel.getQcList(
                         Preferences.getToken(),
