@@ -17,6 +17,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -74,6 +75,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
     var stateName = ""
     var cityName = ""
+    var speciality = ""
+    var REQUEST_CODE_LOCATION = 2198
 
     var regionName = ""
     var regionUid = ""
@@ -1382,8 +1385,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         activityApnaNewSurveyBinding.hospitalAddBtn.setOnClickListener {
             if (hospitalsList.size < 10) {
                 val name = activityApnaNewSurveyBinding.hospitalNameText.text.toString()
-                val speciality =
-                    activityApnaNewSurveyBinding.hospitalSpecialitySelect.text.toString()
+                val speciality = speciality
+//                    activityApnaNewSurveyBinding.hospitalSpecialitySelect.text.toString()
                 val beds = activityApnaNewSurveyBinding.bedsText.text.toString()
                 val noOfOpd = activityApnaNewSurveyBinding.noOfOpdText.text.toString()
                 val occupancy = activityApnaNewSurveyBinding.occupancyText.text.toString()
@@ -3428,27 +3431,53 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     override fun onMapReady(map: GoogleMap) {
                         map.setOnMarkerDragListener(this@ApnaNewSurveyActivity)
                         this@ApnaNewSurveyActivity.map = map
-                        val latLang = LatLng(location!!.latitude, location.longitude)
-                        activityApnaNewSurveyBinding.latitude.setText(location.latitude.toString())
-                        activityApnaNewSurveyBinding.longitude.setText(location.longitude.toString())
+                        if (location == null) {
+                            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                            this@ApnaNewSurveyActivity.startActivityForResult(intent, REQUEST_CODE_LOCATION)
+                        } else {
+                            val latLang = LatLng(location!!.latitude, location.longitude)
+                            activityApnaNewSurveyBinding.latitude.setText(location.latitude.toString())
+                            activityApnaNewSurveyBinding.longitude.setText(location.longitude.toString())
 
 //                        geocoder = Geocoder(this@ApnaNewSurveyActivity, Locale.getDefault())
-                        val addresses = geocoder.getFromLocation(
-                            location.latitude,
-                            location.longitude,
-                            1
-                        )
-                        activityApnaNewSurveyBinding.stateText.setText(addresses!!.get(0).adminArea)
-                        activityApnaNewSurveyBinding.cityText.setText(addresses.get(0).locality)
-                        activityApnaNewSurveyBinding.pinText.setText(addresses.get(0).postalCode)
-                        if (selectedMarker != null) {
-                            selectedMarker!!.remove()
-                        }
+                            val addresses = geocoder.getFromLocation(
+                                location.latitude,
+                                location.longitude,
+                                1
+                            )
+                            activityApnaNewSurveyBinding.stateText.setText(addresses!!.get(0).adminArea)
+                            activityApnaNewSurveyBinding.cityText.setText(addresses.get(0).locality)
+                            activityApnaNewSurveyBinding.pinText.setText(addresses.get(0).postalCode)
+                            if (selectedMarker != null) {
+                                selectedMarker!!.remove()
+                            }
 
-                        val markerOption =
-                            MarkerOptions().position(latLang).title("").draggable(true)
-                        selectedMarker = map.addMarker(markerOption)
-                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 15F))
+                            val markerOption =
+                                MarkerOptions().position(latLang).title("").draggable(true)
+                            selectedMarker = map.addMarker(markerOption)
+                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 15F))
+                        }
+//                        val latLang = LatLng(location!!.latitude, location.longitude)
+//                        activityApnaNewSurveyBinding.latitude.setText(location.latitude.toString())
+//                        activityApnaNewSurveyBinding.longitude.setText(location.longitude.toString())
+//
+////                        geocoder = Geocoder(this@ApnaNewSurveyActivity, Locale.getDefault())
+//                        val addresses = geocoder.getFromLocation(
+//                            location.latitude,
+//                            location.longitude,
+//                            1
+//                        )
+//                        activityApnaNewSurveyBinding.stateText.setText(addresses!!.get(0).adminArea)
+//                        activityApnaNewSurveyBinding.cityText.setText(addresses.get(0).locality)
+//                        activityApnaNewSurveyBinding.pinText.setText(addresses.get(0).postalCode)
+//                        if (selectedMarker != null) {
+//                            selectedMarker!!.remove()
+//                        }
+//
+//                        val markerOption =
+//                            MarkerOptions().position(latLang).title("").draggable(true)
+//                        selectedMarker = map.addMarker(markerOption)
+//                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 15F))
                     }
                 })
             }
@@ -3731,6 +3760,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             activityApnaNewSurveyBinding.deleteVideo.visibility = View.VISIBLE
             activityApnaNewSurveyBinding.playVideo.visibility = View.VISIBLE
             activityApnaNewSurveyBinding.afterCapturedVideo.setVideoURI(Uri.parse(videoFile!!.absolutePath))
+        } else if (requestCode == REQUEST_CODE_LOCATION) {
+            getCurrentLocation()
         }
     }
 
@@ -3822,6 +3853,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                 val region = SurveyCreateRequest.Region()
                 region.uid = regionUid
+                region.name = regionName
                 surveyCreateRequest.region = region
 
 //                val state = SurveyCreateRequest.State()
@@ -4715,8 +4747,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         trafficStreetDialog.dismiss()
     }
 
-    override fun onApnaSpecialityItemSelect(position: Int, item: String) {
-        activityApnaNewSurveyBinding.hospitalSpecialitySelect.setText(item)
+    override fun onApnaSpecialityItemSelect(position: Int, uid: String, name: String) {
+        activityApnaNewSurveyBinding.hospitalSpecialitySelect.setText(name)
+        this.speciality = uid
         apnaSpecialityDialog.dismiss()
     }
 
