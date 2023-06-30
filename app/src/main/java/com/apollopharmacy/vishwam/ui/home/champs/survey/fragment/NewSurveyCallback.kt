@@ -7,7 +7,7 @@ interface NewSurveyCallback {
 
     fun onClickSearch()
 
-    fun onClickCardView()
+   fun onClickCardView()
 
     fun onClickCloseIcon()
     fun onSuccessgetStoreDetails(value: StoreDetailsModelResponse)

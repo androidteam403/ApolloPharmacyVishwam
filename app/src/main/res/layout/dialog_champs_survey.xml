@@ -47,6 +47,7 @@
                 android:src="@drawable/ic_pending_list_icons_report_success" />
 
             <TextView
+                android:id="@+id/successfull_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/value_3dp"

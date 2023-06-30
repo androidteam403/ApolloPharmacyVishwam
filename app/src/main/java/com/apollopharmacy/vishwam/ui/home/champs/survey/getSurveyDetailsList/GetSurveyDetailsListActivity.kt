@@ -37,6 +37,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
     private var storeId: String = ""
     private var address: String = ""
     private var storeCity: String = ""
+    private var region:String=""
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +66,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
         storeId = intent.getStringExtra("storeId")!!
         siteName = intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
+        region=intent.getStringExtra("region")!!
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
@@ -124,6 +126,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
         intent.putExtra("champsRefernceId", champsRefernceId)
         intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
         intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
+        intent.putExtra("region", region)
         startActivityForResult(intent, 781)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
@@ -135,6 +138,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
         intent.putExtra("storeId", storeId)
         intent.putExtra("siteName", siteName)
         intent.putExtra("storeCity", storeCity)
+        intent.putExtra("region", region)
         intent.putExtra("status", "NEW")
         intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
         intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)

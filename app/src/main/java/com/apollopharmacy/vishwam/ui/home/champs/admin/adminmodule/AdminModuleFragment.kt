@@ -118,12 +118,13 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
 
         editBoxDialog.show()
     }
-
+   var categoryPosForUpdate: String?=""
     override fun onClickEditOverall(
         categoryDetails: GetCategoryDetailsResponse.CategoryDetails,
-        sumOfSubCategoryMaxRatings: Double, categoryPos: String,
+        sumOfSubCategoryMaxRatings: Double, categoryPos: String, categoryName:String
     ) {
         if (categoryDetails != null) {
+            categoryPosForUpdate=categoryPos
             val editBoxDialog = context?.let { Dialog(it, R.style.fadeinandoutcustomDialog) }
             dialogEditRangeChampsBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
                 R.layout.dialog_edit_range_champs,
@@ -137,13 +138,13 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
             dialogEditRangeChampsBinding.enterPoints.setText(categoryDetails.rating)
             dialogEditRangeChampsBinding.continueChamps.setOnClickListener { view ->
                 var sumOfAllCategoriesRating = 0.0
-                for (i in categoryDetailsList!!) {
-                    if (categoryDetailsList!!.indexOf(i) == (categoryPos.toInt() - 1)) {
+                for (i in categoryDetailsList!!.indices) {
+                    if (categoryDetailsList!!.get(i).categoryName == categoryName) {
                         sumOfAllCategoriesRating =
                             sumOfAllCategoriesRating + dialogEditRangeChampsBinding.enterPoints.text.toString()
                                 .toDouble()
                     } else {
-                        sumOfAllCategoriesRating = sumOfAllCategoriesRating + i.rating!!.toDouble()
+                        sumOfAllCategoriesRating = sumOfAllCategoriesRating + categoryDetailsList!!.get(i).rating!!.toDouble()
                     }
                 }
                 if (sumOfAllCategoriesRating <= 100) {
@@ -411,7 +412,7 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
             getCategoryDetailsAdapter = GetCategoryDetailsAdapter(categoryDetailsList!!,
                 context,
                 this@AdminModuleFragment,
-                subCategoryDetailsList)
+                 categoryPosForUpdate)
             var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             viewBinding.getCategoryDetailsRecyclerView.layoutManager = layoutManager
             viewBinding.getCategoryDetailsRecyclerView.adapter = getCategoryDetailsAdapter
@@ -423,43 +424,54 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onClickSubCategoryDetailsItem(categoryDetails: GetCategoryDetailsResponse.CategoryDetails) {
-        if (subCategoryDetailsListList != null && subCategoryDetailsListList.size > 0) {
-            var isSubCategoryDetailsPresent = false
-            for (i in subCategoryDetailsListList) {
-                for (j in subCategoryDetailsListList.get(subCategoryDetailsListList.indexOf(i))) {
-                    if (j.categoryName!!.equals(categoryDetails.categoryName)) {
-                        isSubCategoryDetailsPresent = true
-                        subCategoryDetailsList =
-                            subCategoryDetailsListList.get(subCategoryDetailsListList.indexOf(i))
-                        break
-                    }
-                }
-            }
+    override fun onClickSubCategoryDetailsItem(categoryDetails: GetCategoryDetailsResponse.CategoryDetails, itemPos:Int) {
 
-            if (isSubCategoryDetailsPresent) {
-                if (categoryDetailsList != null && categoryDetailsList!!.size > 0) {
-                    var itemPos: Int = -1
-                    for (i in categoryDetailsList!!) {
-                        if (i.categoryName.equals(categoryDetails.categoryName)) {
-                            i.isItemExpanded = !i.isItemExpanded!!
-                            itemPos = categoryDetailsList!!.indexOf(i)
-                            break
-                        }
-                    }
-                    getCategoryDetailsAdapter!!.subCategoryDetailsList = subCategoryDetailsList
-                    getCategoryDetailsAdapter!!.notifyItemChanged(itemPos)
-                }
-            } else {
-                showLoading()
-                viewModel.getSubCategoryDetailsApiCall(this@AdminModuleFragment,
-                    categoryDetails.categoryName!!)
+        if(categoryDetails!=null && categoryDetails.subCategoryDetailsList!=null){
+            if(getCategoryDetailsAdapter!=null){
+                categoryDetails.isItemExpanded=!categoryDetails.isItemExpanded!!
+                getCategoryDetailsAdapter!!.notifyItemChanged(itemPos)
             }
-        } else {
+        }else{
             showLoading()
             viewModel.getSubCategoryDetailsApiCall(this@AdminModuleFragment,
                 categoryDetails.categoryName!!)
         }
+//        if (subCategoryDetailsListList != null && subCategoryDetailsListList.size > 0) {
+//            var isSubCategoryDetailsPresent = false
+//            for (i in subCategoryDetailsListList) {
+//                for (j in subCategoryDetailsListList.get(subCategoryDetailsListList.indexOf(i))) {
+//                    if (j.categoryName!!.equals(categoryDetails.categoryName)) {
+//                        isSubCategoryDetailsPresent = true
+//                        subCategoryDetailsList =
+//                            subCategoryDetailsListList.get(subCategoryDetailsListList.indexOf(i))
+//                        break
+//                    }
+//                }
+//            }
+//
+//            if (isSubCategoryDetailsPresent) {
+//                if (categoryDetailsList != null && categoryDetailsList!!.size > 0) {
+//                    var itemPos: Int = -1
+//                    for (i in categoryDetailsList!!) {
+//                        if (i.categoryName.equals(categoryDetails.categoryName)) {
+//                            i.isItemExpanded = !i.isItemExpanded!!
+//                            itemPos = categoryDetailsList!!.indexOf(i)
+//                            break
+//                        }
+//                    }
+////                    getCategoryDetailsAdapter!!.subCategoryDetailsList = subCategoryDetailsList
+//                    getCategoryDetailsAdapter!!.notifyItemChanged(itemPos)
+//                }
+//            } else {
+//                showLoading()
+//                viewModel.getSubCategoryDetailsApiCall(this@AdminModuleFragment,
+//                    categoryDetails.categoryName!!)
+//            }
+//        } else {
+//            showLoading()
+//            viewModel.getSubCategoryDetailsApiCall(this@AdminModuleFragment,
+//                categoryDetails.categoryName!!)
+//        }
 
     }
 
@@ -469,8 +481,24 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
     ) {
         hideLoading()
         if (getSubCategoryDetailsResponse.subCategoryDetails != null && getSubCategoryDetailsResponse.subCategoryDetails!!.size > 0) {
-            subCategoryDetailsList = getSubCategoryDetailsResponse.subCategoryDetails!!
-            subCategoryDetailsListList.add(subCategoryDetailsList!! as ArrayList<GetSubCategoryDetailsResponse.SubCategoryDetails>)
+//            subCategoryDetailsList = getSubCategoryDetailsResponse.subCategoryDetails!!
+//            subCategoryDetailsListList.add(subCategoryDetailsList!! as ArrayList<GetSubCategoryDetailsResponse.SubCategoryDetails>)
+//            if (categoryDetailsList != null && categoryDetailsList!!.size > 0) {
+//                var itemPos: Int = -1
+//                for (i in categoryDetailsList!!) {
+//                    if (i.categoryName.equals(categoryName)) {
+//                        i.isItemExpanded = !i.isItemExpanded!!
+//                        itemPos = categoryDetailsList!!.indexOf(i)
+//                        break
+//                    }
+//                }
+//                getCategoryDetailsAdapter!!.subCategoryDetailsList = subCategoryDetailsList
+//                getCategoryDetailsAdapter!!.notifyItemChanged(itemPos)
+//            }
+
+
+
+
             if (categoryDetailsList != null && categoryDetailsList!!.size > 0) {
                 var itemPos: Int = -1
                 for (i in categoryDetailsList!!) {
@@ -480,10 +508,11 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
                         break
                     }
                 }
-                getCategoryDetailsAdapter!!.subCategoryDetailsList = subCategoryDetailsList
+               categoryDetailsList!!.get(itemPos).subCategoryDetailsList = getSubCategoryDetailsResponse.subCategoryDetails
+//                getCategoryDetailsAdapter!!.subCategoryDetailsList = subCategoryDetailsList
+//                categoryDetailsList!!.get(itemPos).isItemExpanded=!categoryDetailsList!!.get(itemPos).isItemExpanded!!
                 getCategoryDetailsAdapter!!.notifyItemChanged(itemPos)
             }
-
         }
     }
 
