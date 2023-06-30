@@ -195,13 +195,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         } else {
             landMarks = "-"
         }
-        if (surveyCreateRequest.city2 != null) {
-            city = surveyCreateRequest.city2.toString()
+        if (surveyCreateRequest.city != null) {
+            city = surveyCreateRequest.city.toString()
         } else {
             city = "-"
         }
-        if (surveyCreateRequest.state2 != null) {
-            state = surveyCreateRequest.state2.toString()
+        if (surveyCreateRequest.state != null) {
+            state = surveyCreateRequest.state.toString()
         } else {
             state = "-"
         }
@@ -253,9 +253,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (surveyCreateRequest.dimensionType != null && surveyCreateRequest.dimensionType!!.name != null) {
             activityApnaSurveyPreviewBinding.dimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + "): ")
             activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + "): ")
+            activityApnaSurveyPreviewBinding.expectedRentUnit.setText(surveyCreateRequest.dimensionType!!.name)
+            activityApnaSurveyPreviewBinding.securityDepositUnit.setText(surveyCreateRequest.dimensionType!!.name)
         } else {
             activityApnaSurveyPreviewBinding.dimensionType.setText("(-): ")
             activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(-): ")
+            activityApnaSurveyPreviewBinding.expectedRentUnit.setText("-")
+            activityApnaSurveyPreviewBinding.securityDepositUnit.setText("-")
         }
         if (surveyCreateRequest.length != null) {
             activityApnaSurveyPreviewBinding.length.setText(surveyCreateRequest.length)
@@ -602,7 +606,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                     LinearLayoutManager(this@ApnaSurveyPreviewActivity)
 
                 noOfHouses = apartments.map { it.noHouses!!.toInt().toFloat() } as ArrayList<Float>
-                apartmentNames = apartments.map { it.apartments.toString()} as ArrayList<String>
+                apartmentNames = apartments.map { it.apartments.toString() } as ArrayList<String>
                 setApartmentsValues()
                 setupApartmentsChart()
             } else {
@@ -692,6 +696,20 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         } else {
             activityApnaSurveyPreviewBinding.videoRecyclerView.visibility = View.GONE
             activityApnaSurveyPreviewBinding.noVideoAvailable.visibility = View.VISIBLE
+        }
+
+        if (surveyCreateRequest.apolloEmployee != null) {
+            if (surveyCreateRequest.apolloEmployee!!.uid != null) {
+                if (surveyCreateRequest.apolloEmployee!!.uid!!.isNotEmpty()) {
+                    activityApnaSurveyPreviewBinding.apolloEmployee.setText(surveyCreateRequest.apolloEmployee!!.uid!!.toString())
+                } else {
+                    activityApnaSurveyPreviewBinding.apolloEmployee.setText("-")
+                }
+            } else {
+                activityApnaSurveyPreviewBinding.apolloEmployee.setText("-")
+            }
+        } else {
+            activityApnaSurveyPreviewBinding.apolloEmployee.setText("-")
         }
 
         // Key Features
@@ -854,18 +872,20 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
     private fun setupHospitalsChart() {
         val barDataSet = BarDataSet(hospitalsEntries, "")
-        barDataSet.isHighlightEnabled=true
+        barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         activityApnaSurveyPreviewBinding.hospitalsChart.data = barData
 
         activityApnaSurveyPreviewBinding.hospitalsChart.setDragEnabled(true)
         activityApnaSurveyPreviewBinding.hospitalsChart.setScaleEnabled(true);
-        activityApnaSurveyPreviewBinding.hospitalsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+        activityApnaSurveyPreviewBinding.hospitalsChart.setOnChartValueSelectedListener(object :
+            OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList))
                 mv.chartView = activityApnaSurveyPreviewBinding.hospitalsChart // For bounds control
 
                 activityApnaSurveyPreviewBinding.hospitalsChart.marker = mv
@@ -946,19 +966,22 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
     private fun setupApartmentsChart() {
         val barDataSet = BarDataSet(apartmentsEntries, "")
-        barDataSet.isHighlightEnabled=true
+        barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         activityApnaSurveyPreviewBinding.apartmentsChart.data = barData
 
         activityApnaSurveyPreviewBinding.apartmentsChart.setDragEnabled(true)
         activityApnaSurveyPreviewBinding.apartmentsChart.setScaleEnabled(true);
-        activityApnaSurveyPreviewBinding.apartmentsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+        activityApnaSurveyPreviewBinding.apartmentsChart.setOnChartValueSelectedListener(object :
+            OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity, IndexAxisValueFormatter(stringValuesList))
-                mv.chartView = activityApnaSurveyPreviewBinding.apartmentsChart // For bounds control
+                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList))
+                mv.chartView =
+                    activityApnaSurveyPreviewBinding.apartmentsChart // For bounds control
 
                 activityApnaSurveyPreviewBinding.apartmentsChart.marker = mv
             }
@@ -1028,18 +1051,21 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
     private fun setupCompetitorsChart() {
         val lineDataSet = LineDataSet(competitorsEntries, "")
         val lineData = LineData(lineDataSet)
-        lineDataSet.isHighlightEnabled=true
+        lineDataSet.isHighlightEnabled = true
         activityApnaSurveyPreviewBinding.competitorsChart.data = lineData
 
         activityApnaSurveyPreviewBinding.competitorsChart.setDragEnabled(true)
         activityApnaSurveyPreviewBinding.competitorsChart.setScaleEnabled(true);
-        activityApnaSurveyPreviewBinding.competitorsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+        activityApnaSurveyPreviewBinding.competitorsChart.setOnChartValueSelectedListener(object :
+            OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity, IndexAxisValueFormatter(stringValuesList))
-                mv.chartView = activityApnaSurveyPreviewBinding.competitorsChart // For bounds control
+                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList))
+                mv.chartView =
+                    activityApnaSurveyPreviewBinding.competitorsChart // For bounds control
 
                 activityApnaSurveyPreviewBinding.competitorsChart.marker = mv
             }
@@ -1114,11 +1140,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList))
                 mv.chartView = activityApnaSurveyPreviewBinding.neighborChart // For bounds control
 
                 activityApnaSurveyPreviewBinding.neighborChart.marker = mv
             }
+
             override fun onNothingSelected() {
             }
         })

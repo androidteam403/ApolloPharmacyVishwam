@@ -67,7 +67,6 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-
 class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     GoogleMap.OnMarkerDragListener {
     val morningHours = intArrayOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
@@ -75,6 +74,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
     var stateName = ""
     var cityName = ""
+
+    var regionName = ""
+    var regionUid = ""
+    var regionCode = ""
 
     lateinit var geocoder: Geocoder
 
@@ -144,6 +147,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     var neighbouringLocationList = ArrayList<NeighbouringLocationResponse.Data.ListData.Row>()
     var selectedTrafficGeneratorItem = ArrayList<String>()
     var ageOftheBuildingMonthsList = ArrayList<String>()
+    var regionList = ArrayList<RegionListResponse.Data.ListData.Row>()
 
     var dimenTypeSelectedItem = Row()
     private lateinit var activityApnaNewSurveyBinding: ActivityApnaNewSurveyBinding
@@ -210,7 +214,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         Utlis.showLoading(this@ApnaNewSurveyActivity)
 
         // Location list api call
-        apnaNewSurveyViewModel.getLocationList(this@ApnaNewSurveyActivity)
+//        apnaNewSurveyViewModel.getLocationList(this@ApnaNewSurveyActivity)
+
+        // Region list api call
+        apnaNewSurveyViewModel.getRegionList(this@ApnaNewSurveyActivity, Preferences.getToken())
 
         // State list api call
 //        apnaNewSurveyViewModel.getStateList(this@ApnaNewSurveyActivity)
@@ -695,6 +702,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 surveyCreateRequest.videoMb = videoMb
             }
 
+            if (activityApnaNewSurveyBinding.knownOfEmployeeRadioGroup.checkedRadioButtonId != -1) {
+                val knownOfEmployeeRadioGroupId =
+                    activityApnaNewSurveyBinding.knownOfEmployeeRadioGroup.checkedRadioButtonId
+                val apolloEmployee = SurveyCreateRequest.ApolloEmployee()
+                apolloEmployee.uid =
+                    findViewById<RadioButton>(knownOfEmployeeRadioGroupId).text.toString()
+                        .trim()
+                surveyCreateRequest.apolloEmployee = apolloEmployee
+            }
+
 //            val location = surveyCreateRequest.location2.toString()
 //            var isCompleted: Boolean = false
 //            if (location.isNotEmpty()) {
@@ -874,7 +891,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 locationListDialog.dismiss()
             }
             locationListItemAdapter = LocationListItemAdapter(
-                this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, locationList
+                this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, regionList
             )
             dialogLocationListBinding.locationRcv.adapter = locationListItemAdapter
             dialogLocationListBinding.locationRcv.layoutManager =
@@ -3138,6 +3155,25 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             if (validateLocationDetails() && validateSiteSpecification()) {
                 surveyCreateRequest.employeeId = Preferences.getValidatedEmpId()
 
+                if (activityApnaNewSurveyBinding.knownOfEmployeeRadioGroup.checkedRadioButtonId != -1) {
+                    val knownOfEmployeeRadioGroupId =
+                        activityApnaNewSurveyBinding.knownOfEmployeeRadioGroup.checkedRadioButtonId
+                    val apolloEmployee = SurveyCreateRequest.ApolloEmployee()
+                    apolloEmployee.uid =
+                        findViewById<RadioButton>(knownOfEmployeeRadioGroupId).text.toString()
+                            .trim()
+                    surveyCreateRequest.apolloEmployee = apolloEmployee
+                }
+
+//                if (activityApnaNewSurveyBinding.parkingRadioGroup.checkedRadioButtonId != -1) {
+//                    val parkingRadioGroupId =
+//                        activityApnaNewSurveyBinding.parkingRadioGroup.checkedRadioButtonId
+//                    val parking = SurveyCreateRequest.Parking()
+//                    parking.uid =
+//                        findViewById<RadioButton>(parkingRadioGroupId).text.toString().trim()
+//                    surveyCreateRequest.parking = parking
+//                }
+
                 val dialog = Dialog(this@ApnaNewSurveyActivity)
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -3470,14 +3506,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         searchText: String,
         dialogLocationListBinding: DialogLocationListBinding?,
     ) {
-        val filteredList = ArrayList<LocationListResponse.Data.ListData.Row>()
-        for (i in locationList.indices) {
+        val filteredList = ArrayList<RegionListResponse.Data.ListData.Row>()
+        for (i in regionList.indices) {
             if (searchText.isEmpty()) {
                 filteredList.clear()
-                filteredList.addAll(locationList)
+                filteredList.addAll(regionList)
             } else {
-                if (locationList[i].name!!.contains(searchText, true)) {
-                    filteredList.add(locationList[i])
+                if (regionList[i].name!!.contains(searchText, true)) {
+                    filteredList.add(regionList[i])
                 }
             }
         }
@@ -3775,26 +3811,28 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 //                )
 
 
-                surveyCreateRequest.location2 =
-                    activityApnaNewSurveyBinding.locationText.text.toString().trim()
-                surveyCreateRequest.state2 =
+//                surveyCreateRequest.location2 =
+//                    activityApnaNewSurveyBinding.locationText.text.toString().trim()
+//                surveyCreateRequest.state2 =
+//                    activityApnaNewSurveyBinding.stateText.text.toString().trim()
+//                surveyCreateRequest.city2 =
+//                    activityApnaNewSurveyBinding.cityText.text.toString().trim()
+//                surveyCreateRequest.address =
+//                    activityApnaNewSurveyBinding.locationText.text.toString().trim()
+
+                val region = SurveyCreateRequest.Region()
+                region.uid = regionUid
+                surveyCreateRequest.region = region
+
+//                val state = SurveyCreateRequest.State()
+//                state.uid = activityApnaNewSurveyBinding.stateText.text.toString().trim()
+                surveyCreateRequest.state =
                     activityApnaNewSurveyBinding.stateText.text.toString().trim()
-                surveyCreateRequest.city2 =
+
+//                val city = SurveyCreateRequest.City()
+//                city.uid = activityApnaNewSurveyBinding.cityText.text.toString().trim()
+                surveyCreateRequest.city =
                     activityApnaNewSurveyBinding.cityText.text.toString().trim()
-
-                surveyCreateRequest.address =
-                    activityApnaNewSurveyBinding.locationText.text.toString().trim()
-                val location = SurveyCreateRequest.Location__1()
-                location.uid = location_uid
-                surveyCreateRequest.location = location
-
-                val state = SurveyCreateRequest.State()
-                state.uid = state_uid
-                surveyCreateRequest.state = state
-
-                val city = SurveyCreateRequest.City()
-                city.uid = city_uid
-                surveyCreateRequest.city = city
 
                 surveyCreateRequest.pincode =
                     activityApnaNewSurveyBinding.pinText.text.toString().trim()
@@ -3853,8 +3891,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 //                    ), android.graphics.PorterDuff.Mode.SRC_IN
 //                )
 
-                surveyCreateRequest.dimensionType1 =
-                    activityApnaNewSurveyBinding.dimensionTypeSelect.text.toString().trim()
+//                surveyCreateRequest.dimensionType1 =
+//                    activityApnaNewSurveyBinding.dimensionTypeSelect.text.toString().trim()
                 surveyCreateRequest.length =
                     activityApnaNewSurveyBinding.lengthText.text.toString().trim()
                 surveyCreateRequest.width =
@@ -3866,8 +3904,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     surveyCreateRequest.totalArea =
                         activityApnaNewSurveyBinding.totalAreaText.text.toString().trim().toFloat()
                 }
-                val expectedRentRadioGroupId =
-                    activityApnaNewSurveyBinding.expectedRentRadioGroup.checkedRadioButtonId
+//                val expectedRentRadioGroupId =
+//                    activityApnaNewSurveyBinding.expectedRentRadioGroup.checkedRadioButtonId
                 val dimensionType = SurveyCreateRequest.DimensionType()
                 dimensionType.uid = dimenTypeSelectedItem.uid
                 dimensionType.name = dimenTypeSelectedItem.name
@@ -4430,10 +4468,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             activityApnaNewSurveyBinding.ceilingHeightText.requestFocus()
             siteSpecificationsErrorMessage = "Ceiling height should be greater than zero"
             return false
-        } else if (activityApnaNewSurveyBinding.expectedRentRadioGroup.checkedRadioButtonId == -1) {
-            siteSpecificationsErrorMessage = "Please select expected rent type"
-            return false
-        } else if (expectedRent.isEmpty()) {
+        }
+//        else if (activityApnaNewSurveyBinding.expectedRentRadioGroup.checkedRadioButtonId == -1) {
+//            siteSpecificationsErrorMessage = "Please select expected rent type"
+//            return false
+//        }
+        else if (expectedRent.isEmpty()) {
             activityApnaNewSurveyBinding.expectedRentText.requestFocus()
             siteSpecificationsErrorMessage = "Please enter expected rent"
             return false
@@ -4475,7 +4515,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         val landmarks = activityApnaNewSurveyBinding.nearByLandmarksText.text.toString().trim()
 
         if (location.isEmpty()) {
-            errorMessage = "Please select location"
+            errorMessage = "Please select region"
             return false
         } else if (state.isEmpty()) {
             errorMessage = "Please select state"
@@ -4591,15 +4631,15 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         stateUid: String,
         cityUid: String,
     ) {
-        location_uid = locationUid
-        state_uid = stateUid
-        city_uid = cityUid
-        stateName = state
-        cityName = city
-        activityApnaNewSurveyBinding.locationText.setText(location)
-//        activityApnaNewSurveyBinding.stateText.setText(stateName)
-//        activityApnaNewSurveyBinding.cityText.setText(cityName)
-        locationListDialog.dismiss()
+//        location_uid = locationUid
+//        state_uid = stateUid
+//        city_uid = cityUid
+//        stateName = state
+//        cityName = city
+//        activityApnaNewSurveyBinding.locationText.setText(location)
+////        activityApnaNewSurveyBinding.stateText.setText(stateName)
+////        activityApnaNewSurveyBinding.cityText.setText(cityName)
+//        locationListDialog.dismiss()
     }
 
     @SuppressLint("SetTextI18n")
@@ -4814,7 +4854,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 //            activityApnaNewSurveyBinding.expectedRentRadioGroup.check(activityApnaNewSurveyBinding.perSqFtRadioButton.id)
 
 //            activityApnaNewSurveyBinding.dimensionTypeSelect.setText(dimensionTypeList[0].name.toString())
-            this.dimenTypeSelectedItem = dimensionTypeList[0]
+//            this.dimenTypeSelectedItem = dimensionTypeList[0]
         }
     }
 
@@ -4967,6 +5007,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
     override fun onSelectDimensionTypeItem(position: Int, item: String, row: Row) {
         activityApnaNewSurveyBinding.dimensionTypeSelect.setText(item)
+        activityApnaNewSurveyBinding.dimensionOfPremisesUnit.setText(item)
+        activityApnaNewSurveyBinding.expectedRentOrDepositUnit.setText(item)
         this.dimenTypeSelectedItem = row
         dimensionTypeDialog.dismiss()
     }
@@ -4981,6 +5023,25 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         if (ageOftheBuildingDialog.isShowing) {
             ageOftheBuildingDialog.dismiss()
         }
+    }
+
+    override fun onSuccessGetRegionListApiCall(regionListResponse: RegionListResponse) {
+        if (regionListResponse != null && regionListResponse.data != null && regionListResponse.data!!.listData != null && regionListResponse.data!!.listData!!.rows!!.size > 0) {
+            regionList =
+                regionListResponse.data!!.listData!!.rows as ArrayList<RegionListResponse.Data.ListData.Row>
+        }
+    }
+
+    override fun onFailureGetRegionListApiCall(message: String) {
+        Toast.makeText(this@ApnaNewSurveyActivity, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onRegionSelect(regionName: String, regionUid: String, regionCode: String) {
+        this.regionName = regionName
+        this.regionUid = regionUid
+        this.regionCode = regionCode
+        activityApnaNewSurveyBinding.locationText.setText(regionName)
+        locationListDialog.dismiss()
     }
 
     override fun onBackPressed() {

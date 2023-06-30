@@ -88,6 +88,7 @@ class ApnaSurveyAdapter(
         }
     }
 
+    @SuppressLint("SetTextI18n")
     fun onBindViewHolderItem(holder: ViewHolder, position: Int) {
         val approvedOrders = approveList.get(position)
         if (approvedOrders!!.status != null) {
@@ -113,12 +114,12 @@ class ApnaSurveyAdapter(
         if (approvedOrders.createdId!!.lastName != null) lName =
             approvedOrders.createdId!!.lastName!!
         holder.apnaSurveyLayoutBinding.surveyby.setText("$fName $lName")
-        var locationName = ""
-        var cityName = ""
-        if (approvedOrders.location != null) {
-            if (approvedOrders.location!!.name != null) locationName =
-                approvedOrders.location!!.name!!
-        }
+//        var locationName = ""
+//        var cityName = ""
+//        if (approvedOrders.location != null) {
+//            if (approvedOrders.location!!.name != null) locationName =
+//                approvedOrders.location!!.name!!
+//        }
 //        if(approvedOrders.city!=null) {
 //            if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
 //        }
@@ -127,10 +128,31 @@ class ApnaSurveyAdapter(
 //        if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
 
 //        holder.apnaSurveyLayoutBinding.location.setText("$locationName$cityName")
-        holder.apnaSurveyLayoutBinding.location.setText("-")
+        var city = ""
+        var state = ""
+        if (approvedOrders.city != null) {
+            if (approvedOrders.city!!.isNotEmpty()) {
+                city = approvedOrders.city!!.toString()
+            } else {
+                city = "-"
+            }
+        } else {
+            city = "-"
+        }
+
+        if (approvedOrders.state != null) {
+            if (approvedOrders.state!!.isNotEmpty()) {
+                state = approvedOrders.state!!.toString()
+            } else {
+                state = "-"
+            }
+        } else {
+            state = "-"
+        }
+        holder.apnaSurveyLayoutBinding.location.setText("$city, $state")
 
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val outputDateFormat = SimpleDateFormat("dd MMMM,yyyy")
+        val outputDateFormat = SimpleDateFormat("d MMM, yyyy")
         holder.apnaSurveyLayoutBinding.surveystart.setText(
             outputDateFormat.format(
                 inputDateFormat.parse(

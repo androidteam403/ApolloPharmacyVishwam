@@ -117,4 +117,10 @@ interface ApnaNewSurveyCallBack {
     fun onSelectNeighbourLocation(position: Int, item: String)
 
     fun onSelectedAgeoftheBuildingMonth(month: String)
+
+    fun onSuccessGetRegionListApiCall(regionListResponse: RegionListResponse)
+
+    fun onFailureGetRegionListApiCall(message: String)
+
+    fun onRegionSelect(regionName: String, regionUid: String, regionCode: String)
 }
