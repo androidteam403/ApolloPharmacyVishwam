@@ -52,8 +52,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     public var regionList = ArrayList<String>()
     var pageSize: Int = 0
     var charString: String? = ""
-    var siteId: String=""
-    var regionId: String=""
+    var siteId: String = ""
+    var regionId: String = ""
     private var pendingListList = ArrayList<QcListsResponse.Pending>()
     private var pendingFilterList = ArrayList<QcListsResponse.Pending>()
     var qcListsResponse: QcListsResponse? = null
@@ -99,7 +99,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var fromDate = String()
 
 
-
     override val layoutRes: Int
         get() = R.layout.qc_fragment_pending
 
@@ -110,10 +109,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     @SuppressLint("ResourceType", "SetTextI18n")
     override fun setup() {
         pageSize = Preferences.getQcPendingPageSiz()
-        MainActivity.mInstance.updateQcListCount(Preferences.getQcPendingPageSiz().toString())
-//        viewBinding.selectfiltertype.setText(
-//            "Rows: " + Preferences.getQcPendingPageSiz().toString()
-//        )
+//        MainActivity.mInstance.updateQcListCount(Preferences.getQcPendingPageSiz().toString())
+        viewBinding.selectfiltertype.setText(
+            "Per page: " + Preferences.getQcPendingPageSiz().toString()
+        )
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
@@ -127,11 +126,11 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         pageSizeList.add("10")
         pageSizeList.add("15")
 //
-//        viewBinding.selectfiltertype.setOnClickListener {
-//            QcListSizeDialog().apply {
-//                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
-//            }.show(childFragmentManager, "")
-//        }
+        viewBinding.selectfiltertype.setOnClickListener {
+            QcListSizeDialog().apply {
+                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+            }.show(childFragmentManager, "")
+        }
 
 //        var itemsPerPageCountList = arrayOf("5", "10", "15")
 //
@@ -744,9 +743,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             if (resultCode == Activity.RESULT_OK) {
 
                 if (data != null) {
-                   fromDate= data.getStringExtra("fromQcDate").toString()
-                    currentDate= data.getStringExtra("toDate").toString()
-                    siteId= data.getStringExtra("siteId").toString()
+                    fromDate = data.getStringExtra("fromQcDate").toString()
+                    currentDate = data.getStringExtra("toDate").toString()
+                    siteId = data.getStringExtra("siteId").toString()
                     regionId = data.getStringExtra("regionId").toString()
                     typeString = data.getStringExtra("orderType").toString()
                     showLoading()
@@ -1200,15 +1199,15 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
     override fun onClickSpinnerLayout() {
         QcListSizeDialog().apply {
-                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
-            }.show(childFragmentManager, "")
+            arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+        }.show(childFragmentManager, "")
     }
 
     override fun selectListSize(listSize: String) {
         Preferences.setQcPendingPageSize(listSize.toInt());
         pageSize = Preferences.getQcPendingPageSiz()
-        MainActivity.mInstance.updateQcListCount(listSize)
-//        viewBinding.selectfiltertype.setText("Rows: " + listSize)
+//        MainActivity.mInstance.updateQcListCount(listSize)
+        viewBinding.selectfiltertype.setText("Per page: " + listSize)
         viewModel.setPendingList(qcListsResponse!!)
 //        adapter!!.notifyDataSetChanged()
 //        Toast.makeText(context, "selected", Toast.LENGTH_SHORT).show()
