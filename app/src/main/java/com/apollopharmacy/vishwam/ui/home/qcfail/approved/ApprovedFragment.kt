@@ -48,8 +48,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var pageNo: Int = 1
     var lastIndex = 0
     var increment: Int = 0
-    var siteId: String=""
-    var regionId: String=""
+    var siteId: String = ""
+    var regionId: String = ""
     var pageSize: Int = 0
     var mainActivityCallback: MainActivityCallback? = null
     public var storeStringList = ArrayList<String>()
@@ -64,7 +64,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var storeList = ArrayList<QcStoreList.Store>()
     var regionList = ArrayList<QcRegionList.Store>()
     private var filterApproveList = ArrayList<QcListsResponse.Approved>()
-    var subList= ArrayList<ArrayList<QcListsResponse.Approved>>()
+    var subList = ArrayList<ArrayList<QcListsResponse.Approved>>()
     var stuff: List<List<String>> = ArrayList()
 
     var getitemList: List<QcItemListResponse>? = null
@@ -95,10 +95,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     override fun setup() {
         showLoading()
         pageSize = Preferences.getQcApprovedPageSiz()
-        MainActivity.mInstance.updateQcListCount(Preferences.getQcApprovedPageSiz().toString())
-//        viewBinding.selectfiltertype.setText(
-//            "Rows: " + Preferences.getQcApprovedPageSiz().toString()
-//        )
+//        MainActivity.mInstance.updateQcListCount(Preferences.getQcApprovedPageSiz().toString())
+        viewBinding.selectfiltertype.setText(
+            "Per page: " + Preferences.getQcApprovedPageSiz().toString()
+        )
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
@@ -110,11 +110,11 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         pageSizeList.add("10")
         pageSizeList.add("15")
 
-//        viewBinding.selectfiltertype.setOnClickListener {
-//            QcListSizeDialog().apply {
-//                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
-//            }.show(childFragmentManager, "")
-//        }
+        viewBinding.selectfiltertype.setOnClickListener {
+            QcListSizeDialog().apply {
+                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+            }.show(childFragmentManager, "")
+        }
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())
 
@@ -275,7 +275,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             filterApproveList
                         )
                     }
-                if (viewBinding.recyclerViewApproved != null){
+                if (viewBinding.recyclerViewApproved != null) {
                     viewBinding.recyclerViewApproved.removeAllViews()
                 }
                 viewBinding.recyclerViewApproved.adapter = adapter
@@ -316,7 +316,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             filterApproveList
                         )
                     }
-                if (viewBinding.recyclerViewApproved != null){
+                if (viewBinding.recyclerViewApproved != null) {
                     viewBinding.recyclerViewApproved.removeAllViews()
                 }
                 viewBinding.recyclerViewApproved.adapter = adapter
@@ -367,9 +367,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         regionStringList.clear();
         hideLoading()
         if (approvedlist.isNullOrEmpty()) {
-           if (viewBinding.recyclerViewApproved != null){
-               viewBinding.recyclerViewApproved.removeAllViews()
-           }
+            if (viewBinding.recyclerViewApproved != null) {
+                viewBinding.recyclerViewApproved.removeAllViews()
+            }
             viewBinding.emptyList.visibility = View.VISIBLE
             viewBinding.recyclerViewApproved.visibility = View.GONE
             viewBinding.continueBtn.visibility = View.GONE
@@ -443,13 +443,14 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             filterApproveList
                         )
                     }
-                if (viewBinding.recyclerViewApproved != null){
+                if (viewBinding.recyclerViewApproved != null) {
                     viewBinding.recyclerViewApproved.removeAllViews()
                 }
                 viewBinding.recyclerViewApproved.adapter = adapter
             }
         }
     }
+
     fun splitTheArrayList(approvedList: ArrayList<QcListsResponse.Approved>?) {
         subList?.clear()
         var approvedSubList: ArrayList<QcListsResponse.Approved>? = ArrayList()
@@ -522,9 +523,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             if (resultCode == Activity.RESULT_OK) {
 
                 if (data != null) {
-                    fromDate= data.getStringExtra("fromQcDate").toString()
-                    currentDate= data.getStringExtra("toDate").toString()
-                    siteId= data.getStringExtra("siteId").toString()
+                    fromDate = data.getStringExtra("fromQcDate").toString()
+                    currentDate = data.getStringExtra("toDate").toString()
+                    siteId = data.getStringExtra("siteId").toString()
                     regionId = data.getStringExtra("regionId").toString()
                     showLoading()
                     viewModel.getQcList(
@@ -711,9 +712,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
     override fun selectListSize(listSize: String) {
         Preferences.setQcApprovedPageSize(listSize.toInt());
-//        viewBinding.selectfiltertype.setText("Rows: " + listSize)
+        viewBinding.selectfiltertype.setText("Per page: " + listSize)
 //        MainActivity.mInstance.mainActivityCallback.onSelectApprovedFragment(listSize)
-        MainActivity.mInstance.updateQcListCount(listSize)
+//        MainActivity.mInstance.updateQcListCount(listSize)
         pageSize = Preferences.getQcApprovedPageSiz()
         viewModel.setApprovedList(qcListsResponse!!)
 //        Toast.makeText(context, "selected", Toast.LENGTH_SHORT).show()

@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean isStoreSuperVisour;
 
-    private TextView selectFilterType;
+//    private TextView selectFilterType;
 
     private RelativeLayout riderNotificationLayout;
     private ImageView notifyImage;
@@ -385,7 +385,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         filterIndicator = (View) findViewById(R.id.filter_indication);
         qcfilterIndicator = (View) findViewById(R.id.qc_filter_indication);
-        selectFilterType=findViewById(R.id.selectfiltertype);
+//        selectFilterType=findViewById(R.id.selectfiltertype);
         logout = findViewById(R.id.logout_menu);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -469,11 +469,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         });
-        selectFilterType.setOnClickListener(v -> {
-            if (mainActivityCallback != null) {
-                mainActivityCallback.onClickSpinnerLayout();
-            }
-        });
+//        selectFilterType.setOnClickListener(v -> {
+//            if (mainActivityCallback != null) {
+//                mainActivityCallback.onClickSpinnerLayout();
+//            }
+//        });
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {
@@ -1052,9 +1052,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
-                spinnerLayout.setVisibility(View.VISIBLE);
+                spinnerLayout.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                selectFilterType.setText("Rows: " +String.valueOf(Preferences.INSTANCE.getQcPendingPageSiz()));
+//                selectFilterType.setText("Rows: " +String.valueOf(Preferences.INSTANCE.getQcPendingPageSiz()));
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
@@ -1203,11 +1203,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                selectFilterType.setText("Rows: "+(String.valueOf(Preferences.INSTANCE.getQcApprovedPageSiz())));
+//                selectFilterType.setText("Rows: "+(String.valueOf(Preferences.INSTANCE.getQcApprovedPageSiz())));
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
-                spinnerLayout.setVisibility(View.VISIBLE);
+                spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
@@ -1220,11 +1220,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                selectFilterType.setText("Rows: "+ String.valueOf(Preferences.INSTANCE.getQcRejectedPageSiz()));
+//                selectFilterType.setText("Rows: "+ String.valueOf(Preferences.INSTANCE.getQcRejectedPageSiz()));
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
-                spinnerLayout.setVisibility(View.VISIBLE);
+                spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
@@ -2490,7 +2490,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void updateQcListCount(String listSize){
-        selectFilterType.setText("Rows: " + listSize);
+//        selectFilterType.setText("Rows: " + listSize);
     }
 
     public void updateSelection(int pos) {
@@ -2535,7 +2535,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onSelectApprovedFragment(String listSize) {
-       selectFilterType.setText("Rows: " + listSize);
+//       selectFilterType.setText("Rows: " + listSize);
     }
 
     @Override
