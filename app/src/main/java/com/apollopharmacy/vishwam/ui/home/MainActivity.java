@@ -1747,7 +1747,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (isSensingRequired) {
             listView.addHeaderModel(new HeaderModel("Apollo Sensing", Color.WHITE, false, R.drawable.ic_menu_champ));
         }
+/*
         listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));
+*/
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
@@ -1807,9 +1809,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 
 
-/*
         listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
-*/
 //
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
@@ -1826,7 +1826,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
         }
 
+/*
         listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
+*/
 
         listView.build().addOnGroupClickListener((parent, v, groupPosition, id) -> {
             List<HeaderModel> listHeader = listView.getListHeader();
@@ -2489,7 +2491,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(i);
     }
 
-    public void updateQcListCount(String listSize){
+    public void updateQcListCount(String listSize) {
 //        selectFilterType.setText("Rows: " + listSize);
     }
 
@@ -2550,7 +2552,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onClickSpinnerLayout() {
-        
+
     }
 
     public void startService() {
