@@ -145,4 +145,24 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
     public void onClickQcFilterIcon() {
 
     }
+
+    @Override
+    public void onSelectApprovedFragment(String listSize) {
+
+    }
+
+    @Override
+    public void onSelectRejectedFragment() {
+
+    }
+
+    @Override
+    public void onSelectPendingFragment() {
+
+    }
+
+    @Override
+    public void onClickSpinnerLayout() {
+
+    }
 }

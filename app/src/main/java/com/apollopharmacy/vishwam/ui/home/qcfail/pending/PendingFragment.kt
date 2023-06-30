@@ -4,7 +4,6 @@ package com.apollopharmacy.vishw
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.os.Handler
 import android.text.Editable
 import android.text.InputFilter
@@ -12,7 +11,6 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -23,9 +21,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.DialogAcceptQcBinding
 import com.apollopharmacy.vishwam.databinding.DialogRejectQcBinding
 import com.apollopharmacy.vishwam.databinding.QcFragmentPendingBinding
-import com.apollopharmacy.vishwam.dialog.CustomDialog
 import com.apollopharmacy.vishwam.dialog.QcListSizeDialog
-import com.apollopharmacy.vishwam.dialog.ReasonsDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.RejectReasonsDialog
@@ -39,6 +35,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageAc
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -55,6 +52,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     public var regionList = ArrayList<String>()
     var pageSize: Int = 0
     var charString: String? = ""
+    var siteId: String=""
+    var regionId: String=""
     private var pendingListList = ArrayList<QcListsResponse.Pending>()
     private var pendingFilterList = ArrayList<QcListsResponse.Pending>()
     var qcListsResponse: QcListsResponse? = null
@@ -96,6 +95,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var names = ArrayList<QcListsResponse.Pending>();
     var selectedCount: Int = 0
     var typeString = ""
+    var currentDate = String()
+    var fromDate = String()
+
 
 
     override val layoutRes: Int
@@ -108,9 +110,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     @SuppressLint("ResourceType", "SetTextI18n")
     override fun setup() {
         pageSize = Preferences.getQcPendingPageSiz()
-        viewBinding.selectfiltertype.setText(
-            "Rows: " + Preferences.getQcPendingPageSiz().toString()
-        )
+        MainActivity.mInstance.updateQcListCount(Preferences.getQcPendingPageSiz().toString())
+//        viewBinding.selectfiltertype.setText(
+//            "Rows: " + Preferences.getQcPendingPageSiz().toString()
+//        )
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
@@ -123,12 +126,12 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         pageSizeList.add("5")
         pageSizeList.add("10")
         pageSizeList.add("15")
-
-        viewBinding.selectfiltertype.setOnClickListener {
-            QcListSizeDialog().apply {
-                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
-            }.show(childFragmentManager, "")
-        }
+//
+//        viewBinding.selectfiltertype.setOnClickListener {
+//            QcListSizeDialog().apply {
+//                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+//            }.show(childFragmentManager, "")
+//        }
 
 //        var itemsPerPageCountList = arrayOf("5", "10", "15")
 //
@@ -170,11 +173,17 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 //        viewModel.getQcStoreist()
 //        Preferences.setQcToDate(Utlis.getCurrentDate("dd-MMM-yyy")!!)
 //        Preferences.setQcFromDate("1-Apr-2019")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        currentDate = simpleDateFormat.format(Date())
+
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        fromDate = simpleDateFormat.format(cal.time)
 
         viewModel.getQcPendingList(
             Preferences.getToken(),
-            "1 - Apr - 2019",
-            Utlis.getCurrentDate("yyyy-MM-dd")!!,
+            fromDate,
+            currentDate,
             "",
             "",
             this
@@ -300,15 +309,15 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         })
         viewBinding.refreshSwipe.setOnRefreshListener {
-            Preferences.setQcFromDate("")
-            Preferences.setQcToDate("")
-            Preferences.setQcSite("")
-            Preferences.setQcRegion("")
+//            Preferences.setQcFromDate("")
+//            Preferences.setQcToDate("")
+//            Preferences.setQcSite("")
+//            Preferences.setQcRegion("")
             MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
             viewModel.getQcPendingList(
                 Preferences.getToken(),
-                "1 - Apr - 2019",
-                Utlis.getCurrentDate("yyyy-MM-dd")!!,
+                fromDate,
+                currentDate,
                 "",
                 "",
                 this
@@ -735,6 +744,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             if (resultCode == Activity.RESULT_OK) {
 
                 if (data != null) {
+                   fromDate= data.getStringExtra("fromQcDate").toString()
+                    currentDate= data.getStringExtra("toDate").toString()
+                    siteId= data.getStringExtra("siteId").toString()
+                    regionId = data.getStringExtra("regionId").toString()
                     typeString = data.getStringExtra("orderType").toString()
                     showLoading()
                     viewModel.getQcPendingList(
@@ -748,10 +761,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
                     if (data.getStringExtra("fromQcDate").toString()
-                            .equals(Utlis.getDateSevenDaysEarlier("dd-MMM-yyyy")) && data.getStringExtra(
+                            .equals(fromDate) && data.getStringExtra(
                             "toDate"
                         ).toString()
-                            .equals(Utlis.getCurrentDate("dd-MMM-yyyy")) && data.getStringExtra("regionId")
+                            .equals(currentDate) && data.getStringExtra("regionId")
                             .toString().isNullOrEmpty()
                     ) {
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
@@ -766,8 +779,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
                         viewModel.getQcPendingList(
                             Preferences.getToken(),
-                            "01-Apr-2019",
-                            Utlis.getCurrentDate("yyyy-MM-dd")!!,
+                            fromDate,
+                            currentDate,
                             "",
                             "",
                             this
@@ -1174,10 +1187,28 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
     }
 
+    override fun onSelectApprovedFragment(listSize: String) {
+    }
+
+    override fun onSelectRejectedFragment() {
+
+    }
+
+    override fun onSelectPendingFragment() {
+
+    }
+
+    override fun onClickSpinnerLayout() {
+        QcListSizeDialog().apply {
+                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+            }.show(childFragmentManager, "")
+    }
+
     override fun selectListSize(listSize: String) {
         Preferences.setQcPendingPageSize(listSize.toInt());
         pageSize = Preferences.getQcPendingPageSiz()
-        viewBinding.selectfiltertype.setText("Rows: " + listSize)
+        MainActivity.mInstance.updateQcListCount(listSize)
+//        viewBinding.selectfiltertype.setText("Rows: " + listSize)
         viewModel.setPendingList(qcListsResponse!!)
 //        adapter!!.notifyDataSetChanged()
 //        Toast.makeText(context, "selected", Toast.LENGTH_SHORT).show()

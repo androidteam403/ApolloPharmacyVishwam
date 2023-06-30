@@ -153,50 +153,51 @@
             android:gravity="center_vertical"
             android:visibility="visible">
 
+<!--            <RelativeLayout-->
+<!--                android:visibility="invisible"-->
+<!--                android:id="@+id/spinnerlayout"-->
+<!--                android:layout_width="@dimen/value_120dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--               >-->
+
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:id="@+id/filtertype"-->
+
+<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="@dimen/value_15dp"-->
+<!--                    android:layout_marginTop="@dimen/value_10dp"-->
+<!--                    android:layout_marginRight="@dimen/value_15dp"-->
+<!--                    android:focusable="true"-->
+<!--                    android:textColorHint="@color/white"-->
+
+<!--                    app:layout_constraintTop_toTopOf="parent">-->
+
+<!--                    <TextView-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:id="@+id/selectfiltertype"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="35dp"-->
+<!--                        android:clickable="true"-->
+<!--                        android:drawableEnd="@drawable/ic_baseline_arrow"-->
+<!--                        android:editable="false"-->
+<!--                        android:enabled="true"-->
+<!--                        android:focusable="false"-->
+<!--                        android:hint="Select Rows"-->
+<!--                        android:paddingStart="@dimen/value_10dp"-->
+<!--                        android:paddingEnd="@dimen/value_10dp"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textColorHint="@color/white"-->
+<!--                        android:textSize="@dimen/text_12sp" />-->
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--            </RelativeLayout>-->
+
             <RelativeLayout
-                android:id="@+id/spinnerlayout"
-                android:layout_width="@dimen/value_120dp"
-                android:layout_height="wrap_content"
-               >
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/filtertype"
-
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/value_15dp"
-                    android:layout_marginTop="@dimen/value_10dp"
-                    android:layout_marginRight="@dimen/value_15dp"
-                    android:focusable="true"
-                    android:textColorHint="@color/white"
-
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:id="@+id/selectfiltertype"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:clickable="true"
-                        android:drawableEnd="@drawable/ic_baseline_arrow"
-                        android:editable="false"
-                        android:enabled="true"
-                        android:focusable="false"
-                        android:hint="Select Rows"
-                        android:paddingStart="@dimen/value_10dp"
-                        android:paddingEnd="@dimen/value_10dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:textSize="@dimen/text_12sp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_toEndOf="@+id/spinnerlayout"
-                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:layout_centerInParent="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -224,7 +225,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/roboto_medium"
-                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_13sp" />
 
