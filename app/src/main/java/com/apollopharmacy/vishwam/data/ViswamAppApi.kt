@@ -60,7 +60,6 @@ interface ViswamAppApi {
     suspend fun deRegisterDevice(
         @Url url: String,
         @Header("token") token: String,
-
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
 

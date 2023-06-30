@@ -32,7 +32,6 @@ import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBinding>(),
     MainActivityCallback,
@@ -49,7 +48,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var pageNo: Int = 1
     var lastIndex = 0
     var increment: Int = 0
+    var siteId: String=""
+    var regionId: String=""
     var pageSize: Int = 0
+    var mainActivityCallback: MainActivityCallback? = null
     public var storeStringList = ArrayList<String>()
     public var regionStringList = ArrayList<String>()
     public var isBulkChecked: Boolean = false
@@ -93,9 +95,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     override fun setup() {
         showLoading()
         pageSize = Preferences.getQcApprovedPageSiz()
-        viewBinding.selectfiltertype.setText(
-            "Rows: " + Preferences.getQcApprovedPageSiz().toString()
-        )
+        MainActivity.mInstance.updateQcListCount(Preferences.getQcApprovedPageSiz().toString())
+//        viewBinding.selectfiltertype.setText(
+//            "Rows: " + Preferences.getQcApprovedPageSiz().toString()
+//        )
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
@@ -107,11 +110,11 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         pageSizeList.add("10")
         pageSizeList.add("15")
 
-        viewBinding.selectfiltertype.setOnClickListener {
-            QcListSizeDialog().apply {
-                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
-            }.show(childFragmentManager, "")
-        }
+//        viewBinding.selectfiltertype.setOnClickListener {
+//            QcListSizeDialog().apply {
+//                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+//            }.show(childFragmentManager, "")
+//        }
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())
 
@@ -233,6 +236,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         viewModel.qcLists.observe(viewLifecycleOwner) { it ->
             qcListsResponse = it
             approvedListList = it.approvedlist!!
+
             setQcApprovedListResponse(it.approvedlist!!)
 
 
@@ -494,16 +498,17 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     }
 
     fun submitClickApproved() {
-        Preferences.setQcFromDate("")
-        Preferences.setQcToDate("")
-        Preferences.setQcSite("")
-        Preferences.setQcRegion("")
+//        Preferences.setQcFromDate("")
+//        Preferences.setQcToDate("")
+//        Preferences.setQcSite("")
+//        Preferences.setQcRegion("")
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
 
 //        if (!viewBinding.refreshSwipe.isRefreshing)
 //            Utlis.showLoading(requireContext())
+        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, siteId, regionId)
 
-        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
+//        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
 
 
     }
@@ -517,6 +522,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             if (resultCode == Activity.RESULT_OK) {
 
                 if (data != null) {
+                    fromDate= data.getStringExtra("fromQcDate").toString()
+                    currentDate= data.getStringExtra("toDate").toString()
+                    siteId= data.getStringExtra("siteId").toString()
+                    regionId = data.getStringExtra("regionId").toString()
                     showLoading()
                     viewModel.getQcList(
                         Preferences.getToken(),
@@ -682,9 +691,29 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         startActivityForResult(i, 210)
     }
 
+    override fun onSelectApprovedFragment(listSize: String) {
+
+    }
+
+    override fun onSelectRejectedFragment() {
+
+    }
+
+    override fun onSelectPendingFragment() {
+
+    }
+
+    override fun onClickSpinnerLayout() {
+        QcListSizeDialog().apply {
+            arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+        }.show(childFragmentManager, "")
+    }
+
     override fun selectListSize(listSize: String) {
         Preferences.setQcApprovedPageSize(listSize.toInt());
-        viewBinding.selectfiltertype.setText("Rows: " + listSize)
+//        viewBinding.selectfiltertype.setText("Rows: " + listSize)
+//        MainActivity.mInstance.mainActivityCallback.onSelectApprovedFragment(listSize)
+        MainActivity.mInstance.updateQcListCount(listSize)
         pageSize = Preferences.getQcApprovedPageSiz()
         viewModel.setApprovedList(qcListsResponse!!)
 //        Toast.makeText(context, "selected", Toast.LENGTH_SHORT).show()
