@@ -176,6 +176,8 @@ object Preferences {
 
     private const val KEY_STORE_LIST_JSON = "KEY_STORE_LIST_ITEM"
 
+    private const val SET_IMAGE_UPLOADED_COUNT_CHAMPS = "SET_IMAGE_UPLOADED_COUNT_CHAMPS"
+
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
     }
