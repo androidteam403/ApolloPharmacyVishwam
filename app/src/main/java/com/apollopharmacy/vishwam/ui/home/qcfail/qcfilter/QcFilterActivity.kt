@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +24,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickListner,
-    QcRegionDialog.NewDialogSiteClickListner, QcCalender.DateSelected,
+    QcRegionDialog.NewDialogSiteClickListner, QcCalender.DateSelected,QcOrderTypeDialog.GstDialogClickListner,
     QcCalenderToDate.DateSelected, QcFilterSiteCallBack {
     lateinit var activityQcFilterBinding: ActivityQcFilterBinding
     lateinit var viewModel: QcSiteActivityViewModel
@@ -34,6 +35,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     private var toQcDate: String = ""
     private var toDate: String = ""
     private var siteId: String = ""
+    private var orderType:String = ""
     private var regionId: String = ""
     private var fragment: String = ""
     private var qcDate: String = ""
@@ -44,6 +46,8 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     var getregionList = ArrayList<QcStoreList.Store>()
     var uniqueRegionList = ArrayList<UniqueRegionList>()
     var uniqueStoreList = ArrayList<UniqueStoreList>()
+    var orderTypeList = ArrayList<String>()
+    var fragmentName :String=""
 
     var regionList = ArrayList<QcRegionList.Store>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +57,15 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         if (intent != null) {
           storeStringList= intent.getStringArrayListExtra("storeList")!!
             regionStringList= intent.getStringArrayListExtra("regionList")!!
+            fragmentName= intent.getStringExtra("fragmentName")!!
+            orderTypeList.add("FORWARD RETURN")
+            orderTypeList.add("REVERSE RETURN")
 
+        }
+        if(fragmentName.equals("pending")){
+            activityQcFilterBinding.filtertype.visibility=View.VISIBLE
+        }else{
+            activityQcFilterBinding.filtertype.visibility=View.GONE
         }
 
         if (storeStringList.isNullOrEmpty()){
@@ -119,15 +131,20 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 //        viewModel.getQcRegionList()
 //        viewModel.getSiteData()
 
+
 //        Utlis.showLoading(this)
 //       viewModel.getQcStoreist(this)
 //        Utlis.showLoading(this)
 //        viewModel.siteId()
 //        viewModel.regionId()
+        if(Preferences.getQcToDate().isEmpty()){
+            Preferences.setQcOrderType("")
+        }
         fromQcDate = Preferences.getQcFromDate()
         toQcDate = Preferences.getQcToDate()
         regionId = Preferences.getQcRegion()
         siteId = Preferences.getQcSite()
+        orderType =Preferences.getQcOrderType()
 
 
 
@@ -136,6 +153,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         activityQcFilterBinding.fromDateText.setText(Preferences.getQcFromDate())
         activityQcFilterBinding.regionIdSelect.setText(Preferences.getQcRegion())
         activityQcFilterBinding.siteIdSelect.setText(Preferences.getQcSite())
+        activityQcFilterBinding.selectfiltertype.setText(Preferences.getQcOrderType())
 
 //        var fromDate = String()
 //        var currentDate = String()
@@ -238,6 +256,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             Preferences.setQcToDate("")
             Preferences.setQcSite("")
             Preferences.setQcRegion("")
+            Preferences.setQcOrderType("")
             intent.putExtra("reset", "reset")
             setResult(Activity.RESULT_OK, intent)
             finish()
@@ -258,15 +277,18 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             }
 
              else {
+//                orderType = activityQcFilterBinding.selectfiltertype.text.toString()
                 val intent = Intent()
                 Preferences.setQcFromDate(fromQcDate)
                 Preferences.setQcToDate(toQcDate)
                 Preferences.setQcSite(siteId)
                 Preferences.setQcRegion(regionId)
+                Preferences.setQcOrderType(orderType)
                 intent.putExtra("regionId", regionId.replace(" ", ""))
                 intent.putExtra("siteId", siteId.replace(" ", ""))
                 intent.putExtra("fromQcDate", fromQcDate)
                 intent.putExtra("toDate", toQcDate)
+                intent.putExtra("orderType", orderType)
                 intent.putExtra("apply", "apply")
 
                 setResult(Activity.RESULT_OK, intent)
@@ -306,6 +328,12 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
                 )
             }.show(supportFragmentManager, "")
         }
+
+        activityQcFilterBinding.selectfiltertype.setOnClickListener {
+            QcOrderTypeDialog().apply {
+                arguments = QcOrderTypeDialog().generateParsedData(orderTypeList)
+            }.show(supportFragmentManager, "")
+            }
 
 
         activityQcFilterBinding.regionIdSelect.setOnClickListener {
@@ -465,5 +493,11 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     override fun getSiteIdList(storelist: List<QcStoreList.Store>?) {
 
     }
+
+    override fun selectOrderType(orderTypes: String) {
+        activityQcFilterBinding.selectfiltertype.setText(orderTypes)
+        orderType = orderTypes
+    }
+
 
 }

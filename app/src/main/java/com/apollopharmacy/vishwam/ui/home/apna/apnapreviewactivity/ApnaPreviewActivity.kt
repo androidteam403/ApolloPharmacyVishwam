@@ -93,7 +93,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
     //    var hospitalsEntryTwo = ArrayList<BarEntry>()
     var sales = ArrayList<Float>()
     var stores = ArrayList<String>()
-    var chemist =  ArrayList<String>()
+    var chemist = ArrayList<String>()
     var apartments = ArrayList<String>()
     var avgSales = ArrayList<Float>()
     var noOfHouses = ArrayList<Float>()
@@ -128,6 +128,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         setUp()
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(33)
     private fun setUp() {
         if (intent != null) {
@@ -185,12 +186,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             }
             apnaPreviewActivityBinding.surveyby.setText("$fName$lName")
 
-            var locationName = ""
-            var cityName = ""
-            if(approvedOrders.location!=null){
-                if (approvedOrders.location!!.name != null) locationName =
-                    approvedOrders.location!!.name!!
-            }
+//            var locationName = ""
+//            var cityName = ""
+//            if (approvedOrders.location != null) {
+//                if (approvedOrders.location!!.name != null) locationName =
+//                    approvedOrders.location!!.name!!
+//            }
 //            if(approvedOrders.city!=null) {
 //                if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
 //            }
@@ -201,8 +202,28 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 //            if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
 
 //            apnaPreviewActivityBinding.location.setText("$locationName$cityName")
+            var city = ""
+            var state = ""
+            if (approvedOrders.city != null) {
+                if (approvedOrders.city!!.isNotEmpty()) {
+                    city = approvedOrders.city!!.toString()
+                } else {
+                    city = "-"
+                }
+            } else {
+                city = "-"
+            }
 
-            apnaPreviewActivityBinding.location.setText("-")
+            if (approvedOrders.state != null) {
+                if (approvedOrders.state!!.isNotEmpty()) {
+                    state = approvedOrders.state!!.toString()
+                } else {
+                    state = "-"
+                }
+            } else {
+                state = "-"
+            }
+            apnaPreviewActivityBinding.location.setText("$city, $state")
             val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val outputDateFormat = SimpleDateFormat("dd MMM, yyy")
             apnaPreviewActivityBinding.surveystart.setText(
@@ -407,17 +428,19 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
     private fun setupHospitalsChart() {
         val barDataSet = BarDataSet(hospitalsEntries, "")
-        barDataSet.isHighlightEnabled=true
+        barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         apnaPreviewActivityBinding.hospitalsChart.data = barData
         apnaPreviewActivityBinding.hospitalsChart.setDragEnabled(true)
         apnaPreviewActivityBinding.hospitalsChart.setScaleEnabled(true);
-        apnaPreviewActivityBinding.hospitalsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+        apnaPreviewActivityBinding.hospitalsChart.setOnChartValueSelectedListener(object :
+            OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(this@ApnaPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList))
                 mv.chartView = apnaPreviewActivityBinding.hospitalsChart // For bounds control
 
                 apnaPreviewActivityBinding.hospitalsChart.marker = mv
@@ -499,17 +522,19 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
     private fun setupApartmentsChart() {
         val barDataSet = BarDataSet(apartmentsEntries, "")
-        barDataSet.isHighlightEnabled=true
+        barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         apnaPreviewActivityBinding.apartmentsChart.data = barData
         apnaPreviewActivityBinding.apartmentsChart.setDragEnabled(true)
         apnaPreviewActivityBinding.apartmentsChart.setScaleEnabled(true);
-        apnaPreviewActivityBinding.apartmentsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+        apnaPreviewActivityBinding.apartmentsChart.setOnChartValueSelectedListener(object :
+            OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(this@ApnaPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList))
                 mv.chartView = apnaPreviewActivityBinding.apartmentsChart // For bounds control
 
                 apnaPreviewActivityBinding.apartmentsChart.marker = mv
@@ -572,7 +597,9 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
     private fun setApartmentsValues() {
         for (i in noOfHouses.indices) {
-            apartmentsEntries.add(BarEntry(i.toFloat(), noOfHouses.get(i), apartments.get(i).toString()))
+            apartmentsEntries.add(BarEntry(i.toFloat(),
+                noOfHouses.get(i),
+                apartments.get(i).toString()))
         }
 //        apartmentsEntries.add(BarEntry(1f, 5f))
 //        apartmentsEntries.add(BarEntry(2f, 4f))
@@ -580,17 +607,19 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
     private fun setupCompetitorsChart() {
         val lineDataSet = LineDataSet(competitorsEntries, "")
-        lineDataSet.isHighlightEnabled=true
+        lineDataSet.isHighlightEnabled = true
         val lineData = LineData(lineDataSet)
         apnaPreviewActivityBinding.competitorsChart.data = lineData
         apnaPreviewActivityBinding.competitorsChart.setDragEnabled(true)
         apnaPreviewActivityBinding.competitorsChart.setScaleEnabled(true);
-        apnaPreviewActivityBinding.competitorsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+        apnaPreviewActivityBinding.competitorsChart.setOnChartValueSelectedListener(object :
+            OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(this@ApnaPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList))
                 mv.chartView = apnaPreviewActivityBinding.competitorsChart // For bounds control
 
                 apnaPreviewActivityBinding.competitorsChart.marker = mv
@@ -654,18 +683,20 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupNeighborChart() {
         val barDataSet = BarDataSet(neighborEntries, "")
-        barDataSet.isHighlightEnabled=true
+        barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         apnaPreviewActivityBinding.neighborChart.setDragEnabled(true)
         apnaPreviewActivityBinding.neighborChart.setScaleEnabled(true);
-        apnaPreviewActivityBinding.neighborChart.data= barData
+        apnaPreviewActivityBinding.neighborChart.data = barData
         apnaPreviewActivityBinding.neighborChart.setDrawValueAboveBar(true)
-        apnaPreviewActivityBinding.neighborChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+        apnaPreviewActivityBinding.neighborChart.setOnChartValueSelectedListener(object :
+            OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(this@ApnaPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList))
                 mv.chartView = apnaPreviewActivityBinding.neighborChart // For bounds control
 
                 apnaPreviewActivityBinding.neighborChart.marker = mv
@@ -690,8 +721,6 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 //                return v?.onTouchEvent(event) ?: true
 //            }
 //        })
-
-
 
 
         // Set bar colors
@@ -754,7 +783,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         for (i in sales.indices) {
             neighborEntries.add(BarEntry(i.toFloat(), sales.get(i), stores.get(i).toString()))
         }
-    //        neighborEntries.add(BarEntry(1f, 18f))
+        //        neighborEntries.add(BarEntry(1f, 18f))
 //        neighborEntries.add(BarEntry(2f, 13f))
 //        neighborEntries.add(BarEntry(3f, 11f))
 //        neighborEntries.add(BarEntry(4f, 5f))
@@ -775,7 +804,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             }
         }
         if (value.data!!.apartments != null && value.data!!.apartments!!.size > 0) {
-            apnaPreviewActivityBinding.apartmentsHeader.visibility = View.VISIBLE
+//            apnaPreviewActivityBinding.apartmentsHeader.visibility = View.VISIBLE
             apnaPreviewActivityBinding.recyclerViewapartmnet.visibility = View.VISIBLE
             apnaPreviewActivityBinding.apartmentsNotFound.visibility = View.GONE
             apartmentAdapter = PreviewApartmentAdapter(
@@ -786,17 +815,18 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
             noOfHouses =
                 value.data!!.apartments!!.map { it.noHouses!!.toFloat() } as ArrayList<Float>
-            apartments = value.data!!.apartments!!.map { it.apartments!!.toString() } as ArrayList<String>
+            apartments =
+                value.data!!.apartments!!.map { it.apartments!!.toString() } as ArrayList<String>
             setApartmentsValues()
             setupApartmentsChart()
         } else {
-            apnaPreviewActivityBinding.apartmentsHeader.visibility = View.GONE
+//            apnaPreviewActivityBinding.apartmentsHeader.visibility = View.GONE
             apnaPreviewActivityBinding.recyclerViewapartmnet.visibility = View.GONE
             apnaPreviewActivityBinding.apartmentsNotFound.visibility = View.VISIBLE
         }
 
         if (value.data!!.chemist != null && value.data!!.chemist!!.size > 0) {
-            apnaPreviewActivityBinding.chemistHeader.visibility = View.VISIBLE
+//            apnaPreviewActivityBinding.chemistHeader.visibility = View.VISIBLE
             apnaPreviewActivityBinding.recyclerViewchemist.visibility = View.VISIBLE
             apnaPreviewActivityBinding.chemistTotal.visibility = View.VISIBLE
             apnaPreviewActivityBinding.chemistNotFound.visibility = View.GONE
@@ -828,14 +858,14 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             setCompetitorsValues()
             setupCompetitorsChart()
         } else {
-            apnaPreviewActivityBinding.chemistHeader.visibility = View.GONE
+//            apnaPreviewActivityBinding.chemistHeader.visibility = View.GONE
             apnaPreviewActivityBinding.recyclerViewchemist.visibility = View.GONE
             apnaPreviewActivityBinding.chemistTotal.visibility = View.GONE
             apnaPreviewActivityBinding.chemistNotFound.visibility = View.VISIBLE
         }
 
         if (value.data!!.hospitals != null && value.data!!.hospitals!!.size > 0) {
-            apnaPreviewActivityBinding.hospitalsHeader.visibility = View.VISIBLE
+//            apnaPreviewActivityBinding.hospitalsHeader.visibility = View.VISIBLE
             apnaPreviewActivityBinding.recyclerViewhospital.visibility = View.VISIBLE
             apnaPreviewActivityBinding.hospitalsNotFound.visibility = View.GONE
             hospitalAdapter = PreviewHospitalAdapter(
@@ -849,7 +879,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             setHospitalsValues()
             setupHospitalsChart()
         } else {
-            apnaPreviewActivityBinding.hospitalsHeader.visibility = View.GONE
+//            apnaPreviewActivityBinding.hospitalsHeader.visibility = View.GONE
             apnaPreviewActivityBinding.recyclerViewhospital.visibility = View.GONE
             apnaPreviewActivityBinding.hospitalsNotFound.visibility = View.VISIBLE
         }
@@ -879,8 +909,22 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.noVideoAvailable.visibility = View.VISIBLE
         }
 
+        if (value.data!!.apolloEmployee != null) {
+            if (value.data!!.apolloEmployee!!.name != null) {
+                if (value.data!!.apolloEmployee!!.name!!.isNotEmpty()) {
+                    apnaPreviewActivityBinding.apolloEmployee.setText(value.data!!.apolloEmployee!!.name!!.toString())
+                } else {
+                    apnaPreviewActivityBinding.apolloEmployee.setText("-")
+                }
+            } else {
+                apnaPreviewActivityBinding.apolloEmployee.setText("-")
+            }
+        } else {
+            apnaPreviewActivityBinding.apolloEmployee.setText("-")
+        }
+
         if (value.data!!.neighboringStore != null && value.data!!.neighboringStore!!.size > 0) {
-            apnaPreviewActivityBinding.recyclerViewneighbour.visibility = View.VISIBLE
+//            apnaPreviewActivityBinding.recyclerViewneighbour.visibility = View.VISIBLE
             apnaPreviewActivityBinding.neighbouringStoreNotFound.visibility = View.GONE
             apnaPreviewActivityBinding.neighborStoreHeader.visibility = View.VISIBLE
             neighbourAdapter = PreviewNeighbouringStoreAdapter(
@@ -897,33 +941,33 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             }
         } else {
             apnaPreviewActivityBinding.recyclerViewneighbour.visibility = View.GONE
-            apnaPreviewActivityBinding.neighborStoreHeader.visibility = View.GONE
+//            apnaPreviewActivityBinding.neighborStoreHeader.visibility = View.GONE
             apnaPreviewActivityBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
         }
 
-        var location = ""
+        var region = ""
         var state = ""
         var city = ""
         var pin = ""
         var landmarks = ""
 
-        if (value.data!!.location != null) {
-            if (value.data!!.location!!.name != null) {
-                if (value.data!!.location!!.name.toString().isNotEmpty()) {
-                    if (!value.data!!.location!!.name.toString().equals("null", true)) {
-                        location = value.data!!.location!!.name.toString()
-                    } else {
-                        location = "-"
-                    }
-                } else {
-                    location = "-"
-                }
-            } else {
-                location = "-"
-            }
-        } else {
-            location = "-"
-        }
+//        if (value.data!!.location != null) {
+//            if (value.data!!.location!!.name != null) {
+//                if (value.data!!.location!!.name.toString().isNotEmpty()) {
+//                    if (!value.data!!.location!!.name.toString().equals("null", true)) {
+//                        location = value.data!!.location!!.name.toString()
+//                    } else {
+//                        location = "-"
+//                    }
+//                } else {
+//                    location = "-"
+//                }
+//            } else {
+//                location = "-"
+//            }
+//        } else {
+//            location = "-"
+//        }
 //
 //        if (value.data!!.city != null) {
 //            if (value.data!!.city!!.name != null) {
@@ -962,6 +1006,40 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 //            state = "-"
 //        }
 
+        if (value.data!!.region != null) {
+            if (value.data!!.region!!.name != null) {
+                if (value.data!!.region!!.name!!.isNotEmpty()) {
+                    region = value.data!!.region!!.name!!.toString()
+                } else {
+                    region = "-"
+                }
+            } else {
+                region = "-"
+            }
+        } else {
+            region = "-"
+        }
+
+        if (value.data!!.state != null) {
+            if (value.data!!.state!!.isNotEmpty()) {
+                state = value.data!!.state!!.toString()
+            } else {
+                state = "-"
+            }
+        } else {
+            state = "-"
+        }
+
+        if (value.data!!.city != null) {
+            if (value.data!!.city!!.isNotEmpty()) {
+                city = value.data!!.city!!.toString()
+            } else {
+                city = "-"
+            }
+        } else {
+            city = "-"
+        }
+
         if (value.data!!.pincode != null) {
             if (value.data!!.pincode.toString().isNotEmpty()) {
                 if (!value.data!!.pincode.toString().equals("null", true)) {
@@ -987,7 +1065,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         }
 
         apnaPreviewActivityBinding.locationdetails.setText(
-            "$location,$landmarks,$city,$state-$pin"
+            "$region,$landmarks,$city,$state-$pin"
         )
 
         if (value.data!!.trafficGenerator != null && value.data!!.trafficGenerator!!.size > 0) {
@@ -1087,9 +1165,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.totalAreaDimensionType.setText(
                 "(" + value.data!!.dimensionType!!.name!! + "): "
             )
+            apnaPreviewActivityBinding.expectedRentUnit.setText(value.data!!.dimensionType!!.name!!.toString())
+            apnaPreviewActivityBinding.securityDepositUnit.setText(value.data!!.dimensionType!!.name!!.toString())
         } else {
             apnaPreviewActivityBinding.dimensionType.setText("(-): ")
             apnaPreviewActivityBinding.totalAreaDimensionType.setText("(-): ")
+            apnaPreviewActivityBinding.expectedRentUnit.setText("-")
+            apnaPreviewActivityBinding.securityDepositUnit.setText("-")
         }
 
         apnaPreviewActivityBinding.length.setText(value.data!!.length.toString())
@@ -1207,9 +1289,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         }
 
         if (value.data!!.extngOutletAge != null) {
-            if (value.data!!.extngOutletAge.toString().isNotEmpty()) {
-                if (!value.data!!.extngOutletAge.toString().equals("null", true)) {
-                    apnaPreviewActivityBinding.existingOutletAge.setText(value.data!!.extngOutletAge.toString())
+            if (value.data!!.extngOutletAge!! > 0) {
+                if (value.data!!.extngOutletAge.toString().isNotEmpty()) {
+                    if (!value.data!!.extngOutletAge.toString().equals("null", true)) {
+                        apnaPreviewActivityBinding.existingOutletAge.setText(value.data!!.extngOutletAge.toString())
+                    } else {
+                        apnaPreviewActivityBinding.existingOutletAge.setText("-")
+                    }
                 } else {
                     apnaPreviewActivityBinding.existingOutletAge.setText("-")
                 }
@@ -1244,6 +1330,15 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 //            apnaPreviewActivityBinding.areadiscount.setText("-")
 //        }
 
+        if (value.data!!.occupation != null) {
+            if (value.data!!.occupation!!.toString().isNotEmpty()) {
+                apnaPreviewActivityBinding.occupation.setText(value.data!!.occupation!!.toString())
+            } else {
+                apnaPreviewActivityBinding.occupation.setText("-")
+            }
+        } else {
+            apnaPreviewActivityBinding.occupation.setText("-")
+        }
         if (value.data!!.serviceClass != null) {
             apnaPreviewActivityBinding.serviceClass.setText(
                 DecimalFormat("##,##,##0").format(value.data!!.serviceClass!!.toLong())
@@ -1335,6 +1430,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                 ContextCompat.getColor(applicationContext, R.color.black)
             )
         } else if (parkingAvailable.equals("No", true)) {
+            apnaPreviewActivityBinding.parkingAvailable.visibility = View.GONE
+            apnaPreviewActivityBinding.parkingNotAvailable.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.parkingText.setTextColor(
+                ContextCompat.getColor(applicationContext, R.color.grey)
+            )
+        } else {
             apnaPreviewActivityBinding.parkingAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.parkingNotAvailable.visibility = View.VISIBLE
             apnaPreviewActivityBinding.parkingText.setTextColor(

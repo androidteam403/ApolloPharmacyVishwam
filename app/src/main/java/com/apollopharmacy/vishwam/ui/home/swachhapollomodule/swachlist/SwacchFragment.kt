@@ -25,6 +25,7 @@ import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachlist.SwachhListViewModel
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ImageClickListener
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubworkflowConfigDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketData
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -261,6 +262,15 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         data: TicketData,
         responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
         position: Int,
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickAction(
+        data: TicketData,
+        responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+        row: SubworkflowConfigDetailsResponse.Rows,
     ) {
         TODO("Not yet implemented")
     }

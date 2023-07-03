@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listview_background_shape">
+    <corners android:topLeftRadius="@dimen/value_30dp" android:bottomLeftRadius="@dimen/value_30dp"/>
+    <solid android:color="#4a98c9" />
+</shape>

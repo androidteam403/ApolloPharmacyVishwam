@@ -12,11 +12,11 @@ class QcListsResponse : Serializable {
 
     @SerializedName("APPROVEDLIST")
     @Expose
-    var approvedlist: List<Approved>? = null
+    var approvedlist: ArrayList<Approved>? = null
 
     @SerializedName("REJECTEDLIST")
     @Expose
-    var rejectedlist: List<Reject>? = null
+    var rejectedlist: ArrayList<Reject>? = null
 
     @SerializedName("STATUS")
     @Expose
@@ -30,12 +30,12 @@ class QcListsResponse : Serializable {
         return this
     }
 
-    fun withApprovedlist(approvedlist: List<Approved>?): QcListsResponse {
+    fun withApprovedlist(approvedlist: ArrayList<Approved>?): QcListsResponse {
         this.approvedlist = approvedlist
         return this
     }
 
-    fun withRejectedlist(rejectedlist: List<Reject>?): QcListsResponse {
+    fun withRejectedlist(rejectedlist: ArrayList<Reject>?): QcListsResponse {
         this.rejectedlist = rejectedlist
         return this
     }

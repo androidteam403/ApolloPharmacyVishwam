@@ -9,11 +9,13 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ViewItemRowBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.LocationListResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.RegionListResponse
 
 class LocationListItemAdapter(
     var mCallback: ApnaNewSurveyCallBack,
     var mContext: Context,
-    var locationList: ArrayList<LocationListResponse.Data.ListData.Row>,
+    var regionList: ArrayList<RegionListResponse.Data.ListData.Row>,
+//    var locationList: ArrayList<LocationListResponse.Data.ListData.Row>,
 ) : RecyclerView.Adapter<LocationListItemAdapter.ViewHolder>() {
 
     class ViewHolder(val viewItemRowBinding: ViewItemRowBinding) :
@@ -30,28 +32,29 @@ class LocationListItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.viewItemRowBinding.itemName.text = locationList[position].name
+        holder.viewItemRowBinding.itemName.text = regionList[position].name
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
+            mCallback.onRegionSelect(regionList[position].name.toString(), regionList[position].uid.toString(), regionList[position].code.toString())
 //            mCallback.onLocationListItemSelect(position, locationList[position].name.toString(), locationList[position].uid.toString())
-            mCallback.onLocationListItemSelect(
-                position,
-                locationList[position].name.toString(),
-                locationList[position].city!!.state!!.name.toString(),
-                locationList[position].city!!.name.toString(),
-                locationList[position].uid.toString(),
-                locationList[position].city!!.state!!.uid.toString(),
-                locationList[position].city!!.uid.toString()
-            )
+//            mCallback.onLocationListItemSelect(
+//                position,
+//                locationList[position].name.toString(),
+//                locationList[position].city!!.state!!.name.toString(),
+//                locationList[position].city!!.name.toString(),
+//                locationList[position].uid.toString(),
+//                locationList[position].city!!.state!!.uid.toString(),
+//                locationList[position].city!!.uid.toString()
+//            )
         }
     }
 
     override fun getItemCount(): Int {
-        return locationList.size
+        return regionList.size
     }
 
-    fun filter(filteredList: ArrayList<LocationListResponse.Data.ListData.Row>) {
-        this.locationList = filteredList
+    fun filter(filteredList: ArrayList<RegionListResponse.Data.ListData.Row>) {
+        this.regionList = filteredList
         notifyDataSetChanged()
     }
 }

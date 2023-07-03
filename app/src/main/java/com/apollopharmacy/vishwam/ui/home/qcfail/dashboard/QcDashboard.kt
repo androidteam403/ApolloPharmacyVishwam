@@ -1,16 +1,20 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.dashboard
 
+import android.content.Intent.getIntent
 import android.graphics.Color
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.FragmentQcDashboardBinding
+import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.adapter.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import java.util.*
@@ -18,7 +22,7 @@ import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
 class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>(),
-    QcDashBoardCallback {
+    QcDashBoardCallback, MainActivityCallback {
     private var pendingCountResponseList = ArrayList<PendingCountResponse.Pendingcount>()
     private var designationsList = ArrayList<String>()
     private var dashboardHistoryList = ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>()
@@ -28,6 +32,8 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     var employeId: String = ""
     var isClick: Boolean = false
     var isDataFetched: Boolean = false
+    var vishwamDependancyClicked: Boolean = true;
+    var isVishwamPendingTab = true;
 
     var dashboardHierarchyList = ArrayList<Getqcfailpendinghistoryforhierarchy>()
     var getdashboardHierarchyList: List<Getqcfailpendinghistoryforhierarchy>? = null
@@ -48,16 +54,15 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
     override fun setup() {
         showLoading()
-//
-//        Preferences.savingToken("APL49380")
-//        Preferences.setAppLevelDesignationQCFail("GENERAL MANAGER")
-
+        MainActivity.mInstance.mainActivityCallback = this
         callApi()
-
+//        if(isVishwamPendingTab){
         viewModel.getQcPendingList(
             Preferences.getToken(),
             Preferences.getAppLevelDesignationQCFail()
         )
+//        }
+
 
         viewBinding.searchView.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
 
@@ -190,7 +195,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
         viewModel.qcPendingCountList.observe(viewLifecycleOwner) {
-
+//            Toast.makeText(context, "VishwamPendency refreshed", Toast.LENGTH_SHORT).show()
             hideLoading()
 
             designationsList.clear()
@@ -291,7 +296,9 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
         viewModel.qcPendingDashboardHistoryList.observe(viewLifecycleOwner) {
             hideLoading()
+//            Toast.makeText(context, "RTO refreshed", Toast.LENGTH_SHORT).show()
             if (it.status == true) {
+//                Toast.makeText(context, "Refresh done", Toast.LENGTH_SHORT).show()
 
 
                 val getqcfailpendinghistorydashboard: Getqcfailpendinghistorydashboard
@@ -340,6 +347,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         }
 
         viewBinding.rtopendency.setOnClickListener {
+            isVishwamPendingTab = false
             if (getdashboardHistoryList.isNullOrEmpty()) {
                 viewBinding.noOrderFoundText.visibility = View.VISIBLE
 
@@ -364,6 +372,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         }
 
         viewBinding.vishwampendency.setOnClickListener {
+            isVishwamPendingTab = true
             if (pendingCountResponseList.isNullOrEmpty()) {
                 viewBinding.noOrderFoundText.visibility = View.VISIBLE
             } else {
@@ -393,7 +402,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
     fun callApi() {
-//        showLoading()
+
 
         viewModel.getQcPendingDashboardHistoryList(
             Preferences.getToken(),
@@ -451,6 +460,46 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
         viewModel.getQcPendingDashboardHistoryList(empId, designation)
 
+    }
+
+    override fun onClickFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSiteIdIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickQcFilterIcon() {
+
+
+        if (isVishwamPendingTab) {
+            designationsList.clear()
+            viewModel.getQcPendingList(
+                Preferences.getToken(),
+                Preferences.getAppLevelDesignationQCFail()
+            )
+        } else {
+            dashboardHierarchyList.clear()
+            dashboardHistoryList.clear()
+            callApi()
+        }
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
+        TODO("Not yet implemented")
     }
 
 }

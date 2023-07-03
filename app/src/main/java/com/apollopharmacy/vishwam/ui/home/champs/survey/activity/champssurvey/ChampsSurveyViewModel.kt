@@ -317,7 +317,11 @@ class ChampsSurveyViewModel: ViewModel() {
         }
     }
 
-    fun getSaveDetailsApi(saveSurveyModelRequest: SaveSurveyModelRequest, champsSurveyCallBack: ChampsSurveyCallBack) {
+    fun getSaveDetailsApi(
+        saveSurveyModelRequest: SaveSurveyModelRequest,
+        champsSurveyCallBack: ChampsSurveyCallBack,
+        type: String
+    ) {
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
@@ -327,7 +331,7 @@ class ChampsSurveyViewModel: ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status) {
                         state.value = State.ERROR
-                        champsSurveyCallBack.onSuccessSaveDetailsApi(result.value)
+                        champsSurveyCallBack.onSuccessSaveDetailsApi(result.value, type)
                     } else {
                         state.value = State.ERROR
                         champsSurveyCallBack.onFailureSaveDetailsApi(result.value)

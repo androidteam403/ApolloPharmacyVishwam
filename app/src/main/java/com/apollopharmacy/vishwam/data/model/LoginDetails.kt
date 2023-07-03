@@ -59,7 +59,7 @@ data class LoginDetails(
 
     @SerializedName("IS_SWACHHAPP")
     @Expose
-    val IS_SWACHHAPP:Boolean,
+    val IS_SWACHHAPP: Boolean,
 
     @SerializedName("IS_QCFAILAPP")
     @Expose
@@ -69,6 +69,9 @@ data class LoginDetails(
     @Expose
     val IS_NEWDRUGAPP: Boolean,
 
+    @SerializedName("IS_SENSINGAPP")
+    @Expose
+    val IS_SENSINGAPP: Boolean,
 
     ) : Serializable {
     data class StoreData(
@@ -97,7 +100,6 @@ data class LoginDetails(
         val IsSelectedStore: Boolean,
     )
 }
-
 
 
 //package com.apollopharmacy.vishwam.data.model

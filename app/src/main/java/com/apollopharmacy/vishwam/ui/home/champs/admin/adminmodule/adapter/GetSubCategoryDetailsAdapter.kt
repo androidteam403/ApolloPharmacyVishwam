@@ -48,7 +48,7 @@ class GetSubCategoryDetailsAdapter(
                 getCategoryDetails.rating!!.toInt()
         }
 
-        holder.adapterGetSubCategoryDetailsBinding.subCatgoryRatingRange.addTextChangedListener( object :
+        holder.adapterGetSubCategoryDetailsBinding.subCatgoryRatingRangeEdittext.addTextChangedListener( object :
             TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -75,7 +75,7 @@ class GetSubCategoryDetailsAdapter(
                         Toast.makeText(context,
                             "Please enter a value with in the range",
                             Toast.LENGTH_SHORT).show()
-                       holder.adapterGetSubCategoryDetailsBinding.subCatgoryRatingRange.setText("")
+                       holder.adapterGetSubCategoryDetailsBinding.subCatgoryRatingRangeEdittext.setText("")
                     }
                 }
 

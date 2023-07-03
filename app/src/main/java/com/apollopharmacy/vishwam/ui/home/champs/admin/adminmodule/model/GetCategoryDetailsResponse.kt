@@ -44,5 +44,7 @@ class GetCategoryDetailsResponse {
         var isItemExpanded: Boolean? = false
 
         var sumOfSubCategoryRating: Double = 0.0
+
+        var subCategoryDetailsList: List<GetSubCategoryDetailsResponse.SubCategoryDetails>?=null
     }
 }

@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.discount.approved
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -17,13 +18,13 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.discount.ApprovalOrderRequest
 import com.apollopharmacy.vishwam.data.model.discount.FilterData
 import com.apollopharmacy.vishwam.data.model.discount.FilterDiscountRequest
+import com.apollopharmacy.vishwam.data.model.discount.GetDiscountColorResponse
 import com.apollopharmacy.vishwam.data.model.discount.PendingOrder
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.CustomFilterDialog
 import com.apollopharmacy.vishwam.dialog.DiscountCalendarDialog
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
-
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.CalculateDiscountAndTotalQuantity
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -31,16 +32,17 @@ import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.valdesekamdem.library.mdtoast.MDToast
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBinding>(),
-    DiscountCalendarDialog.DateSelected, CustomFilterDialog.AbstractDialogClickListner {
+    DiscountCalendarDialog.DateSelected, CustomFilterDialog.AbstractDialogClickListner,
+    ApprovedFragmentCallback {
 
     private lateinit var recyclerViewApproved: ApproveRecyclerView
     private var tempRecyclerViewApproved = arrayListOf<ApprovalOrderRequest.APPROVEDLISTItem>()
     lateinit var userData: LoginDetails
     var isFromDateSelected: Boolean = false
     private val TAG = "ApprovedFragment"
+    var colorResponseList = ArrayList<GetDiscountColorResponse.TrainingDetail>()
 
     override val layoutRes: Int
         get() = R.layout.fragment_approved
@@ -51,7 +53,7 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
 
     override fun setup() {
         viewBinding.viewModel = viewModel
-
+        viewModel.getDiscountColorDetails(this)
         viewBinding.fromDateText.setText(Utils.getCurrentDate())
         viewBinding.toDateText.setText(Utils.getCurrentDate())
         userData = LoginRepo.getProfile()!!
@@ -66,7 +68,7 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
                 tempRecyclerViewApproved.clear()
                 Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
             } else {
-                recyclerViewApproved = ApproveRecyclerView(it)
+                recyclerViewApproved = ApproveRecyclerView(it, colorResponseList)
                 tempRecyclerViewApproved.addAll(recyclerViewApproved.orderData)
                 viewBinding.recyclerViewApproved.adapter = recyclerViewApproved
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
@@ -87,6 +89,7 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+
                 else -> {}
             }
         })
@@ -119,9 +122,11 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
                 } else {
                     if (tempRecyclerViewApproved.size > 0) {
                         if (p0.toString().length > 3) {
-                            filterApprovedData(recyclerViewApproved.orderData,
+                            filterApprovedData(
+                                recyclerViewApproved.orderData,
                                 viewBinding.filterByList.text.toString(),
-                                p0.toString())
+                                p0.toString()
+                            )
                         } else {
                             recyclerViewApproved.orderData.clear()
                             recyclerViewApproved.orderData.addAll(tempRecyclerViewApproved)
@@ -156,8 +161,10 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
             }.show(childFragmentManager, "")
         } else {
             DiscountCalendarDialog().apply {
-                arguments = generateParsedData(viewBinding.toDateText.text.toString(),
-                    viewBinding.fromDateText.text.toString())
+                arguments = generateParsedData(
+                    viewBinding.toDateText.text.toString(),
+                    viewBinding.fromDateText.text.toString()
+                )
             }.show(childFragmentManager, "")
         }
     }
@@ -170,12 +177,17 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 val datePattern = android.icu.text.SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
                 val dateDifference =
-                    Utils.getDateDiff(datePattern,
+                    Utils.getDateDiff(
+                        datePattern,
                         viewBinding.fromDateText.text.toString(),
-                        Utils.getCurrentDate())
+                        Utils.getCurrentDate()
+                    )
                         .toInt()
                 if (dateDifference <= 14) {
                     //Nothing to do
+                    finalDate =
+                        Utils.getCurrentDate()
+                    viewBinding.toDateText.setText(finalDate)
                 } else {
                     finalDate =
                         Utils.getCustomHalfMonthDate(viewBinding.fromDateText.text.toString())
@@ -228,8 +240,11 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
                 recyclerViewApproved.orderData.clear()
                 for (item in tempRecyclerViewApproved) {
                     if (item.INDENTNO.toUpperCase(Locale.getDefault()).trim()
-                            .contains(filterText.toUpperCase(
-                                Locale.getDefault()).trim())
+                            .contains(
+                                filterText.toUpperCase(
+                                    Locale.getDefault()
+                                ).trim()
+                            )
                     ) {
                         recyclerViewApproved.orderData.add(item)
                     }
@@ -243,8 +258,11 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
                 for (item in tempRecyclerViewApproved) {
                     for (itemData in item.ITEMS) {
                         if (itemData.ITEMNAME!!.toUpperCase(Locale.getDefault()).trim()
-                                .contains(filterText.toUpperCase(
-                                    Locale.getDefault()).trim())
+                                .contains(
+                                    filterText.toUpperCase(
+                                        Locale.getDefault()
+                                    ).trim()
+                                )
                         ) {
                             recyclerViewApproved.orderData.add(item)
                         }
@@ -259,8 +277,11 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
                 for (item in tempRecyclerViewApproved) {
                     for (itemData in item.ITEMS) {
                         if (itemData.ITEMID!!.toUpperCase(Locale.getDefault()).trim()
-                                .contains(filterText.toUpperCase(
-                                    Locale.getDefault()).trim())
+                                .contains(
+                                    filterText.toUpperCase(
+                                        Locale.getDefault()
+                                    ).trim()
+                                )
                         ) {
                             recyclerViewApproved.orderData.add(item)
                         }
@@ -307,9 +328,14 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
                 .show()
         }
     }
+
+    override fun onSuccessgetColorList(value: GetDiscountColorResponse) {
+        colorResponseList =
+            value.trainingDetails as ArrayList<GetDiscountColorResponse.TrainingDetail>
+    }
 }
 
-class ApproveRecyclerView(val orderData: ArrayList<ApprovalOrderRequest.APPROVEDLISTItem>) :
+class ApproveRecyclerView(val orderData: ArrayList<ApprovalOrderRequest.APPROVEDLISTItem>, val colorList: ArrayList<GetDiscountColorResponse.TrainingDetail>) :
     SimpleRecyclerView<ApprovedOrderBinding, ApprovalOrderRequest.APPROVEDLISTItem>(
         orderData,
         R.layout.approved_order
@@ -321,6 +347,19 @@ class ApproveRecyclerView(val orderData: ArrayList<ApprovalOrderRequest.APPROVED
         items: ApprovalOrderRequest.APPROVEDLISTItem,
         position: Int,
     ) {
+        binding.pendingLayout.setBackgroundColor(Color.parseColor("#69BD77"))
+        for (i in colorList.indices) {
+            for (j in items.ITEMS.indices) {
+                if (colorList.get(i).length!!.toInt() <= items.ITEMS[j].APPROVED_DISC!! && colorList[i].type!!.toUpperCase()
+                        .equals("VISDISC")
+                ) {
+                    binding.pendingLayout.setBackgroundColor(Color.parseColor(colorList.get(i).name))
+                }
+            }
+        }
+
+
+
         binding.storeText.text = items.STORE
         binding.postedDate.text = Utlis.convertDate(items.POSTEDDATE)
         binding.storeNameText.text = items.STORE

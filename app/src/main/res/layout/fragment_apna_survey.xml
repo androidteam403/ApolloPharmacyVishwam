@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
@@ -166,10 +165,7 @@
                     android:id="@+id/recyclerViewApproved"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="2"
-                    tools:listitem="@layout/apna_survey_layout" />
+                    android:padding="3dp" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <TextView
@@ -179,7 +175,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:text="No List Found"
-                android:textColor="@color/red"
+                android:textColor="@color/apna_project_actionbar_color"
                 android:textSize="@dimen/text_14sp"
                 android:visibility="gone" />
         </LinearLayout>

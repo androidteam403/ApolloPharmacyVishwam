@@ -990,8 +990,8 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-                <LinearLayout
+<!-- soubworkflow manual-->
+            <!--    <LinearLayout
                     android:id="@+id/sub_workflow_acceptreject_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1041,7 +1041,7 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </LinearLayout>-->
 
                 <LinearLayout
                     android:id="@+id/cc_action_layout"
@@ -1228,6 +1228,78 @@
                             app:layout_constraintStart_toEndOf="@+id/ticket_resolve_btn"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/subworkflow_details_history_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_1dp"
+                        android:layout_margin="@dimen/value_10dp"
+                        android:background="@color/splash_start_color" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:text="Subworkflow Details"
+                        android:textColor="@color/subworkflow_details_text_color"
+                        android:textSize="@dimen/text_14sp"
+                        android:textStyle="bold" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_5dp">
+
+                        <TextView
+                            android:id="@+id/subworkflow_action_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Status:"
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/subworkflow_action"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:layout_toRightOf="@+id/subworkflow_action_label"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:text="Action Details"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_13sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/subworkflow_action_details_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_5dp" />
+
                 </LinearLayout>
 
                 <LinearLayout
