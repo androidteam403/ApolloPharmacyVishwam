@@ -4,11 +4,11 @@
 4
 5    <uses-sdk
 6        android:minSdkVersion="15"
-6-->D:\vardhini_workplace\cusotmloader\src\main\AndroidManifest.xml
+6-->D:\workspace\Vishwam_29_06_2023\cusotmloader\src\main\AndroidManifest.xml
 7        android:targetSdkVersion="33" />
-7-->D:\vardhini_workplace\cusotmloader\src\main\AndroidManifest.xml
+7-->D:\workspace\Vishwam_29_06_2023\cusotmloader\src\main\AndroidManifest.xml
 8
 9    <application />
-9-->D:\vardhini_workplace\cusotmloader\src\main\AndroidManifest.xml:3:5-19
+9-->D:\workspace\Vishwam_29_06_2023\cusotmloader\src\main\AndroidManifest.xml:3:5-19
 10
 11</manifest>
