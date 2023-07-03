@@ -23,29 +23,6 @@ import java.util.*
 
 
 class DashboardFragment : BaseFragment<DashBoardViewModel, FragmentDashboardBinding>() {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private var chart: AnyChartView? = null
     private val count = listOf(257, 321, 142)
     private val lists = listOf("Pending", "Approved", "Reject")
