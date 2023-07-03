@@ -61,8 +61,8 @@ data class ResponseNewTicketlist(
 //        @field:SerializedName("parent")
 //        var parent: Parent?,
 
-//        @field:SerializedName("cluster")
-//        var cluster: Cluster?,
+        @field:SerializedName("cluster")
+        var cluster: Cluster?,
 
         @field:SerializedName("created_id") var created_id: CreatedId?,
 
@@ -72,8 +72,8 @@ data class ResponseNewTicketlist(
 //        @field:SerializedName("department")
 //        var department: Department?,
 
-//        @field:SerializedName("region")
-//        var region: Region?,
+        @field:SerializedName("region")
+        var region: Region?,
 
 //        @field:SerializedName("location")
 //        var location: LocationObj?,
@@ -97,7 +97,7 @@ data class ResponseNewTicketlist(
         @field:SerializedName("created_time") var created_time: String? = null,
 
         @field:SerializedName("modified_time") var modified_time: String? = null,
-
+        @field:SerializedName("ticket_subworkflow_history") var ticket_subworkflow_history: ArrayList<TicketSubworkflowHistory>? = null,
 //        @field:SerializedName("closed_date")
 //        var closed_date: String? = null,
 
@@ -266,6 +266,8 @@ data class ResponseNewTicketlist(
 
         @field:SerializedName("site") val site: String? = null,
 
+        @field:SerializedName("site_type") val site_type: SiteType? = null,
+
         @field:SerializedName("store_name") val store_name: String? = null,
     ) : Serializable
 
@@ -277,7 +279,9 @@ data class ResponseNewTicketlist(
         @field:SerializedName("subworkflow_dept") val subworkflow_dept: SubworkflowDept? = null,
 
         @field:SerializedName("subworkflow_role") val subworkflow_role: SubworkflowRole? = null,
-    ) : Serializable
+        @field:SerializedName("subworkflow_action") val subworkflow_action: SubworkflowAction? = null,
+
+        ) : Serializable
 
     data class AssignedTo(
         @field:SerializedName("uid") val uid: String? = null,
@@ -300,6 +304,11 @@ data class ResponseNewTicketlist(
         @field:SerializedName("name") val name: String? = null,
     ) : Serializable
 
+    data class SubworkflowAction(
+        @field:SerializedName("uid") val uid: String? = null,
+
+        @field:SerializedName("action") val action: String? = null,
+    ) : Serializable
 
     data class Subcategory(
 
@@ -340,6 +349,55 @@ data class ResponseNewTicketlist(
     data class Other(
 
         @field:SerializedName("color") val color: String? = null,
+
+        ) : Serializable
+
+    //subworkflow actions history......
+    data class TicketSubworkflowHistory(
+        @SerializedName("uid") var uid: String? = null,
+        @SerializedName("status") var status: String? = null,
+        @SerializedName("step_order") var stepOrder: Int? = null,
+        @SerializedName("action") var action: Action? = null,
+        @SerializedName("created_id") var createdId: CreatedIdObj? = null,
+        @SerializedName("role") var role: RoleObj? = null,
+        @SerializedName("created_time") var createdTime: String? = null,
+        @SerializedName("department") var department: DepartmentObj? = null,
+        @SerializedName("ticket_status") var ticket_status: TicketStatus? = null,
+
+
+        ) : Serializable
+
+    data class Action(
+
+        @SerializedName("uid") var uid: String? = null,
+        @SerializedName("action") var action: String? = null,
+
+        ) : Serializable
+
+    data class CreatedIdObj(
+
+        @SerializedName("uid") var uid: String? = null,
+        @SerializedName("first_name") var firstName: String? = null,
+        @SerializedName("last_name") var lastName: String? = null,
+        @SerializedName("login_unique") var loginUnique: String? = null,
+        @SerializedName("middle_name") var middleName: String? = null,
+
+        ) : Serializable
+
+    data class DepartmentObj(
+        @SerializedName("uid") var uid: String? = null,
+        @SerializedName("name") var name: String? = null,
+    ) : Serializable
+
+    data class TicketStatus(
+        @SerializedName("uid") var uid: String? = null,
+        @SerializedName("name") var name: String? = null,
+    ) : Serializable
+
+    data class RoleObj(
+
+        @SerializedName("uid") var uid: String? = null,
+        @SerializedName("name") var name: String? = null,
 
         ) : Serializable
 

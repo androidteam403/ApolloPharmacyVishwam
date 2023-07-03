@@ -4,16 +4,17 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
-import com.apollopharmacy.vishwam.data.model.discount.*
+import com.apollopharmacy.vishwam.data.model.discount.AcceptOrRejectDiscountOrder
+import com.apollopharmacy.vishwam.data.model.discount.BulkAcceptOrRejectDiscountOrder
+import com.apollopharmacy.vishwam.data.model.discount.GetDiscountColorResponse
+import com.apollopharmacy.vishwam.data.model.discount.PendingOrder
+import com.apollopharmacy.vishwam.data.model.discount.PendingOrderRequest
+import com.apollopharmacy.vishwam.data.model.discount.SimpleResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.ApnaRectroApiRepo
 import com.apollopharmacy.vishwam.data.network.discount.PendingRepo
-import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptRequest
-import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.previewlmageRetro.PreviewLastImageCallback
 import com.apollopharmacy.vishwam.ui.home.discount.filter.FilterFragment
 import com.apollopharmacy.vishwam.ui.home.discount.filter.FilterFragment.Companion.KEY_PENDING_DATA
 import com.apollopharmacy.vishwam.ui.login.Command
@@ -114,15 +115,19 @@ class PendingViewModel : ViewModel() {
         val state = MutableLiveData<State>()
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
-        var baseUrl = "https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails?type=VISDISC"
-        var token = "h72genrSSNFivOi/cfiX3A=="
+//        var baseUrl =
+//            "" // "https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails?type=VISDISC"
+//        var token = ""// "h72genrSSNFivOi/cfiX3A=="
+        var baseUrl = ""
+        var token = ""
         for (i in data.APIS.indices) {
-            baseUrl = "https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails?type=VISDISC"
-            token = "h72genrSSNFivOi/cfiX3A=="
-            break
-
-
+            if (data.APIS[i].NAME.equals("DISCOUNT COLOR")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
         }
+        baseUrl = "$baseUrl?type=VISDISC"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {

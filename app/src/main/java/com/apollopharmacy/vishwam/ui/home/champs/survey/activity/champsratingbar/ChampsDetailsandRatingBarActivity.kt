@@ -3,20 +3,29 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingba
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.app.Dialog
+import android.content.ContentUris
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -26,6 +35,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityChampsDetailsandRatingBarBinding
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.ImagesDisplayChampsAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.SubCategoryAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
@@ -33,7 +43,10 @@ import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelRespon
 import com.apollopharmacy.vishwam.ui.home.model.GetSurevyDetailsByChampsIdResponse
 import com.apollopharmacy.vishwam.util.Utlis
 import me.echodev.resizer.Resizer
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
 import java.io.IOException
 
 
@@ -53,8 +66,10 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     private var status:String=""
     private var isPending: Boolean = false
     var thread: Thread?=null
+    var isFromGallery:Boolean=false
     var imageDataList: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>? = null
     var dtcl_list = java.util.ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
+    var imageUploadedCount=0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -250,6 +265,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(deletePosition).file = null
                 getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(deletePosition).imageUrl = ""
                 getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(deletePosition).imageFilled = false
+                imageUploadedCount--
             }
             disableUploadOption()
 
@@ -342,8 +358,25 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                         .show()
                 }
             }
+            Config.REQUEST_CODE_GALLERY ->{
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    val intent = Intent()
+                    intent.type = "image/*"
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                    intent.action = Intent.ACTION_GET_CONTENT
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), 999)
+                } else {
+                    Toast.makeText(
+                        ViswamApp.context,
+                        ViswamApp.context?.resources?.getString(R.string.label_permission_denied),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
         }
     }
+
 
     private fun LoadRecyclerView() {
         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails?.categoryDetails != null && getCategoryAndSubCategoryDetails?.categoryDetails?.get(
@@ -487,10 +520,11 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
                     getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
 //                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+                   imageUploadedCount++
                     break
                 }
             }
-            disableUploadOption()
+
 //            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists=imageDataList
 //            imagesDisplayChampsAdapter =
 //                ImagesDisplayChampsAdapter(
@@ -513,59 +547,136 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
 
         } else if (resultCode == RESULT_OK && requestCode == 999) {
-            if (data != null) {
-                try {
-                    imageUri = data.getData()
-                    var path = getRealPathFromURI(imageUri)
-//                    var file: File = imageUri!!.toFile()
-                    var file: File = File(imageUri!!.getPath()!!);
-                    var files: File = File(path!!);
-//                    var fileSplit = files.toPath().toString().split(":")
-                    val resizedImage =
-                        Resizer(this).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
-//                .setOutputFilename(fileNameForCompressedImage)
-                            .setOutputDirPath(
-                                ViswamApp.context.cacheDir.toString()
-                            )
 
-                            .setSourceImage(files).resizedFile
+            val images = data!!.clipData
+            if (images != null) {
 
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
-                        if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
-                            getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                           getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
-                            break
-                        }
+
+                if ((images!!.itemCount ==1 && imageUploadedCount.equals(2))||
+                    (images!!.itemCount ==2 && imageUploadedCount.equals(1)) ||
+                    (images!!.itemCount ==3 && imageUploadedCount.equals(0))||
+                    (images!!.itemCount <=3 && imageUploadedCount.equals(0)) ) {
+                    if(images.itemCount>1){
+                        isFromGallery=true
+                    }else{
+                        isFromGallery=false
                     }
-                    disableUploadOption()
-//                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists=imageDataList
-//                    imagesDisplayChampsAdapter =
-//                        ImagesDisplayChampsAdapter(
-//                            imageDataList,
-//                            this,
-//                            this,
-//                            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists
-//                        )
-//                    activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
-//                        LinearLayoutManager(
-//                            this, LinearLayoutManager.HORIZONTAL,
-//                            false
-//                        )
-//                    activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.setAdapter(
-//                        imagesDisplayChampsAdapter
-//                    )
-                    Utlis.showLoading(this)
-                    champsDetailsAndRatingBarViewModel.connectToAzure(resizedImage, this)
+                    for (i in 0 until images.itemCount) {
+                        imageUploadedCount++
+                        var imagePath =
+                            getRealPathFromURI(applicationContext, images.getItemAt(i).uri)
+                        var imageFileGallery: File? = File(imagePath)
+//                        val imageBase64 = encodeImage(imageFileGallery!!.absolutePath)
 
-                } catch (e: IOException) {
-                    e.printStackTrace()
+                        for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
+                            if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
+                                val resizedImage =
+                                    Resizer(this).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                                        .setOutputDirPath(
+                                            ViswamApp.context.cacheDir.toString()
+                                        )
+
+                                        .setSourceImage(imageFileGallery).resizedFile
+
+                                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
+//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+                                Utlis.showLoading(this)
+                                champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
+
+                                break
+                            }
+                        }
+
+                    }
+
+                } else {
+                    Toast.makeText(applicationContext,
+                        "You are allowed to upload only 3 images",
+                        Toast.LENGTH_SHORT).show()
                 }
+            } else {
+                val uri = data.data
+                var imagePath = getRealPathFromURI(applicationContext, uri!!)
+                var imageFileGallery: File? = File(imagePath)
+//                val imageBase64 = encodeImage(imageFileGallery!!.absolutePath)
+//                prescriptionImageList.add(ImageDto(imageFileGallery!!, imageBase64!!))
+
+                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
+                    if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
+                        val resizedImage =
+                            Resizer(this).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                                .setOutputDirPath(
+                                    ViswamApp.context.cacheDir.toString()
+                                )
+
+                                .setSourceImage(imageFileGallery).resizedFile
+                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
+//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+                       imageUploadedCount++
+                        break
+                    }
+                }
+                Utlis.showLoading(this)
+                    champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
+
             }
-        } else if (resultCode === RESULT_CANCELED) {
+        }
+//            if (data != null) {
+//                try {
+//                    imageUri = data.getData()
+//                    var path = getRealPathFromURI(imageUri)
+////                    var file: File = imageUri!!.toFile()
+//                    var file: File = File(imageUri!!.getPath()!!);
+//                    var files: File = File(path!!);
+////                    var fileSplit = files.toPath().toString().split(":")
+//                    val resizedImage =
+//                        Resizer(this).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
+////                .setOutputFilename(fileNameForCompressedImage)
+//                            .setOutputDirPath(
+//                                ViswamApp.context.cacheDir.toString()
+//                            )
+//
+//                            .setSourceImage(files).resizedFile
+//
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
+//                        if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
+////                           getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+//                            break
+//                        }
+//                    }
+//                    disableUploadOption()
+////                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists=imageDataList
+////                    imagesDisplayChampsAdapter =
+////                        ImagesDisplayChampsAdapter(
+////                            imageDataList,
+////                            this,
+////                            this,
+////                            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists
+////                        )
+////                    activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
+////                        LinearLayoutManager(
+////                            this, LinearLayoutManager.HORIZONTAL,
+////                            false
+////                        )
+////                    activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.setAdapter(
+////                        imagesDisplayChampsAdapter
+////                    )
+//                    Utlis.showLoading(this)
+//                    champsDetailsAndRatingBarViewModel.connectToAzure(resizedImage, this)
+//
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//                }
+//            }
+
+        else if (resultCode === RESULT_CANCELED) {
             Toast.makeText(applicationContext, "Cancelled", Toast.LENGTH_SHORT).show()
         }
 
-
+        disableUploadOption()
     }
 
 
@@ -582,29 +693,202 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 }
             }
         }
-        activityChampsDetailsandRatingBarBinding.uploadImagesProgressBar.progress =
-            imageFiles!!.size
-        activityChampsDetailsandRatingBarBinding.outOfThreeUploadedPhotostext.setText(
-            imageFiles!!.size.toString() + " " + "of 3 photos"
-        )
-        if (imageFiles != null && imageFiles.size > 0) {
-            if (imageFiles.size == 3) {
-                activityChampsDetailsandRatingBarBinding.openGallery.visibility = View.GONE
-                activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility = View.VISIBLE
-            } else {
-                activityChampsDetailsandRatingBarBinding.openGallery.visibility = View.VISIBLE
-                activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility = View.GONE
+        if(isFromGallery){
+            activityChampsDetailsandRatingBarBinding.uploadImagesProgressBar.progress =
+                imageUploadedCount
+            activityChampsDetailsandRatingBarBinding.outOfThreeUploadedPhotostext.setText(
+                imageUploadedCount.toString() + " " + "of 3 photos"
+            )
+            if (imageUploadedCount != null && imageUploadedCount > 0) {
+                if (imageUploadedCount == 3) {
+                    activityChampsDetailsandRatingBarBinding.openGallery.visibility = View.GONE
+                    activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility = View.VISIBLE
+                } else {
+                    activityChampsDetailsandRatingBarBinding.openGallery.visibility = View.VISIBLE
+                    activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility = View.GONE
+                }
+            }
+        }else{
+            activityChampsDetailsandRatingBarBinding.uploadImagesProgressBar.progress =
+                imageFiles!!.size
+            activityChampsDetailsandRatingBarBinding.outOfThreeUploadedPhotostext.setText(
+                imageFiles!!.size.toString() + " " + "of 3 photos"
+            )
+            if (imageFiles != null && imageFiles.size > 0) {
+                if (imageFiles.size == 3) {
+                    activityChampsDetailsandRatingBarBinding.openGallery.visibility = View.GONE
+                    activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility = View.VISIBLE
+                } else {
+                    activityChampsDetailsandRatingBarBinding.openGallery.visibility = View.VISIBLE
+                    activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility = View.GONE
+                }
             }
         }
+
+
     }
 
 
-    fun getRealPathFromURI(contentUri: Uri?): String? {
-        val proj = arrayOf(MediaStore.Audio.Media.DATA)
-        val cursor = managedQuery(contentUri, proj, null, null, null)
-        val column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
-        cursor.moveToFirst()
-        return cursor.getString(column_index)
+//    fun getRealPathFromURI(contentUri: Uri?): String? {
+//        val proj = arrayOf(MediaStore.Audio.Media.DATA)
+//        val cursor = managedQuery(contentUri, proj, null, null, null)
+//        val column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+//        cursor.moveToFirst()
+//        return cursor.getString(column_index)
+//    }
+
+    fun getRealPathFromURI(context: Context, uri: Uri): String? {
+        when {
+            // DocumentProvider
+            DocumentsContract.isDocumentUri(context, uri) -> {
+                when {
+                    // ExternalStorageProvider
+                    isExternalStorageDocument(uri) -> {
+                        val docId = DocumentsContract.getDocumentId(uri)
+                        val split = docId.split(":").toTypedArray()
+                        val type = split[0]
+                        // This is for checking Main Memory
+                        return if ("primary".equals(type, ignoreCase = true)) {
+                            if (split.size > 1) {
+                                Environment.getExternalStorageDirectory()
+                                    .toString() + "/" + split[1]
+                            } else {
+                                Environment.getExternalStorageDirectory().toString() + "/"
+                            }
+                            // This is for checking SD Card
+                        } else {
+                            "storage" + "/" + docId.replace(":", "/")
+                        }
+                    }
+                    isDownloadsDocument(uri) -> {
+                        val fileName = getFilePath(context, uri)
+                        if (fileName != null) {
+                            return Environment.getExternalStorageDirectory()
+                                .toString() + "/Download/" + fileName
+                        }
+                        var id = DocumentsContract.getDocumentId(uri)
+                        if (id.startsWith("raw:")) {
+                            id = id.replaceFirst("raw:".toRegex(), "")
+                            val file = File(id)
+                            if (file.exists()) return id
+                        }
+                        val contentUri =
+                            ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),
+                                java.lang.Long.valueOf(id))
+                        return getDataColumn(context, contentUri, null, null)
+                    }
+                    isMediaDocument(uri) -> {
+                        val docId = DocumentsContract.getDocumentId(uri)
+                        val split = docId.split(":").toTypedArray()
+                        val type = split[0]
+                        var contentUri: Uri? = null
+                        when (type) {
+                            "image" -> {
+                                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                            }
+                            "video" -> {
+                                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                            }
+                            "audio" -> {
+                                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                            }
+                        }
+                        val selection = "_id=?"
+                        val selectionArgs = arrayOf(split[1])
+                        return getDataColumn(context, contentUri, selection, selectionArgs)
+                    }
+                }
+            }
+            "content".equals(uri.scheme, ignoreCase = true) -> {
+                // Return the remote address
+                return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(context,
+                    uri,
+                    null,
+                    null)
+            }
+            "file".equals(uri.scheme, ignoreCase = true) -> {
+                return uri.path
+            }
+        }
+        return null
+    }
+
+    fun isGooglePhotosUri(uri: Uri): Boolean {
+        return "com.google.android.apps.photos.content" == uri.authority
+    }
+
+    fun isExternalStorageDocument(uri: Uri): Boolean {
+        return "com.android.externalstorage.documents" == uri.authority
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    fun isDownloadsDocument(uri: Uri): Boolean {
+        return "com.android.providers.downloads.documents" == uri.authority
+    }
+
+    fun isMediaDocument(uri: Uri): Boolean {
+        return "com.android.providers.media.documents" == uri.authority
+    }
+
+    fun encodeImage(path: String): String? {
+        val imagefile = File(path)
+        var fis: FileInputStream? = null
+        try {
+            fis = FileInputStream(imagefile)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        val bm = BitmapFactory.decodeStream(fis)
+        val baos = ByteArrayOutputStream()
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val b = baos.toByteArray()
+        //Base64.de
+        return android.util.Base64.encodeToString(b, android.util.Base64.NO_WRAP)
+    }
+
+    fun getDataColumn(
+        context: Context, uri: Uri?, selection: String?,
+        selectionArgs: Array<String>?,
+    ): String? {
+        var cursor: Cursor? = null
+        val column = "_data"
+        val projection = arrayOf(
+            column
+        )
+        try {
+            if (uri == null) return null
+            cursor = context.contentResolver.query(uri, projection, selection, selectionArgs,
+                null)
+            if (cursor != null && cursor.moveToFirst()) {
+                val index = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(index)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return null
+    }
+
+    fun getFilePath(context: Context, uri: Uri?): String? {
+        var cursor: Cursor? = null
+        val projection = arrayOf(
+            MediaStore.MediaColumns.DISPLAY_NAME
+        )
+        try {
+            if (uri == null) return null
+            cursor = context.contentResolver.query(uri, projection, null, null,
+                null)
+            if (cursor != null && cursor.moveToFirst()) {
+                val index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
+                return cursor.getString(index)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return null
     }
 
     override fun onSuccessgetSubCategoryDetails(getSubCategoryDetails: GetSubCategoryDetailsModelResponse) {
@@ -712,8 +996,20 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
 
     override fun onClickOpenGallery() {
-        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        startActivityForResult(gallery, 999)
+        if (!checkPermission()) {
+            askPermissions(Config.REQUEST_CODE_GALLERY)
+            return
+        }else{
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 999)
+        }
+
+
+//        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+//        startActivityForResult(gallery, 999)
     }
 
     override fun onSuccessGetSurveyDetailsByChampsId(getSurveyDetailsByChapmpsId: GetSurevyDetailsByChampsIdResponse) {

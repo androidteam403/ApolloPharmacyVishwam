@@ -96,6 +96,10 @@ class QcApprovedViewModel : ViewModel() {
         }
     }
 
+    fun setApprovedList(qcListsResponse: QcListsResponse) {
+        qcLists.value = qcListsResponse
+    }
+
     fun getQcRegionList() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)

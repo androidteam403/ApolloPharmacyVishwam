@@ -24,6 +24,7 @@ import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -44,16 +45,19 @@ import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apollosensing.activity.ApolloSensingStoreActivity
 import com.apollopharmacy.vishwam.ui.home.apollosensing.adapter.PrescriptionImageAdapter
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.CheckScreenStatusResponse
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
+import me.echodev.resizer.Resizer
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -69,7 +73,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     var isOtpVerified: Boolean = false
     var isPrescriptionUpload: Boolean = false
     var countDownTime: Long = 60000
-    lateinit var countDownTimer: CountDownTimer
+    var countDownTimer: CountDownTimer? = null
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
     var prescriptionImageList = ArrayList<ImageDto>()
@@ -77,6 +81,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     var otp = "-1"
     lateinit var dialog: Dialog
     var siteId: String = ""
+    var errorMessage: String = ""
     override val layoutRes: Int
         get() = R.layout.fragment_apollo_sensing
 
@@ -87,24 +92,45 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
         viewBinding.callback = this@ApolloSensingFragment
+
+        if (NetworkUtil.isNetworkConnected(requireContext())) {
+            showLoading()
+            viewModel.checkScreenStatus(this@ApolloSensingFragment)
+        }
+
+    }
+
+    fun setUpNew() {
         val empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
         var employeeDetailsResponse: EmployeeDetailsResponse? = null
         try {
             val gson = GsonBuilder().setPrettyPrinting().create()
-            employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(empDetailsResponse,
-                EmployeeDetailsResponse::class.java)
+            employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                empDetailsResponse, EmployeeDetailsResponse::class.java
+            )
 
         } catch (e: JsonParseException) {
             e.printStackTrace()
         }
-        if (employeeDetailsResponse!!.data!!.role!!.name!!.equals("Store Supervisor", true)) {
-            val site = employeeDetailsResponse.data!!.site!!.site
-            val storeName = employeeDetailsResponse.data!!.site!!.storeName
-            if ((site != null && storeName != null) && (site.isNotEmpty() && storeName.isNotEmpty())) {
-                siteId = site
-                viewBinding.storeId.setText(site)
-                viewBinding.storeName.setText(storeName)
-                MainActivity.mInstance.siteIdIcon.visibility = View.GONE
+
+        if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.role != null) {
+            if (employeeDetailsResponse!!.data!!.role!!.name!!.equals("Store Supervisor", true)) {
+                val site = employeeDetailsResponse.data!!.site!!.site
+                val storeName = employeeDetailsResponse.data!!.site!!.storeName
+                if ((site != null && storeName != null) && (site.isNotEmpty() && storeName.isNotEmpty())) {
+                    siteId = site
+                    viewBinding.storeId.setText(site)
+                    viewBinding.storeName.setText(storeName)
+                    MainActivity.mInstance.siteIdIcon.visibility = View.GONE
+                } else if (Preferences.getApolloSensingStoreId().isEmpty()) {
+                    showLoading()
+                    val intent = Intent(context, ApolloSensingStoreActivity::class.java)
+                    startActivityForResult(intent, 571)
+                } else {
+                    siteId = Preferences.getApolloSensingStoreId()
+                    viewBinding.storeId.setText(Preferences.getApolloSensingStoreId())
+                    viewBinding.storeName.setText(Preferences.getApolloSensingStoreName())
+                }
             } else if (Preferences.getApolloSensingStoreId().isEmpty()) {
                 showLoading()
                 val intent = Intent(context, ApolloSensingStoreActivity::class.java)
@@ -119,6 +145,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             val intent = Intent(context, ApolloSensingStoreActivity::class.java)
             startActivityForResult(intent, 571)
         } else {
+            siteId = Preferences.getApolloSensingStoreId()
             viewBinding.storeId.setText(Preferences.getApolloSensingStoreId())
             viewBinding.storeName.setText(Preferences.getApolloSensingStoreName())
         }
@@ -202,31 +229,54 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         viewBinding.addMorePrescription.setOnClickListener {
             val phoneNumber = viewBinding.phoneNumber.text.toString().trim()
             val name = viewBinding.custName.text.toString().trim()
-            if (phoneNumber.isNotEmpty() && name.isNotEmpty()) {
-                if (phoneNumber.length == 10 && !phoneNumber.equals("0000000000")) {
-                    if (!checkPermission()) {
-                        askPermissions(100)
-                        return@setOnClickListener
-                    } else {
-//                        openCamera()
-                        if (prescriptionImageList.size == 5) {
-                            Toast.makeText(requireContext(),
-                                "You are allowed to upload only five prescriptions",
-                                Toast.LENGTH_SHORT).show()
-                        } else {
-                            showOption()
-                        }
-                    }
+            if (validateCustomerDetails(phoneNumber, name)) {
+                if (!checkPermission()) {
+                    askPermissions(100)
+                    return@setOnClickListener
                 } else {
-                    Toast.makeText(
-                        requireContext(), "Please enter valid phone number", Toast.LENGTH_SHORT
-                    ).show()
+                    if (prescriptionImageList.size == 2) {
+                        Toast.makeText(
+                            requireContext(),
+                            "You are allowed to upload only two prescriptions",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        showOption()
+                    }
                 }
             } else {
-                Toast.makeText(
-                    requireContext(), "Please enter phone number and name", Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
             }
+
+//            val phoneNumber = viewBinding.phoneNumber.text.toString().trim()
+//            val name = viewBinding.custName.text.toString().trim()
+//            if (phoneNumber.isNotEmpty() && name.isNotEmpty()) {
+//                if (phoneNumber.length == 10 && !phoneNumber.equals("0000000000")) {
+//                    if (!checkPermission()) {
+//                        askPermissions(100)
+//                        return@setOnClickListener
+//                    } else {
+////                        openCamera()
+//                        if (prescriptionImageList.size == 10) {
+//                            Toast.makeText(
+//                                requireContext(),
+//                                "You are allowed to upload only ten prescriptions",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        } else {
+//                            showOption()
+//                        }
+//                    }
+//                } else {
+//                    Toast.makeText(
+//                        requireContext(), "Please enter valid phone number", Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            } else {
+//                Toast.makeText(
+//                    requireContext(), "Please enter phone number and name", Toast.LENGTH_SHORT
+//                ).show()
+//            }
         }
 
 //        viewBinding.uploadPrescriptionBtn.setOnClickListener {
@@ -235,6 +285,35 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //            } else {
 //            }
 //        }
+    }
+
+    private fun validateCustomerDetails(phoneNumber: String, name: String): Boolean {
+        if (phoneNumber.isEmpty()) {
+            viewBinding.phoneNumber.requestFocus()
+            errorMessage = "Customer phone number should not be empty."
+            return false
+        } else if (phoneNumber.length < 10) {
+            viewBinding.phoneNumber.requestFocus()
+            errorMessage = "Customer phone number must be 10 digits."
+            return false
+        } else if (phoneNumber.equals("0000000000")) {
+            viewBinding.phoneNumber.requestFocus()
+            errorMessage = "Customer phone number should not contain all digits zero."
+            return false
+        } else if (name.isEmpty()) {
+            viewBinding.custName.requestFocus()
+            errorMessage = "Name should not be empty."
+            return false
+        } else {
+            errorMessage = ""
+            return true
+        }
+    }
+
+    fun stopTimer() {
+        if (countDownTimer != null) {
+            countDownTimer!!.cancel()
+        }
     }
 
     fun validateSendLinkCustomerDetails(): Boolean {
@@ -253,10 +332,11 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             return false
         } else if (customerPhoneNumber.equals("0000000000")) {
             viewBinding.customerPhoneNumber.requestFocus()
-            Toast.makeText(context,
+            Toast.makeText(
+                context,
                 "Customer phone number should not contain all digits zero.",
-                Toast.LENGTH_SHORT)
-                .show()
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         } else if (customerName.isEmpty()) {
             viewBinding.name.requestFocus()
@@ -287,7 +367,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 viewBinding.otpView.getText()!!.clear()
             }
         }
-        countDownTimer.start()
+        countDownTimer!!.start()
     }
 
     private fun openDialog() {
@@ -303,9 +383,9 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             )
         dialog.setContentView(prescriptionUploadedConfirmDialogBinding.root)
 
-        prescriptionUploadedConfirmDialogBinding.closeButton.setOnClickListener {
-            dialog.dismiss()
-        }
+//        prescriptionUploadedConfirmDialogBinding.closeButton.setOnClickListener {
+//            dialog.dismiss()
+//        }
 
         prescriptionUploadedConfirmDialogBinding.okButton.setOnClickListener {
             viewBinding.phoneNumber.getText()!!.clear()
@@ -328,6 +408,10 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
     private fun showOption() {
         dialog = Dialog(requireContext())
+//        val window: Window = myDialog.getWindow()
+        dialog.window!!.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val chooseImageOptionLayoutBinding =
@@ -378,8 +462,9 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"),
-            Config.REQUEST_CODE_GALLERY)
+        startActivityForResult(
+            Intent.createChooser(intent, "Select Picture"), Config.REQUEST_CODE_GALLERY
+        )
     }
 
     private fun openCamera() {
@@ -427,36 +512,76 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
             if (requestCode == Config.REQUEST_CODE_CAMERA && imageFile != null) {
                 val imageBase64 = encodeImage(imageFile!!.absolutePath)
-                prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!))
+                val resizedImage = Resizer(requireContext()).setTargetLength(1080).setQuality(100)
+                    .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                    .setOutputDirPath(
+                        ViswamApp.Companion.context.cacheDir.toString()
+                    )
+
+                    .setSourceImage(imageFile).resizedFile
+
+                prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!, resizedImage))
+                viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
                 dialog.dismiss()
             } else if (requestCode == Config.REQUEST_CODE_GALLERY) {
                 dialog.dismiss()
                 val images = data!!.clipData
                 if (images != null) {
-                    if (images!!.itemCount <= 5) {
+                    if (images!!.itemCount <= 2) {
                         for (i in 0 until images.itemCount) {
                             var imagePath =
                                 getRealPathFromURI(requireContext(), images.getItemAt(i).uri)
                             var imageFileGallery: File? = File(imagePath)
                             val imageBase64 = encodeImage(imageFileGallery!!.absolutePath)
-                            if (prescriptionImageList.size < 5) {
-                                prescriptionImageList.add(ImageDto(imageFileGallery!!,
-                                    imageBase64!!))
+                            val resizedImage =
+                                Resizer(requireContext()).setTargetLength(1080).setQuality(100)
+                                    .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                                    .setOutputDirPath(
+                                        ViswamApp.Companion.context.cacheDir.toString()
+                                    )
+
+                                    .setSourceImage(imageFileGallery).resizedFile
+                            if (prescriptionImageList.size < 2) {
+                                prescriptionImageList.add(
+                                    ImageDto(
+                                        imageFileGallery!!, imageBase64!!, resizedImage
+                                    )
+                                )
+                                viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
                             } else {
                                 break
                             }
                         }
                     } else {
-                        Toast.makeText(requireContext(),
-                            "You are allowed to upload only five prescription",
-                            Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "You are allowed to upload only two prescription",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
                     val uri = data.data
                     var imagePath = getRealPathFromURI(requireContext(), uri!!)
                     var imageFileGallery: File? = File(imagePath)
+                    val resizedImage =
+                        Resizer(requireContext()).setTargetLength(1080).setQuality(100)
+                            .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                            .setOutputDirPath(
+                                ViswamApp.Companion.context.cacheDir.toString()
+                            )
+
+                            .setSourceImage(imageFileGallery).resizedFile
+
                     val imageBase64 = encodeImage(imageFileGallery!!.absolutePath)
-                    prescriptionImageList.add(ImageDto(imageFileGallery!!, imageBase64!!))
+                    prescriptionImageList.add(
+                        ImageDto(
+                            imageFileGallery!!, imageBase64!!, resizedImage
+                        )
+                    )
+                    viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
                 }
             } else if (requestCode == 571) {
                 if (isSiteIdEmpty) {
@@ -542,6 +667,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                             "storage" + "/" + docId.replace(":", "/")
                         }
                     }
+
                     isDownloadsDocument(uri) -> {
                         val fileName = getFilePath(context, uri)
                         if (fileName != null) {
@@ -554,11 +680,13 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                             val file = File(id)
                             if (file.exists()) return id
                         }
-                        val contentUri =
-                            ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),
-                                java.lang.Long.valueOf(id))
+                        val contentUri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"),
+                            java.lang.Long.valueOf(id)
+                        )
                         return getDataColumn(context, contentUri, null, null)
                     }
+
                     isMediaDocument(uri) -> {
                         val docId = DocumentsContract.getDocumentId(uri)
                         val split = docId.split(":").toTypedArray()
@@ -568,9 +696,11 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                             "image" -> {
                                 contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                             }
+
                             "video" -> {
                                 contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
                             }
+
                             "audio" -> {
                                 contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
                             }
@@ -581,13 +711,14 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     }
                 }
             }
+
             "content".equals(uri.scheme, ignoreCase = true) -> {
                 // Return the remote address
-                return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(context,
-                    uri,
-                    null,
-                    null)
+                return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
+                    context, uri, null, null
+                )
             }
+
             "file".equals(uri.scheme, ignoreCase = true) -> {
                 return uri.path
             }
@@ -606,8 +737,9 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         )
         try {
             if (uri == null) return null
-            cursor = context.contentResolver.query(uri, projection, selection, selectionArgs,
-                null)
+            cursor = context.contentResolver.query(
+                uri, projection, selection, selectionArgs, null
+            )
             if (cursor != null && cursor.moveToFirst()) {
                 val index = cursor.getColumnIndexOrThrow(column)
                 return cursor.getString(index)
@@ -626,8 +758,9 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         )
         try {
             if (uri == null) return null
-            cursor = context.contentResolver.query(uri, projection, null, null,
-                null)
+            cursor = context.contentResolver.query(
+                uri, projection, null, null, null
+            )
             if (cursor != null && cursor.moveToFirst()) {
                 val index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
                 return cursor.getString(index)
@@ -738,6 +871,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
 
         linkSendConfirmDialogBinding.okButton.setOnClickListener {
+            stopTimer()
             viewBinding.customerPhoneNumber.getText()!!.clear()
             viewBinding.name.getText()!!.clear()
             viewBinding.otpView.getText()!!.clear()
@@ -758,6 +892,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
     override fun deleteImage(position: Int, file: File) {
         prescriptionImageList.removeAt(position)
+        viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
         if (prescriptionImageList.size < 1) {
             viewBinding.prescriptionImgRcvLayout.gravity = Gravity.CENTER_HORIZONTAL
             viewBinding.prescriptionImgRcv.visibility = View.GONE
@@ -799,8 +934,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             updateUserDefaultSiteRequest.empId = Preferences.getToken()
             updateUserDefaultSiteRequest.site = siteId
             retrieveViewModel().updateDefaultSiteIdApiCall(
-                updateUserDefaultSiteRequest,
-                this@ApolloSensingFragment
+                updateUserDefaultSiteRequest, this@ApolloSensingFragment
             )
         }
     }
@@ -873,32 +1007,87 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
+    var referenceUrls = ArrayList<String>()
     override fun onClickUploadPrescription() {
         if (validateUploadPrescription()) {
-            if (NetworkUtil.isNetworkConnected(requireContext())) {
-                showLoading()
-                val saveImageUrlsRequest = SaveImageUrlsRequest()
-                saveImageUrlsRequest.siteId =
-                    Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
-                saveImageUrlsRequest.type = "STORE"
-                saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
-                saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
-                saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
-                val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
-                for (i in prescriptionImageList) {
-                    val base64Image = SaveImageUrlsRequest.Base64Image()
-                    base64Image.base64Image = i.base64Images
-                    base64ImageList.add(base64Image)
+            if (NetworkUtil.isNetworkConnected(requireContext())) {/* val saveImageUrlsRequest = SaveImageUrlsRequest()
+                 saveImageUrlsRequest.siteId =
+                     Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+                 saveImageUrlsRequest.type = "STORE"
+                 saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
+                 saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
+                 saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
+                 val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
+                 for (i in prescriptionImageList) {
+                     val base64Image = SaveImageUrlsRequest.Base64Image()
+                     base64Image.base64Image = i.base64Images
+                     base64ImageList.add(base64Image)
+                 }
+                 saveImageUrlsRequest.base64ImageList = base64ImageList*/
+
+
+//                retrieveViewModel().saveImageUrlsApiCall(
+//                    saveImageUrlsRequest, this@ApolloSensingFragment
+//                )
+//                var file: File? = null
+//                if (prescriptionImageList != null && prescriptionImageList.size > 0) {
+//                    file = prescriptionImageList.get(0).file
+//                }
+//                if (file != null) {
+//                    showLoading()
+//                    val resizedImage = Resizer(requireContext())
+//                        .setTargetLength(1080)
+//                        .setQuality(100)
+//                        .setOutputFormat("JPG")
+////                .setOutputFilename(fileNameForCompressedImage)
+//                        .setOutputDirPath(
+//                            ViswamApp.Companion.context.cacheDir.toString()
+//                        )
+//
+//                        .setSourceImage(file)
+//                        .resizedFile
+//                    retrieveViewModel().sensingFileUpload(this@ApolloSensingFragment, resizedImage)
+//                }
+
+                if (prescriptionImageList != null && prescriptionImageList.size > 0) {
+                    showLoading()
+                    referenceUrls.clear()
+                    uploadImages(prescriptionImageList, 0)
                 }
-                saveImageUrlsRequest.base64ImageList = base64ImageList
-
-
-                retrieveViewModel().saveImageUrlsApiCall(
-                    saveImageUrlsRequest, this@ApolloSensingFragment
-                )
             }
         }
 
+    }
+
+
+    fun uploadImages(prescriptionImageList: ArrayList<ImageDto>?, pos: Int) {
+        if (prescriptionImageList != null && prescriptionImageList.size > 0) {
+            var file: File? = null
+            if (prescriptionImageList != null && prescriptionImageList.size > 0) {
+                file = prescriptionImageList.get(pos).file
+            }
+            if (file != null) {
+                showLoading()
+                val resizedImage = Resizer(requireContext()).setTargetLength(1080).setQuality(100)
+                    .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                    .setOutputDirPath(
+                        ViswamApp.Companion.context.cacheDir.toString()
+                    )
+
+                    .setSourceImage(file).resizedFile
+
+                if (pos == 1 || prescriptionImageList.size == 1) {
+                    retrieveViewModel().sensingFileUpload(
+                        this@ApolloSensingFragment, resizedImage, true
+                    )
+                } else {
+                    retrieveViewModel().sensingFileUpload(
+                        this@ApolloSensingFragment, resizedImage, false
+                    )
+                }
+            }
+        }
     }
 
     override fun onSuccessUploadPrescriptionApiCall(message: String) {
@@ -909,8 +1098,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         updateUserDefaultSiteRequest.empId = Preferences.getToken()
         updateUserDefaultSiteRequest.site = siteId
         retrieveViewModel().updateDefaultSiteIdApiCall(
-            updateUserDefaultSiteRequest,
-            this@ApolloSensingFragment
+            updateUserDefaultSiteRequest, this@ApolloSensingFragment
         )
     }
 
@@ -935,6 +1123,68 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
     }
 
+    override fun onSuccessCheckScreenStatusApiCall(checkScreenStatusResponse: CheckScreenStatusResponse) {
+        hideLoading()
+        if (checkScreenStatusResponse != null && checkScreenStatusResponse!!.status == true) {
+//            if (checkScreenStatusResponse.CUSTLINK!! == true && checkScreenStatusResponse.STORELINK!! == true) {
+                viewBinding.sendLink.visibility = View.VISIBLE
+                viewBinding.or.visibility = View.VISIBLE
+                viewBinding.takePhoto.visibility = View.VISIBLE
+//            } else if (checkScreenStatusResponse.CUSTLINK!! == true) {
+//                viewBinding.sendLink.visibility = View.VISIBLE
+//                viewBinding.or.visibility = View.GONE
+//                viewBinding.takePhoto.visibility = View.GONE
+//            } else if (checkScreenStatusResponse.STORELINK!! == true) {
+//                viewBinding.sendLink.visibility = View.GONE
+//                viewBinding.or.visibility = View.GONE
+//                viewBinding.takePhoto.visibility = View.VISIBLE
+//            }
+        }
+        setUpNew()
+    }
+
+    override fun onFailureCheckScreenStatusApiCall(message: String) {
+        hideLoading()
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSuccessSensingFileUploadApiCall(
+        sensingFileUploadResponse: SensingFileUploadResponse,
+        isLastImage: Boolean,
+    ) {
+//        Toast.makeText(requireContext(), sensingFileUploadResponse.message, Toast.LENGTH_SHORT)
+//            .show()
+        referenceUrls.add(sensingFileUploadResponse.referenceurl!!)
+        if (isLastImage) {
+            val saveImageUrlsRequest = SaveImageUrlsRequest()
+            saveImageUrlsRequest.siteId =
+                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+            saveImageUrlsRequest.type = "STORE"
+            saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
+            saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
+            saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
+            val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
+            for (i in referenceUrls) {
+                val base64Image = SaveImageUrlsRequest.Base64Image()
+                base64Image.base64Image = i
+                base64ImageList.add(base64Image)
+            }
+            saveImageUrlsRequest.base64ImageList = base64ImageList
+            retrieveViewModel().saveImageUrlsApiCall(
+                saveImageUrlsRequest, this@ApolloSensingFragment
+            )
+        } else {
+            uploadImages(prescriptionImageList, 1)
+        }
+
+    }
+
+    override fun onFailureSensingFileUploadApiCall(sensingFileUploadResponse: SensingFileUploadResponse) {
+        hideLoading()
+        Toast.makeText(requireContext(), sensingFileUploadResponse.message, Toast.LENGTH_SHORT)
+            .show()
+    }
+
     fun validateUploadPrescription(): Boolean {
         var customerPhoneNumber = viewBinding.phoneNumber.text.toString().trim()
         var customerName = viewBinding.custName.text.toString().trim()
@@ -951,10 +1201,11 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             return false
         } else if (customerPhoneNumber.equals("0000000000")) {
             viewBinding.phoneNumber.requestFocus()
-            Toast.makeText(context,
+            Toast.makeText(
+                context,
                 "Customer phone number should not contain all digits zero.",
-                Toast.LENGTH_SHORT)
-                .show()
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         } else if (customerName.isEmpty()) {
             viewBinding.custName.requestFocus()
@@ -980,6 +1231,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             dialog.dismiss()
         }
         dialogResetLinkSendFormBinding.yesButton.setOnClickListener {
+            stopTimer()
             viewBinding.customerPhoneNumber.getText()!!.clear()
             viewBinding.name.getText()!!.clear()
             viewBinding.otpView.getText()!!.clear()
@@ -1064,7 +1316,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                         )
                         viewBinding.verifiedSuccessfullyLayout.visibility = View.VISIBLE
                     } else {
-                        Toast.makeText(context, "Invalid otp", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Invalid OTP", Toast.LENGTH_SHORT).show()
                         viewBinding.otpView.text!!.clear()
                         viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
                         viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
@@ -1072,6 +1324,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 } else {
                     viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
                     viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
+                    viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
                 }
             }
         })
@@ -1086,5 +1339,21 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     }
 
     override fun onClickQcFilterIcon() {
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
+        TODO("Not yet implemented")
     }
 }

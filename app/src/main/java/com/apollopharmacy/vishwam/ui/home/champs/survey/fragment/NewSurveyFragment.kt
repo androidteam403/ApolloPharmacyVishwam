@@ -30,6 +30,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     var address: String? = ""
     var siteName: String? = ""
     var siteCity: String? = ""
+    var region: String? = ""
     var isSiteIdEmpty: Boolean = false
 
     override val layoutRes: Int
@@ -145,6 +146,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         intent.putExtra("address", address)
         intent.putExtra("siteName", siteName)
         intent.putExtra("storeCity", siteCity)
+        intent.putExtra("region", viewBinding.region.text.toString())
         startActivity(intent)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
@@ -160,12 +162,13 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                     storeId = storeDetailsResponse.storeDetails.get(i).siteid
                     siteName = storeDetailsResponse.storeDetails.get(i).sitename
                     siteCity = storeDetailsResponse.storeDetails.get(i).city
+                    region = storeDetailsResponse.storeDetails.get(i).region
                     address =
                         storeDetailsResponse.storeDetails.get(i).region + ", " + storeDetailsResponse.storeDetails.get(
                             i
                         ).city
                     viewBinding.storeId.text = storeDetailsResponse.storeDetails.get(i).siteid
-                    viewBinding.address.text =
+                    viewBinding.region.text =
                         storeDetailsResponse.storeDetails.get(i).region + ", " + storeDetailsResponse.storeDetails.get(
                             i
                         ).city
@@ -284,6 +287,22 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     }
 
     override fun onClickQcFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
         TODO("Not yet implemented")
     }
 

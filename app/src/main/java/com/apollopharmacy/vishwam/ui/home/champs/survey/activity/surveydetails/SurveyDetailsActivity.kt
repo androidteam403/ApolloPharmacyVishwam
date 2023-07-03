@@ -43,6 +43,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
     private var storeCity:String =""
     private var address:String=""
     var siteName:String?=""
+    private var region:String=""
 
     //    private lateinit var seekbar : SeekBar
     private lateinit var dialog: Dialog
@@ -109,6 +110,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         storeId = intent.getStringExtra("storeId")!!
         siteName= intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
+        region= intent.getStringExtra("region")!!
         if(getStoreWiseDetails!=null && getStoreWiseDetails!!.storeWiseDetails!=null){
             if(!getStoreWiseDetails!!.storeWiseDetails.trainerEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.trainerEmail!=null){
                 activityStartSurvey2Binding.trainer.text=getStoreWiseDetails!!.storeWiseDetails.trainerEmail
@@ -146,8 +148,8 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         }
 
         activityStartSurvey2Binding.storeId.text=storeId
-        if(siteName!=null){
-            activityStartSurvey2Binding.address.text=siteName
+        if(region!=null){
+            activityStartSurvey2Binding.address.text=region
         }
 
 
@@ -218,6 +220,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         intent.putExtra("storeId", storeId)
         intent.putExtra("siteName", siteName)
         intent.putExtra("storeCity", storeCity)
+        intent.putExtra("region", region)
         intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
         intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
         startActivity(intent)

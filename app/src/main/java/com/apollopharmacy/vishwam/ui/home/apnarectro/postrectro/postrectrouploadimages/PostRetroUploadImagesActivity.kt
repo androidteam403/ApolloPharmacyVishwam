@@ -265,7 +265,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
             }
 
-        } else if (stage.equals("isPostRetroStage")) {
+        }
+        else if (stage.equals("isPostRetroStage")) {
 
 
             if (uploadStage == "newUploadStage") {
@@ -378,7 +379,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                     }
             }
 
-        } else {
+        }
+        else {
             if (uploadStage.equals("newUploadStage")) {
 
                 activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
@@ -925,7 +927,11 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         "Pre Retro is Submitted for Review \n Transaction id is: " + saveImageUrlsResponse.retroid
                 }
             } else {
-                if (stage.equals("isPostRetroStage")) {
+                 if (stage.equals("isPreRetroStage")) {
+                    textMessage.text =
+                        "Pre Retro is Submitted for Review for transaction id: " + retroid
+                }
+                else if (stage.equals("isPostRetroStage")) {
                     textMessage.text =
                         "Post Retro is Submitted for Review for transaction id: " + retroid
                 } else {
@@ -1051,7 +1057,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 val retroIdsGroupedList: Map<Int, List<GetImageUrlsModelApnaResponse.Category.ImageUrl>> =
                     getImageUrlsList.categoryList!!.get(i).imageUrls!!.stream()
                         .collect(Collectors.groupingBy { w -> w.position })
-                Toast.makeText(context, "" + retroIdsGroupedList.size, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "" + retroIdsGroupedList.size, Toast.LENGTH_SHORT).show()
 
                 var getImageUrlListDummys =
                     java.util.ArrayList<java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>>()

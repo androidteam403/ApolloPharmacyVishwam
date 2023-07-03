@@ -124,13 +124,30 @@
 
                             </LinearLayout>
 
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_15dp"
-                               android:id="@+id/address"
-                                android:textColor="@color/black"
-                                android:textStyle="bold" />
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Region: "
+                                    android:textSize="@dimen/text_14sp" />
+
+                                <TextView
+                                    android:textSize="@dimen/text_14sp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/address"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+
 
 
                         </LinearLayout>

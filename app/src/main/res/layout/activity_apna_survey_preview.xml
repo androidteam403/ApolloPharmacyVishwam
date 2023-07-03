@@ -109,8 +109,8 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Key Features"
-                                android:textSize="@dimen/text_16sp"
-                                android:textColor="@color/apna_project_actionbar_color" />
+                                android:textColor="@color/apna_project_actionbar_color"
+                                android:textSize="@dimen/text_16sp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -268,8 +268,8 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Category Sale"
-                                android:textSize="@dimen/text_16sp"
-                                android:textColor="@color/apna_project_actionbar_color" />
+                                android:textColor="@color/apna_project_actionbar_color"
+                                android:textSize="@dimen/text_16sp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -639,9 +639,9 @@
                                     <com.github.mikephil.charting.charts.LineChart
                                         android:id="@+id/competitors_chart"
                                         android:layout_width="match_parent"
-                                        android:layout_marginTop="@dimen/value_8dp"
                                         android:layout_height="@dimen/value_120dp"
                                         android:layout_marginStart="@dimen/value_8dp"
+                                        android:layout_marginTop="@dimen/value_8dp"
                                         android:layout_marginEnd="@dimen/value_8dp"
                                         android:layout_marginBottom="@dimen/value_8dp" />
                                 </LinearLayout>
@@ -677,8 +677,8 @@
                                     <com.github.mikephil.charting.charts.BarChart
                                         android:id="@+id/apartments_chart"
                                         android:layout_width="match_parent"
-                                        android:layout_marginTop="@dimen/value_8dp"
-                                        android:layout_height="@dimen/value_120dp" />
+                                        android:layout_height="@dimen/value_120dp"
+                                        android:layout_marginTop="@dimen/value_8dp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -702,8 +702,8 @@
                                     <com.github.mikephil.charting.charts.BarChart
                                         android:id="@+id/hospitals_chart"
                                         android:layout_width="match_parent"
-                                        android:layout_marginTop="@dimen/value_8dp"
-                                        android:layout_height="@dimen/value_120dp" />
+                                        android:layout_height="@dimen/value_120dp"
+                                        android:layout_marginTop="@dimen/value_8dp" />
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
@@ -740,8 +740,8 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Location Details"
-                                    android:textSize="@dimen/text_16sp"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -874,8 +874,8 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Site Specifications"
-                                    android:textSize="@dimen/text_16sp"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1225,7 +1225,35 @@
                                             android:layout_marginStart="@dimen/value_10dp"
                                             android:layout_marginTop="@dimen/value_5dp"
                                             android:fontFamily="@font/roboto_medium"
-                                            android:text="Expected Rent: "
+                                            android:text="Expected Rent"
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:textColor="@color/black"
+                                            android:text=" ( "
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:id="@+id/expectedRentUnit"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:text="sq.ft"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:textColor="@color/black"
+                                            android:text=" ): "
                                             android:textSize="@dimen/text_12sp" />
 
                                         <TextView
@@ -1251,7 +1279,35 @@
                                             android:layout_marginStart="@dimen/value_10dp"
                                             android:layout_marginTop="@dimen/value_5dp"
                                             android:fontFamily="@font/roboto_medium"
-                                            android:text="Security Deposit: "
+                                            android:text="Security Deposit"
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:textColor="@color/black"
+                                            android:text=" ( "
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:id="@+id/securityDepositUnit"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:text="sq.ft"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:textColor="@color/black"
+                                            android:text=" ): "
                                             android:textSize="@dimen/text_12sp" />
 
                                         <TextView
@@ -1658,8 +1714,8 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Market Information"
-                                    android:textSize="@dimen/text_16sp"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1889,6 +1945,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:background="@color/apna_project_actionbar_color"
                                     android:orientation="horizontal"
+                                    android:visibility="visible"
                                     android:weightSum="5">
 
                                     <TableLayout
@@ -1992,14 +2049,130 @@
                                     tools:itemCount="2"
                                     tools:listitem="@layout/layout_neighbouring_store_preview" />
 
-                                <TextView
+                                <LinearLayout
+                                    android:id="@+id/neighbouringStoreNotFound"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:visibility="gone">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="horizontal"
+                                        android:weightSum="5">
+
+                                        <TableLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight=".8"
+                                            android:background="@drawable/apna_table_border_top"
+                                            android:padding="0.5dp">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/roboto_medium"
+                                                android:paddingStart="@dimen/value_5dp"
+                                                android:paddingTop="@dimen/value_5dp"
+                                                android:paddingBottom="@dimen/value_5dp"
+                                                android:text="-"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/text_10sp" />
+                                        </TableLayout>
+
+                                        <TableLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="1.4"
+                                            android:background="@drawable/apna_table_border_left_top"
+                                            android:padding="0.5dp">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/roboto_medium"
+                                                android:paddingStart="@dimen/value_5dp"
+                                                android:paddingTop="@dimen/value_5dp"
+                                                android:paddingBottom="@dimen/value_5dp"
+                                                android:text="-"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/text_10sp" />
+                                        </TableLayout>
+
+                                        <TableLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="1"
+                                            android:background="@drawable/apna_table_border_left_top"
+                                            android:padding="0.5dp">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/roboto_medium"
+                                                android:gravity="end"
+                                                android:paddingStart="@dimen/value_5dp"
+                                                android:paddingTop="@dimen/value_5dp"
+                                                android:paddingEnd="@dimen/value_5dp"
+                                                android:paddingBottom="@dimen/value_5dp"
+                                                android:text="-"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/text_10sp" />
+                                        </TableLayout>
+
+                                        <TableLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="1"
+                                            android:background="@drawable/apna_table_border_left_top"
+                                            android:padding="0.5dp">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/roboto_medium"
+                                                android:gravity="end"
+                                                android:paddingStart="@dimen/value_5dp"
+                                                android:paddingTop="@dimen/value_5dp"
+                                                android:paddingEnd="@dimen/value_5dp"
+                                                android:paddingBottom="@dimen/value_5dp"
+                                                android:text="-"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/text_10sp" />
+                                        </TableLayout>
+
+                                        <TableLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight=".8"
+                                            android:background="@drawable/apna_table_border_left_top"
+                                            android:padding="0.5dp">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/roboto_medium"
+                                                android:gravity="end"
+                                                android:paddingStart="@dimen/value_5dp"
+                                                android:paddingTop="@dimen/value_5dp"
+                                                android:paddingEnd="@dimen/value_5dp"
+                                                android:paddingBottom="@dimen/value_5dp"
+                                                android:text="-"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/text_10sp" />
+                                        </TableLayout>
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <!--<TextView
                                     android:id="@+id/neighbouringStoreNotFound"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:text="-"
                                     android:textColor="@color/black"
-                                    android:visibility="gone" />
+                                    android:visibility="visible" />-->
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -2163,8 +2336,8 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Competitors Details"
-                                    android:textSize="@dimen/text_16sp"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -2370,13 +2543,121 @@
                                         </LinearLayout>
                                     </LinearLayout>
 
-                                    <TextView
+                                    <LinearLayout
+                                        android:id="@+id/chemistListNotFound"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:visibility="gone">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal"
+                                            android:weightSum="5">
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1.2"
+                                                android:background="@drawable/apna_table_border_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:background="@drawable/apna_table_border_left_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight=".8"
+                                                android:background="@drawable/apna_table_border_left_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:gravity="end"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingEnd="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1.2"
+                                                android:background="@drawable/apna_table_border_left_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight=".8"
+                                                android:background="@drawable/apna_table_border_left_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:gravity="end"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingEnd="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+                                        </LinearLayout>
+                                    </LinearLayout>
+
+                                    <!--<TextView
                                         android:id="@+id/chemistListNotFound"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="-"
                                         android:textColor="@color/black"
-                                        android:visibility="gone" />
+                                        android:visibility="gone" />-->
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
@@ -2412,9 +2693,9 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:textSize="@dimen/text_16sp"
                                     android:text="Population and Houses"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -2505,13 +2786,85 @@
                                         tools:itemCount="2"
                                         tools:listitem="@layout/adapter_apartments_list_preview" />
 
-                                    <TextView
+                                    <LinearLayout
+                                        android:id="@+id/apartmentsListNotFound"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:visibility="gone">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal"
+                                            android:weightSum="3">
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:background="@drawable/apna_table_border_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:background="@drawable/apna_table_border_left_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:gravity="end"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingEnd="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:background="@drawable/apna_table_border_left_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:gravity="end"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingEnd="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+                                        </LinearLayout>
+                                    </LinearLayout>
+
+                                    <!--<TextView
                                         android:id="@+id/apartmentsListNotFound"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="-"
                                         android:textColor="@color/black"
-                                        android:visibility="gone" />
+                                        android:visibility="gone" />-->
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
@@ -2545,10 +2898,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_10dp"
-                                    android:textSize="@dimen/text_16sp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Hospitals"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -2675,13 +3028,123 @@
                                         tools:itemCount="2"
                                         tools:listitem="@layout/hospital_adapter_layout" />
 
-                                    <TextView
+                                    <LinearLayout
+                                        android:id="@+id/hospitalListNotFound"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:visibility="gone">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal"
+                                            android:weightSum="5">
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:background="@drawable/apna_table_border_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight=".7"
+                                                android:background="@drawable/apna_table_border_left_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:gravity="end"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingEnd="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1.3"
+                                                android:background="@drawable/apna_table_border_left_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:background="@drawable/apna_table_border_left_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:gravity="end"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingEnd="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+
+                                            <TableLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:background="@drawable/apna_table_border_left_top">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:fontFamily="@font/roboto_medium"
+                                                    android:gravity="end"
+                                                    android:paddingStart="@dimen/value_5dp"
+                                                    android:paddingTop="@dimen/value_5dp"
+                                                    android:paddingEnd="@dimen/value_5dp"
+                                                    android:paddingBottom="@dimen/value_5dp"
+                                                    android:text="-"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="@dimen/text_10sp" />
+                                            </TableLayout>
+                                        </LinearLayout>
+                                    </LinearLayout>
+
+                                    <!--<TextView
                                         android:id="@+id/hospitalListNotFound"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="-"
                                         android:textColor="@color/black"
-                                        android:visibility="gone" />
+                                        android:visibility="gone" />-->
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
@@ -2715,10 +3178,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_10dp"
-                                    android:textSize="@dimen/text_16sp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Photos and Media"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -2796,6 +3259,30 @@
                                         android:text="-"
                                         android:textColor="@color/black"
                                         android:visibility="gone" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:text="Known of Employee / Blood Relations: "
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:id="@+id/apolloEmployee"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:text="Yes"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp"
+                                            app:fontFamily="@font/roboto_medium" />
+                                    </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -2810,13 +3297,13 @@
             android:id="@+id/scroll_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/value_30dp"
+            android:layout_alignParentBottom="true"
             android:layout_marginEnd="@dimen/value_20dp"
-            app:fabCustomSize="@dimen/value_40dp"
-            app:backgroundTint="@color/apna_project_actionbar_color"
+            android:layout_marginBottom="@dimen/value_30dp"
             android:src="@drawable/ic_baseline_north_24"
-            app:tint="@color/white"/>
+            app:backgroundTint="@color/apna_project_actionbar_color"
+            app:fabCustomSize="@dimen/value_40dp"
+            app:tint="@color/white" />
     </RelativeLayout>
 </layout>

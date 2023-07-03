@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
-import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.QcApiRepo
@@ -13,15 +12,13 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryda
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryforhierarchy
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.PendingCountResponse
 import com.apollopharmacy.vishwam.ui.login.Command
-import com.apollopharmacy.vishwam.util.Utlis.hideLoading
-import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class DashBoardViewModel: ViewModel() {
+class DashBoardViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     val command = LiveEvent<Command>()
     val qcPendingCountList = MutableLiveData<PendingCountResponse>()
@@ -30,7 +27,7 @@ class DashBoardViewModel: ViewModel() {
     val qcPendingHierarchyHistoryList = MutableLiveData<Getqcfailpendinghistoryforhierarchy>()
 
 
-    fun getQcPendingDashboardHistoryList(empId: String,designation: String) {
+    fun getQcPendingDashboardHistoryList(empId: String, designation: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -50,11 +47,10 @@ class DashBoardViewModel: ViewModel() {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getqcPendingDashboardHistory(baseUrl,empId, designation)
+                QcApiRepo.getqcPendingDashboardHistory(baseUrl, empId, designation)
             }
 
             when (result) {
-
 
 
                 is ApiResult.Success -> {
@@ -70,21 +66,25 @@ class DashBoardViewModel: ViewModel() {
 
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     command.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     command.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
 
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -93,7 +93,7 @@ class DashBoardViewModel: ViewModel() {
         }
     }
 
-    fun getQcPendingHierarchyHistoryList(empId: String,designation: String) {
+    fun getQcPendingHierarchyHistoryList(empId: String, designation: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -110,7 +110,7 @@ class DashBoardViewModel: ViewModel() {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getqcPendingHierarchyHistory(baseUrl,empId, designation)
+                QcApiRepo.getqcPendingHierarchyHistory(baseUrl, empId, designation)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -124,20 +124,24 @@ class DashBoardViewModel: ViewModel() {
 
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     command.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     command.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -147,7 +151,7 @@ class DashBoardViewModel: ViewModel() {
     }
 
 
-    fun getQcPendingList(empId: String,designation: String) {
+    fun getQcPendingList(empId: String, designation: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -164,7 +168,7 @@ class DashBoardViewModel: ViewModel() {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getqcPendingCountList(baseUrl,empId, designation)
+                QcApiRepo.getqcPendingCountList(baseUrl, empId, designation)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -178,20 +182,24 @@ class DashBoardViewModel: ViewModel() {
 
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     command.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     command.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -199,8 +207,6 @@ class DashBoardViewModel: ViewModel() {
             }
         }
     }
-
-
 
 
 }
