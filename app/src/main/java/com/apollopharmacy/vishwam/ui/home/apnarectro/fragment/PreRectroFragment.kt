@@ -17,17 +17,19 @@ import com.apollopharmacy.vishwam.databinding.FragmentPreRectroBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.adapter.ListAdapter
-import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendindAndApproverequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListReq
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity
+import com.apollopharmacy.vishwam.ui.home.apnarectro.selectapnasite.SelectApnaSiteIDActivity
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.stream.Collectors
+import kotlin.Comparator
+import kotlin.collections.ArrayList
 
 
 class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBinding>(),
@@ -58,7 +60,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
             if (Preferences.getApnaSiteId().isEmpty()) {
                 showLoading()
-                val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
+                val i = Intent(context, SelectApnaSiteIDActivity::class.java)
                 startActivityForResult(i, 781)
             } else {
                 viewBinding.storeId.text = Preferences.getApnaSiteId()
@@ -308,14 +310,13 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
             viewBinding.recordsUploaded.visibility = View.VISIBLE
 
             val retroIdsGroupedList: Map<String, List<GetStorePendingAndApprovedListRes.Get>> =
-                getStorePendingApprovedList.getList.stream()
-                    .collect(Collectors.groupingBy { w -> w.retroid })
+                getStorePendingApprovedList.getList.stream().collect(Collectors.groupingBy { w -> w.retroid })
 //            Toast.makeText(context, "" + retroIdsGroupedList.size, Toast.LENGTH_SHORT).show()
 
             var getStorePendingApprovedListDummys =
                 ArrayList<ArrayList<GetStorePendingAndApprovedListRes.Get>>()
             for (entry in retroIdsGroupedList.entries) {
-                getStorePendingApprovedListDummys.addAll(listOf(entry.value as java.util.ArrayList<GetStorePendingAndApprovedListRes.Get>))
+                getStorePendingApprovedListDummys.addAll(listOf(entry.value as ArrayList<GetStorePendingAndApprovedListRes.Get>))
             }
             getStorePendingApprovedList.groupByRetrodList =
                 getStorePendingApprovedListDummys as List<MutableList<GetStorePendingAndApprovedListRes.Get>>?
@@ -364,7 +365,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
     override fun onClickSiteIdIcon() {
         showLoading()
-        val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
+        val i = Intent(context, SelectApnaSiteIDActivity::class.java)
         startActivityForResult(i, 781)
     }
 
