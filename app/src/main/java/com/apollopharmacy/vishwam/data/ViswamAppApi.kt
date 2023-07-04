@@ -758,17 +758,17 @@ interface ViswamAppApi {
 
 
 
-    @GET("http://jsonblob.com/api/jsonBlob/1125360191540576256")
-    suspend fun getStorePendingAndApprovedListApnaRetro(): GetStorePendingAndApprovedListRes
+//    @GET("http://jsonblob.com/api/jsonBlob/1125360191540576256")
+//    suspend fun getStorePendingAndApprovedListApnaRetro(): GetStorePendingAndApprovedListRes
 
 
 
-//    @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList")
-//    suspend fun getStorePendingAndApprovedListApnaRetro(
-//        @Url url: String,
-//        @Header("token") token: String,
-//        @Body data: GetStorePendingAndApprovedListReq?,
-//    ): GetStorePendingAndApprovedListRes
+    @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList")
+    suspend fun getStorePendingAndApprovedListApnaRetro(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: GetStorePendingAndApprovedListReq?,
+    ): GetStorePendingAndApprovedListRes
 
     @POST
     suspend fun getRetroSaveAcceptRetro(
