@@ -213,7 +213,7 @@
                     android:id="@+id/listRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
                 <!--                    </LinearLayout>-->
 
 
@@ -228,7 +228,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/red"
                     android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
             </LinearLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

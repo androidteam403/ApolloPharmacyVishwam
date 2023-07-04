@@ -83,7 +83,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 viewBinding.recordsUploaded.visibility = View.GONE
             }
             viewBinding.incharge.text = Preferences.getToken()
-            viewBinding.storeName.text = Preferences.getApnaSiteId()
+            viewBinding.storeName.text = Preferences.getApnaSiteId() + " - " + Preferences.getApnaSiteName()
             if (NetworkUtil.isNetworkConnected(requireContext())) {
                 val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                 val cal = Calendar.getInstance()
@@ -298,16 +298,22 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
 
     override fun onSuccessgetStorePendingApprovedApiCall(getStorePendingApprovedList: GetStorePendingAndApprovedListRes) {
+
+
+
+
+
         if (getStorePendingApprovedList.status.equals(true) && getStorePendingApprovedList.getList.size > 0) {
             hideLoading()
+            viewBinding.listRecyclerView.visibility = View.VISIBLE
+            viewBinding.noOrdersFound.visibility = View.GONE
+            viewBinding.recordsUploaded.visibility = View.VISIBLE
             if (viewBinding.pullToRefreshApproved.isRefreshing) {
 //            Toast.makeText(context, "Refresh", Toast.LENGTH_LONG).show()
                 viewBinding.pullToRefreshApproved.isRefreshing = false
             }
             storeList= getStorePendingApprovedList.getList as ArrayList<GetStorePendingAndApprovedListRes.Get>?
-            viewBinding.listRecyclerView.visibility = View.VISIBLE
-            viewBinding.noOrdersFound.visibility = View.GONE
-            viewBinding.recordsUploaded.visibility = View.VISIBLE
+
 
             val retroIdsGroupedList: Map<String, List<GetStorePendingAndApprovedListRes.Get>> =
                 getStorePendingApprovedList.getList.stream().collect(Collectors.groupingBy { w -> w.retroid })
@@ -324,19 +330,21 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 //                Comparator<Any?> { s1, s2 ->
 //                    -s1.getOnholddatetime().compareToIgnoreCase(s2.getOnholddatetime())
 //                })
+
             listAdapter =
-                ListAdapter(getStorePendingApprovedList.groupByRetrodList, requireContext(), this)
+                ListAdapter(getStorePendingApprovedList.groupByRetrodList.sortedByDescending { it.get(0).uploadedDate }, requireContext(), this)
             val layoutManager = LinearLayoutManager(ViswamApp.context)
             viewBinding.listRecyclerView.layoutManager = layoutManager
             viewBinding.listRecyclerView.itemAnimator = DefaultItemAnimator()
             viewBinding.listRecyclerView.adapter = listAdapter
 
-        } else {
+        }
+
+        else {
             hideLoading()
             viewBinding.recordsUploaded.visibility = View.GONE
             viewBinding.listRecyclerView.visibility = View.GONE
             viewBinding.noOrdersFound.visibility = View.VISIBLE
-            viewBinding.pullToRefreshApproved.visibility=View.GONE
         }
 
     }
