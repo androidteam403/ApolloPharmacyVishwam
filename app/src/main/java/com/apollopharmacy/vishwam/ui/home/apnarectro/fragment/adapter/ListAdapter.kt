@@ -49,7 +49,6 @@ class ListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = fragmentList.get(position)
 
-
         for (i in item.indices) {
             if (item.get(i).stage.equals("PRE-RETRO")) {
                 retroStore = item.get(i).store

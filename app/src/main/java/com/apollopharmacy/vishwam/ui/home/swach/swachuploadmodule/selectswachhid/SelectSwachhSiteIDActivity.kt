@@ -168,12 +168,12 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
             dialog.dismiss()
             Preferences.setSwachhSiteId(storeListItem.site!!)
             Preferences.setApnaSite(storeListItem.site!!)
+            Preferences.setApnaSiteName(storeListItem.store_name!!)
+
             if(storeListItem.store_name!=null){
-                Preferences.setApnaSiteName(storeListItem.store_name!!)
 
                 Preferences.setSwachSiteName(storeListItem.store_name!!)
             }else{
-                Preferences.setApnaSiteName("")
 
                 Preferences.setSwachSiteName("")
             }

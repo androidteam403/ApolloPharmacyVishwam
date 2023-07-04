@@ -137,7 +137,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         ok.setOnClickListener {
             dialog.dismiss()
 //            Preferences.setSwachhSiteId(storeListItem.siteid!!)
-//            Preferences.setSwachSiteName(storeListItem.sitename!!)
+            Preferences.setApnaSiteName(storeListItem.sitename!!)
             siteId=storeListItem.siteid!!
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 //            dialog.show()
@@ -183,6 +183,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.status && getStoreWiseDetailsResponses.storeWiseDetails != null && getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail != null) {
 //            viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
             Preferences.setApnaSite(siteId!!)
+
             val intent = Intent()
             setResult(Activity.RESULT_OK, intent)
             finish()
