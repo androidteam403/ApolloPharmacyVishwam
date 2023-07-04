@@ -3,10 +3,8 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.fragment
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,14 +21,15 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApp
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity
+import com.apollopharmacy.vishwam.ui.home.apnarectro.selectapnasite.SelectApnaSiteIDActivity
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.stream.Collectors
+import kotlin.Comparator
+import kotlin.collections.ArrayList
 
 
 class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBinding>(),
@@ -61,11 +60,12 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
             if (Preferences.getApnaSiteId().isEmpty()) {
                 showLoading()
-                val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
+                val i = Intent(context, SelectApnaSiteIDActivity::class.java)
                 startActivityForResult(i, 781)
             } else {
                 viewBinding.storeId.text = Preferences.getApnaSiteId()
-                viewBinding.storeName.text = Preferences.getApnaSiteId() + " - " + Preferences.getApnaSiteName()
+                viewBinding.storeName.text =
+                    Preferences.getApnaSiteId() + " - " + Preferences.getApnaSiteName()
             }
 
             if (this.arguments?.getBoolean("fromPreRectro") == true) {
@@ -83,7 +83,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 viewBinding.recordsUploaded.visibility = View.GONE
             }
             viewBinding.incharge.text = Preferences.getToken()
-            viewBinding.storeName.text = Preferences.getApnaSiteName()
+            viewBinding.storeName.text = Preferences.getApnaSiteId()
             if (NetworkUtil.isNetworkConnected(requireContext())) {
                 val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                 val cal = Calendar.getInstance()
@@ -297,13 +297,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onSuccessgetStorePendingApprovedApiCall(getStorePendingApprovedList: GetStorePendingAndApprovedListRes) {
-
-        getStorePendingApprovedList.getList.sortedByDescending {
-            it.uploadedDate}
-
-
         if (getStorePendingApprovedList.status.equals(true) && getStorePendingApprovedList.getList.size > 0) {
             hideLoading()
             if (viewBinding.pullToRefreshApproved.isRefreshing) {
@@ -316,25 +310,20 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
             viewBinding.recordsUploaded.visibility = View.VISIBLE
 
             val retroIdsGroupedList: Map<String, List<GetStorePendingAndApprovedListRes.Get>> =
-                getStorePendingApprovedList.getList.sortedByDescending { it.uploadedDate }.stream()
-                    .collect(Collectors.groupingBy { w -> w.retroid })
+                getStorePendingApprovedList.getList.stream().collect(Collectors.groupingBy { w -> w.retroid })
 //            Toast.makeText(context, "" + retroIdsGroupedList.size, Toast.LENGTH_SHORT).show()
 
             var getStorePendingApprovedListDummys =
                 ArrayList<ArrayList<GetStorePendingAndApprovedListRes.Get>>()
             for (entry in retroIdsGroupedList.entries) {
-                getStorePendingApprovedListDummys.addAll(listOf(entry.value as java.util.ArrayList<GetStorePendingAndApprovedListRes.Get>))
+                getStorePendingApprovedListDummys.addAll(listOf(entry.value as ArrayList<GetStorePendingAndApprovedListRes.Get>))
             }
             getStorePendingApprovedList.groupByRetrodList =
                 getStorePendingApprovedListDummys as List<MutableList<GetStorePendingAndApprovedListRes.Get>>?
-
-
 //            Collections.sort(getStorePendingApprovedList.groupByRetrodList,
 //                Comparator<Any?> { s1, s2 ->
 //                    -s1.getOnholddatetime().compareToIgnoreCase(s2.getOnholddatetime())
 //                })
-
-
             listAdapter =
                 ListAdapter(getStorePendingApprovedList.groupByRetrodList, requireContext(), this)
             val layoutManager = LinearLayoutManager(ViswamApp.context)
@@ -376,7 +365,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
     override fun onClickSiteIdIcon() {
         showLoading()
-        val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
+        val i = Intent(context, SelectApnaSiteIDActivity::class.java)
         startActivityForResult(i, 781)
     }
 

@@ -107,9 +107,7 @@ object ApnaRectroApiRepo {
         getpendingAndApprovedListRequest: GetStorePendingAndApprovedListReq?,
     ): ApiResult<GetStorePendingAndApprovedListRes> {
         return try {
-            val response = Api.getClient().getStorePendingAndApprovedListApnaRetro(url, token,
-
-                getpendingAndApprovedListRequest)
+            val response = Api.getClient().getStorePendingAndApprovedListApnaRetro()
             if (response.status == true) ApiResult.Success(response)
             else ApiResult.GenericError(null, "error")
         } catch (e: Exception) {
