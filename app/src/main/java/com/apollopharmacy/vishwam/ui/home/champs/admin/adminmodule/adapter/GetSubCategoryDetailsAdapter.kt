@@ -4,12 +4,14 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
+import com.apollopharmacy.vishwam.databinding.AdapterGetCategoryDetailsBinding
 import com.apollopharmacy.vishwam.databinding.AdapterGetSubCategoryDetailsBinding
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleCallBack
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
@@ -20,6 +22,8 @@ class GetSubCategoryDetailsAdapter(
     var mCallback: AdminModuleCallBack?,
     var categoryPosition: Int,
     var categoryRating: String?,
+    var adapter: GetCategoryDetailsAdapter,
+    var adapterGetCategoryDetailsBinding: AdapterGetCategoryDetailsBinding
 ) : RecyclerView.Adapter<GetSubCategoryDetailsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -71,6 +75,11 @@ class GetSubCategoryDetailsAdapter(
                     sumOfRange= sumOfRange + (s.toString()).toDouble()
                     if(sumOfRange<=((categoryRating)!!.toDouble())){
                         getCategoryDetails.rating=s.toString()
+
+
+                        adapter.sumOfSubCategoriesRatings(categoryPosition,
+                            subCategoryDetailsList!!,adapterGetCategoryDetailsBinding )
+//                        mCallback!!.updateSumOfSubCat()
                     }else{
                         Toast.makeText(context,
                             "Please enter a value with in the range",

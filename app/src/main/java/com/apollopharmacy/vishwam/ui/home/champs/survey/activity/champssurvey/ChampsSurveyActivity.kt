@@ -112,13 +112,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             activityChampsSurveyBinding.employeeName.text = userData.EMPNAME
         }
         activityChampsSurveyBinding.employeeId.text = Preferences.getValidatedEmpId()
-        activityChampsSurveyBinding.siteId.text = storeId
+//        activityChampsSurveyBinding.siteId.text = storeId
 
         activityChampsSurveyBinding.storeName.text = siteName
 
-        activityChampsSurveyBinding.storeId.text = storeId
+//        activityChampsSurveyBinding.storeId.text = storeId
 
-        activityChampsSurveyBinding.address.text = siteName
+        activityChampsSurveyBinding.address.text = region
         activityChampsSurveyBinding.storeCity.text = storeCity
         activityChampsSurveyBinding.region.text = region
         activityChampsSurveyBinding.percentageSum.text = "0"
@@ -424,8 +424,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     override fun onClickCategory(categoryName: String, position: Int) {
-        getCategoryAndSubCategoryDetails?.storeIdP =
-            activityChampsSurveyBinding.storeId.text.toString()
+//        getCategoryAndSubCategoryDetails?.storeIdP =
+//            activityChampsSurveyBinding.storeId.text.toString()
         getCategoryAndSubCategoryDetails?.addressP =
             activityChampsSurveyBinding.address.text.toString()
         getCategoryAndSubCategoryDetails?.issuedOnP =
@@ -463,7 +463,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             var headerDetails = SaveSurveyModelRequest.HeaderDetails()
             headerDetails.state = ""
             headerDetails.city = activityChampsSurveyBinding.storeCity.text.toString()
-            headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
+//            headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
 
             if (!status.equals("COMPLETED")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
@@ -1152,8 +1152,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     override fun onClickPreview() {
-        getCategoryAndSubCategoryDetails?.storeIdP =
-            activityChampsSurveyBinding.storeId.text.toString()
+//        getCategoryAndSubCategoryDetails?.storeIdP =
+//            activityChampsSurveyBinding.storeId.text.toString()
         getCategoryAndSubCategoryDetails?.addressP =
             activityChampsSurveyBinding.address.text.toString()
         getCategoryAndSubCategoryDetails?.issuedOnP =
@@ -1550,8 +1550,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             activityChampsSurveyBinding.softskillsTextView.setText(getSurveyDetailsByChapmpsId!!.headerDetails.softSkills)
             activityChampsSurveyBinding.othertrainingTextview.setText(getSurveyDetailsByChapmpsId!!.headerDetails.otherTraining)
 
-            activityChampsSurveyBinding.siteId.text =
-                getSurveyDetailsByChapmpsId.headerDetails.storeId
+//            activityChampsSurveyBinding.siteId.text =
+//                getSurveyDetailsByChapmpsId.headerDetails.storeId
             val currentTime: Date = Calendar.getInstance().getTime()
             activityChampsSurveyBinding.issuedOn.text = currentTime.toString()
 

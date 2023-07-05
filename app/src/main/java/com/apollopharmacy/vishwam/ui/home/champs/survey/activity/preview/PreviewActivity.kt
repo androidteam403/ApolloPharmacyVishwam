@@ -61,7 +61,7 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
             activityPreviewBinding.issuedOn.setText(getCategoryAndSubCategoryDetails?.issuedOnP)
             activityPreviewBinding.storeName.setText(getCategoryAndSubCategoryDetails?.storeNameP)
             activityPreviewBinding.storeCity.setText(getCategoryAndSubCategoryDetails?.storeCityP)
-            activityPreviewBinding.siteId.setText(getCategoryAndSubCategoryDetails?.storeIdP)
+//            activityPreviewBinding.siteId.setText(getCategoryAndSubCategoryDetails?.storeIdP)
             activityPreviewBinding.state.setText(getCategoryAndSubCategoryDetails?.storeStateP)
 
             activityPreviewBinding.technicalCheckbox.setText(getCategoryAndSubCategoryDetails?.technicalDetails)

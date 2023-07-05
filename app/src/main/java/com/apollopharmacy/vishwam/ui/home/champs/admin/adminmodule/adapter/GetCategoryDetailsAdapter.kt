@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,12 +34,20 @@ class GetCategoryDetailsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var getCategoryDetails = categoryDetailsList!!.get(position)
+//        getCategoryDetails.rating=holder.adapterGetCategoryDetailsBinding.overAllPoints.text.toString()
         holder.adapterGetCategoryDetailsBinding.model = getCategoryDetails
         holder.adapterGetCategoryDetailsBinding.mCallback = mCallback
+//        holder.adapterGetCategoryDetailsBinding.sumOfSubCatAdmin=holder.adapterGetCategoryDetailsBinding.overAllPoints.text.toString()
         holder.adapterGetCategoryDetailsBinding.categoryName=getCategoryDetails.categoryName
         holder.adapterGetCategoryDetailsBinding.position = "${position + 1}"
         holder.adapterGetCategoryDetailsBinding.itemPos= position.toString()
         holder.adapterGetCategoryDetailsBinding.isItemExpanded = getCategoryDetails.isItemExpanded
+        if(getCategoryDetails.isItemExpanded!!){
+//            getCategoryDetails.rating=holder.adapterGetCategoryDetailsBinding.overAllPoints.text.toString()
+            holder.adapterGetCategoryDetailsBinding.editTextAdmin.visibility= View.VISIBLE
+        }else{
+            holder.adapterGetCategoryDetailsBinding.editTextAdmin.visibility= View.INVISIBLE
+        }
         var sumOfSubCategoryMaxRating = 0.0
 
         if (getCategoryDetails.subCategoryDetailsList != null && getCategoryDetails.subCategoryDetailsList!!.size > 0) {
@@ -52,24 +61,41 @@ class GetCategoryDetailsAdapter(
                     getCategoryDetails.sumOfSubCategoryRating
 //           }
 
-
             var getSubCategoryDetailsAdapter =
                 GetSubCategoryDetailsAdapter(getCategoryDetails.subCategoryDetailsList!!,
                     mContext,
                     mCallback,
-                    position, getCategoryDetails.rating)
+                    position, getCategoryDetails.rating,  this, holder.adapterGetCategoryDetailsBinding)
             var layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
             holder.adapterGetCategoryDetailsBinding.getSubCategoryDetailsRecyclerview.layoutManager =
                 layoutManager
             holder.adapterGetCategoryDetailsBinding.getSubCategoryDetailsRecyclerview.adapter =
                 getSubCategoryDetailsAdapter
         }else{
-            getCategoryDetails.sumOfSubCategoryRating = sumOfSubCategoryMaxRating
+//            getCategoryDetails.sumOfSubCategoryRating = sumOfSubCategoryMaxRating
             holder.adapterGetCategoryDetailsBinding.sumOfSubCategoryMaxRatings =
                 getCategoryDetails.sumOfSubCategoryRating
         }
 
     }
+
+    fun sumOfSubCategoriesRatings(position: Int,subCategoryDetailsList: List<GetSubCategoryDetailsResponse.SubCategoryDetails>, adapterGetCategoryDetailsBinding: AdapterGetCategoryDetailsBinding){
+        var sumOfSubCategoryMaxRating = 0.0
+        if (subCategoryDetailsList != null && subCategoryDetailsList!!.size > 0) {
+
+            for (i in subCategoryDetailsList!!) {
+                sumOfSubCategoryMaxRating = sumOfSubCategoryMaxRating + i.rating!!.toDouble()
+            }
+//            getCategoryDetails.sumOfSubCategoryRating = sumOfSubCategoryMaxRating
+//            if(!categoryPosForUpdate!!.isEmpty() && position.equals(categoryPosForUpdate!!.toInt())){
+            adapterGetCategoryDetailsBinding.sumOfSubCategoryMaxRatings =
+                sumOfSubCategoryMaxRating
+            categoryDetailsList!!.get(position).sumOfSubCategoryRating=sumOfSubCategoryMaxRating
+//            categoryDetailsList!!.get(position).rating= sumOfSubCategoryMaxRating.toString()
+           }
+    }
+
+
 
     override fun getItemViewType(position: Int): Int {
         return super.getItemViewType(position)

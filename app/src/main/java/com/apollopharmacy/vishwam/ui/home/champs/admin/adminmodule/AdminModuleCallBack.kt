@@ -51,4 +51,5 @@ interface AdminModuleCallBack {
 
     fun onSuccessSaveCategoryConfigurationDetailsApiCAll(saveCategoryConfigurationDetailsResponse: SaveCategoryConfigurationDetailsResponse)
     fun onFailureSaveCategoryConfigurationDetails(message: String)
+    fun updateSumOfSubCat()
 }

@@ -109,7 +109,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
     }
 
     override fun onFailureSurveyList(getSurvetDetailsModelResponse: GetSurveyDetailsModelResponse) {
-    Toast.makeText(applicationContext, ""+getSurvetDetailsModelResponse.message, Toast.LENGTH_SHORT).show()
+//    Toast.makeText(applicationContext, ""+getSurvetDetailsModelResponse.message, Toast.LENGTH_SHORT).show()
         activityGetSurveyDetailsBinding.noListFound.visibility= View.VISIBLE
         activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.GONE
         Utlis.hideLoading()

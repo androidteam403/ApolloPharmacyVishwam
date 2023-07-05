@@ -21,6 +21,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -48,7 +49,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="5dp"
-                            android:layout_weight=".45"
+                            android:layout_weight=".40"
                             android:onClick="@{()-> mCallback.onClickSubCategoryDetailsItem(model, Integer.valueOf(itemPos))}"
                             android:text="@{model.categoryName.toUpperCase()}"
                             android:textColor="@color/black"
@@ -58,7 +59,7 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".55"
+                            android:layout_weight=".6"
                             android:gravity="end|center_vertical"
                             android:orientation="horizontal">
 
@@ -71,10 +72,11 @@
 
                                 <TextView
                                     android:id="@+id/overAllPoints"
-                                    android:layout_width="@dimen/value_50dp"
+                                    android:layout_width="57dp"
                                     android:layout_height="@dimen/value_30dp"
                                     android:background="@drawable/grey_yellow_rectangle"
                                     android:gravity="center_vertical|center_horizontal"
+                                    android:padding="@dimen/value_5dp"
                                     android:text="@{String.valueOf(sumOfSubCategoryMaxRatings)}"
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
@@ -82,8 +84,8 @@
                                     android:textStyle="bold" />
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="18dp"
+                                    android:layout_height="match_parent"
                                     android:layout_marginLeft="@dimen/value_5dp"
                                     android:gravity="center_vertical|center_horizontal"
                                     android:text="/"
@@ -92,16 +94,23 @@
                                     android:textStyle="bold" />
 
                                 <TextView
-                                    android:layout_width="@dimen/value_30dp"
-                                    android:layout_height="@dimen/value_30dp"
-                                    android:gravity="center_vertical"
+                                    android:layout_width="57dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="@dimen/value_3dp"
+                                    android:background="@drawable/green_rectangle_backgroundd"
+                                    android:gravity="center"
+                                    android:padding="@dimen/value_3dp"
                                     android:text="@{model.rating}"
-                                    android:textColor="@color/black"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white"
                                     android:textSize="14sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
                             <ImageView
+                                android:visibility="invisible"
+                                android:id="@+id/editText_admin"
                                 android:layout_width="@dimen/value_25dp"
                                 android:layout_height="@dimen/value_25dp"
                                 android:layout_marginStart="@dimen/value_10dp"
@@ -197,5 +206,11 @@
         <variable
             name="sumOfSubCategoryMaxRatings"
             type="Double" />
+
+        <variable
+            name="sumOfSubCatAdmin"
+            type="String" />
+
+
     </data>
 </layout>
