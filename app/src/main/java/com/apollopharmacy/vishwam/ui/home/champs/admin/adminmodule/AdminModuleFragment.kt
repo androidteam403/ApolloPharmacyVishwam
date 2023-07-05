@@ -528,7 +528,7 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
             for (i in categoryDetailsList!!) {
                 var categoryDetail = SaveCategoryConfigurationDetailsRequest.CategoryDetail()
                 categoryDetail.categoryName = i.categoryName
-                categoryDetail.rating = i.rating
+                categoryDetail.rating = i.sumOfSubCategoryRating.toString()
                 categoryDetail.modifiedBy = Preferences.getValidatedEmpId()
                 categoryDetails.add(categoryDetail)
             }
@@ -536,21 +536,26 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
         saveCategoryConfigurationDetailsRequest.categoryDetails = categoryDetails
         var subCategoryDetails =
             ArrayList<SaveCategoryConfigurationDetailsRequest.SubCategoryDetail>()
-        if (subCategoryDetailsListList != null && subCategoryDetailsListList.size > 0) {
-            for (j in subCategoryDetailsListList) {
-                if (j != null && j.size > 0) {
-                    for (k in j) {
-                        var subCategoryDetail =
-                            SaveCategoryConfigurationDetailsRequest.SubCategoryDetail()
-                        subCategoryDetail.categoryName = k.categoryName
-                        subCategoryDetail.subCategoryName = k.subCategoryName
-                        subCategoryDetail.rating = k.rating
-                        subCategoryDetail.modifiedBy = Preferences.getValidatedEmpId()
-                        subCategoryDetails.add(subCategoryDetail)
+        if (categoryDetailsList != null && categoryDetailsList!!.size > 0) {
+            for (i in categoryDetailsList!!) {
+                if (i.subCategoryDetailsList != null && i.subCategoryDetailsList!!.size > 0) {
+                    for (j in i.subCategoryDetailsList!!) {
+                        if (j != null ) {
+//                            for (k in j) {
+                                var subCategoryDetail =
+                                    SaveCategoryConfigurationDetailsRequest.SubCategoryDetail()
+                                subCategoryDetail.categoryName = j.categoryName
+                                subCategoryDetail.subCategoryName = j.subCategoryName
+                                subCategoryDetail.rating = ( j.rating!!.toFloat()).toString()
+                                subCategoryDetail.modifiedBy = Preferences.getValidatedEmpId()
+                                subCategoryDetails.add(subCategoryDetail)
+//                            }
+                        }
                     }
                 }
             }
         }
+
         saveCategoryConfigurationDetailsRequest.subCategoryDetails = subCategoryDetails
         showLoading()
         viewModel.saveCategoryConfigurationDetailsApiCall(this@AdminModuleFragment,
@@ -626,6 +631,10 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
     override fun onFailureSaveCategoryConfigurationDetails(message: String) {
         hideLoading()
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun updateSumOfSubCat() {
+       getCategoryDetailsAdapter!!.notifyDataSetChanged()
     }
 
     private fun getConvertedValue(intVal: Int): Float {

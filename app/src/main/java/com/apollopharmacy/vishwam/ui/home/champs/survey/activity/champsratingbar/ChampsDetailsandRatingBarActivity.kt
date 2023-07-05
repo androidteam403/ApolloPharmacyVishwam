@@ -114,9 +114,20 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         activityChampsDetailsandRatingBarBinding.address.setText(getCategoryAndSubCategoryDetails?.addressP)
 //        Toast.makeText(applicationContext, "" + getCategoryName, Toast.LENGTH_SHORT).show()
         activityChampsDetailsandRatingBarBinding.categoryName.setText(getCategoryName)
-        if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
+//        if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
+//            activityChampsDetailsandRatingBarBinding.overallSum.text =
+//                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).rating
+//        }
+        if(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!=null &&
+            getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.size>0  ){
+            var sumOfSubCategoryMaxRating = 0.0
+            for (i in  getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!) {
+                sumOfSubCategoryMaxRating = sumOfSubCategoryMaxRating + i.rating!!.toDouble()
+            }
+//            getCategoryDetails.sumOfSubCategoryRating = sumOfSubCategoryMaxRating
+//            if(!categoryPosForUpdate!!.isEmpty() && position.equals(categoryPosForUpdate!!.toInt())){
             activityChampsDetailsandRatingBarBinding.overallSum.text =
-                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).rating
+                sumOfSubCategoryMaxRating.toString()
         }
          if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
                 categoryPosition
@@ -471,6 +482,9 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             activityChampsDetailsandRatingBarBinding.sumOfrating.text =
                 getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString()
 //            subCategoryAdapter!!.notifyDataSetChanged()
+
+        }
+        if(activityChampsDetailsandRatingBarBinding.sumOfrating.text.toString().equals("0.0")){
 
         }
 
@@ -910,6 +924,18 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                         }
                     }
                 }
+            }
+
+            if(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!=null &&
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.size>0  ){
+                var sumOfSubCategoryMaxRating = 0.0
+                for (i in  getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!) {
+                    sumOfSubCategoryMaxRating = sumOfSubCategoryMaxRating + i.rating!!.toDouble()
+                }
+//            getCategoryDetails.sumOfSubCategoryRating = sumOfSubCategoryMaxRating
+//            if(!categoryPosForUpdate!!.isEmpty() && position.equals(categoryPosForUpdate!!.toInt())){
+                activityChampsDetailsandRatingBarBinding.overallSum.text =
+                    sumOfSubCategoryMaxRating.toString()
             }
             subCategoryAdapter =
                 SubCategoryAdapter(

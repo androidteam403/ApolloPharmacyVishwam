@@ -56,7 +56,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
                             android:src="@drawable/closee_whitee"
-                            android:tint="@color/black" />
+                            android:tint="@color/white" />
                     </LinearLayout>
 
                 </LinearLayout>

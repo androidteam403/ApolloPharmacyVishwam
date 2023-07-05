@@ -57,7 +57,7 @@ class CategoryDetailsAdapter(
                 holder.adapterCategoryDetailsBinding.applyBackgroundLayout.setBackgroundResource(R.drawable.background_for_champs_names)
             } else {
                 holder.adapterCategoryDetailsBinding.progressBar.max =
-                    (categoryDetailss.rating)!!.toInt()
+                    (categoryDetailss.rating)!!.toDouble().toInt()
                 holder.adapterCategoryDetailsBinding.outOfRating.text =
                     ((categoryDetailss.sumOfSubCategoryRating)).toString() + "/" + categoryDetailss.rating
 

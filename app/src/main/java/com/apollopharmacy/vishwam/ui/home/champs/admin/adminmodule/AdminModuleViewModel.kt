@@ -28,6 +28,12 @@ class AdminModuleViewModel : ViewModel() {
                     state.value = State.ERROR
                     if (response.value != null) {
                         if (response.value.status!!) {
+                            for(i in response.value.categoryDetails!!){
+                                if(i.rating!=null && !i.rating!!.isEmpty()){
+                                    i.sumOfSubCategoryRating=i.rating!!.toDouble()
+                                }
+
+                            }
                             mCallback.onSuccessGetCategoryDetailsApiCall(response.value)
                         } else {
                             mCallback.onFailureGetCategoryDetailsApiCall(response.value.message!!)
