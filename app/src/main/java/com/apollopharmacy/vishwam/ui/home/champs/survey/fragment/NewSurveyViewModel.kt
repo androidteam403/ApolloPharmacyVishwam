@@ -9,13 +9,12 @@ import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.ChampsApiRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIdCallback
+import com.apollopharmacy.vishwam.ui.rider.login.BackSlash
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -116,10 +115,17 @@ class NewSurveyViewModel  : ViewModel() {
                     state.value = State.ERROR
                     if (response != null) {
                         val resp: String = response.value.string()
-                        val res = BackShlash.removeBackSlashes(resp)
+                        val res = BackSlash.removeBackSlashes(resp)
+                        val gson = Gson()
 
+                        //                            JsonReader jsonReader=new JsonReader(new StringReader(res));
+//                            jsonReader.setLenient(true);
+                        val storeListResponse: StoreDetailsModelResponse =
+                            gson.fromJson(
+                                BackSlash.removeSubString(res),
+                                StoreDetailsModelResponse::class.java
+                            )
 
-                        val storeListResponse = Gson().fromJson(BackShlash.removeSubString(res), StoreDetailsModelResponse::class.java)
                             if (storeListResponse.data!=null) {
                                 newSurveyCallback.onSuccessgetStoreDetails(storeListResponse.data.listdata.rows)
 
