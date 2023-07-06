@@ -7,8 +7,8 @@ interface SelectChampsSiteIdCallback {
 
     fun onClickCancel()
     fun noOrdersFound(size: Int)
-    fun onItemClick(storeListItem: StoreDetailsModelResponse.StoreDetail)
-    fun onSuccessgetStoreDetails(value: StoreDetailsModelResponse)
+    fun onItemClick(storeListItem: List<StoreDetailsModelResponse.Row>)
+    fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>)
     fun onFailuregetStoreDetails(value: StoreDetailsModelResponse)
      fun onSuccessgetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse)
      fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse)

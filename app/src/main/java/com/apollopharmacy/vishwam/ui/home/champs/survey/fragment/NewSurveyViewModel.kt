@@ -1,13 +1,22 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.fragment
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
+import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ChampsApiRepo
+import com.apollopharmacy.vishwam.data.network.RegistrationRepo
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIdCallback
+import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,164 +29,261 @@ class NewSurveyViewModel  : ViewModel() {
     val state = MutableLiveData<State>()
     var getStoreDetailsChamps = MutableLiveData<StoreDetailsModelResponse>()
     var getEmailDetailsChamps = MutableLiveData<GetEmailAddressModelResponse>()
-    fun getStoreDetailsChamps(newSurveyCallback: NewSurveyCallback) {
-        state.postValue(State.LOADING)
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getStoreDetailsChamps();
-            }
-            when (result) {
-                is ApiResult.Success -> {
-                    if (result.value.status) {
-                        state.value = State.ERROR
-                        newSurveyCallback.onSuccessgetStoreDetails(result.value)
-//                        getStoreDetailsChamps.value = result.value
-                    } else {
-                        state.value = State.ERROR
-                        newSurveyCallback.onFailuregetStoreDetails(result.value)
-                        commands.value = Command.ShowToast(result.value.message)
-                    }
-                }
-                is ApiResult.GenericError -> {
-                    commands.postValue(result.error?.let {
-                        Command.ShowToast(it)
-                    })
-                    state.value = State.ERROR
-                }
-                is ApiResult.NetworkError -> {
-                    commands.postValue(Command.ShowToast("Network Error"))
-                    state.value = State.ERROR
-                }
-                is ApiResult.UnknownError -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-                else -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-            }
-        }
-    }
-
-    fun getStoreWiseDetailsChamps(newSurveyCallback: NewSurveyCallback) {
-        state.postValue(State.LOADING)
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getStoreWiseDetailsChamps();
-            }
-            when (result) {
-                is ApiResult.Success -> {
-                    if (result.value.status) {
-                        state.value = State.ERROR
-                        newSurveyCallback.onSuccessgetStoreWiseDetails(result.value)
-//                        getStoreDetailsChamps.value = result.value
-                    } else {
-                        state.value = State.ERROR
-                        newSurveyCallback.onFailuregetStoreWiseDetails(result.value)
-                        commands.value = Command.ShowToast(result.value.message)
-                    }
-                }
-                is ApiResult.GenericError -> {
-                    commands.postValue(result.error?.let {
-                        Command.ShowToast(it)
-                    })
-                    state.value = State.ERROR
-                }
-                is ApiResult.NetworkError -> {
-                    commands.postValue(Command.ShowToast("Network Error"))
-                    state.value = State.ERROR
-                }
-                is ApiResult.UnknownError -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-                else -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-            }
-        }
-    }
+//    fun getStoreDetailsChamps(newSurveyCallback: NewSurveyCallback) {
+//        state.postValue(State.LOADING)
+//        viewModelScope.launch {
+//            val result = withContext(Dispatchers.IO) {
+//                ChampsApiRepo.getStoreDetailsChamps();
+//            }
+//            when (result) {
+//                is ApiResult.Success -> {
+//                    if (result.value!=null) {
+//                        state.value = State.ERROR
+//                        newSurveyCallback.onSuccessgetStoreDetails(result.value)
+////                        getStoreDetailsChamps.value = result.value
+//                    } else {
+//                        state.value = State.ERROR
+//                        newSurveyCallback.onFailuregetStoreDetails(result.value)
+////                        commands.value = Command.ShowToast(result.value.message)
+//                    }
+//                }
+//                is ApiResult.GenericError -> {
+//                    commands.postValue(result.error?.let {
+//                        Command.ShowToast(it)
+//                    })
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.NetworkError -> {
+//                    commands.postValue(Command.ShowToast("Network Error"))
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.UnknownError -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//                else -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//            }
+//        }
+//    }
 
 
+
+    @SuppressLint("SuspiciousIndentation")
     fun getStoreDetailsChampsApi(newSurveyCallback: NewSurveyCallback) {
-        state.postValue(State.LOADING)
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getStoreDetailsChampsApi()
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var proxyBaseUrl = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
             }
-            when (result) {
+        }
+
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("")) {
+                val  baseUrl = data.APIS[i].URL
+                val token = data.APIS[i].TOKEN
+                break
+            }
+
+        }
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+
+                RegistrationRepo.getDetails(
+                    proxyBaseUrl,
+                    proxyToken,
+                    GetDetailsRequest(
+                        "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/list/mobile-site-list",
+                        "GET",
+                        "The",
+                        "",
+                        ""
+                    )
+                )
+
+
+            }
+            when (response) {
                 is ApiResult.Success -> {
-                    if (result.value.status) {
-                        state.value = State.ERROR
-                        newSurveyCallback.onSuccessgetStoreDetails(result.value)
-                    } else {
-                        state.value = State.ERROR
-                        newSurveyCallback.onFailuregetStoreDetails(result.value)
-                        commands.value = Command.ShowToast(result.value.message)
-                    }
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        val res = BackShlash.removeBackSlashes(resp)
+
+
+                        val storeListResponse = Gson().fromJson(BackShlash.removeSubString(res), StoreDetailsModelResponse::class.java)
+                            if (storeListResponse.data!=null) {
+                                newSurveyCallback.onSuccessgetStoreDetails(storeListResponse.data.listdata.rows)
+
+//                                getSurveyListResponse.value =
+//                                    surveyListResponse
+                            } else {
+                                newSurveyCallback.onFailuregetStoreDetails(storeListResponse)
+
+                            }
+
+                        }
+
+
                 }
+
                 is ApiResult.GenericError -> {
-                    commands.postValue(result.error?.let {
-                        Command.ShowToast(it)
-                    })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
-                    commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
-                else -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+
+                is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
             }
         }
+
     }
+
 
     fun getStoreWiseDetailsChampsApi(newSurveyCallback: NewSurveyCallback, empId: String) {
-        state.postValue(State.LOADING)
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getStoreWiseDetailsChampsApi(empId)
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var proxyBaseUrl = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
             }
-            when (result) {
+        }
+
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("")) {
+                val  baseUrl = data.APIS[i].URL
+                val token = data.APIS[i].TOKEN
+                break
+            }
+
+        }
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+
+                RegistrationRepo.getDetails(
+                    proxyBaseUrl,
+                    proxyToken,
+                    GetDetailsRequest(
+                        "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/get-store-users?site=16001",
+                        "GET",
+                        "The",
+                        "",
+                        ""
+                    )
+                )
+
+
+            }
+            when (response) {
                 is ApiResult.Success -> {
-                    if (result.value.status) {
-                        state.value = State.ERROR
-                        newSurveyCallback.onSuccessgetStoreWiseDetails(result.value)
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val storeWiseDetailListResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                GetStoreWiseDetailsModelResponse::class.java
+                            )
+                            if (storeWiseDetailListResponse.success) {
+                                newSurveyCallback.onSuccessgetStoreWiseDetails(storeWiseDetailListResponse)
+
+//                                getSurveyListResponse.value =
+//                                    surveyListResponse
+                            } else {
+                                newSurveyCallback.onFailuregetStoreWiseDetails(storeWiseDetailListResponse)
+
+                            }
+
+                        }
+
                     } else {
-                        state.value = State.ERROR
-                        commands.value = Command.ShowToast(result.value.message)
-                        newSurveyCallback.onFailuregetStoreWiseDetails(result.value)
                     }
                 }
+
                 is ApiResult.GenericError -> {
-                    commands.postValue(result.error?.let {
-                        Command.ShowToast(it)
-                    })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
-                    commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
-                else -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+
+                is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
             }
         }
+
     }
+
+
+
+
+
+//    fun getStoreWiseDetailsChampsApi(newSurveyCallback: NewSurveyCallback, empId: String) {
+//        state.postValue(State.LOADING)
+//        viewModelScope.launch {
+//            val result = withContext(Dispatchers.IO) {
+//                ChampsApiRepo.getStoreWiseDetailsChampsApi(empId)
+//            }
+//            when (result) {
+//                is ApiResult.Success -> {
+//                    if (result.value.status) {
+//                        state.value = State.ERROR
+//                        newSurveyCallback.onSuccessgetStoreWiseDetails(result.value)
+//                    } else {
+//                        state.value = State.ERROR
+//                        commands.value = Command.ShowToast(result.value.message)
+//                        newSurveyCallback.onFailuregetStoreWiseDetails(result.value)
+//                    }
+//                }
+//                is ApiResult.GenericError -> {
+//                    commands.postValue(result.error?.let {
+//                        Command.ShowToast(it)
+//                    })
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.NetworkError -> {
+//                    commands.postValue(Command.ShowToast("Network Error"))
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.UnknownError -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//                else -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//            }
+//        }
+//    }
 
 
     sealed class Command {

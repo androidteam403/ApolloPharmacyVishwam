@@ -111,31 +111,31 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         siteName= intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
         region= intent.getStringExtra("region")!!
-        if(getStoreWiseDetails!=null && getStoreWiseDetails!!.storeWiseDetails!=null){
-            if(!getStoreWiseDetails!!.storeWiseDetails.trainerEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.trainerEmail!=null){
-                activityStartSurvey2Binding.trainer.text=getStoreWiseDetails!!.storeWiseDetails.trainerEmail
-            }else{
-                activityStartSurvey2Binding.trainer.text="--"
-            }
+        if(getStoreWiseDetails!=null) {
+//            if(!getStoreWiseDetails.data.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.trainerEmail!=null){
+//                activityStartSurvey2Binding.trainer.text=getStoreWiseDetails!!.storeWiseDetails.trainerEmail
+//            }else{
+//                activityStartSurvey2Binding.trainer.text="--"
+//            }
 
-            if(!getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail!=null)
+            if(getStoreWiseDetails!!.data.regionHead!=null )
             {
-                activityStartSurvey2Binding.regionalHead.text=getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail
+                activityStartSurvey2Binding.regionalHead.text=getStoreWiseDetails!!.data.regionHead.email
 
             }else{
                 activityStartSurvey2Binding.regionalHead.text="--"
             }
 
-            if(!getStoreWiseDetails!!.storeWiseDetails.executiveEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.executiveEmail!=null){
-                activityStartSurvey2Binding.executive.text=getStoreWiseDetails!!.storeWiseDetails.executiveEmail
+            if(!getStoreWiseDetails!!.data.executive.email.isEmpty() && getStoreWiseDetails!!.data.executive.email!=null){
+                activityStartSurvey2Binding.executive.text=getStoreWiseDetails!!.data.executive.email
 
             }else{
                 activityStartSurvey2Binding.executive.text="--"
 
             }
 
-            if(!getStoreWiseDetails!!.storeWiseDetails.managerEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.managerEmail!=null){
-                activityStartSurvey2Binding.manager.text=getStoreWiseDetails!!.storeWiseDetails.managerEmail
+            if(!getStoreWiseDetails!!.data.manager.email.isEmpty() && getStoreWiseDetails!!.data.manager.email!=null){
+                activityStartSurvey2Binding.manager.text=getStoreWiseDetails!!.data.manager.email
             }else{
                 activityStartSurvey2Binding.manager.text="--"
             }

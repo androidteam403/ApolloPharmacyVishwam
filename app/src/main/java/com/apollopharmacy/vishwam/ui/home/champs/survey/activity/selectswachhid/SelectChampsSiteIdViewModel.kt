@@ -12,10 +12,12 @@ import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ChampsApiRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
+import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyCallback
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyViewModel
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityViewModel
 import com.google.gson.Gson
@@ -122,123 +124,309 @@ class SelectChampsSiteIdViewModel : ViewModel() {
 //        return siteLiveData
 //    }
 
+
+
+
+
     fun getStoreDetailsChamps(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback) {
-        state.postValue(State.LOADING)
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getStoreDetailsChamps();
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var proxyBaseUrl = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
             }
-            when (result) {
+        }
+
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("")) {
+              val  baseUrl = data.APIS[i].URL
+                val token = data.APIS[i].TOKEN
+                break
+            }
+
+        }
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+
+                RegistrationRepo.getDetails(
+                    proxyBaseUrl,
+                    proxyToken,
+                    GetDetailsRequest(
+                        "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/list/mobile-site-list",
+                        "GET",
+                        "The",
+                        "",
+                        ""
+                    )
+                )
+
+
+            }
+            when (response) {
                 is ApiResult.Success -> {
-                    if (result.value.status) {
-                        state.value = State.ERROR
-                        selectChampsSiteIdCallBack.onSuccessgetStoreDetails(result.value)
-//                        getStoreDetailsChamps.value = result.value
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val storeListResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                StoreDetailsModelResponse::class.java
+                            )
+                            if (storeListResponse.success) {
+                                selectChampsSiteIdCallBack.onSuccessgetStoreDetails(storeListResponse.data.listdata.rows)
+
+//                                getSurveyListResponse.value =
+//                                    surveyListResponse
+                            } else {
+                                selectChampsSiteIdCallBack.onFailuregetStoreDetails(storeListResponse)
+
+                            }
+
+                        }
+
                     } else {
-                        state.value = State.ERROR
-                        selectChampsSiteIdCallBack.onFailuregetStoreDetails(result.value)
-                        commands.value = Command.ShowToast(result.value.message)
                     }
                 }
+
                 is ApiResult.GenericError -> {
-                    commands.postValue(result.error?.let {
-                        Command.ShowToast(it)
-                    })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
-                    commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
-                else -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+
+                is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
             }
         }
+
     }
+
+
+
+
+
+
+
+
+
+//    fun getStoreDetailsChamps(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback) {
+//        state.postValue(State.LOADING)
+//        viewModelScope.launch {
+//            val result = withContext(Dispatchers.IO) {
+//                ChampsApiRepo.getStoreDetailsChamps();
+//            }
+//            when (result) {
+//                is ApiResult.Success -> {
+//                    if (result.value.status) {
+//                        state.value = State.ERROR
+//                        selectChampsSiteIdCallBack.onSuccessgetStoreDetails(result.value)
+////                        getStoreDetailsChamps.value = result.value
+//                    } else {
+//                        state.value = State.ERROR
+//                        selectChampsSiteIdCallBack.onFailuregetStoreDetails(result.value)
+//                        commands.value = Command.ShowToast(result.value.message)
+//                    }
+//                }
+//                is ApiResult.GenericError -> {
+//                    commands.postValue(result.error?.let {
+//                        Command.ShowToast(it)
+//                    })
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.NetworkError -> {
+//                    commands.postValue(Command.ShowToast("Network Error"))
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.UnknownError -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//                else -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//            }
+//        }
+//    }
+
 
     fun getStoreWiseDetailsChampsApi(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback, empId: String) {
-        state.postValue(State.LOADING)
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getStoreWiseDetailsChampsApi(empId)
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var proxyBaseUrl = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
             }
-            when (result) {
+        }
+
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("")) {
+                val  baseUrl = data.APIS[i].URL
+                val token = data.APIS[i].TOKEN
+                break
+            }
+
+        }
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+
+                RegistrationRepo.getDetails(
+                    proxyBaseUrl,
+                    proxyToken,
+                    GetDetailsRequest(
+                        "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/get-store-users?site=16001",
+                        "GET",
+                        "The",
+                        "",
+                        ""
+                    )
+                )
+
+
+            }
+            when (response) {
                 is ApiResult.Success -> {
-                    if (result.value.status) {
-                        state.value = State.ERROR
-                        selectChampsSiteIdCallBack.onSuccessgetStoreWiseDetails(result.value)
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val storeWiseDetailListResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                GetStoreWiseDetailsModelResponse::class.java
+                            )
+                            if (storeWiseDetailListResponse.success) {
+                                selectChampsSiteIdCallBack.onSuccessgetStoreWiseDetails(storeWiseDetailListResponse)
+
+//                                getSurveyListResponse.value =
+//                                    surveyListResponse
+                            } else {
+                                selectChampsSiteIdCallBack.onFailuregetStoreWiseDetails(storeWiseDetailListResponse)
+
+                            }
+
+                        }
+
                     } else {
-                        state.value = State.ERROR
-                        commands.value =Command.ShowToast(result.value.message)
-                        selectChampsSiteIdCallBack.onFailuregetStoreWiseDetails(result.value)
                     }
                 }
+
                 is ApiResult.GenericError -> {
-                    commands.postValue(result.error?.let {
-                       Command.ShowToast(it)
-                    })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
-                    commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
-                else -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+
+                is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
             }
         }
+
     }
 
-    fun getStoreDetailsChampsApi(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback) {
-        state.postValue(State.LOADING)
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getStoreDetailsChampsApi()
-            }
-            when (result) {
-                is ApiResult.Success -> {
-                    if (result.value.status) {
-                        state.value = State.ERROR
-                        selectChampsSiteIdCallBack.onSuccessgetStoreDetails(result.value)
-                    } else {
-                        state.value = State.ERROR
-                        selectChampsSiteIdCallBack.onFailuregetStoreDetails(result.value)
-                        commands.value = Command.ShowToast(result.value.message)
-                    }
-                }
-                is ApiResult.GenericError -> {
-                    commands.postValue(result.error?.let {
-                       Command.ShowToast(it)
-                    })
-                    state.value = State.ERROR
-                }
-                is ApiResult.NetworkError -> {
-                    commands.postValue(Command.ShowToast("Network Error"))
-                    state.value = State.ERROR
-                }
-                is ApiResult.UnknownError -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-                else -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-            }
-        }
-    }
+
+//    fun getStoreWiseDetailsChampsApi(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback, empId: String) {
+//        state.postValue(State.LOADING)
+//        viewModelScope.launch {
+//            val result = withContext(Dispatchers.IO) {
+//                ChampsApiRepo.getStoreWiseDetailsChampsApi(empId)
+//            }
+//            when (result) {
+//                is ApiResult.Success -> {
+//                    if (result.value.success) {
+//                        state.value = State.ERROR
+//                        selectChampsSiteIdCallBack.onSuccessgetStoreWiseDetails(result.value)
+//                    } else {
+//                        state.value = State.ERROR
+//                        commands.value =Command.ShowToast(result.value.message.toString())
+//                        selectChampsSiteIdCallBack.onFailuregetStoreWiseDetails(result.value)
+//                    }
+//                }
+//                is ApiResult.GenericError -> {
+//                    commands.postValue(result.error?.let {
+//                       Command.ShowToast(it)
+//                    })
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.NetworkError -> {
+//                    commands.postValue(Command.ShowToast("Network Error"))
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.UnknownError -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//                else -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//            }
+//        }
+//    }
+
+//    fun getStoreDetailsChampsApi(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback) {
+//        state.postValue(State.LOADING)
+//        viewModelScope.launch {
+//            val result = withContext(Dispatchers.IO) {
+//                ChampsApiRepo.getStoreDetailsChampsApi()
+//            }
+//            when (result) {
+//                is ApiResult.Success -> {
+//                    if (result.value.status) {
+//                        state.value = State.ERROR
+//                        selectChampsSiteIdCallBack.onSuccessgetStoreDetails(result.value)
+//                    } else {
+//                        state.value = State.ERROR
+//                        selectChampsSiteIdCallBack.onFailuregetStoreDetails(result.value)
+//                        commands.value = Command.ShowToast(result.value.message)
+//                    }
+//                }
+//                is ApiResult.GenericError -> {
+//                    commands.postValue(result.error?.let {
+//                       Command.ShowToast(it)
+//                    })
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.NetworkError -> {
+//                    commands.postValue(Command.ShowToast("Network Error"))
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.UnknownError -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//                else -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//            }
+//        }
+//    }
     sealed class Command {
         data class ShowToast(val message: String) : Command()
     }

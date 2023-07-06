@@ -16,7 +16,7 @@ import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid
 
 class SiteIdListChampsAdapter(
     val applicationContext: Context,
-    var siteData: MutableList<StoreDetailsModelResponse.StoreDetail>,
+    var siteData: ArrayList<StoreDetailsModelResponse.Row>,
     val selectSiteIdCallback: SelectChampsSiteIdCallback,
 ) :
     RecyclerView.Adapter<SiteIdListChampsAdapter.ViewHolder>() {
@@ -24,7 +24,7 @@ class SiteIdListChampsAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): SiteIdListChampsAdapter.ViewHolder {
+    ): ViewHolder {
         val adapterSwachhSiteidListBinding: AdapterSwachhSiteidListBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(applicationContext),
@@ -32,13 +32,13 @@ class SiteIdListChampsAdapter(
                 parent,
                 false
             )
-        return SiteIdListChampsAdapter.ViewHolder(adapterSwachhSiteidListBinding)
+        return ViewHolder(adapterSwachhSiteidListBinding)
     }
 
 
-    override fun onBindViewHolder(holder: SiteIdListChampsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = siteData.get(position)
-        holder.adapterSwachhSiteidListBinding.itemName.text = " ${items.sitename}, ${items.city}"
+        holder.adapterSwachhSiteidListBinding.itemName.text = " ${items.storeName}, ${items.city}"
 
 //        if(siteData.get(position).isSelected!=null &&siteData.get(position).isSelected!!.equals(true)){
 //            holder.adapterSwachhSiteidListBinding.tickMark.visibility= View.VISIBLE
@@ -48,7 +48,7 @@ class SiteIdListChampsAdapter(
 
         holder.itemView.setOnClickListener {
             if (selectSiteIdCallback != null) {
-                selectSiteIdCallback.onItemClick(siteData.get(position))
+                selectSiteIdCallback.onItemClick(siteData)
             }
         }
     }
@@ -58,7 +58,7 @@ class SiteIdListChampsAdapter(
         return siteData.size
     }
 
-    val storeArrayList: MutableList<StoreDetailsModelResponse.StoreDetail> = siteData
+    val storeArrayList: ArrayList<StoreDetailsModelResponse.Row> = siteData
     fun getFilter(): Filter? {
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence): FilterResults {
@@ -67,9 +67,9 @@ class SiteIdListChampsAdapter(
 
                     siteData = storeArrayList!!
                 } else {
-                    var filteredList = ArrayList<StoreDetailsModelResponse.StoreDetail>()
+                    var filteredList = ArrayList<StoreDetailsModelResponse.Row>()
                     for (row in storeArrayList!!) {
-                        if (row.siteid?.contains(charString)!! || row.sitename?.contains(charString.toUpperCase())!!
+                        if (row.site?.contains(charString)!! || row.storeName?.contains(charString.toUpperCase())!!
                         ) {
                             filteredList.add(row)
                         }
@@ -88,7 +88,7 @@ class SiteIdListChampsAdapter(
 
                 if (siteData != null && !siteData.isEmpty()) {
                     siteData =
-                        filterResults.values as ArrayList<StoreDetailsModelResponse.StoreDetail>
+                        filterResults.values as ArrayList<StoreDetailsModelResponse.Row>
                     try {
                         selectSiteIdCallback.noOrdersFound(siteData.size)
                         notifyDataSetChanged()

@@ -32,7 +32,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
     lateinit var activitySelectChampsSiteidBinding: ActivitySelectChampsSiteidBinding
     lateinit var viewModel: SelectChampsSiteIdViewModel
     private var siteIDListAdapter: SiteIdListChampsAdapter? = null
-    var siteDataList = ArrayList<StoreDetailsModelResponse.StoreDetail>()
+    var siteDataList = ArrayList<StoreDetailsModelResponse>()
     var isSiteIdEmpty:Boolean=false
     private lateinit var dialog: Dialog
 
@@ -44,20 +44,20 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         )
         viewModel = ViewModelProvider(this)[SelectChampsSiteIdViewModel::class.java]
         activitySelectChampsSiteidBinding.callback = this
-//        Utlis.showLoading(this)
-//        viewModel.getStoreDetailsChamps(this)
-        if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
-            viewModel.getStoreDetailsChampsApi(this)
-        }
-        else {
-            Toast.makeText(
-                applicationContext,
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        }
+        showLoading(this)
+        viewModel.getStoreDetailsChamps(this)
+//        if (NetworkUtil.isNetworkConnected(this)) {
+//            Utlis.showLoading(this)
+////            viewModel.getStoreDetailsChampsApi(this)
+//        }
+//        else {
+//            Toast.makeText(
+//                applicationContext,
+//                resources.getString(R.string.label_network_error),
+//                Toast.LENGTH_SHORT
+//            )
+//                .show()
+//        }
     }
 
     private fun searchByFulfilmentId() {
@@ -124,7 +124,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         }
     }
     var siteId:String?=""
-    override fun onItemClick(storeListItem: StoreDetailsModelResponse.StoreDetail) {
+    override fun onItemClick(storeListItem: List<StoreDetailsModelResponse.Row>) {
 
 
         dialog = Dialog(this)
@@ -137,24 +137,30 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         ok.setOnClickListener {
             dialog.dismiss()
 //            Preferences.setSwachhSiteId(storeListItem.siteid!!)
-            Preferences.setApnaSiteName(storeListItem.sitename!!)
-            siteId=storeListItem.siteid!!
+
+            for (i in storeListItem.indices){
+                Preferences.setApnaSiteName(storeListItem[i].site!!)
+                siteId= storeListItem[i].storeName
+
+                if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+                    showLoading(this)
+                    viewModel.getStoreWiseDetailsChampsApi(
+                        this,
+                        storeListItem[i].site!!
+                    )
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        resources.getString(R.string.label_network_error),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
+
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 //            dialog.show()
-            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                showLoading(this)
-                viewModel.getStoreWiseDetailsChampsApi(
-                    this,
-                    storeListItem.siteid!!
-                )
-            } else {
-                Toast.makeText(
-                    applicationContext,
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
+
 //            val intent = Intent()
 //            setResult(Activity.RESULT_OK, intent)
 //            finish()
@@ -164,23 +170,24 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
 
     }
 
-    override fun onSuccessgetStoreDetails(value: StoreDetailsModelResponse) {
+    override fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>) {
         siteIDListAdapter =
-            SiteIdListChampsAdapter(applicationContext, value.storeDetails, this)
+            SiteIdListChampsAdapter(applicationContext,
+                value as ArrayList<StoreDetailsModelResponse.Row>, this)
 //            activitySelectSiteActivityBinding.fieldRecyclerView.layoutManager = LinearLayoutManager(ViswamApp.context)
         activitySelectChampsSiteidBinding.fieldRecyclerView.adapter = siteIDListAdapter
-        Utlis.hideLoading()
+        hideLoading()
 
         searchByFulfilmentId()
     }
 
     override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
     Toast.makeText(applicationContext,""+value.message, Toast.LENGTH_SHORT).show()
-        Utlis.hideLoading()
+        hideLoading()
     }
 
     override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
-        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.status && getStoreWiseDetailsResponses.storeWiseDetails != null && getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail != null) {
+        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success  && getStoreWiseDetailsResponses.data.executive != null) {
 //            viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
             Preferences.setApnaSite(siteId!!)
 

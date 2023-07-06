@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.text.Editable
@@ -141,6 +142,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     override fun onClickCardView() {
         val intent = Intent(context, SurveyDetailsActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getStoreWiseDetailsResponses", getStoreWiseDetailsResponse)
         intent.putExtra("storeId", storeId)
         intent.putExtra("address", address)
@@ -155,25 +157,31 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         viewBinding.enterStoreEdittext.setText("")
     }
 
-    override fun onSuccessgetStoreDetails(storeDetailsResponse: StoreDetailsModelResponse) {
-        if (storeDetailsResponse != null && storeDetailsResponse.storeDetails != null) {
-            for (i in storeDetailsResponse.storeDetails.indices) {
-                if (storeDetailsResponse.storeDetails.get(i).siteid.equals(viewBinding.enterStoreEdittext.text.toString())) {
-                    storeId = storeDetailsResponse.storeDetails.get(i).siteid
-                    siteName = storeDetailsResponse.storeDetails.get(i).sitename
-                    siteCity = storeDetailsResponse.storeDetails.get(i).city
-                    region = storeDetailsResponse.storeDetails.get(i).region
+    @SuppressLint("SuspiciousIndentation")
+    override fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>) {
+        if ( value != null ) {
+
+            for (i in value.indices){
+                storeId = value[i].site
+                siteName = value[i].storeName
+                siteCity = value[i].city
+                region = value[i].city
+
+                viewBinding.storeId.text =value[i].site
+
+                if (value.get(i).site.equals(viewBinding.enterStoreEdittext.text.toString())) {
+
                     address =
-                        storeDetailsResponse.storeDetails.get(i).region + ", " + storeDetailsResponse.storeDetails.get(
-                            i
-                        ).city
-                    viewBinding.storeId.text = storeDetailsResponse.storeDetails.get(i).siteid
+                        value.get(i).state!!.name + ", " + value.get(i).city
                     viewBinding.region.text =
-                        storeDetailsResponse.storeDetails.get(i).region + ", " + storeDetailsResponse.storeDetails.get(
-                            i
-                        ).city
+                        value.get(i).state!!.name + ", " + value.get(i).city
                 }
             }
+
+
+
+
+
 
         }
 
@@ -219,7 +227,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     }
 
     override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
-        Toast.makeText(activity, "" + value.message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "" + value, Toast.LENGTH_SHORT).show();
         hideLoading()
 //        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
 //            showLoading()
@@ -252,8 +260,8 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
         getStoreWiseDetailsResponse = getStoreWiseDetailsResponses
-        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.status && getStoreWiseDetailsResponses.storeWiseDetails != null && getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail != null) {
-            viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
+        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success  && getStoreWiseDetailsResponses.data.executive != null) {
+            viewBinding.emailId.setText(getStoreWiseDetailsResponses.data.executive.email)
         } else {
             viewBinding.emailId.setText("--")
             Preferences.setApnaSite("")
@@ -269,6 +277,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
             viewBinding.emailId.setText("--")
             Preferences.setApnaSite("")
             val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             i.putExtra("modulename", "CHAMPS")
             startActivityForResult(i, 781)
 //            Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
@@ -283,6 +292,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     override fun onClickSiteIdIcon() {
         val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivityForResult(i, 781)
     }
 

@@ -491,28 +491,28 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 headerDetails.dateOfVisit = dateNewFormat
             }
 
-            if (getStoreWiseDetails?.storeWiseDetails?.trainerEmail != null) {
-                headerDetails.emailIdOfTrainer =
-                    getStoreWiseDetails?.storeWiseDetails?.trainerEmail
-            } else {
-                headerDetails.emailIdOfTrainer = ""
-            }
-            if (getStoreWiseDetails?.storeWiseDetails?.executiveEmail != null) {
+//            if (getStoreWiseDetails?.storeWiseDetails?.trainerEmail != null) {
+//                headerDetails.emailIdOfTrainer =
+//                    getStoreWiseDetails?.storeWiseDetails?.trainerEmail
+//            } else {
+//                headerDetails.emailIdOfTrainer = ""
+//            }
+            if (getStoreWiseDetails!!.data.executive != null) {
                 headerDetails.emailIdOfExecutive =
-                    getStoreWiseDetails?.storeWiseDetails?.executiveEmail
+                    getStoreWiseDetails!!.data.executive.email
             } else {
                 headerDetails.emailIdOfExecutive = ""
             }
-            if (getStoreWiseDetails?.storeWiseDetails?.managerEmail != null) {
+            if (getStoreWiseDetails!!.data.manager != null) {
                 headerDetails.emailIdOfManager =
-                    getStoreWiseDetails?.storeWiseDetails?.managerEmail
+                    getStoreWiseDetails!!.data.manager.email
             } else {
                 headerDetails.emailIdOfManager = ""
             }
 
-            if (getStoreWiseDetails?.storeWiseDetails?.reagionalHeadEmail != null) {
+            if (getStoreWiseDetails!!.data.regionHead != null) {
                 headerDetails.emailIdOfRegionalHead =
-                    getStoreWiseDetails?.storeWiseDetails?.reagionalHeadEmail
+                    getStoreWiseDetails!!.data.regionHead.email
             } else {
                 headerDetails.emailIdOfRegionalHead = ""
             }
