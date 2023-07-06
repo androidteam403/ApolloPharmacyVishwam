@@ -95,6 +95,7 @@ dependencies {
 
     implementation 'com.google.android.exoplayer:exoplayer:2.18.6'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation project(path: ':openCV')
 
     androidTestImplementation "androidx.test.ext:junit:$test_version"
     implementation "android.arch.lifecycle:runtime:$life_cycle"
