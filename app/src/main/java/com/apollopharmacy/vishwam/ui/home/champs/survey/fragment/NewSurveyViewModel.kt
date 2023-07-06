@@ -15,11 +15,14 @@ import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.rider.login.BackSlash
+import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
+import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.IOException
 
 class NewSurveyViewModel  : ViewModel() {
 
@@ -114,20 +117,21 @@ class NewSurveyViewModel  : ViewModel() {
                 is ApiResult.Success -> {
                     state.value = State.ERROR
                     if (response != null) {
-                        val resp: String = response.value.string()
-                        val res = BackSlash.removeBackSlashes(resp)
-                        val gson = Gson()
+                        var resp: String? = ""
 
-                        //                            JsonReader jsonReader=new JsonReader(new StringReader(res));
-//                            jsonReader.setLenient(true);
-                        val storeListResponse: StoreDetailsModelResponse =
-                            gson.fromJson(
-                                BackSlash.removeSubString(res),
-                                StoreDetailsModelResponse::class.java
-                            )
+                        try {
+                             resp= response.value.string()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                        if (resp != null) {
+                            val res = BackSlash.removeBackSlashes(resp)
+                            val gson = Gson()
+                            val type = object : TypeToken<StoreDetailsModelResponse>() {}.type
 
+                            val storeListResponse = gson.fromJson<StoreDetailsModelResponse>(BackSlash.removeSubString(res), type)
                             if (storeListResponse.data!=null) {
-                                newSurveyCallback.onSuccessgetStoreDetails(storeListResponse.data.listdata.rows)
+                                newSurveyCallback.onSuccessgetStoreDetails(storeListResponse.data!!.listData!!.rows!!)
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
@@ -135,6 +139,13 @@ class NewSurveyViewModel  : ViewModel() {
                                 newSurveyCallback.onFailuregetStoreDetails(storeListResponse)
 
                             }
+
+                        }
+                        else{
+
+                        }
+
+
 
                         }
 
@@ -162,7 +173,7 @@ class NewSurveyViewModel  : ViewModel() {
     }
 
 
-    fun getStoreWiseDetailsChampsApi(newSurveyCallback: NewSurveyCallback, empId: String) {
+    fun getStoreWiseDetailsChampsApi(newSurveyCallback: NewSurveyCallback, siteId: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var proxyBaseUrl = ""
@@ -191,7 +202,7 @@ class NewSurveyViewModel  : ViewModel() {
                     proxyBaseUrl,
                     proxyToken,
                     GetDetailsRequest(
-                        "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/get-store-users?site=16001",
+                        "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/get-store-users?site=${siteId}",
                         "GET",
                         "The",
                         "",

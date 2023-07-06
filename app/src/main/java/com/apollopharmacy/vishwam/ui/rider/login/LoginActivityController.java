@@ -112,6 +112,7 @@ public  final String BASE_URL = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc
                             e.printStackTrace();
                         }
                         if (resp != null) {
+
                             String res = BackSlash.removeBackSlashes(resp);
                             Gson gson = new Gson();
                             LoginResponse loginResponse = gson.fromJson(BackSlash.removeSubString(res), LoginResponse.class);

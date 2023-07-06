@@ -38,7 +38,7 @@ class SiteIdListChampsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = siteData.get(position)
-        holder.adapterSwachhSiteidListBinding.itemName.text = " ${items.storeName}, ${items.city}"
+        holder.adapterSwachhSiteidListBinding.itemName.text = " ${items.site}, ${items.storeName}"
 
 //        if(siteData.get(position).isSelected!=null &&siteData.get(position).isSelected!!.equals(true)){
 //            holder.adapterSwachhSiteidListBinding.tickMark.visibility= View.VISIBLE

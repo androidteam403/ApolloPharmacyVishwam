@@ -159,29 +159,21 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     @SuppressLint("SuspiciousIndentation")
     override fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>) {
-        if ( value != null ) {
-
-            for (i in value.indices){
-                storeId = value[i].site
-                siteName = value[i].storeName
-                siteCity = value[i].city
-                region = value[i].city
-
-                viewBinding.storeId.text =value[i].site
-
+        if (value != null ) {
+            for (i in value.indices) {
                 if (value.get(i).site.equals(viewBinding.enterStoreEdittext.text.toString())) {
+                    storeId = value.get(i).site
+                    siteName = value.get(i).storeName
+                    siteCity = value.get(i).city
+                    region =    value.get(i).state!!.name
 
                     address =
-                        value.get(i).state!!.name + ", " + value.get(i).city
+                        value.get(i).address
+                    viewBinding.storeId.text = value.get(i).site
                     viewBinding.region.text =
-                        value.get(i).state!!.name + ", " + value.get(i).city
+                        value.get(i).city +    value.get(i).state!!.name + ", " + value.get(i).district!!.name
                 }
             }
-
-
-
-
-
 
         }
 
@@ -191,7 +183,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
             showLoading()
             viewModel.getStoreWiseDetailsChampsApi(
                 this,
-                viewBinding.enterStoreEdittext.text.toString()
+                Preferences.getValidatedEmpId()
             )
         } else {
             Toast.makeText(
@@ -201,28 +193,6 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
             )
                 .show()
         }
-
-//        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-//            showLoading()
-//            viewModel.getStoreWiseDetailsChamps(this)
-//
-//        } else {
-//            Toast.makeText(
-//                activity,
-//                resources.getString(R.string.label_network_error),
-//                Toast.LENGTH_SHORT
-//            )
-//                .show()
-//        }
-//       Toast.makeText(activity, ""+value.storeDetails.size,Toast.LENGTH_SHORT).show();
-//        getStoreDetailsAdapter =
-//            GetStoreDetailsAdapter(context, value.storeDetails, this, this)
-//
-//        val layoutManager = LinearLayoutManager(ViswamApp.context)
-//        viewBinding.storeDetailsRecyclerview.layoutManager = layoutManager
-////                activityreShootBinding.imageRecyclerViewRes.itemAnimator =
-////                    DefaultItemAnimator()
-//        viewBinding.storeDetailsRecyclerview.adapter = getStoreDetailsAdapter
 
     }
 

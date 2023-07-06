@@ -4,111 +4,279 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class StoreDetailsModelResponse(
+class StoreDetailsModelResponse : Serializable {
+    @SerializedName("message")
+    @Expose
+    var message: Any? = null
 
-    @field:SerializedName("message")
-    val message: String? = null,
+    @SerializedName("success")
+    @Expose
+    var success: Boolean? = null
 
-    @field:SerializedName("success")
-    val success: Boolean,
+    @SerializedName("data")
+    @Expose
+    var data: Data? = null
+    fun withMessage(message: Any?): StoreDetailsModelResponse {
+        this.message = message
+        return this
+    }
 
-    @field:SerializedName("zcServerIp")
-    val zcServerIP: String? = null,
+    fun withSuccess(success: Boolean?): StoreDetailsModelResponse {
+        this.success = success
+        return this
+    }
 
-    @field:SerializedName("zcServerHost")
-    val zcServerHost: String? = null,
+    fun withData(data: Data?): StoreDetailsModelResponse {
+        this.data = data
+        return this
+    }
 
-    @field:SerializedName("data")
-    val data: Data,
-) : Serializable {
-    data class Data(
-        @field:SerializedName("listData")
-        val listdata: ListData,
-    ) : Serializable
+    inner class Data : Serializable {
+        @SerializedName("listData")
+        @Expose
+        var listData: ListData? = null
+        fun withListData(listData: ListData?): Data {
+            this.listData = listData
+            return this
+        }
+    }
 
-    data class ListData(
-        @field:SerializedName("records")
-        val records: String? = null,
+    inner class DcCode : Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
 
-        @field:SerializedName("select")
-        val select: Boolean? = null,
+        @SerializedName("code")
+        @Expose
+        var code: String? = null
 
-        @field:SerializedName("page")
-        val page: Int? = null,
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+        fun withUid(uid: String?): DcCode {
+            this.uid = uid
+            return this
+        }
 
-        @field:SerializedName("pivotData")
-        val pivotData: Object? = null,
+        fun withCode(code: String?): DcCode {
+            this.code = code
+            return this
+        }
 
-        @field:SerializedName("aggregation")
-        val aggregation: Object? = null,
+        fun withName(name: String?): DcCode {
+            this.name = name
+            return this
+        }
+    }
 
-        @field:SerializedName("size")
-        val size: Int? = null,
+    inner class District : Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
 
-        @field:SerializedName("rows")
-        val rows: List<Row>,
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+        fun withUid(uid: String?): District {
+            this.uid = uid
+            return this
+        }
 
-        ) : Serializable
+        fun withName(name: String?): District {
+            this.name = name
+            return this
+        }
+    }
 
-    data class Row(
-        @field:SerializedName("uid")
-        val uid: String? = null,
+    inner class ListData : Serializable {
+        @SerializedName("records")
+        @Expose
+        var records: String? = null
 
-        @field:SerializedName("site")
-        val site: String? = null,
+        @SerializedName("select")
+        @Expose
+        var select: Boolean? = null
 
-        @field:SerializedName("store_name")
-        val storeName: String? = null,
+        @SerializedName("total")
+        @Expose
+        var total: Int? = null
 
-        @field:SerializedName("district")
-        val district: District,
+        @SerializedName("page")
+        @Expose
+        var page: Int? = null
 
-        @field:SerializedName("state")
-        val state: State,
+        @SerializedName("rows")
+        @Expose
+        var rows: List<Row>? = null
 
-        @field:SerializedName("dc_code")
-        val dcCode: DcCode,
+        @SerializedName("zc_extra")
+        @Expose
+        var zcExtra: Any? = null
 
-        @field:SerializedName("pincode")
-        val pincode: String? = null,
+        @SerializedName("pivotData")
+        @Expose
+        var pivotData: Any? = null
 
-        @field:SerializedName("city")
-        val city: String? = null,
+        @SerializedName("aggregation")
+        @Expose
+        var aggregation: Any? = null
 
-        @field:SerializedName("mailid")
-        val mailid: Any? = null,
+        @SerializedName("size")
+        @Expose
+        var size: Int? = null
+        fun withRecords(records: String?): ListData {
+            this.records = records
+            return this
+        }
 
-        @field:SerializedName("address")
-        val address: String? = null,) : Serializable
+        fun withSelect(select: Boolean?): ListData {
+            this.select = select
+            return this
+        }
 
-    data class District(
-        @field:SerializedName("uid")
-        val uid: String? = null,
+        fun withTotal(total: Int?): ListData {
+            this.total = total
+            return this
+        }
 
-        @field:SerializedName("name")
-        val name: String? = null,
-    ) : Serializable
+        fun withPage(page: Int?): ListData {
+            this.page = page
+            return this
+        }
 
-    data class DcCode(
-        @field:SerializedName("uid")
-        val uid: String? = null,
+        fun withRows(rows: List<Row>?): ListData {
+            this.rows = rows
+            return this
+        }
 
-        @field:SerializedName("name")
-        val name: String? = null,
-        @field:SerializedName("code")
-        val code: String? = null,
-    ) : Serializable
+        fun withZcExtra(zcExtra: Any?): ListData {
+            this.zcExtra = zcExtra
+            return this
+        }
 
-    data class State(
-        @field:SerializedName("uid")
-        val uid: String? = null,
+        fun withPivotData(pivotData: Any?): ListData {
+            this.pivotData = pivotData
+            return this
+        }
 
+        fun withAggregation(aggregation: Any?): ListData {
+            this.aggregation = aggregation
+            return this
+        }
 
-        @field:SerializedName("name")
-        var name: String? = null,
+        fun withSize(size: Int?): ListData {
+            this.size = size
+            return this
+        }
+    }
 
-        ) : Serializable
+    inner class Row : Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
 
+        @SerializedName("city")
+        @Expose
+        var city: String? = null
 
+        @SerializedName("mailid")
+        @Expose
+        var mailid: Any? = null
 
+        @SerializedName("pincode")
+        @Expose
+        var pincode: Int? = null
+
+        @SerializedName("site")
+        @Expose
+        var site: String? = null
+
+        @SerializedName("store_name")
+        @Expose
+        var storeName: String? = null
+
+        @SerializedName("dc_code")
+        @Expose
+        var dcCode: DcCode? = null
+
+        @SerializedName("district")
+        @Expose
+        var district: District? = null
+
+        @SerializedName("state")
+        @Expose
+        var state: State? = null
+
+        @SerializedName("address")
+        @Expose
+        var address: String? = null
+        fun withUid(uid: String?): Row {
+            this.uid = uid
+            return this
+        }
+
+        fun withCity(city: String?): Row {
+            this.city = city
+            return this
+        }
+
+        fun withMailid(mailid: Any?): Row {
+            this.mailid = mailid
+            return this
+        }
+
+        fun withPincode(pincode: Int?): Row {
+            this.pincode = pincode
+            return this
+        }
+
+        fun withSite(site: String?): Row {
+            this.site = site
+            return this
+        }
+
+        fun withStoreName(storeName: String?): Row {
+            this.storeName = storeName
+            return this
+        }
+
+        fun withDcCode(dcCode: DcCode?): Row {
+            this.dcCode = dcCode
+            return this
+        }
+
+        fun withDistrict(district: District?): Row {
+            this.district = district
+            return this
+        }
+
+        fun withState(state: State?): Row {
+            this.state = state
+            return this
+        }
+
+        fun withAddress(address: String?): Row {
+            this.address = address
+            return this
+        }
+    }
+
+    inner class State : Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+        fun withUid(uid: String?): State {
+            this.uid = uid
+            return this
+        }
+
+        fun withName(name: String?): State {
+            this.name = name
+            return this
+        }
+    }
 }

@@ -178,8 +178,10 @@ class SelectChampsSiteIdViewModel : ViewModel() {
                                 BackShlash.removeSubString(res),
                                 StoreDetailsModelResponse::class.java
                             )
-                            if (storeListResponse.success) {
-                                selectChampsSiteIdCallBack.onSuccessgetStoreDetails(storeListResponse.data.listdata.rows)
+                            if (storeListResponse.success == true) {
+                                selectChampsSiteIdCallBack.onSuccessgetStoreDetails(
+                                    storeListResponse.data!!.listData!!.rows!!
+                                )
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
@@ -263,7 +265,7 @@ class SelectChampsSiteIdViewModel : ViewModel() {
 //    }
 
 
-    fun getStoreWiseDetailsChampsApi(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback, empId: String) {
+    fun getStoreWiseDetailsChampsApi(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback, siteId: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var proxyBaseUrl = ""
@@ -292,7 +294,7 @@ class SelectChampsSiteIdViewModel : ViewModel() {
                     proxyBaseUrl,
                     proxyToken,
                     GetDetailsRequest(
-                        "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/get-store-users?site=16001",
+                        "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/get-store-users?site=${siteId}",
                         "GET",
                         "The",
                         "",

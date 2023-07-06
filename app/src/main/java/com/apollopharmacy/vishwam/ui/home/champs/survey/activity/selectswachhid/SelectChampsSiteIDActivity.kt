@@ -139,8 +139,8 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
 //            Preferences.setSwachhSiteId(storeListItem.siteid!!)
 
             for (i in storeListItem.indices){
-                Preferences.setApnaSiteName(storeListItem[i].site!!)
-                siteId= storeListItem[i].storeName
+                Preferences.setApnaSiteName(storeListItem[i].storeName!!)
+                siteId= storeListItem[i].site
 
                 if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                     showLoading(this)
@@ -182,7 +182,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
     }
 
     override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
-    Toast.makeText(applicationContext,""+value.message, Toast.LENGTH_SHORT).show()
+//    Toast.makeText(applicationContext,""+value.message, Toast.LENGTH_SHORT).show()
         hideLoading()
     }
 
