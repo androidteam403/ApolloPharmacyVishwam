@@ -21,7 +21,6 @@ class RetroQrFragment : BaseFragment<RetroQrViewModel, FragmentRetroQrBinding>()
 
     override fun setup() {
         MainActivity.mInstance.scannerIcon.setOnClickListener {
-            Toast.makeText(requireContext(), "Scanner Clicked", Toast.LENGTH_SHORT).show()
             val intent = Intent(requireContext(), RetroQrScannerActivity::class.java)
             startActivity(intent)
         }
