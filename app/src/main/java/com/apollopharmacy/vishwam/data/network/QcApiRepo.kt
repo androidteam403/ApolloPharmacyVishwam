@@ -22,7 +22,7 @@ object QcApiRepo {
     ): ApiResult<QcListsResponse> {
         return try {
             val response =
-                Api.getClient().qcResponseList(url, empId, fromDate, toDate, storeId, region)
+                Api.getClient().qcResponseList()
 
 //            Api.getClient().qcResponseList()
             ApiResult.Success(response)

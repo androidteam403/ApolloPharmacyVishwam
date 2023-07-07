@@ -17,8 +17,8 @@ import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.adapter.GetStoreDetailsAdapter
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
@@ -26,7 +26,7 @@ import com.apollopharmacy.vishwam.util.Utlis
 class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyBinding>(),
     NewSurveyCallback, MainActivityCallback {
     var getStoreDetailsAdapter: GetStoreDetailsAdapter? = null
-    var getStoreWiseDetailsResponse: GetStoreWiseDetailsModelResponse? = null
+    var getStoreWiseDetailsResponse: GetStoreWiseDetailsResponse? = null
     var storeId: String? = ""
     var address: String? = ""
     var siteName: String? = ""
@@ -71,7 +71,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
             if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                 showLoading()
-                viewModel.getStoreDetailsChampsApi(
+                viewModel.getProxySiteListResponse(
                     this
                 )
             } else {
@@ -84,7 +84,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
             }
             if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                 showLoading()
-                viewModel.getStoreWiseDetailsChampsApi(
+                viewModel.getProxyStoreWiseDetailResponse(
                     this,
                     viewBinding.enterStoreEdittext.text.toString()
                 )
@@ -158,7 +158,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     }
 
     @SuppressLint("SuspiciousIndentation")
-    override fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>) {
+    override fun onSuccessgetStoreDetails(value: List<StoreDetailsResponse.Row>) {
         if (value != null ) {
             for (i in value.indices) {
                 if (value.get(i).site.equals(viewBinding.enterStoreEdittext.text.toString())) {
@@ -178,7 +178,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
             showLoading()
-            viewModel.getStoreWiseDetailsChampsApi(
+            viewModel.getProxyStoreWiseDetailResponse(
                 this,
                 Preferences.getValidatedEmpId()
             )
@@ -193,7 +193,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     }
 
-    override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
+    override fun onFailuregetStoreDetails(value: StoreDetailsResponse) {
         Toast.makeText(activity, "" + value, Toast.LENGTH_SHORT).show();
         hideLoading()
 //        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
@@ -212,7 +212,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
             showLoading()
-            viewModel.getStoreDetailsChampsApi(
+            viewModel.getProxySiteListResponse(
                 this
             )
         } else {
@@ -225,7 +225,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         }
     }
 
-    override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
+    override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsResponse) {
         getStoreWiseDetailsResponse = getStoreWiseDetailsResponses
         if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success  && getStoreWiseDetailsResponses.data.executive != null) {
             viewBinding.emailId.setText(getStoreWiseDetailsResponses.data.executive.email)
@@ -239,7 +239,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         hideLoading()
     }
 
-    override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
+    override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsResponse) {
         if (value != null && value.message != null) {
             viewBinding.emailId.setText("--")
             Preferences.setApnaSite("")
@@ -297,7 +297,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                 } else {
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                         showLoading()
-                        viewModel.getStoreDetailsChampsApi(
+                        viewModel.getProxySiteListResponse(
                             this
                         )
                     } else {

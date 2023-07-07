@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.AdapterSwachhSiteidListBinding
-import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIdCallback
 
 class SiteIdListChampsAdapter(
     val applicationContext: Context,
-    var siteData: ArrayList<StoreDetailsModelResponse.Row>,
+    var siteData: ArrayList<StoreDetailsResponse.Row>,
     val selectSiteIdCallback: SelectChampsSiteIdCallback,
 ) :
     RecyclerView.Adapter<SiteIdListChampsAdapter.ViewHolder>() {
@@ -60,7 +60,7 @@ class SiteIdListChampsAdapter(
         return siteData.size
     }
 
-    val storeArrayList: ArrayList<StoreDetailsModelResponse.Row> = siteData
+    val storeArrayList: ArrayList<StoreDetailsResponse.Row> = siteData
     fun getFilter(): Filter? {
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence): FilterResults {
@@ -69,7 +69,7 @@ class SiteIdListChampsAdapter(
 
                     siteData = storeArrayList!!
                 } else {
-                    var filteredList = ArrayList<StoreDetailsModelResponse.Row>()
+                    var filteredList = ArrayList<StoreDetailsResponse.Row>()
                     for (row in storeArrayList!!) {
                         if (row.site?.contains(charString)!! || row.storeName?.contains(charString.toUpperCase())!!
                         ) {
@@ -90,7 +90,7 @@ class SiteIdListChampsAdapter(
 
                 if (siteData != null && !siteData.isEmpty()) {
                     siteData =
-                        filterResults.values as ArrayList<StoreDetailsModelResponse.Row>
+                        filterResults.values as ArrayList<StoreDetailsResponse.Row>
                     try {
                         selectSiteIdCallback.noOrdersFound(siteData.size)
                         notifyDataSetChanged()

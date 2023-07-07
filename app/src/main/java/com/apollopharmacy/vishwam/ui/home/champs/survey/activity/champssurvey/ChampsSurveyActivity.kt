@@ -48,7 +48,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     private var categoryPosition: Int = 0
     private var storeId: String = ""
     private var address: String = ""
-    private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
+    private var getStoreWiseDetails: GetStoreWiseDetailsResponse? = null
     var surveyRecDetailsList = ArrayList<String>()
     private var isPending: Boolean = false
     var surveyCCDetailsList = ArrayList<String>()
@@ -96,7 +96,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     private fun setUp() {
         activityChampsSurveyBinding.callback = this
         getStoreWiseDetails =
-            intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
+            intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsResponse?
         surveyRecDetailsList =
             intent.getStringArrayListExtra("surveyRecDetailsList")!!
         surveyCCDetailsList = intent.getStringArrayListExtra("surveyCCDetailsList")!!

@@ -20,8 +20,8 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivitySelectChampsSiteidBinding
 import com.apollopharmacy.vishwam.databinding.ActivitySelectSwachhSiteidBinding
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.adapter.SiteIdListAdapter
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.adapter.SiteIdListChampsAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -35,7 +35,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
     lateinit var activitySelectChampsSiteidBinding: ActivitySelectChampsSiteidBinding
     lateinit var viewModel: SelectChampsSiteIdViewModel
     private var siteIDListAdapter: SiteIdListChampsAdapter? = null
-    var siteDataList = ArrayList<StoreDetailsModelResponse.Row>()
+    var siteDataList = ArrayList<StoreDetailsResponse.Row>()
     var isSiteIdEmpty:Boolean=false
     private lateinit var dialog: Dialog
 
@@ -49,7 +49,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         viewModel = ViewModelProvider(this)[SelectChampsSiteIdViewModel::class.java]
         activitySelectChampsSiteidBinding.callback = this
              showLoading(this)
-        viewModel.getStoreDetailsChamps(this)
+        viewModel.getProxySiteListResponse(this)
         viewModel.fixedArrayList.observeForever {
             siteDataList = it
             siteIDListAdapter =
@@ -161,7 +161,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
 
                 if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                     showLoading(this)
-                    viewModel.getStoreWiseDetailsChampsApi(
+                    viewModel.getProxyStoreWiseDetailResponse(
                         this,
                         site
                     )
@@ -187,7 +187,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
 
     }
 
-    override fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>) {
+    override fun onSuccessgetStoreDetails(value: List<StoreDetailsResponse.Row>) {
 //        siteIDListAdapter =
 //            SiteIdListChampsAdapter(applicationContext,
 //                value as ArrayList<StoreDetailsModelResponse.Row>, this)
@@ -197,12 +197,12 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
 
     }
 
-    override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
+    override fun onFailuregetStoreDetails(value: StoreDetailsResponse) {
 //    Toast.makeText(applicationContext,""+value.message, Toast.LENGTH_SHORT).show()
         hideLoading()
     }
 
-    override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
+    override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsResponse) {
         if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success  && getStoreWiseDetailsResponses.data.executive != null) {
 //            viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
             Preferences.setApnaSite(siteId!!)
@@ -216,7 +216,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         hideLoading()
     }
 
-    override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
+    override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsResponse) {
         Toast.makeText(applicationContext, ""+value.message , Toast.LENGTH_SHORT).show()
         hideLoading()
     }

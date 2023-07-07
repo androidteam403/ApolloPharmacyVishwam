@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class StoreDetailsModelResponse : Serializable {
+class StoreDetailsResponse : Serializable {
     @SerializedName("message")
     @Expose
     var message: Any? = null
@@ -16,17 +16,17 @@ class StoreDetailsModelResponse : Serializable {
     @SerializedName("data")
     @Expose
     var data: Data? = null
-    fun withMessage(message: Any?): StoreDetailsModelResponse {
+    fun withMessage(message: Any?): StoreDetailsResponse {
         this.message = message
         return this
     }
 
-    fun withSuccess(success: Boolean?): StoreDetailsModelResponse {
+    fun withSuccess(success: Boolean?): StoreDetailsResponse {
         this.success = success
         return this
     }
 
-    fun withData(data: Data?): StoreDetailsModelResponse {
+    fun withData(data: Data?): StoreDetailsResponse {
         this.data = data
         return this
     }

@@ -26,13 +26,14 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.a
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressCCAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import java.util.*
 
 class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
-    private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
+    private var getStoreWiseDetails: GetStoreWiseDetailsResponse? = null
     private lateinit var activityStartSurvey2Binding: ActivityStartSurvey2Binding
     private lateinit var surveyDetailsViewModel: SurveyDetailsViewModel
     private var adapterRec: EmailAddressAdapter? = null
@@ -105,7 +106,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         activityStartSurvey2Binding.callback = this
 
         getStoreWiseDetails =
-            intent.getSerializableExtra("getStoreWiseDetailsResponses") as GetStoreWiseDetailsModelResponse?
+            intent.getSerializableExtra("getStoreWiseDetailsResponses") as GetStoreWiseDetailsResponse?
         address = intent.getStringExtra("address")!!
         storeId = intent.getStringExtra("storeId")!!
         siteName= intent.getStringExtra("siteName")

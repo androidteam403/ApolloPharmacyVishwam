@@ -13,7 +13,8 @@ import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsResponse
 import com.apollopharmacy.vishwam.ui.rider.login.BackSlash
 import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
 import com.google.common.reflect.TypeToken
@@ -27,12 +28,13 @@ import java.util.ArrayList
 
 class NewSurveyViewModel  : ViewModel() {
 
+//    import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 
     val commands = LiveEvent<Command>()
-    var siteLiveData = ArrayList<StoreDetailsModelResponse.Row>()
+    var siteLiveData = ArrayList<StoreDetailsResponse.Row>()
 
     val state = MutableLiveData<State>()
-    var getStoreDetailsChamps = MutableLiveData<StoreDetailsModelResponse>()
+    var getStoreDetailsChamps = MutableLiveData<StoreDetailsResponse>()
     var getEmailDetailsChamps = MutableLiveData<GetEmailAddressModelResponse>()
 //    fun getStoreDetailsChamps(newSurveyCallback: NewSurveyCallback) {
 //        state.postValue(State.LOADING)
@@ -77,7 +79,7 @@ class NewSurveyViewModel  : ViewModel() {
 
 
     @SuppressLint("SuspiciousIndentation")
-    fun getStoreDetailsChampsApi(newSurveyCallback: NewSurveyCallback) {
+    fun getProxySiteListResponse(newSurveyCallback: NewSurveyCallback) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var proxyBaseUrl = ""
@@ -130,9 +132,9 @@ class NewSurveyViewModel  : ViewModel() {
                         if (resp != null) {
                             val res = BackSlash.removeBackSlashes(resp)
                             val gson = Gson()
-                            val type = object : TypeToken<StoreDetailsModelResponse>() {}.type
+                            val type = object : TypeToken<StoreDetailsResponse>() {}.type
 
-                            val storeListResponse = gson.fromJson<StoreDetailsModelResponse>(BackSlash.removeSubString(res), type)
+                            val storeListResponse = gson.fromJson<StoreDetailsResponse>(BackSlash.removeSubString(res), type)
                             if (storeListResponse.data!=null) {
                                 newSurveyCallback.onSuccessgetStoreDetails(storeListResponse.data!!.listData!!.rows!!)
 
@@ -176,7 +178,7 @@ class NewSurveyViewModel  : ViewModel() {
     }
 
 
-    fun getStoreWiseDetailsChampsApi(newSurveyCallback: NewSurveyCallback, siteId: String) {
+    fun getProxyStoreWiseDetailResponse(newSurveyCallback: NewSurveyCallback, siteId: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var proxyBaseUrl = ""
@@ -224,7 +226,7 @@ class NewSurveyViewModel  : ViewModel() {
                             val res = BackShlash.removeBackSlashes(resp)
                             val storeWiseDetailListResponse = Gson().fromJson(
                                 BackShlash.removeSubString(res),
-                                GetStoreWiseDetailsModelResponse::class.java
+                                GetStoreWiseDetailsResponse::class.java
                             )
                             if (storeWiseDetailListResponse.success) {
                                 newSurveyCallback.onSuccessgetStoreWiseDetails(storeWiseDetailListResponse)
