@@ -38,6 +38,7 @@ import kotlin.math.roundToInt
 class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
     private lateinit var activityChampsSurveyBinding: ActivityChampsSurveyBinding
+    private var getStoreWiseEmpIdResponse:GetStoreWiseEmpIdResponse?=null
     private lateinit var champsSurveyViewModel: ChampsSurveyViewModel
     private var getTrainingAndColorDetailss: GetTrainingAndColorDetailsModelResponse? = null
     private var i = 0
@@ -95,6 +96,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
     private fun setUp() {
         activityChampsSurveyBinding.callback = this
+        getStoreWiseEmpIdResponse= intent.getSerializableExtra("getStoreWiseEmpIdResponse") as GetStoreWiseEmpIdResponse?
         getStoreWiseDetails =
             intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
         surveyRecDetailsList =
@@ -118,7 +120,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
        activityChampsSurveyBinding.storeId.text = storeId
 
-        activityChampsSurveyBinding.address.text = siteName
+        activityChampsSurveyBinding.address.text = storeId+ ", "+ siteName
         activityChampsSurveyBinding.storeCity.text = storeCity
         activityChampsSurveyBinding.region.text = region
         activityChampsSurveyBinding.percentageSum.text = "0"
@@ -472,7 +474,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy hh:mm:ss").format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss").format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             } else if (status.equals("PENDING")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
@@ -480,7 +482,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy hh:mm:ss").format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss").format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             } else {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
@@ -488,32 +490,37 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy hh:mm:ss").format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss").format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             }
 
-            if (getStoreWiseDetails?.storeWiseDetails?.trainerEmail != null) {
+            if (getStoreWiseEmpIdResponse!=null&&
+                getStoreWiseEmpIdResponse?.storeWiseDetails!=null &&
+                getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail != null) {
                 headerDetails.emailIdOfTrainer =
-                    getStoreWiseDetails?.storeWiseDetails?.trainerEmail
+                    getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail
             } else {
                 headerDetails.emailIdOfTrainer = ""
             }
-            if (getStoreWiseDetails?.storeWiseDetails?.executiveEmail != null) {
+            if (getStoreWiseDetails!=null && getStoreWiseDetails!!.data!=null&&
+                getStoreWiseDetails!!.data.executive != null) {
                 headerDetails.emailIdOfExecutive =
-                    getStoreWiseDetails?.storeWiseDetails?.executiveEmail
+                    getStoreWiseDetails!!.data.executive.email
             } else {
                 headerDetails.emailIdOfExecutive = ""
             }
-            if (getStoreWiseDetails?.storeWiseDetails?.managerEmail != null) {
+            if (getStoreWiseDetails!=null && getStoreWiseDetails!!.data!=null&&
+                getStoreWiseDetails!!.data.manager != null) {
                 headerDetails.emailIdOfManager =
-                    getStoreWiseDetails?.storeWiseDetails?.managerEmail
+                    getStoreWiseDetails!!.data.manager.email
             } else {
                 headerDetails.emailIdOfManager = ""
             }
 
-            if (getStoreWiseDetails?.storeWiseDetails?.reagionalHeadEmail != null) {
+            if (getStoreWiseDetails!=null && getStoreWiseDetails!!.data!=null&&
+                getStoreWiseDetails!!.data.regionHead != null) {
                 headerDetails.emailIdOfRegionalHead =
-                    getStoreWiseDetails?.storeWiseDetails?.reagionalHeadEmail
+                    getStoreWiseDetails!!.data.regionHead.email
             } else {
                 headerDetails.emailIdOfRegionalHead = ""
             }

@@ -18,6 +18,7 @@ import com.apollopharmacy.vishwam.databinding.ActivityGetSurveyDetailsBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.adapter.GetSurveyDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseEmpIdResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSurveyDetailsModelResponse
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
@@ -31,6 +32,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
     private lateinit var getSurveyDetailsListViewModel: GetSurveyDetailsListViewModel
     private lateinit var getSurveyDetailsAdapter: GetSurveyDetailsAdapter
     private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
+    private var getStoreWiseEmpIdResponse : GetStoreWiseEmpIdResponse?=null
     var surveyRecDetailsList = ArrayList<String>()
     var surveyCCDetailsList = ArrayList<String>()
     var siteName: String? = ""
@@ -57,6 +59,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
 
     private fun setUp() {
         activityGetSurveyDetailsBinding.callback=this
+        getStoreWiseEmpIdResponse=intent.getSerializableExtra("getStoreWiseEmpIdResponse") as GetStoreWiseEmpIdResponse?
         getStoreWiseDetails =
             intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
         surveyRecDetailsList =
@@ -119,6 +122,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
         val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
+        intent.putExtra("getStoreWiseEmpIdResponse", getStoreWiseEmpIdResponse)
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)
         intent.putExtra("siteName", siteName)
@@ -136,6 +140,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
         val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
+        intent.putExtra("getStoreWiseEmpIdResponse", getStoreWiseEmpIdResponse)
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)
         intent.putExtra("siteName", siteName)

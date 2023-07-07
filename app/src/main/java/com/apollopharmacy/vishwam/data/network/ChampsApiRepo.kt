@@ -46,38 +46,7 @@ object ChampsApiRepo {
         }
     }
 
-    suspend fun getStoreWiseDetailsChamps(): ApiResult<GetStoreWiseDetailsModelResponse> {
-        return try {
-            val response = Api.getClient().GET_STORE_WISE_DETAILS_CHAMPS()
-            ApiResult.Success(response)
-        } catch (e: Exception) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            ApiResult.NetworkError
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            ApiResult.UnknownError(e.message)
-        } catch (e: HttpException) {
-            ApiUtils.parseHttpError(e)
-        } catch (e: UnknownError) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: SocketTimeoutException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: JsonSyntaxException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: UnknownHostException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: ConnectException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: SocketException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: TimeoutException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: UnknownHostException) {
-            ApiResult.UnknownHostException(e.message)
-        }
-    }
+
 
     suspend fun getEmailDetailsChamps(): ApiResult<GetEmailAddressModelResponse> {
         return try {
