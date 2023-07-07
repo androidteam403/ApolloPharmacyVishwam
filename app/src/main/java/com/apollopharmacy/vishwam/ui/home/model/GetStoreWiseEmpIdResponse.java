@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 
-public class GetStoreWiseDetailsModelResponse implements Serializable {
+public class GetStoreWiseEmpIdResponse implements Serializable {
 
     @SerializedName("status")
     @Expose
