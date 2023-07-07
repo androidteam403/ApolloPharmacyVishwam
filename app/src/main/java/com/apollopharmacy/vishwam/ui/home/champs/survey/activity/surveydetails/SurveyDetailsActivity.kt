@@ -33,6 +33,7 @@ import com.apollopharmacy.vishwam.util.Utlis
 import java.util.*
 
 class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
+    private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
     private var getStoreWiseEmpidDetails: GetStoreWiseEmpIdResponse? = null
     private lateinit var activityStartSurvey2Binding: ActivityStartSurvey2Binding
     private lateinit var surveyDetailsViewModel: SurveyDetailsViewModel
@@ -105,7 +106,9 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
     private fun setUp() {
         activityStartSurvey2Binding.callback = this
 
-         address = intent.getStringExtra("address")!!
+        getStoreWiseDetails =
+            intent.getSerializableExtra("getStoreWiseDetailsResponses") as GetStoreWiseDetailsModelResponse?
+        address = intent.getStringExtra("address")!!
         storeId = intent.getStringExtra("storeId")!!
         siteName= intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
@@ -123,8 +126,41 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                 Toast.LENGTH_SHORT
             )
                 .show()
-        }
+        if(getStoreWiseDetails!=null) {
+//            if(!getStoreWiseDetails.data.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.trainerEmail!=null){
+//                activityStartSurvey2Binding.trainer.text=getStoreWiseDetails!!.storeWiseDetails.trainerEmail
+//            }else{
+//                activityStartSurvey2Binding.trainer.text="--"
+//            }
 
+            if(getStoreWiseDetails!!.data.regionHead!=null )
+            {
+                activityStartSurvey2Binding.regionalHead.text=getStoreWiseDetails!!.data.regionHead.email
+
+            }else{
+                activityStartSurvey2Binding.regionalHead.text="--"
+            }
+
+            if(!getStoreWiseDetails!!.data.executive.email.isEmpty() && getStoreWiseDetails!!.data.executive.email!=null){
+                activityStartSurvey2Binding.executive.text=getStoreWiseDetails!!.data.executive.email
+
+            }else{
+                activityStartSurvey2Binding.executive.text="--"
+
+            }
+
+            if(!getStoreWiseDetails!!.data.manager.email.isEmpty() && getStoreWiseDetails!!.data.manager.email!=null){
+                activityStartSurvey2Binding.manager.text=getStoreWiseDetails!!.data.manager.email
+            }else{
+                activityStartSurvey2Binding.manager.text="--"
+            }
+
+        }else{
+            activityStartSurvey2Binding.trainer.text="--"
+            activityStartSurvey2Binding.manager.text="--"
+            activityStartSurvey2Binding.executive.text="--"
+            activityStartSurvey2Binding.regionalHead.text="--"
+        }
 
         activityStartSurvey2Binding.storeId.text=storeId
         if(region!=null){

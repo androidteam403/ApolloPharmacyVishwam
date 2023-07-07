@@ -67,6 +67,8 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
         Preferences.setSiteIdListFetchedQcFail(false)
         Preferences.setSiteIdListQcFail("")
+        Preferences.setSiteIdListChamps("")
+        Preferences.setSiteIdListFetchedChamps(false)
         Preferences.setRegionIdListFetchedQcFail(false)
         Preferences.setRegionIdListQcFail("")
         Preferences.setDoctorSpecialityListFetched(false)

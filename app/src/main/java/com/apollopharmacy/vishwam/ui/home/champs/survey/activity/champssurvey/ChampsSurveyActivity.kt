@@ -495,28 +495,28 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 headerDetails.dateOfVisit = dateNewFormat
             }
 
-            if (getStoreWiseEmpidDetails?.storeWiseDetails?.trainerEmail != null) {
-                headerDetails.emailIdOfTrainer =
-                    getStoreWiseEmpidDetails?.storeWiseDetails?.trainerEmail
-            } else {
-                headerDetails.emailIdOfTrainer = ""
-            }
-            if (getStoreWiseEmpidDetails?.storeWiseDetails?.executiveEmail != null) {
+//            if (getStoreWiseDetails?.storeWiseDetails?.trainerEmail != null) {
+//                headerDetails.emailIdOfTrainer =
+//                    getStoreWiseDetails?.storeWiseDetails?.trainerEmail
+//            } else {
+//                headerDetails.emailIdOfTrainer = ""
+//            }
+            if (getStoreWiseDetails!!.data.executive != null) {
                 headerDetails.emailIdOfExecutive =
-                    getStoreWiseEmpidDetails?.storeWiseDetails?.executiveEmail
+                    getStoreWiseDetails!!.data.executive.email
             } else {
                 headerDetails.emailIdOfExecutive = ""
             }
-            if (getStoreWiseEmpidDetails?.storeWiseDetails?.managerEmail != null) {
+            if (getStoreWiseDetails!!.data.manager != null) {
                 headerDetails.emailIdOfManager =
-                    getStoreWiseEmpidDetails?.storeWiseDetails?.managerEmail
+                    getStoreWiseDetails!!.data.manager.email
             } else {
                 headerDetails.emailIdOfManager = ""
             }
 
-            if (getStoreWiseEmpidDetails?.storeWiseDetails?.reagionalHeadEmail != null) {
+            if (getStoreWiseDetails!!.data.regionHead != null) {
                 headerDetails.emailIdOfRegionalHead =
-                    getStoreWiseEmpidDetails?.storeWiseDetails?.reagionalHeadEmail
+                    getStoreWiseDetails!!.data.regionHead.email
             } else {
                 headerDetails.emailIdOfRegionalHead = ""
             }
