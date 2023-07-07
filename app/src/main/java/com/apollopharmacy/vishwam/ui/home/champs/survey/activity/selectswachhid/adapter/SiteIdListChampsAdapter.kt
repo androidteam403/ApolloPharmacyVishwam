@@ -48,7 +48,9 @@ class SiteIdListChampsAdapter(
 
         holder.itemView.setOnClickListener {
             if (selectSiteIdCallback != null) {
-                selectSiteIdCallback.onItemClick(siteData)
+                selectSiteIdCallback.onItemClick(siteData.get(position).site!!,
+                    siteData.get(position).storeName!!
+                )
             }
         }
     }

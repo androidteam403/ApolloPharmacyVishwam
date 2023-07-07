@@ -166,12 +166,9 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                     siteName = value.get(i).storeName
                     siteCity = value.get(i).city
                     region =    value.get(i).state!!.name
-
-                    address =
-                        value.get(i).address
+                    address = value.get(i).address
                     viewBinding.storeId.text = value.get(i).site
-                    viewBinding.region.text =
-                        value.get(i).city +    value.get(i).state!!.name + ", " + value.get(i).district!!.name
+                    viewBinding.region.text = value.get(i).city +  ", "+  value.get(i).state!!.name + ", " + value.get(i).district!!.name
                 }
             }
 

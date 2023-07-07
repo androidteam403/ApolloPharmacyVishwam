@@ -23,11 +23,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
+import java.util.ArrayList
 
 class NewSurveyViewModel  : ViewModel() {
 
 
     val commands = LiveEvent<Command>()
+    var siteLiveData = ArrayList<StoreDetailsModelResponse.Row>()
+
     val state = MutableLiveData<State>()
     var getStoreDetailsChamps = MutableLiveData<StoreDetailsModelResponse>()
     var getEmailDetailsChamps = MutableLiveData<GetEmailAddressModelResponse>()
