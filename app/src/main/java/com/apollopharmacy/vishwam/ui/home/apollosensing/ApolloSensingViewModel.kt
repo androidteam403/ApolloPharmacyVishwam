@@ -86,6 +86,7 @@ class ApolloSensingViewModel : ViewModel() {
         type: String,
         sendGlobalSmsRequest: SendGlobalSmsRequest,
         apolloSensingFragmentCallback: ApolloSensingFragmentCallback,
+        isPrescriptionUploadFlow: Boolean,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -104,16 +105,24 @@ class ApolloSensingViewModel : ViewModel() {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 ApolloSensingRepo.sendGlobalSmsApiCall(
-                    baseUrl,token, sendGlobalSmsRequest
+                    baseUrl, token, sendGlobalSmsRequest
                 )
             }
             when (response) {
                 is ApiResult.Success -> {
                     state.value = State.SUCCESS
                     if (response.value.status == true) {
-                        apolloSensingFragmentCallback.onSuccessSendGlobalSms(response.value, type)
+                        apolloSensingFragmentCallback.onSuccessSendGlobalSms(
+                            response.value,
+                            type,
+                            isPrescriptionUploadFlow
+                        )
                     } else {
-                        apolloSensingFragmentCallback.onFailureSendGlobalSms(response.value, type)
+                        apolloSensingFragmentCallback.onFailureSendGlobalSms(
+                            response.value,
+                            type,
+                            isPrescriptionUploadFlow
+                        )
                     }
                 }
 
@@ -152,7 +161,7 @@ class ApolloSensingViewModel : ViewModel() {
             "https://apmails.in/index.php?format=text&url=https://privilegecustomer.apollopharmacy.in/ap/sensing/?${customerName}_${customerMobileNumber}_${siteId}_${timeStamp}&encryption=true&campaign=sensing&code=APLSEN&secret=1980&key=3214"
 
 
-          //  "https://t.zeroco.de/index.php?format=text&url=http://172.16.103.116:8445?${customerName}_${customerMobileNumber}_${siteId}_${timeStamp}"
+        //  "https://t.zeroco.de/index.php?format=text&url=http://172.16.103.116:8445?${customerName}_${customerMobileNumber}_${siteId}_${timeStamp}"
         // "https://t.zeroco.de/index.php?url=http://dev.thresholdsoft.com/Apollo-sensing/?format=text&cusomer=$customerName&mobile=$customerMobileNumber&id=$timeStamp"
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("testt")) {

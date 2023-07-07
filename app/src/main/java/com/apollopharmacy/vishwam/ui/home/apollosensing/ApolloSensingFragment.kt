@@ -74,11 +74,15 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     var isPrescriptionUpload: Boolean = false
     var countDownTime: Long = 60000
     var countDownTimer: CountDownTimer? = null
+    var countDownTimerUp: CountDownTimer? = null
+
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
     var prescriptionImageList = ArrayList<ImageDto>()
     var storeData = ArrayList<LoginDetails.StoreData>()
     var otp = "-1"
+    var otpUp = "-1"
+
     lateinit var dialog: Dialog
     var siteId: String = ""
     var errorMessage: String = ""
@@ -97,6 +101,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             showLoading()
             viewModel.checkScreenStatus(this@ApolloSensingFragment)
         }
+        sendOtpListenerPrescriptionUploadFlow()
 
     }
 
@@ -151,6 +156,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
         val userData = LoginRepo.getProfile()
         otpValidation()
+        otpValidationUp()
+        onClickResendOtpUp()
         if (userData != null) {
             employeeName = userData.EMPNAME
             storeData = userData.STOREDETAILS
@@ -184,7 +191,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     showLoading()
                     Utlis.hideKeyPad(context as Activity)
                     retrieveViewModel().sendGlobalSmsApiCall(
-                        "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment
+                        "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment, false
                     )
                 }
 
@@ -316,6 +323,12 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
     }
 
+    fun stopTimerUp() {
+        if (countDownTimerUp != null) {
+            countDownTimerUp!!.cancel()
+        }
+    }
+
     fun validateSendLinkCustomerDetails(): Boolean {
         var customerPhoneNumber = viewBinding.customerPhoneNumber.text.toString().trim()
         var customerName = viewBinding.name.text.toString().trim()
@@ -370,6 +383,27 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         countDownTimer!!.start()
     }
 
+    private fun startTimerUp() {
+        viewBinding.resendOtpUp!!.visibility = View.GONE
+        countDownTimerUp = object : CountDownTimer(countDownTime, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val remainingTime = millisUntilFinished / 1000
+                val timeFormat = String.format("%02d:%02d", remainingTime / 60, remainingTime % 60)
+                viewBinding.timerUp!!.setText(timeFormat)
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onFinish() {
+                otpUp = "-1"
+                viewBinding.timerUp!!.setText("00:00")
+                viewBinding.resendOtpUp!!.visibility = View.VISIBLE
+                viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
+                viewBinding.otpViewUp!!.getText()!!.clear()
+            }
+        }
+        countDownTimerUp!!.start()
+    }
+
     private fun openDialog() {
         val dialog = Dialog(requireContext())
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -390,12 +424,17 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         prescriptionUploadedConfirmDialogBinding.okButton.setOnClickListener {
             viewBinding.phoneNumber.getText()!!.clear()
             viewBinding.custName.getText()!!.clear()
+            viewBinding.phoneNumber.isEnabled = true
+            viewBinding.custName.isEnabled = true
             viewBinding.prescriptionImgRcvLayout.gravity = Gravity.CENTER_HORIZONTAL
             viewBinding.prescriptionImgRcv.visibility = View.GONE
             viewBinding.uploadPrescriptionLayout.visibility = View.GONE
             viewBinding.uploadPrescriptionBtn.visibility = View.GONE
             viewBinding.uploadCustomerPrescriptionLayout.visibility = View.VISIBLE
             viewBinding.uploadYourPrescriptionLayout.visibility = View.GONE
+            viewBinding.verifiedSuccessfullyLayoutUp.visibility = View.GONE
+            viewBinding.addMorePrescription.visibility = View.GONE
+            viewBinding.sendOtpBtnUploadPrescription.visibility = View.VISIBLE
             viewBinding.uploadPrescriptionBtn.setBackgroundColor(Color.parseColor("#efefef"))
             viewBinding.uploadPrescriptionText.setTextColor(Color.parseColor("#b5b5b5"))
             prescriptionImageList.clear()
@@ -872,6 +911,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
         linkSendConfirmDialogBinding.okButton.setOnClickListener {
             stopTimer()
+            stopTimerUp()
             viewBinding.customerPhoneNumber.getText()!!.clear()
             viewBinding.name.getText()!!.clear()
             viewBinding.otpView.getText()!!.clear()
@@ -907,14 +947,24 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun onSuccessSendGlobalSms(
         sendGlobalSmsResponse: SendGlobalSmsResponse,
         type: String,
+        isPrescriptionUploadFlow: Boolean,
     ) {
         hideLoading()
-        if (type.equals("OTP")) {
-            otp = sendGlobalSmsResponse.otp!!
-            viewBinding.otpView.text!!.clear()
-            isOtpVerified = true
-            viewBinding.sendOtpBtn.visibility = View.GONE
-            viewBinding.otpVerificationLayout.visibility = View.VISIBLE
+        if (isPrescriptionUploadFlow) {
+            /*viewBinding.phoneNumber.isEnabled = false
+            viewBinding.custName.isEnabled = false*/
+            customerNameMobileEnable(false)
+            otpUp = sendGlobalSmsResponse.otp!!
+            viewBinding.sendOtpBtnUploadPrescription!!.visibility = View.GONE
+            viewBinding.otpVerificationLayoutUp!!.visibility = View.VISIBLE
+            startTimerUp()
+        } else {
+            if (type.equals("OTP")) {
+                otp = sendGlobalSmsResponse.otp!!
+                viewBinding.otpView.text!!.clear()
+                isOtpVerified = true
+                viewBinding.sendOtpBtn.visibility = View.GONE
+                viewBinding.otpVerificationLayout.visibility = View.VISIBLE
 //            viewBinding.verifiedSuccessfullyLayout.visibility = View.VISIBLE
 //            viewBinding.sendLinkBtn.setBackgroundColor(
 //                ContextCompat.getColor(
@@ -926,22 +976,24 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //                    requireContext(), R.color.white
 //                )
 //            )
-            startTimer()
-        } else {
+                startTimer()
+            } else {
 //            showConfirmDialog()
-            isSendLinkApiCall = true
-            val updateUserDefaultSiteRequest = UpdateUserDefaultSiteRequest()
-            updateUserDefaultSiteRequest.empId = Preferences.getToken()
-            updateUserDefaultSiteRequest.site = siteId
-            retrieveViewModel().updateDefaultSiteIdApiCall(
-                updateUserDefaultSiteRequest, this@ApolloSensingFragment
-            )
+                isSendLinkApiCall = true
+                val updateUserDefaultSiteRequest = UpdateUserDefaultSiteRequest()
+                updateUserDefaultSiteRequest.empId = Preferences.getToken()
+                updateUserDefaultSiteRequest.site = siteId
+                retrieveViewModel().updateDefaultSiteIdApiCall(
+                    updateUserDefaultSiteRequest, this@ApolloSensingFragment
+                )
+            }
         }
     }
 
     override fun onFailureSendGlobalSms(
         sendGlobalSmsResponse: SendGlobalSmsResponse,
         type: String,
+        isPrescriptionUploadFlow: Boolean,
     ) {
         hideLoading()
         if (sendGlobalSmsResponse.message != null) Toast.makeText(
@@ -962,7 +1014,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 showLoading()
                 Utlis.hideKeyPad(context as Activity)
                 retrieveViewModel().sendGlobalSmsApiCall(
-                    "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment
+                    "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment, false
                 )
             }
         }
@@ -997,7 +1049,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             showLoading()
             Utlis.hideKeyPad(context as Activity)
             retrieveViewModel().sendGlobalSmsApiCall(
-                "LINK", sendGlobalSmsRequest, this@ApolloSensingFragment
+                "LINK", sendGlobalSmsRequest, this@ApolloSensingFragment, false
             )
         }
     }
@@ -1127,9 +1179,9 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         hideLoading()
         if (checkScreenStatusResponse != null && checkScreenStatusResponse!!.status == true) {
 //            if (checkScreenStatusResponse.CUSTLINK!! == true && checkScreenStatusResponse.STORELINK!! == true) {
-                viewBinding.sendLink.visibility = View.VISIBLE
-                viewBinding.or.visibility = View.VISIBLE
-                viewBinding.takePhoto.visibility = View.VISIBLE
+            viewBinding.sendLink.visibility = View.VISIBLE
+            viewBinding.or.visibility = View.VISIBLE
+            viewBinding.takePhoto.visibility = View.VISIBLE
 //            } else if (checkScreenStatusResponse.CUSTLINK!! == true) {
 //                viewBinding.sendLink.visibility = View.VISIBLE
 //                viewBinding.or.visibility = View.GONE
@@ -1232,6 +1284,16 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
         dialogResetLinkSendFormBinding.yesButton.setOnClickListener {
             stopTimer()
+            stopTimerUp()
+            /*viewBinding.phoneNumber.isEnabled = true
+            viewBinding.custName.isEnabled = true*/
+            viewBinding.otpViewUp.getText()!!.clear()
+            viewBinding.otpVerificationLayoutUp.visibility = View.GONE
+            customerNameMobileEnable(true)
+            viewBinding.verifiedSuccessfullyLayoutUp.visibility = View.GONE
+            viewBinding.sendOtpBtnUploadPrescription.visibility = View.VISIBLE
+            viewBinding.addMorePrescription.visibility = View.GONE
+
             viewBinding.customerPhoneNumber.getText()!!.clear()
             viewBinding.name.getText()!!.clear()
             viewBinding.otpView.getText()!!.clear()
@@ -1247,6 +1309,18 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
         dialog.setCancelable(false)
         dialog.show()
+    }
+
+    fun customerNameMobileEnable(isEnable: Boolean) {
+        viewBinding.phoneNumber.isEnabled = isEnable
+        viewBinding.custName.isEnabled = isEnable
+        if (isEnable) {
+            viewBinding.phoneNumber.alpha = 1f
+            viewBinding.custName.alpha = 1f
+        } else {
+            viewBinding.phoneNumber.alpha = .3f
+            viewBinding.custName.alpha = .3f
+        }
     }
 
     fun confirmationForResetUploadPrescriptionForm() {
@@ -1267,6 +1341,12 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         dialogResetUploadPrescriptionFormBinding.yesButton.setOnClickListener {
             viewBinding.phoneNumber.getText()!!.clear()
             viewBinding.custName.getText()!!.clear()
+            customerNameMobileEnable(true)
+            viewBinding.otpVerificationLayoutUp.visibility = View.GONE
+            viewBinding.sendOtpBtnUploadPrescription.visibility = View.VISIBLE
+            viewBinding.addMorePrescription.visibility = View.GONE
+            stopTimerUp()
+            stopTimer()
             viewBinding.prescriptionImgRcvLayout.gravity = Gravity.CENTER_HORIZONTAL
             viewBinding.prescriptionImgRcv.visibility = View.GONE
             viewBinding.uploadPrescriptionLayout.visibility = View.GONE
@@ -1355,5 +1435,96 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
     override fun onClickSpinnerLayout() {
         TODO("Not yet implemented")
+    }
+
+    fun sendOtpListenerPrescriptionUploadFlow() {
+        viewBinding.sendOtpBtnUploadPrescription!!.setOnClickListener {
+            val phoneNumber = viewBinding.phoneNumber.text.toString().trim()
+            val name = viewBinding.custName.text.toString().trim()
+            if (validateCustomerDetails(phoneNumber, name)) {
+                if (NetworkUtil.isNetworkConnected(requireContext())) {
+                    showLoading()
+                    Utlis.hideKeyPad(context as Activity)
+                    val sendGlobalSmsRequest = SendGlobalSmsRequest()
+                    sendGlobalSmsRequest.sourceFor = "SENSING"
+                    sendGlobalSmsRequest.type = "OTP"
+                    sendGlobalSmsRequest.mobileNo = viewBinding.phoneNumber.text.toString().trim()
+                    sendGlobalSmsRequest.link = ""
+                    sendGlobalSmsRequest.customerName = viewBinding.custName.text.toString().trim()
+                    retrieveViewModel().sendGlobalSmsApiCall(
+                        "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment, true
+                    )
+                }
+            } else {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun otpValidationUp() {
+        viewBinding.otpViewUp.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int,
+                count: Int,
+            ) {
+                if (s != "") {
+                    //do your work here
+                }
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int,
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (s != null && s.toString().length == 6) {
+                    if (s.toString().equals(otpUp)) {
+                        Utlis.hideKeyPad(context as Activity)
+                        viewBinding.addMorePrescription.visibility = View.VISIBLE
+                        viewBinding.verifiedSuccessfullyLayoutUp!!.visibility = View.VISIBLE
+                        viewBinding.otpVerificationLayoutUp.visibility = View.GONE
+                        /*viewBinding.phoneNumber.isEnabled = false
+                        viewBinding.custName.isEnabled = false*/
+                        customerNameMobileEnable(false)
+                        stopTimerUp()
+                    } else {
+                        Toast.makeText(context, "Invalid OTP", Toast.LENGTH_SHORT).show()
+                        viewBinding.otpViewUp.text!!.clear()
+                        viewBinding.addMorePrescription.visibility = View.GONE
+                        viewBinding.verifiedSuccessfullyLayoutUp!!.visibility = View.GONE
+                    }
+                } else {
+                    viewBinding.addMorePrescription.visibility = View.GONE
+                    viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
+                    viewBinding.verifiedSuccessfullyLayoutUp!!.visibility = View.GONE
+                }
+            }
+        })
+    }
+
+    fun onClickResendOtpUp() {
+        viewBinding.resendOtpUp.setOnClickListener {
+            val phoneNumber = viewBinding.phoneNumber.text.toString().trim()
+            val name = viewBinding.custName.text.toString().trim()
+            if (validateCustomerDetails(phoneNumber, name)) {
+                if (NetworkUtil.isNetworkConnected(requireContext())) {
+                    showLoading()
+                    Utlis.hideKeyPad(context as Activity)
+                    val sendGlobalSmsRequest = SendGlobalSmsRequest()
+                    sendGlobalSmsRequest.sourceFor = "SENSING"
+                    sendGlobalSmsRequest.type = "OTP"
+                    sendGlobalSmsRequest.mobileNo = viewBinding.phoneNumber.text.toString().trim()
+                    sendGlobalSmsRequest.link = ""
+                    sendGlobalSmsRequest.customerName = viewBinding.custName.text.toString().trim()
+                    retrieveViewModel().sendGlobalSmsApiCall(
+                        "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment, true
+                    )
+                }
+            } else {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
