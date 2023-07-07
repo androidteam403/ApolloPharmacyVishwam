@@ -33,7 +33,7 @@ import com.apollopharmacy.vishwam.util.Utlis
 import java.util.*
 
 class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
-    private var getStoreWiseEmpIdResponse: GetStoreWiseEmpIdResponse? = null
+    private var getStoreWiseEmpidDetails: GetStoreWiseEmpIdResponse? = null
     private lateinit var activityStartSurvey2Binding: ActivityStartSurvey2Binding
     private lateinit var surveyDetailsViewModel: SurveyDetailsViewModel
     private var adapterRec: EmailAddressAdapter? = null
@@ -199,6 +199,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)
         intent.putExtra("siteName", siteName)
+        intent.putExtra("getStoreWiseEmpidDetails", getStoreWiseEmpidDetails)
         intent.putExtra("storeCity", storeCity)
         intent.putExtra("region", region)
         intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
@@ -360,6 +361,8 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
     override fun onSuccessgetStoreWiseDetails(getStoreWiseEmpDetails: GetStoreWiseEmpIdResponse) {
         if(getStoreWiseEmpDetails!=null && getStoreWiseEmpDetails!!.storeWiseDetails!=null && !getStoreWiseEmpDetails!!.storeWiseDetails.trainerEmail.isEmpty() && getStoreWiseEmpDetails!!.storeWiseDetails.trainerEmail!=null){
+            getStoreWiseEmpidDetails=getStoreWiseEmpDetails
+            Toast.makeText(applicationContext, "Api", Toast.LENGTH_SHORT).show()
             activityStartSurvey2Binding.trainer.text=getStoreWiseEmpDetails!!.storeWiseDetails.trainerEmail
         }else{
             activityStartSurvey2Binding.trainer.text="--"

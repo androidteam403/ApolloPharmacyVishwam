@@ -16,7 +16,6 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.preview.adapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsViewModel
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveylist.SurveyListViewModel
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelResponse
 import kotlin.math.roundToInt
 

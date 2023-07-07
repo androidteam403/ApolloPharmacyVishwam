@@ -48,7 +48,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     private var categoryPosition: Int = 0
     private var storeId: String = ""
     private var address: String = ""
-    private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
+    private var getStoreWiseEmpidDetails: GetStoreWiseEmpIdResponse? = null
+//    private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
     var surveyRecDetailsList = ArrayList<String>()
     private var isPending: Boolean = false
     var surveyCCDetailsList = ArrayList<String>()
@@ -95,10 +96,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
     private fun setUp() {
         activityChampsSurveyBinding.callback = this
-        getStoreWiseDetails =
-            intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
+      //        getStoreWiseDetails =
+//            intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
         surveyRecDetailsList =
             intent.getStringArrayListExtra("surveyRecDetailsList")!!
+        getStoreWiseEmpidDetails =
+            intent.getSerializableExtra("getStoreWiseEmpidDetails") as GetStoreWiseEmpIdResponse?
         surveyCCDetailsList = intent.getStringArrayListExtra("surveyCCDetailsList")!!
         address = intent.getStringExtra("address")!!
         storeId = intent.getStringExtra("storeId")!!
@@ -492,28 +495,28 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 headerDetails.dateOfVisit = dateNewFormat
             }
 
-            if (getStoreWiseDetails?.storeWiseDetails?.trainerEmail != null) {
+            if (getStoreWiseEmpidDetails?.storeWiseDetails?.trainerEmail != null) {
                 headerDetails.emailIdOfTrainer =
-                    getStoreWiseDetails?.storeWiseDetails?.trainerEmail
+                    getStoreWiseEmpidDetails?.storeWiseDetails?.trainerEmail
             } else {
                 headerDetails.emailIdOfTrainer = ""
             }
-            if (getStoreWiseDetails?.storeWiseDetails?.executiveEmail != null) {
+            if (getStoreWiseEmpidDetails?.storeWiseDetails?.executiveEmail != null) {
                 headerDetails.emailIdOfExecutive =
-                    getStoreWiseDetails?.storeWiseDetails?.executiveEmail
+                    getStoreWiseEmpidDetails?.storeWiseDetails?.executiveEmail
             } else {
                 headerDetails.emailIdOfExecutive = ""
             }
-            if (getStoreWiseDetails?.storeWiseDetails?.managerEmail != null) {
+            if (getStoreWiseEmpidDetails?.storeWiseDetails?.managerEmail != null) {
                 headerDetails.emailIdOfManager =
-                    getStoreWiseDetails?.storeWiseDetails?.managerEmail
+                    getStoreWiseEmpidDetails?.storeWiseDetails?.managerEmail
             } else {
                 headerDetails.emailIdOfManager = ""
             }
 
-            if (getStoreWiseDetails?.storeWiseDetails?.reagionalHeadEmail != null) {
+            if (getStoreWiseEmpidDetails?.storeWiseDetails?.reagionalHeadEmail != null) {
                 headerDetails.emailIdOfRegionalHead =
-                    getStoreWiseDetails?.storeWiseDetails?.reagionalHeadEmail
+                    getStoreWiseEmpidDetails?.storeWiseDetails?.reagionalHeadEmail
             } else {
                 headerDetails.emailIdOfRegionalHead = ""
             }
