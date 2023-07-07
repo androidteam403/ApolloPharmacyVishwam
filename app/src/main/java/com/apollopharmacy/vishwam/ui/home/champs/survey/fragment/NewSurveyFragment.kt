@@ -16,7 +16,6 @@ import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.adapter.GetStoreDetailsAdapter
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -25,7 +24,6 @@ import com.apollopharmacy.vishwam.util.Utlis
 class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyBinding>(),
     NewSurveyCallback, MainActivityCallback {
     var getStoreDetailsAdapter: GetStoreDetailsAdapter? = null
-    var getStoreWiseDetailsResponse: GetStoreWiseDetailsModelResponse? = null
     var storeId: String? = ""
     var address: String? = ""
     var siteName: String? = ""
@@ -72,20 +70,6 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                 showLoading()
                 viewModel.getStoreDetailsChampsApi(
                     this
-                )
-            } else {
-                Toast.makeText(
-                    activity,
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                showLoading()
-                viewModel.getStoreWiseDetailsChampsApi(
-                    this,
-                    Preferences.getValidatedEmpId()
                 )
             } else {
                 Toast.makeText(
@@ -142,7 +126,6 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     override fun onClickCardView() {
         val intent = Intent(context, SurveyDetailsActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.putExtra("getStoreWiseDetailsResponses", getStoreWiseDetailsResponse)
         intent.putExtra("storeId", storeId)
         intent.putExtra("address", address)
         intent.putExtra("siteName", siteName)
@@ -180,20 +163,6 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
         hideLoading()
 
-        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-            showLoading()
-            viewModel.getStoreWiseDetailsChampsApi(
-                this,
-                Preferences.getValidatedEmpId()
-            )
-        } else {
-            Toast.makeText(
-                activity,
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        }
 
 //        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
 //            showLoading()
@@ -251,32 +220,6 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         }
     }
 
-    override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
-        getStoreWiseDetailsResponse = getStoreWiseDetailsResponses
-        if (getStoreWiseDetailsResponses != null) {
-//            viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
-        } else {
-            viewBinding.emailId.setText("--")
-            Preferences.setApnaSite("")
-            val i = Intent(context, SelectChampsSiteIDActivity::class.java)
-            i.putExtra("modulename", "CHAMPS")
-            startActivityForResult(i, 781)
-        }
-        hideLoading()
-    }
-
-    override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
-        if (value != null && value.message != null) {
-           viewBinding.emailId.setText("--")
-            Preferences.setApnaSite(Preferences.getApnaSiteId())
-//            val i = Intent(context, SelectChampsSiteIDActivity::class.java)
-//            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//            i.putExtra("modulename", "CHAMPS")
-//            startActivityForResult(i, 781)
-//            Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
-        }
-        hideLoading()
-    }
 
     override fun onClickFilterIcon() {
 

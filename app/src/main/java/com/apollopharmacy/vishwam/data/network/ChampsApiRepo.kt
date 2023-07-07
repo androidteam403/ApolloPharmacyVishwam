@@ -344,7 +344,7 @@ object ChampsApiRepo {
         }
     }
 
-    suspend fun getStoreWiseDetailsChampsApi(empId: String): ApiResult<GetStoreWiseDetailsModelResponse> {
+    suspend fun getStoreWiseDetailsChampsApi(empId: String): ApiResult<GetStoreWiseEmpIdResponse> {
         return try {
             val response = Api.getClient().GET_STORE_WISE_DETAILS_CHAMPS_API(Config.ATTENDANCE_API_HEADER, empId)
             ApiResult.Success(response)
