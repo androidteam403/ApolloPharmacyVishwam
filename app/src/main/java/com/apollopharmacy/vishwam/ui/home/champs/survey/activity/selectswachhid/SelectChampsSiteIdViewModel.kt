@@ -162,44 +162,6 @@ class SelectChampsSiteIdViewModel : ViewModel() {
         }
     }
 
-    fun getStoreWiseDetailsChampsApi(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback, empId: String) {
-        state.postValue(State.LOADING)
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getStoreWiseDetailsChampsApi(empId)
-            }
-            when (result) {
-                is ApiResult.Success -> {
-                    if (result.value.status) {
-                        state.value = State.ERROR
-                        selectChampsSiteIdCallBack.onSuccessgetStoreWiseDetails(result.value)
-                    } else {
-                        state.value = State.ERROR
-                        commands.value =Command.ShowToast(result.value.message)
-                        selectChampsSiteIdCallBack.onFailuregetStoreWiseDetails(result.value)
-                    }
-                }
-                is ApiResult.GenericError -> {
-                    commands.postValue(result.error?.let {
-                       Command.ShowToast(it)
-                    })
-                    state.value = State.ERROR
-                }
-                is ApiResult.NetworkError -> {
-                    commands.postValue(Command.ShowToast("Network Error"))
-                    state.value = State.ERROR
-                }
-                is ApiResult.UnknownError -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-                else -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-            }
-        }
-    }
 
     fun getStoreDetailsChampsApi(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback) {
         state.postValue(State.LOADING)

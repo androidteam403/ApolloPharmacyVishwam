@@ -110,12 +110,12 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Visit Date :  "
                                 android:textColor="@color/grey"
@@ -131,31 +131,31 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:visibility="gone"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+<!--                        <LinearLayout-->
+<!--                            android:visibility="gone"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:orientation="vertical">-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="Survey Ended :  "
-                                android:textColor="@color/grey"
-                                android:textSize="12sp" />
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:fontFamily="@font/roboto_medium"-->
+<!--                                android:text="Survey Ended :  "-->
+<!--                                android:textColor="@color/grey"-->
+<!--                                android:textSize="12sp" />-->
 
-                            <TextView
-                                android:id="@+id/surveyended"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:fontFamily="@font/poppin_bold"
-                                android:text="12 Apr,2023-4:30PM"
-                                android:textColor="@color/black"
-                                android:textSize="11.5sp" />
+<!--                            <TextView-->
+<!--                                android:id="@+id/surveyended"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:fontFamily="@font/poppin_bold"-->
+<!--                                android:text="12 Apr,2023-4:30PM"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="11.5sp" />-->
 
-                        </LinearLayout>
+<!--                        </LinearLayout>-->
 
                     </LinearLayout>
 

@@ -15,7 +15,7 @@ class SurveyDetailsList : Serializable {
     @SerializedName("data")
     var data: Data? = null
 
-    inner class ToiletsAvailability: Serializable {
+    inner class ToiletsAvailability : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
@@ -29,7 +29,7 @@ class SurveyDetailsList : Serializable {
         var other: Other_1? = null
     }
 
-    inner class Other_1: Serializable {
+    inner class Other_1 : Serializable {
         @SerializedName("color")
         @Expose
         var color: String? = null
@@ -192,6 +192,14 @@ class SurveyDetailsList : Serializable {
         @Expose
         var address: String? = null
 
+        @SerializedName("city")
+        @Expose
+        var city: String? = null
+
+        @SerializedName("state")
+        @Expose
+        var state: String? = null
+
         @SerializedName("dimension_type")
         @Expose
         var dimensionType: DimensionType? = null
@@ -228,6 +236,10 @@ class SurveyDetailsList : Serializable {
         @Expose
         var landmarks: String? = null
 
+        @SerializedName("occupation")
+        @Expose
+        var occupation: String? = null
+
         @SerializedName("parking")
         @Expose
         var parking: Parking? = null
@@ -255,6 +267,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("traffic_street_type")
         @Expose
         var trafficStreetType: TrafficStreetType? = null
+
+        @SerializedName("region")
+        @Expose
+        var region: Region? = null
 
         @SerializedName("created_id")
         @Expose
@@ -391,6 +407,84 @@ class SurveyDetailsList : Serializable {
         @SerializedName("hospitals")
         @Expose
         var hospitals: List<Hospital>? = null
+
+        @SerializedName("apollo_employee")
+        @Expose
+        var apolloEmployee: ApolloEmployee? = null
+
+        inner class ApolloEmployee : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+
+            @SerializedName("other")
+            @Expose
+            var other: Other_2? = null
+
+            @SerializedName("icon")
+            @Expose
+            var icon: String? = null
+        }
+
+        inner class Other_2 : Serializable {
+            @SerializedName("color")
+            @Expose
+            var color: String? = null
+        }
+
+        inner class Region : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+
+            @SerializedName("survey_region_mapping")
+            @Expose
+            var surveyRegionMapping: List<SurveyRegionMapping>? = null
+        }
+
+        inner class SurveyRegionMapping : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("project_hod")
+            @Expose
+            var projectHod: ProjectHod? = null
+
+            @SerializedName("project_regional_head")
+            @Expose
+            var projectRegionalHead: ProjectRegionalHead? = null
+
+        }
+
+        inner class ProjectHod : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("user_code")
+            @Expose
+            var userCode: String? = null
+        }
+
+        inner class ProjectRegionalHead : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("user_code")
+            @Expose
+            var userCode: String? = null
+        }
+
         fun withUid(uid: String?): Data {
             this.uid = uid
             return this

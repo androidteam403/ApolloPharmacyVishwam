@@ -19,7 +19,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivitySelectChampsSiteidBinding
 import com.apollopharmacy.vishwam.databinding.ActivitySelectSwachhSiteidBinding
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseEmpIdResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.adapter.SiteIdListChampsAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -177,23 +177,5 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
     override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
     Toast.makeText(applicationContext,""+value.message, Toast.LENGTH_SHORT).show()
         Utlis.hideLoading()
-    }
-
-    override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
-        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.status && getStoreWiseDetailsResponses.storeWiseDetails != null && getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail != null) {
-//            viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
-            Preferences.setApnaSite(siteId!!)
-            val intent = Intent()
-            setResult(Activity.RESULT_OK, intent)
-            finish()
-        } else {
-            Toast.makeText(applicationContext, "No data found" , Toast.LENGTH_SHORT).show()
-        }
-        hideLoading()
-    }
-
-    override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
-        Toast.makeText(applicationContext, ""+value.message , Toast.LENGTH_SHORT).show()
-        hideLoading()
     }
 }

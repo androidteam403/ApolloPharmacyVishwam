@@ -109,7 +109,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
     }
 
     override fun onFailureSurveyList(getSurvetDetailsModelResponse: GetSurveyDetailsModelResponse) {
-    Toast.makeText(applicationContext, ""+getSurvetDetailsModelResponse.message, Toast.LENGTH_SHORT).show()
+//    Toast.makeText(applicationContext, ""+getSurvetDetailsModelResponse.message, Toast.LENGTH_SHORT).show()
         activityGetSurveyDetailsBinding.noListFound.visibility= View.VISIBLE
         activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.GONE
         Utlis.hideLoading()
@@ -117,6 +117,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
 
     override fun onClickCardView(status: String?, champsRefernceId: String?) {
         val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)
@@ -133,6 +134,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
 
     override fun onClickPlusIcon() {
         val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)

@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityStartSurvey2Binding
@@ -25,14 +26,14 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.Ch
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressCCAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseEmpIdResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import java.util.*
 
 class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
-    private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
+    private var getStoreWiseEmpIdResponse: GetStoreWiseEmpIdResponse? = null
     private lateinit var activityStartSurvey2Binding: ActivityStartSurvey2Binding
     private lateinit var surveyDetailsViewModel: SurveyDetailsViewModel
     private var adapterRec: EmailAddressAdapter? = null
@@ -104,48 +105,26 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
     private fun setUp() {
         activityStartSurvey2Binding.callback = this
 
-        getStoreWiseDetails =
-            intent.getSerializableExtra("getStoreWiseDetailsResponses") as GetStoreWiseDetailsModelResponse?
-        address = intent.getStringExtra("address")!!
+         address = intent.getStringExtra("address")!!
         storeId = intent.getStringExtra("storeId")!!
         siteName= intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
         region= intent.getStringExtra("region")!!
-        if(getStoreWiseDetails!=null && getStoreWiseDetails!!.storeWiseDetails!=null){
-            if(!getStoreWiseDetails!!.storeWiseDetails.trainerEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.trainerEmail!=null){
-                activityStartSurvey2Binding.trainer.text=getStoreWiseDetails!!.storeWiseDetails.trainerEmail
-            }else{
-                activityStartSurvey2Binding.trainer.text="--"
-            }
-
-            if(!getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail!=null)
-            {
-                activityStartSurvey2Binding.regionalHead.text=getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail
-
-            }else{
-                activityStartSurvey2Binding.regionalHead.text="--"
-            }
-
-            if(!getStoreWiseDetails!!.storeWiseDetails.executiveEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.executiveEmail!=null){
-                activityStartSurvey2Binding.executive.text=getStoreWiseDetails!!.storeWiseDetails.executiveEmail
-
-            }else{
-                activityStartSurvey2Binding.executive.text="--"
-
-            }
-
-            if(!getStoreWiseDetails!!.storeWiseDetails.managerEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.managerEmail!=null){
-                activityStartSurvey2Binding.manager.text=getStoreWiseDetails!!.storeWiseDetails.managerEmail
-            }else{
-                activityStartSurvey2Binding.manager.text="--"
-            }
-
-        }else{
-            activityStartSurvey2Binding.trainer.text="--"
-            activityStartSurvey2Binding.manager.text="--"
-            activityStartSurvey2Binding.executive.text="--"
-            activityStartSurvey2Binding.regionalHead.text="--"
+        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+            Utlis.showLoading(this)
+            surveyDetailsViewModel.getStoreWiseDetailsEmpIdChampsApi(
+                this,
+                Preferences.getValidatedEmpId()
+            )
+        } else {
+            Toast.makeText(
+                context,
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
         }
+
 
         activityStartSurvey2Binding.storeId.text=storeId
         if(region!=null){
@@ -215,7 +194,8 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
     override fun onClickStartChampsSurvey() {
         val intent = Intent(context, GetSurveyDetailsListActivity::class.java)
-        intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//        intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)
         intent.putExtra("siteName", siteName)
@@ -376,6 +356,18 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
             Utlis.hideLoading()
         }
 
+    }
+
+    override fun onSuccessgetStoreWiseDetails(getStoreWiseEmpDetails: GetStoreWiseEmpIdResponse) {
+        if(getStoreWiseEmpDetails!=null && getStoreWiseEmpDetails!!.storeWiseDetails!=null && !getStoreWiseEmpDetails!!.storeWiseDetails.trainerEmail.isEmpty() && getStoreWiseEmpDetails!!.storeWiseDetails.trainerEmail!=null){
+            activityStartSurvey2Binding.trainer.text=getStoreWiseEmpDetails!!.storeWiseDetails.trainerEmail
+        }else{
+            activityStartSurvey2Binding.trainer.text="--"
+        }
+    }
+
+    override fun onFailuregetStoreWiseDetails(value: GetStoreWiseEmpIdResponse) {
+        activityStartSurvey2Binding.trainer.text="--"
     }
 
 
