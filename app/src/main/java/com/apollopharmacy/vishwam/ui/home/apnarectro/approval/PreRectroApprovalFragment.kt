@@ -214,5 +214,21 @@ class PreRectroApprovalFragment() :
 
     }
 
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
+
+    }
+
 
 }

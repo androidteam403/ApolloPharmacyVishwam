@@ -1162,7 +1162,7 @@
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="(Sq.ft): "
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_13sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/length"
@@ -1262,7 +1262,7 @@
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="(Sq.ft): "
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_13sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/totalareasqft"
@@ -1466,7 +1466,35 @@
                                         android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Expected Rent: "
+                                        android:text="Expected Rent"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text=" ( "
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/expectedRentUnit"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="sq.ft"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text=" ): "
+                                        android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
@@ -1492,7 +1520,35 @@
                                         android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Security Deposit: "
+                                        android:text="Security Deposit"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text=" ( "
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/securityDepositUnit"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="sq.ft"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text=" ): "
+                                        android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
@@ -3499,6 +3555,31 @@
                                         android:text="-"
                                         android:textColor="@color/black"
                                         android:visibility="gone" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_10dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:text="Known of Employee / Blood Relations: "
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:id="@+id/apolloEmployee"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:text="Yes"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp"
+                                            app:fontFamily="@font/roboto_medium" />
+                                    </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>

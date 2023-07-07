@@ -133,15 +133,21 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
             activityPreviewBinding.arrow.visibility = View.VISIBLE
         }
 
+        activityPreviewBinding.closeWhiteIcon.setOnClickListener {
+            onBackPressed()
+        }
+
         if (approveResponseList != null) {
             timelineAdapter =
                 TimeLineListAdapter(this, approveResponseList.filter { it.retroid.equals(retroId) && it.stage.equals(stage) })
             activityPreviewBinding.timeLineRecycleview.adapter = timelineAdapter
         }
 
+/*
         activityPreviewBinding.backArrow.setOnClickListener {
             onBackPressed()
         }
+*/
 
 
     }
@@ -389,6 +395,10 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         Toast.makeText(getApplicationContext(),
             value.message,
             Toast.LENGTH_LONG).show();
+    }
+
+    override fun onClickBackIcon() {
+        onBackPressed()
     }
 
     override fun onBackPressed() {

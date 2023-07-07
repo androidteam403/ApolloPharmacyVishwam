@@ -32,7 +32,7 @@ interface ApnaNewSurveyCallBack {
 
     fun onTrafficStreetItemSelect(position: Int, item: String)
 
-    fun onApnaSpecialityItemSelect(position: Int, item: String)
+    fun onApnaSpecialityItemSelect(position: Int, uid: String, name: String)
 
     fun onClickTrafficGeneratorItemDelete(position: Int, deletedItem: String)
 
@@ -117,4 +117,10 @@ interface ApnaNewSurveyCallBack {
     fun onSelectNeighbourLocation(position: Int, item: String)
 
     fun onSelectedAgeoftheBuildingMonth(month: String)
+
+    fun onSuccessGetRegionListApiCall(regionListResponse: RegionListResponse)
+
+    fun onFailureGetRegionListApiCall(message: String)
+
+    fun onRegionSelect(regionName: String, regionUid: String, regionCode: String)
 }

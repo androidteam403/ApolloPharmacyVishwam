@@ -33,6 +33,7 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
     var subCategoryDetailsList: List<GetSubCategoryDetailsResponse.SubCategoryDetails>? = null
     var subCategoryDetailsListList =
         ArrayList<ArrayList<GetSubCategoryDetailsResponse.SubCategoryDetails>>()
+    var sumEquals100: Boolean = false
 
 
     override val layoutRes: Int
@@ -74,68 +75,28 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
 
     }
 
-    override fun onClickEdit() {
-        val editBoxDialog = context?.let { Dialog(it, R.style.fadeinandoutcustomDialog) }
-        dialogEditRangeChampsBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
-            R.layout.dialog_edit_range_champs,
-            null,
-            false)
-        editBoxDialog!!.setContentView(dialogEditRangeChampsBinding.getRoot())
-        if (editBoxDialog.getWindow() != null) {
-            editBoxDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
-        editBoxDialog.setCancelable(false)
-//        filtersList(dialogFilterChampsBinding)
 
-        dialogEditRangeChampsBinding.continueChamps.setOnClickListener { view ->
-
-            if (dialogEditRangeChampsBinding.enterPoints.text.toString() > "5") {
-                Toast.makeText(context,
-                    "Please enter a value with in the range",
-                    Toast.LENGTH_SHORT).show()
-            } else if (dialogEditRangeChampsBinding.enterPoints.text.toString() <= "0") {
-                Toast.makeText(context,
-                    "Please enter a value with in the range",
-                    Toast.LENGTH_SHORT).show()
-            } else {
-                val enterPoints =
-                    (dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat())
-                val mulPoints = enterPoints * 2
-                viewBinding.seekbar1.progress = (mulPoints.toInt())
-                editBoxDialog.dismiss()
-            }
-//            val simpleSeekBar: SeekBar = (R.id.seekbar1) as SeekBar
-
-        }
-
-
-
-
-        dialogEditRangeChampsBinding.closeAddressDialog.setOnClickListener { view ->
-            editBoxDialog.dismiss()
-        }
-
-
-        editBoxDialog.show()
-    }
-   var categoryPosForUpdate: String?=""
+    var categoryPosForUpdate: String? = ""
     override fun onClickEditOverall(
         categoryDetails: GetCategoryDetailsResponse.CategoryDetails,
-        sumOfSubCategoryMaxRatings: Double, categoryPos: String, categoryName:String
+        sumOfSubCategoryMaxRatings: Double, categoryPos: String, categoryName: String,
     ) {
         if (categoryDetails != null) {
-            categoryPosForUpdate=categoryPos
+            categoryPosForUpdate = categoryPos
             val editBoxDialog = context?.let { Dialog(it, R.style.fadeinandoutcustomDialog) }
-            dialogEditRangeChampsBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
+            dialogEditRangeChampsBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(context),
                 R.layout.dialog_edit_range_champs,
                 null,
-                false)
+                false
+            )
             editBoxDialog!!.setContentView(dialogEditRangeChampsBinding.getRoot())
             if (editBoxDialog.getWindow() != null) {
                 editBoxDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             }
             editBoxDialog.setCancelable(false)
-            dialogEditRangeChampsBinding.enterPoints.setText(categoryDetails.rating)
+            dialogEditRangeChampsBinding.enterPoints.setText(categoryDetails.sumOfSubCategoryRating.toString())
+            dialogEditRangeChampsBinding.headingForDialog.setText(categoryName)
             dialogEditRangeChampsBinding.continueChamps.setOnClickListener { view ->
                 var sumOfAllCategoriesRating = 0.0
                 for (i in categoryDetailsList!!.indices) {
@@ -144,26 +105,34 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
                             sumOfAllCategoriesRating + dialogEditRangeChampsBinding.enterPoints.text.toString()
                                 .toDouble()
                     } else {
-                        sumOfAllCategoriesRating = sumOfAllCategoriesRating + categoryDetailsList!!.get(i).rating!!.toDouble()
+                        sumOfAllCategoriesRating =
+                            sumOfAllCategoriesRating + categoryDetailsList!!.get(i).rating!!.toDouble()
                     }
                 }
                 if (sumOfAllCategoriesRating <= 100) {
                     if (dialogEditRangeChampsBinding.enterPoints.text.toString()
                             .toDouble() >= categoryDetails.sumOfSubCategoryRating
                     ) {
-                        categoryDetails.rating =
-                            dialogEditRangeChampsBinding.enterPoints.text.toString()
+
+                        categoryDetails.sumOfSubCategoryRating =
+                            (dialogEditRangeChampsBinding.enterPoints.text.toString()).toDouble()
+
                         editBoxDialog.dismiss()
                         getCategoryDetailsAdapter!!.notifyDataSetChanged()
+//                        getCategoryDetailsAdapter!!.getEditBoxValue( (dialogEditRangeChampsBinding.enterPoints.text.toString()).toDouble())
                     } else {
-                        Toast.makeText(context,
+                        Toast.makeText(
+                            context,
                             "Maximum rating should not less than sum of all sub categories rating.",
-                            Toast.LENGTH_SHORT).show()
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
-                    Toast.makeText(context,
+                    Toast.makeText(
+                        context,
                         "Sum of categories rating should less than or equal to 100.",
-                        Toast.LENGTH_SHORT).show()
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
             dialogEditRangeChampsBinding.closeAddressDialog.setOnClickListener { view ->
@@ -173,250 +142,69 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
         }
     }
 
-    override fun onClickEditOverallHospitality() {
-        val editBoxDialog = context?.let { Dialog(it, R.style.fadeinandoutcustomDialog) }
-        dialogEditRangeChampsBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
-            R.layout.dialog_edit_range_champs,
-            null,
-            false)
-        editBoxDialog!!.setContentView(dialogEditRangeChampsBinding.getRoot())
-        if (editBoxDialog.getWindow() != null) {
-            editBoxDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
-        editBoxDialog.setCancelable(false)
-        dialogEditRangeChampsBinding.headingForDialog.text = "HOSPITALITY"
-        dialogEditRangeChampsBinding.enterPoints.setText(viewBinding.overallHospitality.text.toString())
-
-        dialogEditRangeChampsBinding.continueChamps.setOnClickListener { view ->
-
-            if ((dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat()) > 15) {
-                Toast.makeText(context,
-                    "Please enter a value with in the range",
-                    Toast.LENGTH_SHORT).show()
-            } else if ((dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat()) < 0) {
-                Toast.makeText(context,
-                    "Please enter a value with in the range",
-                    Toast.LENGTH_SHORT).show()
-            } else {
-                val enterPoints =
-                    (dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat())
-                viewBinding.overallHospitality.text =
-                    dialogEditRangeChampsBinding.enterPoints.text.toString()
-                editBoxDialog.dismiss()
-            }
-//            val simpleSeekBar: SeekBar = (R.id.seekbar1) as SeekBar
-
-        }
-
-        dialogEditRangeChampsBinding.closeAddressDialog.setOnClickListener { view ->
-            editBoxDialog.dismiss()
-        }
-
-
-        editBoxDialog.show()
-    }
-
-    override fun onClickEditSub1() {
-        val editBoxDialog = context?.let { Dialog(it, R.style.fadeinandoutcustomDialog) }
-        dialogEditRangeChampsBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
-            R.layout.dialog_edit_range_champs,
-            null,
-            false)
-        editBoxDialog!!.setContentView(dialogEditRangeChampsBinding.getRoot())
-        if (editBoxDialog.getWindow() != null) {
-            editBoxDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
-        editBoxDialog.setCancelable(false)
-//        filtersList(dialogFilterChampsBinding)
-        dialogEditRangeChampsBinding.headingForDialog.text = "Overall Appearance of the Store"
-        dialogEditRangeChampsBinding.enterPoints.setText(getConvertedValue(viewBinding.seekbar1.progress).toString())
-
-        dialogEditRangeChampsBinding.continueChamps.setOnClickListener { view ->
-
-            if ((dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat()) > 5) {
-                Toast.makeText(context,
-                    "Please enter a value with in the range",
-                    Toast.LENGTH_SHORT).show()
-            } else if ((dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat()) < 0) {
-                Toast.makeText(context,
-                    "Please enter a value with in the range",
-                    Toast.LENGTH_SHORT).show()
-            } else {
-                val enterPoints =
-                    (dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat())
-                val mulPoints = enterPoints * 2
-                viewBinding.seekbar1.progress = (mulPoints.toInt())
-                editBoxDialog.dismiss()
-            }
-//            val simpleSeekBar: SeekBar = (R.id.seekbar1) as SeekBar
-
-        }
-
-
-
-
-        dialogEditRangeChampsBinding.closeAddressDialog.setOnClickListener { view ->
-            editBoxDialog.dismiss()
-        }
-
-
-        editBoxDialog.show()
-    }
-
-    override fun onClickEditSub2() {
-        val editBoxDialog = context?.let { Dialog(it, R.style.fadeinandoutcustomDialog) }
-        dialogEditRangeChampsBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
-            R.layout.dialog_edit_range_champs,
-            null,
-            false)
-        editBoxDialog!!.setContentView(dialogEditRangeChampsBinding.getRoot())
-        if (editBoxDialog.getWindow() != null) {
-            editBoxDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
-        editBoxDialog.setCancelable(false)
-//        filtersList(dialogFilterChampsBinding)
-        dialogEditRangeChampsBinding.headingForDialog.text = "Offer Display"
-        dialogEditRangeChampsBinding.enterPoints.setText(getConvertedValue(viewBinding.seekbar2.progress).toString())
-
-        dialogEditRangeChampsBinding.continueChamps.setOnClickListener { view ->
-
-            if ((dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat()) > 2.5) {
-                Toast.makeText(context,
-                    "Please enter a value with in the range",
-                    Toast.LENGTH_SHORT).show()
-            } else if ((dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat()) < 0) {
-                Toast.makeText(context,
-                    "Please enter a value with in the range",
-                    Toast.LENGTH_SHORT).show()
-            } else {
-                val enterPoints =
-                    (dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat())
-                val mulPoints = enterPoints * 2
-                viewBinding.seekbar2.progress = (mulPoints.toInt())
-                editBoxDialog.dismiss()
-            }
-//            val simpleSeekBar: SeekBar = (R.id.seekbar1) as SeekBar
-
-        }
-
-
-
-
-        dialogEditRangeChampsBinding.closeAddressDialog.setOnClickListener { view ->
-            editBoxDialog.dismiss()
-        }
-
-
-        editBoxDialog.show()
-    }
-
-    override fun onClickEditSub3() {
-        val editBoxDialog = context?.let { Dialog(it, R.style.fadeinandoutcustomDialog) }
-        dialogEditRangeChampsBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
-            R.layout.dialog_edit_range_champs,
-            null,
-            false)
-        editBoxDialog!!.setContentView(dialogEditRangeChampsBinding.getRoot())
-        if (editBoxDialog.getWindow() != null) {
-            editBoxDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
-        editBoxDialog.setCancelable(false)
-//        filtersList(dialogFilterChampsBinding)
-        dialogEditRangeChampsBinding.headingForDialog.text = "Store Frontage"
-        dialogEditRangeChampsBinding.enterPoints.setText(getConvertedValue(viewBinding.seekbar3.progress).toString())
-
-        dialogEditRangeChampsBinding.continueChamps.setOnClickListener { view ->
-
-            if ((dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat()) > 2.5) {
-                Toast.makeText(context,
-                    "Please enter a value with in the range",
-                    Toast.LENGTH_SHORT).show()
-            } else if ((dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat()) < 0) {
-                Toast.makeText(context,
-                    "Please enter a value with in the range",
-                    Toast.LENGTH_SHORT).show()
-            } else {
-                val enterPoints =
-                    (dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat())
-                val mulPoints = enterPoints * 2
-                viewBinding.seekbar3.progress = (mulPoints.toInt())
-                editBoxDialog.dismiss()
-            }
-//            val simpleSeekBar: SeekBar = (R.id.seekbar1) as SeekBar
-
-        }
-
-
-
-
-        dialogEditRangeChampsBinding.closeAddressDialog.setOnClickListener { view ->
-            editBoxDialog.dismiss()
-        }
-
-
-        editBoxDialog.show()
-    }
-
-    override fun onClickEditSub4() {
-        val editBoxDialog = context?.let { Dialog(it, R.style.fadeinandoutcustomDialog) }
-        dialogEditRangeChampsBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
-            R.layout.dialog_edit_range_champs,
-            null,
-            false)
-        editBoxDialog!!.setContentView(dialogEditRangeChampsBinding.getRoot())
-        if (editBoxDialog.getWindow() != null) {
-            editBoxDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
-        editBoxDialog.setCancelable(false)
-//        filtersList(dialogFilterChampsBinding)
-        dialogEditRangeChampsBinding.headingForDialog.text = "Grooming of the staff"
-        dialogEditRangeChampsBinding.enterPoints.setText(getConvertedValue(viewBinding.seekbar4.progress).toString())
-
-        dialogEditRangeChampsBinding.continueChamps.setOnClickListener { view ->
-
-            if ((dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat()) > 2.5) {
-                Toast.makeText(context,
-                    "Please enter a value with in the range",
-                    Toast.LENGTH_SHORT).show()
-            } else if ((dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat()) < 0) {
-                Toast.makeText(context,
-                    "Please enter a value with in the range",
-                    Toast.LENGTH_SHORT).show()
-            } else {
-                val enterPoints =
-                    (dialogEditRangeChampsBinding.enterPoints.text.toString().toFloat())
-                val mulPoints = enterPoints * 2
-                viewBinding.seekbar4.progress = (mulPoints.toInt())
-                editBoxDialog.dismiss()
-            }
-//            val simpleSeekBar: SeekBar = (R.id.seekbar1) as SeekBar
-
-        }
-
-
-
-
-        dialogEditRangeChampsBinding.closeAddressDialog.setOnClickListener { view ->
-            editBoxDialog.dismiss()
-        }
-
-
-        editBoxDialog.show()
-    }
 
     override fun onSuccessGetCategoryDetailsApiCall(getCategoryDetailsResponse: GetCategoryDetailsResponse) {
         hideLoading()
         if (getCategoryDetailsResponse.categoryDetails != null && getCategoryDetailsResponse.categoryDetails!!.size > 0) {
+
             categoryDetailsList =
                 getCategoryDetailsResponse.categoryDetails as ArrayList<GetCategoryDetailsResponse.CategoryDetails>?
-            getCategoryDetailsAdapter = GetCategoryDetailsAdapter(categoryDetailsList!!,
+
+            showLoading()
+            subCategoryApiHitting()
+//            for (i in categoryDetailsList!!) {
+//
+//
+//                viewModel.getSubCategoryDetailsApiCall(
+//                    this@AdminModuleFragment,
+//                    i.categoryName!!
+//                )
+//            }
+//            getCategoryDetailsAdapter = GetCategoryDetailsAdapter(categoryDetailsList!!,
+//                context,
+//                this@AdminModuleFragment,
+//                 categoryPosForUpdate)
+//            var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//            viewBinding.getCategoryDetailsRecyclerView.layoutManager = layoutManager
+//            viewBinding.getCategoryDetailsRecyclerView.adapter = getCategoryDetailsAdapter
+        }
+    }
+
+    fun subCategoryApiHitting() {
+
+        var isAllSubCategoriesAvailable = true
+        var categoryName = ""
+        for (i in categoryDetailsList!!) {
+//            showLoading()
+            if (!i.isHavingSubCategoryDetails) {
+                isAllSubCategoriesAvailable = false
+                categoryName = i.categoryName!!
+                break
+            }
+
+        }
+
+        if (isAllSubCategoriesAvailable) {
+            getCategoryDetailsAdapter = GetCategoryDetailsAdapter(
+                categoryDetailsList!!,
                 context,
                 this@AdminModuleFragment,
-                 categoryPosForUpdate)
+                categoryPosForUpdate
+            )
             var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             viewBinding.getCategoryDetailsRecyclerView.layoutManager = layoutManager
             viewBinding.getCategoryDetailsRecyclerView.adapter = getCategoryDetailsAdapter
+            onValidateTotalSum(categoryDetailsList)
+
+            hideLoading()
+        }else{
+            viewModel.getSubCategoryDetailsApiCall(
+                this@AdminModuleFragment,
+                categoryName
+            )
         }
+
+
     }
 
     override fun onFailureGetCategoryDetailsApiCall(message: String) {
@@ -424,17 +212,22 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onClickSubCategoryDetailsItem(categoryDetails: GetCategoryDetailsResponse.CategoryDetails, itemPos:Int) {
+    override fun onClickSubCategoryDetailsItem(
+        categoryDetails: GetCategoryDetailsResponse.CategoryDetails,
+        itemPos: Int,
+    ) {
 
-        if(categoryDetails!=null && categoryDetails.subCategoryDetailsList!=null){
-            if(getCategoryDetailsAdapter!=null){
-                categoryDetails.isItemExpanded=!categoryDetails.isItemExpanded!!
+        if (categoryDetails != null && categoryDetails.subCategoryDetailsList != null) {
+            if (getCategoryDetailsAdapter != null) {
+                categoryDetails.isItemExpanded = !categoryDetails.isItemExpanded!!
                 getCategoryDetailsAdapter!!.notifyItemChanged(itemPos)
             }
-        }else{
+        } else {
             showLoading()
-            viewModel.getSubCategoryDetailsApiCall(this@AdminModuleFragment,
-                categoryDetails.categoryName!!)
+            viewModel.getSubCategoryDetailsApiCall(
+                this@AdminModuleFragment,
+                categoryDetails.categoryName!!
+            )
         }
 //        if (subCategoryDetailsListList != null && subCategoryDetailsListList.size > 0) {
 //            var isSubCategoryDetailsPresent = false
@@ -479,9 +272,34 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
         getSubCategoryDetailsResponse: GetSubCategoryDetailsResponse,
         categoryName: String,
     ) {
-        hideLoading()
+
         if (getSubCategoryDetailsResponse.subCategoryDetails != null && getSubCategoryDetailsResponse.subCategoryDetails!!.size > 0) {
-//            subCategoryDetailsList = getSubCategoryDetailsResponse.subCategoryDetails!!
+
+            for (i in categoryDetailsList!!.indices) {
+                if (categoryDetailsList!!.get(i).categoryName.equals(categoryName)) {
+                    categoryDetailsList!!.get(i).subCategoryDetailsList =
+                        getSubCategoryDetailsResponse.subCategoryDetails
+                    categoryDetailsList!!.get(i).isHavingSubCategoryDetails = true
+                }
+            }
+//            if(isAllSubCategoriesAvailable){
+//                getCategoryDetailsAdapter = GetCategoryDetailsAdapter(
+//                    categoryDetailsList!!,
+//                    context,
+//                    this@AdminModuleFragment,
+//                    categoryPosForUpdate
+//                )
+//                var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//                viewBinding.getCategoryDetailsRecyclerView.layoutManager = layoutManager
+//                viewBinding.getCategoryDetailsRecyclerView.adapter = getCategoryDetailsAdapter
+//                onValidateTotalSum(categoryDetailsList)
+//
+//                hideLoading()
+//            }else{
+            subCategoryApiHitting()
+//            }
+
+            //            subCategoryDetailsList = getSubCategoryDetailsResponse.subCategoryDetails!!
 //            subCategoryDetailsListList.add(subCategoryDetailsList!! as ArrayList<GetSubCategoryDetailsResponse.SubCategoryDetails>)
 //            if (categoryDetailsList != null && categoryDetailsList!!.size > 0) {
 //                var itemPos: Int = -1
@@ -497,64 +315,80 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
 //            }
 
 
-
-
-            if (categoryDetailsList != null && categoryDetailsList!!.size > 0) {
-                var itemPos: Int = -1
-                for (i in categoryDetailsList!!) {
-                    if (i.categoryName.equals(categoryName)) {
-                        i.isItemExpanded = !i.isItemExpanded!!
-                        itemPos = categoryDetailsList!!.indexOf(i)
-                        break
-                    }
-                }
-               categoryDetailsList!!.get(itemPos).subCategoryDetailsList = getSubCategoryDetailsResponse.subCategoryDetails
-//                getCategoryDetailsAdapter!!.subCategoryDetailsList = subCategoryDetailsList
-//                categoryDetailsList!!.get(itemPos).isItemExpanded=!categoryDetailsList!!.get(itemPos).isItemExpanded!!
-                getCategoryDetailsAdapter!!.notifyItemChanged(itemPos)
-            }
+//            if (categoryDetailsList != null && categoryDetailsList!!.size > 0) {
+//                var itemPos: Int = -1
+//                for (i in categoryDetailsList!!) {
+//                    if (i.categoryName.equals(categoryName)) {
+//                        i.isItemExpanded = !i.isItemExpanded!!
+//                        itemPos = categoryDetailsList!!.indexOf(i)
+//                        break
+//                    }
+//                }
+//               categoryDetailsList!!.get(itemPos).subCategoryDetailsList = getSubCategoryDetailsResponse.subCategoryDetails
+////                getCategoryDetailsAdapter!!.subCategoryDetailsList = subCategoryDetailsList
+////                categoryDetailsList!!.get(itemPos).isItemExpanded=!categoryDetailsList!!.get(itemPos).isItemExpanded!!
+//                getCategoryDetailsAdapter!!.notifyItemChanged(itemPos)
+//            }
         }
     }
 
     override fun onFailureGetSubCategoryDetailsApiCall(message: String) {
-        Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "" + message, Toast.LENGTH_SHORT).show()
         hideLoading()
     }
 
     override fun onClickSubmit() {
-        var saveCategoryConfigurationDetailsRequest = SaveCategoryConfigurationDetailsRequest()
-        var categoryDetails = ArrayList<SaveCategoryConfigurationDetailsRequest.CategoryDetail>()
-        if (categoryDetailsList != null && categoryDetailsList!!.size > 0) {
-            for (i in categoryDetailsList!!) {
-                var categoryDetail = SaveCategoryConfigurationDetailsRequest.CategoryDetail()
-                categoryDetail.categoryName = i.categoryName
-                categoryDetail.rating = i.rating
-                categoryDetail.modifiedBy = Preferences.getValidatedEmpId()
-                categoryDetails.add(categoryDetail)
+        if (sumEquals100) {
+
+
+            var saveCategoryConfigurationDetailsRequest = SaveCategoryConfigurationDetailsRequest()
+            var categoryDetails =
+                ArrayList<SaveCategoryConfigurationDetailsRequest.CategoryDetail>()
+            if (categoryDetailsList != null && categoryDetailsList!!.size > 0) {
+                for (i in categoryDetailsList!!) {
+                    var categoryDetail = SaveCategoryConfigurationDetailsRequest.CategoryDetail()
+                    categoryDetail.categoryName = i.categoryName
+                    categoryDetail.rating = i.sumOfSubCategoryRating.toString()
+                    categoryDetail.modifiedBy = Preferences.getValidatedEmpId()
+                    categoryDetails.add(categoryDetail)
+                }
             }
-        }
-        saveCategoryConfigurationDetailsRequest.categoryDetails = categoryDetails
-        var subCategoryDetails =
-            ArrayList<SaveCategoryConfigurationDetailsRequest.SubCategoryDetail>()
-        if (subCategoryDetailsListList != null && subCategoryDetailsListList.size > 0) {
-            for (j in subCategoryDetailsListList) {
-                if (j != null && j.size > 0) {
-                    for (k in j) {
-                        var subCategoryDetail =
-                            SaveCategoryConfigurationDetailsRequest.SubCategoryDetail()
-                        subCategoryDetail.categoryName = k.categoryName
-                        subCategoryDetail.subCategoryName = k.subCategoryName
-                        subCategoryDetail.rating = k.rating
-                        subCategoryDetail.modifiedBy = Preferences.getValidatedEmpId()
-                        subCategoryDetails.add(subCategoryDetail)
+            saveCategoryConfigurationDetailsRequest.categoryDetails = categoryDetails
+            var subCategoryDetails =
+                ArrayList<SaveCategoryConfigurationDetailsRequest.SubCategoryDetail>()
+            if (categoryDetailsList != null && categoryDetailsList!!.size > 0) {
+                for (i in categoryDetailsList!!) {
+                    if (i.subCategoryDetailsList != null && i.subCategoryDetailsList!!.size > 0) {
+                        for (j in i.subCategoryDetailsList!!) {
+                            if (j != null) {
+//                            for (k in j) {
+                                var subCategoryDetail =
+                                    SaveCategoryConfigurationDetailsRequest.SubCategoryDetail()
+                                subCategoryDetail.categoryName = j.categoryName
+                                subCategoryDetail.subCategoryName = j.subCategoryName
+                                subCategoryDetail.rating = (j.rating!!.toFloat()).toString()
+                                subCategoryDetail.modifiedBy = Preferences.getValidatedEmpId()
+                                subCategoryDetails.add(subCategoryDetail)
+//                            }
+                            }
+                        }
                     }
                 }
             }
+
+            saveCategoryConfigurationDetailsRequest.subCategoryDetails = subCategoryDetails
+            showLoading()
+            viewModel.saveCategoryConfigurationDetailsApiCall(
+                this@AdminModuleFragment,
+                saveCategoryConfigurationDetailsRequest
+            )
+        } else {
+            Toast.makeText(
+                requireContext(),
+                "Sum of category rating values should be equal to 100",
+                Toast.LENGTH_SHORT
+            ).show()
         }
-        saveCategoryConfigurationDetailsRequest.subCategoryDetails = subCategoryDetails
-        showLoading()
-        viewModel.saveCategoryConfigurationDetailsApiCall(this@AdminModuleFragment,
-            saveCategoryConfigurationDetailsRequest)
     }
 
     override fun onClickEditSubCategoryRatingRange(
@@ -562,10 +396,12 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
         categoryPosition: Int,
     ) {
         val editBoxDialog = context?.let { Dialog(it, R.style.fadeinandoutcustomDialog) }
-        dialogEditRangeChampsBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
+        dialogEditRangeChampsBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(context),
             R.layout.dialog_edit_range_champs,
             null,
-            false)
+            false
+        )
         editBoxDialog!!.setContentView(dialogEditRangeChampsBinding.getRoot())
         if (editBoxDialog.getWindow() != null) {
             editBoxDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -602,9 +438,11 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
                 editBoxDialog.dismiss()
                 getCategoryDetailsAdapter!!.notifyItemChanged(categoryPosition)
             } else {
-                Toast.makeText(context,
+                Toast.makeText(
+                    context,
                     "Sum of sub categories rating should less than overall rating.",
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         dialogEditRangeChampsBinding.closeAddressDialog.setOnClickListener { view ->
@@ -617,9 +455,11 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
         saveCategoryConfigurationDetailsResponse: SaveCategoryConfigurationDetailsResponse,
     ) {
         hideLoading()
-        Toast.makeText(context,
+        Toast.makeText(
+            context,
             saveCategoryConfigurationDetailsResponse.message,
-            Toast.LENGTH_SHORT).show()
+            Toast.LENGTH_SHORT
+        ).show()
 
     }
 
@@ -627,6 +467,24 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
         hideLoading()
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
+
+    override fun onValidateTotalSum(getCategoryDetails: List<GetCategoryDetailsResponse.CategoryDetails>?) {
+        var sumOfCategoryMaxRating = 0.0
+
+        for (i in getCategoryDetails!!) {
+
+            sumOfCategoryMaxRating = sumOfCategoryMaxRating + i.sumOfSubCategoryRating!!.toDouble()
+
+        }
+        if (sumOfCategoryMaxRating == 100.0) {
+            sumEquals100 = true
+            viewBinding.submitButtnAdmin.setBackgroundColor(requireContext().getColor(R.color.dark_sky_blue))
+        } else {
+            sumEquals100 = false
+            viewBinding.submitButtnAdmin.setBackgroundColor(requireContext().getColor(R.color.grey))
+        }
+    }
+
 
     private fun getConvertedValue(intVal: Int): Float {
         var floatVal = 0.0f

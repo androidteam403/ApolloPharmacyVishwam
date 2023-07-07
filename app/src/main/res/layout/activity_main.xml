@@ -99,6 +99,48 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/siteid_icon"
                 android:visibility="gone" />
+            <RelativeLayout
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/value_5dp"
+                android:id="@+id/spinnerlayoutRelative"
+                android:layout_width="@dimen/value_120dp"
+                android:layout_height="wrap_content"
+                >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/filtertypes"
+                    android:gravity="center"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value_15dp"
+                    android:focusable="true"
+                    android:textColorHint="@color/white"
+
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:id="@+id/selectfiltertype"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_baseline_arrow"
+                        android:editable="false"
+                        android:enabled="true"
+                        android:focusable="false"
+                        android:hint="Select Rows"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="@dimen/text_12sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/refreshIconQc"
@@ -135,7 +177,6 @@
                 android:id="@+id/qc_filter_icon"
                 android:layout_width="@dimen/value_20dp"
                 android:layout_height="@dimen/value_20dp"
-                android:layout_marginStart="@dimen/value_10dp"
                 android:visibility="gone">
 
                 <ImageView

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ChampsAdminRepo
+import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +29,12 @@ class AdminModuleViewModel : ViewModel() {
                     state.value = State.ERROR
                     if (response.value != null) {
                         if (response.value.status!!) {
+                            for(i in response.value.categoryDetails!!){
+                                if(i.rating!=null && !i.rating!!.isEmpty()){
+                                    i.sumOfSubCategoryRating=i.rating!!.toDouble()
+                                }
+
+                            }
                             mCallback.onSuccessGetCategoryDetailsApiCall(response.value)
                         } else {
                             mCallback.onFailureGetCategoryDetailsApiCall(response.value.message!!)
@@ -51,7 +58,10 @@ class AdminModuleViewModel : ViewModel() {
         }
     }
 
-    fun getSubCategoryDetailsApiCall(mCallback: AdminModuleCallBack, categoryName: String) {
+    fun getSubCategoryDetailsApiCall(
+        mCallback: AdminModuleCallBack,
+        categoryName: String
+    ) {
         val state = MutableLiveData<State>()
 
         var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/getSubCategoryDetails"//?categoryName="+categoryName

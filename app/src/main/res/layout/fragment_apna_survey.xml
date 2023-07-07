@@ -175,7 +175,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:text="No List Found"
-                android:textColor="@color/red"
+                android:textColor="@color/apna_project_actionbar_color"
                 android:textSize="@dimen/text_14sp"
                 android:visibility="gone" />
         </LinearLayout>
