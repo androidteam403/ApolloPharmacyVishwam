@@ -132,39 +132,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }.show(childFragmentManager, "")
         }
 
-//        var itemsPerPageCountList = arrayOf("5", "10", "15")
-//
-//        val arrayAdapter = object :
-//            ArrayAdapter<String>(requireContext(), R.layout.dropdown_item, itemsPerPageCountList) {
-//            override fun getDropDownView(
-//                position: Int,
-//                convertView: View?,
-//                parent: ViewGroup,
-//            ): View {
-//                val view: TextView =
-//                    super.getDropDownView(position, convertView, parent) as TextView
-//                return view
-//            }
-//        }
-//
-//        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        viewBinding.itemcountspinner.adapter = arrayAdapter
-//
-//        viewBinding.itemcountspinner.onItemSelectedListener =
-//            object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(
-//                    parent: AdapterView<*>?,
-//                    view: View?,
-//                    position: Int,
-//                    id: Long,
-//                ) {
-//                    selectedCount = itemsPerPageCountList[position].toInt()
-//                    showPendingList()
-//                }
-//
-//                override fun onNothingSelected(parent: AdapterView<*>?) {
-//                }
-//            }
+
 
 
         viewModel.getQcRejectionList()
@@ -181,7 +149,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         viewModel.getQcPendingList(
             Preferences.getToken(),
-            fromDate,
+            "1-Apr-2019",
             currentDate,
             "",
             "",
@@ -315,7 +283,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
             viewModel.getQcPendingList(
                 Preferences.getToken(),
-                fromDate,
+                "1-Apr-2019",
                 currentDate,
                 "",
                 "",
@@ -778,7 +746,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
                         viewModel.getQcPendingList(
                             Preferences.getToken(),
-                            fromDate,
+                            "1-Apr-2019",
                             currentDate,
                             "",
                             "",

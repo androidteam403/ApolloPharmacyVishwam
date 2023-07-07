@@ -26,7 +26,7 @@ import com.apollopharmacy.vishwam.util.Utlis
 class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyBinding>(),
     NewSurveyCallback, MainActivityCallback {
     var getStoreDetailsAdapter: GetStoreDetailsAdapter? = null
-    var getStoreWiseDetailsResponse: GetStoreWiseDetailsResponse? = null
+    var getSiteDetails: GetStoreWiseDetailsResponse? = null
     var storeId: String? = ""
     var address: String? = ""
     var siteName: String? = ""
@@ -143,7 +143,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     override fun onClickCardView() {
         val intent = Intent(context, SurveyDetailsActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.putExtra("getStoreWiseDetailsResponses", getStoreWiseDetailsResponse)
+        intent.putExtra("getStoreWiseDetailsResponses", getSiteDetails)
         intent.putExtra("storeId", storeId)
         intent.putExtra("address", address)
         intent.putExtra("siteName", siteName)
@@ -226,7 +226,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     }
 
     override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsResponse) {
-        getStoreWiseDetailsResponse = getStoreWiseDetailsResponses
+        getSiteDetails = getStoreWiseDetailsResponses
         if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success  && getStoreWiseDetailsResponses.data.executive != null) {
             viewBinding.emailId.setText(getStoreWiseDetailsResponses.data.executive.email)
         } else {
