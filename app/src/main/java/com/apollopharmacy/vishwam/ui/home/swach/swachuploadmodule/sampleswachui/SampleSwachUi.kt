@@ -851,6 +851,22 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         TODO("Not yet implemented")
     }
 
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
+        TODO("Not yet implemented")
+    }
+
     fun submitButtonEnable(dialogFilterUploadBinding: DialogFilterUploadBinding) {
         if (!dialogFilterUploadBinding.approvedStatus.isChecked
             && !dialogFilterUploadBinding.partialyApprovedStatus.isChecked

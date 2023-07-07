@@ -32,10 +32,12 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     MainActivityCallback,
     QcListsCallback,
     QcFilterFragment.QcFilterClicked, QcListSizeDialog.GstDialogClickListners, Filterable {
-    var qcListsResponse : QcListsResponse? = null
+    var qcListsResponse: QcListsResponse? = null
     var adapter: QcRejectedListAdapter? = null
     public var isBulkChecked: Boolean = false
-    var pageSize:Int=0
+    var pageSize: Int = 0
+    var siteId: String = ""
+    var regionId: String = ""
     var getitemList: List<QcItemListResponse>? = null
     var itemsList = ArrayList<QcItemListResponse>()
     var getRejectitemList: List<QcItemListResponse.Item>? = null
@@ -49,11 +51,12 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     var getStatusList: List<ActionResponse>? = null
     var statusList = ArrayList<ActionResponse>()
     private var filterRejectList = ArrayList<QcListsResponse.Reject>()
-    var subList= ArrayList<ArrayList<QcListsResponse.Reject>>()
+    var subList = ArrayList<ArrayList<QcListsResponse.Reject>>()
     var pageSizeList = ArrayList<String>()
     var charString: String? = ""
-    private var rejectedListList=ArrayList<QcListsResponse.Reject>()
-    private var rejectedFilterList=ArrayList<QcListsResponse.Reject>()
+    private var rejectedListList = ArrayList<QcListsResponse.Reject>()
+    private var rejectedFilterList = ArrayList<QcListsResponse.Reject>()
+
     //     var reason= String
     var fromDate = String()
     var currentDate = String()
@@ -71,8 +74,11 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
     override fun setup() {
-        pageSize=Preferences.getQcRejectedPageSiz()
-        viewBinding.selectfiltertype.setText("Rows: " +Preferences.getQcRejectedPageSiz().toString())
+        pageSize = Preferences.getQcRejectedPageSiz()
+//        MainActivity.mInstance.updateQcListCount(Preferences.getQcRejectedPageSiz().toString())
+        viewBinding.selectfiltertype.setText(
+            "Per page: " + Preferences.getQcRejectedPageSiz().toString()
+        )
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
@@ -86,11 +92,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         pageSizeList.add("10")
         pageSizeList.add("15")
 
-        viewBinding.selectfiltertype.setOnClickListener {
-            QcListSizeDialog().apply {
-                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
-            }.show(childFragmentManager  , "")
-        }
 
         viewBinding.selectfiltertype.setOnClickListener {
             QcListSizeDialog().apply {
@@ -215,13 +216,19 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
 
         viewBinding.refreshSwipe.setOnRefreshListener {
-            Preferences.setQcFromDate("")
-            Preferences.setQcToDate("")
-            Preferences.setQcSite("")
-            Preferences.setQcRegion("")
+//            Preferences.setQcFromDate("")
+//            Preferences.setQcToDate("")
+//            Preferences.setQcSite("")
+//            Preferences.setQcRegion("")
             MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
 
-            viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "", "")
+            viewModel.getQcRejectList(
+                Preferences.getToken(),
+                fromDate,
+                currentDate,
+                siteId,
+                regionId
+            )
 
         }
 
@@ -254,11 +261,13 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                 }
                 adapter =
                     context?.let { it1 ->
-                        QcRejectedListAdapter(it1, this,
+                        QcRejectedListAdapter(
+                            it1, this,
                             subList!!.get(increment),
 
                             itemsList,
-                            statusList)
+                            statusList
+                        )
                     }
                 viewBinding.recyclerViewPending.adapter = adapter
             } else {
@@ -289,11 +298,13 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
                 adapter =
                     context?.let { it1 ->
-                        QcRejectedListAdapter(it1, this,
+                        QcRejectedListAdapter(
+                            it1, this,
                             subList!!.get(increment),
 
                             itemsList,
-                            statusList)
+                            statusList
+                        )
                     }
                 viewBinding.recyclerViewPending.adapter = adapter
             } else {
@@ -375,7 +386,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
 
-
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
         if (imageUrl.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Images Urls is empty", Toast.LENGTH_SHORT).show()
@@ -404,12 +414,18 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             if (resultCode == Activity.RESULT_OK) {
 
                 if (data != null) {
+                    fromDate = data.getStringExtra("fromQcDate").toString()
+                    currentDate = data.getStringExtra("toDate").toString()
+                    siteId = data.getStringExtra("siteId").toString()
+                    regionId = data.getStringExtra("regionId").toString()
                     showLoading()
-                    viewModel.getQcRejectList(Preferences.getToken(),
+                    viewModel.getQcRejectList(
+                        Preferences.getToken(),
                         data.getStringExtra("fromQcDate").toString(),
                         data.getStringExtra("toDate").toString(),
                         data.getStringExtra("siteId").toString(),
-                        data.getStringExtra("regionId").toString())
+                        data.getStringExtra("regionId").toString()
+                    )
 
                     if (data.getStringExtra("fromQcDate").toString()
                             .equals(fromDate) && data.getStringExtra("toDate").toString()
@@ -424,11 +440,13 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                     if (data.getStringExtra("reset").toString().equals("reset")) {
                         showLoading()
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-                        viewModel.getQcRejectList(Preferences.getToken(),
+                        viewModel.getQcRejectList(
+                            Preferences.getToken(),
                             fromDate,
                             currentDate,
                             "",
-                            "")
+                            ""
+                        )
 
                     }
                 }
@@ -438,7 +456,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         }
     }
-
 
 
     override fun clickedApply(
@@ -462,16 +479,35 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     override fun onClickQcFilterIcon() {
         val i = Intent(context, QcFilterActivity::class.java)
         i.putExtra("activity", "3")
-        i.putStringArrayListExtra("storeList",storeStringList)
-        i.putStringArrayListExtra("regionList",regionStringList)
+        i.putStringArrayListExtra("storeList", storeStringList)
+        i.putStringArrayListExtra("regionList", regionStringList)
         i.putExtra("fragmentName", "reject")
         startActivityForResult(i, 210)
     }
 
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
+        QcListSizeDialog().apply {
+            arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+        }.show(childFragmentManager, "")
+    }
+
     override fun selectListSize(listSize: String) {
         Preferences.setQcRejectedPageSize(listSize.toInt());
-        viewBinding.selectfiltertype.setText("Rows: " +listSize)
-        pageSize=Preferences.getQcRejectedPageSiz()
+//        MainActivity.mInstance.updateQcListCount(listSize)
+        viewBinding.selectfiltertype.setText("Per page: " + listSize)
+        pageSize = Preferences.getQcRejectedPageSiz()
         viewModel.setRejectedList(qcListsResponse!!)
 //        Toast.makeText(context, "selected", Toast.LENGTH_SHORT).show()
     }
@@ -620,20 +656,20 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
             adapter =
                 context?.let { it1 ->
-                    QcRejectedListAdapter(it1, this,
+                    QcRejectedListAdapter(
+                        it1, this,
                         subList!!.get(increment),
 
                         itemsList,
-                        statusList)
+                        statusList
+                    )
                 }
             viewBinding.recyclerViewPending.adapter = adapter
 
-        }
-
-        else  {
+        } else {
             viewBinding.emptyList.visibility = View.VISIBLE
             viewBinding.recyclerViewPending.visibility = View.GONE
-            viewBinding.continueBtn.visibility=View.GONE
+            viewBinding.continueBtn.visibility = View.GONE
 //                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
         }
     }

@@ -1071,6 +1071,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 }
 
             }
+/*    // soubworkflow manual
             if (items!!.have_subworkflow != null) {
                 if (items!!.have_subworkflow == true) {
                     if (items!!.is_subworkflow_completed == false) {
@@ -1103,6 +1104,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             } else {
                 binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
             }
+*/
 
 
 
@@ -2386,6 +2388,22 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     }
 
     override fun onClickQcFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
         TODO("Not yet implemented")
     }
 
