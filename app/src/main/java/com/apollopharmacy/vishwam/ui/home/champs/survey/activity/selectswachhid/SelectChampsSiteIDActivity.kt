@@ -141,20 +141,6 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
             siteId=storeListItem.siteid!!
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 //            dialog.show()
-            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                showLoading(this)
-                viewModel.getStoreWiseDetailsChampsApi(
-                    this,
-                    storeListItem.siteid!!
-                )
-            } else {
-                Toast.makeText(
-                    applicationContext,
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
 //            val intent = Intent()
 //            setResult(Activity.RESULT_OK, intent)
 //            finish()

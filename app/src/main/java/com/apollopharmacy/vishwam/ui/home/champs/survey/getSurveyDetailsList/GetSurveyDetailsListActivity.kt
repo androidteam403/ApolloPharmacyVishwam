@@ -17,7 +17,7 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityGetSurveyDetailsBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.adapter.GetSurveyDetailsAdapter
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseEmpIdResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSurveyDetailsModelResponse
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
@@ -30,10 +30,11 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
     private lateinit var activityGetSurveyDetailsBinding: ActivityGetSurveyDetailsBinding
     private lateinit var getSurveyDetailsListViewModel: GetSurveyDetailsListViewModel
     private lateinit var getSurveyDetailsAdapter: GetSurveyDetailsAdapter
-    private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
+//    private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
     var surveyRecDetailsList = ArrayList<String>()
     var surveyCCDetailsList = ArrayList<String>()
     var siteName: String? = ""
+    private var getStoreWiseEmpidDetails: GetStoreWiseEmpIdResponse? = null
     private var storeId: String = ""
     private var address: String = ""
     private var storeCity: String = ""
@@ -57,10 +58,12 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
 
     private fun setUp() {
         activityGetSurveyDetailsBinding.callback=this
-        getStoreWiseDetails =
-            intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
+//        getStoreWiseDetails =
+//            intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
         surveyRecDetailsList =
             intent.getStringArrayListExtra("surveyRecDetailsList")!!
+        getStoreWiseEmpidDetails =
+            intent.getSerializableExtra("getStoreWiseEmpidDetails") as GetStoreWiseEmpIdResponse?
         surveyCCDetailsList = intent.getStringArrayListExtra("surveyCCDetailsList")!!
         address = intent.getStringExtra("address")!!
         storeId = intent.getStringExtra("storeId")!!
@@ -118,9 +121,10 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
     override fun onClickCardView(status: String?, champsRefernceId: String?) {
         val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
+//        intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)
+        intent.putExtra("getStoreWiseEmpidDetails", getStoreWiseEmpidDetails)
         intent.putExtra("siteName", siteName)
         intent.putExtra("storeCity", storeCity)
         intent.putExtra("status", status)
@@ -135,10 +139,11 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
     override fun onClickPlusIcon() {
         val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
+//        intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)
         intent.putExtra("siteName", siteName)
+        intent.putExtra("getStoreWiseEmpidDetails", getStoreWiseEmpidDetails)
         intent.putExtra("storeCity", storeCity)
         intent.putExtra("region", region)
         intent.putExtra("status", "NEW")
