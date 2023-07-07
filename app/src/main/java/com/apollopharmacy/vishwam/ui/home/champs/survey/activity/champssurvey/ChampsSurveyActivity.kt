@@ -116,9 +116,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         activityChampsSurveyBinding.storeName.text = siteName
 
-//        activityChampsSurveyBinding.storeId.text = storeId
+       activityChampsSurveyBinding.storeId.text = storeId
 
-        activityChampsSurveyBinding.address.text = region
+        activityChampsSurveyBinding.address.text = siteName
         activityChampsSurveyBinding.storeCity.text = storeCity
         activityChampsSurveyBinding.region.text = region
         activityChampsSurveyBinding.percentageSum.text = "0"
@@ -424,8 +424,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     override fun onClickCategory(categoryName: String, position: Int) {
-//        getCategoryAndSubCategoryDetails?.storeIdP =
-//            activityChampsSurveyBinding.storeId.text.toString()
+        getCategoryAndSubCategoryDetails?.storeIdP =
+            activityChampsSurveyBinding.storeId.text.toString()
         getCategoryAndSubCategoryDetails?.addressP =
             activityChampsSurveyBinding.address.text.toString()
         getCategoryAndSubCategoryDetails?.issuedOnP =
@@ -435,6 +435,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         getCategoryAndSubCategoryDetails?.storeCityP =
             activityChampsSurveyBinding.storeCity.text.toString()
         val intent = Intent(context, ChampsDetailsandRatingBarActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("categoryName", categoryName)
         intent.putExtra("getCategoryAndSubCategoryDetails", getCategoryAndSubCategoryDetails)
         intent.putExtra("position", position)
@@ -463,7 +464,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             var headerDetails = SaveSurveyModelRequest.HeaderDetails()
             headerDetails.state = ""
             headerDetails.city = activityChampsSurveyBinding.storeCity.text.toString()
-//            headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
+           headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
 
             if (!status.equals("COMPLETED")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
@@ -1152,8 +1153,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     override fun onClickPreview() {
-//        getCategoryAndSubCategoryDetails?.storeIdP =
-//            activityChampsSurveyBinding.storeId.text.toString()
+        getCategoryAndSubCategoryDetails?.storeIdP =
+            activityChampsSurveyBinding.storeId.text.toString()
         getCategoryAndSubCategoryDetails?.addressP =
             activityChampsSurveyBinding.address.text.toString()
         getCategoryAndSubCategoryDetails?.issuedOnP =
@@ -1162,6 +1163,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             activityChampsSurveyBinding.storeName.text.toString()
         getCategoryAndSubCategoryDetails?.storeCityP =
             activityChampsSurveyBinding.storeCity.text.toString()
+        getCategoryAndSubCategoryDetails?.storeStateP=
+                activityChampsSurveyBinding.region.text.toString()
 //        getCategoryAndSubCategoryDetails?.storeStateP=activityChampsSurveyBinding.State.text.toString()
         if (getTrainingAndColorDetailss != null && getTrainingAndColorDetailss!!.trainingDetails != null && getTrainingAndColorDetailss!!.trainingDetails.size != null) {
             getCategoryAndSubCategoryDetails?.technicalDetails =
@@ -1184,8 +1187,10 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         getCategoryAndSubCategoryDetails!!.totalProgressP = sumOfCategoriess
 
         val intent = Intent(context, PreviewActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getCategoryAndSubCategoryDetails", getCategoryAndSubCategoryDetails)
         intent.putExtra("getSubCategoryResponses", getSubCategoryResponses)
+
         startActivity(intent)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
@@ -1553,10 +1558,10 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 //            activityChampsSurveyBinding.siteId.text =
 //                getSurveyDetailsByChapmpsId.headerDetails.storeId
             val currentTime: Date = Calendar.getInstance().getTime()
-            activityChampsSurveyBinding.issuedOn.text = currentTime.toString()
+            activityChampsSurveyBinding.issuedOn.text = getSurveyDetailsByChapmpsId!!.headerDetails.dateOfVisit
 
-            val strDate = currentTime.toString()
-            val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy");
+            val strDate =  getSurveyDetailsByChapmpsId!!.headerDetails.dateOfVisit
+            val dateFormat = SimpleDateFormat("dd-MM-yy hh:mm:ss");
             val date = dateFormat.parse(strDate)
             val dateNewFormat =
                 SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)

@@ -85,7 +85,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                 showLoading()
                 viewModel.getStoreWiseDetailsChampsApi(
                     this,
-                    viewBinding.enterStoreEdittext.text.toString()
+                    Preferences.getValidatedEmpId()
                 )
             } else {
                 Toast.makeText(
@@ -141,6 +141,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     override fun onClickCardView() {
         val intent = Intent(context, SurveyDetailsActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getStoreWiseDetailsResponses", getStoreWiseDetailsResponse)
         intent.putExtra("storeId", storeId)
         intent.putExtra("address", address)
@@ -183,7 +184,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
             showLoading()
             viewModel.getStoreWiseDetailsChampsApi(
                 this,
-                viewBinding.enterStoreEdittext.text.toString()
+                Preferences.getValidatedEmpId()
             )
         } else {
             Toast.makeText(
@@ -252,8 +253,8 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
         getStoreWiseDetailsResponse = getStoreWiseDetailsResponses
-        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.status && getStoreWiseDetailsResponses.storeWiseDetails != null && getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail != null) {
-            viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
+        if (getStoreWiseDetailsResponses != null) {
+//            viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
         } else {
             viewBinding.emailId.setText("--")
             Preferences.setApnaSite("")
@@ -266,11 +267,12 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
         if (value != null && value.message != null) {
-            viewBinding.emailId.setText("--")
-            Preferences.setApnaSite("")
-            val i = Intent(context, SelectChampsSiteIDActivity::class.java)
-            i.putExtra("modulename", "CHAMPS")
-            startActivityForResult(i, 781)
+           viewBinding.emailId.setText("--")
+            Preferences.setApnaSite(Preferences.getApnaSiteId())
+//            val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+//            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//            i.putExtra("modulename", "CHAMPS")
+//            startActivityForResult(i, 781)
 //            Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
         }
         hideLoading()
@@ -283,6 +285,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     override fun onClickSiteIdIcon() {
         val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivityForResult(i, 781)
     }
 

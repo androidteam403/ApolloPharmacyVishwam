@@ -558,7 +558,7 @@ interface ViswamAppApi {
     @GET("https://172.16.103.116/Apollo/Champs/getStoreBasedDetails")
     suspend fun GET_STORE_WISE_DETAILS_CHAMPS_API(
         @Header("token") token: String,
-        @Query("storeId") id: String,
+        @Query("TRAINERID") id: String,
     ): GetStoreWiseDetailsModelResponse
 
     @GET("http://jsonblob.com/api/jsonBlob/1080156717643481088")

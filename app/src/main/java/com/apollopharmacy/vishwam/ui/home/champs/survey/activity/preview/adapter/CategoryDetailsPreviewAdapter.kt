@@ -65,7 +65,7 @@ class CategoryDetailsPreviewAdapter(
                 (categoryDetailss.sumOfSubCategoryRating)!!.toInt()
 //                holder.adapterCategoryPreviewBinding.progressBar.setProgressDrawable(applicationContext.resources.getDrawable(R.drawable.progress_drawable_green))
             holder.adapterCategoryPreviewBinding.progressBar.max =
-                (categoryDetailss.rating)!!.toInt()
+                (categoryDetailss.rating)!!.toDouble().toInt()
             if (categoryDetailss.sumOfSubCategoryRating == 0.0f) {
                 holder.adapterCategoryPreviewBinding.outOfRating.text =
                     ("0" + "/" + categoryDetailss.rating)

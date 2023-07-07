@@ -118,33 +118,33 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                 activityStartSurvey2Binding.trainer.text="--"
             }
 
-            if(!getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail!=null)
-            {
-                activityStartSurvey2Binding.regionalHead.text=getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail
-
-            }else{
-                activityStartSurvey2Binding.regionalHead.text="--"
-            }
-
-            if(!getStoreWiseDetails!!.storeWiseDetails.executiveEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.executiveEmail!=null){
-                activityStartSurvey2Binding.executive.text=getStoreWiseDetails!!.storeWiseDetails.executiveEmail
-
-            }else{
-                activityStartSurvey2Binding.executive.text="--"
-
-            }
-
-            if(!getStoreWiseDetails!!.storeWiseDetails.managerEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.managerEmail!=null){
-                activityStartSurvey2Binding.manager.text=getStoreWiseDetails!!.storeWiseDetails.managerEmail
-            }else{
-                activityStartSurvey2Binding.manager.text="--"
-            }
+//            if(!getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail!=null)
+//            {
+//                activityStartSurvey2Binding.regionalHead.text=getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail
+//
+//            }else{
+//                activityStartSurvey2Binding.regionalHead.text="--"
+//            }
+//
+//            if(!getStoreWiseDetails!!.storeWiseDetails.executiveEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.executiveEmail!=null){
+//                activityStartSurvey2Binding.executive.text=getStoreWiseDetails!!.storeWiseDetails.executiveEmail
+//
+//            }else{
+//                activityStartSurvey2Binding.executive.text="--"
+//
+//            }
+//
+//            if(!getStoreWiseDetails!!.storeWiseDetails.managerEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.managerEmail!=null){
+//                activityStartSurvey2Binding.manager.text=getStoreWiseDetails!!.storeWiseDetails.managerEmail
+//            }else{
+//                activityStartSurvey2Binding.manager.text="--"
+//            }
 
         }else{
             activityStartSurvey2Binding.trainer.text="--"
-            activityStartSurvey2Binding.manager.text="--"
-            activityStartSurvey2Binding.executive.text="--"
-            activityStartSurvey2Binding.regionalHead.text="--"
+//            activityStartSurvey2Binding.manager.text="--"
+//            activityStartSurvey2Binding.executive.text="--"
+//            activityStartSurvey2Binding.regionalHead.text="--"
         }
 
         activityStartSurvey2Binding.storeId.text=storeId
@@ -215,6 +215,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
     override fun onClickStartChampsSurvey() {
         val intent = Intent(context, GetSurveyDetailsListActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)

@@ -8,7 +8,6 @@ interface AdminModuleCallBack {
 
     fun onClickExpand()
 
-    fun onClickEdit()
 
     fun onClickEditOverall(
         categoryDetails: GetCategoryDetailsResponse.CategoryDetails,
@@ -17,15 +16,7 @@ interface AdminModuleCallBack {
         categoryName:String
     )
 
-    fun onClickEditOverallHospitality()
 
-    fun onClickEditSub1()
-
-    fun onClickEditSub2()
-
-    fun onClickEditSub3()
-
-    fun onClickEditSub4()
 
 
     // created by naveen
@@ -37,7 +28,7 @@ interface AdminModuleCallBack {
 
     fun onSuccessGetSubCategoryDetailsApiCall(
         getSubCategoryDetailsResponse: GetSubCategoryDetailsResponse,
-        categoryName: String,
+        categoryName: String
     )
 
     fun onFailureGetSubCategoryDetailsApiCall(message: String)
@@ -51,5 +42,6 @@ interface AdminModuleCallBack {
 
     fun onSuccessSaveCategoryConfigurationDetailsApiCAll(saveCategoryConfigurationDetailsResponse: SaveCategoryConfigurationDetailsResponse)
     fun onFailureSaveCategoryConfigurationDetails(message: String)
-    fun updateSumOfSubCat()
+    fun onValidateTotalSum(getCategoryDetails: List<GetCategoryDetailsResponse.CategoryDetails>?)
+
 }

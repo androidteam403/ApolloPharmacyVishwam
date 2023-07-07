@@ -180,19 +180,24 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
     }
 
     override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
-        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.status && getStoreWiseDetailsResponses.storeWiseDetails != null && getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail != null) {
+        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.status && getStoreWiseDetailsResponses.storeWiseDetails != null) {
 //            viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
             Preferences.setApnaSite(siteId!!)
             val intent = Intent()
             setResult(Activity.RESULT_OK, intent)
             finish()
-        } else {
-            Toast.makeText(applicationContext, "No data found" , Toast.LENGTH_SHORT).show()
         }
+//        else {
+//            Toast.makeText(applicationContext, "No data found" , Toast.LENGTH_SHORT).show()
+//        }
         hideLoading()
     }
 
     override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
+        Preferences.setApnaSite(siteId!!)
+        val intent = Intent()
+        setResult(Activity.RESULT_OK, intent)
+        finish()
         Toast.makeText(applicationContext, ""+value.message , Toast.LENGTH_SHORT).show()
         hideLoading()
     }
