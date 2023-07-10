@@ -181,7 +181,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         viewModel.getQcPendingList(
             Preferences.getToken(),
-            fromDate,
+            "1-Apr-2019",
             currentDate,
             "",
             "",
