@@ -62,11 +62,14 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             orderTypeList.add("REVERSE RETURN")
 
         }
-        if(fragmentName.equals("pending")){
-            activityQcFilterBinding.filtertype.visibility=View.VISIBLE
-        }else{
-            activityQcFilterBinding.filtertype.visibility=View.GONE
-        }
+        activityQcFilterBinding.filtertype.visibility=View.VISIBLE
+
+
+//        if(fragmentName.equals("pending")){
+//            activityQcFilterBinding.filtertype.visibility=View.VISIBLE
+//        }else{
+//            activityQcFilterBinding.filtertype.visibility=View.GONE
+//        }
 
         if (storeStringList.isNullOrEmpty()){
             Preferences.setQcSite("")

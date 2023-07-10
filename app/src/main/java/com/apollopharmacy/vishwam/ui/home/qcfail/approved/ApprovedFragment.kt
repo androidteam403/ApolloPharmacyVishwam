@@ -51,6 +51,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var siteId: String = ""
     var regionId: String = ""
     var pageSize: Int = 0
+    var typeString = ""
+
     var mainActivityCallback: MainActivityCallback? = null
     public var storeStringList = ArrayList<String>()
     public var regionStringList = ArrayList<String>()
@@ -236,7 +238,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         viewModel.qcLists.observe(viewLifecycleOwner) { it ->
             qcListsResponse = it
             approvedListList = it.approvedlist!!
-
             setQcApprovedListResponse(it.approvedlist!!)
 
 
@@ -394,6 +395,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             viewBinding.emptyList.visibility = View.GONE
             filterApproveList = (approvedlist as ArrayList<QcListsResponse.Approved>?)!!
 //            subList = ListUtils.partition(approvedlist, pageSize)
+            filterbyOrderType(approvedlist)
             splitTheArrayList(approvedlist)
             pageNo = 1
             increment = 0
@@ -527,6 +529,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                     currentDate = data.getStringExtra("toDate").toString()
                     siteId = data.getStringExtra("siteId").toString()
                     regionId = data.getStringExtra("regionId").toString()
+                    typeString = data.getStringExtra("orderType").toString()
+
                     showLoading()
                     viewModel.getQcList(
                         Preferences.getToken(),
@@ -555,20 +559,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                         viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
 
                     }
-
-
-//                    if (!list.isNullOrEmpty()) {
-//
-//
-//
-//                        viewModel.getQcList(Preferences.getToken(),
-//                            list!!.get(0),
-//                            list!![1],
-//                            list!![2],
-//                            list!![3])
-//
-//                    }
-
                 }
 
 
@@ -720,48 +710,23 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 //        Toast.makeText(context, "selected", Toast.LENGTH_SHORT).show()
     }
 
-//    override fun getFilter(): Filter? {
-//        return object : Filter() {
-//            override fun performFiltering(charSequence: CharSequence): FilterResults {
-//                charString = charSequence.toString()
-//                if (charString!!.isEmpty()) {
-//                    qcListsResponse!!.approvedlist = approvedListList
-//                } else {
-//                    approvedFilterList.clear()
-//                    for (row in approvedListList) {
-//                        if (!approvedFilterList.contains(row) && row.omsorderno!!.toUpperCase()
-//                                .contains(
-//                                    charString!!.toUpperCase(
-//                                        Locale.getDefault()
-//                                    )
-//                                )
-//                        ) {
-//                            approvedFilterList.add(row)
-//                        }
-//                    }
-//                    qcListsResponse!!.approvedlist = approvedFilterList
-//                }
-//                val filterResults = FilterResults()
-//                filterResults.values = qcListsResponse!!.approvedlist
-//                return filterResults
-//            }
-//
-//            @SuppressLint("NotifyDataSetChanged")
-//            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-//                if (qcListsResponse!!.approvedlist != null && !qcListsResponse!!.approvedlist!!.isEmpty()) {
-//                    qcListsResponse!!.approvedlist =
-//                        filterResults.values as java.util.ArrayList<QcListsResponse.Approved>
-//                    try {
-//                        viewModel.setApprovedList(qcListsResponse!!)
-//                    } catch (e: Exception) {
-//                        Log.e("FullfilmentAdapter", e.message!!)
-//                    }
-//                } else {
-//                    viewModel.setApprovedList(qcListsResponse!!)
-//                }
-//            }
-//        }
-//    }
+    fun filterbyOrderType(approveList: ArrayList<QcListsResponse.Approved>): ArrayList<QcListsResponse.Approved> {
+        var orderTypeFilteredApprovelist = ArrayList<QcListsResponse.Approved>()
+        if (typeString.equals("FORWARD RETURN") || typeString.equals("REVERSE RETURN")) {
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")) {
+                    orderTypeFilteredApprovelist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT")) {
+                    orderTypeFilteredApprovelist.add(i)
+                }
+            }
+            return orderTypeFilteredApprovelist
+        } else {
+            return approveList
+        }
+    }
+
 
     override fun getFilter(): Filter? {
         return object : Filter() {

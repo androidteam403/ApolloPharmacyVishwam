@@ -570,55 +570,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         }
         viewBinding.recyclerViewPending.adapter = adapter
     }
-    //    fun bulkDelete() {
-//        hideLoading()
-//
-//
-//
-//        isBulkChecked = false
-//        viewBinding.bulkAppRejLayout.visibility = View.GONE
-//
-//        var i: Int = 0
-//
-//        if (isBulk) {
-//
-//
-//            while (i < names.size) {
-//                if (names[i].isItemChecked) {
-//                    names.removeAt(i)
-//                    i = 0
-//                } else {
-//                    i++
-//                }
-//            }
-//            var pos: Int = 0
-//            while (pos < subList!!.get(increment).size) {
-//                if (subList!!.get(increment)[pos].isItemChecked) {
-//                    subList!!.get(increment).removeAt(pos)
-//                    pos = 0
-//                } else {
-//                    pos++
-//                }
-//            }
-//            adapter!!.notifyDataSetChanged()
-//        } else if (subList?.size!! > acceptOrRejectItemPos) {
-//
-////                var na = ArrayList<QcListsResponse.Pending>()
-////                na.addAll(subList!!.get(increment))
-////
-////                na.removeAt(acceptOrRejectItemPos)
-//            var subListTemp = ArrayList<ArrayList<QcListsResponse.Pending>>()
-//            subListTemp.addAll(subList!!.toList()!!)
-//            subListTemp!!.get(increment).removeAt(acceptOrRejectItemPos)
-//
-//            subList = subListTemp
-//
-////                subList!!.get(increment).removeAt(acceptOrRejectItemPos)
-//
-////                names.removeAt(acceptOrRejectItemPos)
-//            adapter!!.notifyDataSetChanged()
-//        }
-//    }
 
     fun filterbyOrderType(pendinglist: ArrayList<QcListsResponse.Pending>): ArrayList<QcListsResponse.Pending> {
         var orderTypeFilteredPendinglist = ArrayList<QcListsResponse.Pending>()
