@@ -359,7 +359,6 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         return true
     }
 
-
     private fun startTimer() {
         viewBinding.resendOtp.visibility = View.GONE
         countDownTimer = object : CountDownTimer(countDownTime, 1000) {
@@ -424,8 +423,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         prescriptionUploadedConfirmDialogBinding.okButton.setOnClickListener {
             viewBinding.phoneNumber.getText()!!.clear()
             viewBinding.custName.getText()!!.clear()
-            viewBinding.phoneNumber.isEnabled = true
-            viewBinding.custName.isEnabled = true
+            viewBinding.otpViewUp.text!!.clear()
+            customerNameMobileEnable(true)
             viewBinding.prescriptionImgRcvLayout.gravity = Gravity.CENTER_HORIZONTAL
             viewBinding.prescriptionImgRcv.visibility = View.GONE
             viewBinding.uploadPrescriptionLayout.visibility = View.GONE
@@ -955,6 +954,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             viewBinding.custName.isEnabled = false*/
             customerNameMobileEnable(false)
             otpUp = sendGlobalSmsResponse.otp!!
+            viewBinding.otpViewUp.text!!.clear()
             viewBinding.sendOtpBtnUploadPrescription!!.visibility = View.GONE
             viewBinding.otpVerificationLayoutUp!!.visibility = View.VISIBLE
             startTimerUp()
@@ -1178,19 +1178,19 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun onSuccessCheckScreenStatusApiCall(checkScreenStatusResponse: CheckScreenStatusResponse) {
         hideLoading()
         if (checkScreenStatusResponse != null && checkScreenStatusResponse!!.status == true) {
-//            if (checkScreenStatusResponse.CUSTLINK!! == true && checkScreenStatusResponse.STORELINK!! == true) {
-            viewBinding.sendLink.visibility = View.VISIBLE
-            viewBinding.or.visibility = View.VISIBLE
-            viewBinding.takePhoto.visibility = View.VISIBLE
-//            } else if (checkScreenStatusResponse.CUSTLINK!! == true) {
-//                viewBinding.sendLink.visibility = View.VISIBLE
-//                viewBinding.or.visibility = View.GONE
-//                viewBinding.takePhoto.visibility = View.GONE
-//            } else if (checkScreenStatusResponse.STORELINK!! == true) {
-//                viewBinding.sendLink.visibility = View.GONE
-//                viewBinding.or.visibility = View.GONE
-//                viewBinding.takePhoto.visibility = View.VISIBLE
-//            }
+            if (checkScreenStatusResponse.CUSTLINK!! == true && checkScreenStatusResponse.STORELINK!! == true) {
+                viewBinding.sendLink.visibility = View.VISIBLE
+                viewBinding.or.visibility = View.VISIBLE
+                viewBinding.takePhoto.visibility = View.VISIBLE
+            } else if (checkScreenStatusResponse.CUSTLINK!! == true) {
+                viewBinding.sendLink.visibility = View.VISIBLE
+                viewBinding.or.visibility = View.GONE
+                viewBinding.takePhoto.visibility = View.GONE
+            } else if (checkScreenStatusResponse.STORELINK!! == true) {
+                viewBinding.sendLink.visibility = View.GONE
+                viewBinding.or.visibility = View.GONE
+                viewBinding.takePhoto.visibility = View.VISIBLE
+            }
         }
         setUpNew()
     }
@@ -1341,10 +1341,12 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         dialogResetUploadPrescriptionFormBinding.yesButton.setOnClickListener {
             viewBinding.phoneNumber.getText()!!.clear()
             viewBinding.custName.getText()!!.clear()
+            viewBinding.otpViewUp.text!!.clear()
             customerNameMobileEnable(true)
             viewBinding.otpVerificationLayoutUp.visibility = View.GONE
             viewBinding.sendOtpBtnUploadPrescription.visibility = View.VISIBLE
             viewBinding.addMorePrescription.visibility = View.GONE
+            viewBinding.verifiedSuccessfullyLayoutUp.visibility = View.GONE
             stopTimerUp()
             stopTimer()
             viewBinding.prescriptionImgRcvLayout.gravity = Gravity.CENTER_HORIZONTAL
