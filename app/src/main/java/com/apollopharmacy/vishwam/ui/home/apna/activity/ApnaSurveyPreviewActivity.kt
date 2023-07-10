@@ -775,7 +775,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficText.setText("Traffic High")
-        } else if (trafficType.equals("V.High", true)) {
+        } else if (trafficType.equals("V_High", true)) {
             activityApnaSurveyPreviewBinding.trafficLow.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.GONE

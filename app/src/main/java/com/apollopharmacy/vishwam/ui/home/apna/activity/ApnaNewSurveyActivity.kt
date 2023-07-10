@@ -81,6 +81,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     var regionName = ""
     var regionUid = ""
     var regionCode = ""
+    var trafficStreetTypeUid = ""
 
     lateinit var geocoder: Geocoder
 
@@ -3986,8 +3987,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 }
 
                 val trafficStreetType = SurveyCreateRequest.TrafficStreetType()
-                trafficStreetType.uid =
-                    activityApnaNewSurveyBinding.trafficStreetSelect.text.toString().trim()
+                trafficStreetType.uid = trafficStreetTypeUid
+//                    activityApnaNewSurveyBinding.trafficStreetSelect.text.toString().trim()
                 surveyCreateRequest.trafficStreetType = trafficStreetType
 
                 if (activityApnaNewSurveyBinding.morningFromSelect.text.toString().isNotEmpty()) {
@@ -4742,8 +4743,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         apartmentTypeDialog.dismiss()
     }
 
-    override fun onTrafficStreetItemSelect(position: Int, item: String) {
-        activityApnaNewSurveyBinding.trafficStreetSelect.setText(item)
+    override fun onTrafficStreetTypeSelect(position: Int, uid: String, name: String) {
+        this.trafficStreetTypeUid = uid
+        activityApnaNewSurveyBinding.trafficStreetSelect.setText(name)
         trafficStreetDialog.dismiss()
     }
 

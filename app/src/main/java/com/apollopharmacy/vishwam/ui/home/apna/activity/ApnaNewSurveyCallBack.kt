@@ -30,7 +30,7 @@ interface ApnaNewSurveyCallBack {
 
     fun onApartmentTypeItemSelect(position: Int, item: String)
 
-    fun onTrafficStreetItemSelect(position: Int, item: String)
+    fun onTrafficStreetTypeSelect(position: Int, uid: String, name: String)
 
     fun onApnaSpecialityItemSelect(position: Int, uid: String, name: String)
 

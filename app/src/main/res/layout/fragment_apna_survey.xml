@@ -117,6 +117,7 @@
                         android:textSize="@dimen/text_14sp" />
 
                     <ImageView
+                        android:id="@+id/searchIcon"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="@dimen/value_10dp"

@@ -228,12 +228,13 @@
                             android:src="@drawable/capture" />
 
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
+                            android:id="@+id/delete"
+                            android:layout_width="@dimen/value_30dp"
+                            android:layout_height="@dimen/value_30dp"
                             android:layout_centerInParent="true"
                             android:background="@drawable/rounded_background"
                             android:backgroundTint="@color/red"
-                            android:padding="@dimen/value_3dp"
+                            android:padding="@dimen/value_5dp"
                             android:src="@drawable/delete"
                             android:tint="@color/white"
                             tools:ignore="UseAppTint" />
@@ -251,7 +252,8 @@
                 <LinearLayout
                     android:id="@+id/compareIconLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
 
                     <ImageView
                         android:id="@+id/compareIcon"
@@ -275,6 +277,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/rating"
                         android:layout_width="@dimen/text_14sp"
                         android:layout_height="@dimen/text_14sp"
                         android:layout_gravity="center"
@@ -299,6 +302,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/matchingPercentage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="60%"

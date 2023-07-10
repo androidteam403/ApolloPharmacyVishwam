@@ -81,6 +81,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
         if (updatedCount == images.size) {
             Toast.makeText(this@RetroQrUploadActivity, "Submitted Successfully", Toast.LENGTH_SHORT)
                 .show()
+            finish()
         }
     }
 

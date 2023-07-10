@@ -1696,7 +1696,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
-                                    android:text="Existing Outlet Age/Sale"
+                                    android:text="Existing Outlet Age"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_14sp" />
 
@@ -1733,13 +1733,13 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:gravity="center_vertical">
 
-                                    <ImageView
+                                    <!--<ImageView
                                         android:layout_width="@dimen/value_20dp"
                                         android:layout_height="@dimen/value_20dp"
                                         android:layout_marginEnd="@dimen/value_10dp"
                                         android:src="@drawable/ic_baseline_currency_rupee_24"
                                         android:tint="#818181"
-                                        tools:ignore="UseAppTint" />
+                                        tools:ignore="UseAppTint" />-->
 
                                     <com.google.android.material.textfield.TextInputLayout
                                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -1752,7 +1752,7 @@
                                             android:id="@+id/ageOrSaleText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_50dp"
-                                            android:hint="Existing outlet age/sale"
+                                            android:hint="Existing outlet age"
                                             android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
