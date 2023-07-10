@@ -23,9 +23,11 @@ object Preferences {
     private const val KEY_QC_ORDER_TYPE = "KEY_QC_ORDER_TYPE"
     private const val KEY_DISC_SITE_ID = "KEY_DISC_SITE_ID"
     private const val KEY_DISC_REGION_ID = "KEY_DISC_REGION_ID"
+    private const val PREF_KEY_SITE_ID_LIST_CHAMPS = "PREF_KEY_SITE_ID_LIST_CHAMPS"
 
 
     private const val KEY_QC_SITE_ID = "KEY_QC_SITE_ID"
+    private const val PREF_SITE_ID_FETCHED_CHAMPS = "PREF_SITE_ID_FETCHED_CHAMPS"
 
     private const val KEY_SITE_DETAILS = "KEY_SITE_DETAILS"
     private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
@@ -62,7 +64,13 @@ object Preferences {
     fun getToken(): String {
         return sharedPreferences.getString(KEY_SAVING_TOKEN, "")!!
     }
+    fun setSiteIdListChamps(siteIdListQcFail: String) {
+        sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_CHAMPS, siteIdListQcFail).apply()
+    }
 
+    fun getSiteIdListJsonChamps(): String {
+        return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_CHAMPS, "")!!
+    }
     fun savingStoreData(storedata: String) {
         sharedPreferences.edit().putString(KEY_SITE_DETAILS, storedata).apply()
     }
@@ -278,6 +286,15 @@ object Preferences {
 
     fun setSiteIdListFetched(isSiteIdListFetched: Boolean) {
         sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED, isSiteIdListFetched).apply()
+    }
+
+    fun setSiteIdListFetchedChamps(isSiteIdListFetchedQcfail: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED_CHAMPS, isSiteIdListFetchedQcfail)
+            .apply()
+    }
+
+    fun isSiteIdListFetchedChamps(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_CHAMPS, false)
     }
 
     fun isSiteIdListFetched(): Boolean {

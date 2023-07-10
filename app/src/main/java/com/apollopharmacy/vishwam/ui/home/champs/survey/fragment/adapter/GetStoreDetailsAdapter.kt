@@ -13,14 +13,14 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragme
 
 class GetStoreDetailsAdapter(
     private var context: Context?,
-    private var storeDetails: MutableList<StoreDetailsModelResponse.StoreDetail>,
+    private var storeDetails: MutableList<StoreDetailsModelResponse.Row>,
     private var  newSurveyFragment: NewSurveyFragment,
     private var  newSurveyCallback: NewSurveyCallback
 ) : RecyclerView.Adapter<GetStoreDetailsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): GetStoreDetailsAdapter.ViewHolder {
+    ): ViewHolder {
         val adapterGetStoreDetailsBinding: AdapterGetStoreDetailsBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(context),
@@ -33,15 +33,15 @@ class GetStoreDetailsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val siteIdList = storeDetails.get(position)
-        holder.adapterGetStoreDetailsBinding.storeId.text = siteIdList.siteid
-        holder.adapterGetStoreDetailsBinding.address.text = siteIdList.region + siteIdList.city
+        holder.adapterGetStoreDetailsBinding.storeId.text = siteIdList.site
+        holder.adapterGetStoreDetailsBinding.address.text = siteIdList.city + siteIdList.city
 //        holder.adapterGetStoreDetailsBinding.cardViewStore.setOnClickListener {
 //            newSurveyCallback.onClickCardView( holder.adapterGetStoreDetailsBinding.address.text.toString());
 //        }
     }
 
     override fun getItemCount(): Int {
-    return storeDetails.size
+        return storeDetails.size
     }
 
 

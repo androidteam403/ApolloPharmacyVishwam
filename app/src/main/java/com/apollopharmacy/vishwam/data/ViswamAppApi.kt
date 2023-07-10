@@ -64,11 +64,11 @@ interface ViswamAppApi {
     ): DeviceDeRegResponse
 
 
-    /*@POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
-    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String*/
-
-    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+   @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
+//    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+//    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
     suspend fun getValidateTest(): ValidateResponse
@@ -552,14 +552,11 @@ interface ViswamAppApi {
         @Header("token") token: String,
     ): StoreDetailsModelResponse
 
-    @GET("http://jsonblob.com/api/jsonBlob/1081087017311551488")
-    suspend fun GET_STORE_WISE_DETAILS_CHAMPS(): GetStoreWiseDetailsModelResponse
-
     @GET("https://172.16.103.116/Apollo/Champs/getStoreBasedDetails")
     suspend fun GET_STORE_WISE_DETAILS_CHAMPS_API(
         @Header("token") token: String,
-        @Query("storeId") id: String,
-    ): GetStoreWiseDetailsModelResponse
+        @Query("TRAINERID") id: String,
+    ): GetStoreWiseEmpIdResponse
 
     @GET("http://jsonblob.com/api/jsonBlob/1080156717643481088")
     suspend fun GET_EMAIL_DETAILS(): GetEmailAddressModelResponse
