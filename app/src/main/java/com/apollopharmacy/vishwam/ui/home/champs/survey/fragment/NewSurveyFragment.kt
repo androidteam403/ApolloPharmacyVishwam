@@ -17,8 +17,8 @@ import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.adapter.GetStoreDetailsAdapter
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
@@ -26,7 +26,7 @@ import com.apollopharmacy.vishwam.util.Utlis
 class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyBinding>(),
     NewSurveyCallback, MainActivityCallback {
     var getStoreDetailsAdapter: GetStoreDetailsAdapter? = null
-    var getStoreWiseDetailsResponse: GetStoreWiseDetailsModelResponse? = null
+    var getSiteDetails: GetStoreWiseDetailsResponse? = null
     var storeId: String? = ""
     var address: String? = ""
     var siteName: String? = ""
@@ -71,7 +71,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
             if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                 showLoading()
-                viewModel.getStoreDetailsChampsApi(
+                viewModel.getProxySiteListResponse(
                     this
                 )
             } else {
@@ -84,7 +84,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
             }
             if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                 showLoading()
-                viewModel.getStoreWiseDetailsChampsApi(
+                viewModel.getProxyStoreWiseDetailResponse(
                     this,
                     viewBinding.enterStoreEdittext.text.toString()
                 )
@@ -144,7 +144,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     override fun onClickCardView() {
         val intent = Intent(context, SurveyDetailsActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.putExtra("getStoreWiseDetailsResponses", getStoreWiseDetailsResponse)
+        intent.putExtra("getStoreWiseDetailsResponses", getSiteDetails)
         intent.putExtra("storeId", storeId)
         intent.putExtra("address", address)
         intent.putExtra("siteName", siteName)
@@ -159,30 +159,19 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     }
 
     @SuppressLint("SuspiciousIndentation")
-    override fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>) {
-        if ( value != null ) {
-
-            for (i in value.indices){
-                storeId = value[i].site
-                siteName = value[i].storeName
-                siteCity = value[i].city
-                region = value[i].city
-
-                viewBinding.storeId.text =value[i].site
-
+    override fun onSuccessgetStoreDetails(value: List<StoreDetailsResponse.Row>) {
+        if (value != null ) {
+            for (i in value.indices) {
                 if (value.get(i).site.equals(viewBinding.enterStoreEdittext.text.toString())) {
-
-                    address =
-                        value.get(i).state!!.name + ", " + value.get(i).city
-                    viewBinding.region.text =
-                        value.get(i).state!!.name + ", " + value.get(i).city
+                    storeId = value.get(i).site
+                    siteName = value.get(i).storeName
+                    siteCity = value.get(i).city
+                    region =    value.get(i).state!!.name
+                    address = value.get(i).address
+                    viewBinding.storeId.text = value.get(i).site
+                    viewBinding.region.text = value.get(i).city +  ", "+  value.get(i).state!!.name + ", " + value.get(i).district!!.name
                 }
             }
-
-
-
-
-
 
         }
 
@@ -190,9 +179,9 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
             showLoading()
-            viewModel.getStoreWiseDetailsChampsApi(
+            viewModel.getProxyStoreWiseDetailResponse(
                 this,
-                viewBinding.enterStoreEdittext.text.toString()
+                Preferences.getValidatedEmpId()
             )
         } else {
             Toast.makeText(
@@ -203,31 +192,9 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                 .show()
         }
 
-//        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-//            showLoading()
-//            viewModel.getStoreWiseDetailsChamps(this)
-//
-//        } else {
-//            Toast.makeText(
-//                activity,
-//                resources.getString(R.string.label_network_error),
-//                Toast.LENGTH_SHORT
-//            )
-//                .show()
-//        }
-//       Toast.makeText(activity, ""+value.storeDetails.size,Toast.LENGTH_SHORT).show();
-//        getStoreDetailsAdapter =
-//            GetStoreDetailsAdapter(context, value.storeDetails, this, this)
-//
-//        val layoutManager = LinearLayoutManager(ViswamApp.context)
-//        viewBinding.storeDetailsRecyclerview.layoutManager = layoutManager
-////                activityreShootBinding.imageRecyclerViewRes.itemAnimator =
-////                    DefaultItemAnimator()
-//        viewBinding.storeDetailsRecyclerview.adapter = getStoreDetailsAdapter
-
     }
 
-    override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
+    override fun onFailuregetStoreDetails(value: StoreDetailsResponse) {
         Toast.makeText(activity, "" + value, Toast.LENGTH_SHORT).show();
         hideLoading()
 //        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
@@ -246,7 +213,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
             showLoading()
-            viewModel.getStoreDetailsChampsApi(
+            viewModel.getProxySiteListResponse(
                 this
             )
         } else {
@@ -259,8 +226,8 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         }
     }
 
-    override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
-        getStoreWiseDetailsResponse = getStoreWiseDetailsResponses
+    override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsResponse) {
+        getSiteDetails = getStoreWiseDetailsResponses
         if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success  && getStoreWiseDetailsResponses.data.executive != null) {
             viewBinding.emailId.setText(getStoreWiseDetailsResponses.data.executive.email)
         } else {
@@ -273,7 +240,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         hideLoading()
     }
 
-    override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
+    override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsResponse) {
         if (value != null && value.message != null) {
             viewBinding.emailId.setText("--")
             Preferences.setApnaSite("")
@@ -331,7 +298,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                 } else {
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                         showLoading()
-                        viewModel.getStoreDetailsChampsApi(
+                        viewModel.getProxySiteListResponse(
                             this
                         )
                     } else {

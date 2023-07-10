@@ -345,20 +345,25 @@ interface ViswamAppApi {
     ): SwachModelResponse
 
 
-    @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetPendingAndAcceptAndRejectList?")//?Storeid=16001
-    suspend fun qcResponseList(
-        @Url url: String,
-        @Query("EmpId") id: String,
-        @Query("FromDate") fromDate: String,
-        @Query("ToDate") tomDate: String,
-        @Query("StoreId") storeId: String,
-        @Query("REGIONID") region: String,
-    ): QcListsResponse
+//    @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetPendingAndAcceptAndRejectList?")//?Storeid=16001
+//    suspend fun qcResponseList(
+//        @Url url: String,
+//        @Query("EmpId") id: String,
+//        @Query("FromDate") fromDate: String,
+//        @Query("ToDate") tomDate: String,
+//        @Query("StoreId") storeId: String,
+//        @Query("REGIONID") region: String,
+//    ): QcListsResponse
+
+    @GET("https://jsonblob.com/api/jsonBlob/1126755024008134656")
+    suspend fun qcResponseList(): QcListsResponse
 
 
-//    @GET("https://jsonblob.com/api/jsonBlob/1120216438605627392")
-//    suspend fun qcResponseList(): QcListsResponse
 
+
+//    http://www.jsonblob.com/1126755831080304640     DesignationWisePendingCount
+
+//    http://www.jsonblob.com/1126757480893005824   PendingHistoryForHierarchy
     @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetLineItems?")//qcfail
     suspend fun qcItemsResponseList(
         @Url url: String,

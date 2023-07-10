@@ -35,7 +35,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     private var toQcDate: String = ""
     private var toDate: String = ""
     private var siteId: String = ""
-    private var orderType:String = ""
+    public var orderType:String = ""
     private var regionId: String = ""
     private var fragment: String = ""
     private var qcDate: String = ""
@@ -62,11 +62,14 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             orderTypeList.add("REVERSE RETURN")
 
         }
-        if(fragmentName.equals("pending")){
-            activityQcFilterBinding.filtertype.visibility=View.VISIBLE
-        }else{
-            activityQcFilterBinding.filtertype.visibility=View.GONE
-        }
+        activityQcFilterBinding.filtertype.visibility=View.VISIBLE
+
+
+//        if(fragmentName.equals("pending")){
+//            activityQcFilterBinding.filtertype.visibility=View.VISIBLE
+//        }else{
+//            activityQcFilterBinding.filtertype.visibility=View.GONE
+//        }
 
         if (storeStringList.isNullOrEmpty()){
             Preferences.setQcSite("")
@@ -155,30 +158,6 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         activityQcFilterBinding.siteIdSelect.setText(Preferences.getQcSite())
         activityQcFilterBinding.selectfiltertype.setText(Preferences.getQcOrderType())
 
-//        var fromDate = String()
-//        var currentDate = String()
-//
-//        currentDate = SimpleDateFormat.format(Date())
-//
-//        val cal = Calendar.getInstance()
-//        cal.add(Calendar.DATE, -7)
-//        fromDate = simpleDateFormat.format(cal.time)
-//        if (intent != null) {
-//            fragment =
-//                getIntent().getExtras()?.getString("activity")!!
-//        }
-//        if (fragment.equals("1")){
-//            activityQcFilterBinding.fromDateText.setText("01-Apr-2019")
-//            activityQcFilterBinding.toDateText.setText(Utlis.getCurrentDate("dd-MMM-yyyy")!!)
-//
-//        }else  if (fragment.equals("2")){
-//            activityQcFilterBinding.fromDateText.setText(Utlis.getDateSevenDaysEarlier("dd-MMM-yyyy"))
-//            activityQcFilterBinding.toDateText.setText( Utlis.getCurrentDate("dd-MMM-yyyy")!!)
-//        }
-//        else  if (fragment.equals("3")){
-//            activityQcFilterBinding.fromDateText.setText(Utlis.getDateSevenDaysEarlier("dd-MMM-yyyy"))
-//            activityQcFilterBinding.toDateText.setText( Utlis.getCurrentDate("dd-MMM-yyyy")!!)
-//        }
 
 
         viewModel.command.observeForever {
@@ -267,12 +246,9 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
         activityQcFilterBinding.applybutoon.setOnClickListener {
 
-            if (fromQcDate.isNullOrEmpty()){
-                Toast.makeText(context, "Mandatory Fields Should not be  Empty", Toast.LENGTH_LONG).show()
+            if (fromQcDate.isNullOrEmpty()&&toQcDate.isNullOrEmpty()&&siteId.isNullOrEmpty()&&regionId.isNullOrEmpty()&&orderType.isNullOrEmpty()){
 
-            } else if(toQcDate.isNullOrEmpty() ){
-
-                Toast.makeText(context, "Mandatory Fields Should not be  Empty", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "All Fields Should not be  Empty", Toast.LENGTH_LONG).show()
 
             }
 
@@ -394,101 +370,78 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun fromDate(fromDate: String, showingDate: String) {
-
-        activityQcFilterBinding.fromDateText.setText(fromDate)
+//        activityQcFilterBinding.fromDateText.setText(fromDate)
         fromQcDate = fromDate
-//        qcDate=fromQcDate+30*1000*60*60*24
-        val sdf = SimpleDateFormat("dd-MMM-yyyy")
-        val cal = Calendar.getInstance()
-        cal.time = sdf.parse(fromQcDate)
 
-        cal.add(Calendar.DATE, +30)
-        val sdf1 = SimpleDateFormat("yyyy-MMM-dd", Locale.getDefault())
-        qcDate = sdf1.format(cal.time)
-        var date1 = cal.time
-        val cal1 = Calendar.getInstance()
-        var date2 = cal1.time
+        if (toQcDate.isEmpty()) {
+            activityQcFilterBinding.fromDateText.setText(fromDate)
 
-        if (date1.before(date2)) {
-            qcDate = sdf.format(cal.time)
-        } else {
-            qcDate = Utlis.getCurrentDate("dd-MMM-yyyy").toString()
+        } else if (toQcDate.isNotEmpty()) {
+            val sdf = SimpleDateFormat("dd-MMM-yyyy")
+            val cal = Calendar.getInstance()
+            cal.time = sdf.parse(toQcDate)
+            cal.add(Calendar.DATE, -30)
+            val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
+            qcDate = sdf1.format(cal.time)
+
+            if (Utlis.filterDateFormate(fromDate)
+                    .before(Utlis.filterDateFormate(qcDate)) || Utlis.filterDateFormate(fromDate)
+                    .equals(Utlis.filterDateFormate(qcDate))
+            ) {
+
+                activityQcFilterBinding.fromDateText.setText(fromDate)
+
+            } else {
+                activityQcFilterBinding.fromDateText.setText("")
+
+                Toast.makeText(
+                    context,
+                    "From Date should not be less than 30 Days from To Date ",
+                    Toast.LENGTH_LONG
+                ).show()
+
+            }
         }
-//
-//        if(qcDate<= LocalDate.now().minusDays(30).toString()){
-//            qcDate=sdf.format(cal.time)
-//
-//        }else{
-//            qcDate= Utlis.getCurrentDate("dd-MMM-yyyy").toString()
-//
-//        }
-//
-//
-////        Date date = new Date();
-////        String todate = sdf.format(date);
-//        cal.add(Integer.parseInt(activityQcFilterBinding.fromDateText.text.toString()),30)
-//        val todate1 = cal.time
-        activityQcFilterBinding.toDateText.setText(qcDate)
-        toQcDate=qcDate;
-//        toDate = activityQcFilterBinding.toDateText.text.toString()
-
-
     }
 
     override fun toDate(dateSelected: String, showingDate: String) {
-
-        activityQcFilterBinding.toDateText.setText(dateSelected)
-        toDate = dateSelected
-//        qcDate=fromQcDate+30*1000*60*60*24
-        val sdf = SimpleDateFormat("dd-MMM-yyyy")
-        val cal = Calendar.getInstance()
-        cal.time = sdf.parse(toDate)
-
-        cal.add(Calendar.DATE, -30)
-        var sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
-        qcfDate = sdf1.format(cal.time)
-//        var date1 = cal.time
-//        val cal1 = Calendar.getInstance()
-//        var date2 = cal1.time
-//
-//        if (date1.after(date2)) {
-//            qcfDate = sdf.format(cal.time)
-//        } else {
-//            qcfDate = fromQcDate
-//        }
-//
-//        if(qcDate<= LocalDate.now().minusDays(30).toString()){
-//            qcDate=sdf.format(cal.time)
-//
-//        }else{
-//            qcDate= Utlis.getCurrentDate("dd-MMM-yyyy").toString()
-//
-//        }
-//
-//
-////        Date date = new Date();
-////        String todate = sdf.format(date);
-//        cal.add(Integer.parseInt(activityQcFilterBinding.fromDateText.text.toString()),30)
-//        val todate1 = cal.time
-        activityQcFilterBinding.fromDateText.setText(qcfDate)
-        fromQcDate = activityQcFilterBinding.fromDateText.text.toString()
+        toQcDate=dateSelected
 
 
-//        activityQcFilterBinding.toDateText.setText(dateSelected)
-//        toDate = dateSelected
+        if (fromQcDate.isEmpty()) {
+            activityQcFilterBinding.toDateText.setText(dateSelected)
 
+        } else if (fromQcDate.isNotEmpty()) {
+
+            val sdf = SimpleDateFormat("dd-MMM-yyyy")
+            val cal = Calendar.getInstance()
+            cal.time = sdf.parse(fromQcDate)
+
+            cal.add(Calendar.DATE, 30)
+            val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
+            qcDate = sdf1.format(cal.time)
+            if (Utlis.filterDateFormate(dateSelected)
+                    .before(Utlis.filterDateFormate(qcDate)) || Utlis.filterDateFormate(dateSelected)
+                    .equals(Utlis.filterDateFormate(qcDate))
+            ) {
+
+                activityQcFilterBinding.toDateText.setText(dateSelected)
+
+            } else {
+                activityQcFilterBinding.toDateText.setText("")
+
+                Toast.makeText(
+                    context,
+                    "From Date should not be less than 30 Days from To Date ",
+                    Toast.LENGTH_LONG
+                ).show()
+
+            }
+
+
+        }
     }
 
-    fun getDatethirtyDays(pattern: String?): String? {
-        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
-
-//        Date date = new Date();
-//        String todate = sdf.format(date);
-        val cal = Calendar.getInstance()
-//        cal.add(Calendar.DATE,-30)
-        val todate1 = cal.time
-        return sdf.format(todate1)
-    }
 
     override fun getSiteIdList(storelist: List<QcStoreList.Store>?) {
 

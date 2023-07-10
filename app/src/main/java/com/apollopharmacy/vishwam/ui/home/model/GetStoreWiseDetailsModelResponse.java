@@ -1,629 +1,231 @@
 package com.apollopharmacy.vishwam.ui.home.model;
 
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
-
 
 public class GetStoreWiseDetailsModelResponse implements Serializable {
 
-    @SerializedName("message")
-    @Expose
-    private Object message;
-    @SerializedName("success")
-    @Expose
-    private Boolean success;
-    @SerializedName("data")
-    @Expose
-    private Data data;
-
-    public Object getMessage() {
-        return message;
-    }
-
-    public void setMessage(Object message) {
-        this.message = message;
-    }
-
-    public GetStoreWiseDetailsModelResponse withMessage(Object message) {
-        this.message = message;
-        return this;
-    }
-
-    public Boolean getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(Boolean success) {
-        this.success = success;
-    }
-
-    public GetStoreWiseDetailsModelResponse withSuccess(Boolean success) {
-        this.success = success;
-        return this;
-    }
-
-    public Data getData() {
-        return data;
-    }
-
-    public void setData(Data data) {
-        this.data = data;
-    }
-
-    public GetStoreWiseDetailsModelResponse withData(Data data) {
-        this.data = data;
-        return this;
-    }
-
-
-    public class Data implements Serializable {
-
-        @SerializedName("uid")
+        @SerializedName("status")
         @Expose
-        private String uid;
-        @SerializedName("site")
+        private Boolean status;
+        @SerializedName("message")
         @Expose
-        private String site;
-        @SerializedName("executive")
+        private String message;
+        @SerializedName("StoreWiseDetails")
         @Expose
-        private Executive executive;
-        @SerializedName("hod")
-        @Expose
-        private Hod hod;
-        @SerializedName("manager")
-        @Expose
-        private Manager manager;
-        @SerializedName("region_head")
-        @Expose
-        private RegionHead regionHead;
-        @SerializedName("site_mngr_exec")
-        @Expose
-        private List<SiteMngrExec> siteMngrExec;
+        private StoreWiseDetails storeWiseDetails;
 
-        public String getUid() {
-            return uid;
+        public Boolean getStatus() {
+            return status;
         }
 
-        public void setUid(String uid) {
-            this.uid = uid;
+        public void setStatus(Boolean status) {
+            this.status = status;
         }
 
-        public Data withUid(String uid) {
-            this.uid = uid;
-            return this;
+        public String getMessage() {
+            return message;
         }
 
-        public String getSite() {
-            return site;
+        public void setMessage(String message) {
+            this.message = message;
         }
 
-        public void setSite(String site) {
-            this.site = site;
+        public StoreWiseDetails getStoreWiseDetails() {
+            return storeWiseDetails;
         }
 
-        public Data withSite(String site) {
-            this.site = site;
-            return this;
+        public void setStoreWiseDetails(StoreWiseDetails storeWiseDetails) {
+            this.storeWiseDetails = storeWiseDetails;
         }
+        public class StoreWiseDetails implements Serializable {
 
-        public Executive getExecutive() {
-            return executive;
+            @SerializedName("id")
+            @Expose
+            private Integer id;
+            @SerializedName("store_id")
+            @Expose
+            private String storeId;
+            @SerializedName("executive_id")
+            @Expose
+            private String executiveId;
+            @SerializedName("executive_name")
+            @Expose
+            private String executiveName;
+            @SerializedName("executive_email")
+            @Expose
+            private String executiveEmail;
+            @SerializedName("manager_id")
+            @Expose
+            private String managerId;
+            @SerializedName("manager_name")
+            @Expose
+            private String managerName;
+            @SerializedName("manager_email")
+            @Expose
+            private String managerEmail;
+            @SerializedName("reagional_head_id")
+            @Expose
+            private String reagionalHeadId;
+            @SerializedName("reagional_head_name")
+            @Expose
+            private String reagionalHeadName;
+            @SerializedName("reagional_head_email")
+            @Expose
+            private String reagionalHeadEmail;
+            @SerializedName("trainer_id")
+            @Expose
+            private String trainerId;
+            @SerializedName("trainer_name")
+            @Expose
+            private String trainerName;
+            @SerializedName("trainer_email")
+            @Expose
+            private String trainerEmail;
+            @SerializedName("created_by")
+            @Expose
+            private String createdBy;
+            @SerializedName("created_date")
+            @Expose
+            private String createdDate;
+
+            public Integer getId() {
+                return id;
+            }
+
+            public void setId(Integer id) {
+                this.id = id;
+            }
+
+            public String getStoreId() {
+                return storeId;
+            }
+
+            public void setStoreId(String storeId) {
+                this.storeId = storeId;
+            }
+
+            public String getExecutiveId() {
+                return executiveId;
+            }
+
+            public void setExecutiveId(String executiveId) {
+                this.executiveId = executiveId;
+            }
+
+            public String getExecutiveName() {
+                return executiveName;
+            }
+
+            public void setExecutiveName(String executiveName) {
+                this.executiveName = executiveName;
+            }
+
+            public String getExecutiveEmail() {
+                return executiveEmail;
+            }
+
+            public void setExecutiveEmail(String executiveEmail) {
+                this.executiveEmail = executiveEmail;
+            }
+
+            public String getManagerId() {
+                return managerId;
+            }
+
+            public void setManagerId(String managerId) {
+                this.managerId = managerId;
+            }
+
+            public String getManagerName() {
+                return managerName;
+            }
+
+            public void setManagerName(String managerName) {
+                this.managerName = managerName;
+            }
+
+            public String getManagerEmail() {
+                return managerEmail;
+            }
+
+            public void setManagerEmail(String managerEmail) {
+                this.managerEmail = managerEmail;
+            }
+
+            public String getReagionalHeadId() {
+                return reagionalHeadId;
+            }
+
+            public void setReagionalHeadId(String reagionalHeadId) {
+                this.reagionalHeadId = reagionalHeadId;
+            }
+
+            public String getReagionalHeadName() {
+                return reagionalHeadName;
+            }
+
+            public void setReagionalHeadName(String reagionalHeadName) {
+                this.reagionalHeadName = reagionalHeadName;
+            }
+
+            public String getReagionalHeadEmail() {
+                return reagionalHeadEmail;
+            }
+
+            public void setReagionalHeadEmail(String reagionalHeadEmail) {
+                this.reagionalHeadEmail = reagionalHeadEmail;
+            }
+
+            public String getTrainerId() {
+                return trainerId;
+            }
+
+            public void setTrainerId(String trainerId) {
+                this.trainerId = trainerId;
+            }
+
+            public String getTrainerName() {
+                return trainerName;
+            }
+
+            public void setTrainerName(String trainerName) {
+                this.trainerName = trainerName;
+            }
+
+            public String getTrainerEmail() {
+                return trainerEmail;
+            }
+
+            public void setTrainerEmail(String trainerEmail) {
+                this.trainerEmail = trainerEmail;
+            }
+
+            public String getCreatedBy() {
+                return createdBy;
+            }
+
+            public void setCreatedBy(String createdBy) {
+                this.createdBy = createdBy;
+            }
+
+            public String getCreatedDate() {
+                return createdDate;
+            }
+
+            public void setCreatedDate(String createdDate) {
+                this.createdDate = createdDate;
+            }
+
         }
-
-        public void setExecutive(Executive executive) {
-            this.executive = executive;
-        }
-
-        public Data withExecutive(Executive executive) {
-            this.executive = executive;
-            return this;
-        }
-
-        public Hod getHod() {
-            return hod;
-        }
-
-        public void setHod(Hod hod) {
-            this.hod = hod;
-        }
-
-        public Data withHod(Hod hod) {
-            this.hod = hod;
-            return this;
-        }
-
-        public Manager getManager() {
-            return manager;
-        }
-
-        public void setManager(Manager manager) {
-            this.manager = manager;
-        }
-
-        public Data withManager(Manager manager) {
-            this.manager = manager;
-            return this;
-        }
-
-        public RegionHead getRegionHead() {
-            return regionHead;
-        }
-
-        public void setRegionHead(RegionHead regionHead) {
-            this.regionHead = regionHead;
-        }
-
-        public Data withRegionHead(RegionHead regionHead) {
-            this.regionHead = regionHead;
-            return this;
-        }
-
-        public List<SiteMngrExec> getSiteMngrExec() {
-            return siteMngrExec;
-        }
-
-        public void setSiteMngrExec(List<SiteMngrExec> siteMngrExec) {
-            this.siteMngrExec = siteMngrExec;
-        }
-
-        public Data withSiteMngrExec(List<SiteMngrExec> siteMngrExec) {
-            this.siteMngrExec = siteMngrExec;
-            return this;
-        }
-
-    }
-
-    public class Executive implements Serializable {
-
-        @SerializedName("uid")
-        @Expose
-        private String uid;
-        @SerializedName("email")
-        @Expose
-        private String email;
-        @SerializedName("role")
-        @Expose
-        private Role role;
-
-        public String getUid() {
-            return uid;
-        }
-
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
-
-        public Executive withUid(String uid) {
-            this.uid = uid;
-            return this;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public Executive withEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public Role getRole() {
-            return role;
-        }
-
-        public void setRole(Role role) {
-            this.role = role;
-        }
-
-        public Executive withRole(Role role) {
-            this.role = role;
-            return this;
-        }
-
     }
 
 
-    public class Hod implements Serializable {
 
-        @SerializedName("uid")
-        @Expose
-        private String uid;
-        @SerializedName("email")
-        @Expose
-        private String email;
-        @SerializedName("role")
-        @Expose
-        private Role__1 role;
 
-        public String getUid() {
-            return uid;
-        }
 
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
 
-        public Hod withUid(String uid) {
-            this.uid = uid;
-            return this;
-        }
 
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public Hod withEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public Role__1 getRole() {
-            return role;
-        }
-
-        public void setRole(Role__1 role) {
-            this.role = role;
-        }
-
-        public Hod withRole(Role__1 role) {
-            this.role = role;
-            return this;
-        }
-
-    }
-
-    public class Manager implements Serializable {
-
-        @SerializedName("uid")
-        @Expose
-        private String uid;
-        @SerializedName("email")
-        @Expose
-        private String email;
-        @SerializedName("role")
-        @Expose
-        private Role__2 role;
-
-        public String getUid() {
-            return uid;
-        }
-
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
-
-        public Manager withUid(String uid) {
-            this.uid = uid;
-            return this;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public Manager withEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public Role__2 getRole() {
-            return role;
-        }
-
-        public void setRole(Role__2 role) {
-            this.role = role;
-        }
-
-        public Manager withRole(Role__2 role) {
-            this.role = role;
-            return this;
-        }
-
-    }
-
-    public class RegionHead implements Serializable {
-
-        @SerializedName("uid")
-        @Expose
-        private String uid;
-        @SerializedName("email")
-        @Expose
-        private String email;
-        @SerializedName("role")
-        @Expose
-        private Role__3 role;
-
-        public String getUid() {
-            return uid;
-        }
-
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
-
-        public RegionHead withUid(String uid) {
-            this.uid = uid;
-            return this;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public RegionHead withEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public Role__3 getRole() {
-            return role;
-        }
-
-        public void setRole(Role__3 role) {
-            this.role = role;
-        }
-
-        public RegionHead withRole(Role__3 role) {
-            this.role = role;
-            return this;
-        }
-
-    }
-
-    public class Role implements Serializable {
-
-        @SerializedName("uid")
-        @Expose
-        private String uid;
-        @SerializedName("name")
-        @Expose
-        private String name;
-
-        public String getUid() {
-            return uid;
-        }
-
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
-
-        public Role withUid(String uid) {
-            this.uid = uid;
-            return this;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Role withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-    }
-
-    public class Role__1 implements Serializable {
-
-        @SerializedName("uid")
-        @Expose
-        private String uid;
-        @SerializedName("name")
-        @Expose
-        private String name;
-
-        public String getUid() {
-            return uid;
-        }
-
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
-
-        public Role__1 withUid(String uid) {
-            this.uid = uid;
-            return this;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Role__1 withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-    }
-
-    public class Role__2 implements Serializable {
-
-        @SerializedName("uid")
-        @Expose
-        private String uid;
-        @SerializedName("name")
-        @Expose
-        private String name;
-
-        public String getUid() {
-            return uid;
-        }
-
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
-
-        public Role__2 withUid(String uid) {
-            this.uid = uid;
-            return this;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Role__2 withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-    }
-
-    public class Role__3 implements Serializable {
-
-        @SerializedName("uid")
-        @Expose
-        private String uid;
-        @SerializedName("name")
-        @Expose
-        private String name;
-
-        public String getUid() {
-            return uid;
-        }
-
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
-
-        public Role__3 withUid(String uid) {
-            this.uid = uid;
-            return this;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Role__3 withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-    }
-
-    public class Role__4 implements Serializable {
-
-        @SerializedName("uid")
-        @Expose
-        private String uid;
-        @SerializedName("name")
-        @Expose
-        private String name;
-
-        public String getUid() {
-            return uid;
-        }
-
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
-
-        public Role__4 withUid(String uid) {
-            this.uid = uid;
-            return this;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Role__4 withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-    }
-
-    public class SiteMngrExec implements Serializable {
-
-        @SerializedName("uid")
-        @Expose
-        private String uid;
-        @SerializedName("email")
-        @Expose
-        private String email;
-        @SerializedName("role")
-        @Expose
-        private Role__4 role;
-
-        public String getUid() {
-            return uid;
-        }
-
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
-
-        public SiteMngrExec withUid(String uid) {
-            this.uid = uid;
-            return this;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public SiteMngrExec withEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public Role__4 getRole() {
-            return role;
-        }
-
-        public void setRole(Role__4 role) {
-            this.role = role;
-        }
-
-        public SiteMngrExec withRole(Role__4 role) {
-            this.role = role;
-            return this;
-        }
-
-    }
-}
