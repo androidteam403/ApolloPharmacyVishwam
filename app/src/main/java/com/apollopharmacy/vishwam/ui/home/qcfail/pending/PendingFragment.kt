@@ -48,6 +48,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var adapter: QcPendingListAdapter? = null
     public var isBulkChecked: Boolean = false
     public var isBulk: Boolean = false
+    public var orderTypeList = ArrayList<String>()
+
     public var storeList = ArrayList<String>()
     public var regionList = ArrayList<String>()
     var pageSize: Int = 0
@@ -116,6 +118,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
+        Preferences.setQcOrderType("")
         Preferences.setQcRegion("")
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
         MainActivity.mInstance.qcfilterIcon.visibility = View.VISIBLE
@@ -276,10 +279,17 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         })
         viewBinding.refreshSwipe.setOnRefreshListener {
-//            Preferences.setQcFromDate("")
-//            Preferences.setQcToDate("")
-//            Preferences.setQcSite("")
-//            Preferences.setQcRegion("")
+            Preferences.setQcFromDate("")
+            Preferences.setQcToDate("")
+            Preferences.setQcSite("")
+            siteId=""
+            Preferences.setQcRegion("")
+            Preferences.setQcOrderType("")
+            typeString = ""
+            pendingListList.clear()
+            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+            currentDate = simpleDateFormat.format(Date())
+
             MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
             viewModel.getQcPendingList(
                 Preferences.getToken(),
@@ -507,6 +517,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 //    pendingListList= qcListsResponse!!.pendinglist!!
         viewBinding.refreshSwipe.isRefreshing = false
         storeList.clear()
+        orderTypeList.clear()
         regionList.clear()
         hideLoading()
         if (qcPendingList.isNullOrEmpty()) {
@@ -518,7 +529,12 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         } else {
 
             filterPendingList = (qcPendingList as ArrayList<QcListsResponse.Pending>?)!!
+
             for (i in filterPendingList.indices) {
+
+
+                orderTypeList.add(filterPendingList[i].omsorderno.toString())
+
                 storeList.add(filterPendingList[i].storeid.toString())
                 regionList.add(filterPendingList[i].dcCode.toString())
             }
@@ -573,17 +589,37 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
     fun filterbyOrderType(pendinglist: ArrayList<QcListsResponse.Pending>): ArrayList<QcListsResponse.Pending> {
         var orderTypeFilteredPendinglist = ArrayList<QcListsResponse.Pending>()
-        if (typeString.equals("FORWARD RETURN") || typeString.equals("REVERSE RETURN")) {
+
+        if (typeString.isNotEmpty()&&siteId.isNotEmpty()) {
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
-                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")) {
+                var site = i.storeid!!.toUpperCase()
+
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")&&site.contains(siteId)) {
                     orderTypeFilteredPendinglist.add(i)
-                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT")) {
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT")&&site.contains(siteId)) {
                     orderTypeFilteredPendinglist.add(i)
                 }
             }
             return orderTypeFilteredPendinglist
-        } else {
+        }
+        else if (siteId.isNotEmpty()) {
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+
+                if (site.contains(siteId)) {
+                    orderTypeFilteredPendinglist.add(i)
+                } else if (site.contains(siteId)) {
+                    orderTypeFilteredPendinglist.add(i)
+                }
+            }
+            return orderTypeFilteredPendinglist
+        }
+
+
+
+        else {
             return pendinglist
         }
     }
@@ -592,6 +628,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         viewModel.qcPendingLists.observe(viewLifecycleOwner) { it ->
             viewBinding.refreshSwipe.isRefreshing = false
             storeList.clear()
+            orderTypeList.clear()
             regionList.clear()
             hideLoading()
             if (it.pendinglist.isNullOrEmpty()) {
@@ -606,6 +643,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 filterPendingList = (it.pendinglist as ArrayList<QcListsResponse.Pending>?)!!
                 for (i in filterPendingList.indices) {
                     storeList.add(filterPendingList[i].storeid.toString())
+                    orderTypeList.add(filterPendingList.get(i).omsorderno.toString())
                     regionList.add(filterPendingList[i].dcCode.toString())
                 }
                 val regionListSet: MutableSet<String> = LinkedHashSet()
@@ -667,32 +705,44 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                     siteId = data.getStringExtra("siteId").toString()
                     regionId = data.getStringExtra("regionId").toString()
                     typeString = data.getStringExtra("orderType").toString()
-                    showLoading()
-                    viewModel.getQcPendingList(
-                        Preferences.getToken(),
-                        data.getStringExtra("fromQcDate").toString(),
-                        data.getStringExtra("toDate").toString(),
-                        data.getStringExtra("siteId").toString(),
-                        data.getStringExtra("regionId").toString(),
-                        this
-                    )
 
+                    if (currentDate.isNotEmpty() && fromDate.isNotEmpty()) {
+                        showLoading()
+                        viewModel.getQcPendingList(
+                            Preferences.getToken(),
+                            data.getStringExtra("fromQcDate").toString(),
+                            data.getStringExtra("toDate").toString(),
+                            data.getStringExtra("siteId").toString(),
+                            data.getStringExtra("regionId").toString(),
+                            this
+                        )
+                        if (data.getStringExtra("fromQcDate").toString()
+                                .equals(fromDate) && data.getStringExtra(
+                                "toDate"
+                            ).toString()
+                                .equals(currentDate) && data.getStringExtra("regionId")
+                                .toString().isNullOrEmpty()
+                        ) {
+                            MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+                        } else {
+                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
-                    if (data.getStringExtra("fromQcDate").toString()
-                            .equals(fromDate) && data.getStringExtra(
-                            "toDate"
-                        ).toString()
-                            .equals(currentDate) && data.getStringExtra("regionId")
-                            .toString().isNullOrEmpty()
-                    ) {
-                        MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+                        }
                     } else {
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        setQcPedningListResponse(pendingListList)
+                        adapter!!.notifyDataSetChanged()
 
                     }
 
+
                     if (data.getStringExtra("reset").toString().equals("reset")) {
                         showLoading()
+                        orderTypeList.clear()
+                        pendingListList.clear()
+                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                        currentDate = simpleDateFormat.format(Date())
+
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
 
                         viewModel.getQcPendingList(
@@ -1097,6 +1147,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         val i = Intent(context, QcFilterActivity::class.java)
         i.putStringArrayListExtra("storeList", storeList)
+        i.putStringArrayListExtra("orderTypeList", orderTypeList)
+
         i.putStringArrayListExtra("regionList", regionList)
         i.putExtra("fragmentName", "pending")
         i.putExtra("activity", "1")
