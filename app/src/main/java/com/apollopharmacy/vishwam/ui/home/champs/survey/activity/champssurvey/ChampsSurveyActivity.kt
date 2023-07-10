@@ -1478,7 +1478,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         );
         if (elapsedDays > 0) {
             timeTaken.text =
-                " %d $elapsedDays days, $elapsedHours hours, $elapsedMinutes minutes, $elapsedSeconds seconds"
+                "$elapsedDays days, $elapsedHours hours, $elapsedMinutes minutes, $elapsedSeconds seconds"
         } else if (elapsedHours > 0) {
             timeTaken.text = "$elapsedHours hours, $elapsedMinutes minutes, $elapsedSeconds seconds"
 
