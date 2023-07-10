@@ -154,7 +154,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         hideLoading()
         if (viewBinding.pullToRefresh.isRefreshing) {
             viewBinding.pullToRefresh.isRefreshing = false
-            pageNo = 1;
+            pageNo = 1
             isLastPage = false
         }
         var getsurveyList = surveyListResponse.data!!.listData!!.rows
