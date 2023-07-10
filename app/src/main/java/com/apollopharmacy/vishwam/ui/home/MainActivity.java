@@ -1763,9 +1763,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
 
-//        if (isSensingRequired) {
+        if (isSensingRequired) {
             listView.addHeaderModel(new HeaderModel("Apollo Sensing", Color.WHITE, false, R.drawable.ic_menu_champ));
-//        }
+        }
         /*listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));*/
 
         if (isAttendanceRequired) {
