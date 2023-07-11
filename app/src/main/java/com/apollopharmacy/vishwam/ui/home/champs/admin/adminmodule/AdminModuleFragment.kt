@@ -197,7 +197,7 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
             onValidateTotalSum(categoryDetailsList)
 
             hideLoading()
-        }else{
+        } else {
             viewModel.getSubCategoryDetailsApiCall(
                 this@AdminModuleFragment,
                 categoryName
@@ -456,11 +456,10 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
     ) {
         hideLoading()
         Toast.makeText(
-            context,
-            saveCategoryConfigurationDetailsResponse.message,
+            context, "Rating Modified Successfully.",
             Toast.LENGTH_SHORT
         ).show()
-
+//saveCategoryConfigurationDetailsResponse.message
     }
 
     override fun onFailureSaveCategoryConfigurationDetails(message: String) {

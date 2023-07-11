@@ -654,6 +654,16 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     viewBinding.uploadPrescriptionText.setTextColor(Color.parseColor("#b5b5b5"))
                     prescriptionImageList.clear()
                     isPrescriptionUpload = false
+
+                    stopTimer()
+                    stopTimerUp()
+
+                    viewBinding.otpViewUp.getText()!!.clear()
+                    viewBinding.otpVerificationLayoutUp.visibility = View.GONE
+                    customerNameMobileEnable(true)
+                    viewBinding.verifiedSuccessfullyLayoutUp.visibility = View.GONE
+                    viewBinding.sendOtpBtnUploadPrescription.visibility = View.VISIBLE
+
                     hideLoading()
                 }
             }

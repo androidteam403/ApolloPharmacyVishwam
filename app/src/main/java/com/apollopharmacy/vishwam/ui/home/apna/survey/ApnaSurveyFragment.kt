@@ -136,6 +136,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 surveyResponseList.clear()
                 surveyResponseList.addAll(getsurveyList!!)
                 layoutManager = LinearLayoutManager(context)
+                viewBinding.recyclerViewApproved!!.removeAllViews()
                 viewBinding.recyclerViewApproved.layoutManager = layoutManager
                 initAdapter()
                 pageNo++
@@ -192,7 +193,8 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                     ////It checks, fully visible view is the last one.
 
                     if (layoutManager.findLastCompletelyVisibleItemPosition() == surveyResponseList.size!! - 1) {//adapter!!.getData()?
-                        loadMore()
+                        if (surveyResponseList.size >= rowSize)
+                            loadMore()
                     }
 
                 }
