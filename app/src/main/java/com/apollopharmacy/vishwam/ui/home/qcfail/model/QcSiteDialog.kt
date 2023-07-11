@@ -102,7 +102,6 @@ class QcSiteDialog : DialogFragment() {
                     }
 
                     override fun onClick(list: ArrayList<UniqueStoreList>, position: Int,storeList: ArrayList<UniqueStoreList>) {
-                        if (storeList.isNullOrEmpty()) {
                             if (list[position].isClick) {
                                 list[position].setisClick(false)
 
@@ -110,19 +109,9 @@ class QcSiteDialog : DialogFragment() {
                                 list[position].setisClick(true)
 
                             }
-                        } else {
-                            Preferences.setQcSite("")
-                            if (list[position].isClick || storeList[position].isClick) {
 
-                                list[position].setisClick(false)
-                                storeList[position].setisClick(false)
-                            } else {
-                                list[position].setisClick(true)
-                                storeList[position].setisClick(true)
 
-                            }
 
-                        }
                         sitereCyclerView.notifyDataSetChanged()
 
                         for (i in regionDataArrayList.indices) {

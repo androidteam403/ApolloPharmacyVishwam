@@ -104,14 +104,14 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
 
                     uniqueStoreList.add(items)
-                    if (Preferences.getQcSite().isNullOrEmpty()){
-
-                    }else{
-                        Preferences.setQcSite(StringUtils.substring(storeStringList.toString(),
-                            1,
-                            storeStringList.toString().length - 1))
-
-                    }
+//                    if (Preferences.getQcSite().isNullOrEmpty()){
+//
+//                    }else{
+//                        Preferences.setQcSite(StringUtils.substring(storeStringList.toString(),
+//                            1,
+//                            storeStringList.toString().length - 1))
+//
+//                    }
 
                 }
             }
