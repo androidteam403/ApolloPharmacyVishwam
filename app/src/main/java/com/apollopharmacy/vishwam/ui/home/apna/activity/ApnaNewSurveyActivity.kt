@@ -818,10 +818,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             if (!checkPermission()) {
                 askPermissions(100)
             } else {
-                if (imageFileList.size == 5) {
+                if (imageFileList.size == 10) {
                     Toast.makeText(
                         this@ApnaNewSurveyActivity,
-                        "You are allowed to upload only five images",
+                        "You are allowed to upload only ten images",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -5043,7 +5043,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     override fun onSelectDimensionTypeItem(position: Int, item: String, row: Row) {
         activityApnaNewSurveyBinding.dimensionTypeSelect.setText(item)
         activityApnaNewSurveyBinding.dimensionOfPremisesUnit.setText(item)
-        activityApnaNewSurveyBinding.expectedRentOrDepositUnit.setText(item)
+//        activityApnaNewSurveyBinding.expectedRentOrDepositUnit.setText(item)
         this.dimenTypeSelectedItem = row
         dimensionTypeDialog.dismiss()
     }

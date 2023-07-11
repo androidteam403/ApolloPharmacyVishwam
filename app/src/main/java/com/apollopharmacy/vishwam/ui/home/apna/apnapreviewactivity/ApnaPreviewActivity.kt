@@ -1165,13 +1165,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.totalAreaDimensionType.setText(
                 "(" + value.data!!.dimensionType!!.name!! + "): "
             )
-            apnaPreviewActivityBinding.expectedRentUnit.setText(value.data!!.dimensionType!!.name!!.toString())
-            apnaPreviewActivityBinding.securityDepositUnit.setText(value.data!!.dimensionType!!.name!!.toString())
+//            apnaPreviewActivityBinding.expectedRentUnit.setText(value.data!!.dimensionType!!.name!!.toString())
+//            apnaPreviewActivityBinding.securityDepositUnit.setText(value.data!!.dimensionType!!.name!!.toString())
         } else {
             apnaPreviewActivityBinding.dimensionType.setText("(-): ")
             apnaPreviewActivityBinding.totalAreaDimensionType.setText("(-): ")
-            apnaPreviewActivityBinding.expectedRentUnit.setText("-")
-            apnaPreviewActivityBinding.securityDepositUnit.setText("-")
+//            apnaPreviewActivityBinding.expectedRentUnit.setText("-")
+//            apnaPreviewActivityBinding.securityDepositUnit.setText("-")
         }
 
         apnaPreviewActivityBinding.length.setText(value.data!!.length.toString())

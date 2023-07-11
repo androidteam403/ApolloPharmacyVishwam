@@ -266,13 +266,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (surveyCreateRequest.dimensionType != null && surveyCreateRequest.dimensionType!!.name != null) {
             activityApnaSurveyPreviewBinding.dimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + "): ")
             activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + "): ")
-            activityApnaSurveyPreviewBinding.expectedRentUnit.setText(surveyCreateRequest.dimensionType!!.name)
-            activityApnaSurveyPreviewBinding.securityDepositUnit.setText(surveyCreateRequest.dimensionType!!.name)
+//            activityApnaSurveyPreviewBinding.expectedRentUnit.setText(surveyCreateRequest.dimensionType!!.name)
+//            activityApnaSurveyPreviewBinding.securityDepositUnit.setText(surveyCreateRequest.dimensionType!!.name)
         } else {
             activityApnaSurveyPreviewBinding.dimensionType.setText("(-): ")
             activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(-): ")
-            activityApnaSurveyPreviewBinding.expectedRentUnit.setText("-")
-            activityApnaSurveyPreviewBinding.securityDepositUnit.setText("-")
+//            activityApnaSurveyPreviewBinding.expectedRentUnit.setText("-")
+//            activityApnaSurveyPreviewBinding.securityDepositUnit.setText("-")
         }
         if (surveyCreateRequest.length != null) {
             activityApnaSurveyPreviewBinding.length.setText(surveyCreateRequest.length)

@@ -76,7 +76,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 event: KeyEvent?,
             ): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if (textView!!.text.isEmpty()) {
+                    if (textView!!.text.trim().isEmpty()) {
                         pageNo = 1
                         isLoading = false
                         isFirstTime = true
@@ -224,7 +224,8 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                     ////It checks, fully visible view is the last one.
 
                     if (layoutManager.findLastCompletelyVisibleItemPosition() == surveyResponseList.size!! - 1) {//adapter!!.getData()?
-                        loadMore()
+                        if (surveyResponseList.size >= rowSize)
+                            loadMore()
                     }
 
                 }
