@@ -240,7 +240,7 @@ class DashBaordAdapter(
                         DashboardSitesAdapter(
                             mContext,
                             gmPendingCountResponseList,
-                            siteIdsGroupedList
+                            gmPendingCountResponseList.distinctBy { it.siteid } as ArrayList<PendingCountResponse.Pendingcount>
                         )
                     holder.dashboardSiteBinding.gmDashboardrecycleview.visibility = View.VISIBLE
                     holder.dashboardSiteBinding.generalmanagerTableLayout.visibility = View.VISIBLE
@@ -262,7 +262,7 @@ class DashBaordAdapter(
                         DashboardSitesAdapter(
                             mContext,
                             managerPendingCountResponseList,
-                            siteIdsGroupedList
+                            managerPendingCountResponseList.distinctBy { it.siteid } as ArrayList<PendingCountResponse.Pendingcount>
                         )
                     holder.dashboardSiteBinding.gmDashboardrecycleview.visibility = View.VISIBLE
                     holder.dashboardSiteBinding.generalmanagerTableLayout.visibility = View.VISIBLE
@@ -286,7 +286,7 @@ class DashBaordAdapter(
                         DashboardSitesAdapter(
                             mContext,
                             executivePendingCountResponseList,
-                            siteIdsGroupedList
+                            executivePendingCountResponseList.distinctBy { it.siteid } as ArrayList<PendingCountResponse.Pendingcount>
                         )
                     holder.dashboardSiteBinding.gmDashboardrecycleview.visibility = View.VISIBLE
                     holder.dashboardSiteBinding.generalmanagerTableLayout.visibility = View.VISIBLE
