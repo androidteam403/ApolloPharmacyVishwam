@@ -88,7 +88,8 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                     this,
                     viewBinding.enterStoreEdittext.text.toString()
                 )
-            } else {
+            }
+            else {
                 Toast.makeText(
                     activity,
                     resources.getString(R.string.label_network_error),

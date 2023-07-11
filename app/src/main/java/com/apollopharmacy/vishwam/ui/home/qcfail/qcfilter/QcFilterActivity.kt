@@ -47,6 +47,8 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     var uniqueRegionList = ArrayList<UniqueRegionList>()
     var uniqueStoreList = ArrayList<UniqueStoreList>()
     var orderTypeList = ArrayList<String>()
+    var orderTypeMainList = ArrayList<String>()
+
     var fragmentName :String=""
 
     var regionList = ArrayList<QcRegionList.Store>()
@@ -58,8 +60,20 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
           storeStringList= intent.getStringArrayListExtra("storeList")!!
             regionStringList= intent.getStringArrayListExtra("regionList")!!
             fragmentName= intent.getStringExtra("fragmentName")!!
-            orderTypeList.add("FORWARD RETURN")
-            orderTypeList.add("REVERSE RETURN")
+            orderTypeMainList=intent.getStringArrayListExtra("orderTypeList")!!
+
+            if (orderTypeMainList.filter { it.contains("FL") }.size>0&&orderTypeMainList.filter { it.contains("RT") }.size>0){
+                orderTypeList.add("FORWARD RETURN")
+                orderTypeList.add("REVERSE RETURN")
+            }
+            else  if (orderTypeMainList.filter { it.contains("RT") }.size>0){
+                orderTypeList.add("REVERSE RETURN")
+            }
+            else  if (orderTypeMainList.filter { it.contains("FL") }.size>0){
+                orderTypeList.add("FORWARD RETURN")
+            }
+
+
 
         }
         activityQcFilterBinding.filtertype.visibility=View.VISIBLE

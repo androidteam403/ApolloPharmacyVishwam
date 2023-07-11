@@ -471,7 +471,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     }
 
     override fun onClickQcFilterIcon() {
-
+        showLoading()
 
         if (isVishwamPendingTab) {
             designationsList.clear()

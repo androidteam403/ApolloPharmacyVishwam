@@ -52,6 +52,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var regionId: String = ""
     var pageSize: Int = 0
     var typeString = ""
+    public var orderTypeList = ArrayList<String>()
 
     var mainActivityCallback: MainActivityCallback? = null
     public var storeStringList = ArrayList<String>()
@@ -395,10 +396,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             viewBinding.emptyList.visibility = View.GONE
             filterApproveList = (approvedlist as ArrayList<QcListsResponse.Approved>?)!!
 //            subList = ListUtils.partition(approvedlist, pageSize)
-            filterbyOrderType(approvedlist)
-            splitTheArrayList(approvedlist)
+
             pageNo = 1
             increment = 0
+
             if (pageNo == 1) {
                 viewBinding.prevPage.visibility = View.INVISIBLE
             } else {
@@ -412,10 +413,11 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
             }
 
+            filterbyOrderType(approvedlist)
+            splitTheArrayList(filterbyOrderType(approvedlist))
 
 
-
-            if (subList?.size == 1) {
+            if (subList?.size == 1||increment==0) {
                 viewBinding.continueBtn.visibility = View.GONE
             } else {
                 viewBinding.continueBtn.visibility = View.VISIBLE
@@ -501,12 +503,16 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     }
 
     fun submitClickApproved() {
-//        Preferences.setQcFromDate("")
-//        Preferences.setQcToDate("")
-//        Preferences.setQcSite("")
-//        Preferences.setQcRegion("")
+        Preferences.setQcFromDate("")
+        Preferences.setQcToDate("")
+        Preferences.setQcSite("")
+        Preferences.setQcRegion("")
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        currentDate = simpleDateFormat.format(Date())
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        fromDate = simpleDateFormat.format(cal.time)
 //        if (!viewBinding.refreshSwipe.isRefreshing)
 //            Utlis.showLoading(requireContext())
         viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, siteId, regionId)
@@ -544,10 +550,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             .equals(fromDate) && data.getStringExtra(
                             "toDate"
                         ).toString()
-                            .equals(currentDate) && data.getStringExtra("regionId").toString()
-                            .isNullOrEmpty()
+                            .equals(currentDate)
                     ) {
-                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
                     } else {
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
@@ -555,6 +560,11 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
                     if (data.getStringExtra("reset").toString().equals("reset")) {
                         showLoading()
+                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                        currentDate = simpleDateFormat.format(Date())
+                        val cal = Calendar.getInstance()
+                        cal.add(Calendar.DATE, -7)
+                        fromDate = simpleDateFormat.format(cal.time)
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
                         viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
 

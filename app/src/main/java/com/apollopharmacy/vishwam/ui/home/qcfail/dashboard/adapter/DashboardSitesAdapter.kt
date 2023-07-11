@@ -13,6 +13,8 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.PendingCountResponse
 class DashboardSitesAdapter(
     val mContext: Context,
     var pendingCountResponseList: ArrayList<PendingCountResponse.Pendingcount>,
+    var getStorePendingApprovedListDummys:
+    Map<String, List<PendingCountResponse.Pendingcount>>,
 ) :
     RecyclerView.Adapter<DashboardSitesAdapter.ViewHolder>() {
 
@@ -31,25 +33,37 @@ class DashboardSitesAdapter(
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val items = pendingCountResponseList.get(position)
-        if (items.ordertype.equals("REVERSE RETURN")){
-            holder.dashboardSitesBinding.rtcount.setText(items.pendingcount.toString())
-            holder.dashboardSitesBinding.frcount.setText("-")
+
+
+        for (m in getStorePendingApprovedListDummys.entries) {
+            holder.dashboardSitesBinding.storeid.setText(m.key)
+            for ( j in m.value.indices){
+                    holder.dashboardSitesBinding.empid.setText(m.value[j].empid)
+
+                    if (m.value[j].ordertype.equals("REVERSE RETURN")) {
+                        holder.dashboardSitesBinding.rtcount.setText(m.value[j].pendingcount.toString())
+
+                    } else if (m.value[j].ordertype.equals("FORWARD RETURN")) {
+                        holder.dashboardSitesBinding.frcount.setText(m.value[j].pendingcount.toString())
+
+                    }
+
+            }
+
+
+
+
+
 
         }
-        else  if (items.ordertype.equals("FORWARD RETURN")){
-            holder.dashboardSitesBinding.frcount.setText(items.pendingcount.toString())
-            holder.dashboardSitesBinding.rtcount.setText("-")
 
-        }
 
-            holder.dashboardSitesBinding.storeid.setText(items.siteid)
-        holder.dashboardSitesBinding.empid.setText(items.empid)
+
     }
 
 
     override fun getItemCount(): Int {
-        return pendingCountResponseList.size
+        return getStorePendingApprovedListDummys.size
     }
 
     class ViewHolder(val dashboardSitesBinding: DashboardSitesBinding) :
