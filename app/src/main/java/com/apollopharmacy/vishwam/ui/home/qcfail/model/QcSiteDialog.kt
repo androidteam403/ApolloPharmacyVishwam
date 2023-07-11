@@ -102,6 +102,7 @@ class QcSiteDialog : DialogFragment() {
                     }
 
                     override fun onClick(list: ArrayList<UniqueStoreList>, position: Int,storeList: ArrayList<UniqueStoreList>) {
+                        if (storeList.isNullOrEmpty()) {
                             if (list[position].isClick) {
                                 list[position].setisClick(false)
 
@@ -109,9 +110,17 @@ class QcSiteDialog : DialogFragment() {
                                 list[position].setisClick(true)
 
                             }
+                        } else {
+                            Preferences.setQcSite("")
+                            if (list[position].isClick ) {
 
+                                list[position].setisClick(false)
+                            } else {
+                                list[position].setisClick(true)
 
+                            }
 
+                        }
                         sitereCyclerView.notifyDataSetChanged()
 
                         for (i in regionDataArrayList.indices) {
@@ -198,6 +207,7 @@ class QcSiteRecycleView(
         items: UniqueStoreList,
         position: Int,
     ) {
+
         binding.itemName.text = "${items.siteid}"
 
         binding.genderParentLayout.setOnClickListener {
@@ -208,25 +218,29 @@ class QcSiteRecycleView(
 
         if (!Preferences.getQcSite().isNullOrEmpty()) {
 
-            while (i < storeList.size) {
-                if (storeList.get(i).siteid?.replace(" ", "")
-                        .equals(departmentListDto[i].siteid)
+            for (i in storeList.indices) {
+                if (departmentListDto.get(i).siteid
+                        .equals(storeList[i].siteid)
                 ) {
+
                     departmentListDto[i].setisClick(true)
-                    i++
                 } else {
+
                     departmentListDto[i].setisClick(false)
-                    i++
+
 
                 }
             }
         }
 
-        if (departmentListDto[position].isClick) {
-            binding.checkBox.setImageResource(R.drawable.qcright)
-        } else {
-            binding.checkBox.setImageResource(R.drawable.qc_checkbox)
+        for (j in departmentListDto.indices){
+            if (departmentListDto[j].isClick) {
+                binding.checkBox.setImageResource(R.drawable.qcright)
+            } else {
+                binding.checkBox.setImageResource(R.drawable.qc_checkbox)
+            }
         }
+
 
 //        binding.root.setOnClickListener {
 //            items.setisClick(true)

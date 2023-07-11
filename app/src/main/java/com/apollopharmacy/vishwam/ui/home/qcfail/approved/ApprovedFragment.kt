@@ -47,6 +47,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     private lateinit var dialog: BottomSheetDialog
     var pageNo: Int = 1
     var lastIndex = 0
+    var storeIdList = ArrayList<String>()
+    var regionIdList = ArrayList<String>()
+
     var increment: Int = 0
     var siteId: String = ""
     var regionId: String = ""
@@ -59,6 +62,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     public var regionStringList = ArrayList<String>()
     public var isBulkChecked: Boolean = false
     var charString: String? = ""
+    private var approvedListMain = ArrayList<QcListsResponse.Approved>()
+
     private var approvedListList = ArrayList<QcListsResponse.Approved>()
     private var approvedFilterList = ArrayList<QcListsResponse.Approved>()
     var getStatusList: List<ActionResponse>? = null
@@ -238,6 +243,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         })
         viewModel.qcLists.observe(viewLifecycleOwner) { it ->
             qcListsResponse = it
+            approvedListMain=it.approvedlist!!
             approvedListList = it.approvedlist!!
             setQcApprovedListResponse(it.approvedlist!!)
 
@@ -417,7 +423,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             splitTheArrayList(filterbyOrderType(approvedlist))
 
 
-            if (subList?.size == 1||increment==0) {
+            if (subList?.size == 1 || increment == 0) {
                 viewBinding.continueBtn.visibility = View.GONE
             } else {
                 viewBinding.continueBtn.visibility = View.VISIBLE
@@ -506,7 +512,12 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
+        siteId = ""
         Preferences.setQcRegion("")
+        Preferences.setQcOrderType("")
+        typeString = ""
+        approvedListList.clear()
+        approvedListMain.clear()
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())
@@ -537,29 +548,56 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                     regionId = data.getStringExtra("regionId").toString()
                     typeString = data.getStringExtra("orderType").toString()
 
-                    showLoading()
-                    viewModel.getQcList(
-                        Preferences.getToken(),
-                        data.getStringExtra("fromQcDate").toString(),
-                        data.getStringExtra("toDate").toString(),
-                        data.getStringExtra("siteId").toString(),
-                        data.getStringExtra("regionId").toString()
-                    )
 
-                    if (data.getStringExtra("fromQcDate").toString()
-                            .equals(fromDate) && data.getStringExtra(
-                            "toDate"
-                        ).toString()
-                            .equals(currentDate)
-                    ) {
-                        MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-                    } else {
-                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                    if (currentDate.isNotEmpty() && fromDate.isNotEmpty()) {
+                        showLoading()
+                        viewModel.getQcList(
+                            Preferences.getToken(),
+                            data.getStringExtra("fromQcDate").toString(),
+                            data.getStringExtra("toDate").toString(),
+                            data.getStringExtra("siteId").toString(),
+                            data.getStringExtra("regionId").toString()
+                        )
 
+                        if (data.getStringExtra("fromQcDate").toString()
+                                .equals(fromDate) && data.getStringExtra(
+                                "toDate"
+                            ).toString()
+                                .equals(currentDate)
+                        ) {
+                            MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+                        } else {
+                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+
+                        }
                     }
+
+                    else if (approvedListList.size == approvedListList.size){
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        setQcApprovedListResponse(approvedListList)
+                        adapter!!.notifyDataSetChanged()
+                    }
+                    else {
+                        approvedListList.clear()
+                        approvedListList = approvedListMain
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        setQcApprovedListResponse(approvedListList)
+                        adapter!!.notifyDataSetChanged()
+                    }
+
+
 
                     if (data.getStringExtra("reset").toString().equals("reset")) {
                         showLoading()
+                        Preferences.setQcFromDate("")
+                        Preferences.setQcToDate("")
+                        Preferences.setQcSite("")
+                        siteId = ""
+                        Preferences.setQcRegion("")
+                        Preferences.setQcOrderType("")
+                        typeString = ""
+                        approvedListList.clear()
+                        approvedListMain.clear()
                         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
                         currentDate = simpleDateFormat.format(Date())
                         val cal = Calendar.getInstance()
@@ -722,7 +760,34 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
     fun filterbyOrderType(approveList: ArrayList<QcListsResponse.Approved>): ArrayList<QcListsResponse.Approved> {
         var orderTypeFilteredApprovelist = ArrayList<QcListsResponse.Approved>()
-        if (typeString.equals("FORWARD RETURN") || typeString.equals("REVERSE RETURN")) {
+        var storeList: List<String>
+        var regionList: List<String>
+        if (regionId.isNotEmpty()) {
+            regionList = regionId.split(",")
+            if (regionList.size > 1) {
+
+
+                regionIdList = regionList as ArrayList<String>
+
+            }
+        }
+        if (siteId.isNotEmpty()) {
+            storeList = siteId.split(",")
+            if (storeList.size > 1) {
+
+
+                storeIdList = storeList as ArrayList<String>
+
+            }
+        }
+
+
+
+
+
+
+
+        if (typeString.isNotEmpty()&&regionId.isEmpty()&&siteId.isEmpty()) {
             for (i in approveList) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
                 if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")) {
@@ -732,7 +797,268 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 }
             }
             return orderTypeFilteredApprovelist
-        } else {
+        }
+        else if (storeIdList.isEmpty()) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (site.contains(siteId)) {
+                    orderTypeFilteredApprovelist.add(i)
+
+                }
+
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (regionIdList.isEmpty()) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (region!!.contains(regionId)) {
+                    orderTypeFilteredApprovelist.add(i)
+
+                }
+
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (storeIdList.isEmpty() && regionIdList.isEmpty()&&typeString.isNotEmpty()) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site.contains(
+                        siteId
+                    ) && region!!.contains(regionId)
+                ) {
+                    orderTypeFilteredApprovelist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site.contains(
+                        siteId
+                    ) && region!!.contains(region)
+                ) {
+                    orderTypeFilteredApprovelist.add(i)
+
+                }
+
+            }
+            return orderTypeFilteredApprovelist
+        }
+        if (typeString.isNotEmpty() && storeIdList.size > 1 && regionIdList.size > 1) {
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+                for (j in storeIdList.indices) {
+
+                    for (k in regionIdList.indices) {
+
+
+                        if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site.contains(
+                                storeIdList.get(j)
+                            ) && region!!.contains(regionIdList.get(k))
+                        ) {
+                            orderTypeFilteredApprovelist.add(i)
+                        } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site.contains(
+                                storeIdList.get(j)
+                            ) && region!!.contains(regionIdList.get(k))
+                        ) {
+                            orderTypeFilteredApprovelist.add(i)
+
+                        }
+
+                    }
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (regionIdList.size > 1) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (j in regionIdList.indices) {
+
+
+                    if (region!!.contains(regionIdList.get(j))) {
+                        orderTypeFilteredApprovelist.add(i)
+
+                    }
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (storeIdList.size > 1) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (j in storeIdList.indices) {
+
+
+                    if (site.contains(storeIdList.get(j))) {
+                        orderTypeFilteredApprovelist.add(i)
+
+                    } else if (site.contains(storeIdList.get(j))) {
+                        orderTypeFilteredApprovelist.add(i)
+
+                    }
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (regionIdList.size > 1 && storeIdList.size > 1) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                for (k in storeIdList.indices) {
+
+                    for (j in regionIdList.indices) {
+
+
+                        if (region!!.contains(regionIdList.get(j)) && site.contains(
+                                storeIdList.get(
+                                    k
+                                )
+                            )
+                        ) {
+                            orderTypeFilteredApprovelist.add(i)
+
+                        }
+                    }
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (regionIdList.size > 1 && typeString.isNotEmpty()) {
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (k in regionIdList.indices) {
+
+
+                    if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && region!!.contains(regionIdList.get(k))
+                    ) {
+                        orderTypeFilteredApprovelist.add(i)
+                    } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && region!!.contains(regionIdList.get(k))
+                    ) {
+                        orderTypeFilteredApprovelist.add(i)
+
+                    }
+
+
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (storeIdList.size > 1 && typeString.isNotEmpty()) {
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (k in storeIdList.indices) {
+
+
+                    if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site!!.contains(storeIdList.get(k))
+                    ) {
+                        orderTypeFilteredApprovelist.add(i)
+                    } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site!!.contains(storeIdList.get(k))
+                    ) {
+                        orderTypeFilteredApprovelist.add(i)
+
+                    }
+
+
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (storeIdList.isEmpty() && regionIdList.isEmpty()) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+                if (site.contains(siteId) && region!!.contains(regionId)) {
+                    orderTypeFilteredApprovelist.add(i)
+                }
+
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (regionIdList.isEmpty()&&typeString.isNotEmpty()) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")  && region!!.contains(regionId)
+                ) {
+                    orderTypeFilteredApprovelist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && region!!.contains(regionId)
+                ) {
+                    orderTypeFilteredApprovelist.add(i)
+
+                }
+
+
+
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (storeIdList.isEmpty()&&typeString.isNotEmpty()) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")  && site!!.contains(siteId)
+                ) {
+                    orderTypeFilteredApprovelist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site!!.contains(siteId)
+                ) {
+                    orderTypeFilteredApprovelist.add(i)
+
+                }
+
+
+
+            }
+            return orderTypeFilteredApprovelist
+        }
+
+
+
+
+
+
+
+
+
+        else {
             return approveList
         }
     }

@@ -62,6 +62,23 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             fragmentName= intent.getStringExtra("fragmentName")!!
             orderTypeMainList=intent.getStringArrayListExtra("orderTypeList")!!
 
+
+            fromQcDate = Preferences.getQcFromDate()
+            toQcDate = Preferences.getQcToDate()
+            regionId = Preferences.getQcRegion()
+            siteId = Preferences.getQcSite()
+            orderType =Preferences.getQcOrderType()
+
+
+
+
+            activityQcFilterBinding.toDateText.setText(Preferences.getQcToDate())
+            activityQcFilterBinding.fromDateText.setText(Preferences.getQcFromDate())
+            activityQcFilterBinding.regionIdSelect.setText(Preferences.getQcRegion())
+            activityQcFilterBinding.siteIdSelect.setText(Preferences.getQcSite())
+            activityQcFilterBinding.selectfiltertype.setText(orderType)
+
+
             if (orderTypeMainList.filter { it.contains("FL") }.size>0&&orderTypeMainList.filter { it.contains("RT") }.size>0){
                 orderTypeList.add("FORWARD RETURN")
                 orderTypeList.add("REVERSE RETURN")
@@ -157,20 +174,6 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         if(Preferences.getQcToDate().isEmpty()){
             Preferences.setQcOrderType("")
         }
-        fromQcDate = Preferences.getQcFromDate()
-        toQcDate = Preferences.getQcToDate()
-        regionId = Preferences.getQcRegion()
-        siteId = Preferences.getQcSite()
-        orderType =Preferences.getQcOrderType()
-
-
-
-
-        activityQcFilterBinding.toDateText.setText(Preferences.getQcToDate())
-        activityQcFilterBinding.fromDateText.setText(Preferences.getQcFromDate())
-        activityQcFilterBinding.regionIdSelect.setText(Preferences.getQcRegion())
-        activityQcFilterBinding.siteIdSelect.setText(Preferences.getQcSite())
-        activityQcFilterBinding.selectfiltertype.setText(Preferences.getQcOrderType())
 
 
 

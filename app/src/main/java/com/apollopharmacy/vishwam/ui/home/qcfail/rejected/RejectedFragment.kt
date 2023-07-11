@@ -56,6 +56,10 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     var subList = ArrayList<ArrayList<QcListsResponse.Reject>>()
     var pageSizeList = ArrayList<String>()
     var charString: String? = ""
+    private var rejectedListMain = ArrayList<QcListsResponse.Reject>()
+    var storeIdList = ArrayList<String>()
+    var regionIdList = ArrayList<String>()
+
     private var rejectedListList = ArrayList<QcListsResponse.Reject>()
     private var rejectedFilterList = ArrayList<QcListsResponse.Reject>()
     var typeString = ""
@@ -205,13 +209,14 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         })
 
-        viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
+        viewModel.qcRejectLists.observe(viewLifecycleOwner) { it ->
             qcListsResponse = it
+            rejectedListMain = it.rejectedlist!!
             rejectedListList = it.rejectedlist!!
             setQcRejectedListResponse(it.rejectedlist!!)
             hideLoading()
 
-        })
+        }
 
 
 
@@ -222,7 +227,12 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             Preferences.setQcFromDate("")
             Preferences.setQcToDate("")
             Preferences.setQcSite("")
+            siteId = ""
             Preferences.setQcRegion("")
+            Preferences.setQcOrderType("")
+            typeString = ""
+            rejectedListList.clear()
+            rejectedListMain.clear()
             MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
             val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
             currentDate = simpleDateFormat.format(Date())
@@ -416,7 +426,28 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
     fun filterbyOrderType(rejectedList: ArrayList<QcListsResponse.Reject>): ArrayList<QcListsResponse.Reject> {
         var orderTypeFilteredRejectedlist = ArrayList<QcListsResponse.Reject>()
-        if (typeString.equals("FORWARD RETURN") || typeString.equals("REVERSE RETURN")) {
+        var storeList: List<String>
+        var regionList: List<String>
+        if (regionId.isNotEmpty()) {
+            regionList = regionId.split(",")
+            if (regionList.size > 1) {
+
+
+                regionIdList = regionList as ArrayList<String>
+
+            }
+        }
+        if (siteId.isNotEmpty()) {
+            storeList = siteId.split(",")
+            if (storeList.size > 1) {
+
+
+                storeIdList = storeList as ArrayList<String>
+
+            }
+        }
+
+        if (typeString.isNotEmpty()&&regionId.isEmpty()&&siteId.isEmpty()) {
             for (i in rejectedList) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
                 if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")) {
@@ -426,7 +457,267 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                 }
             }
             return orderTypeFilteredRejectedlist
-        } else {
+        }
+        else if (storeIdList.isEmpty()) {
+
+            for (i in rejectedList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (site.contains(siteId)) {
+                    orderTypeFilteredRejectedlist.add(i)
+
+                }
+
+            }
+            return orderTypeFilteredRejectedlist
+        }
+        else if (regionIdList.isEmpty()) {
+
+            for (i in rejectedList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (region!!.contains(regionId)) {
+                    orderTypeFilteredRejectedlist.add(i)
+
+                }
+
+            }
+            return orderTypeFilteredRejectedlist
+        }
+        else if (storeIdList.isEmpty() && regionIdList.isEmpty()&&typeString.isNotEmpty()) {
+
+            for (i in rejectedList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site.contains(
+                        siteId
+                    ) && region!!.contains(regionId)
+                ) {
+                    orderTypeFilteredRejectedlist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site.contains(
+                        siteId
+                    ) && region!!.contains(region)
+                ) {
+                    orderTypeFilteredRejectedlist.add(i)
+
+                }
+
+            }
+            return orderTypeFilteredRejectedlist
+        }
+        if (typeString.isNotEmpty() && storeIdList.size > 1 && regionIdList.size > 1) {
+            for (i in rejectedList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+                for (j in storeIdList.indices) {
+
+                    for (k in regionIdList.indices) {
+
+
+                        if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site.contains(
+                                storeIdList.get(j)
+                            ) && region!!.contains(regionIdList.get(k))
+                        ) {
+                            orderTypeFilteredRejectedlist.add(i)
+                        } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site.contains(
+                                storeIdList.get(j)
+                            ) && region!!.contains(regionIdList.get(k))
+                        ) {
+                            orderTypeFilteredRejectedlist.add(i)
+
+                        }
+
+                    }
+                }
+            }
+            return orderTypeFilteredRejectedlist
+        }
+        else if (regionIdList.size > 1) {
+
+            for (i in rejectedList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (j in regionIdList.indices) {
+
+
+                    if (region!!.contains(regionIdList.get(j))) {
+                        orderTypeFilteredRejectedlist.add(i)
+
+                    }
+                }
+            }
+            return orderTypeFilteredRejectedlist
+        }
+        else if (storeIdList.size > 1) {
+
+            for (i in rejectedList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (j in storeIdList.indices) {
+
+
+                    if (site.contains(storeIdList.get(j))) {
+                        orderTypeFilteredRejectedlist.add(i)
+
+                    } else if (site.contains(storeIdList.get(j))) {
+                        orderTypeFilteredRejectedlist.add(i)
+
+                    }
+                }
+            }
+            return orderTypeFilteredRejectedlist
+        }
+        else if (regionIdList.size > 1 && storeIdList.size > 1) {
+
+            for (i in rejectedList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                for (k in storeIdList.indices) {
+
+                    for (j in regionIdList.indices) {
+
+
+                        if (region!!.contains(regionIdList.get(j)) && site.contains(
+                                storeIdList.get(
+                                    k
+                                )
+                            )
+                        ) {
+                            orderTypeFilteredRejectedlist.add(i)
+
+                        }
+                    }
+                }
+            }
+            return orderTypeFilteredRejectedlist
+        }
+        else if (regionIdList.size > 1 && typeString.isNotEmpty()) {
+            for (i in rejectedList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (k in regionIdList.indices) {
+
+
+                    if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && region!!.contains(regionIdList.get(k))
+                    ) {
+                        orderTypeFilteredRejectedlist.add(i)
+                    } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && region!!.contains(regionIdList.get(k))
+                    ) {
+                        orderTypeFilteredRejectedlist.add(i)
+
+                    }
+
+
+                }
+            }
+            return orderTypeFilteredRejectedlist
+        }
+        else if (storeIdList.size > 1 && typeString.isNotEmpty()) {
+            for (i in rejectedList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (k in storeIdList.indices) {
+
+
+                    if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site!!.contains(storeIdList.get(k))
+                    ) {
+                        orderTypeFilteredRejectedlist.add(i)
+                    } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site!!.contains(storeIdList.get(k))
+                    ) {
+                        orderTypeFilteredRejectedlist.add(i)
+
+                    }
+
+
+                }
+            }
+            return orderTypeFilteredRejectedlist
+        }
+        else if (storeIdList.isEmpty() && regionIdList.isEmpty()) {
+
+            for (i in rejectedList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+                if (site.contains(siteId) && region!!.contains(regionId)) {
+                    orderTypeFilteredRejectedlist.add(i)
+                }
+
+            }
+            return orderTypeFilteredRejectedlist
+        }
+        else if (regionIdList.isEmpty()&&typeString.isNotEmpty()) {
+
+            for (i in rejectedList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")  && region!!.contains(regionId)
+                ) {
+                    orderTypeFilteredRejectedlist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && region!!.contains(regionId)
+                ) {
+                    orderTypeFilteredRejectedlist.add(i)
+
+                }
+
+
+
+            }
+            return orderTypeFilteredRejectedlist
+        }
+        else if (storeIdList.isEmpty()&&typeString.isNotEmpty()) {
+
+            for (i in rejectedList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")  && site!!.contains(siteId)
+                ) {
+                    orderTypeFilteredRejectedlist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site!!.contains(siteId)
+                ) {
+                    orderTypeFilteredRejectedlist.add(i)
+
+                }
+
+
+
+            }
+            return orderTypeFilteredRejectedlist
+        }
+
+
+
+
+
+
+
+
+        else {
             return rejectedList
         }
     }
@@ -442,27 +733,50 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                     siteId = data.getStringExtra("siteId").toString()
                     regionId = data.getStringExtra("regionId").toString()
                     typeString = data.getStringExtra("orderType").toString()
+                    if (currentDate.isNotEmpty() && fromDate.isNotEmpty()) {
+                        showLoading()
+                        viewModel.getQcRejectList(
+                            Preferences.getToken(),
+                            data.getStringExtra("fromQcDate").toString(),
+                            data.getStringExtra("toDate").toString(),
+                            data.getStringExtra("siteId").toString(),
+                            data.getStringExtra("regionId").toString()
+                        )
 
-                    showLoading()
-                    viewModel.getQcRejectList(
-                        Preferences.getToken(),
-                        data.getStringExtra("fromQcDate").toString(),
-                        data.getStringExtra("toDate").toString(),
-                        data.getStringExtra("siteId").toString(),
-                        data.getStringExtra("regionId").toString()
-                    )
+                        if (data.getStringExtra("fromQcDate").toString()
+                                .equals(fromDate) && data.getStringExtra("toDate").toString()
+                                .equals(currentDate)
+                        ) {
+                            MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+                        } else {
+                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
-                    if (data.getStringExtra("fromQcDate").toString()
-                            .equals(fromDate) && data.getStringExtra("toDate").toString()
-                            .equals(currentDate)
-                    ) {
-                        MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-                    } else {
+                        }
+                    }else if (rejectedListList.size == rejectedListMain.size) {
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        setQcRejectedListResponse(rejectedListList)
+                        adapter!!.notifyDataSetChanged()
 
+                    } else {
+                        rejectedListList.clear()
+                        rejectedListList = rejectedListMain
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        setQcRejectedListResponse(rejectedListList)
+                        adapter!!.notifyDataSetChanged()
                     }
+
+
                     if (data.getStringExtra("reset").toString().equals("reset")) {
                         showLoading()
+                        Preferences.setQcFromDate("")
+                        Preferences.setQcToDate("")
+                        Preferences.setQcSite("")
+                        siteId = ""
+                        Preferences.setQcRegion("")
+                        Preferences.setQcOrderType("")
+                        typeString = ""
+                        rejectedListList.clear()
+                        rejectedListMain.clear()
                         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
                         currentDate = simpleDateFormat.format(Date())
                         val cal = Calendar.getInstance()
@@ -543,48 +857,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 //        Toast.makeText(context, "selected", Toast.LENGTH_SHORT).show()
     }
 
-//    override fun getFilter(): Filter? {
-//        return object : Filter() {
-//            override fun performFiltering(charSequence: CharSequence): FilterResults {
-//                charString = charSequence.toString()
-//                if (charString!!.isEmpty()) {
-//                    qcListsResponse!!.rejectedlist = rejectedListList
-//                } else {
-//                    rejectedFilterList.clear()
-//                    for (row in rejectedListList) {
-//                        if (!rejectedFilterList.contains(row) && row.omsorderno!!.toUpperCase()
-//                                .contains(
-//                                    charString!!.toUpperCase(
-//                                        Locale.getDefault()
-//                                    )
-//                                )
-//                        ) {
-//                            rejectedFilterList.add(row)
-//                        }
-//                    }
-//                    qcListsResponse!!.rejectedlist = rejectedFilterList
-//                }
-//                val filterResults = FilterResults()
-//                filterResults.values = qcListsResponse!!.rejectedlist
-//                return filterResults
-//            }
-//
-//            @SuppressLint("NotifyDataSetChanged")
-//            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-//                if (qcListsResponse!!.rejectedlist != null && !qcListsResponse!!.rejectedlist!!.isEmpty()) {
-//                    qcListsResponse!!.rejectedlist =
-//                        filterResults.values as java.util.ArrayList<QcListsResponse.Reject>
-//                    try {
-//                        viewModel.setRejectedList(qcListsResponse!!)
-//                    } catch (e: Exception) {
-//                        Log.e("FullfilmentAdapter", e.message!!)
-//                    }
-//                } else {
-//                    viewModel.setRejectedList(qcListsResponse!!)
-//                }
-//            }
-//        }
-//    }
 
     override fun getFilter(): Filter? {
         return object : Filter() {
