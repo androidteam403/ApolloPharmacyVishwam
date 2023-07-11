@@ -2,4 +2,4 @@ package com.apollopharmacy.vishwam.ui.home.retroqr.activity.model
 
 import java.io.File
 
-data class ImageDto(val file: File, val base64Images: String)
+data class ImageDto(var image: File, var base64Images: String)

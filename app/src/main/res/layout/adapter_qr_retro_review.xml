@@ -122,7 +122,7 @@
                             android:layout_height="match_parent"
                             android:contentDescription="@string/app_name"
                             android:scaleType="fitXY"
-                            android:src="@drawable/capture" />
+                            android:src="@drawable/desktop" />
 
                         <LinearLayout
                             android:id="@+id/redTrash_2"
@@ -160,9 +160,9 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="@dimen/value_80dp"
                     android:layout_height="@dimen/value_70dp"
+                    android:layout_marginTop="@dimen/value_2dp"
                     android:layout_marginEnd="@dimen/value_5dp"
                     android:layout_marginBottom="@dimen/value_2dp"
-                    android:layout_marginTop="@dimen/value_2dp"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="@dimen/value_10dp"
                     app:cardElevation="@dimen/value_5dp">
@@ -178,15 +178,29 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:gravity="center_horizontal"
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="@dimen/dimen20dp"
-                                android:layout_height="@dimen/dimen20dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/qr" />
+                                android:id="@+id/cameraIcon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/rounded_background"
+                                android:backgroundTint="#ec9da8"
+                                android:contentDescription="@string/app_name"
+                                android:padding="@dimen/value_5dp"
+                                android:src="@drawable/ic_outline_camera_alt_24"
+                                android:tint="@color/white"
+                                tools:ignore="UseAppTint" />
 
-                            <TextView
+                            <!--                            <ImageView-->
+                            <!--                                android:layout_width="@dimen/dimen20dp"-->
+                            <!--                                android:layout_height="@dimen/dimen20dp"-->
+                            <!--                                android:layout_gravity="center"-->
+                            <!--                                android:src="@drawable/qr" />-->
+
+                            <!--<TextView
                                 android:id="@+id/imageTextandNumber"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -194,7 +208,7 @@
                                 android:text="SCAN"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/seven7_sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold" />-->
                         </LinearLayout>
                     </RelativeLayout>
 
@@ -214,14 +228,15 @@
                             android:src="@drawable/capture" />
 
                         <ImageView
-                            android:layout_width="@dimen/value_16dp"
-                            android:layout_height="@dimen/value_16dp"
-                            android:padding="@dimen/value_3dp"
+                            android:id="@+id/delete"
+                            android:layout_width="@dimen/value_30dp"
+                            android:layout_height="@dimen/value_30dp"
                             android:layout_centerInParent="true"
-                            android:backgroundTint="@color/red"
-                            android:tint="@color/white"
-                            android:src="@drawable/delete"
                             android:background="@drawable/rounded_background"
+                            android:backgroundTint="@color/red"
+                            android:padding="@dimen/value_5dp"
+                            android:src="@drawable/delete"
+                            android:tint="@color/white"
                             tools:ignore="UseAppTint" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
@@ -235,12 +250,34 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/compareIconLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/compareIcon"
+                        android:layout_width="@dimen/value_45dp"
+                        android:layout_height="@dimen/value_45dp"
+                        android:layout_marginStart="@dimen/dimen20dp"
+                        android:tint="#5c5c5c"
+                        android:padding="@dimen/value_8dp"
+                        android:backgroundTint="#f2f2f2"
+                        android:background="@drawable/rounded_background"
+                        android:src="@drawable/ic_baseline_compare_24"
+                        tools:ignore="UseAppTint" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/matchingPercentageLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.33"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/rating"
                         android:layout_width="@dimen/text_14sp"
                         android:layout_height="@dimen/text_14sp"
                         android:layout_gravity="center"
@@ -265,6 +302,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/matchingPercentage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="60%"

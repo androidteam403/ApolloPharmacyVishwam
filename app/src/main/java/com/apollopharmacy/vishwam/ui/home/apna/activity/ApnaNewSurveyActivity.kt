@@ -81,6 +81,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     var regionName = ""
     var regionUid = ""
     var regionCode = ""
+    var trafficStreetTypeUid = ""
 
     lateinit var geocoder: Geocoder
 
@@ -817,10 +818,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             if (!checkPermission()) {
                 askPermissions(100)
             } else {
-                if (imageFileList.size == 5) {
+                if (imageFileList.size == 10) {
                     Toast.makeText(
                         this@ApnaNewSurveyActivity,
-                        "You are allowed to upload only five images",
+                        "You are allowed to upload only ten images",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -4014,8 +4015,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 }
 
                 val trafficStreetType = SurveyCreateRequest.TrafficStreetType()
-                trafficStreetType.uid =
-                    activityApnaNewSurveyBinding.trafficStreetSelect.text.toString().trim()
+                trafficStreetType.uid = trafficStreetTypeUid
+//                    activityApnaNewSurveyBinding.trafficStreetSelect.text.toString().trim()
                 surveyCreateRequest.trafficStreetType = trafficStreetType
 
                 if (activityApnaNewSurveyBinding.morningFromSelect.text.toString().isNotEmpty()) {
@@ -4770,8 +4771,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         apartmentTypeDialog.dismiss()
     }
 
-    override fun onTrafficStreetItemSelect(position: Int, item: String) {
-        activityApnaNewSurveyBinding.trafficStreetSelect.setText(item)
+    override fun onTrafficStreetTypeSelect(position: Int, uid: String, name: String) {
+        this.trafficStreetTypeUid = uid
+        activityApnaNewSurveyBinding.trafficStreetSelect.setText(name)
         trafficStreetDialog.dismiss()
     }
 
@@ -5076,7 +5078,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     override fun onSelectDimensionTypeItem(position: Int, item: String, row: Row) {
         activityApnaNewSurveyBinding.dimensionTypeSelect.setText(item)
         activityApnaNewSurveyBinding.dimensionOfPremisesUnit.setText(item)
-        activityApnaNewSurveyBinding.expectedRentOrDepositUnit.setText(item)
+//        activityApnaNewSurveyBinding.expectedRentOrDepositUnit.setText(item)
         this.dimenTypeSelectedItem = row
         dimensionTypeDialog.dismiss()
     }

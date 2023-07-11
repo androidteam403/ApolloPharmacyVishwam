@@ -266,13 +266,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (surveyCreateRequest.dimensionType != null && surveyCreateRequest.dimensionType!!.name != null) {
             activityApnaSurveyPreviewBinding.dimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + "): ")
             activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + "): ")
-            activityApnaSurveyPreviewBinding.expectedRentUnit.setText(surveyCreateRequest.dimensionType!!.name)
-            activityApnaSurveyPreviewBinding.securityDepositUnit.setText(surveyCreateRequest.dimensionType!!.name)
+//            activityApnaSurveyPreviewBinding.expectedRentUnit.setText(surveyCreateRequest.dimensionType!!.name)
+//            activityApnaSurveyPreviewBinding.securityDepositUnit.setText(surveyCreateRequest.dimensionType!!.name)
         } else {
             activityApnaSurveyPreviewBinding.dimensionType.setText("(-): ")
             activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(-): ")
-            activityApnaSurveyPreviewBinding.expectedRentUnit.setText("-")
-            activityApnaSurveyPreviewBinding.securityDepositUnit.setText("-")
+//            activityApnaSurveyPreviewBinding.expectedRentUnit.setText("-")
+//            activityApnaSurveyPreviewBinding.securityDepositUnit.setText("-")
         }
         if (surveyCreateRequest.length != null) {
             activityApnaSurveyPreviewBinding.length.setText(surveyCreateRequest.length)
@@ -775,7 +775,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficText.setText("Traffic High")
-        } else if (trafficType.equals("V.High", true)) {
+        } else if (trafficType.equals("V_High", true)) {
             activityApnaSurveyPreviewBinding.trafficLow.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.GONE

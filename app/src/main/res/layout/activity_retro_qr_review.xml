@@ -346,6 +346,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/totalRacks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="25"
@@ -384,6 +385,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/updated"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -407,6 +409,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/pending"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -509,12 +512,14 @@
 
 
                 <LinearLayout
+                    android:id="@+id/submitButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="0.25"
                     android:background="#9b9b9b"
                     android:gravity="center"
+                    android:onClick="@{()->callback.onClickSubmit()}"
                     android:orientation="vertical">
 
                     <TextView
@@ -534,4 +539,11 @@
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrreview.RetroQrReviewCallback" />
+    </data>
 </layout>

@@ -70,19 +70,51 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
         viewBinding.search.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
         viewBinding.search.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+            override fun onEditorAction(
+                textView: TextView?,
+                actionId: Int,
+                event: KeyEvent?,
+            ): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    pageNo = 1
-                    isLoading = false
-                    isFirstTime = true
-                    showLoading()
-                    callAPI(pageNo, rowSize, true)
-                    return true
+                    if (textView!!.text.trim().isEmpty()) {
+                        pageNo = 1
+                        isLoading = false
+                        isFirstTime = true
+                        showLoading()
+                        Utlis.hideKeyPad(context as Activity)
+                        callAPI(pageNo, rowSize, false)
+                        return true
+                    } else {
+                        pageNo = 1
+                        isLoading = false
+                        isFirstTime = true
+                        showLoading()
+                        Utlis.hideKeyPad(context as Activity)
+                        callAPI(pageNo, rowSize, true)
+                        return true
+                    }
                 }
                 return false
             }
         })
-
+        viewBinding.searchIcon.setOnClickListener {
+            val searchText = viewBinding.search.text.toString().trim()
+            if (searchText.isEmpty()) {
+                pageNo = 1
+                isLoading = false
+                isFirstTime = true
+                showLoading()
+                Utlis.hideKeyPad(context as Activity)
+                callAPI(pageNo, rowSize, false)
+            } else {
+                pageNo = 1
+                isLoading = false
+                isFirstTime = true
+                showLoading()
+                Utlis.hideKeyPad(context as Activity)
+                callAPI(pageNo, rowSize, true)
+            }
+        }
     }
 
     fun submitClick() {
@@ -122,7 +154,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         hideLoading()
         if (viewBinding.pullToRefresh.isRefreshing) {
             viewBinding.pullToRefresh.isRefreshing = false
-            pageNo = 1;
+            pageNo = 1
             isLastPage = false
         }
         var getsurveyList = surveyListResponse.data!!.listData!!.rows

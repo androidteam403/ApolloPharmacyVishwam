@@ -31,6 +31,7 @@ import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.model.ScannerResponse
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsResponse
@@ -816,5 +817,10 @@ interface ViswamAppApi {
         @Url url: String,
         @Header("token") token: String,
     ): GetDiscountColorResponse
+
+    @GET
+    suspend fun getImageUrl(
+        @Url url: String
+    ): ScannerResponse
 
 }

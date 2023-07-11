@@ -52,8 +52,8 @@
                 android:visibility="gone">
 
                 <ImageView
-                    android:layout_width="@dimen/value_25dp"
-                    android:layout_height="@dimen/value_20dp"
+                    android:layout_width="@dimen/value_30dp"
+                    android:layout_height="@dimen/value_25dp"
                     android:src="@drawable/qr" />
 
                 <TextView
