@@ -64,13 +64,13 @@ interface ViswamAppApi {
     ): DeviceDeRegResponse
 
 
-  @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
-    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
-
-
-
-//    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+//  @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
 //    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
+
+
+    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
     suspend fun getValidateTest(): ValidateResponse
@@ -347,18 +347,18 @@ interface ViswamAppApi {
     ): SwachModelResponse
 
 
-    @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetPendingAndAcceptAndRejectList?")//?Storeid=16001
-    suspend fun qcResponseList(
-        @Url url: String,
-        @Query("EmpId") id: String,
-        @Query("FromDate") fromDate: String,
-        @Query("ToDate") tomDate: String,
-        @Query("StoreId") storeId: String,
-        @Query("REGIONID") region: String,
-    ): QcListsResponse
+//    @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetPendingAndAcceptAndRejectList?")//?Storeid=16001
+//    suspend fun qcResponseList(
+//        @Url url: String,
+//        @Query("EmpId") id: String,
+//        @Query("FromDate") fromDate: String,
+//        @Query("ToDate") tomDate: String,
+//        @Query("StoreId") storeId: String,
+//        @Query("REGIONID") region: String,
+//    ): QcListsResponse
 
-//    @GET("https://jsonblob.com/api/jsonBlob/1126755024008134656")
-//    suspend fun qcResponseList(): QcListsResponse
+    @GET("https://jsonblob.com/api/jsonBlob/1126755024008134656")
+    suspend fun qcResponseList(): QcListsResponse
 
 
 
