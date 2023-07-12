@@ -387,6 +387,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             filterApproveList = (approvedlist as ArrayList<QcListsResponse.Approved>?)!!
 
             for (i in filterApproveList.indices) {
+                orderTypeList.add(filterApproveList[i].omsorderno.toString())
+
                 storeStringList.add(filterApproveList[i].storeid.toString())
                 regionStringList.add(filterApproveList[i].dcCode.toString())
             }
@@ -512,6 +514,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
+        orderTypeList.clear()
         siteId = ""
         Preferences.setQcRegion("")
         Preferences.setQcOrderType("")
@@ -559,17 +562,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             data.getStringExtra("regionId").toString()
                         )
 
-                        if (data.getStringExtra("fromQcDate").toString()
-                                .equals(fromDate) && data.getStringExtra(
-                                "toDate"
-                            ).toString()
-                                .equals(currentDate)
-                        ) {
-                            MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-                        } else {
-                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
-                        }
                     }
 
                     else if (approvedListList.size == approvedListList.size){
@@ -592,6 +586,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                         Preferences.setQcFromDate("")
                         Preferences.setQcToDate("")
                         Preferences.setQcSite("")
+                        orderTypeList.clear()
+
                         siteId = ""
                         Preferences.setQcRegion("")
                         Preferences.setQcOrderType("")
@@ -726,6 +722,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         i.putExtra("activity", "2")
         i.putStringArrayListExtra("storeList", storeStringList)
         i.putStringArrayListExtra("regionList", regionStringList)
+        i.putStringArrayListExtra("orderTypeList", orderTypeList)
+
         i.putExtra("fragmentName", "approve")
         startActivityForResult(i, 210)
     }

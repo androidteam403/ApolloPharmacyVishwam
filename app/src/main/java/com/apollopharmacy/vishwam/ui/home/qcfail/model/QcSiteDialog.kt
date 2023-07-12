@@ -217,29 +217,42 @@ class QcSiteRecycleView(
         var i: Int = 0
 
         if (!Preferences.getQcSite().isNullOrEmpty()) {
+            if (Preferences.getQcSite().contains(",")){
+                for (j in departmentListDto.indices) {
 
-            for (i in storeList.indices) {
-                if (departmentListDto.get(i).siteid
-                        .equals(storeList[i].siteid)
-                ) {
+                    if (Preferences.getQcSite().split(",").filter { it.contains(departmentListDto.get(i).siteid!!) }.size>0) {
 
-                    departmentListDto[i].setisClick(true)
-                } else {
+                        departmentListDto[j].setisClick(true)
+                    } else {
 
-                    departmentListDto[i].setisClick(false)
-
+                        departmentListDto[j].setisClick(false)
+                    }
 
                 }
             }
+
+            else{
+                for (j in departmentListDto.indices) {
+
+                    if (Preferences.getQcSite().contains(departmentListDto.get(j).siteid!!)
+                    ) {
+
+                        departmentListDto[j].setisClick(true)
+                    } else {
+
+                        departmentListDto[j].setisClick(false)
+                    }
+                }
+            }
+
         }
 
-        for (j in departmentListDto.indices){
-            if (departmentListDto[j].isClick) {
+            if (departmentListDto[position].isClick) {
                 binding.checkBox.setImageResource(R.drawable.qcright)
             } else {
                 binding.checkBox.setImageResource(R.drawable.qc_checkbox)
             }
-        }
+
 
 
 //        binding.root.setOnClickListener {

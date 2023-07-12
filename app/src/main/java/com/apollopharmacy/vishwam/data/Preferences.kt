@@ -3,6 +3,9 @@ package com.apollopharmacy.vishwam.data
 import android.content.Context
 import android.content.SharedPreferences
 import com.apollopharmacy.vishwam.data.Config.VISWAM_PREFERENCE
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.UniqueStoreList
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 object Preferences {
 
@@ -30,6 +33,7 @@ object Preferences {
     private const val KEY_SITE_DETAILS = "KEY_SITE_DETAILS"
     private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
     private const val PREF_KEY_SITE_ID_LIST_CHAMPS = "PREF_KEY_SITE_ID_LIST_CHAMPS"
+    private const val KEY_STORE_LIST_QCFAIL = "KEY_STORE_LIST_QCFAIL"
 
 
     private const val PREF_KEY_SITE_ID_LIST_QCFAIL = "PREF_KEY_SITE_ID_LIST_QCFAIL"
@@ -401,6 +405,29 @@ object Preferences {
             .apply()
     }
 
+    fun setStoreIdListQcFail(storeId: List<UniqueStoreList?>?) {
+        val storeIddListString = Gson().toJson(storeId)
+        sharedPreferences.edit().putString(KEY_STORE_LIST_QCFAIL, storeIddListString)
+            .apply()
+    }
+
+    fun getStoreIdListJsonQcFail(): List<UniqueStoreList?>? {
+
+
+
+        val storeIddList: String? =
+            sharedPreferences.getString(KEY_STORE_LIST_QCFAIL, null)
+        val type = object : TypeToken<List<UniqueStoreList?>?>() {}.type
+        return Gson().fromJson(storeIddList, type)
+    }
+
+//    fun setStoreIdListQcFail(siteIdListQcFail: String) {
+//        sharedPreferences.edit().putString(KEY_STORE_LIST_QCFAIL, siteIdListQcFail).apply()
+//    }
+
+    //    fun getStoreIdListJsonQcFail(): String {
+//        return sharedPreferences.getString(KEY_STORE_LIST_QCFAIL, "")!!
+//    }
     fun setSiteIdListQcFail(siteIdListQcFail: String) {
         sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_QCFAIL, siteIdListQcFail).apply()
     }

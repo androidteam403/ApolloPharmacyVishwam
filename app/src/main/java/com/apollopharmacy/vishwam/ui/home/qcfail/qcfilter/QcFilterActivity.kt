@@ -57,7 +57,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         activityQcFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_qc_filter)
         viewModel = ViewModelProvider(this)[QcSiteActivityViewModel::class.java]
         if (intent != null) {
-          storeStringList= intent.getStringArrayListExtra("storeList")!!
+            storeStringList= intent.getStringArrayListExtra("storeList")!!
             regionStringList= intent.getStringArrayListExtra("regionList")!!
             fragmentName= intent.getStringExtra("fragmentName")!!
             orderTypeMainList=intent.getStringArrayListExtra("orderTypeList")!!
@@ -269,7 +269,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
             }
 
-             else {
+            else {
 //                orderType = activityQcFilterBinding.selectfiltertype.text.toString()
                 val intent = Intent()
                 Preferences.setQcFromDate(fromQcDate)
@@ -326,7 +326,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             QcOrderTypeDialog().apply {
                 arguments = QcOrderTypeDialog().generateParsedData(orderTypeList)
             }.show(supportFragmentManager, "")
-            }
+        }
 
 
         activityQcFilterBinding.regionIdSelect.setOnClickListener {
