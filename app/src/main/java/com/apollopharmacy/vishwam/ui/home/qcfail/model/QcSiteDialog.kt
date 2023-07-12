@@ -78,8 +78,6 @@ class QcSiteDialog : DialogFragment() {
                 } else {
                     val items = UniqueStoreList()
                     items.siteid = storeIdList.get(i)
-
-
                     uniqueStoreList.add(items)
                 }
 
@@ -102,6 +100,7 @@ class QcSiteDialog : DialogFragment() {
                     }
 
                     override fun onClick(list: ArrayList<UniqueStoreList>, position: Int,storeList: ArrayList<UniqueStoreList>) {
+                        if (storeList.isNullOrEmpty()) {
                             if (list[position].isClick) {
                                 list[position].setisClick(false)
 
@@ -109,9 +108,7 @@ class QcSiteDialog : DialogFragment() {
                                 list[position].setisClick(true)
 
                             }
-
-
-
+                        }
                         sitereCyclerView.notifyDataSetChanged()
 
                         for (i in regionDataArrayList.indices) {
