@@ -3293,17 +3293,35 @@
             </ScrollView>
         </LinearLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/scroll_top"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/value_20dp"
-            android:layout_marginBottom="@dimen/value_30dp"
-            android:src="@drawable/ic_baseline_north_24"
-            app:backgroundTint="@color/apna_project_actionbar_color"
-            app:fabCustomSize="@dimen/value_40dp"
-            app:tint="@color/white" />
+            android:layout_marginEnd="@dimen/dimen20dp"
+            android:layout_marginBottom="@dimen/value_25dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/scroll_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_baseline_north_24"
+                app:backgroundTint="@color/apna_project_actionbar_color"
+                app:fabCustomSize="@dimen/value_40dp"
+                app:tint="@color/white" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/scroll_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_baseline_north_24"
+                app:tint="@color/white"
+                android:rotation="180"
+                app:backgroundTint="@color/apna_project_actionbar_color"
+                app:fabCustomSize="@dimen/value_40dp" />
+        </LinearLayout>
     </RelativeLayout>
 </layout>
