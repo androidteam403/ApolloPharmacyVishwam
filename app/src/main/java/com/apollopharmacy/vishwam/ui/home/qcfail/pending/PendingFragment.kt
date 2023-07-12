@@ -964,17 +964,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                             data.getStringExtra("regionId").toString(),
                             this
                         )
-                        if (data.getStringExtra("fromQcDate").toString()
-                                .equals(fromDate) && data.getStringExtra(
-                                "toDate"
-                            ).toString().equals(currentDate) && data.getStringExtra("regionId")
-                                .toString().isNullOrEmpty()
-                        ) {
-                            MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-                        } else {
+
                             MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
-                        }
+
                     } else if (pendingListList.size == pendingListMain.size) {
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
                         setQcPedningListResponse(pendingListList)

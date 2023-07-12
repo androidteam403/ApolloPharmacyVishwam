@@ -743,15 +743,10 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                             data.getStringExtra("regionId").toString()
                         )
 
-                        if (data.getStringExtra("fromQcDate").toString()
-                                .equals(fromDate) && data.getStringExtra("toDate").toString()
-                                .equals(currentDate)
-                        ) {
-                            MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-                        } else {
+
                             MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
-                        }
+
                     }else if (rejectedListList.size == rejectedListMain.size) {
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
                         setQcRejectedListResponse(rejectedListList)

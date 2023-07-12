@@ -425,7 +425,7 @@ object Preferences {
 //        sharedPreferences.edit().putString(KEY_STORE_LIST_QCFAIL, siteIdListQcFail).apply()
 //    }
 
-//    fun getStoreIdListJsonQcFail(): String {
+    //    fun getStoreIdListJsonQcFail(): String {
 //        return sharedPreferences.getString(KEY_STORE_LIST_QCFAIL, "")!!
 //    }
     fun setSiteIdListQcFail(siteIdListQcFail: String) {
