@@ -118,13 +118,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             onBackPressed()
         }
 
-
         apnaPreviewActivityBinding.scrollTop.setOnClickListener {
-            apnaPreviewActivityBinding.scrollView.post {
-                apnaPreviewActivityBinding.scrollView.fullScroll(View.FOCUS_UP)
-            }
+            apnaPreviewActivityBinding.scrollView.fullScroll(View.FOCUS_UP)
         }
-
+        apnaPreviewActivityBinding.scrollBottom.setOnClickListener {
+            apnaPreviewActivityBinding.scrollView.fullScroll(View.FOCUS_DOWN)
+        }
         setUp()
     }
 

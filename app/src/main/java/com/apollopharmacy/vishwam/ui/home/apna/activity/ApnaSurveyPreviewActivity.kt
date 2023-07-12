@@ -107,6 +107,9 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.scrollTop.setOnClickListener {
             activityApnaSurveyPreviewBinding.scrollView.fullScroll(View.FOCUS_UP)
         }
+        activityApnaSurveyPreviewBinding.scrollBottom.setOnClickListener {
+            activityApnaSurveyPreviewBinding.scrollView.fullScroll(View.FOCUS_DOWN)
+        }
         activityApnaSurveyPreviewBinding.quickGoIcon.setOnClickListener {
             val apnaPreviewQuickGoDialogBinding: ApnaPreviewQuickGoDialogBinding? =
                 DataBindingUtil.inflate(
