@@ -599,6 +599,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
             }
         }
+
+        var j: Int = 0
+
+
         if (typeString.isNotEmpty()&&regionId.isEmpty()&&siteId.isEmpty()) {
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
