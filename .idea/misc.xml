@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -8,6 +9,7 @@
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/drawable/ash_arrow_24.xml" value="0.21" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/drawable/bg_for_menu.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/drawable/blue_rectangle.xml" value="0.2555" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/drawable/closee_whitee.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/drawable/dialog_bg.xml" value="0.185" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/drawable/gray_border_top.xml" value="0.21" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/drawable/gray_rounded_bg.xml" value="0.2555" />
@@ -43,9 +45,13 @@
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_image_comparison.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_pre_rectro_review.xml" value="0.25" />
-        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_retro_image_preview.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_preview_preretro.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_retro_image_preview.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_retro_qr_review.xml" value="0.264" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_retro_qr_scanner.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_retro_qr_upload.xml" value="0.264" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_scanner.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_scanner2.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_select_swachh_siteid.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_upload_now_button.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_verify_user.xml" value="0.25" />
@@ -62,6 +68,7 @@
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/chemist_adapter_layout.xml" value="0.4" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/choose_image_option_layout.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/custom_marker_apna.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/custom_scanner.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/dialog_alert_message.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/dialog_location_list.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/dialog_survey_list_filter.xml" value="0.25" />
@@ -69,7 +76,9 @@
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_apna_survey.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_apollo_sensing.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_approved_qc.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_assets.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_cash_closer.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_ceo_dashboard.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_pre_rectro.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_rectro_qr.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_rejected_qc.xml" value="0.25" />

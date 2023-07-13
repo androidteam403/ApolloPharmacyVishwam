@@ -1,7 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.fragment
 
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsResponse
-import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseEmpIdResponse
+import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 
 interface NewSurveyCallback {
 
@@ -10,8 +11,9 @@ interface NewSurveyCallback {
    fun onClickCardView()
 
     fun onClickCloseIcon()
-    fun onSuccessgetStoreDetails(value: List<StoreDetailsResponse.Row>)
-     fun onFailuregetStoreDetails(value: StoreDetailsResponse)
-     fun onSuccessgetStoreWiseDetails(value: GetStoreWiseDetailsResponse)
-     fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsResponse)
+    fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>)
+     fun onFailuregetStoreDetails(value: StoreDetailsModelResponse)
+
+    fun onSuccessgetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse)
+    fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse)
 }

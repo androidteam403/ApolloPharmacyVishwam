@@ -30,15 +30,15 @@ interface ApnaNewSurveyCallBack {
 
     fun onApartmentTypeItemSelect(position: Int, item: String)
 
-    fun onTrafficStreetItemSelect(position: Int, item: String)
+    fun onTrafficStreetTypeSelect(position: Int, uid: String, name: String)
 
     fun onApnaSpecialityItemSelect(position: Int, uid: String, name: String)
 
-    fun onClickTrafficGeneratorItemDelete(position: Int, deletedItem: String)
+    fun onClickTrafficGeneratorItemDelete(position: Int, deletedItem: TrafficGeneratorsResponse.Data.ListData.Row)
 
     fun onClickNeighbouringStoreDelete(position: Int)
 
-    fun onTrafficGeneratorItemSelect(position: Int, item: String, selected: Boolean?)
+    fun onTrafficGeneratorItemSelect(position: Int, item: TrafficGeneratorsResponse.Data.ListData.Row, selected: Boolean?)
 
     fun deleteSiteImage(position: Int, file: File)
 

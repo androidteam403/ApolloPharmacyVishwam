@@ -31,6 +31,7 @@ import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.model.ScannerResponse
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsResponse
@@ -64,13 +65,11 @@ interface ViswamAppApi {
     ): DeviceDeRegResponse
 
 
-  @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    /*@POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String*/
+
+    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
-
-
-
-//    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
-//    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
     suspend fun getValidateTest(): ValidateResponse
@@ -357,15 +356,10 @@ interface ViswamAppApi {
         @Query("REGIONID") region: String,
     ): QcListsResponse
 
-//    @GET("https://jsonblob.com/api/jsonBlob/1126755024008134656")
+
+//    @GET("https://jsonblob.com/api/jsonBlob/1120216438605627392")
 //    suspend fun qcResponseList(): QcListsResponse
 
-
-
-
-//    http://www.jsonblob.com/1126755831080304640     DesignationWisePendingCount
-
-//    http://www.jsonblob.com/1126757480893005824   PendingHistoryForHierarchy
     @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetLineItems?")//qcfail
     suspend fun qcItemsResponseList(
         @Url url: String,
@@ -559,14 +553,11 @@ interface ViswamAppApi {
         @Header("token") token: String,
     ): StoreDetailsModelResponse
 
-    @GET("http://jsonblob.com/api/jsonBlob/1081087017311551488")
-    suspend fun GET_STORE_WISE_DETAILS_CHAMPS(): GetStoreWiseDetailsModelResponse
-
     @GET("https://172.16.103.116/Apollo/Champs/getStoreBasedDetails")
     suspend fun GET_STORE_WISE_DETAILS_CHAMPS_API(
         @Header("token") token: String,
-        @Query("storeId") id: String,
-    ): GetStoreWiseDetailsModelResponse
+        @Query("TRAINERID") id: String,
+    ): GetStoreWiseEmpIdResponse
 
     @GET("http://jsonblob.com/api/jsonBlob/1080156717643481088")
     suspend fun GET_EMAIL_DETAILS(): GetEmailAddressModelResponse
@@ -826,5 +817,10 @@ interface ViswamAppApi {
         @Url url: String,
         @Header("token") token: String,
     ): GetDiscountColorResponse
+
+    @GET
+    suspend fun getImageUrl(
+        @Url url: String
+    ): ScannerResponse
 
 }

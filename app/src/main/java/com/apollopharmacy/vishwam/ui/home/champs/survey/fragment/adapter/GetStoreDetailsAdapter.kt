@@ -10,11 +10,10 @@ import com.apollopharmacy.vishwam.databinding.AdapterGetStoreDetailsBinding
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyCallback
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment
-import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsResponse
 
 class GetStoreDetailsAdapter(
     private var context: Context?,
-    private var storeDetails: MutableList<StoreDetailsResponse.Row>,
+    private var storeDetails: MutableList<StoreDetailsModelResponse.Row>,
     private var  newSurveyFragment: NewSurveyFragment,
     private var  newSurveyCallback: NewSurveyCallback
 ) : RecyclerView.Adapter<GetStoreDetailsAdapter.ViewHolder>() {
@@ -42,7 +41,7 @@ class GetStoreDetailsAdapter(
     }
 
     override fun getItemCount(): Int {
-    return storeDetails.size
+        return storeDetails.size
     }
 
 

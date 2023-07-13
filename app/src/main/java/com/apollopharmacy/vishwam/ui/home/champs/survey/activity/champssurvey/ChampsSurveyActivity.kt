@@ -38,6 +38,7 @@ import kotlin.math.roundToInt
 class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
     private lateinit var activityChampsSurveyBinding: ActivityChampsSurveyBinding
+    private var getStoreWiseEmpIdResponse:GetStoreWiseEmpIdResponse?=null
     private lateinit var champsSurveyViewModel: ChampsSurveyViewModel
     private var getTrainingAndColorDetailss: GetTrainingAndColorDetailsModelResponse? = null
     private var i = 0
@@ -48,7 +49,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     private var categoryPosition: Int = 0
     private var storeId: String = ""
     private var address: String = ""
-    private var getStoreWiseDetails: GetStoreWiseDetailsResponse? = null
+    private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
     var surveyRecDetailsList = ArrayList<String>()
     private var isPending: Boolean = false
     var surveyCCDetailsList = ArrayList<String>()
@@ -95,8 +96,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
     private fun setUp() {
         activityChampsSurveyBinding.callback = this
+        getStoreWiseEmpIdResponse= intent.getSerializableExtra("getStoreWiseEmpIdResponse") as GetStoreWiseEmpIdResponse?
         getStoreWiseDetails =
-            intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsResponse?
+            intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
         surveyRecDetailsList =
             intent.getStringArrayListExtra("surveyRecDetailsList")!!
         surveyCCDetailsList = intent.getStringArrayListExtra("surveyCCDetailsList")!!
@@ -116,9 +118,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         activityChampsSurveyBinding.storeName.text = siteName
 
-//        activityChampsSurveyBinding.storeId.text = storeId
+       activityChampsSurveyBinding.storeId.text = storeId
 
-        activityChampsSurveyBinding.address.text = region
+        activityChampsSurveyBinding.address.text = storeId+ ", "+ siteName
         activityChampsSurveyBinding.storeCity.text = storeCity
         activityChampsSurveyBinding.region.text = region
         activityChampsSurveyBinding.percentageSum.text = "0"
@@ -424,8 +426,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     override fun onClickCategory(categoryName: String, position: Int) {
-//        getCategoryAndSubCategoryDetails?.storeIdP =
-//            activityChampsSurveyBinding.storeId.text.toString()
+        getCategoryAndSubCategoryDetails?.storeIdP =
+            activityChampsSurveyBinding.storeId.text.toString()
         getCategoryAndSubCategoryDetails?.addressP =
             activityChampsSurveyBinding.address.text.toString()
         getCategoryAndSubCategoryDetails?.issuedOnP =
@@ -435,6 +437,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         getCategoryAndSubCategoryDetails?.storeCityP =
             activityChampsSurveyBinding.storeCity.text.toString()
         val intent = Intent(context, ChampsDetailsandRatingBarActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("categoryName", categoryName)
         intent.putExtra("getCategoryAndSubCategoryDetails", getCategoryAndSubCategoryDetails)
         intent.putExtra("position", position)
@@ -463,7 +466,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             var headerDetails = SaveSurveyModelRequest.HeaderDetails()
             headerDetails.state = ""
             headerDetails.city = activityChampsSurveyBinding.storeCity.text.toString()
-//            headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
+           headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
 
             if (!status.equals("COMPLETED")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
@@ -471,7 +474,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy hh:mm:ss").format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss").format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             } else if (status.equals("PENDING")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
@@ -479,7 +482,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy hh:mm:ss").format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss").format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             } else {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
@@ -487,30 +490,35 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy hh:mm:ss").format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss").format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             }
 
-//            if (getStoreWiseDetails?.storeWiseDetails?.trainerEmail != null) {
-//                headerDetails.emailIdOfTrainer =
-//                    getStoreWiseDetails?.storeWiseDetails?.trainerEmail
-//            } else {
-//                headerDetails.emailIdOfTrainer = ""
-//            }
-            if (getStoreWiseDetails!!.data.executive != null) {
+            if (getStoreWiseEmpIdResponse!=null&&
+                getStoreWiseEmpIdResponse?.storeWiseDetails!=null &&
+                getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail != null) {
+                headerDetails.emailIdOfTrainer =
+                    getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail
+            } else {
+                headerDetails.emailIdOfTrainer = ""
+            }
+            if (getStoreWiseDetails!=null && getStoreWiseDetails!!.data!=null&&
+                getStoreWiseDetails!!.data.executive != null) {
                 headerDetails.emailIdOfExecutive =
                     getStoreWiseDetails!!.data.executive.email
             } else {
                 headerDetails.emailIdOfExecutive = ""
             }
-            if (getStoreWiseDetails!!.data.manager != null) {
+            if (getStoreWiseDetails!=null && getStoreWiseDetails!!.data!=null&&
+                getStoreWiseDetails!!.data.manager != null) {
                 headerDetails.emailIdOfManager =
                     getStoreWiseDetails!!.data.manager.email
             } else {
                 headerDetails.emailIdOfManager = ""
             }
 
-            if (getStoreWiseDetails!!.data.regionHead != null) {
+            if (getStoreWiseDetails!=null && getStoreWiseDetails!!.data!=null&&
+                getStoreWiseDetails!!.data.regionHead != null) {
                 headerDetails.emailIdOfRegionalHead =
                     getStoreWiseDetails!!.data.regionHead.email
             } else {
@@ -1152,8 +1160,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     override fun onClickPreview() {
-//        getCategoryAndSubCategoryDetails?.storeIdP =
-//            activityChampsSurveyBinding.storeId.text.toString()
+        getCategoryAndSubCategoryDetails?.storeIdP =
+            activityChampsSurveyBinding.storeId.text.toString()
         getCategoryAndSubCategoryDetails?.addressP =
             activityChampsSurveyBinding.address.text.toString()
         getCategoryAndSubCategoryDetails?.issuedOnP =
@@ -1162,6 +1170,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             activityChampsSurveyBinding.storeName.text.toString()
         getCategoryAndSubCategoryDetails?.storeCityP =
             activityChampsSurveyBinding.storeCity.text.toString()
+        getCategoryAndSubCategoryDetails?.storeStateP=
+                activityChampsSurveyBinding.region.text.toString()
 //        getCategoryAndSubCategoryDetails?.storeStateP=activityChampsSurveyBinding.State.text.toString()
         if (getTrainingAndColorDetailss != null && getTrainingAndColorDetailss!!.trainingDetails != null && getTrainingAndColorDetailss!!.trainingDetails.size != null) {
             getCategoryAndSubCategoryDetails?.technicalDetails =
@@ -1184,8 +1194,10 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         getCategoryAndSubCategoryDetails!!.totalProgressP = sumOfCategoriess
 
         val intent = Intent(context, PreviewActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getCategoryAndSubCategoryDetails", getCategoryAndSubCategoryDetails)
         intent.putExtra("getSubCategoryResponses", getSubCategoryResponses)
+
         startActivity(intent)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
@@ -1466,7 +1478,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         );
         if (elapsedDays > 0) {
             timeTaken.text =
-                " %d $elapsedDays days, $elapsedHours hours, $elapsedMinutes minutes, $elapsedSeconds seconds"
+                "$elapsedDays days, $elapsedHours hours, $elapsedMinutes minutes, $elapsedSeconds seconds"
         } else if (elapsedHours > 0) {
             timeTaken.text = "$elapsedHours hours, $elapsedMinutes minutes, $elapsedSeconds seconds"
 
@@ -1553,10 +1565,10 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 //            activityChampsSurveyBinding.siteId.text =
 //                getSurveyDetailsByChapmpsId.headerDetails.storeId
             val currentTime: Date = Calendar.getInstance().getTime()
-            activityChampsSurveyBinding.issuedOn.text = currentTime.toString()
+            activityChampsSurveyBinding.issuedOn.text = getSurveyDetailsByChapmpsId!!.headerDetails.dateOfVisit
 
-            val strDate = currentTime.toString()
-            val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy");
+            val strDate =  getSurveyDetailsByChapmpsId!!.headerDetails.dateOfVisit
+            val dateFormat = SimpleDateFormat("dd-MM-yy hh:mm:ss");
             val date = dateFormat.parse(strDate)
             val dateNewFormat =
                 SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)

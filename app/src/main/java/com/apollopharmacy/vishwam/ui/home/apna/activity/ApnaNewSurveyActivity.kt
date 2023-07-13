@@ -81,6 +81,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     var regionName = ""
     var regionUid = ""
     var regionCode = ""
+    var trafficStreetTypeUid = ""
 
     lateinit var geocoder: Geocoder
 
@@ -148,7 +149,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     var parkingTypeList = ArrayList<ParkingTypeResponse.Data.ListData.Row>()
     var dimensionTypeList = ArrayList<Row>()
     var neighbouringLocationList = ArrayList<NeighbouringLocationResponse.Data.ListData.Row>()
-    var selectedTrafficGeneratorItem = ArrayList<String>()
+    var selectedTrafficGeneratorItem = ArrayList<TrafficGeneratorsResponse.Data.ListData.Row>()
     var ageOftheBuildingMonthsList = ArrayList<String>()
     var regionList = ArrayList<RegionListResponse.Data.ListData.Row>()
 
@@ -817,10 +818,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             if (!checkPermission()) {
                 askPermissions(100)
             } else {
-                if (imageFileList.size == 5) {
+                if (imageFileList.size == 10) {
                     Toast.makeText(
                         this@ApnaNewSurveyActivity,
-                        "You are allowed to upload only five images",
+                        "You are allowed to upload only ten images",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -1442,41 +1443,45 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 val unorganisedAvgSale =
                     activityApnaNewSurveyBinding.unorganisedAvgSaleText.text.toString()
 
-                if (chemist.isNotEmpty() && organised.isNotEmpty() && organisedAvgSale.isNotEmpty() && unorganised.isNotEmpty() && unorganisedAvgSale.isNotEmpty()) {
-                    if (validateChemist()) {
-                        chemistList.add(
-                            ChemistData(
-                                chemist,
-                                organised,
-                                organisedAvgSale,
-                                unorganised,
-                                unorganisedAvgSale
-                            )
+                if (validateChemist()) {
+                    chemistList.add(
+                        ChemistData(
+                            chemist,
+                            organised,
+                            organisedAvgSale,
+                            unorganised,
+                            unorganisedAvgSale
                         )
-                        chemistAdapter =
-                            ChemistAdapter(this@ApnaNewSurveyActivity,
-                                this@ApnaNewSurveyActivity,
-                                chemistList)
-                        activityApnaNewSurveyBinding.chemistRecyclerView.adapter = chemistAdapter
-                        activityApnaNewSurveyBinding.chemistRecyclerView.layoutManager =
-                            LinearLayoutManager(this@ApnaNewSurveyActivity)
+                    )
+                    chemistAdapter =
+                        ChemistAdapter(
+                            this@ApnaNewSurveyActivity,
+                            this@ApnaNewSurveyActivity,
+                            chemistList
+                        )
+                    activityApnaNewSurveyBinding.chemistRecyclerView.adapter = chemistAdapter
+                    activityApnaNewSurveyBinding.chemistRecyclerView.layoutManager =
+                        LinearLayoutManager(this@ApnaNewSurveyActivity)
 
-                        // Clear
-                        activityApnaNewSurveyBinding.chemistText.text!!.clear()
-                        activityApnaNewSurveyBinding.organisedSelect.text!!.clear()
-                        activityApnaNewSurveyBinding.organisedAvgSaleText.text!!.clear()
-                        activityApnaNewSurveyBinding.unorganisedSelect.text!!.clear()
-                        activityApnaNewSurveyBinding.unorganisedAvgSaleText.text!!.clear()
-                        activityApnaNewSurveyBinding.organisedAvgSaleText.clearFocus()
-                        activityApnaNewSurveyBinding.unorganisedAvgSaleText.clearFocus()
-                    }
-                } else {
-                    Toast.makeText(
-                        this@ApnaNewSurveyActivity,
-                        "Please enter all the fields",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    // Clear
+                    activityApnaNewSurveyBinding.chemistText.text!!.clear()
+                    activityApnaNewSurveyBinding.organisedSelect.text!!.clear()
+                    activityApnaNewSurveyBinding.organisedAvgSaleText.text!!.clear()
+                    activityApnaNewSurveyBinding.unorganisedSelect.text!!.clear()
+                    activityApnaNewSurveyBinding.unorganisedAvgSaleText.text!!.clear()
+                    activityApnaNewSurveyBinding.organisedAvgSaleText.clearFocus()
+                    activityApnaNewSurveyBinding.unorganisedAvgSaleText.clearFocus()
                 }
+
+//                if (chemist.isNotEmpty() && organised.isNotEmpty() && organisedAvgSale.isNotEmpty() && unorganised.isNotEmpty() && unorganisedAvgSale.isNotEmpty()) {
+//
+//                } else {
+//                    Toast.makeText(
+//                        this@ApnaNewSurveyActivity,
+//                        "Please enter all the fields",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
 
                 if (chemistList.size > 0) {
                     activityApnaNewSurveyBinding.chemistTotalLayout.visibility = View.VISIBLE
@@ -1509,8 +1514,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                     val total = totalOrganisedAvgSale + totalUnorganisedAvgSale
                     if (total > 0) {
-                        activityApnaNewSurveyBinding.total.setText("\u20B9" + DecimalFormat("##,##,##0").format(
-                            total.toLong()))
+                        activityApnaNewSurveyBinding.total.setText(
+                            "\u20B9" + DecimalFormat("##,##,##0").format(
+                                total.toLong()
+                            )
+                        )
                     } else {
                         activityApnaNewSurveyBinding.total.setText("-")
                     }
@@ -3228,9 +3236,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         val name = activityApnaNewSurveyBinding.hospitalNameText.text.toString()
         if (!name.contains(Regex("[a-zA-Z]"))) {
             activityApnaNewSurveyBinding.hospitalNameText.requestFocus()
-            Toast.makeText(this@ApnaNewSurveyActivity,
+            Toast.makeText(
+                this@ApnaNewSurveyActivity,
                 "Please enter valid hospital name",
-                Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         } else {
             return true
@@ -3241,9 +3251,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         val apartments = activityApnaNewSurveyBinding.apartmentsOrColony.text.toString()
         if (!apartments.contains(Regex("[a-zA-Z]"))) {
             activityApnaNewSurveyBinding.apartmentsOrColony.requestFocus()
-            Toast.makeText(this@ApnaNewSurveyActivity,
+            Toast.makeText(
+                this@ApnaNewSurveyActivity,
                 "Please enter valid name",
-                Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         } else {
             return true
@@ -3252,39 +3264,79 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
     private fun validateChemist(): Boolean {
         val chemist = activityApnaNewSurveyBinding.chemistText.text.toString()
+        val organised = activityApnaNewSurveyBinding.organisedSelect.text.toString()
+        val unOrganised = activityApnaNewSurveyBinding.unorganisedSelect.text.toString()
         val organisedAvgSale =
             activityApnaNewSurveyBinding.organisedAvgSaleText.text.toString()
         val unorganisedAvgSale =
             activityApnaNewSurveyBinding.unorganisedAvgSaleText.text.toString()
-        if (!chemist.contains(Regex("[a-zA-Z]"))) {
+        if (chemist.isEmpty()) {
             activityApnaNewSurveyBinding.chemistText.requestFocus()
             Toast.makeText(this@ApnaNewSurveyActivity,
+                "Chemist should not be empty",
+                Toast.LENGTH_SHORT).show()
+            return false
+        } else if (!chemist.contains(Regex("[a-zA-Z]"))) {
+            activityApnaNewSurveyBinding.chemistText.requestFocus()
+            Toast.makeText(
+                this@ApnaNewSurveyActivity,
                 "Please enter valid chemist name",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        } else if (organised.isEmpty()) {
+            Toast.makeText(this@ApnaNewSurveyActivity,
+                "Please select organised",
                 Toast.LENGTH_SHORT).show()
             return false
-        } else if (organisedAvgSale.all { it == '.' }) {
+        } else if (organised.equals("Yes", true) && organisedAvgSale.isEmpty()) {
             activityApnaNewSurveyBinding.organisedAvgSaleText.requestFocus()
             Toast.makeText(this@ApnaNewSurveyActivity,
-                "Please enter valid value",
+                "Please enter organised Avg Sale",
                 Toast.LENGTH_SHORT).show()
             return false
-        } else if (unorganisedAvgSale.all { it == '.' }) {
-            activityApnaNewSurveyBinding.unorganisedAvgSaleText.requestFocus()
-            Toast.makeText(this@ApnaNewSurveyActivity,
-                "Please enter valid value",
-                Toast.LENGTH_SHORT).show()
-            return false
-        } else if (organisedAvgSale.toDouble() <= 0) {
+        } else if (organisedAvgSale.isNotEmpty() && organisedAvgSale.all { it == '.' }) {
             activityApnaNewSurveyBinding.organisedAvgSaleText.requestFocus()
+            Toast.makeText(
+                this@ApnaNewSurveyActivity,
+                "Please enter valid value",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        } else if (unOrganised.isEmpty()) {
             Toast.makeText(this@ApnaNewSurveyActivity,
-                "Avg sale value should not be zero",
+                "Please select unorganised",
                 Toast.LENGTH_SHORT).show()
             return false
-        } else if (unorganisedAvgSale.toDouble() <= 0) {
+        } else if (unOrganised.equals("Yes", true) && unorganisedAvgSale.isEmpty()) {
             activityApnaNewSurveyBinding.unorganisedAvgSaleText.requestFocus()
             Toast.makeText(this@ApnaNewSurveyActivity,
-                "Avg sale value should not be zero",
+                "Please enter unOrganised Avg Sale",
                 Toast.LENGTH_SHORT).show()
+            return false
+        } else if (unorganisedAvgSale.isNotEmpty() && unorganisedAvgSale.all { it == '.' }) {
+            activityApnaNewSurveyBinding.unorganisedAvgSaleText.requestFocus()
+            Toast.makeText(
+                this@ApnaNewSurveyActivity,
+                "Please enter valid value",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        } else if (organisedAvgSale.isNotEmpty() && organisedAvgSale.toDouble() <= 0) {
+            activityApnaNewSurveyBinding.organisedAvgSaleText.requestFocus()
+            Toast.makeText(
+                this@ApnaNewSurveyActivity,
+                "Avg sale value should not be zero",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        } else if (unorganisedAvgSale.isNotEmpty() && unorganisedAvgSale.toDouble() <= 0) {
+            activityApnaNewSurveyBinding.unorganisedAvgSaleText.requestFocus()
+            Toast.makeText(
+                this@ApnaNewSurveyActivity,
+                "Avg sale value should not be zero",
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         } else {
             return true
@@ -3297,21 +3349,27 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         val sqFt = activityApnaNewSurveyBinding.sqFtText.text.toString().trim()
         if (!store.contains(Regex("[a-zA-Z]"))) {
             activityApnaNewSurveyBinding.storeText.requestFocus()
-            Toast.makeText(this@ApnaNewSurveyActivity,
+            Toast.makeText(
+                this@ApnaNewSurveyActivity,
                 "Please enter valid store name",
-                Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         } else if (sales.all { it == '.' }) {
             activityApnaNewSurveyBinding.salesText.requestFocus()
-            Toast.makeText(this@ApnaNewSurveyActivity,
+            Toast.makeText(
+                this@ApnaNewSurveyActivity,
                 "Please enter valid sales",
-                Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         } else if (sqFt.all { it == '.' }) {
             activityApnaNewSurveyBinding.sqFtText.requestFocus()
-            Toast.makeText(this@ApnaNewSurveyActivity,
+            Toast.makeText(
+                this@ApnaNewSurveyActivity,
                 "Please enter valid sqft",
-                Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         } else {
             return true
@@ -3433,7 +3491,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         this@ApnaNewSurveyActivity.map = map
                         if (location == null) {
                             val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                            this@ApnaNewSurveyActivity.startActivityForResult(intent, REQUEST_CODE_LOCATION)
+                            this@ApnaNewSurveyActivity.startActivityForResult(
+                                intent,
+                                REQUEST_CODE_LOCATION
+                            )
                         } else {
                             val latLang = LatLng(location!!.latitude, location.longitude)
                             activityApnaNewSurveyBinding.latitude.setText(location.latitude.toString())
@@ -3986,8 +4047,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 }
 
                 val trafficStreetType = SurveyCreateRequest.TrafficStreetType()
-                trafficStreetType.uid =
-                    activityApnaNewSurveyBinding.trafficStreetSelect.text.toString().trim()
+                trafficStreetType.uid = trafficStreetTypeUid
+//                    activityApnaNewSurveyBinding.trafficStreetSelect.text.toString().trim()
                 surveyCreateRequest.trafficStreetType = trafficStreetType
 
                 if (activityApnaNewSurveyBinding.morningFromSelect.text.toString().isNotEmpty()) {
@@ -4180,7 +4241,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 val trafficGenerators = ArrayList<SurveyCreateRequest.TrafficGenerator>()
                 for (i in selectedTrafficGeneratorItem.indices) {
                     val trafficGenerator = SurveyCreateRequest.TrafficGenerator()
-                    trafficGenerator.uid = selectedTrafficGeneratorItem[i]
+                    trafficGenerator.uid = selectedTrafficGeneratorItem[i].uid
                     trafficGenerators.add(trafficGenerator)
                 }
                 surveyCreateRequest.trafficGenerator = trafficGenerators
@@ -4742,8 +4803,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         apartmentTypeDialog.dismiss()
     }
 
-    override fun onTrafficStreetItemSelect(position: Int, item: String) {
-        activityApnaNewSurveyBinding.trafficStreetSelect.setText(item)
+    override fun onTrafficStreetTypeSelect(position: Int, uid: String, name: String) {
+        this.trafficStreetTypeUid = uid
+        activityApnaNewSurveyBinding.trafficStreetSelect.setText(name)
         trafficStreetDialog.dismiss()
     }
 
@@ -4753,9 +4815,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         apnaSpecialityDialog.dismiss()
     }
 
-    override fun onClickTrafficGeneratorItemDelete(position: Int, deletedItem: String) {
+    override fun onClickTrafficGeneratorItemDelete(
+        position: Int,
+        deletedItem: TrafficGeneratorsResponse.Data.ListData.Row,
+    ) {
         for (i in trafficGeneratorData.indices) {
-            if (trafficGeneratorData[i].name.equals(deletedItem, true)) {
+            if (trafficGeneratorData[i].name.equals(deletedItem.name, true)) {
                 trafficGeneratorData[i].isSelected = false
             }
         }
@@ -4769,7 +4834,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         neighbouringStoreAdapter.notifyDataSetChanged()
     }
 
-    override fun onTrafficGeneratorItemSelect(position: Int, item: String, selected: Boolean?) {
+    override fun onTrafficGeneratorItemSelect(
+        position: Int,
+        item: TrafficGeneratorsResponse.Data.ListData.Row,
+        selected: Boolean?,
+    ) {
 
         if (selected == true) {
             selectedTrafficGeneratorItem.add(item)
@@ -5041,7 +5110,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     override fun onSelectDimensionTypeItem(position: Int, item: String, row: Row) {
         activityApnaNewSurveyBinding.dimensionTypeSelect.setText(item)
         activityApnaNewSurveyBinding.dimensionOfPremisesUnit.setText(item)
-        activityApnaNewSurveyBinding.expectedRentOrDepositUnit.setText(item)
+//        activityApnaNewSurveyBinding.expectedRentOrDepositUnit.setText(item)
         this.dimenTypeSelectedItem = row
         dimensionTypeDialog.dismiss()
     }

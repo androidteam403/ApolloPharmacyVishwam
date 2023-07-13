@@ -11,9 +11,8 @@ import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hadilq.liveevent.LiveEvent
@@ -23,9 +22,9 @@ import kotlinx.coroutines.withContext
 
 class SelectChampsSiteIdViewModel : ViewModel() {
     val commands = LiveEvent<Command>()
-    var siteLiveData = ArrayList<StoreDetailsResponse.Row>()
+    var siteLiveData = ArrayList<StoreDetailsModelResponse.Row>()
     val state = MutableLiveData<State>()
-    var fixedArrayList = MutableLiveData<ArrayList<StoreDetailsResponse.Row>>()
+    var fixedArrayList = MutableLiveData<ArrayList<StoreDetailsModelResponse.Row>>()
     var getStoreDetailsChamps = MutableLiveData<StoreDetailsModelResponse>()
     var getEmailDetailsChamps = MutableLiveData<GetEmailAddressModelResponse>()
 
@@ -35,9 +34,9 @@ class SelectChampsSiteIdViewModel : ViewModel() {
             siteLiveData.clear()
             val gson = Gson()
             val siteIdList = Preferences.getSiteIdListJsonChamps()
-            val type = object : TypeToken<List<StoreDetailsResponse.Row?>?>() {}.type
+            val type = object : TypeToken<List<StoreDetailsModelResponse.Row?>?>() {}.type
 
-            this.siteLiveData = gson.fromJson<List<StoreDetailsResponse.Row>>(siteIdList, type) as ArrayList<StoreDetailsResponse.Row>
+            this.siteLiveData = gson.fromJson<List<StoreDetailsModelResponse.Row>>(siteIdList, type) as ArrayList<StoreDetailsModelResponse.Row>
             commands.value = Command.ShowToast("")
             fixedArrayList.value = siteLiveData
         } else {
@@ -89,7 +88,7 @@ class SelectChampsSiteIdViewModel : ViewModel() {
                                 val res = BackShlash.removeBackSlashes(resp)
                                 val storeListResponse = Gson().fromJson(
                                     BackShlash.removeSubString(res),
-                                    StoreDetailsResponse::class.java
+                                    StoreDetailsModelResponse::class.java
                                 )
                                 if (storeListResponse.success == true) {
                                     siteLiveData.clear()
@@ -143,7 +142,7 @@ class SelectChampsSiteIdViewModel : ViewModel() {
     }
 
 
-    fun getSiteData(): ArrayList<StoreDetailsResponse.Row> {
+    fun getSiteData(): ArrayList<StoreDetailsModelResponse.Row> {
         return siteLiveData
     }
 
@@ -346,7 +345,7 @@ class SelectChampsSiteIdViewModel : ViewModel() {
                             val res = BackShlash.removeBackSlashes(resp)
                             val storeWiseDetailListResponse = Gson().fromJson(
                                 BackShlash.removeSubString(res),
-                                GetStoreWiseDetailsResponse::class.java
+                                GetStoreWiseDetailsModelResponse::class.java
                             )
                             if (storeWiseDetailListResponse.success) {
                                 selectChampsSiteIdCallBack.onSuccessgetStoreWiseDetails(storeWiseDetailListResponse)
@@ -424,7 +423,7 @@ class SelectChampsSiteIdViewModel : ViewModel() {
 //        }
 //    }
 
-//    fun getStoreDetailsChampsApi(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback) {
+    //    fun getStoreDetailsChampsApi(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback) {
 //        state.postValue(State.LOADING)
 //        viewModelScope.launch {
 //            val result = withContext(Dispatchers.IO) {

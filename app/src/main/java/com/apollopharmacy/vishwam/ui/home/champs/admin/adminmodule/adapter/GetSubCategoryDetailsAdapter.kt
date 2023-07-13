@@ -73,19 +73,19 @@ class GetSubCategoryDetailsAdapter(
 
                     }
                     sumOfRange= sumOfRange + (s.toString()).toDouble()
-                    if(sumOfRange<=((categoryRating)!!.toDouble())){
+//                    if(sumOfRange<=((categoryRating)!!.toDouble())){
                         getCategoryDetails.rating=s.toString()
 
 
                         adapter.sumOfSubCategoriesRatings(categoryPosition,
                             subCategoryDetailsList!!,adapterGetCategoryDetailsBinding )
 //                        mCallback!!.updateSumOfSubCat()
-                    }else{
-                        Toast.makeText(context,
-                            "Please enter a value with in the range",
-                            Toast.LENGTH_SHORT).show()
-                       holder.adapterGetSubCategoryDetailsBinding.subCatgoryRatingRangeEdittext.setText("")
-                    }
+//                    }else{
+//                        Toast.makeText(context,
+//                            "Please enter a value with in the range",
+//                            Toast.LENGTH_SHORT).show()
+//                       holder.adapterGetSubCategoryDetailsBinding.subCatgoryRatingRangeEdittext.setText("")
+//                    }
                 }
 
 
