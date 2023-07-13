@@ -51,22 +51,36 @@ class QcOrderTypeDialog: DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         viewBinding = DialogCustomBinding.inflate(inflater, container, false)
         viewBinding.textHead.text = "Select Order Type"
+        viewBinding.searchSiteText.setHint("Search Order Type")
+        viewBinding.siteNotAvailable.setText("Order Type Not Available")
         viewBinding.closeDialog.setOnClickListener { dismiss() }
 
         viewBinding.searchSite.visibility = View.GONE
         var data =
             arguments?.getSerializable(KEY_DATA) as ArrayList<String>
-        viewBinding.fieldRecyclerView.adapter =
-            CustomRecyclerViews(data, object : OnSelectListner {
-                override fun onSelected(data: String) {
-                    abstractDialogClick =activity as GstDialogClickListner
-
-                    abstractDialogClick.selectOrderType(data)
-                    dismiss()
 
 
-                }
-            })
+        if (data.isEmpty()){
+            viewBinding.fieldRecyclerView.visibility=View.GONE
+            viewBinding.siteNotAvailable.visibility=View.VISIBLE
+        }
+        else{
+            viewBinding.fieldRecyclerView.visibility=View.VISIBLE
+            viewBinding.siteNotAvailable.visibility=View.GONE
+            viewBinding.fieldRecyclerView.adapter =
+                CustomRecyclerViews(data, object : OnSelectListner {
+                    override fun onSelected(data: String) {
+                        abstractDialogClick =activity as GstDialogClickListner
+
+                        abstractDialogClick.selectOrderType(data)
+                        dismiss()
+
+
+                    }
+                })
+        }
+
+
         return viewBinding.root
     }
 }
