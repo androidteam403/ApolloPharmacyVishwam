@@ -8,9 +8,9 @@ interface ApnaNewSurveyCallBack {
 
     fun onCityItemSelect(position: Int, item: String, uid: String)
 
-    fun onOrganisedItemSelect(position: Int, item: String)
+    fun organisedItemSelect(position: Int, name: String, uid: String)
 
-    fun onUnorganisedItemSelect(position: Int, item: String)
+    fun onUnorganisedItemSelect(position: Int, name: String, uid: String)
 
     fun onLocationListItemSelect(
         position: Int,
@@ -114,7 +114,7 @@ interface ApnaNewSurveyCallBack {
         dimenTypeSelectedItem: DimensionTypeResponse.Data.ListData.Row,
     )
 
-    fun onSelectNeighbourLocation(position: Int, item: String)
+    fun onSelectNeighbourLocation(position: Int, name: String, uid: String)
 
     fun onSelectedAgeoftheBuildingMonth(month: String)
 
