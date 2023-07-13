@@ -31,6 +31,7 @@ import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.model.ScannerResponse
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsRequest
@@ -307,6 +308,7 @@ interface ViswamAppApi {
     suspend fun getresolvedticketstatus(
         @Url url: String,
     ): ResponseTicktResolvedapi
+
 
 
     //cms login api....
@@ -822,5 +824,10 @@ interface ViswamAppApi {
     suspend fun getImageUrl(
         @Url url: String
     ): ScannerResponse
+
+
+    //Retro Qr
+    @GET
+    suspend fun getStoreWiseRackDetails(@Url url: String,@Header("token") token: String): StoreWiseRackDetails
 
 }

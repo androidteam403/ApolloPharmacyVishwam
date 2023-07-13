@@ -15,14 +15,15 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.UploadRackLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.RetroQrUploadCallback
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.ImageDto
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
 import java.io.File
 import java.io.IOException
-import java.util.ArrayList
+import kotlin.collections.ArrayList
 
 class UploadRackAdapter(
     var mContext: Context,
     var mCallback: RetroQrUploadCallback,
-    var images: ArrayList<ImageDto>,
+    var images: ArrayList<StoreWiseRackDetails.StoreDetail>,
 ) : RecyclerView.Adapter<UploadRackAdapter.ViewHolder>() {
 
     class ViewHolder(val uploadRackLayoutBinding: UploadRackLayoutBinding) :
@@ -40,15 +41,16 @@ class UploadRackAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        var items=images.get(position)
         val rackCount = position + 1
         holder.uploadRackLayoutBinding.rackCount.text = "Rack $rackCount"
 
-        if (images.get(position).image.path.isNotEmpty()) {
+        if (items.imageurl!!.isNotEmpty()) {
             holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.GONE
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.VISIBLE
-            holder.uploadRackLayoutBinding.afterCapturedImage.setImageBitmap(rotateImage(
-                BitmapFactory.decodeFile(images.get(position).image.absolutePath),
-                images.get(position).image))
+//            holder.uploadRackLayoutBinding.afterCapturedImage.setImageBitmap(rotateImage(
+//                BitmapFactory.decodeFile(images.get(position).image.absolutePath),
+//                images.get(position).image))
         } else {
             holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.VISIBLE
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.GONE

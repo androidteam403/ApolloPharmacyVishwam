@@ -1,21 +1,15 @@
 package com.apollopharmacy.vishwam.ui.home.retroqr.activity
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.Window
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -27,14 +21,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
-import com.apollopharmacy.vishwam.databinding.ActivityRetroImagePreviewBinding
 import com.apollopharmacy.vishwam.databinding.ActivityRetroQrUploadBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.UploadRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.ImageDto
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.ArrayList
 
 class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
     private lateinit var activityRetroQrUploadBinding: ActivityRetroQrUploadBinding
@@ -55,22 +48,16 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
 
     private fun setUp() {
         // for demo
-        images.add(ImageDto(File(""), ""))
-        images.add(ImageDto(File(""), ""))
-        images.add(ImageDto(File(""), ""))
-        images.add(ImageDto(File(""), ""))
-        images.add(ImageDto(File(""), ""))
-        images.add(ImageDto(File(""), ""))
-        images.add(ImageDto(File(""), ""))
-        images.add(ImageDto(File(""), ""))
+//        images.add(ImageDto(File(""), ""))
+//        images.add(ImageDto(File(""), ""))
+//        images.add(ImageDto(File(""), ""))
+//        images.add(ImageDto(File(""), ""))
+//        images.add(ImageDto(File(""), ""))
+//        images.add(ImageDto(File(""), ""))
+//        images.add(ImageDto(File(""), ""))
+//        images.add(ImageDto(File(""), ""))
 
-        activityRetroQrUploadBinding.totalRackCount.setText(images.size.toString())
 
-        uploadRackAdapter =
-            UploadRackAdapter(this@RetroQrUploadActivity, this@RetroQrUploadActivity, images)
-        activityRetroQrUploadBinding.uploadRackRcv.adapter = uploadRackAdapter
-        activityRetroQrUploadBinding.uploadRackRcv.layoutManager =
-            LinearLayoutManager(this@RetroQrUploadActivity)
     }
 
     override fun onClickBackArrow() {
@@ -84,6 +71,17 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
             finish()
         }
     }
+
+    override fun onSuccessgetStoreWiseRackResponse(storeWiseRackDetails: StoreWiseRackDetails) {
+        activityRetroQrUploadBinding.totalRackCount.setText(images.size.toString())
+
+        uploadRackAdapter =
+            UploadRackAdapter(this@RetroQrUploadActivity, this@RetroQrUploadActivity,
+                storeWiseRackDetails.storeDetails!! as ArrayList<StoreWiseRackDetails.StoreDetail>
+            )
+        activityRetroQrUploadBinding.uploadRackRcv.adapter = uploadRackAdapter
+        activityRetroQrUploadBinding.uploadRackRcv.layoutManager =
+            LinearLayoutManager(this@RetroQrUploadActivity)    }
 
     override fun onClickCameraIcon(position: Int) {
         this.position = position
