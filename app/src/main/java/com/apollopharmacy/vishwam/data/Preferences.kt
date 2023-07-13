@@ -34,7 +34,7 @@ object Preferences {
 
     private const val KEY_SITE_DETAILS = "KEY_SITE_DETAILS"
     private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
-    private const val PREF_KEY_SITE_ID_LIST_CHAMPS = "PREF_KEY_SITE_ID_LIST_CHAMPS"
+//    private const val PREF_KEY_SITE_ID_LIST_CHAMPS = "PREF_KEY_SITE_ID_LIST_CHAMPS"
     private const val KEY_STORE_LIST_QCFAIL = "KEY_STORE_LIST_QCFAIL"
 
 
@@ -49,7 +49,7 @@ object Preferences {
     private const val PREF_REASON_LIST = "PREF_REASON_LIST"
     private const val PREF_REASON_DEPTARTMENT_LIST = "PREF_REASON_DEPTARTMENT_LIST"
     private const val PREF_REASON_OBJECT = "PREF_REASON_OBJECT"
-    private const val PREF_SITE_ID_FETCHED_CHAMPS = "PREF_SITE_ID_FETCHED_CHAMPS"
+//    private const val PREF_SITE_ID_FETCHED_CHAMPS = "PREF_SITE_ID_FETCHED_CHAMPS"
 
     private const val PREF_SITE_ID_FETCHED_QC_FAIL = "PREF_SITE_ID_FETCHED_QC_FAIL"
     private const val PREF_REGION_ID_FETCHED_QC_FAIL = "PREF_REGION_ID_FETCHED_QC_FAIL"
@@ -72,13 +72,13 @@ object Preferences {
     fun getToken(): String {
         return sharedPreferences.getString(KEY_SAVING_TOKEN, "")!!
     }
-    fun setSiteIdListChamps(siteIdListQcFail: String) {
+   /* fun setSiteIdListChamps(siteIdListQcFail: String) {
         sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_CHAMPS, siteIdListQcFail).apply()
     }
 
     fun getSiteIdListJsonChamps(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_CHAMPS, "")!!
-    }
+    }*/
     fun savingStoreData(storedata: String) {
         sharedPreferences.edit().putString(KEY_SITE_DETAILS, storedata).apply()
     }
@@ -296,14 +296,14 @@ object Preferences {
         sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED, isSiteIdListFetched).apply()
     }
 
-    fun setSiteIdListFetchedChamps(isSiteIdListFetchedQcfail: Boolean) {
+    /*fun setSiteIdListFetchedChamps(isSiteIdListFetchedQcfail: Boolean) {
         sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED_CHAMPS, isSiteIdListFetchedQcfail)
             .apply()
     }
 
     fun isSiteIdListFetchedChamps(): Boolean {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_CHAMPS, false)
-    }
+    }*/
 
     fun isSiteIdListFetched(): Boolean {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED, false)
