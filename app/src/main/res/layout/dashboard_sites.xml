@@ -94,7 +94,7 @@
                         android:paddingStart="4sp"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:text="120"
+                        android:text="-"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen11sp" />
@@ -120,7 +120,7 @@
                         android:paddingStart="4sp"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:text="120"
+                        android:text="-"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_10sp" />

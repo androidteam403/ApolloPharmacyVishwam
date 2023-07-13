@@ -72,7 +72,7 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.23"
+                        android:layout_weight="0.21"
                         android:gravity="start">
 
                         <TextView
@@ -99,7 +99,7 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25"
+                        android:layout_weight="0.22"
                         android:gravity="start">
 
 
@@ -176,6 +176,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
                             android:text="16001 - "
+                            android:layout_marginBottom="@dimen/value_5dp"
+
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp" />
 

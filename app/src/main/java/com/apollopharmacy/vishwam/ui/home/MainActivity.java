@@ -1836,7 +1836,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
                     .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
 
-        } else if ((employeeRoleRetro.equalsIgnoreCase("Yes"))) {
+        } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("NODATA") ) {
             listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
                     .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
         } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER")) {
