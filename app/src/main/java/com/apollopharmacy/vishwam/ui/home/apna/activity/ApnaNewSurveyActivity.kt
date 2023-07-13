@@ -4242,6 +4242,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 for (i in selectedTrafficGeneratorItem.indices) {
                     val trafficGenerator = SurveyCreateRequest.TrafficGenerator()
                     trafficGenerator.uid = selectedTrafficGeneratorItem[i].uid
+                    trafficGenerator.name = selectedTrafficGeneratorItem[i].name
                     trafficGenerators.add(trafficGenerator)
                 }
                 surveyCreateRequest.trafficGenerator = trafficGenerators
