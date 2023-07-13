@@ -28,7 +28,7 @@ interface ApnaNewSurveyCallBack {
 
     fun onClickDeleteHospital(position: Int)
 
-    fun onApartmentTypeItemSelect(position: Int, item: String)
+    fun onApartmentTypeItemSelect(position: Int, name: String, uid: String)
 
     fun onTrafficStreetTypeSelect(position: Int, uid: String, name: String)
 

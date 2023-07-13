@@ -82,6 +82,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     var regionUid = ""
     var regionCode = ""
     var trafficStreetTypeUid = ""
+    var apartmentTypeUid = ""
 
     lateinit var geocoder: Geocoder
 
@@ -1335,15 +1336,18 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         activityApnaNewSurveyBinding.apartmentsAddBtn.setOnClickListener {
             if (apartmentsList.size < 10) {
                 val apartments = activityApnaNewSurveyBinding.apartmentsOrColony.text.toString()
-                val apartmentType = activityApnaNewSurveyBinding.apartmentTypeSelect.text.toString()
+                val apartmentTypeUid = apartmentTypeUid
+                val apartmentTypeName = activityApnaNewSurveyBinding.apartmentTypeSelect.text.toString()
+//                    activityApnaNewSurveyBinding.apartmentTypeSelect.text.toString()
                 val noOfHouses = activityApnaNewSurveyBinding.noOfHousesText.text.toString()
                 val distance = activityApnaNewSurveyBinding.distanceText.text.toString()
-                if (apartments.isNotEmpty() && apartmentType.isNotEmpty() && noOfHouses.isNotEmpty() && distance.isNotEmpty()) {
+                if (apartments.isNotEmpty() && apartmentTypeUid.isNotEmpty() && noOfHouses.isNotEmpty() && distance.isNotEmpty()) {
                     if (validateApartments()) {
                         apartmentsList.add(
                             ApartmentData(
                                 apartments,
-                                apartmentType,
+                                apartmentTypeUid,
+                                apartmentTypeName,
                                 noOfHouses,
                                 distance
                             )
@@ -4368,7 +4372,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 for (i in apartmentsList.indices) {
                     val apartment = SurveyCreateRequest.Apartment()
                     val type = SurveyCreateRequest.Apartment.Type()
-                    type.uid = apartmentsList[i].apartmentType
+                    type.uid = apartmentsList[i].apartmentTypeUid
                     apartment.type = type
                     apartment.apartments = apartmentsList[i].apartments
                     apartment.noHouses = apartmentsList[i].noOfHouses
@@ -4799,8 +4803,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         hospitalsAdapter.notifyDataSetChanged()
     }
 
-    override fun onApartmentTypeItemSelect(position: Int, item: String) {
-        activityApnaNewSurveyBinding.apartmentTypeSelect.setText(item)
+    override fun onApartmentTypeItemSelect(position: Int, name: String, uid: String) {
+        activityApnaNewSurveyBinding.apartmentTypeSelect.setText(name)
+        this.apartmentTypeUid = uid
         apartmentTypeDialog.dismiss()
     }
 
