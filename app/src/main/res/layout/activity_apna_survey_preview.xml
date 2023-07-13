@@ -3293,7 +3293,38 @@
             </ScrollView>
         </LinearLayout>
 
-        <LinearLayout
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/scroll_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/dimen20dp"
+            android:layout_marginBottom="@dimen/value_25dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_north_24"
+            android:visibility="gone"
+            app:backgroundTint="@color/apna_project_actionbar_color"
+            app:fabCustomSize="@dimen/value_40dp"
+            app:tint="@color/white" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/scroll_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/dimen20dp"
+            android:layout_marginBottom="@dimen/value_25dp"
+            android:contentDescription="@string/app_name"
+            android:rotation="180"
+            android:src="@drawable/ic_baseline_north_24"
+            android:visibility="visible"
+            app:backgroundTint="@color/apna_project_actionbar_color"
+            app:fabCustomSize="@dimen/value_40dp"
+            app:tint="@color/white" />
+
+        <!--<LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -3322,6 +3353,6 @@
                 android:rotation="180"
                 app:backgroundTint="@color/apna_project_actionbar_color"
                 app:fabCustomSize="@dimen/value_40dp" />
-        </LinearLayout>
+        </LinearLayout>-->
     </RelativeLayout>
 </layout>
