@@ -55,6 +55,9 @@ import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefau
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.fileupload.FileUpload
+import com.apollopharmacy.vishwam.util.fileupload.FileUploadCallback
+import com.apollopharmacy.vishwam.util.fileupload.FileUploadModel
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import me.echodev.resizer.Resizer
@@ -65,7 +68,7 @@ import java.io.FileNotFoundException
 
 
 class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApolloSensingBinding>(),
-    ApolloSensingFragmentCallback, MainActivityCallback {
+    ApolloSensingFragmentCallback, MainActivityCallback, FileUploadCallback {
     var isSendLinkApiCall: Boolean = false
     var isSiteIdEmpty: Boolean = false
     var employeeName: String = ""
@@ -1112,7 +1115,6 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //                }
 
                 if (prescriptionImageList != null && prescriptionImageList.size > 0) {
-                    showLoading()
                     referenceUrls.clear()
                     uploadImages(prescriptionImageList, 0)
                 }
@@ -1124,7 +1126,28 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
     fun uploadImages(prescriptionImageList: ArrayList<ImageDto>?, pos: Int) {
         if (prescriptionImageList != null && prescriptionImageList.size > 0) {
-            var file: File? = null
+            var fileUploadModelList = ArrayList<FileUploadModel>()
+            for (i in prescriptionImageList!!) {
+                val resizedImage = Resizer(requireContext()).setTargetLength(1080).setQuality(100)
+                    .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                    .setOutputDirPath(
+                        ViswamApp.Companion.context.cacheDir.toString()
+                    )
+                    .setSourceImage(i.file).resizedFile
+                var fileUploadModel = FileUploadModel()
+                fileUploadModel.file = resizedImage
+                fileUploadModelList.add(fileUploadModel)
+            }
+
+            FileUpload().uploadFiles(
+                requireContext(),
+                this@ApolloSensingFragment,
+                fileUploadModelList
+            )
+
+
+            /*var file: File? = null
             if (prescriptionImageList != null && prescriptionImageList.size > 0) {
                 file = prescriptionImageList.get(pos).file
             }
@@ -1148,7 +1171,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                         this@ApolloSensingFragment, resizedImage, false
                     )
                 }
-            }
+            }*/
         }
     }
 
@@ -1216,7 +1239,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     ) {
 //        Toast.makeText(requireContext(), sensingFileUploadResponse.message, Toast.LENGTH_SHORT)
 //            .show()
-        referenceUrls.add(sensingFileUploadResponse.referenceurl!!)
+       /* referenceUrls.add(sensingFileUploadResponse.referenceurl!!)
         if (isLastImage) {
             val saveImageUrlsRequest = SaveImageUrlsRequest()
             saveImageUrlsRequest.siteId =
@@ -1237,7 +1260,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             )
         } else {
             uploadImages(prescriptionImageList, 1)
-        }
+        }*/
 
     }
 
@@ -1539,4 +1562,33 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             }
         }
     }
+
+    override fun onFailureUpload(message: String) {
+
+    }
+
+    override fun allFilesDownloaded(fileUploadModelList: List<FileUploadModel>?) {
+
+    }
+
+    override fun allFilesUploaded(fileUploadModelList: List<FileUploadModel>?) {
+        if (fileUploadModelList != null && fileUploadModelList.size > 0) {
+            val saveImageUrlsRequest = SaveImageUrlsRequest()
+            saveImageUrlsRequest.siteId =
+                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+            saveImageUrlsRequest.type = "STORE"
+            saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
+            saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
+            saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
+            val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
+            for (i in fileUploadModelList) {
+                val base64Image = SaveImageUrlsRequest.Base64Image()
+                base64Image.base64Image = i.sensingFileUploadResponse!!.referenceurl
+                base64ImageList.add(base64Image)
+            }
+            saveImageUrlsRequest.base64ImageList = base64ImageList
+            retrieveViewModel().saveImageUrlsApiCall(
+                saveImageUrlsRequest, this@ApolloSensingFragment
+            )
+        }    }
 }

@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.network;
 
 import com.apollopharmacy.vishwam.BuildConfig;
+import com.apollopharmacy.vishwam.data.ViswamAppApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor;
@@ -42,4 +43,7 @@ public class ApiClient {
     }
 
 
+    public static ViswamAppApi getApiServiceVishwam() {
+        return getRetrofitInstance().create(ViswamAppApi.class);
+    }
 }

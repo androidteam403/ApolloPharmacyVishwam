@@ -42,8 +42,11 @@ import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.G
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
+import com.apollopharmacy.vishwam.util.fileupload.FileDownloadRequest
+import com.apollopharmacy.vishwam.util.fileupload.FileDownloadResponse
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.http.*
 import java.util.*
 
@@ -806,11 +809,16 @@ interface ViswamAppApi {
 
     @Multipart
     @POST
-    suspend fun SENSING_FILE_UPLOAD_API_CALL(
+    fun SENSING_FILE_UPLOAD_API_CALL(
         @Url url: String, @Header("TYPE") type: String, @Header("token") token: String,
         @Part file: MultipartBody.Part,
-    ): SensingFileUploadResponse
+    ): Call<SensingFileUploadResponse>
 
+    @POST
+    fun FILE_DOWNLOAD_API_CALL(
+        @Url url: String, @Header("token") token: String,
+        @Body fileDownloadRequest: FileDownloadRequest,
+    ): Call<FileDownloadResponse>
 
     @GET
     suspend fun getDiscountColorDetails(
@@ -820,7 +828,7 @@ interface ViswamAppApi {
 
     @GET
     suspend fun getImageUrl(
-        @Url url: String
+        @Url url: String,
     ): ScannerResponse
 
 }
