@@ -1239,28 +1239,28 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     ) {
 //        Toast.makeText(requireContext(), sensingFileUploadResponse.message, Toast.LENGTH_SHORT)
 //            .show()
-       /* referenceUrls.add(sensingFileUploadResponse.referenceurl!!)
-        if (isLastImage) {
-            val saveImageUrlsRequest = SaveImageUrlsRequest()
-            saveImageUrlsRequest.siteId =
-                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
-            saveImageUrlsRequest.type = "STORE"
-            saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
-            saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
-            saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
-            val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
-            for (i in referenceUrls) {
-                val base64Image = SaveImageUrlsRequest.Base64Image()
-                base64Image.base64Image = i
-                base64ImageList.add(base64Image)
-            }
-            saveImageUrlsRequest.base64ImageList = base64ImageList
-            retrieveViewModel().saveImageUrlsApiCall(
-                saveImageUrlsRequest, this@ApolloSensingFragment
-            )
-        } else {
-            uploadImages(prescriptionImageList, 1)
-        }*/
+        /* referenceUrls.add(sensingFileUploadResponse.referenceurl!!)
+         if (isLastImage) {
+             val saveImageUrlsRequest = SaveImageUrlsRequest()
+             saveImageUrlsRequest.siteId =
+                 Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+             saveImageUrlsRequest.type = "STORE"
+             saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
+             saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
+             saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
+             val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
+             for (i in referenceUrls) {
+                 val base64Image = SaveImageUrlsRequest.Base64Image()
+                 base64Image.base64Image = i
+                 base64ImageList.add(base64Image)
+             }
+             saveImageUrlsRequest.base64ImageList = base64ImageList
+             retrieveViewModel().saveImageUrlsApiCall(
+                 saveImageUrlsRequest, this@ApolloSensingFragment
+             )
+         } else {
+             uploadImages(prescriptionImageList, 1)
+         }*/
 
     }
 
@@ -1590,5 +1590,6 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             retrieveViewModel().saveImageUrlsApiCall(
                 saveImageUrlsRequest, this@ApolloSensingFragment
             )
-        }    }
+        }
+    }
 }
