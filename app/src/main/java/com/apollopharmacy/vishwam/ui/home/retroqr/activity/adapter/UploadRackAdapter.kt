@@ -45,15 +45,16 @@ class UploadRackAdapter(
         val rackCount = position + 1
         holder.uploadRackLayoutBinding.rackCount.text = "Rack $rackCount"
 
-        if (items.imageurl!!.isNotEmpty()) {
+        if (items.imageurl!!.isNullOrEmpty()) {
+            holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.VISIBLE
+            holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.GONE
+
+        } else {
             holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.GONE
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.VISIBLE
 //            holder.uploadRackLayoutBinding.afterCapturedImage.setImageBitmap(rotateImage(
 //                BitmapFactory.decodeFile(images.get(position).image.absolutePath),
 //                images.get(position).image))
-        } else {
-            holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.VISIBLE
-            holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.GONE
         }
         holder.uploadRackLayoutBinding.camera.setOnClickListener {
             mCallback.onClickCameraIcon(position)

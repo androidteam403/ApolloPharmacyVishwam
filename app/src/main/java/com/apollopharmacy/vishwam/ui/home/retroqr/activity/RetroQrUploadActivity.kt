@@ -47,6 +47,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
     }
 
     private fun setUp() {
+        viewModel.getStoreWiseRackDetails(this)
         // for demo
 //        images.add(ImageDto(File(""), ""))
 //        images.add(ImageDto(File(""), ""))
@@ -73,7 +74,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
     }
 
     override fun onSuccessgetStoreWiseRackResponse(storeWiseRackDetails: StoreWiseRackDetails) {
-        activityRetroQrUploadBinding.totalRackCount.setText(images.size.toString())
+        activityRetroQrUploadBinding.totalRackCount.text = storeWiseRackDetails.storeDetails!!.size.toString()
 
         uploadRackAdapter =
             UploadRackAdapter(this@RetroQrUploadActivity, this@RetroQrUploadActivity,
