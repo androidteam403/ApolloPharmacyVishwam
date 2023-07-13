@@ -272,6 +272,8 @@ class SurveyCreateRequest : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null
+
+            var name: String? = null
         }
     }
 
