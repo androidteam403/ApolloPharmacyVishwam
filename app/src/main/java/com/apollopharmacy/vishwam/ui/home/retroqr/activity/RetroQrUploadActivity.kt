@@ -83,7 +83,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
         activityRetroQrUploadBinding.uploadRackRcv.adapter = uploadRackAdapter
         activityRetroQrUploadBinding.uploadRackRcv.layoutManager =
             LinearLayoutManager(this@RetroQrUploadActivity)    }
-
+//    var file: File = File(filename)
     override fun onClickCameraIcon(position: Int) {
         this.position = position
         if (!checkPermission()) {
