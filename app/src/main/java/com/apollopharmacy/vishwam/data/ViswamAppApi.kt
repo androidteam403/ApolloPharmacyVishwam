@@ -31,6 +31,8 @@ import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.model.ScannerResponse
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
@@ -829,5 +831,10 @@ interface ViswamAppApi {
     //Retro Qr
     @GET
     suspend fun getStoreWiseRackDetails(@Url url: String,@Header("token") token: String): StoreWiseRackDetails
+    @POST
+    suspend fun SaveImageUrLQrRetro(
+        @Url url: String, @Header("token") token: String,
+        @Body qrSaveImageUrlsRequest: QrSaveImageUrlsRequest,
+    ): QrSaveImageUrlsResponse
 
 }
