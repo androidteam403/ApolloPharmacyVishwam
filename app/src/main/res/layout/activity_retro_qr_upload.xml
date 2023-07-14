@@ -220,7 +220,7 @@
                     android:id="@+id/totalRackCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="25"
+                    android:text="-"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_16sp"
                     android:textStyle="bold" />

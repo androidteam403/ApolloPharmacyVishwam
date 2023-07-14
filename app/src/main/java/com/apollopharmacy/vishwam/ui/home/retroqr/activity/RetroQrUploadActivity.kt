@@ -73,6 +73,14 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
         }
     }
 
+    override fun onSuccessUpload(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailureUpload(message: String) {
+        TODO("Not yet implemented")
+    }
+
     override fun onSuccessgetStoreWiseRackResponse(storeWiseRackDetails: StoreWiseRackDetails) {
         activityRetroQrUploadBinding.totalRackCount.text = storeWiseRackDetails.storeDetails!!.size.toString()
 

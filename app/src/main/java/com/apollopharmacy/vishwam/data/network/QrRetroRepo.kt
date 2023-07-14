@@ -50,7 +50,7 @@ object QrRetroRepo {
         } catch (e: ConnectException) {
             ApiResult.UnknownError(e.message)
         } catch (e: SocketException) {
-            ApiResult.UnknownError(e.message)`-
+            ApiResult.UnknownError(e.message)
         } catch (e: TimeoutException) {
             ApiResult.UnknownError(e.message)
         } catch (e: UnknownHostException) {
