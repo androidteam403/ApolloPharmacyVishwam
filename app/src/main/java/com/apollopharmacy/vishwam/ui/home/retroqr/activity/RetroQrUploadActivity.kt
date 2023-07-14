@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
+import android.opengl.ETC1.encodeImage
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,6 +14,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -21,32 +23,46 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityRetroQrUploadBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.UploadRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
+import com.apollopharmacy.vishwam.util.Utlis.hideLoading
+import com.apollopharmacy.vishwam.util.Utlis.showLoading
+import com.apollopharmacy.vishwam.util.fileupload.FileUpload
+import com.apollopharmacy.vishwam.util.fileupload.FileUploadCallback
+import com.apollopharmacy.vishwam.util.fileupload.FileUploadModel
+import me.echodev.resizer.Resizer
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
+class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback, FileUploadCallback {
     private lateinit var activityRetroQrUploadBinding: ActivityRetroQrUploadBinding
     private lateinit var viewModel: RetroQrUploadViewModel
     private lateinit var uploadRackAdapter: UploadRackAdapter
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
-    var images = ArrayList<ImageDto>()
+
+        var images = ArrayList<ImageDto>()
+    var imagesList = ArrayList<StoreWiseRackDetails.StoreDetail>()
+
     var position: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityRetroQrUploadBinding = DataBindingUtil.setContentView(this@RetroQrUploadActivity,
-            R.layout.activity_retro_qr_upload)
+        activityRetroQrUploadBinding = DataBindingUtil.setContentView(
+            this@RetroQrUploadActivity,
+            R.layout.activity_retro_qr_upload
+        )
         viewModel = ViewModelProvider(this)[RetroQrUploadViewModel::class.java]
         activityRetroQrUploadBinding.callback = this@RetroQrUploadActivity
         setUp()
     }
 
     private fun setUp() {
+        showLoading(context)
+
         viewModel.getStoreWiseRackDetails(this)
         // for demo
 //        images.add(ImageDto(File(""), ""))
@@ -67,6 +83,27 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
 
     override fun onClickSubmit() {
         if (updatedCount == images.size) {
+            var fileUploadModelList = ArrayList<FileUploadModel>()
+            for (i in imagesList!!) {
+                val resizedImage = Resizer(context).setTargetLength(1080).setQuality(100)
+                    .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                    .setOutputDirPath(
+                        ViswamApp.Companion.context.cacheDir.toString()
+                    )
+                    .setSourceImage(File(i.imageurl)).resizedFile
+                var fileUploadModel = FileUploadModel()
+                fileUploadModel.file = resizedImage
+                fileUploadModelList.add(fileUploadModel)
+            }
+
+
+            FileUpload().uploadFiles(
+                context ,
+                this,
+                fileUploadModelList
+            )
+
             Toast.makeText(this@RetroQrUploadActivity, "Submitted Successfully", Toast.LENGTH_SHORT)
                 .show()
             finish()
@@ -74,23 +111,35 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
     }
 
     override fun onSuccessUpload(message: String) {
-        TODO("Not yet implemented")
     }
 
     override fun onFailureUpload(message: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(this@RetroQrUploadActivity, message, Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    override fun allFilesDownloaded(fileUploadModelList: List<FileUploadModel>?) {
+    }
+
+    override fun allFilesUploaded(fileUploadModelList: List<FileUploadModel>?) {
     }
 
     override fun onSuccessgetStoreWiseRackResponse(storeWiseRackDetails: StoreWiseRackDetails) {
-        activityRetroQrUploadBinding.totalRackCount.text = storeWiseRackDetails.storeDetails!!.size.toString()
+
+        activityRetroQrUploadBinding.totalRackCount.text =
+            storeWiseRackDetails.storeDetails!!.size.toString()
+        imagesList = storeWiseRackDetails.storeDetails as ArrayList<StoreWiseRackDetails.StoreDetail>
 
         uploadRackAdapter =
-            UploadRackAdapter(this@RetroQrUploadActivity, this@RetroQrUploadActivity,
-                storeWiseRackDetails.storeDetails!! as ArrayList<StoreWiseRackDetails.StoreDetail>
+            UploadRackAdapter(
+                this@RetroQrUploadActivity, this@RetroQrUploadActivity,
+                imagesList
             )
         activityRetroQrUploadBinding.uploadRackRcv.adapter = uploadRackAdapter
         activityRetroQrUploadBinding.uploadRackRcv.layoutManager =
-            LinearLayoutManager(this@RetroQrUploadActivity)    }
+            LinearLayoutManager(this@RetroQrUploadActivity)
+        hideLoading()
+    }
 
     override fun onClickCameraIcon(position: Int) {
         this.position = position
@@ -124,7 +173,23 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK && imageFile != null) {
-            images[position].image = imageFile as File
+            val resizedImage = Resizer(context).setTargetLength(1080).setQuality(100)
+                .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                .setOutputDirPath(
+                    ViswamApp.Companion.context.cacheDir.toString()
+                )
+
+                .setSourceImage(imageFile).resizedFile
+
+            images.add(ImageDto(
+                    imageFile!!,
+                    "",
+
+                )
+            )
+
+            imagesList[position].imageurl = (imageFile as File).toString()
             updatedCount++
             uploadRackAdapter.notifyItemChanged(position)
         }
@@ -132,8 +197,11 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
         activityRetroQrUploadBinding.pendingCount.setText((images.size - updatedCount).toString())
         if (updatedCount == images.size) {
             activityRetroQrUploadBinding.lastUpdateLayout.visibility = View.VISIBLE
-            activityRetroQrUploadBinding.lastUpdateDate.setText(LocalDate.now().format(
-                DateTimeFormatter.ofPattern("dd MMM, yyyy")))
+            activityRetroQrUploadBinding.lastUpdateDate.setText(
+                LocalDate.now().format(
+                    DateTimeFormatter.ofPattern("dd MMM, yyyy")
+                )
+            )
             activityRetroQrUploadBinding.submitButton.setBackgroundColor(Color.parseColor("#209804"))
         } else {
             activityRetroQrUploadBinding.lastUpdateLayout.visibility = View.GONE
