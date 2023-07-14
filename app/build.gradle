@@ -107,7 +107,7 @@ dependencies {
     //SharedPref
     implementation 'com.orhanobut:hawk:2.0.1'
     implementation 'pub.devrel:easypermissions:1.0.1'
-
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 //    implementation 'com.nabinbhandari.android:permissions:3.8'
 
 //    annotationProcessor "android.arch.lifecycle:compiler:$life_cycle"
