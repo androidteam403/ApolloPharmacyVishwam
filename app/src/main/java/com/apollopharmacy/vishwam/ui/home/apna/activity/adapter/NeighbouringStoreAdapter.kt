@@ -41,7 +41,7 @@ class NeighbouringStoreAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         if (neighbouringList.get(position).location.isNotEmpty()) {
-            holder.layoutNeighbouringStoreBinding.location.setText(neighbouringList.get(position).location)
+            holder.layoutNeighbouringStoreBinding.location.setText(neighbouringList.get(position).locationName)
         } else {
             holder.layoutNeighbouringStoreBinding.location.setText("-")
         }

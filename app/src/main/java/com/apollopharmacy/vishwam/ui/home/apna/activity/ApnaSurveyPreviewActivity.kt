@@ -8,10 +8,7 @@ import android.graphics.Color
 import android.graphics.Point
 import android.location.Location
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewParent
+import android.view.*
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -48,7 +45,8 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.stream.Collectors
 
-class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback {
+class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback,
+    ViewTreeObserver.OnScrollChangedListener {
 
     var toiletsAvailable: String = ""
     var parkingAvailable: String = ""
@@ -90,6 +88,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
         activityApnaSurveyPreviewBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_apna_survey_preview)
+        activityApnaSurveyPreviewBinding.scrollView.viewTreeObserver.addOnScrollChangedListener(this@ApnaSurveyPreviewActivity)
         setUp()
     }
 
@@ -1281,5 +1280,20 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         val intent = Intent(this@ApnaSurveyPreviewActivity, VideoPreviewActivity::class.java)
         intent.putExtra("VIDEO_URI", video)
         startActivity(intent)
+    }
+
+    override fun onScrollChanged() {
+        val view =
+            activityApnaSurveyPreviewBinding.scrollView.getChildAt(activityApnaSurveyPreviewBinding.scrollView.childCount - 1)
+        val top = activityApnaSurveyPreviewBinding.scrollView.scrollY
+        val bottom =
+            view.bottom - (activityApnaSurveyPreviewBinding.scrollView.height + activityApnaSurveyPreviewBinding.scrollView.scrollY)
+        if (bottom == 0) {
+            activityApnaSurveyPreviewBinding.scrollTop.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.scrollBottom.visibility = View.GONE
+        } else if (top <= 0) {
+            activityApnaSurveyPreviewBinding.scrollBottom.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.scrollTop.visibility = View.GONE
+        }
     }
 }

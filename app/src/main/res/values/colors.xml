@@ -6,7 +6,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#ffffff</color>
     <color name="navy">#dceaf4</color>
     <color name="cement">#EFEFEF</color>
     <color name="border_card">#01bfc0</color>
@@ -209,6 +209,10 @@
     <color name="partial_green">#5EBC5E</color>
     <color name="subworkflow_details_text_color">#548985</color>
     <color name="blue_color">#47596d</color>
+    <color name="sea_light_blue">#dff1fb</color>
+    <color name="light_white_color">#f4f4f4</color>
+    <color name="whiteee">#ffffff</color>
+    <color name="light_ashh">#f2f2f2</color>
     <color name="dark_sky_blue">#00BCBE</color>
 
 </resources>
