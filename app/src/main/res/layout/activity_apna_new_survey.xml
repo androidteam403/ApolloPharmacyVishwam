@@ -986,8 +986,8 @@
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight=".5"
                                         android:layout_marginEnd="@dimen/value_4dp"
+                                        android:layout_weight=".5"
                                         android:gravity="center_vertical">
 
                                         <ImageView
@@ -2501,8 +2501,9 @@
                                                 android:id="@+id/organisedAvgSaleText"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="@dimen/value_50dp"
+                                                android:digits="0123456789"
                                                 android:hint="Avg sale"
-                                                android:inputType="numberDecimal"
+                                                android:inputType="number"
                                                 android:paddingStart="@dimen/value_10dp"
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
@@ -2545,12 +2546,13 @@
                                                 android:id="@+id/unorganisedSelect"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="@dimen/value_50dp"
+                                                android:digits="0123456789"
                                                 android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                                 android:editable="false"
                                                 android:enabled="true"
                                                 android:focusable="false"
                                                 android:hint="Select"
-                                                android:inputType="text"
+                                                android:inputType="number"
                                                 android:paddingStart="@dimen/value_10dp"
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
