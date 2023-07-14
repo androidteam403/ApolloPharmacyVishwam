@@ -12,10 +12,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.UploadRackLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.RetroQrUploadCallback
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
+import com.bumptech.glide.Glide
 import java.io.File
 import java.io.IOException
 import kotlin.collections.ArrayList
@@ -45,13 +47,17 @@ class UploadRackAdapter(
         val rackCount = position + 1
         holder.uploadRackLayoutBinding.rackCount.text = "Rack $rackCount"
 
-        if (items.imageurl!!.isNullOrEmpty()) {
+        if (items.imageurl!!.isNullOrEmpty()|| items.imageurl!!.contains(".")) {
             holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.VISIBLE
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.GONE
 
         } else {
             holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.GONE
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.VISIBLE
+
+            Glide.with(ViswamApp.context).load(items.imageurl.toString())
+                .placeholder(R.drawable.thumbnail_image)
+                .into(holder.uploadRackLayoutBinding.afterCapturedImage)
 //            holder.uploadRackLayoutBinding.afterCapturedImage.setImageBitmap(rotateImage(
 //                BitmapFactory.decodeFile(images.get(position).image.absolutePath),
 //                images.get(position).image))

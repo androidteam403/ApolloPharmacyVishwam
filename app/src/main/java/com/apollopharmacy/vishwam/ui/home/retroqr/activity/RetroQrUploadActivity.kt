@@ -36,6 +36,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
     var images = ArrayList<ImageDto>()
+    var imagesList= ArrayList<StoreWiseRackDetails.StoreDetail>()
+
     var position: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,19 +68,23 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
     }
 
     override fun onClickSubmit() {
-        if (updatedCount == images.size) {
-            Toast.makeText(this@RetroQrUploadActivity, "Submitted Successfully", Toast.LENGTH_SHORT)
-                .show()
+        if (updatedCount == imagesList.size) {
+
+
+
+//            Toast.makeText(this@RetroQrUploadActivity, "Submitted Successfully", Toast.LENGTH_SHORT)
+//                .show()
             finish()
         }
     }
 
     override fun onSuccessgetStoreWiseRackResponse(storeWiseRackDetails: StoreWiseRackDetails) {
         activityRetroQrUploadBinding.totalRackCount.text = storeWiseRackDetails.storeDetails!!.size.toString()
+        imagesList= storeWiseRackDetails.storeDetails as ArrayList<StoreWiseRackDetails.StoreDetail>
 
         uploadRackAdapter =
             UploadRackAdapter(this@RetroQrUploadActivity, this@RetroQrUploadActivity,
-                storeWiseRackDetails.storeDetails!! as ArrayList<StoreWiseRackDetails.StoreDetail>
+                imagesList
             )
         activityRetroQrUploadBinding.uploadRackRcv.adapter = uploadRackAdapter
         activityRetroQrUploadBinding.uploadRackRcv.layoutManager =
@@ -116,7 +122,9 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK && imageFile != null) {
-            images[position].image = imageFile as File
+            var imageDto=ImageDto(imageFile as File,"")
+            images.add(imageDto)
+            imagesList[position].imageurl = (imageFile as File).toString()
             updatedCount++
             uploadRackAdapter.notifyItemChanged(position)
         }
