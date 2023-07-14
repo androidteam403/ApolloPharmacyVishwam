@@ -39,6 +39,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ui.home.dashboard.dashboarddetailsactivity.DashboardDetailsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.retroqr.activity.RetroImagePreviewActivity"
             android:exported="false"
             android:screenOrientation="portrait"

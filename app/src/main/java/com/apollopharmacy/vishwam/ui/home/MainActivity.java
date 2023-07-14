@@ -78,7 +78,8 @@ import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsF
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationFragment;
-import com.apollopharmacy.vishwam.ui.home.dashboard.CeoDashboardFragment;
+import com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard.CeoDashboardFragment;
+import com.apollopharmacy.vishwam.ui.home.dashboard.managerdashboard.ManagerDashboardFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.approved.ApprovedFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.bill.BillCompletedFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
@@ -1373,6 +1374,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
+            case "DashboardManager":
+                headerText.setText("Manager Dashboard");
+                fragment = new ManagerDashboardFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+
+                plusIconApna.setVisibility(View.GONE);
+                filterIconApna.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                scannerIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                break;
 
             case "Logout":
                 dialogExit();
@@ -1745,7 +1761,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Ceo", R.drawable.ic_apollo_dashboard)));
+        listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Ceo", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("Dashboard Manager", R.drawable.ic_apollo_dashboard)));
 
 //        if (true) {
 //
@@ -1843,8 +1859,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (childModelList.get(childPosition).getTitle().equals("Approval List")) {
                     displaySelectedScreen("Approval List");
                 }
-            }
-            else if (listHeader.get(groupPosition).getTitle().equals("Discount")) {
+            } else if (listHeader.get(groupPosition).getTitle().equals("Discount")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
 
                 if (childModelList.get(childPosition).getTitle().equals("Pending")) {
@@ -1941,7 +1956,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
 
-
 //                else if (childModelList.get(childPosition).getTitle().equals("Post Rectro Approval")) {
 //                    displaySelectedScreen("Post Rectro Approval");
 //                }
@@ -1955,10 +1969,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Dashboard Ceo")) {
                     displaySelectedScreen("DashboardCeo");
+                }else if (childModelList.get(childPosition).getTitle().equals("Dashboard Manager")) {
+                    displaySelectedScreen("DashboardManager");
                 }
 
             }
-
 
 
 //            if (groupPosition == 1 && childPosition == 0) {

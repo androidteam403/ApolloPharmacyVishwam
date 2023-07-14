@@ -25,6 +25,7 @@ import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCat
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
+import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRoleResponse
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
@@ -846,6 +847,14 @@ interface ViswamAppApi {
         @Url url: String,
         @Header("token") token: String,
     ): GetDiscountColorResponse
+
+    @GET("https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/get-ticket-counts-by-status-role")
+    suspend fun GET_TICKET_COUNT_BY_STATUS(
+        @Query("from_date") fromDate: String,
+        @Query("to_date") tomDate: String,
+        @Query("employee_id") id: String,
+    ): TicketCountsByStatusRoleResponse
+
 
 }
 
