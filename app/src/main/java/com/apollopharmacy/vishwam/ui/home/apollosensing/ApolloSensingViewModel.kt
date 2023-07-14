@@ -360,67 +360,67 @@ class ApolloSensingViewModel : ViewModel() {
         }
     }
 
-    fun sensingFileUpload(
-        apolloSensingFragmentCallback: ApolloSensingFragmentCallback,
-        file: File,
-        isLastImage: Boolean,
-    ) {
-        val url = Preferences.getApi()
-        val data = Gson().fromJson(url, ValidateResponse::class.java)
-
-        var sensingFileUploadRequest = SensingFileUploadRequest()
-        sensingFileUploadRequest.Filename = file
-
-        var baseUrl = "" //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
-        var token = "" //"9f15bdd0fcd5423190cHNK"
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("SEN BLOB")) {
-                baseUrl = data.APIS[i].URL
-                token = data.APIS[i].TOKEN
-                break
-            }
-        }
-
-
-        val requestBody = RequestBody.create("*/*".toMediaTypeOrNull(), file)
-        val fileToUpload = MultipartBody.Part.createFormData("file", file.name, requestBody)
-        viewModelScope.launch {
-            state.value = State.SUCCESS
-            val response = withContext(Dispatchers.IO) {
-                ApolloSensingRepo.sensingFileUpload(
-                    baseUrl, "multipart/form-data", token, fileToUpload
-                )
-            }
-            when (response) {
-                is ApiResult.Success -> {
-                    state.value = State.SUCCESS
-                    if (response.value.status == true) {
-                        apolloSensingFragmentCallback.onSuccessSensingFileUploadApiCall(
-                            response.value!!,
-                            isLastImage!!
-                        )
-                    } else {
-                        apolloSensingFragmentCallback.onFailureSensingFileUploadApiCall(response.value!!)
-                    }
-                }
-
-                is ApiResult.GenericError -> {
-                    state.value = State.ERROR
-                }
-
-                is ApiResult.NetworkError -> {
-                    state.value = State.ERROR
-                }
-
-                is ApiResult.UnknownError -> {
-                    state.value = State.ERROR
-                }
-
-                is ApiResult.UnknownHostException -> {
-                    state.value = State.ERROR
-                }
-            }
-        }
-    }
+//    fun sensingFileUpload(
+//        apolloSensingFragmentCallback: ApolloSensingFragmentCallback,
+//        file: File,
+//        isLastImage: Boolean,
+//    ) {
+//        val url = Preferences.getApi()
+//        val data = Gson().fromJson(url, ValidateResponse::class.java)
+//
+//        var sensingFileUploadRequest = SensingFileUploadRequest()
+//        sensingFileUploadRequest.Filename = file
+//
+//        var baseUrl = "" //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
+//        var token = "" //"9f15bdd0fcd5423190cHNK"
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("SEN BLOB")) {
+//                baseUrl = data.APIS[i].URL
+//                token = data.APIS[i].TOKEN
+//                break
+//            }
+//        }
+//
+//
+//        val requestBody = RequestBody.create("*/*".toMediaTypeOrNull(), file)
+//        val fileToUpload = MultipartBody.Part.createFormData("file", file.name, requestBody)
+//        viewModelScope.launch {
+//            state.value = State.SUCCESS
+//            val response = withContext(Dispatchers.IO) {
+//                ApolloSensingRepo.sensingFileUpload(
+//                    baseUrl, "multipart/form-data", token, fileToUpload
+//                )
+//            }
+//            when (response) {
+//                is ApiResult.Success -> {
+//                    state.value = State.SUCCESS
+//                    if (response.value.status == true) {
+//                        apolloSensingFragmentCallback.onSuccessSensingFileUploadApiCall(
+//                            response.value!!,
+//                            isLastImage!!
+//                        )
+//                    } else {
+//                        apolloSensingFragmentCallback.onFailureSensingFileUploadApiCall(response.value!!)
+//                    }
+//                }
+//
+//                is ApiResult.GenericError -> {
+//                    state.value = State.ERROR
+//                }
+//
+//                is ApiResult.NetworkError -> {
+//                    state.value = State.ERROR
+//                }
+//
+//                is ApiResult.UnknownError -> {
+//                    state.value = State.ERROR
+//                }
+//
+//                is ApiResult.UnknownHostException -> {
+//                    state.value = State.ERROR
+//                }
+//            }
+//        }
+//    }
 
 }

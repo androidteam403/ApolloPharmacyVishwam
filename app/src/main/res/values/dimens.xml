@@ -113,4 +113,5 @@
     <dimen name="dimen280dp">280dp</dimen>
     <dimen name="dimen10sp">10sp</dimen>
     <dimen name="dimen20dp">20dp</dimen>
+    <dimen name="thirty_seven_dp">37dp</dimen>
 </resources>

@@ -43,6 +43,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -165,4 +166,12 @@ public interface ApiInterface {
     @GET("https://online.apollopharmacy.org/PHONEPELINK/apollophonepe.aspx")
     Call<ResponseBody> PHONEPE_LINK_CANCELLED_REQUEST_API_CALL(@Query("Siteid") String siteId, @Query("docnum") String docnum, @Query("referenceid") String referenceId, @Query("mobnum") String mobileNumber, @Query("transactionid") String transactionId, @Query("Action") String action);
 
+
+   // for vishwam application
+   /* @Multipart
+    @POST
+    suspend fun SENSING_FILE_UPLOAD_API_CALL(
+            @Url url: String, @Header("TYPE") type: String, @Header("token") token: String,
+            @Part file: MultipartBody.Part,
+            ): CallSensingFileUploadResponse*/
 }
