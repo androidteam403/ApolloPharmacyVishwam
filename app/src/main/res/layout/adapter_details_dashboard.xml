@@ -7,7 +7,7 @@
 
         <LinearLayout
             android:id="@+id/overall_layout"
-            android:weightSum="1"
+            android:weightSum="1.1"
             android:layout_marginStart="@dimen/text_dimen_10"
             android:layout_marginEnd="@dimen/text_dimen_10"
             android:layout_width="match_parent"
@@ -17,6 +17,7 @@
 
 
             <TextView
+                android:id="@+id/store"
                 android:gravity="center"
                 android:layout_marginStart="@dimen/value_5dp"
                 android:layout_width="0dp"
@@ -24,6 +25,18 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="JUBLIEE HILLS (OPP ANDHRA BANK)"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+
+            <TextView
+                android:id="@+id/total"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/value_5dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.1"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="0"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_12sp" />
 
