@@ -253,22 +253,25 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
     override fun allFilesDownloaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
-    }
-
-    override fun allFilesUploaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
         if (fileUploadModelList != null && fileUploadModelList.size > 0) {
             val saveImageUrlsRequest = QrSaveImageUrlsRequest()
-            saveImageUrlsRequest.storeid = Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+            saveImageUrlsRequest.storeid =
+                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
             saveImageUrlsRequest.userid = Preferences.getValidatedEmpId()
             val base64ImageList = ArrayList<QrSaveImageUrlsRequest.StoreDetail>()
             for (i in fileUploadModelList) {
                 val base64Image = QrSaveImageUrlsRequest.StoreDetail()
-                base64Image.imageurl = i.sensingFileUploadResponse!!.referenceurl
-                base64Image.qrcode=""
-                base64Image.rackno=i.rackNo
+                base64Image.imageurl = i.fileDownloadResponse!!.referenceurl
+                base64Image.qrcode = ""
+                base64Image.rackno = i.rackNo
                 base64ImageList.add(base64Image)
             }
-            saveImageUrlsRequest.storeDetails=base64ImageList
+            saveImageUrlsRequest.storeDetails = base64ImageList
+
+        }
+        }
+
+    override fun allFilesUploaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
 
 //            vendor/SENSING/1689678494093.jpg
 //            vendor/SENSING/1689678498958.jpg
@@ -276,7 +279,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 //            viewModel.saveImageUrlsApiCall(
 //                saveImageUrlsRequest,this
 //            )
-        }
+
 
     }
 }
