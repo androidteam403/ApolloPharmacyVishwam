@@ -1390,7 +1390,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         saveSurveyResponse: SaveSurveyModelResponse,
         type: String,
     ) {
-//        Utlis.hideLoading()
+        Utlis.hideLoading()
 
         dialogSubmit = Dialog(this)
         dialogSubmit.setContentView(R.layout.dialog_champs_survey)
@@ -1598,7 +1598,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
             champsSurveyViewModel.saveUpdateApi(this, saveUpdateRequest)
-        }else{
+        } else {
             Utlis.hideLoading()
         }
 
