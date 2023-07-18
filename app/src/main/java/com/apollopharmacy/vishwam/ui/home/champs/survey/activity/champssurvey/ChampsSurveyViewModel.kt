@@ -5,11 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Config
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ChampsApiRepo
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.SaveSurveyModelRequest
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
+import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -484,6 +489,84 @@ class ChampsSurveyViewModel: ViewModel() {
                 }
             }
         }
+    }
+
+    fun saveUpdateApi(champsSurveyCallBack: ChampsSurveyCallBack, saveUpdateRequest: SaveUpdateRequest) {
+//        val url = Preferences.getApi()
+//        val data = Gson().fromJson(url, ValidateResponse::class.java)
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("SAVE CATEGORY WISE IMAGE URLS")) {
+//                val baseUrl = data.APIS[i].URL
+//                val token = data.APIS[i].TOKEN
+        /*  val baseUrl =
+              "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/mobile-ticket-save"*/
+//                val onSubmitSwachModelRequestJson =
+//                    Gson().toJson(onSubmitSwachModelRequest)
+
+//                val header = "application/json"
+
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("SW SAVE IMAGE URLS")) {
+                baseUrl = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/cms_champs_survey/save-update"
+//                token = data.APIS[i].TOKEN
+                break
+//            }
+        }
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                ChampsApiRepo.saveUpdateApi(baseUrl, saveUpdateRequest)
+
+//                        RegistrationRepo.NewComplaintRegistration(
+//                            baseUrl,
+//                            header,
+//                            requestNewComplaintRegistration
+//                        )
+            }
+            when (response) {
+
+                is ApiResult.Success -> {
+
+                    state.value = State.ERROR
+                    champsSurveyCallBack.onSuccessSaveUpdateApi(response.value)
+//                    uploadSwachModel.value = response.value!!
+
+
+                    if (response.value.success ?: null == false) {
+                        state.value = State.ERROR
+                        CommandsNewSwachImp.ShowToast(response.value.message)
+                        champsSurveyCallBack.onFailureSaveUpdateApi(response.value)
+//                        uploadSwachModel.value?.message = response.value.message
+
+
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    commands.postValue(response.error?.let {
+                        Command.ShowToast(it)
+                    })
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    commands.postValue(Command.ShowToast("Network Error"))
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+                else -> {
+                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+            }
+        }
+//            }
+//        }
     }
 
 
