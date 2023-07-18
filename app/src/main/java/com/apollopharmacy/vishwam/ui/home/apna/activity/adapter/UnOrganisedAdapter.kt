@@ -33,7 +33,9 @@ class UnOrganisedAdapter(
         holder.viewItemRowBinding.itemName.text = unorganisedList[position].name
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            mCallback.onUnorganisedItemSelect(position, unorganisedList[position].name.toString())
+            mCallback.onUnorganisedItemSelect(position,
+                unorganisedList[position].name.toString(),
+                unorganisedList[position].uid.toString())
         }
     }
 

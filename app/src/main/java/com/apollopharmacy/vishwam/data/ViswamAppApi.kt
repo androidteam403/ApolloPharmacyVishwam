@@ -27,12 +27,14 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
+import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRoleResponse
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.model.ScannerResponse
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsResponse
@@ -43,8 +45,11 @@ import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.G
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
+import com.apollopharmacy.vishwam.util.fileupload.FileDownloadRequest
+import com.apollopharmacy.vishwam.util.fileupload.FileDownloadResponse
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.http.*
 import java.util.*
 
@@ -66,11 +71,15 @@ interface ViswamAppApi {
     ): DeviceDeRegResponse
 
 
-    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
-    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+    /*@POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String*/
 
 //    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
 //    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
+    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
     suspend fun getValidateTest(): ValidateResponse
@@ -813,16 +822,33 @@ interface ViswamAppApi {
 
     @Multipart
     @POST
-    suspend fun SENSING_FILE_UPLOAD_API_CALL(
+    fun SENSING_FILE_UPLOAD_API_CALL(
         @Url url: String, @Header("TYPE") type: String, @Header("token") token: String,
         @Part file: MultipartBody.Part,
-    ): SensingFileUploadResponse
+    ): Call<SensingFileUploadResponse>
 
+    @POST
+    fun FILE_DOWNLOAD_API_CALL(
+        @Url url: String, @Header("token") token: String,
+        @Body fileDownloadRequest: FileDownloadRequest,
+    ): Call<FileDownloadResponse>
 
     @GET
     suspend fun getDiscountColorDetails(
         @Url url: String,
         @Header("token") token: String,
     ): GetDiscountColorResponse
+
+    @GET("https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/get-ticket-counts-by-status-role")
+    suspend fun GET_TICKET_COUNT_BY_STATUS(
+        @Query("from_date") fromDate: String,
+        @Query("to_date") tomDate: String,
+        @Query("employee_id") id: String,
+    ): TicketCountsByStatusRoleResponse
+
+    @GET
+    suspend fun getImageUrl(
+        @Url url: String,
+    ): ScannerResponse
 
 }

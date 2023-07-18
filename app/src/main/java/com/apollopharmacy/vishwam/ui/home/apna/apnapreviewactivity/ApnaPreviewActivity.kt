@@ -11,10 +11,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewParent
+import android.view.*
 import android.widget.ScrollView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -51,7 +48,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
+class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTreeObserver.OnScrollChangedListener {
     var toiletsAvailable: String = ""
     var parkingAvailable: String = ""
     var trafficType: String = ""
@@ -118,13 +115,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             onBackPressed()
         }
 
-
         apnaPreviewActivityBinding.scrollTop.setOnClickListener {
-            apnaPreviewActivityBinding.scrollView.post {
-                apnaPreviewActivityBinding.scrollView.fullScroll(View.FOCUS_UP)
-            }
+            apnaPreviewActivityBinding.scrollView.fullScroll(View.FOCUS_UP)
         }
-
+        apnaPreviewActivityBinding.scrollBottom.setOnClickListener {
+            apnaPreviewActivityBinding.scrollView.fullScroll(View.FOCUS_DOWN)
+        }
+        apnaPreviewActivityBinding.scrollView.viewTreeObserver.addOnScrollChangedListener(this@ApnaPreviewActivity)
         setUp()
     }
 
@@ -1165,13 +1162,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.totalAreaDimensionType.setText(
                 "(" + value.data!!.dimensionType!!.name!! + "): "
             )
-            apnaPreviewActivityBinding.expectedRentUnit.setText(value.data!!.dimensionType!!.name!!.toString())
-            apnaPreviewActivityBinding.securityDepositUnit.setText(value.data!!.dimensionType!!.name!!.toString())
+//            apnaPreviewActivityBinding.expectedRentUnit.setText(value.data!!.dimensionType!!.name!!.toString())
+//            apnaPreviewActivityBinding.securityDepositUnit.setText(value.data!!.dimensionType!!.name!!.toString())
         } else {
             apnaPreviewActivityBinding.dimensionType.setText("(-): ")
             apnaPreviewActivityBinding.totalAreaDimensionType.setText("(-): ")
-            apnaPreviewActivityBinding.expectedRentUnit.setText("-")
-            apnaPreviewActivityBinding.securityDepositUnit.setText("-")
+//            apnaPreviewActivityBinding.expectedRentUnit.setText("-")
+//            apnaPreviewActivityBinding.securityDepositUnit.setText("-")
         }
 
         apnaPreviewActivityBinding.length.setText(value.data!!.length.toString())
@@ -1657,5 +1654,20 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                 })
             }
         })
+    }
+
+    override fun onScrollChanged() {
+        val view =
+            apnaPreviewActivityBinding.scrollView.getChildAt(apnaPreviewActivityBinding.scrollView.childCount - 1)
+        val top = apnaPreviewActivityBinding.scrollView.scrollY
+        val bottom =
+            view.bottom - (apnaPreviewActivityBinding.scrollView.height + apnaPreviewActivityBinding.scrollView.scrollY)
+        if (bottom == 0) {
+            apnaPreviewActivityBinding.scrollTop.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.scrollBottom.visibility = View.GONE
+        } else if (top <= 0) {
+            apnaPreviewActivityBinding.scrollBottom.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.scrollTop.visibility = View.GONE
+        }
     }
 }

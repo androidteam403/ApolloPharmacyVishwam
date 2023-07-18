@@ -4,6 +4,7 @@ class HospitalData(
     var hospitalName: String,
     var beds: String,
     var speciality: String,
+    var specialityName: String,
     var noOfOpd: String,
     var occupancy: String,
 )

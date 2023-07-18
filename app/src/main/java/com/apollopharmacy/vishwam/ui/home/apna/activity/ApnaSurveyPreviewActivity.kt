@@ -8,10 +8,7 @@ import android.graphics.Color
 import android.graphics.Point
 import android.location.Location
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewParent
+import android.view.*
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -48,7 +45,8 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.stream.Collectors
 
-class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback {
+class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback,
+    ViewTreeObserver.OnScrollChangedListener {
 
     var toiletsAvailable: String = ""
     var parkingAvailable: String = ""
@@ -90,6 +88,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
         activityApnaSurveyPreviewBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_apna_survey_preview)
+        activityApnaSurveyPreviewBinding.scrollView.viewTreeObserver.addOnScrollChangedListener(this@ApnaSurveyPreviewActivity)
         setUp()
     }
 
@@ -106,6 +105,9 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         }
         activityApnaSurveyPreviewBinding.scrollTop.setOnClickListener {
             activityApnaSurveyPreviewBinding.scrollView.fullScroll(View.FOCUS_UP)
+        }
+        activityApnaSurveyPreviewBinding.scrollBottom.setOnClickListener {
+            activityApnaSurveyPreviewBinding.scrollView.fullScroll(View.FOCUS_DOWN)
         }
         activityApnaSurveyPreviewBinding.quickGoIcon.setOnClickListener {
             val apnaPreviewQuickGoDialogBinding: ApnaPreviewQuickGoDialogBinding? =
@@ -266,13 +268,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (surveyCreateRequest.dimensionType != null && surveyCreateRequest.dimensionType!!.name != null) {
             activityApnaSurveyPreviewBinding.dimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + "): ")
             activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + "): ")
-            activityApnaSurveyPreviewBinding.expectedRentUnit.setText(surveyCreateRequest.dimensionType!!.name)
-            activityApnaSurveyPreviewBinding.securityDepositUnit.setText(surveyCreateRequest.dimensionType!!.name)
+//            activityApnaSurveyPreviewBinding.expectedRentUnit.setText(surveyCreateRequest.dimensionType!!.name)
+//            activityApnaSurveyPreviewBinding.securityDepositUnit.setText(surveyCreateRequest.dimensionType!!.name)
         } else {
             activityApnaSurveyPreviewBinding.dimensionType.setText("(-): ")
             activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(-): ")
-            activityApnaSurveyPreviewBinding.expectedRentUnit.setText("-")
-            activityApnaSurveyPreviewBinding.securityDepositUnit.setText("-")
+//            activityApnaSurveyPreviewBinding.expectedRentUnit.setText("-")
+//            activityApnaSurveyPreviewBinding.securityDepositUnit.setText("-")
         }
         if (surveyCreateRequest.length != null) {
             activityApnaSurveyPreviewBinding.length.setText(surveyCreateRequest.length)
@@ -775,7 +777,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficText.setText("Traffic High")
-        } else if (trafficType.equals("V.High", true)) {
+        } else if (trafficType.equals("V_High", true)) {
             activityApnaSurveyPreviewBinding.trafficLow.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.GONE
@@ -1278,5 +1280,20 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         val intent = Intent(this@ApnaSurveyPreviewActivity, VideoPreviewActivity::class.java)
         intent.putExtra("VIDEO_URI", video)
         startActivity(intent)
+    }
+
+    override fun onScrollChanged() {
+        val view =
+            activityApnaSurveyPreviewBinding.scrollView.getChildAt(activityApnaSurveyPreviewBinding.scrollView.childCount - 1)
+        val top = activityApnaSurveyPreviewBinding.scrollView.scrollY
+        val bottom =
+            view.bottom - (activityApnaSurveyPreviewBinding.scrollView.height + activityApnaSurveyPreviewBinding.scrollView.scrollY)
+        if (bottom == 0) {
+            activityApnaSurveyPreviewBinding.scrollTop.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.scrollBottom.visibility = View.GONE
+        } else if (top <= 0) {
+            activityApnaSurveyPreviewBinding.scrollBottom.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.scrollTop.visibility = View.GONE
+        }
     }
 }

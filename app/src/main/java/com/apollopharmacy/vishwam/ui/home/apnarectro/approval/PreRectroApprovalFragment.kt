@@ -163,6 +163,7 @@ class PreRectroApprovalFragment() :
         var list1: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
         var getPendingApproveList: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
 
+
         val retroIdsGroupedList: Map<String, List<GetRetroPendingAndApproveResponse.Retro>> =
             getStorePendingApprovedList.retrolist!!.stream()
                 .collect(Collectors.groupingBy { w -> w.retroid })
