@@ -5,6 +5,8 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDe
 interface RetroQrUploadCallback {
     fun onClickBackArrow()
     fun onClickSubmit()
+    fun onSuccessUploadImagesApiCall(message: String)
+    fun onFailureUploadImagesApiCall(message: String)
 
     fun onSuccessgetStoreWiseRackResponse(storeWiseRackDetails: StoreWiseRackDetails)
     fun onClickCameraIcon(position: Int)

@@ -20,16 +20,25 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityRetroQrUploadBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.UploadRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.ImageDto
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
+import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUpload
+import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadCallback
+import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadModel
+
+import me.echodev.resizer.Resizer
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
+class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
+    RetroQrFileUploadCallback {
     private lateinit var activityRetroQrUploadBinding: ActivityRetroQrUploadBinding
     private lateinit var viewModel: RetroQrUploadViewModel
     private lateinit var uploadRackAdapter: UploadRackAdapter
@@ -49,17 +58,39 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
     }
 
     private fun setUp() {
-        viewModel.getStoreWiseRackDetails(this)
+//        viewModel.getStoreWiseRackDetails(this)
         // for demo
-//        images.add(ImageDto(File(""), ""))
-//        images.add(ImageDto(File(""), ""))
-//        images.add(ImageDto(File(""), ""))
+        images.add(ImageDto(File(""), ""))
+        images.add(ImageDto(File(""), ""))
+        images.add(ImageDto(File(""), ""))
+
+        var image=StoreWiseRackDetails.StoreDetail()
+        image.rackno="Rack1"
+        var image1=StoreWiseRackDetails.StoreDetail()
+        image1.rackno="Rack1"
+        var image2=StoreWiseRackDetails.StoreDetail()
+        image2.rackno="Rack1"
+        imagesList.add(image)
+        imagesList.add(image1)
+        imagesList.add(image2)
 //        images.add(ImageDto(File(""), ""))
 //        images.add(ImageDto(File(""), ""))
 //        images.add(ImageDto(File(""), ""))
 //        images.add(ImageDto(File(""), ""))
 //        images.add(ImageDto(File(""), ""))
 
+        //Retro Qr
+
+
+        activityRetroQrUploadBinding.totalRackCount.text = imagesList.size.toString()
+
+        uploadRackAdapter =
+            UploadRackAdapter(this@RetroQrUploadActivity, this@RetroQrUploadActivity,
+                imagesList
+            )
+        activityRetroQrUploadBinding.uploadRackRcv.adapter = uploadRackAdapter
+        activityRetroQrUploadBinding.uploadRackRcv.layoutManager =
+            LinearLayoutManager(this@RetroQrUploadActivity)
 
     }
 
@@ -68,27 +99,59 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
     }
 
     override fun onClickSubmit() {
-        if (updatedCount == imagesList.size) {
+        if (updatedCount == images.size) {
+
+            var fileUploadModelList = ArrayList<RetroQrFileUploadModel>()
+            for (i in imagesList!!) {
+                val resizedImage = Resizer(context).setTargetLength(1080).setQuality(100)
+                    .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                    .setOutputDirPath(
+                        ViswamApp.Companion.context.cacheDir.toString()
+                    )
+                    .setSourceImage(File(i.imageurl)).resizedFile
+                var fileUploadModel = RetroQrFileUploadModel()
+                fileUploadModel.file = resizedImage
+                fileUploadModel.rackNo=i.rackno
+                fileUploadModel.qrCode=i.qrcode
+                fileUploadModelList.add(fileUploadModel)
+            }
 
 
+            RetroQrFileUpload().uploadFiles(
+                context ,
+                this,
+                fileUploadModelList
+            )
 
-//            Toast.makeText(this@RetroQrUploadActivity, "Submitted Successfully", Toast.LENGTH_SHORT)
-//                .show()
+            Toast.makeText(this@RetroQrUploadActivity, "Submitted Successfully", Toast.LENGTH_SHORT)
+                .show()
             finish()
         }
+    }
+
+    override fun onSuccessUploadImagesApiCall(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailureUploadImagesApiCall(message: String) {
+        TODO("Not yet implemented")
     }
 
     override fun onSuccessgetStoreWiseRackResponse(storeWiseRackDetails: StoreWiseRackDetails) {
         activityRetroQrUploadBinding.totalRackCount.text = storeWiseRackDetails.storeDetails!!.size.toString()
         imagesList= storeWiseRackDetails.storeDetails as ArrayList<StoreWiseRackDetails.StoreDetail>
 
-        uploadRackAdapter =
-            UploadRackAdapter(this@RetroQrUploadActivity, this@RetroQrUploadActivity,
-                imagesList
-            )
-        activityRetroQrUploadBinding.uploadRackRcv.adapter = uploadRackAdapter
-        activityRetroQrUploadBinding.uploadRackRcv.layoutManager =
-            LinearLayoutManager(this@RetroQrUploadActivity)    }
+//        uploadRackAdapter =
+//            UploadRackAdapter(this@RetroQrUploadActivity, this@RetroQrUploadActivity,
+//                images
+//            )
+//        activityRetroQrUploadBinding.uploadRackRcv.adapter = uploadRackAdapter
+//        activityRetroQrUploadBinding.uploadRackRcv.layoutManager =
+//            LinearLayoutManager(this@RetroQrUploadActivity)
+//
+
+    }
 //    var file: File = File(filename)
     override fun onClickCameraIcon(position: Int) {
         this.position = position
@@ -102,13 +165,13 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
 
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        imageFile = File(ViswamApp.context.cacheDir, "${System.currentTimeMillis()}.jpg")
+        imageFile = File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
         compressedImageFileName = "${System.currentTimeMillis()}.jpg"
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile))
         } else {
             val photoUri = FileProvider.getUriForFile(
-                ViswamApp.context, ViswamApp.context.packageName + ".provider", imageFile!!
+                context, context.packageName + ".provider", imageFile!!
             )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
@@ -123,7 +186,9 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK && imageFile != null) {
             var imageDto=ImageDto(imageFile as File,"")
-            images.add(imageDto)
+//            images.get(position).image= imageFile as File
+
+
             imagesList[position].imageurl = (imageFile as File).toString()
             updatedCount++
             uploadRackAdapter.notifyItemChanged(position)
@@ -182,5 +247,36 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback {
                 ), PermissonCode
             )
         }
+    }
+
+    override fun onFailureUpload(message: String) {
+    }
+
+    override fun allFilesDownloaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
+    }
+
+    override fun allFilesUploaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
+        if (fileUploadModelList != null && fileUploadModelList.size > 0) {
+            val saveImageUrlsRequest = QrSaveImageUrlsRequest()
+            saveImageUrlsRequest.storeid = Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+            saveImageUrlsRequest.userid = Preferences.getValidatedEmpId()
+            val base64ImageList = ArrayList<QrSaveImageUrlsRequest.StoreDetail>()
+            for (i in fileUploadModelList) {
+                val base64Image = QrSaveImageUrlsRequest.StoreDetail()
+                base64Image.imageurl = i.sensingFileUploadResponse!!.referenceurl
+                base64Image.qrcode=""
+                base64Image.rackno=i.rackNo
+                base64ImageList.add(base64Image)
+            }
+            saveImageUrlsRequest.storeDetails=base64ImageList
+
+//            vendor/SENSING/1689678494093.jpg
+//            vendor/SENSING/1689678498958.jpg
+//            vendor/SENSING/1689678506217.jpg
+//            viewModel.saveImageUrlsApiCall(
+//                saveImageUrlsRequest,this
+//            )
+        }
+
     }
 }
