@@ -31,7 +31,7 @@ class QrSaveImageUrlsRequest : Serializable {
         return this
     }
 
-    inner class StoreDetail : Serializable {
+    public class StoreDetail : Serializable {
         @SerializedName("RACKNO")
         @Expose
         var rackno: String? = null

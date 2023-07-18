@@ -1574,8 +1574,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun allFilesUploaded(fileUploadModelList: List<FileUploadModel>?) {
         if (fileUploadModelList != null && fileUploadModelList.size > 0) {
             val saveImageUrlsRequest = SaveImageUrlsRequest()
-            saveImageUrlsRequest.siteId =
-                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+            saveImageUrlsRequest.siteId = Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
             saveImageUrlsRequest.type = "STORE"
             saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
             saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()

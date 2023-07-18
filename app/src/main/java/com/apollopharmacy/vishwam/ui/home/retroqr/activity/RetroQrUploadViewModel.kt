@@ -34,19 +34,19 @@ class RetroQrUploadViewModel : ViewModel() {
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
         var baseUrl = ""
+        //  "https://apsmtest.apollopharmacy.org:8443/SENSING/SaveSensingDetails" //"https://172.16.103.116:8443/SENSING/SaveSensingDetails"
         var baseToken = "" //"h72genrSSNFivOi/cfiX3A==" //"h72genrSSNFivOi/cfiX3A=="
-//        for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("SEN SAVEDETAILS")) {
-//                baseUrl = data.APIS[i].URL
-//                baseToken = data.APIS[i].TOKEN
-//                break
-//            }
-//        }
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SEN SAVEDETAILS")) {
+                baseUrl = data.APIS[i].URL
+                baseToken = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 QrRetroRepo.saveImageUrlsApiCallQr(
-
                     baseUrl, baseToken, saveImageUrlsRequest
                 )
             }
@@ -54,14 +54,14 @@ class RetroQrUploadViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     state.value = State.SUCCESS
                     if (response.value.status == true) {
-                        retroQrUploadCallback.onSuccessUpload(response.value.message!!)
+                        retroQrUploadCallback.onSuccessUploadImagesApiCall(response.value.message!!)
                     } else {
                         if (response.value.message != null) {
-                            retroQrUploadCallback.onFailureUpload(
+                            retroQrUploadCallback.onFailureUploadImagesApiCall(
                                 response.value.message!!
                             )
                         } else {
-                            retroQrUploadCallback.onFailureUpload("Something went wrong.")
+                            retroQrUploadCallback.onFailureUploadImagesApiCall("Something went wrong.")
                         }
                     }
                 }
@@ -84,6 +84,7 @@ class RetroQrUploadViewModel : ViewModel() {
             }
         }
     }
+
     fun getStoreWiseRackDetails(retroQrUploadCallback: RetroQrUploadCallback) {
 
         val state = MutableLiveData<State>()
