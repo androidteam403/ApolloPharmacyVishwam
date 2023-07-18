@@ -10,10 +10,14 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterDashboardCeoBinding
 import com.apollopharmacy.vishwam.databinding.AdapterDetailsDashboardBinding
 import com.apollopharmacy.vishwam.ui.home.dashboard.adapter.DashboardAdapter
+import com.apollopharmacy.vishwam.ui.home.dashboard.model.ReasonWiseTicketCountByRoleResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.adapter.SiteIdDisplayAdapter
+import java.util.ArrayList
 
-class DashboardDetailsAdapter(private var context: Context) :
-    RecyclerView.Adapter<DashboardDetailsAdapter.ViewHolder>() {
+class DashboardDetailsAdapter(
+    private var context: Context,
+    var reasonWiseTicketCountByRoleResponse: ReasonWiseTicketCountByRoleResponse,
+) : RecyclerView.Adapter<DashboardDetailsAdapter.ViewHolder>() {
     var horizantalCategoryAdapter: HorizantalCategoryAdapter? = null
 
     override fun onCreateViewHolder(
@@ -31,7 +35,7 @@ class DashboardDetailsAdapter(private var context: Context) :
     }
 
     override fun getItemCount(): Int {
-        return 11
+        return reasonWiseTicketCountByRoleResponse.data.listData.rows.size
     }
 
     override fun onBindViewHolder(holder: DashboardDetailsAdapter.ViewHolder, position: Int) {
@@ -44,8 +48,15 @@ class DashboardDetailsAdapter(private var context: Context) :
                 (context.getDrawable(R.drawable.background_for_white))
         }
 
+        holder.adapterDashboardDetailsAdapterBinding.store.text =
+            reasonWiseTicketCountByRoleResponse.data.listData.rows[position].name
+        holder.adapterDashboardDetailsAdapterBinding.total.text =
+            reasonWiseTicketCountByRoleResponse.data.listData.rows[position].total.toString()
+
         horizantalCategoryAdapter =
-            HorizantalCategoryAdapter(context)
+            HorizantalCategoryAdapter(context,
+                reasonWiseTicketCountByRoleResponse.data.listData.rows as ArrayList<ReasonWiseTicketCountByRoleResponse.Data.ListData.Row>,
+                reasonWiseTicketCountByRoleResponse.data.listData.zcExtra.data1 as ArrayList<ReasonWiseTicketCountByRoleResponse.Data.ListData.ZcExtra.Data1>)
         holder.adapterDashboardDetailsAdapterBinding.childRecyclerView.layoutManager =
             LinearLayoutManager(
                 context, LinearLayoutManager.HORIZONTAL,
@@ -54,8 +65,8 @@ class DashboardDetailsAdapter(private var context: Context) :
         holder.adapterDashboardDetailsAdapterBinding.childRecyclerView.adapter =
             horizantalCategoryAdapter
 
-        holder.adapterDashboardDetailsAdapterBinding.childRecyclerView.adapter =
-            horizantalCategoryAdapter
+//        holder.adapterDashboardDetailsAdapterBinding.childRecyclerView.adapter =
+//            horizantalCategoryAdapter
     }
 
     class ViewHolder(var adapterDashboardDetailsAdapterBinding: AdapterDetailsDashboardBinding) :

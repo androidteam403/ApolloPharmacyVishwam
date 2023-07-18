@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -13,13 +14,20 @@ import com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.ada
 import com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.adapter.DashboardDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.adapter.HorizantalCategoryAdapter
 import com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.adapter.HorizantalCategoryHeaderAdapter
+import com.apollopharmacy.vishwam.ui.home.dashboard.model.ReasonWiseTicketCountByRoleResponse
+import com.apollopharmacy.vishwam.util.Utils
+import com.apollopharmacy.vishwam.util.Utlis
+import java.util.ArrayList
 
-class DashboardDetailsActivity : AppCompatActivity() {
+class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
     private lateinit var activityDashboardDetailsBinding: ActivityDashboardDetailsBinding
     private lateinit var viewModel: DashboardDetailsViewModel
     private lateinit var dashboardAdapter: DashboardDetailsAdapter
     private lateinit var dashboardCategoryAdapter: DashboardCategoryAdapter
     var horizantalCategoryHeaderAdapter: HorizantalCategoryHeaderAdapter? = null
+    var reasonWiseTicketCountByRoleResponse: ReasonWiseTicketCountByRoleResponse? = null
+    var categoryList = ArrayList<ReasonWiseTicketCountByRoleResponse.Data.ListData.ZcExtra.Data1>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityDashboardDetailsBinding = DataBindingUtil.setContentView(
@@ -32,8 +40,12 @@ class DashboardDetailsActivity : AppCompatActivity() {
     }
 
     private fun setUp() {
-
-        dashboardCategoryAdapter = DashboardCategoryAdapter()
+        Utlis.showLoading(this@DashboardDetailsActivity)
+        viewModel.getReasonWiseTicketCountByRole(this@DashboardDetailsActivity,
+            "2023-06-05",
+            "2023-06-30",
+            "EX100011")
+        dashboardCategoryAdapter = DashboardCategoryAdapter(categoryList)
         val layoutManager = GridLayoutManager(this, 2)
         activityDashboardDetailsBinding.headerCategoryRecyclerview.setLayoutManager(layoutManager)
         activityDashboardDetailsBinding.headerCategoryRecyclerview.setAdapter(
@@ -52,11 +64,33 @@ class DashboardDetailsActivity : AppCompatActivity() {
 //
 //        activityDashboardDetailsBinding.childRecyclerViewHeader.adapter =
 //            horizantalCategoryHeaderAdapter
+    }
 
-        dashboardAdapter = DashboardDetailsAdapter(this)
-        var layoutManager2 =
-            LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
-        activityDashboardDetailsBinding.dashboardDetailsRecyclerview.layoutManager = layoutManager2
-        activityDashboardDetailsBinding.dashboardDetailsRecyclerview.adapter = dashboardAdapter
+    override fun onSuccessGetReasonWiseTicketCountByRoleApiCall(reasonWiseTicketCountByRoleResponse: ReasonWiseTicketCountByRoleResponse) {
+        Utlis.hideLoading()
+        if (reasonWiseTicketCountByRoleResponse != null && reasonWiseTicketCountByRoleResponse.data != null && reasonWiseTicketCountByRoleResponse.data.listData != null && reasonWiseTicketCountByRoleResponse.data.listData.rows.size > 0) {
+            this.reasonWiseTicketCountByRoleResponse = reasonWiseTicketCountByRoleResponse
+            categoryList =
+                reasonWiseTicketCountByRoleResponse.data.listData.zcExtra.data1 as ArrayList<ReasonWiseTicketCountByRoleResponse.Data.ListData.ZcExtra.Data1>
+
+            dashboardAdapter = DashboardDetailsAdapter(this, reasonWiseTicketCountByRoleResponse)
+            val layoutManager2 =
+                LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
+            activityDashboardDetailsBinding.dashboardDetailsRecyclerview.layoutManager =
+                layoutManager2
+            activityDashboardDetailsBinding.dashboardDetailsRecyclerview.adapter = dashboardAdapter
+            // Header recyclerview
+            horizantalCategoryHeaderAdapter = HorizantalCategoryHeaderAdapter(this, categoryList)
+            activityDashboardDetailsBinding.headerRcv.adapter = horizantalCategoryHeaderAdapter
+            activityDashboardDetailsBinding.headerRcv.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        }
+    }
+
+    override fun onFailureGetReasonWiseTicketCountByRoleApiCall(reasonWiseTicketCountByRoleResponse: ReasonWiseTicketCountByRoleResponse) {
+        Utlis.hideLoading()
+        Toast.makeText(this@DashboardDetailsActivity,
+            reasonWiseTicketCountByRoleResponse.message,
+            Toast.LENGTH_SHORT).show()
     }
 }
