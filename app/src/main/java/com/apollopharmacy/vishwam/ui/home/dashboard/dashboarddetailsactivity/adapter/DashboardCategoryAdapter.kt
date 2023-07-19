@@ -6,9 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterCategoryDashboardBinding
+import com.apollopharmacy.vishwam.databinding.AdapterDetailsDashboardBinding
+import com.apollopharmacy.vishwam.ui.home.dashboard.model.ReasonWiseTicketCountByRoleResponse
+import java.util.ArrayList
 
-class DashboardCategoryAdapter : RecyclerView.Adapter<DashboardCategoryAdapter.ViewHolder>() {
-
+class DashboardCategoryAdapter(var categoryList: ArrayList<ReasonWiseTicketCountByRoleResponse.Data.ListData.ZcExtra.Data1>) :
+    RecyclerView.Adapter<DashboardCategoryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -19,8 +22,7 @@ class DashboardCategoryAdapter : RecyclerView.Adapter<DashboardCategoryAdapter.V
                 LayoutInflater.from(parent.context),
                 R.layout.adapter_category_dashboard,
                 parent,
-                false
-            )
+                false)
         return ViewHolder(adapterCategoryDashboardBinding)
     }
 

@@ -49,8 +49,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         data.add((70f))
 
 //        configChartView()
-//        viewBinding.greaterThan2.setText("<2")
-//        viewBinding.greaterThan8.setText(">8")
+        viewBinding.greaterThan2.setText("<2")
+        viewBinding.greaterThan8.setText(">8")
 //        var names = ArrayList<String>()
 //
 //        names.add("5")
@@ -62,13 +62,19 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     }
 
     private fun createChart(chartData: ArrayList<PieEntry>) {
-        val pieEntry = chartData.map { PieEntry(it.value) }
+        val pieEntry = chartData.map { PieEntry(it.value, it.value.toString()) }
         val rnd = Random()
         val colors = mutableListOf<Int>()
         for (i in chartData.indices) {
-            colors.add(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)))
+            colors.add(requireContext().getColor(R.color.blueee))
+            colors.add(Color.parseColor("#f4b25e"))
+            colors.add(Color.parseColor("#f18962"))
+            colors.add(Color.parseColor("#d6d6d6"))
+            colors.add(requireContext().getColor(R.color.greenn))
+            colors.add(Color.parseColor("#6abcec"))
+//            colors.add(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)))
         }
-        val dataSet = PieDataSet(pieEntry, "CEO Dashboard")
+        val dataSet = PieDataSet(pieEntry, "")
         dataSet.colors = colors
         dataSet.valueTextSize = 14f
         dataSet.setDrawValues(false)
@@ -180,20 +186,35 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             viewBinding.dashboardCeoRecyclerview.adapter = dashboardAdapter
             var sumOfClosed = 0f
             var sumOfLessThan2 = 0f
+            var sumOfthreeToEight=0f
+            var sumOfgreaterThan8= 0f
+            var sumOfrejected= 0f
+            var sumOfpending= 0f
                 for (i in ticketCountsByStatsuRoleResponses!!.data.listData.rows) {
                     sumOfClosed = sumOfClosed + i.closed!!.toFloat()
                 }
             for (i in ticketCountsByStatsuRoleResponses!!.data.listData.rows) {
                 sumOfLessThan2 = sumOfLessThan2 + i.lessThan2!!.toFloat()
             }
-
+            for (i in ticketCountsByStatsuRoleResponses!!.data.listData.rows) {
+                sumOfthreeToEight = sumOfthreeToEight + i.get3To8()!!.toFloat()
+            }
+            for (i in ticketCountsByStatsuRoleResponses!!.data.listData.rows) {
+                sumOfgreaterThan8 = sumOfgreaterThan8 + i.greaterThan8!!.toFloat()
+            }
+            for (i in ticketCountsByStatsuRoleResponses!!.data.listData.rows) {
+                sumOfrejected = sumOfrejected + i.rejected!!.toFloat()
+            }
+            for (i in ticketCountsByStatsuRoleResponses!!.data.listData.rows) {
+                sumOfpending = sumOfpending + i.pending!!.toFloat()
+            }
             var sumOfList: ArrayList<PieEntry> = ArrayList()
             sumOfList.add(PieEntry(sumOfClosed, "Closed"))
-            sumOfList.add(PieEntry(sumOfLessThan2, "Less than 2"))
-            sumOfList.add(PieEntry(10f, "3 to 8"))
-            sumOfList.add(PieEntry(10f, ">8"))
-            sumOfList.add(PieEntry(30f, "Rejeted"))
-            sumOfList.add(PieEntry(30f, "Pending"))
+            sumOfList.add(PieEntry(sumOfLessThan2, "<2"))
+            sumOfList.add(PieEntry(sumOfthreeToEight, "3 to 8"))
+            sumOfList.add(PieEntry(sumOfgreaterThan8, ">8"))
+            sumOfList.add(PieEntry(sumOfrejected, "Rejeted"))
+            sumOfList.add(PieEntry(sumOfpending, "Pending"))
             createChart(sumOfList)
 
         }else{
