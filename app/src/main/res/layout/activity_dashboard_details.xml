@@ -236,7 +236,8 @@
             <HorizontalScrollView
                 android:id="@+id/horizontalScrollView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -312,8 +313,8 @@
                             android:layout_marginStart="@dimen/value_5dp"
                             android:layout_weight="0.4"
                             android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="Stores(55)"
+                            android:text="Stores"
+                            android:textAlignment="viewStart"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_14sp" />
 
@@ -401,11 +402,22 @@
                             android:textSize="@dimen/dimen11sp" />-->
                     </LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/dashboard_details_recyclerview"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:listitem="@layout/adapter_details_dashboard" />
+                        android:layout_height="wrap_content">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/dashboard_details_recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:listitem="@layout/adapter_details_dashboard" />
+
+
+                    </LinearLayout>
+
+
+
+
+
                 </LinearLayout>
             </HorizontalScrollView>
 

@@ -40,7 +40,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
     }
 
     private fun setUp() {
-        Utlis.showLoading(this@DashboardDetailsActivity)
+//        Utlis.showLoading(this@DashboardDetailsActivity)
         viewModel.getReasonWiseTicketCountByRole(this@DashboardDetailsActivity,
             "2023-06-05",
             "2023-06-30",

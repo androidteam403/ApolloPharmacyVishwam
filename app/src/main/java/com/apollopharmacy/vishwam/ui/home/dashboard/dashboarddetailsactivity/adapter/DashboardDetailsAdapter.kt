@@ -41,7 +41,7 @@ class DashboardDetailsAdapter(
     override fun onBindViewHolder(holder: DashboardDetailsAdapter.ViewHolder, position: Int) {
         if (position % 2 == 0) {
             holder.adapterDashboardDetailsAdapterBinding.overallLayout.background =
-                (context.getDrawable(R.drawable.ash_background_qc))
+                (context.getDrawable(R.drawable.background_for_champs_names))
         } else {
 
             holder.adapterDashboardDetailsAdapterBinding.overallLayout.background =
