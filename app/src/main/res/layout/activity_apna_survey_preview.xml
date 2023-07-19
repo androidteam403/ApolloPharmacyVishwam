@@ -753,16 +753,56 @@
                                 android:paddingEnd="@dimen/value_5dp"
                                 android:paddingBottom="@dimen/value_5dp">
 
-                                <TextView
-                                    android:id="@+id/location_details"
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/value_10dp"
-                                    android:layout_marginTop="@dimen/value_5dp"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="Venugoapl Nagar,Quthubullapur,Near Govt.Hospiutal,Hyderabad,Telanagana-500054"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_12sp" />
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_10dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Region: "
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/region"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Good"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_10dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Location: "
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/location_details"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Venugoapl Nagar,Quthubullapur,Near Govt.Hospiutal,Hyderabad,Telanagana-500054"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"

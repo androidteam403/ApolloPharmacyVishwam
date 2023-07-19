@@ -6,9 +6,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterCategoryDashboardBinding
-import com.apollopharmacy.vishwam.databinding.AdapterDetailsDashboardBinding
 
-class DashboardCategoryAdapter: RecyclerView.Adapter<DashboardCategoryAdapter.ViewHolder>() {
+class DashboardCategoryAdapter : RecyclerView.Adapter<DashboardCategoryAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(
@@ -20,7 +19,8 @@ class DashboardCategoryAdapter: RecyclerView.Adapter<DashboardCategoryAdapter.Vi
                 LayoutInflater.from(parent.context),
                 R.layout.adapter_category_dashboard,
                 parent,
-                false)
+                false
+            )
         return ViewHolder(adapterCategoryDashboardBinding)
     }
 
