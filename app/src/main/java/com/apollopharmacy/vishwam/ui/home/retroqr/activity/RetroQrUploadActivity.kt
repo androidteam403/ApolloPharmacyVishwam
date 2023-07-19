@@ -45,6 +45,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
     var images = ArrayList<ImageDto>()
+    var updatedCount: Int = 0
+
     var imagesList= ArrayList<StoreWiseRackDetails.StoreDetail>()
 
     var position: Int = 0
@@ -66,10 +68,15 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
         var image=StoreWiseRackDetails.StoreDetail()
         image.rackno="Rack1"
+        image.imageurl=""
+
         var image1=StoreWiseRackDetails.StoreDetail()
         image1.rackno="Rack1"
+        image1.imageurl="vendor/SENSING/1689678494093.jpg"
         var image2=StoreWiseRackDetails.StoreDetail()
         image2.rackno="Rack1"
+        image2.imageurl=""
+
         imagesList.add(image)
         imagesList.add(image1)
         imagesList.add(image2)
@@ -81,8 +88,11 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
         //Retro Qr
 
+      updatedCount = imagesList.filter { it.imageurl!!.isNotEmpty() }.size
 
         activityRetroQrUploadBinding.totalRackCount.text = imagesList.size.toString()
+        activityRetroQrUploadBinding.updatedCount.setText(updatedCount.toString())
+        activityRetroQrUploadBinding.pendingCount.setText((imagesList.size - updatedCount).toString())
 
         uploadRackAdapter =
             UploadRackAdapter(this@RetroQrUploadActivity, this@RetroQrUploadActivity,
@@ -107,7 +117,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                     .setOutputFormat("JPG")
 //                .setOutputFilename(fileNameForCompressedImage)
                     .setOutputDirPath(
-                        ViswamApp.Companion.context.cacheDir.toString()
+                        ViswamApp.context.cacheDir.toString()
                     )
                     .setSourceImage(File(i.imageurl)).resizedFile
                 var fileUploadModel = RetroQrFileUploadModel()
@@ -131,7 +141,6 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
     override fun onSuccessUploadImagesApiCall(message: String) {
-        TODO("Not yet implemented")
     }
 
     override fun onFailureUploadImagesApiCall(message: String) {
@@ -179,7 +188,6 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
     }
 
-    var updatedCount: Int = 0
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -267,6 +275,9 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                 base64ImageList.add(base64Image)
             }
             saveImageUrlsRequest.storeDetails = base64ImageList
+//            viewModel.saveImageUrlsApiCall(
+//                saveImageUrlsRequest,this
+//            )
 
         }
         }
