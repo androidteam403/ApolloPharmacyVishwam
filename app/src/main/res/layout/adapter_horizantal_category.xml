@@ -50,6 +50,7 @@
             android:layout_height="@dimen/value_55dp">
 
             <TextView
+                android:id="@+id/count"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textAlignment="center"

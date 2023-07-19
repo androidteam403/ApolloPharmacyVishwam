@@ -32,6 +32,7 @@ import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.model.ScannerResponse
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsResponse
@@ -42,19 +43,17 @@ import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.G
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
+import com.apollopharmacy.vishwam.util.fileupload.FileDownloadRequest
+import com.apollopharmacy.vishwam.util.fileupload.FileDownloadResponse
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.http.*
 import java.util.*
 
 
 interface ViswamAppApi {
 
-    //    @POST("https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")
-//    suspend fun validateEmpWithOtp(
-//        @Header("token") token: String,
-//        @Body validateOtpRequest: ValidateOtpRequest,
-//    ): ValidateOtpResponse
     @POST//("https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")
     suspend fun validateEmpWithOtp(
         @Url url: String,
@@ -62,24 +61,16 @@ interface ViswamAppApi {
         @Body validateOtpRequest: ValidateOtpRequest,
     ): ValidateOtpResponse
 
-    //    @GET("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
-//    suspend fun deRegisterDevice(
-//        @Header("token") token: String,
-//        @Query("EmpId") id: String,
-//    ): DeviceDeRegResponse
     @GET//("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
     suspend fun deRegisterDevice(
         @Url url: String,
         @Header("token") token: String,
-
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
 
 
-    /*
-        @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
-        suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
-    */
+    /*@POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String*/
 
 //    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
 //    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
@@ -129,11 +120,7 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: DrugRequest,
     ): DrugResponse
-//    suspend fun DrugResponse(
-//        @Url url: String,
-//        @Header("token") token: String,
-//        @Body data: DrugRequest,
-//    ): DrugResponse
+
 
     @POST //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun ApproveRejectResponse(
@@ -324,13 +311,7 @@ interface ViswamAppApi {
         @Query("ticket_uid") ticketuid: String,
     ): ResponseNewTicketlist.NewTicketHistoryResponse
 
-// @GET("https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/site-details?")
-//    suspend fun getresolvedticketstatus(
-//        @Query("site%5Bsite%5D") site: String?,
-//        @Query("department%5Buid%5D") department:String?,
-//        ): ResponseTicktResolvedapi
-
-    @GET
+    @GET //https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/site-details?
     suspend fun getresolvedticketstatus(
         @Url url: String,
     ): ResponseTicktResolvedapi
@@ -373,19 +354,19 @@ interface ViswamAppApi {
     ): SwachModelResponse
 
 
-//    @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetPendingAndAcceptAndRejectList?")//?Storeid=16001
-//    suspend fun qcResponseList(
-//        @Url url: String,
-//        @Query("EmpId") id: String,
-//        @Query("FromDate") fromDate: String,
-//        @Query("ToDate") tomDate: String,
-//        @Query("StoreId") storeId: String,
-//        @Query("REGIONID") region: String,
-//    ): QcListsResponse
+    @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetPendingAndAcceptAndRejectList?")//?Storeid=16001
+    suspend fun qcResponseList(
+        @Url url: String,
+        @Query("EmpId") id: String,
+        @Query("FromDate") fromDate: String,
+        @Query("ToDate") tomDate: String,
+        @Query("StoreId") storeId: String,
+        @Query("REGIONID") region: String,
+    ): QcListsResponse
 
 
-    @GET("https://jsonblob.com/api/jsonBlob/1120216438605627392")
-    suspend fun qcResponseList(): QcListsResponse
+//    @GET("https://jsonblob.com/api/jsonBlob/1120216438605627392")
+//    suspend fun qcResponseList(): QcListsResponse
 
     @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetLineItems?")//qcfail
     suspend fun qcItemsResponseList(
@@ -580,14 +561,11 @@ interface ViswamAppApi {
         @Header("token") token: String,
     ): StoreDetailsModelResponse
 
-    @GET("http://jsonblob.com/api/jsonBlob/1081087017311551488")
-    suspend fun GET_STORE_WISE_DETAILS_CHAMPS(): GetStoreWiseDetailsModelResponse
-
     @GET("https://172.16.103.116/Apollo/Champs/getStoreBasedDetails")
     suspend fun GET_STORE_WISE_DETAILS_CHAMPS_API(
         @Header("token") token: String,
-        @Query("storeId") id: String,
-    ): GetStoreWiseDetailsModelResponse
+        @Query("TRAINERID") id: String,
+    ): GetStoreWiseEmpIdResponse
 
     @GET("http://jsonblob.com/api/jsonBlob/1080156717643481088")
     suspend fun GET_EMAIL_DETAILS(): GetEmailAddressModelResponse
@@ -836,11 +814,16 @@ interface ViswamAppApi {
 
     @Multipart
     @POST
-    suspend fun SENSING_FILE_UPLOAD_API_CALL(
+    fun SENSING_FILE_UPLOAD_API_CALL(
         @Url url: String, @Header("TYPE") type: String, @Header("token") token: String,
         @Part file: MultipartBody.Part,
-    ): SensingFileUploadResponse
+    ): Call<SensingFileUploadResponse>
 
+    @POST
+    fun FILE_DOWNLOAD_API_CALL(
+        @Url url: String, @Header("token") token: String,
+        @Body fileDownloadRequest: FileDownloadRequest,
+    ): Call<FileDownloadResponse>
 
     @GET
     suspend fun getDiscountColorDetails(
@@ -855,8 +838,9 @@ interface ViswamAppApi {
         @Query("employee_id") id: String,
     ): TicketCountsByStatusRoleResponse
 
+    @GET
+    suspend fun getImageUrl(
+        @Url url: String,
+    ): ScannerResponse
 
 }
-
-
-//

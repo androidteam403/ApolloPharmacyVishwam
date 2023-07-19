@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
 
         <RelativeLayout
-            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -26,21 +27,21 @@
                     android:layout_marginEnd="@dimen/value_5dp">
 
                     <LinearLayout
-                        android:padding="@dimen/value_5dp"
                         android:id="@+id/apply_background_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/background_for_champs_names"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="@dimen/value_5dp">
 
                         <RelativeLayout
                             android:id="@+id/categoryIdBg"
-                            android:background="@drawable/grey_backgroundup"
                             android:layout_width="@dimen/value_25dp"
                             android:layout_height="@dimen/value_25dp"
                             android:layout_centerVertical="true"
                             android:layout_gravity="center"
                             android:layout_marginStart="@dimen/value_5dp"
+                            android:background="@drawable/grey_backgroundup"
                             android:gravity="center">
 
                             <TextView
@@ -55,15 +56,15 @@
 
 
                         <LinearLayout
-                            android:layout_marginStart="@dimen/value_5dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
                             android:weightSum="1">
 
                             <LinearLayout
                                 android:layout_width="0dp"
-                                android:layout_weight="0.85"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="0.85"
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
@@ -77,37 +78,35 @@
                                     android:textStyle="bold" />
 
                                 <LinearLayout
-                                    android:weightSum="1"
-                                    android:visibility="gone"
                                     android:id="@+id/rating_bar_visible"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/value_15dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:visibility="gone"
+                                    android:weightSum="1">
 
 
                                     <ProgressBar
-                                        android:clickable="false"
-                                        android:contextClickable="false"
                                         android:id="@+id/progressBar"
                                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                                         android:layout_width="0dp"
-                                        android:layout_weight="0.8"
                                         android:layout_height="5dp"
-
                                         android:layout_gravity="center"
                                         android:layout_marginStart="@dimen/value_10dp"
+                                        android:layout_weight="0.75"
+
+                                        android:clickable="false"
+                                        android:contextClickable="false"
                                         android:progressDrawable="@drawable/progress_drawable_green"
                                         android:theme="@style/progressBarGreen" />
 
 
-
-
                                     <TextView
-                                        android:layout_weight="0.2"
+                                        android:id="@+id/outOfRating"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/value_5dp"
-                                        android:id="@+id/outOfRating"
+                                        android:layout_weight="0.25"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp" />
 
@@ -119,21 +118,21 @@
 
                             <LinearLayout
                                 android:layout_width="0dp"
-                                android:layout_weight="0.15"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginEnd="@dimen/value_10dp"
+                                android:layout_weight="0.15"
                                 android:gravity="end">
 
 
                                 <ImageView
                                     android:id="@+id/tickMarkGreen"
-                                    android:visibility="gone"
                                     android:layout_width="@dimen/value_35dp"
                                     android:layout_height="@dimen/value_35dp"
                                     android:background="@drawable/background_tick_green"
                                     android:padding="@dimen/value_3dp"
-                                    android:src="@drawable/white_tick_1" />
+                                    android:src="@drawable/white_tick_1"
+                                    android:visibility="gone" />
 
                                 <ImageView
 
@@ -146,7 +145,6 @@
 
                             </LinearLayout>
                         </LinearLayout>
-
 
 
                     </LinearLayout>
@@ -172,8 +170,6 @@
                     </RelativeLayout>
 
 
-
-
                 </RelativeLayout>
 
                 <ScrollView
@@ -185,11 +181,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/layout2"
-                        android:visibility="gone"
-                        android:layout_marginTop="@dimen/value_8dp" />
+                        android:layout_marginTop="@dimen/value_8dp"
+                        android:visibility="gone" />
                 </ScrollView>
-
-
 
 
                 <!--            <RelativeLayout-->
@@ -618,28 +612,29 @@
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/value_15dp"
-                android:layout_marginStart="@dimen/value_15dp"
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_15dp"
+                android:layout_marginTop="@dimen/value_15dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
-                    android:background="@drawable/background_green"
                     android:layout_width="@dimen/value_25dp"
                     android:layout_height="@dimen/value_25dp"
-                    android:text="1"
                     android:layout_gravity="center"
+                    android:background="@drawable/background_green"
                     android:gravity="center"
+                    android:text="1"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_18sp"
                     android:textStyle="bold" />
+
                 <View
-                    android:layout_gravity="center"
-                    android:layout_centerVertical="true"
                     android:layout_width="3dp"
                     android:layout_height="@dimen/value_45dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
                     android:background="@color/very_dark_green" />
 
                 <!--            <TextView-->
@@ -724,8 +719,6 @@
                 <!--                android:textColor="@color/black"-->
                 <!--                android:textSize="@dimen/text_18sp"-->
                 <!--                android:textStyle="bold" />-->
-
-
 
 
             </LinearLayout>

@@ -37,7 +37,8 @@ class ApnaNewPreviewViewModel : ViewModel() {
             }
         }
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/select/?uid=$uid"//EA4EED0B2C4D12CE92047C715E78DCB6
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/apna_project_survey/select/?"
+        baseUrl = baseUrl + "uid=$uid"//EA4EED0B2C4D12CE92047C715E78DCB6
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("")) {
                 baseUrl =
@@ -52,13 +53,17 @@ class ApnaNewPreviewViewModel : ViewModel() {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
 
-                RegistrationRepo.getDetails(proxyBaseUrl,
+                RegistrationRepo.getDetails(
+                    proxyBaseUrl,
                     proxyToken,
-                    GetDetailsRequest(baseUrl,
+                    GetDetailsRequest(
+                        baseUrl,
                         "GET",
                         "The",
                         "",
-                        ""))
+                        ""
+                    )
+                )
 
 
             }
@@ -71,10 +76,12 @@ class ApnaNewPreviewViewModel : ViewModel() {
                             val res = BackShlash.removeBackSlashes(resp)
                             val surveyDetailsList = Gson().fromJson(
                                 BackShlash.removeSubString(res),
-                                SurveyDetailsList::class.java)
+                                SurveyDetailsList::class.java
+                            )
                             if (surveyDetailsList.success) {
                                 apnaNewPreviewCallBack.onSuccessgetSurveyDetails(
-                                    surveyDetailsList)
+                                    surveyDetailsList
+                                )
                                 getSurveyListResponse.value =
                                     surveyDetailsList
 
@@ -82,7 +89,8 @@ class ApnaNewPreviewViewModel : ViewModel() {
                             } else {
                                 state.value = State.ERROR
                                 apnaNewPreviewCallBack.onFailuregetSurveyWiseDetails(
-                                    getSurveyListResponse.value!!)
+                                    getSurveyListResponse.value!!
+                                )
 
                             }
 
@@ -91,15 +99,19 @@ class ApnaNewPreviewViewModel : ViewModel() {
                     } else {
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }

@@ -1,0 +1,8 @@
+package com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity
+
+import com.apollopharmacy.vishwam.ui.home.dashboard.model.ReasonWiseTicketCountByRoleResponse
+
+interface DashboardDetailsCallback {
+    fun onSuccessGetReasonWiseTicketCountByRoleApiCall(reasonWiseTicketCountByRoleResponse: ReasonWiseTicketCountByRoleResponse)
+    fun onFailureGetReasonWiseTicketCountByRoleApiCall(reasonWiseTicketCountByRoleResponse: ReasonWiseTicketCountByRoleResponse)
+}
