@@ -70,6 +70,9 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
         viewModel.getStoreWiseRackDetails(this)
 
+        activityRetroQrUploadBinding.siteId.setText(Preferences.getQrSiteId())
+        activityRetroQrUploadBinding.siteName.setText(Preferences.getQrSiteName())
+
     }
 
     override fun onClickBackArrow() {
