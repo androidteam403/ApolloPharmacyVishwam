@@ -44,6 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="14001"
+                    android:id="@+id/siteId"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 
@@ -51,6 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Apollo Punjagutta"
+                    android:id="@+id/siteName"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_10sp"
                     android:textStyle="bold" />
@@ -184,12 +186,26 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/uploadRackRcv"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:itemCount="8"
-                        tools:listitem="@layout/upload_rack_layout" />
+                        android:orientation="horizontal">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/uploadRackRcv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:itemCount="4"
+                            tools:listitem="@layout/upload_rack_layout" />
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/reviewRack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:itemCount="4"
+                            tools:listitem="@layout/review_rack_layout" />
+                    </LinearLayout>
+
                 </LinearLayout>
             <!--</FrameLayout>
         </androidx.core.widget.NestedScrollView>-->

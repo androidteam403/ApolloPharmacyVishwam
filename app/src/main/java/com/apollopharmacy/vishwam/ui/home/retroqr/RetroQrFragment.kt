@@ -24,6 +24,9 @@ class RetroQrFragment : BaseFragment<RetroQrViewModel, FragmentRetroQrBinding>()
 
     override fun setup() {
 
+
+        viewBinding.incharge.setText(Preferences.getToken())
+
         if (Preferences.getQrSiteId().isEmpty()) {
 //            showLoading()
             val i = Intent(context, SelectRetroQrSiteIDActivity::class.java)
