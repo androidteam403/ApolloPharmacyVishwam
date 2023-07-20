@@ -50,16 +50,17 @@ class RetroQrFileUpload {
             var sensingFileUploadRequest = SensingFileUploadRequest()
             sensingFileUploadRequest.Filename = fileUploadModel.file
 
-            var baseUrl =
-                "" //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
-            var token = "" //"9f15bdd0fcd5423190cHNK"
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOB")) {
-                    baseUrl = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
-            }
+            var baseUrl ="https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
+            //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
+            var token = "9f15bdd0fcd5423190cHNK"
+            //"9f15bdd0fcd5423190cHNK"
+//            for (i in data.APIS.indices) {
+//                if (data.APIS[i].NAME.equals("SEN BLOB")) {
+//                    baseUrl = data.APIS[i].URL
+//                    token = data.APIS[i].TOKEN
+//                    break
+//                }
+//            }
 
             val requestBody = RequestBody.create("*/*".toMediaTypeOrNull(), fileUploadModel.file!!)
             val fileToUpload =
@@ -152,7 +153,7 @@ class RetroQrFileUpload {
             fileDownloadRequest.RefURL = fileUploadModel.sensingFileUploadResponse!!.referenceurl
 
             var baseUrl =
-                "https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload"
+                " https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload"
             var token = "9f15bdd0fcd5423190cHNK"
             /*for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("SEN BLOB")) {

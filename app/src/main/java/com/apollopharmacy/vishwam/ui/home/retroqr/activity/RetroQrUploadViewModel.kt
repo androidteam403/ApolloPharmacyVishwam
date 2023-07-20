@@ -33,16 +33,15 @@ class RetroQrUploadViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
-        var baseUrl = ""
-        //  "https://apsmtest.apollopharmacy.org:8443/SENSING/SaveSensingDetails" //"https://172.16.103.116:8443/SENSING/SaveSensingDetails"
-        var baseToken = "" //"h72genrSSNFivOi/cfiX3A==" //"h72genrSSNFivOi/cfiX3A=="
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("SEN SAVEDETAILS")) {
-                baseUrl = data.APIS[i].URL
-                baseToken = data.APIS[i].TOKEN
-                break
-            }
-        }
+        var baseUrl = "http://172.16.103.116:8447/SaveImageUrls"
+        var baseToken = "h72genrSSNFivOi/cfiX3A=="
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("SEN SAVEDETAILS")) {
+//                baseUrl = data.APIS[i].URL
+//                baseToken = data.APIS[i].TOKEN
+//                break
+//            }
+//        }
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {

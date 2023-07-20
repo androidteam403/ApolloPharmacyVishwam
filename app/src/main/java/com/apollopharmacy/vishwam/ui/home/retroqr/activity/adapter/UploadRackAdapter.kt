@@ -47,17 +47,27 @@ class UploadRackAdapter(
         val rackCount = position + 1
         holder.uploadRackLayoutBinding.rackCount.text = "Rack $rackCount"
 
-        if (items.imageurl.isNullOrEmpty()) {
-            holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.VISIBLE
-            holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.GONE
+        if (items.imageurl!!.contains(".")|| items.imageurl!!.isNullOrEmpty()) {
 
-        } else {
             holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.GONE
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.VISIBLE
+            holder.uploadRackLayoutBinding.eyeImage.visibility = View.VISIBLE
 
             Glide.with(ViswamApp.context).load(items.imageurl.toString())
                 .placeholder(R.drawable.thumbnail_image)
                 .into(holder.uploadRackLayoutBinding.afterCapturedImage)
+
+
+            holder.uploadRackLayoutBinding.eyeImage.setOnClickListener {
+                mCallback.imageData(position, items.imageurl!!, items.rackno!!, items.qrcode!!,holder.uploadRackLayoutBinding.eyeImage)
+            }
+
+
+        } else {
+            holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.VISIBLE
+            holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.GONE
+            holder.uploadRackLayoutBinding.eyeImage.visibility = View.GONE
+
 //            holder.uploadRackLayoutBinding.afterCapturedImage.setImageBitmap(rotateImage(
 //                BitmapFactory.decodeFile(items.image.absolutePath),
 //                items.image))
