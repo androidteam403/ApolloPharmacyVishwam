@@ -43,6 +43,18 @@ class StoreWiseRackDetails : Serializable {
         @SerializedName("IMAGEURL")
         @Expose
         var imageurl: String? = null
+
+        var reviewimageurl: String? = ""
+
+        fun setreviewimageurl(url: String) {
+            reviewimageurl = url
+        }
+        var matchingPercentage: String? = ""
+
+        fun setmatchingPercentage(pos: String) {
+            matchingPercentage = pos
+        }
+
         fun withRackno(rackno: String?): StoreDetail {
             this.rackno = rackno
             return this

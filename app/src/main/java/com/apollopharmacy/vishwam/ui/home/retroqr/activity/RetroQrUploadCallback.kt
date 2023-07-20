@@ -13,5 +13,8 @@ interface RetroQrUploadCallback {
     fun onFailureUploadImagesApiCall(message: String)
 
     fun onSuccessgetStoreWiseRackResponse(storeWiseRackDetails: StoreWiseRackDetails)
-    fun onClickCameraIcon(position: Int)
+    fun onClickCameraIcon(position: Int,adapter:String)
+
+    fun deleteImage(position: Int)
+
 }

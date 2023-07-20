@@ -8,6 +8,7 @@ import android.media.ExifInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -44,7 +45,7 @@ class ReviewRackAdapter(
         var items = images.get(position)
         val rackCount = position + 1
 
-        if (items.imageurl!!.contains(".") || items.imageurl!!.isNullOrEmpty()) {
+        if ( items.reviewimageurl!!.isNullOrEmpty()) {
             holder.reviewRackLayoutBinding.beforeCaptureLayout.visibility = View.VISIBLE
             holder.reviewRackLayoutBinding.afterCaptureLayout.visibility = View.GONE
             holder.reviewRackLayoutBinding.delete.visibility = View.GONE
@@ -56,13 +57,43 @@ class ReviewRackAdapter(
             holder.reviewRackLayoutBinding.afterCaptureLayout.visibility = View.VISIBLE
             holder.reviewRackLayoutBinding.delete.visibility = View.VISIBLE
 
-            Glide.with(ViswamApp.context).load(items.imageurl.toString())
+            Glide.with(ViswamApp.context).load(items.reviewimageurl.toString())
                 .placeholder(R.drawable.thumbnail_image)
                 .into(holder.reviewRackLayoutBinding.afterCapturedImage)
         }
-//        holder.reviewRackLayoutBinding.camera.setOnClickListener {
-//            mCallback.onClickCameraIcon(position)
-//        }
+        holder.reviewRackLayoutBinding.cameraIcon.setOnClickListener {
+            mCallback.onClickCameraIcon(position,"review")
+        }
+        holder.reviewRackLayoutBinding.delete.setOnClickListener {
+            mCallback.deleteImage(position)
+
+        }
+
+
+        if (images.get(position).matchingPercentage!!.isEmpty()) {
+            holder.reviewRackLayoutBinding.compareIconLayout.visibility = View.GONE
+            holder.reviewRackLayoutBinding.matchingPercentageLayout.visibility = View.GONE
+        } else {
+            holder.reviewRackLayoutBinding.compareIconLayout.visibility = View.VISIBLE
+            holder.reviewRackLayoutBinding.matchingPercentageLayout.visibility = View.VISIBLE
+            val matchingPercentage = images.get(position).matchingPercentage!!.toInt()
+            if (matchingPercentage in 0..10) {
+                holder.reviewRackLayoutBinding.rating.setBackgroundDrawable(
+                    ContextCompat.getDrawable(
+                    mContext,
+                    R.drawable.round_rating_bar_red))
+                holder.reviewRackLayoutBinding.matchingPercentage.setText(images.get(position).matchingPercentage + "%")
+            } else {
+                holder.reviewRackLayoutBinding.rating.setBackgroundDrawable(ContextCompat.getDrawable(
+                    mContext,
+                    R.drawable.round_rating_bar_green))
+                holder.reviewRackLayoutBinding.matchingPercentage.setText(images.get(position).matchingPercentage + "%")
+            }
+        }
+
+
+
+
     }
 
     override fun getItemCount(): Int {
