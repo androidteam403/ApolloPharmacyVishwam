@@ -34,6 +34,11 @@
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".ui.home.retroqr.selectqrretrositeid.SelectRetroQrSiteIDActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.retroqr.activity.retroqrscanner.RetroQrScannerActivity"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -108,7 +113,6 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".ui.home.apnarectro.selectapnasite.SelectApnaSiteIDActivity"
             android:exported="false"

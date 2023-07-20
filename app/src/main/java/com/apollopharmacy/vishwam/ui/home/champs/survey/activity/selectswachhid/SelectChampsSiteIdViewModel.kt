@@ -22,7 +22,7 @@ import kotlinx.coroutines.withContext
 
 class SelectChampsSiteIdViewModel : ViewModel() {
     val commands = LiveEvent<Command>()
-    var siteLiveData = ArrayList<StoreDetailsModelResponse.Row>()
+    var siteLiveData =ArrayList<StoreDetailsModelResponse.Row>()
     val state = MutableLiveData<State>()
     var fixedArrayList = MutableLiveData<ArrayList<StoreDetailsModelResponse.Row>>()
     var getStoreDetailsChamps = MutableLiveData<StoreDetailsModelResponse>()
