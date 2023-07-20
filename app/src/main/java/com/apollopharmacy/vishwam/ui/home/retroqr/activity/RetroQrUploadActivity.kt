@@ -68,14 +68,11 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
         var image=StoreWiseRackDetails.StoreDetail()
         image.rackno="Rack1"
-        image.imageurl=""
 
         var image1=StoreWiseRackDetails.StoreDetail()
-        image1.rackno="Rack1"
-        image1.imageurl="vendor/SENSING/1689678494093.jpg"
+        image1.rackno="Rack2"
         var image2=StoreWiseRackDetails.StoreDetail()
-        image2.rackno="Rack1"
-        image2.imageurl=""
+        image2.rackno="Rack3"
 
         imagesList.add(image)
         imagesList.add(image1)
@@ -88,7 +85,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
         //Retro Qr
 
-      updatedCount = imagesList.filter { it.imageurl!!.isNotEmpty() }.size
+//      updatedCount = imagesList.filter { it.imageurl!!.isNotEmpty() }.size
 
         activityRetroQrUploadBinding.totalRackCount.text = imagesList.size.toString()
         activityRetroQrUploadBinding.updatedCount.setText(updatedCount.toString())
