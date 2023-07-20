@@ -164,7 +164,7 @@
                         <ImageView
                             android:layout_width="@dimen/value_30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/eye2withbackground"
+                            android:src="@drawable/eye"
                             android:contentDescription="@string/app_name" />
                     </LinearLayout>
                 </RelativeLayout>
