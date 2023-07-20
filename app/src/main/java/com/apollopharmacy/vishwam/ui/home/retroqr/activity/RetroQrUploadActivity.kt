@@ -24,6 +24,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityRetroQrUploadBinding
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.ReviewRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.UploadRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
@@ -45,6 +46,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     private lateinit var activityRetroQrUploadBinding: ActivityRetroQrUploadBinding
     private lateinit var viewModel: RetroQrUploadViewModel
     private lateinit var uploadRackAdapter: UploadRackAdapter
+    private lateinit var reviewRackAdapter: ReviewRackAdapter
+
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
     var images = ArrayList<ImageDto>()
@@ -159,6 +162,16 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                 )
             activityRetroQrUploadBinding.uploadRackRcv.adapter = uploadRackAdapter
             activityRetroQrUploadBinding.uploadRackRcv.layoutManager =
+                LinearLayoutManager(this@RetroQrUploadActivity)
+
+
+            reviewRackAdapter =
+                ReviewRackAdapter(
+                    this@RetroQrUploadActivity, this@RetroQrUploadActivity,
+                    imagesList
+                )
+            activityRetroQrUploadBinding.reviewRack.adapter = uploadRackAdapter
+            activityRetroQrUploadBinding.reviewRack.layoutManager =
                 LinearLayoutManager(this@RetroQrUploadActivity)
             hideLoading()
 
