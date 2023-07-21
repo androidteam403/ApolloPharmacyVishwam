@@ -195,6 +195,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
             && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
         ) {
+            ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.name }
             dashboardAdapter = DashboardAdapter(
                 this,
                 ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!
@@ -264,7 +265,20 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.storesUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.name }
             }
-
+            viewBinding.closedDownArrow.visibility = View.GONE
+            viewBinding.closedUpArrow.visibility = View.GONE
+            viewBinding.lessThanTwoUpArrow.visibility = View.GONE
+            viewBinding.lessThanTwoDownArrow.visibility = View.GONE
+            viewBinding.threeToEightUpArrow.visibility = View.GONE
+            viewBinding.threeToEightDownArrow.visibility = View.GONE
+            viewBinding.greaterThanEightUpArrow.visibility = View.GONE
+            viewBinding.greayerThanEightDownArrow.visibility = View.GONE
+            viewBinding.rejectedUpArrow.visibility = View.GONE
+            viewBinding.rejectedDownArrow.visibility = View.GONE
+            viewBinding.pendingDownArrow.visibility = View.GONE
+            viewBinding.pendingUpArrow.visibility = View.GONE
+            viewBinding.totalDownArrow.visibility = View.GONE
+            viewBinding.totalUpArrow.visibility = View.GONE
         }
         dashboardAdapter!!.notifyDataSetChanged()
 
@@ -284,7 +298,20 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.closedUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.closed }
             }
-
+            viewBinding.storesDownArrow.visibility=View.GONE
+            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.lessThanTwoUpArrow.visibility = View.GONE
+            viewBinding.lessThanTwoDownArrow.visibility = View.GONE
+            viewBinding.threeToEightUpArrow.visibility = View.GONE
+            viewBinding.threeToEightDownArrow.visibility = View.GONE
+            viewBinding.greaterThanEightUpArrow.visibility = View.GONE
+            viewBinding.greayerThanEightDownArrow.visibility = View.GONE
+            viewBinding.rejectedUpArrow.visibility = View.GONE
+            viewBinding.rejectedDownArrow.visibility = View.GONE
+            viewBinding.pendingDownArrow.visibility = View.GONE
+            viewBinding.pendingUpArrow.visibility = View.GONE
+            viewBinding.totalDownArrow.visibility = View.GONE
+            viewBinding.totalUpArrow.visibility = View.GONE
         }
         dashboardAdapter!!.notifyDataSetChanged()
     }
@@ -303,7 +330,20 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.lessThanTwoUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.lessThan2 }
             }
-
+            viewBinding.storesDownArrow.visibility=View.GONE
+            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.closedUpArrow.visibility = View.GONE
+            viewBinding.closedDownArrow.visibility = View.GONE
+            viewBinding.threeToEightUpArrow.visibility = View.GONE
+            viewBinding.threeToEightDownArrow.visibility = View.GONE
+            viewBinding.greaterThanEightUpArrow.visibility = View.GONE
+            viewBinding.greayerThanEightDownArrow.visibility = View.GONE
+            viewBinding.rejectedUpArrow.visibility = View.GONE
+            viewBinding.rejectedDownArrow.visibility = View.GONE
+            viewBinding.pendingDownArrow.visibility = View.GONE
+            viewBinding.pendingUpArrow.visibility = View.GONE
+            viewBinding.totalDownArrow.visibility = View.GONE
+            viewBinding.totalUpArrow.visibility = View.GONE
         }
         dashboardAdapter!!.notifyDataSetChanged()
     }
@@ -322,7 +362,20 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.threeToEightUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.get3To8() }
             }
-
+            viewBinding.storesDownArrow.visibility=View.GONE
+            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.closedUpArrow.visibility = View.GONE
+            viewBinding.closedDownArrow.visibility = View.GONE
+            viewBinding.lessThanTwoDownArrow.visibility = View.GONE
+            viewBinding.lessThanTwoUpArrow.visibility = View.GONE
+            viewBinding.greaterThanEightUpArrow.visibility = View.GONE
+            viewBinding.greayerThanEightDownArrow.visibility = View.GONE
+            viewBinding.rejectedUpArrow.visibility = View.GONE
+            viewBinding.rejectedDownArrow.visibility = View.GONE
+            viewBinding.pendingDownArrow.visibility = View.GONE
+            viewBinding.pendingUpArrow.visibility = View.GONE
+            viewBinding.totalDownArrow.visibility = View.GONE
+            viewBinding.totalUpArrow.visibility = View.GONE
         }
         dashboardAdapter!!.notifyDataSetChanged()
     }
@@ -341,7 +394,20 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.greaterThanEightUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.greaterThan8 }
             }
-
+            viewBinding.storesDownArrow.visibility=View.GONE
+            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.closedUpArrow.visibility = View.GONE
+            viewBinding.closedDownArrow.visibility = View.GONE
+            viewBinding.lessThanTwoDownArrow.visibility = View.GONE
+            viewBinding.lessThanTwoUpArrow.visibility = View.GONE
+            viewBinding.threeToEightDownArrow.visibility = View.GONE
+            viewBinding.threeToEightUpArrow.visibility = View.GONE
+            viewBinding.rejectedUpArrow.visibility = View.GONE
+            viewBinding.rejectedDownArrow.visibility = View.GONE
+            viewBinding.pendingDownArrow.visibility = View.GONE
+            viewBinding.pendingUpArrow.visibility = View.GONE
+            viewBinding.totalDownArrow.visibility = View.GONE
+            viewBinding.totalUpArrow.visibility = View.GONE
         }
         dashboardAdapter!!.notifyDataSetChanged()
     }
@@ -360,7 +426,20 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.rejectedUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.rejected }
             }
-
+            viewBinding.storesDownArrow.visibility=View.GONE
+            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.closedUpArrow.visibility = View.GONE
+            viewBinding.closedDownArrow.visibility = View.GONE
+            viewBinding.lessThanTwoDownArrow.visibility = View.GONE
+            viewBinding.lessThanTwoUpArrow.visibility = View.GONE
+            viewBinding.threeToEightDownArrow.visibility = View.GONE
+            viewBinding.threeToEightUpArrow.visibility = View.GONE
+            viewBinding.greaterThanEightUpArrow.visibility = View.GONE
+            viewBinding.greayerThanEightDownArrow.visibility = View.GONE
+            viewBinding.pendingDownArrow.visibility = View.GONE
+            viewBinding.pendingUpArrow.visibility = View.GONE
+            viewBinding.totalDownArrow.visibility = View.GONE
+            viewBinding.totalUpArrow.visibility = View.GONE
         }
         dashboardAdapter!!.notifyDataSetChanged()
     }
@@ -370,16 +449,29 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
             && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
         ) {
-            if (viewBinding.rejectedDownArrow.isVisible) {
-                viewBinding.rejectedDownArrow.visibility = View.GONE
-                viewBinding.rejectedUpArrow.visibility = View.VISIBLE
+            if (viewBinding.pendingDownArrow.isVisible) {
+                viewBinding.pendingDownArrow.visibility = View.GONE
+                viewBinding.pendingUpArrow.visibility = View.VISIBLE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortByDescending { it.pending }
             } else {
-                viewBinding.rejectedDownArrow.visibility = View.VISIBLE
-                viewBinding.rejectedUpArrow.visibility = View.GONE
+                viewBinding.pendingDownArrow.visibility = View.VISIBLE
+                viewBinding.pendingUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.pending }
             }
-
+            viewBinding.storesDownArrow.visibility=View.GONE
+            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.closedUpArrow.visibility = View.GONE
+            viewBinding.closedDownArrow.visibility = View.GONE
+            viewBinding.lessThanTwoDownArrow.visibility = View.GONE
+            viewBinding.lessThanTwoUpArrow.visibility = View.GONE
+            viewBinding.threeToEightDownArrow.visibility = View.GONE
+            viewBinding.threeToEightUpArrow.visibility = View.GONE
+            viewBinding.greaterThanEightUpArrow.visibility = View.GONE
+            viewBinding.greayerThanEightDownArrow.visibility = View.GONE
+            viewBinding.rejectedUpArrow.visibility = View.GONE
+            viewBinding.rejectedDownArrow.visibility = View.GONE
+            viewBinding.totalDownArrow.visibility = View.GONE
+            viewBinding.totalUpArrow.visibility = View.GONE
         }
         dashboardAdapter!!.notifyDataSetChanged()
     }
@@ -397,7 +489,20 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.totalUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.total }
             }
-
+            viewBinding.storesDownArrow.visibility=View.GONE
+            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.closedUpArrow.visibility = View.GONE
+            viewBinding.closedDownArrow.visibility = View.GONE
+            viewBinding.lessThanTwoDownArrow.visibility = View.GONE
+            viewBinding.lessThanTwoUpArrow.visibility = View.GONE
+            viewBinding.threeToEightDownArrow.visibility = View.GONE
+            viewBinding.threeToEightUpArrow.visibility = View.GONE
+            viewBinding.greaterThanEightUpArrow.visibility = View.GONE
+            viewBinding.greayerThanEightDownArrow.visibility = View.GONE
+            viewBinding.rejectedUpArrow.visibility = View.GONE
+            viewBinding.rejectedDownArrow.visibility = View.GONE
+            viewBinding.pendingDownArrow.visibility = View.GONE
+            viewBinding.pendingUpArrow.visibility = View.GONE
         }
         dashboardAdapter!!.notifyDataSetChanged()
     }
