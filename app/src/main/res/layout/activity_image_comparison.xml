@@ -46,6 +46,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Rack - 6"
+                        android:id="@+id/rackno"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_16sp" />
                 </LinearLayout>
@@ -95,6 +96,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/site_id"
                         android:text="Ameerpet, Hyderabad - 16015"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_12sp" />
@@ -122,11 +124,11 @@
                     app:slider_thumb="@mipmap/white_circle" />
             </LinearLayout>
 
-            <!--<LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/first_image_layout"
@@ -147,6 +149,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="@dimen/value_3dp"
+                                android:id="@+id/firstimage"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/capture1" />
 
@@ -205,6 +208,7 @@
                                     android:layout_height="match_parent"
                                     android:layout_marginStart="@dimen/value_3dp"
                                     android:scaleType="centerCrop"
+                                    android:id="@+id/secondimage"
                                     android:src="@drawable/capture1" />
 
                                 <ImageView
@@ -237,15 +241,27 @@
                 </LinearLayout>
             </LinearLayout>-->
 
-            <!--<ImageView
+            <ImageView
                 android:layout_width="@dimen/value_50dp"
                 android:layout_height="@dimen/value_50dp"
+                android:visibility="gone"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/eighteen18_dp"
                 android:src="@drawable/rounded_background"
                 android:tint="#f7a54a"
-                tools:ignore="UseAppTint" />-->
+                tools:ignore="UseAppTint" />
+            <ImageView
+                android:layout_width="@dimen/value_30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="25dp"
+                android:visibility="gone"
+                android:src="@drawable/ic_baseline_compare_24"
+                android:tint="@color/white"
+                tools:ignore="UseAppTint" />
+
 
             <!--<TextView
                 android:layout_width="wrap_content"
@@ -338,6 +354,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 android:gravity="center_horizontal">
 
                 <TextView
@@ -352,7 +369,7 @@
                     android:paddingTop="8dp"
                     android:paddingEnd="@dimen/eighteen18_dp"
                     android:paddingBottom="8dp"
-                    android:text="SUBMIT"
+                    android:text="Ok"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_14sp" />
             </LinearLayout>

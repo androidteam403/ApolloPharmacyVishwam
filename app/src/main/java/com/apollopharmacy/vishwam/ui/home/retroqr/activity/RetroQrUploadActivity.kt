@@ -28,6 +28,7 @@ import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityRetroQrUploadBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.ReviewRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.UploadRackAdapter
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagecomparison.ImageComparisonActivity
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
@@ -35,14 +36,15 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUpload
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadCallback
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadModel
 import com.apollopharmacy.vishwam.util.PopUpWIndow
-import org.opencv.android.OpenCVLoader
-import org.opencv.android.Utils
+
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 
 import me.echodev.resizer.Resizer
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.opencv.android.OpenCVLoader
+import org.opencv.android.Utils
 import org.opencv.core.Core
 import org.opencv.core.Mat
 import org.opencv.imgproc.Imgproc
@@ -81,6 +83,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
     private fun setUp() {
         showLoading(context)
+        OpenCVLoader.initDebug()
 
         viewModel.getStoreWiseRackDetails(this)
 
@@ -213,8 +216,49 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         }
     }
 
+    override fun onClickCompare(
+        matchingPercentage: String,
+        firstImage: String,
+        secondImage: String,
+        rackNo: String,
+    ) {
+        val intent = Intent(applicationContext, ImageComparisonActivity::class.java)
+        intent.putExtra("firstimage", firstImage)
+        intent.putExtra("secondimage", secondImage)
+        intent.putExtra("rackNo", rackNo)
+        intent.putExtra("matchingPercentage", matchingPercentage)
+
+
+        startActivity(intent)    }
+
+    fun onClickCompare(position: Int, file: File?, url: String?) {
+        val thread = Thread {
+            try {
+                if (file!!.path.isNotEmpty()) {
+                    val client = OkHttpClient()
+                    val request = Request.Builder().url(url.toString()).build()
+                    val response = client.newCall(request).execute()
+                    val inputStream = response.body!!.byteStream()
+                    val bitmap1 = BitmapFactory.decodeStream(inputStream)
+                    val bitmap2 = BitmapFactory.decodeFile(file.absolutePath)
+                    val matchingPercentage: String = calculateMatchingPercentage(bitmap1, bitmap2)
+                    reviewImagesList.get(position).matchingPercentage =
+                        matchingPercentage.substringBefore(".")
+                    runOnUiThread {
+                        reviewRackAdapter.notifyDataSetChanged()
+                    }
+
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        thread.start()
+    }
+
     override fun deleteImage(position: Int) {
-        reviewImagesList.get(position).imageurl=""
+        reviewImagesList.get(position).setmatchingPercentage("")
+        reviewImagesList.get(position).setreviewimageurl("")
         reviewRackAdapter.notifyDataSetChanged()
     }
 
@@ -251,29 +295,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             else if (adapterName.equals("review")){
                 reviewImagesList[position].reviewimageurl = (imageFile as File).toString()
 
-                val thread = Thread {
-                    try {
-                        if (reviewImagesList.get(position).imageurl!!.isNotEmpty()) {
-                            val client = OkHttpClient()
-                            val request = Request.Builder().url(reviewImagesList.get(position).reviewimageurl.toString()).build()
-                            val response = client.newCall(request).execute()
-                            val inputStream = response.body!!.byteStream()
-                            val bitmap1 = BitmapFactory.decodeStream(inputStream)
-                            val bitmap2 = BitmapFactory.decodeFile(reviewImagesList.get(position).imageurl)
-                            val matchingPercentage: String = calculateMatchingPercentage(bitmap1, bitmap2)
-                            reviewImagesList.get(position).matchingPercentage =
-                                matchingPercentage.substringBefore(".")
-                            runOnUiThread {
-                                reviewRackAdapter.notifyDataSetChanged()
-                            }
 
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-                thread.start()
-
+                onClickCompare(position,File(reviewImagesList.get(position).reviewimageurl),reviewImagesList.get(position).imageurl)
 
                 reviewRackAdapter.notifyItemChanged(position)
 

@@ -72,7 +72,6 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         Preferences.setRegionIdListFetchedQcFail(false)
         Preferences.setRegionIdListQcFail("")
 
-        Preferences.setQrSiteId("")
         Preferences.setDoctorSpecialityListFetched(false)
         Preferences.setItemTypeListFetched(false)
         Preferences.setSiteIdListFetched(false)

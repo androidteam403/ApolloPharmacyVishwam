@@ -57,6 +57,7 @@ class ReviewRackAdapter(
             holder.reviewRackLayoutBinding.afterCaptureLayout.visibility = View.VISIBLE
             holder.reviewRackLayoutBinding.delete.visibility = View.VISIBLE
 
+
             Glide.with(ViswamApp.context).load(items.reviewimageurl.toString())
                 .placeholder(R.drawable.thumbnail_image)
                 .into(holder.reviewRackLayoutBinding.afterCapturedImage)
@@ -69,14 +70,20 @@ class ReviewRackAdapter(
 
         }
 
+        holder.reviewRackLayoutBinding.compareIconLayout.setOnClickListener {
+            mCallback.onClickCompare(items.matchingPercentage!!,
+                items.imageurl!!, items.reviewimageurl!!, items.rackno!!
+            )
+        }
 
-        if (images.get(position).matchingPercentage!!.isEmpty()) {
+
+        if (items.matchingPercentage.toString().isNullOrEmpty()) {
             holder.reviewRackLayoutBinding.compareIconLayout.visibility = View.GONE
             holder.reviewRackLayoutBinding.matchingPercentageLayout.visibility = View.GONE
         } else {
             holder.reviewRackLayoutBinding.compareIconLayout.visibility = View.VISIBLE
             holder.reviewRackLayoutBinding.matchingPercentageLayout.visibility = View.VISIBLE
-            val matchingPercentage = images.get(position).matchingPercentage!!.toInt()
+            val matchingPercentage = items.matchingPercentage!!.toInt()
             if (matchingPercentage in 0..10) {
                 holder.reviewRackLayoutBinding.rating.setBackgroundDrawable(
                     ContextCompat.getDrawable(
@@ -87,7 +94,7 @@ class ReviewRackAdapter(
                 holder.reviewRackLayoutBinding.rating.setBackgroundDrawable(ContextCompat.getDrawable(
                     mContext,
                     R.drawable.round_rating_bar_green))
-                holder.reviewRackLayoutBinding.matchingPercentage.setText(images.get(position).matchingPercentage + "%")
+                holder.reviewRackLayoutBinding.matchingPercentage.setText(items.matchingPercentage + "%")
             }
         }
 
