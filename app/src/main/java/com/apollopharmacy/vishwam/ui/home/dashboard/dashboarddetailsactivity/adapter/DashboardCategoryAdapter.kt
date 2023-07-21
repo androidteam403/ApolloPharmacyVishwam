@@ -17,6 +17,7 @@ class DashboardCategoryAdapter(
     var categoryList: ArrayList<ReasonWiseTicketCountbyRoleResponse.Data1>,
     val callback: DashboardDetailsCallback,
     val rowsList: ArrayList<JsonObject>,
+    val role: String,
 ) : RecyclerView.Adapter<DashboardCategoryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -54,7 +55,15 @@ class DashboardCategoryAdapter(
             for (i in rowsList) {
                 rows.add(i.get("name").toString())
             }
-            holder.adapterCategoryDashboardBinding.category.text = "Executives (${rows.size})"
+            if (role.equals("ceo")) {
+                holder.adapterCategoryDashboardBinding.category.text = "Regional Head (${rows.size})"
+            } else if (role.equals("regional_head")) {
+                holder.adapterCategoryDashboardBinding.category.text = "Manager (${rows.size})"
+            } else if (role.equals("store_manager")) {
+                holder.adapterCategoryDashboardBinding.category.text = "Executives (${rows.size})"
+            } else {
+                holder.adapterCategoryDashboardBinding.category.text = "- (${rows.size})"
+            }
         } else if (position == 1) {
             holder.adapterCategoryDashboardBinding.category.text = "MTD"
         } else {

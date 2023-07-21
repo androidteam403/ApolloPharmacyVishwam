@@ -18,6 +18,7 @@ class ReasonWiseTicketCountbyRoleAdapter(
     val dataList: ArrayList<ReasonWiseTicketCountbyRoleResponse.Data1>,
     val reasonWiseTicketCountByRoleResponse: ReasonWiseTicketCountbyRoleResponse,
     val callback: DashboardDetailsCallback,
+    val role: String,
 ) : RecyclerView.Adapter<ReasonWiseTicketCountbyRoleAdapter.ViewHolder>() {
 
 
@@ -47,7 +48,7 @@ class ReasonWiseTicketCountbyRoleAdapter(
         if (data1.name.equals("Name")) {
             rows = ArrayList<ReasonTicketCountbyRoleCategoriesModel>()
             for (i in reasonWiseTicketCountByRoleResponse.data!!.listData!!.rows!!) {
-               var model = ReasonTicketCountbyRoleCategoriesModel()
+                var model = ReasonTicketCountbyRoleCategoriesModel()
                 model.row = i["name"].asString
                 rows.add(model)
             }
@@ -79,9 +80,19 @@ class ReasonWiseTicketCountbyRoleAdapter(
                     )
                 )
             }
-
-            holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
-                "Executives (${rows.size})"
+            if (role.equals("ceo")) {
+                holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
+                    "Regional Head (${rows.size})"
+            } else if (role.equals("regional_head")) {
+                holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
+                    "Manager (${rows.size})"
+            } else if (role.equals("store_manager")) {
+                holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
+                    "Executives (${rows.size})"
+            } else {
+                holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
+                    "- (${rows.size})"
+            }
             holder.adapterReasonWiseTicketCountbyRoleBinding.names.visibility = View.VISIBLE
             if (data1.isSelsected == true) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.arrowToindicateName.visibility =

@@ -84,6 +84,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
 //            horizantalCategoryHeaderAdapter
     }
 
+    var role: String = ""
     private fun empDetailsMobile() {
         var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
         var employeeDetailsResponse: EmployeeDetailsResponse? = null
@@ -97,6 +98,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
             e.printStackTrace()
         }
         if (employeeDetailsResponse != null && employeeDetailsResponse!!.data != null && employeeDetailsResponse!!.data!!.role != null && employeeDetailsResponse!!.data!!.role!!.code != null) {
+            role = employeeDetailsResponse!!.data!!.role!!.code!!
             if (employeeDetailsResponse!!.data!!.role!!.code!!.equals("ceo")) {
                 activityDashboardDetailsBinding.empRole.text = "CEO Dashboard"
                 activityDashboardDetailsBinding.selectedEmpRole.text = "Regional Head"
@@ -143,7 +145,8 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
                 this@DashboardDetailsActivity,
                 categoryList!!,
                 this@DashboardDetailsActivity,
-                reasonWiseTicketCountByRoleResponse.data!!.listData!!.rows!!
+
+                reasonWiseTicketCountByRoleResponse.data!!.listData!!.rows!!, role
             )
             val layoutManager = GridLayoutManager(this, 2)
             activityDashboardDetailsBinding.headerCategoryRecyclerview.setLayoutManager(
@@ -159,7 +162,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
                 this@DashboardDetailsActivity,
                 categoryList!!,
                 this.reasonWiseTicketCountByRoleResponse!!,
-                this@DashboardDetailsActivity
+                this@DashboardDetailsActivity, role
             )
             val layoutManagerReasonWiseTicketCountbyRole =
                 LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
@@ -209,10 +212,10 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
                                     var valA = String()
                                     var valB = String()
                                     try {
-                                        if (data1.name.equals("Name")){
+                                        if (data1.name.equals("Name")) {
                                             valA = o1!![data1.name!!.toLowerCase()].asString
                                             valB = o2!![data1.name!!.toLowerCase()].asString
-                                        }else{
+                                        } else {
                                             valA = o1!![data1.name].asString
                                             valB = o2!![data1.name].asString
                                         }
@@ -225,7 +228,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
                                     }
                                     if (data1.name.equals("Name")) {
                                         return valA.compareTo(valB)
-                                    }else{
+                                    } else {
                                         return valA.toInt().compareTo(valB.toInt())
                                     }
                                 }
@@ -241,10 +244,10 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
                                     var valA = String()
                                     var valB = String()
                                     try {
-                                        if (data1.name.equals("Name")){
+                                        if (data1.name.equals("Name")) {
                                             valA = o1!![data1.name!!.toLowerCase()].asString
                                             valB = o2!![data1.name!!.toLowerCase()].asString
-                                        }else{
+                                        } else {
                                             valA = o1!![data1.name].asString
                                             valB = o2!![data1.name].asString
                                         }
@@ -258,7 +261,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
                                     }
                                     if (data1.name.equals("Name")) {
                                         return -valA.compareTo(valB)
-                                    }else{
+                                    } else {
                                         return -valA.toInt().compareTo(valB.toInt())
                                     }
                                 }
@@ -267,7 +270,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
                     }
                 } else {
                     i.isSelsected = true
-                    if (i.isDescending == true){
+                    if (i.isDescending == true) {
                         Collections.sort<JsonObject>(
                             reasonWiseTicketCountByRoleResponse!!.data!!.listData!!.rows!!,
                             object : Comparator<JsonObject?> {
@@ -276,10 +279,10 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
                                     var valA = String()
                                     var valB = String()
                                     try {
-                                        if (data1.name.equals("Name")){
+                                        if (data1.name.equals("Name")) {
                                             valA = o1!![data1.name!!.toLowerCase()].asString
                                             valB = o2!![data1.name!!.toLowerCase()].asString
-                                        }else{
+                                        } else {
                                             valA = o1!![data1.name].asString
                                             valB = o2!![data1.name].asString
                                         }
@@ -293,13 +296,13 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
                                     }
                                     if (data1.name.equals("Name")) {
                                         return -valA.compareTo(valB)
-                                    }else{
+                                    } else {
                                         return -valA.toInt().compareTo(valB.toInt())
                                     }
                                 }
 
                             })
-                    }else{
+                    } else {
                         Collections.sort<JsonObject>(
                             reasonWiseTicketCountByRoleResponse!!.data!!.listData!!.rows!!,
                             object : Comparator<JsonObject?> {
@@ -308,10 +311,10 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
                                     var valA = String()
                                     var valB = String()
                                     try {
-                                        if (data1.name.equals("Name")){
+                                        if (data1.name.equals("Name")) {
                                             valA = o1!![data1.name!!.toLowerCase()].asString
                                             valB = o2!![data1.name!!.toLowerCase()].asString
-                                        }else{
+                                        } else {
                                             valA = o1!![data1.name].asString
                                             valB = o2!![data1.name].asString
                                         }
@@ -324,7 +327,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
                                     }
                                     if (data1.name.equals("Name")) {
                                         return valA.compareTo(valB)
-                                    }else{
+                                    } else {
                                         return valA.toInt().compareTo(valB.toInt())
                                     }
                                 }
