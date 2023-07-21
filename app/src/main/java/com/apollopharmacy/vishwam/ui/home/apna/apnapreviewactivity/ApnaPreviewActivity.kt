@@ -48,7 +48,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTreeObserver.OnScrollChangedListener {
+class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
+    ViewTreeObserver.OnScrollChangedListener {
     var toiletsAvailable: String = ""
     var parkingAvailable: String = ""
     var trafficType: String = ""
@@ -153,12 +154,17 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
                     ) {
                         if (approvedOrders.status!!.name.toString().equals("New", true)) {
                             apnaPreviewActivityBinding.statusLayout.setBackgroundColor(
-                                ContextCompat.getColor(this@ApnaPreviewActivity,
-                                    R.color.apna_project_actionbar_color)
+                                ContextCompat.getColor(
+                                    this@ApnaPreviewActivity,
+                                    R.color.apna_project_actionbar_color
+                                )
                             )
                         } else {
-                            apnaPreviewActivityBinding.statusLayout.setBackgroundColor(Color.parseColor(
-                                approvedOrders.status!!.backgroundColor))
+                            apnaPreviewActivityBinding.statusLayout.setBackgroundColor(
+                                Color.parseColor(
+                                    approvedOrders.status!!.backgroundColor
+                                )
+                            )
                         }
                     } else {
                     }
@@ -246,8 +252,11 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
                     ) {
                         if (approvedOrders.status!!.name.toString().equals("Approved", true)) {
                             apnaPreviewActivityBinding.surveyEndedLayout.visibility = View.VISIBLE
-                            apnaPreviewActivityBinding.surveyended.setText(outputDateFormat.format(
-                                inputDateFormat.parse(approvedOrders.modifiedTime!!)!!))
+                            apnaPreviewActivityBinding.surveyended.setText(
+                                outputDateFormat.format(
+                                    inputDateFormat.parse(approvedOrders.modifiedTime!!)!!
+                                )
+                            )
                         } else {
                             apnaPreviewActivityBinding.surveyEndedLayout.visibility = View.GONE
                         }
@@ -275,8 +284,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
                         ) {
                             if (approvedOrders.status!!.name.toString().equals("Approved", true)) {
                                 apnaPreviewActivityBinding.timeTakenLayout.visibility = View.VISIBLE
-                                apnaPreviewActivityBinding.timeTaken.setText(printDifference(date1,
-                                    date2))
+                                apnaPreviewActivityBinding.timeTaken.setText(
+                                    printDifference(
+                                        date1,
+                                        date2
+                                    )
+                                )
                             } else {
                                 apnaPreviewActivityBinding.timeTakenLayout.visibility = View.GONE
                             }
@@ -345,38 +358,52 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
                 }
                 apnaPreviewQuickGoDialogBinding.locationDetails.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(apnaPreviewActivityBinding.scrollView,
-                        apnaPreviewActivityBinding.locationDetailsLayout)
+                    scrollToView(
+                        apnaPreviewActivityBinding.scrollView,
+                        apnaPreviewActivityBinding.locationDetailsLayout
+                    )
                 }
                 apnaPreviewQuickGoDialogBinding.siteSpecification.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(apnaPreviewActivityBinding.scrollView,
-                        apnaPreviewActivityBinding.siteSpecificationsLayout)
+                    scrollToView(
+                        apnaPreviewActivityBinding.scrollView,
+                        apnaPreviewActivityBinding.siteSpecificationsLayout
+                    )
                 }
                 apnaPreviewQuickGoDialogBinding.marketInformation.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(apnaPreviewActivityBinding.scrollView,
-                        apnaPreviewActivityBinding.marketInformationLayout)
+                    scrollToView(
+                        apnaPreviewActivityBinding.scrollView,
+                        apnaPreviewActivityBinding.marketInformationLayout
+                    )
                 }
                 apnaPreviewQuickGoDialogBinding.competitorsDetails.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(apnaPreviewActivityBinding.scrollView,
-                        apnaPreviewActivityBinding.competitorsDetailsLayout)
+                    scrollToView(
+                        apnaPreviewActivityBinding.scrollView,
+                        apnaPreviewActivityBinding.competitorsDetailsLayout
+                    )
                 }
                 apnaPreviewQuickGoDialogBinding.populationAndHouses.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(apnaPreviewActivityBinding.scrollView,
-                        apnaPreviewActivityBinding.populationAndHousesLayout)
+                    scrollToView(
+                        apnaPreviewActivityBinding.scrollView,
+                        apnaPreviewActivityBinding.populationAndHousesLayout
+                    )
                 }
                 apnaPreviewQuickGoDialogBinding.hospitals.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(apnaPreviewActivityBinding.scrollView,
-                        apnaPreviewActivityBinding.hospitalsLayout)
+                    scrollToView(
+                        apnaPreviewActivityBinding.scrollView,
+                        apnaPreviewActivityBinding.hospitalsLayout
+                    )
                 }
                 apnaPreviewQuickGoDialogBinding.photosAndMedia.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(apnaPreviewActivityBinding.scrollView,
-                        apnaPreviewActivityBinding.photosAndMediaLayout)
+                    scrollToView(
+                        apnaPreviewActivityBinding.scrollView,
+                        apnaPreviewActivityBinding.photosAndMediaLayout
+                    )
                 }
             }.show()
         }
@@ -436,8 +463,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaPreviewActivity,
-                    IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(
+                    this@ApnaPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList)
+                )
                 mv.chartView = apnaPreviewActivityBinding.hospitalsChart // For bounds control
 
                 apnaPreviewActivityBinding.hospitalsChart.marker = mv
@@ -530,8 +559,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaPreviewActivity,
-                    IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(
+                    this@ApnaPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList)
+                )
                 mv.chartView = apnaPreviewActivityBinding.apartmentsChart // For bounds control
 
                 apnaPreviewActivityBinding.apartmentsChart.marker = mv
@@ -594,9 +625,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
 
     private fun setApartmentsValues() {
         for (i in noOfHouses.indices) {
-            apartmentsEntries.add(BarEntry(i.toFloat(),
-                noOfHouses.get(i),
-                apartments.get(i).toString()))
+            apartmentsEntries.add(
+                BarEntry(
+                    i.toFloat(),
+                    noOfHouses.get(i),
+                    apartments.get(i).toString()
+                )
+            )
         }
 //        apartmentsEntries.add(BarEntry(1f, 5f))
 //        apartmentsEntries.add(BarEntry(2f, 4f))
@@ -615,8 +650,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaPreviewActivity,
-                    IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(
+                    this@ApnaPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList)
+                )
                 mv.chartView = apnaPreviewActivityBinding.competitorsChart // For bounds control
 
                 apnaPreviewActivityBinding.competitorsChart.marker = mv
@@ -692,8 +729,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaPreviewActivity,
-                    IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(
+                    this@ApnaPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList)
+                )
                 mv.chartView = apnaPreviewActivityBinding.neighborChart // For bounds control
 
                 apnaPreviewActivityBinding.neighborChart.marker = mv
@@ -844,12 +883,21 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
 
             val total = totalOrg + totalUnorg
 
-            apnaPreviewActivityBinding.organized.setText("\u20B9" + DecimalFormat("##,##,##0").format(
-                totalOrg.toLong()))
-            apnaPreviewActivityBinding.unorganized.setText("\u20B9" + DecimalFormat("##,##,##0").format(
-                totalUnorg.toLong()))
-            apnaPreviewActivityBinding.total.setText("\u20B9" + DecimalFormat("##,##,##0").format(
-                total.toLong()))
+            apnaPreviewActivityBinding.organized.setText(
+                "\u20B9" + DecimalFormat("##,##,##0").format(
+                    totalOrg.toLong()
+                )
+            )
+            apnaPreviewActivityBinding.unorganized.setText(
+                "\u20B9" + DecimalFormat("##,##,##0").format(
+                    totalUnorg.toLong()
+                )
+            )
+            apnaPreviewActivityBinding.total.setText(
+                "\u20B9" + DecimalFormat("##,##,##0").format(
+                    total.toLong()
+                )
+            )
 
             avgSales = value.data!!.chemist!!.map { it.orgAvgSale!!.toFloat() } as ArrayList<Float>
             setCompetitorsValues()
@@ -1060,9 +1108,9 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
         } else {
             landmarks = "-"
         }
-
+        apnaPreviewActivityBinding.region.text = "$region"
         apnaPreviewActivityBinding.locationdetails.setText(
-            "$region,$landmarks,$city,$state-$pin"
+            "$landmarks,$city,$state-$pin"
         )
 
         if (value.data!!.trafficGenerator != null && value.data!!.trafficGenerator!!.size > 0) {
@@ -1250,7 +1298,9 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
             if (value.data!!.trafficStreetType!!.name != null) {
                 if (value.data!!.trafficStreetType!!.name.toString().isNotEmpty()) {
 //                    apnaPreviewActivityBinding.trafficStreetType.setText(value.data!!.trafficStreetType!!.name.toString())
-                    trafficType = value.data!!.trafficStreetType!!.name.toString()
+//                    trafficType = value.data!!.trafficStreetType!!.name.toString()
+                    trafficType = value.data!!.trafficStreetType!!.uid.toString()
+
                 } else {
 //                    apnaPreviewActivityBinding.trafficStreetType.setText("-")
                 }
@@ -1354,16 +1404,24 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
         val inputDateFormat = SimpleDateFormat("HH:mm:ss")
         val outputDateFormat = SimpleDateFormat("HH:mm")
         if (value.data!!.morningFrom != null) {
-            apnaPreviewActivityBinding.morningFrom.setText(outputDateFormat.format(inputDateFormat.parse(
-                value.data!!.morningFrom!!)!!))
+            apnaPreviewActivityBinding.morningFrom.setText(
+                outputDateFormat.format(
+                    inputDateFormat.parse(
+                        value.data!!.morningFrom!!
+                    )!!
+                )
+            )
         } else {
             apnaPreviewActivityBinding.morningFrom.setText("-")
         }
 
         if (value.data!!.morningTo != null) {
             apnaPreviewActivityBinding.morningTo.setText(
-                outputDateFormat.format(inputDateFormat.parse(
-                    value.data!!.morningTo!!)!!)
+                outputDateFormat.format(
+                    inputDateFormat.parse(
+                        value.data!!.morningTo!!
+                    )!!
+                )
             )
         } else {
             apnaPreviewActivityBinding.morningTo.setText("-")
@@ -1371,8 +1429,11 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
 
         if (value.data!!.eveningFrom != null) {
             apnaPreviewActivityBinding.eveningFrom.setText(
-                outputDateFormat.format(inputDateFormat.parse(
-                    value.data!!.eveningFrom!!)!!)
+                outputDateFormat.format(
+                    inputDateFormat.parse(
+                        value.data!!.eveningFrom!!
+                    )!!
+                )
             )
         } else {
             apnaPreviewActivityBinding.eveningFrom.setText("-")
@@ -1380,8 +1441,11 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
 
         if (value.data!!.eveningTo != null) {
             apnaPreviewActivityBinding.eveningTo.setText(
-                outputDateFormat.format(inputDateFormat.parse(
-                    value.data!!.eveningTo!!)!!)
+                outputDateFormat.format(
+                    inputDateFormat.parse(
+                        value.data!!.eveningTo!!
+                    )!!
+                )
             )
         } else {
             apnaPreviewActivityBinding.eveningTo.setText("-")
@@ -1440,34 +1504,34 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTre
             )
         }
 
-        if (trafficType.equals("Low", true)) {
+        if (trafficType.equals("low", true)) {
             apnaPreviewActivityBinding.trafficLow.visibility = View.VISIBLE
             apnaPreviewActivityBinding.trafficMedium.visibility = View.GONE
             apnaPreviewActivityBinding.trafficHigh.visibility = View.GONE
             apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.GONE
             apnaPreviewActivityBinding.trafficNotAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.trafficText.setText("Traffic Low")
-        } else if (trafficType.equals("Medium", true)) {
+        } else if (trafficType.equals("medium", true)) {
             apnaPreviewActivityBinding.trafficLow.visibility = View.GONE
             apnaPreviewActivityBinding.trafficMedium.visibility = View.VISIBLE
             apnaPreviewActivityBinding.trafficHigh.visibility = View.GONE
             apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.GONE
             apnaPreviewActivityBinding.trafficNotAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.trafficText.setText("Traffic Medium")
-        } else if (trafficType.equals("High", true)) {
+        } else if (trafficType.equals("high", true)) {
             apnaPreviewActivityBinding.trafficLow.visibility = View.GONE
             apnaPreviewActivityBinding.trafficMedium.visibility = View.GONE
             apnaPreviewActivityBinding.trafficHigh.visibility = View.VISIBLE
             apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.GONE
             apnaPreviewActivityBinding.trafficNotAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.trafficText.setText("Traffic High")
-        } else if (trafficType.equals("V.High", true)) {
+        } else if (trafficType.equals("v_high", true)) {
             apnaPreviewActivityBinding.trafficLow.visibility = View.GONE
             apnaPreviewActivityBinding.trafficMedium.visibility = View.GONE
             apnaPreviewActivityBinding.trafficHigh.visibility = View.GONE
             apnaPreviewActivityBinding.trafficNotAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.VISIBLE
-            apnaPreviewActivityBinding.trafficText.setText("Traffic V.High")
+            apnaPreviewActivityBinding.trafficText.setText("Traffic Very High")
         } else {
             apnaPreviewActivityBinding.trafficLow.visibility = View.GONE
             apnaPreviewActivityBinding.trafficMedium.visibility = View.GONE

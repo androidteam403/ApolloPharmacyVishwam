@@ -182,8 +182,9 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 //
 //    }
 
-    override fun onClickRightArrow() {
+    override fun onClickRightArrow(row: TicketCountsByStatusRoleResponse.Data.ListData.Row) {
         val intent = Intent(ViswamApp.context, DashboardDetailsActivity::class.java)
+        intent.putExtra("SELECTED_ITEM", row)
         startActivity(intent)
     }
 
