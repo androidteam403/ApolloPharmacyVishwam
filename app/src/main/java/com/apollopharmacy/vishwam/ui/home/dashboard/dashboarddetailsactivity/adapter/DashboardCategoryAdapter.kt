@@ -1,17 +1,23 @@
 package com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterCategoryDashboardBinding
-import com.apollopharmacy.vishwam.databinding.AdapterDetailsDashboardBinding
-import com.apollopharmacy.vishwam.ui.home.dashboard.model.ReasonWiseTicketCountByRoleResponse
-import java.util.ArrayList
+import com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.DashboardDetailsCallback
+import com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.model.ReasonWiseTicketCountbyRoleResponse
+import com.google.gson.JsonObject
 
-class DashboardCategoryAdapter(var categoryList: ArrayList<ReasonWiseTicketCountByRoleResponse.Data.ListData.ZcExtra.Data1>) :
-    RecyclerView.Adapter<DashboardCategoryAdapter.ViewHolder>() {
+class DashboardCategoryAdapter(
+    val context: Context,
+    var categoryList: ArrayList<ReasonWiseTicketCountbyRoleResponse.Data1>,
+    val callback: DashboardDetailsCallback,
+    val rowsList: ArrayList<JsonObject>,
+) : RecyclerView.Adapter<DashboardCategoryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -22,16 +28,46 @@ class DashboardCategoryAdapter(var categoryList: ArrayList<ReasonWiseTicketCount
                 LayoutInflater.from(parent.context),
                 R.layout.adapter_category_dashboard,
                 parent,
-                false)
+                false
+            )
         return ViewHolder(adapterCategoryDashboardBinding)
     }
 
     override fun onBindViewHolder(holder: DashboardCategoryAdapter.ViewHolder, position: Int) {
+        val category = categoryList.get(position)
+        if (category.isSelsected == true) {
+            holder.adapterCategoryDashboardBinding.parentLayout.setBackgroundResource(R.drawable.dashboard_grid_category_bg)
+            holder.adapterCategoryDashboardBinding.category.setTextColor(context.getColor(R.color.white))
+            holder.adapterCategoryDashboardBinding.arrowToindicate.visibility = View.VISIBLE
+            if (category.isDescending == true) {
+                holder.adapterCategoryDashboardBinding.arrowToindicate.rotation = 180f
+            } else {
+                holder.adapterCategoryDashboardBinding.arrowToindicate.rotation = 0f
+            }
+        } else {
+            holder.adapterCategoryDashboardBinding.parentLayout.setBackgroundResource(0)
+            holder.adapterCategoryDashboardBinding.category.setTextColor(context.getColor(R.color.black))
+            holder.adapterCategoryDashboardBinding.arrowToindicate.visibility = View.GONE
+        }
+        if (position == 0) {
+            var rows = ArrayList<String>()
+            for (i in rowsList) {
+                rows.add(i.get("name").toString())
+            }
+            holder.adapterCategoryDashboardBinding.category.text = "Executives (${rows.size})"
+        } else if (position == 1) {
+            holder.adapterCategoryDashboardBinding.category.text = "MTD"
+        } else {
+            holder.adapterCategoryDashboardBinding.category.text = "${category.name}"
+        }
 
+        holder.itemView.setOnClickListener {
+            callback.onClickCategoryItem(category)
+        }
     }
 
     override fun getItemCount(): Int {
-        return 2
+        return categoryList.size
     }
 
     class ViewHolder(var adapterCategoryDashboardBinding: AdapterCategoryDashboardBinding) :

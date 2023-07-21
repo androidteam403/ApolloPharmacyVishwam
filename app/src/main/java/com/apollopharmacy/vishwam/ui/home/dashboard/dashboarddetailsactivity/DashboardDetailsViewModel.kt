@@ -11,6 +11,7 @@ import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard.CeoDashboardViewModel
+import com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.model.ReasonWiseTicketCountbyRoleResponse
 import com.apollopharmacy.vishwam.ui.home.dashboard.model.ReasonWiseTicketCountByRoleResponse
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -53,8 +54,8 @@ class DashboardDetailsViewModel : ViewModel() {
                     val res = BackShlash.removeBackSlashes(resp)
                     val reasonWiseTicketCountByRoleResponse =
                         Gson().fromJson(BackShlash.removeSubString(res),
-                            ReasonWiseTicketCountByRoleResponse::class.java)
-                    if (reasonWiseTicketCountByRoleResponse.success) {
+                            ReasonWiseTicketCountbyRoleResponse::class.java)
+                    if (reasonWiseTicketCountByRoleResponse.success!!) {
                         dashboardDetailsCallback.onSuccessGetReasonWiseTicketCountByRoleApiCall(
                             reasonWiseTicketCountByRoleResponse)
                     } else {
