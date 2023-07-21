@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.anychart.AnyChartView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.FragmentCeoDashboardBinding
 import com.apollopharmacy.vishwam.ui.home.dashboard.adapter.DashboardAdapter
@@ -47,6 +48,21 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         data.add((10.0f))
         data.add((20.0f))
         data.add((70f))
+        if (Preferences.getRoleForCeoDashboard().equals("ceo")) {
+            viewBinding.dashboardName.setText("CEO Dashboard")
+            viewBinding.nameOfTheStore.setText("Regional Head")
+        } else if (Preferences.getRoleForCeoDashboard().equals("regional_head")) {
+            viewBinding.dashboardName.setText("Regional Head Dashboard")
+            viewBinding.nameOfTheStore.setText("Store Manager")
+        } else if (Preferences.getRoleForCeoDashboard().equals("store_manager")) {
+            viewBinding.dashboardName.setText("Store Manager Dashboard")
+            viewBinding.nameOfTheStore.setText("Store Excecutive")
+        } else if (Preferences.getRoleForCeoDashboard().equals("store_executive")) {
+            viewBinding.dashboardName.setText("Store Executive Dashboard")
+            viewBinding.nameOfTheStore.setText("Store List")
+        } else if (Preferences.getRoleForCeoDashboard().equals("store_supervisor")) {
+            viewBinding.dashboardName.setText("Store Supervisor Dashboard")
+        }
 
 //        configChartView()
         viewBinding.greaterThan2.setText("<2")
@@ -76,23 +92,24 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         }
         val dataSet = PieDataSet(pieEntry, "")
         dataSet.colors = colors
-        dataSet.valueTextSize = 14f
+        dataSet.valueTextSize = 7f
         dataSet.setDrawValues(false)
         dataSet.valueTextColor = ContextCompat.getColor(requireContext(), android.R.color.white)
         viewBinding.pieChart.data = PieData(dataSet)
         viewBinding.pieChart.isDrawHoleEnabled = false
-        viewBinding.pieChart.description = Description().apply { text="" }
+        viewBinding.pieChart.description = Description().apply { text = "" }
         viewBinding.pieChart.invalidate()
         viewBinding.pieChart.animateY(1400, Easing.EaseInOutQuad);
         viewBinding.pieChart.legend.isEnabled = false
-        creatChartLabels(colors,chartData)
+        creatChartLabels(colors, chartData)
     }
 
-    private fun creatChartLabels(colors:List<Int>, chartData: ArrayList<PieEntry>){
+    private fun creatChartLabels(colors: List<Int>, chartData: ArrayList<PieEntry>) {
         for (i in chartData.indices) {
-            val view=com.apollopharmacy.vishwam.databinding.LegendLayoutBinding.inflate(layoutInflater)
+            val view =
+                com.apollopharmacy.vishwam.databinding.LegendLayoutBinding.inflate(layoutInflater)
             view.legendBox.setBackgroundColor(colors[i])
-            view.legendTitle.text=chartData[i].label
+            view.legendTitle.text = chartData[i].label
             viewBinding.chartLabels.addView(view.root)
         }
     }
@@ -186,13 +203,13 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             viewBinding.dashboardCeoRecyclerview.adapter = dashboardAdapter
             var sumOfClosed = 0f
             var sumOfLessThan2 = 0f
-            var sumOfthreeToEight=0f
-            var sumOfgreaterThan8= 0f
-            var sumOfrejected= 0f
-            var sumOfpending= 0f
-                for (i in ticketCountsByStatsuRoleResponses!!.data.listData.rows) {
-                    sumOfClosed = sumOfClosed + i.closed!!.toFloat()
-                }
+            var sumOfthreeToEight = 0f
+            var sumOfgreaterThan8 = 0f
+            var sumOfrejected = 0f
+            var sumOfpending = 0f
+            for (i in ticketCountsByStatsuRoleResponses!!.data.listData.rows) {
+                sumOfClosed = sumOfClosed + i.closed!!.toFloat()
+            }
             for (i in ticketCountsByStatsuRoleResponses!!.data.listData.rows) {
                 sumOfLessThan2 = sumOfLessThan2 + i.lessThan2!!.toFloat()
             }
@@ -217,18 +234,18 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             sumOfList.add(PieEntry(sumOfpending, "Pending"))
             createChart(sumOfList)
 
-        }else{
-            viewBinding.recyclerView.visibility=View.GONE
-            viewBinding.noListFound.visibility=View.VISIBLE
+        } else {
+            viewBinding.recyclerView.visibility = View.GONE
+            viewBinding.noListFound.visibility = View.VISIBLE
         }
 
         hideLoading()
     }
 
     override fun onFailuregetTicketListByCountApi(value: TicketCountsByStatusRoleResponse) {
-        Toast.makeText(context, ""+value.message, Toast.LENGTH_SHORT).show()
-        viewBinding.recyclerView.visibility=View.GONE
-        viewBinding.noListFound.visibility=View.VISIBLE
+        Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
+        viewBinding.recyclerView.visibility = View.GONE
+        viewBinding.noListFound.visibility = View.VISIBLE
         hideLoading()
     }
 
@@ -237,13 +254,13 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
             && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
         ) {
-            if(viewBinding.storesDownArrow.isVisible){
-                viewBinding.storesDownArrow.visibility=View.GONE
-                viewBinding.storesUpArrow.visibility=View.VISIBLE
-                ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortByDescending{it.name}
-            }else{
-                viewBinding.storesDownArrow.visibility=View.VISIBLE
-                viewBinding.storesUpArrow.visibility=View.GONE
+            if (viewBinding.storesDownArrow.isVisible) {
+                viewBinding.storesDownArrow.visibility = View.GONE
+                viewBinding.storesUpArrow.visibility = View.VISIBLE
+                ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortByDescending { it.name }
+            } else {
+                viewBinding.storesDownArrow.visibility = View.VISIBLE
+                viewBinding.storesUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.name }
             }
 
@@ -257,13 +274,13 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
             && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
         ) {
-            if(viewBinding.closedDownArrow.isVisible){
-                viewBinding.closedDownArrow.visibility=View.GONE
-                viewBinding.closedUpArrow.visibility=View.VISIBLE
+            if (viewBinding.closedDownArrow.isVisible) {
+                viewBinding.closedDownArrow.visibility = View.GONE
+                viewBinding.closedUpArrow.visibility = View.VISIBLE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortByDescending { it.closed }
-            }else{
-                viewBinding.closedDownArrow.visibility=View.VISIBLE
-                viewBinding.closedUpArrow.visibility=View.GONE
+            } else {
+                viewBinding.closedDownArrow.visibility = View.VISIBLE
+                viewBinding.closedUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.closed }
             }
 
@@ -276,13 +293,13 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
             && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
         ) {
-            if(viewBinding.lessThanTwoDownArrow.isVisible){
-                viewBinding.lessThanTwoDownArrow.visibility=View.GONE
-                viewBinding.lessThanTwoUpArrow.visibility=View.VISIBLE
+            if (viewBinding.lessThanTwoDownArrow.isVisible) {
+                viewBinding.lessThanTwoDownArrow.visibility = View.GONE
+                viewBinding.lessThanTwoUpArrow.visibility = View.VISIBLE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortByDescending { it.lessThan2 }
-            }else{
-                viewBinding.lessThanTwoDownArrow.visibility=View.VISIBLE
-                viewBinding.lessThanTwoUpArrow.visibility=View.GONE
+            } else {
+                viewBinding.lessThanTwoDownArrow.visibility = View.VISIBLE
+                viewBinding.lessThanTwoUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.lessThan2 }
             }
 
@@ -295,13 +312,13 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
             && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
         ) {
-            if(viewBinding.threeToEightDownArrow.isVisible){
-                viewBinding.threeToEightDownArrow.visibility=View.GONE
-                viewBinding.threeToEightUpArrow.visibility=View.VISIBLE
+            if (viewBinding.threeToEightDownArrow.isVisible) {
+                viewBinding.threeToEightDownArrow.visibility = View.GONE
+                viewBinding.threeToEightUpArrow.visibility = View.VISIBLE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortByDescending { it.get3To8() }
-            }else{
-                viewBinding.threeToEightDownArrow.visibility=View.VISIBLE
-                viewBinding.threeToEightUpArrow.visibility=View.GONE
+            } else {
+                viewBinding.threeToEightDownArrow.visibility = View.VISIBLE
+                viewBinding.threeToEightUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.get3To8() }
             }
 
@@ -314,13 +331,13 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
             && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
         ) {
-            if(viewBinding.greayerThanEightDownArrow.isVisible){
-                viewBinding.greayerThanEightDownArrow.visibility=View.GONE
-                viewBinding.greaterThanEightUpArrow.visibility=View.VISIBLE
+            if (viewBinding.greayerThanEightDownArrow.isVisible) {
+                viewBinding.greayerThanEightDownArrow.visibility = View.GONE
+                viewBinding.greaterThanEightUpArrow.visibility = View.VISIBLE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortByDescending { it.greaterThan8 }
-            }else{
-                viewBinding.greayerThanEightDownArrow.visibility=View.VISIBLE
-                viewBinding.greaterThanEightUpArrow.visibility=View.GONE
+            } else {
+                viewBinding.greayerThanEightDownArrow.visibility = View.VISIBLE
+                viewBinding.greaterThanEightUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.greaterThan8 }
             }
 
@@ -333,13 +350,13 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
             && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
         ) {
-            if(viewBinding.rejectedDownArrow.isVisible){
-                viewBinding.rejectedDownArrow.visibility=View.GONE
-                viewBinding.rejectedUpArrow.visibility=View.VISIBLE
+            if (viewBinding.rejectedDownArrow.isVisible) {
+                viewBinding.rejectedDownArrow.visibility = View.GONE
+                viewBinding.rejectedUpArrow.visibility = View.VISIBLE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortByDescending { it.rejected }
-            }else{
-                viewBinding.rejectedDownArrow.visibility=View.VISIBLE
-                viewBinding.rejectedUpArrow.visibility=View.GONE
+            } else {
+                viewBinding.rejectedDownArrow.visibility = View.VISIBLE
+                viewBinding.rejectedUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.rejected }
             }
 
@@ -352,13 +369,13 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
             && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
         ) {
-            if(viewBinding.rejectedDownArrow.isVisible){
-                viewBinding.rejectedDownArrow.visibility=View.GONE
-                viewBinding.rejectedUpArrow.visibility=View.VISIBLE
+            if (viewBinding.rejectedDownArrow.isVisible) {
+                viewBinding.rejectedDownArrow.visibility = View.GONE
+                viewBinding.rejectedUpArrow.visibility = View.VISIBLE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortByDescending { it.pending }
-            }else{
-                viewBinding.rejectedDownArrow.visibility=View.VISIBLE
-                viewBinding.rejectedUpArrow.visibility=View.GONE
+            } else {
+                viewBinding.rejectedDownArrow.visibility = View.VISIBLE
+                viewBinding.rejectedUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.pending }
             }
 
@@ -370,13 +387,13 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
             && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
         ) {
-            if(viewBinding.totalDownArrow.isVisible){
-                viewBinding.totalDownArrow.visibility=View.GONE
-                viewBinding.totalUpArrow.visibility=View.VISIBLE
+            if (viewBinding.totalDownArrow.isVisible) {
+                viewBinding.totalDownArrow.visibility = View.GONE
+                viewBinding.totalUpArrow.visibility = View.VISIBLE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortByDescending { it.total }
-            }else{
-                viewBinding.totalDownArrow.visibility=View.VISIBLE
-                viewBinding.totalUpArrow.visibility=View.GONE
+            } else {
+                viewBinding.totalDownArrow.visibility = View.VISIBLE
+                viewBinding.totalUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.total }
             }
 

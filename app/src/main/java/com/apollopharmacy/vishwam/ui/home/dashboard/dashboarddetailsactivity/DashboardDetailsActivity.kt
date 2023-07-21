@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
+import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.ActivityDashboardDetailsBinding
 import com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.adapter.DashboardCategoryAdapter
 import com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.adapter.DashboardDetailsAdapter
@@ -18,6 +19,7 @@ import com.apollopharmacy.vishwam.ui.home.dashboard.model.ReasonWiseTicketCountB
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import java.util.ArrayList
+import java.util.prefs.Preferences
 
 class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
     private lateinit var activityDashboardDetailsBinding: ActivityDashboardDetailsBinding
@@ -41,10 +43,18 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
 
     private fun setUp() {
 //        Utlis.showLoading(this@DashboardDetailsActivity)
-        viewModel.getReasonWiseTicketCountByRole(this@DashboardDetailsActivity,
+        val userData = LoginRepo.getProfile()
+        if (userData != null) {
+            activityDashboardDetailsBinding.employeeIdCeo.text = userData.EMPNAME
+        }
+
+        activityDashboardDetailsBinding.employeeRoleCeo.setText(com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignation())
+        viewModel.getReasonWiseTicketCountByRole(
+            this@DashboardDetailsActivity,
             "2023-06-05",
             "2023-06-30",
-            "EX100011")
+            "EX100011"
+        )
         dashboardCategoryAdapter = DashboardCategoryAdapter(categoryList)
         val layoutManager = GridLayoutManager(this, 2)
         activityDashboardDetailsBinding.headerCategoryRecyclerview.setLayoutManager(layoutManager)
@@ -89,8 +99,10 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
 
     override fun onFailureGetReasonWiseTicketCountByRoleApiCall(reasonWiseTicketCountByRoleResponse: ReasonWiseTicketCountByRoleResponse) {
         Utlis.hideLoading()
-        Toast.makeText(this@DashboardDetailsActivity,
+        Toast.makeText(
+            this@DashboardDetailsActivity,
             reasonWiseTicketCountByRoleResponse.message,
-            Toast.LENGTH_SHORT).show()
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

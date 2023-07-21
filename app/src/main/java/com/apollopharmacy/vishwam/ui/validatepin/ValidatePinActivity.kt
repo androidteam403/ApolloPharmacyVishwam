@@ -175,6 +175,9 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                        it.data!!.role!!.code = "store_supervisor"
 //                        it.data!!.uploadSwach!!.uid = "Yes"
                         Preferences.storeEmployeeDetailsResponseJson(Gson().toJson(it))
+                        it.data!!.role!!.code="ceo"
+                        Preferences.setRoleForCeoDashboard(it.data!!.role!!.code.toString())
+                       Toast.makeText(applicationContext, ""+ Preferences.getRoleForCeoDashboard(), Toast.LENGTH_SHORT).show()
                         if (it.data?.uploadSwach?.uid != null) {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""

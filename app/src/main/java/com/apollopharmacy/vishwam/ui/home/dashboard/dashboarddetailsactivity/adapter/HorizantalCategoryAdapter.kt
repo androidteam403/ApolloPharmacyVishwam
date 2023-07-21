@@ -32,27 +32,25 @@ class HorizantalCategoryAdapter(
 
 
     override fun onBindViewHolder(holder: HorizantalCategoryAdapter.ViewHolder, position: Int) {
-
-        if (position % 2 == 0) {
-            holder.adapterHorizantalCategoryBinding.backgroundForLinear.background =
-                (context.getDrawable(R.drawable.background_for_champs_names))
-//            holder.adapterHorizantalCategoryBinding.middleColor.background =
-//                context.getDrawable(R.color.light_ashh)
-        } else {
-            holder.adapterHorizantalCategoryBinding.backgroundForLinear.background =
-                (context.getDrawable(R.drawable.background_for_champs_names))
-//            holder.adapterHorizantalCategoryBinding.middleColor.background =
-//                (context.getDrawable(R.drawable.background_for_white))
-        }
-//        var categoryLists = categoryList.get(position)
-        for(i in headerList){
-            if(i.name.equals(categoryList[position].acessoriesOnlineSales.javaClass.annotations)){
-//                val fields: Field = Field::class.java.getDeclaredField("name")
-//                val sName = fields.getAnnotation(SerializedName::class.java)
-//                println(sName.value)
-                holder.adapterHorizantalCategoryBinding.count.text = categoryList[position].toString()
-            }
-        }
+        var name = ""
+        holder.adapterHorizantalCategoryBinding.backgroundForLinear.background =
+            context.getDrawable(R.color.light_ashh_trans)
+        var categoryListForloop= ArrayList<ReasonWiseTicketCountByRoleResponse.Data.ListData.Row>()
+        categoryListForloop.add(categoryList.get(position))
+//        for(i in categoryListForloop){
+//
+//            val fields: Field = ReasonWiseTicketCountByRoleResponse.Data.ListData.Row::class.java.getDeclaredField(categoryListForloop.get())
+//            val sName = fields.getAnnotationsByType(SerializedName::class.java).get(position).value
+//            println(sName)
+//            name=sName
+//        }
+//
+//
+//        for(i in headerList){
+//            if(i.name.equals(name)){
+//                holder.adapterHorizantalCategoryBinding.count.text = categoryList[position].toString()
+//            }
+//        }
 
     }
 

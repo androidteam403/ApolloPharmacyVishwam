@@ -1432,6 +1432,66 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
+            case "Dashboard Regional Head":
+                headerText.setText("Regional head Dashboard");
+                fragment = new CeoDashboardFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+
+                plusIconApna.setVisibility(View.GONE);
+                filterIconApna.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                scannerIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                break;
+            case "Dashboard Store Manager":
+                headerText.setText("Store Manager Dashboard");
+                fragment = new CeoDashboardFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+
+                plusIconApna.setVisibility(View.GONE);
+                filterIconApna.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                scannerIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                break;
+            case "Dashboard Store Executive":
+                headerText.setText("Store Executive Dashboard");
+                fragment = new CeoDashboardFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+
+                plusIconApna.setVisibility(View.GONE);
+                filterIconApna.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                scannerIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                break;
+            case "Dashboard Store Supervisor":
+                headerText.setText("Store Supervisor Dashboard");
+                fragment = new CeoDashboardFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+
+                plusIconApna.setVisibility(View.GONE);
+                filterIconApna.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                scannerIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                break;
             case "DashboardManager":
                 headerText.setText("Manager Dashboard");
                 fragment = new ManagerDashboardFragment();
@@ -1820,8 +1880,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         /*listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Ceo", R.drawable.ic_apollo_dashboard)));*/
 
-
-        listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Ceo", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("Dashboard Manager", R.drawable.ic_apollo_dashboard)));
+        if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")){
+            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Ceo", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("Dashboard Manager", R.drawable.ic_apollo_dashboard)));
+        }else if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("regional_head")){
+            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Regional Head", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("Dashboard Manager", R.drawable.ic_apollo_dashboard)));
+        }else if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_manager")){
+            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Manager", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("Dashboard Manager", R.drawable.ic_apollo_dashboard)));
+        }else if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_executive")){
+            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Executive", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("Dashboard Manager", R.drawable.ic_apollo_dashboard)));
+        }else if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_supervisor")){
+            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Supervisor", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("Dashboard Manager", R.drawable.ic_apollo_dashboard)));
+        }
 
 //        if (true) {
 //
@@ -1854,7 +1923,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
                     .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
                     .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
-
         } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("NODATA")) {
             listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
                     .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
@@ -2026,8 +2094,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Dashboard Ceo")) {
                     displaySelectedScreen("DashboardCeo");
-                }else if (childModelList.get(childPosition).getTitle().equals("Dashboard Manager")) {
-                    displaySelectedScreen("DashboardManager");
+                }else if (childModelList.get(childPosition).getTitle().equals("Dashboard Regional Head")) {
+                    displaySelectedScreen("Dashboard Regional Head");
+                }else if (childModelList.get(childPosition).getTitle().equals("Dashboard Store Manager")) {
+                    displaySelectedScreen("Dashboard Store Manager");
+                }else if (childModelList.get(childPosition).getTitle().equals("Dashboard Store Executive")) {
+                    displaySelectedScreen("Dashboard Store Executive");
+                }else if (childModelList.get(childPosition).getTitle().equals("Dashboard Store Supervisor")) {
+                    displaySelectedScreen("Dashboard Store Supervisor");
                 }
 
             }
