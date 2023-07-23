@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.retroqr.activity
 
 import android.view.View
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
+import java.io.File
 
 interface RetroQrUploadCallback {
     fun onClickBackArrow()
@@ -13,5 +14,9 @@ interface RetroQrUploadCallback {
     fun onFailureUploadImagesApiCall(message: String)
 
     fun onSuccessgetStoreWiseRackResponse(storeWiseRackDetails: StoreWiseRackDetails)
-    fun onClickCameraIcon(position: Int)
+    fun onClickCameraIcon(position: Int,adapter:String)
+    fun onClickCompare(matchingPercentage: String, firstImage: String, secondImage: String,rackNo:String)
+
+    fun deleteImage(position: Int)
+
 }

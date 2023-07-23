@@ -73,7 +73,7 @@ class UploadRackAdapter(
 //                items.image))
         }
         holder.uploadRackLayoutBinding.camera.setOnClickListener {
-            mCallback.onClickCameraIcon(position)
+            mCallback.onClickCameraIcon(position,"upload")
         }
     }
 
