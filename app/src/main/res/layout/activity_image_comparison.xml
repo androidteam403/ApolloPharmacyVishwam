@@ -122,7 +122,7 @@
                     app:slider_thumb="@mipmap/white_circle" />
             </LinearLayout>
 
-            <!--<LinearLayout
+          <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -237,7 +237,7 @@
                 </LinearLayout>
             </LinearLayout>-->
 
-            <!--<ImageView
+          <ImageView
                 android:layout_width="@dimen/value_50dp"
                 android:layout_height="@dimen/value_50dp"
                 android:layout_alignParentBottom="true"
@@ -245,7 +245,17 @@
                 android:layout_marginBottom="@dimen/eighteen18_dp"
                 android:src="@drawable/rounded_background"
                 android:tint="#f7a54a"
-                tools:ignore="UseAppTint" />-->
+                tools:ignore="UseAppTint" />
+            <ImageView
+                android:layout_width="@dimen/value_30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="25dp"
+                android:src="@drawable/ic_baseline_compare_24"
+                android:tint="@color/white"
+                tools:ignore="UseAppTint" />
+
 
             <!--<TextView
                 android:layout_width="wrap_content"

@@ -4,7 +4,11 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -35,11 +39,14 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUpload
 import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
-
 import me.echodev.resizer.Resizer
 import java.io.File
+import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.URL
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+
 
 class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     RetroQrFileUploadCallback {
@@ -301,6 +308,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
             }
         }
+
 
         override fun allFilesUploaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
 
