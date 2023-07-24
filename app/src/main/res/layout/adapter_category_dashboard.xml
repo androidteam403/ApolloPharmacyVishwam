@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:weightSum="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/value_5dp"
+                android:layout_weight=".8"
+                android:layout_marginStart="@dimen/value_5dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+
+            <ImageView
+                android:id="@+id/arrow_toindicate"
+                android:layout_width="@dimen/value_15dp"
+                android:layout_height="@dimen/value_15dp"
+                android:layout_marginStart="@dimen/value_5dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/down_arrow_white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_dimen_10"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_dimen_10"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/idIVcourseIV"
+                    android:layout_width="@dimen/value_15dp"
+                    android:layout_height="@dimen/value_15dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:text="85 ALL (MTD)"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_dimen_10"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/value_15dp"
+                    android:layout_height="@dimen/value_15dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:text="15 Inappropriate behaviour"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_dimen_10"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/value_15dp"
+                    android:layout_height="@dimen/value_15dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:text="14 Price Issues"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

@@ -26,7 +26,6 @@
                     android:layout_height="@dimen/value_40dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/app_name"
-
                     android:onClick="@{()-> callback.onClickBack()}"
                     android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
 
@@ -97,6 +96,7 @@
                     android:gravity="end">
 
                     <ImageView
+                        android:onClick="@{()-> callback.onClickBack()}"
                         android:layout_width="@dimen/value_40dp"
                         android:layout_height="@dimen/value_45dp"
                         android:layout_gravity="center"
@@ -314,7 +314,7 @@
                             android:layout_height="@dimen/value_40dp"
                             android:layout_marginStart="@dimen/value_15dp"
                             android:contentDescription="@string/app_name"
-
+                            android:layout_gravity="center"
                             android:onClick="@{()-> callback.onClickAccept()}"
                             android:src="@drawable/action_accept" />
 
@@ -341,7 +341,7 @@
             android:visibility="@{isLastPos ? view.GONE: view.VISIBLE }">
 
 
-        <ImageView
+            <ImageView
                 android:id="@+id/showcapturedimage"
                 android:layout_width="19dp"
                 android:layout_height="match_parent"
@@ -390,9 +390,11 @@
         <variable
             name="isAllComplete"
             type="Boolean" />
+
         <variable
             name="actionStatus"
             type="String" />
+
         <variable
             name="view"
             type="android.view.View" />

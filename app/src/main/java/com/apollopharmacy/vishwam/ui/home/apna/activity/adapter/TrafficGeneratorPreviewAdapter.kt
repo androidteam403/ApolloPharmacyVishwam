@@ -28,7 +28,7 @@ class TrafficGeneratorPreviewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.trafficAdapterLayoutBinding.name.setText(data[position].uid)
+        holder.trafficAdapterLayoutBinding.name.setText(data[position].name)
     }
 
     override fun getItemCount(): Int {
