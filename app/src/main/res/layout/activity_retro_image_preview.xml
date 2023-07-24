@@ -20,6 +20,8 @@
                 android:layout_width="@dimen/value_30dp"
                 android:layout_height="@dimen/value_30dp"
                 android:layout_marginStart="@dimen/value_20dp"
+                android:onClick="@{()->callback.onClickBack()}"
+
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_baseline_arrow_back_24" />
 
@@ -38,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/headerLayout"
-            android:layout_marginBottom="@dimen/value_60dp">
+            android:layout_marginBottom="20dp">
 
             <ImageView
                 android:id="@+id/image"
@@ -53,6 +55,7 @@
                 android:layout_height="@dimen/value_45dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/value_10dp"
+                android:visibility="gone"
                 android:layout_marginEnd="@dimen/value_15dp"
                 android:background="@drawable/rounded_background"
                 android:backgroundTint="#19000000"
@@ -63,6 +66,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_60dp"
+            android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:background="#eef7f8">
 

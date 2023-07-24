@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagecomparison
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -14,10 +15,12 @@ import androidx.databinding.DataBindingUtil
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.ActivityImageComparisonBinding
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagepreview.RetroImagePreviewActivity
 import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.bumptech.glide.Glide
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.opencv.android.OpenCVLoader
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -35,7 +38,9 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
         super.onCreate(savedInstanceState)
         activityImageComparisonBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_image_comparison)
+        activityImageComparisonBinding.callback=this
 
+        OpenCVLoader.initDebug()
 
         setUp()
     }
@@ -60,9 +65,11 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
                         val inputStream = response.body!!.byteStream()
                          bitmap1 = BitmapFactory.decodeStream(inputStream)
                          bitmap2 = BitmapFactory.decodeFile(secondImage)
+                        runOnUiThread {
+                            activityImageComparisonBinding.beforeAfterSlider.setBeforeImage(BitmapDrawable(resources,
+                                bitmap2)).setAfterImage(BitmapDrawable(resources, bitmap1))
+                        }
 
-                        activityImageComparisonBinding.beforeAfterSlider.setBeforeImage(BitmapDrawable(resources,
-                            bitmap2)).setAfterImage(BitmapDrawable(resources, bitmap1))
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -72,8 +79,30 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
 //
 
 
+            activityImageComparisonBinding.firstImage.setOnClickListener {
+                val intent = Intent(applicationContext, RetroImagePreviewActivity::class.java)
+                intent.putExtra("firstimage", firstImage)
+                intent.putExtra("secondimage", secondImage)
+                intent.putExtra("rackNo", rackNo)
+                intent.putExtra("matchingPercentage", matchingPercentage)
+                startActivity(intent)
+            }
+
+
+            activityImageComparisonBinding.secondImage.setOnClickListener {
+                val intent = Intent(applicationContext, RetroImagePreviewActivity::class.java)
+                intent.putExtra("firstimage", secondImage)
+                intent.putExtra("secondimage", secondImage)
+                intent.putExtra("rackNo", rackNo)
+                intent.putExtra("matchingPercentage", matchingPercentage)
+                startActivity(intent)
+            }
             activityImageComparisonBinding.rackno.setText(rackNo)
             activityImageComparisonBinding.siteId.setText(Preferences.getQrSiteId() + " , " + Preferences.getQrSiteName())
+
+            activityImageComparisonBinding.ok.setOnClickListener {
+                finish()
+            }
 
 //
 //            Glide.with(this).load(firstImage)
@@ -87,22 +116,12 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
 
     }
 
-    @Throws(IOException::class)
-    fun drawableFromUrl(url: String?): Drawable? {
-        val x: Bitmap
-        val connection = URL(url).openConnection() as HttpURLConnection
-        connection.connect()
-        val input = connection.inputStream
-        x = BitmapFactory.decodeStream(input)
-        return BitmapDrawable(Resources.getSystem(), x)
-    }
+
     override fun onClickBack() {
-        onBackPressed()
         finish()
     }
 
     override fun onClickSubmit() {
-        onBackPressed()
         finish()
     }
 }

@@ -100,15 +100,18 @@
                                 android:textSize="@dimen/text_12sp"
                                 android:textStyle="bold" />
 
-                            <TextView
+                            <EditText
                                 android:layout_width="@dimen/value_80dp"
                                 android:layout_height="@dimen/value_25dp"
+                                android:id="@+id/rack_number"
+                                android:textSize="12sp"
                                 android:layout_marginEnd="@dimen/value_3dp"
                                 android:background="@drawable/white_rounded_corner" />
 
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/value_25dp"
+                                android:id="@+id/rack_arrow"
                                 android:background="@drawable/gray_rounded_bg"
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                                 android:contentDescription="@string/app_name" />
@@ -214,6 +217,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true"
+            android:id="@+id/uploadsubmit_layout"
             android:foreground="@drawable/gray_border_top"
             android:orientation="horizontal"
             android:weightSum="4">
@@ -312,6 +316,238 @@
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:visibility="gone"
+            android:id="@+id/review_submit_layout"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eeeceb" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.25"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Racks"
+                        android:textColor="#7e7f83"
+                        android:textSize="@dimen/dimen11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/totalRacks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="25"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.001"
+                    android:background="#eeeceb" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/twenty_seven27_dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Updated:"
+                            android:textColor="#7e7f83"
+                            android:textSize="@dimen/dimen11sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/updated"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_16sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/text_dimen_10"
+                            android:background="#eeeceb" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:text="Pending:"
+                            android:textColor="#7e7f83"
+                            android:textSize="@dimen/dimen11sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/pending"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_16sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#eeeceb" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.33"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="@dimen/value_10dp"
+                                android:layout_height="@dimen/value_10dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:background="@drawable/round_rating_bar_green"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.33"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="@dimen/value_10dp"
+                                android:layout_height="@dimen/value_10dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:background="@drawable/round_rating_bar_orane"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.33"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="@dimen/value_10dp"
+                                android:layout_height="@dimen/value_10dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:background="@drawable/round_rating_bar_red"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/submitButtonReview"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.25"
+                    android:background="#9b9b9b"
+                    android:gravity="center"
+                    android:onClick="@{()->callback.onClickSubmit()}"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SUBMIT"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.001"
+                    android:background="#eeeceb" />
+            </LinearLayout>
+        </LinearLayout>
+
     </RelativeLayout>
 
     <data>

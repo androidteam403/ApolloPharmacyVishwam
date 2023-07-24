@@ -5,9 +5,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.media.ExifInterface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -20,16 +23,25 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDe
 import com.bumptech.glide.Glide
 import java.io.File
 import java.io.IOException
+import java.util.Locale
 
 class ReviewRackAdapter(
     var mContext: Context,
     var mCallback: RetroQrUploadCallback,
     var images: ArrayList<StoreWiseRackDetails.StoreDetail>,
-) : RecyclerView.Adapter<ReviewRackAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ReviewRackAdapter.ViewHolder>(),Filterable {
 
     class ViewHolder(val reviewRackLayoutBinding: ReviewRackLayoutBinding) :
         RecyclerView.ViewHolder(reviewRackLayoutBinding.root)
+    var charString: String? = null
+    private val imagesFilterList=ArrayList<StoreWiseRackDetails.StoreDetail>()
 
+    var imagesListList= ArrayList<StoreWiseRackDetails.StoreDetail>()
+
+
+    init {
+        imagesListList = images
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val reviewRackLayoutBinding = DataBindingUtil.inflate<ReviewRackLayoutBinding>(
             LayoutInflater.from(mContext),
@@ -129,4 +141,43 @@ class ReviewRackAdapter(
         }
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                charString = charSequence.toString()
+                images = if (charString!!.isEmpty()) {
+                    imagesListList
+                } else {
+                    imagesFilterList.clear()
+                    for (row in imagesListList) {
+                        if (!imagesFilterList.contains(row) && row.rackno!!.lowercase(Locale.getDefault()).contains(
+                                charString!!.lowercase(
+                                    Locale.getDefault()))) {
+                            imagesFilterList.add(row)
+                        }
+                    }
+                    imagesFilterList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = images
+                return filterResults
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+                if (images != null && !images!!.isEmpty()) {
+                    images = filterResults.values as ArrayList<StoreWiseRackDetails.StoreDetail>
+                    try {
+                        notifyDataSetChanged()
+                    } catch (e: Exception) {
+                        Log.e("FullfilmentAdapter", e.message!!)
+                    }
+                } else {
+                    notifyDataSetChanged()
+                }
+            }
+        }
+    }
+
 }

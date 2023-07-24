@@ -50,10 +50,13 @@ class RetroQrFragment : BaseFragment<RetroQrViewModel, FragmentRetroQrBinding>()
         }
         viewBinding.uploadButton.setOnClickListener {
             val intent = Intent(requireContext(), RetroQrUploadActivity::class.java)
+            intent.putExtra("activity","upload")
             startActivity(intent)
         }
         viewBinding.reviewButton.setOnClickListener {
-            val intent = Intent(requireContext(), RetroQrReviewActivity::class.java)
+            val intent = Intent(requireContext(), RetroQrUploadActivity::class.java)
+            intent.putExtra("activity","review")
+
             startActivity(intent)
         }
     }

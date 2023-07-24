@@ -6,9 +6,12 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -20,17 +23,26 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDe
 import com.bumptech.glide.Glide
 import java.io.File
 import java.io.IOException
+import java.util.Locale
 import kotlin.collections.ArrayList
 
 class UploadRackAdapter(
     var mContext: Context,
     var mCallback: RetroQrUploadCallback,
     var images: ArrayList<StoreWiseRackDetails.StoreDetail>,
-) : RecyclerView.Adapter<UploadRackAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<UploadRackAdapter.ViewHolder>(),Filterable {
 
     class ViewHolder(val uploadRackLayoutBinding: UploadRackLayoutBinding) :
         RecyclerView.ViewHolder(uploadRackLayoutBinding.root)
+    var charString: String? = null
+    private val imagesFilterList=ArrayList<StoreWiseRackDetails.StoreDetail>()
 
+    var imagesListList= ArrayList<StoreWiseRackDetails.StoreDetail>()
+
+
+    init {
+        imagesListList = images
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val uploadRackLayoutBinding = DataBindingUtil.inflate<UploadRackLayoutBinding>(
             LayoutInflater.from(mContext),
@@ -47,11 +59,11 @@ class UploadRackAdapter(
         val rackCount = position + 1
         holder.uploadRackLayoutBinding.rackCount.text = "Rack $rackCount"
 
-        if (items.imageurl!!.contains(".")|| items.imageurl!!.isNullOrEmpty()) {
-
+//        if (items.imageurl!!.contains(".")|| items.imageurl!!.isNullOrEmpty()) {
+        if ( items.imageurl!!.isNotEmpty()) {
             holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.GONE
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.VISIBLE
-            holder.uploadRackLayoutBinding.eyeImage.visibility = View.VISIBLE
+//            holder.uploadRackLayoutBinding.eyeImage.visibility = View.VISIBLE
 
             Glide.with(ViswamApp.context).load(items.imageurl.toString())
                 .placeholder(R.drawable.thumbnail_image)
@@ -66,7 +78,7 @@ class UploadRackAdapter(
         } else {
             holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.VISIBLE
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.GONE
-            holder.uploadRackLayoutBinding.eyeImage.visibility = View.GONE
+//            holder.uploadRackLayoutBinding.eyeImage.visibility = View.GONE
 
 //            holder.uploadRackLayoutBinding.afterCapturedImage.setImageBitmap(rotateImage(
 //                BitmapFactory.decodeFile(items.image.absolutePath),
@@ -102,5 +114,43 @@ class UploadRackAdapter(
             }
         }
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                charString = charSequence.toString()
+                images = if (charString!!.isEmpty()) {
+                    imagesListList
+                } else {
+                    imagesFilterList.clear()
+                    for (row in imagesListList) {
+                        if (!imagesFilterList.contains(row) && row.rackno!!.lowercase(Locale.getDefault()).contains(
+                                charString!!.lowercase(
+                                Locale.getDefault()))) {
+                            imagesFilterList.add(row)
+                        }
+                    }
+                    imagesFilterList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = images
+                return filterResults
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+                if (images != null && !images!!.isEmpty()) {
+                    images = filterResults.values as ArrayList<StoreWiseRackDetails.StoreDetail>
+                    try {
+                        notifyDataSetChanged()
+                    } catch (e: Exception) {
+                        Log.e("FullfilmentAdapter", e.message!!)
+                    }
+                } else {
+                    notifyDataSetChanged()
+                }
+            }
+        }
     }
 }
