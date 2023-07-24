@@ -35,6 +35,10 @@ class DashboardCategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: DashboardCategoryAdapter.ViewHolder, position: Int) {
+        /* if (position == 0 || position == 1) {
+             holder.itemView.visibility = View.GONE
+         } else {*/
+//            holder.itemView.visibility = View.VISIBLE
         val category = categoryList.get(position)
         if (category.isSelsected == true) {
             holder.adapterCategoryDashboardBinding.parentLayout.setBackgroundResource(R.drawable.dashboard_grid_category_bg)
@@ -50,29 +54,33 @@ class DashboardCategoryAdapter(
             holder.adapterCategoryDashboardBinding.category.setTextColor(context.getColor(R.color.black))
             holder.adapterCategoryDashboardBinding.arrowToindicate.visibility = View.GONE
         }
-        if (position == 0) {
-            var rows = ArrayList<String>()
-            for (i in rowsList) {
-                rows.add(i.get("name").toString())
-            }
-            if (role.equals("ceo")) {
-                holder.adapterCategoryDashboardBinding.category.text = "Regional Head (${rows.size})"
-            } else if (role.equals("regional_head")) {
-                holder.adapterCategoryDashboardBinding.category.text = "Manager (${rows.size})"
-            } else if (role.equals("store_manager")) {
-                holder.adapterCategoryDashboardBinding.category.text = "Executives (${rows.size})"
-            } else {
-                holder.adapterCategoryDashboardBinding.category.text = "- (${rows.size})"
-            }
-        } else if (position == 1) {
-            holder.adapterCategoryDashboardBinding.category.text = "MTD"
-        } else {
-            holder.adapterCategoryDashboardBinding.category.text = "${category.name}"
-        }
+        /* if (position == 0) {
+             var rows = ArrayList<String>()
+             for (i in rowsList) {
+                 rows.add(i.get("name").toString())
+             }
+             if (role.equals("ceo")) {
+                 holder.adapterCategoryDashboardBinding.category.text =
+                     "Regional Head (${rows.size})"
+             } else if (role.equals("regional_head")) {
+                 holder.adapterCategoryDashboardBinding.category.text = "Manager (${rows.size})"
+             } else if (role.equals("store_manager")) {
+                 holder.adapterCategoryDashboardBinding.category.text =
+                     "Executives (${rows.size})"
+             } else {
+                 holder.adapterCategoryDashboardBinding.category.text = "- (${rows.size})"
+             }
+         } else if (position == 1) {
+             holder.adapterCategoryDashboardBinding.category.text = "MTD"
+         } else {*/
+        holder.adapterCategoryDashboardBinding.categoryPos.text = "${position + 1}"
+        holder.adapterCategoryDashboardBinding.category.text = "${category.name}"
+//            }
 
         holder.itemView.setOnClickListener {
-            callback.onClickCategoryItem(category)
+            callback.onClickCategoryItem(category, position, false)
         }
+        /* }*/
     }
 
     override fun getItemCount(): Int {

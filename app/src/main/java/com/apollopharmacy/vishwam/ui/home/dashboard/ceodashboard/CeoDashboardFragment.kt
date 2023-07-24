@@ -74,6 +74,10 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 //        names.add("12")
 
         showLoading()
+        /* viewModel.getTicketListByCountApi(
+             this, Utils.getFirstDateOfCurrentMonth(), Utils.getCurrentDateCeoDashboard(), Preferences.getValidatedEmpId()
+         )*/
+
         viewModel.getTicketListByCountApi(this, "2023-06-05", "2023-06-30", "EX100011")
     }
 
@@ -192,13 +196,10 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     override fun onSuccessgetTicketListByCountApi(ticketCountsByStatsuRoleResponse: TicketCountsByStatusRoleResponse) {
 
         ticketCountsByStatsuRoleResponses = ticketCountsByStatsuRoleResponse
-        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
-            && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
-        ) {
+        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.name }
             dashboardAdapter = DashboardAdapter(
-                this,
-                ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!
+                this, ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!
             )
             var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             viewBinding.dashboardCeoRecyclerview.layoutManager = layoutManager
@@ -253,9 +254,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onClickStores() {
-        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
-            && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
-        ) {
+        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             if (viewBinding.storesDownArrow.isVisible) {
                 viewBinding.storesDownArrow.visibility = View.GONE
                 viewBinding.storesUpArrow.visibility = View.VISIBLE
@@ -286,9 +285,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onClickClosed() {
-        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
-            && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
-        ) {
+        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             if (viewBinding.closedDownArrow.isVisible) {
                 viewBinding.closedDownArrow.visibility = View.GONE
                 viewBinding.closedUpArrow.visibility = View.VISIBLE
@@ -298,8 +295,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.closedUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.closed }
             }
-            viewBinding.storesDownArrow.visibility=View.GONE
-            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.storesDownArrow.visibility = View.GONE
+            viewBinding.storesUpArrow.visibility = View.GONE
             viewBinding.lessThanTwoUpArrow.visibility = View.GONE
             viewBinding.lessThanTwoDownArrow.visibility = View.GONE
             viewBinding.threeToEightUpArrow.visibility = View.GONE
@@ -318,9 +315,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onClickLesssThanTwo() {
-        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
-            && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
-        ) {
+        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             if (viewBinding.lessThanTwoDownArrow.isVisible) {
                 viewBinding.lessThanTwoDownArrow.visibility = View.GONE
                 viewBinding.lessThanTwoUpArrow.visibility = View.VISIBLE
@@ -330,8 +325,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.lessThanTwoUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.lessThan2 }
             }
-            viewBinding.storesDownArrow.visibility=View.GONE
-            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.storesDownArrow.visibility = View.GONE
+            viewBinding.storesUpArrow.visibility = View.GONE
             viewBinding.closedUpArrow.visibility = View.GONE
             viewBinding.closedDownArrow.visibility = View.GONE
             viewBinding.threeToEightUpArrow.visibility = View.GONE
@@ -350,9 +345,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onClickThreetoEight() {
-        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
-            && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
-        ) {
+        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             if (viewBinding.threeToEightDownArrow.isVisible) {
                 viewBinding.threeToEightDownArrow.visibility = View.GONE
                 viewBinding.threeToEightUpArrow.visibility = View.VISIBLE
@@ -362,8 +355,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.threeToEightUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.get3To8() }
             }
-            viewBinding.storesDownArrow.visibility=View.GONE
-            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.storesDownArrow.visibility = View.GONE
+            viewBinding.storesUpArrow.visibility = View.GONE
             viewBinding.closedUpArrow.visibility = View.GONE
             viewBinding.closedDownArrow.visibility = View.GONE
             viewBinding.lessThanTwoDownArrow.visibility = View.GONE
@@ -382,9 +375,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onClickGreaterThanEight() {
-        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
-            && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
-        ) {
+        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             if (viewBinding.greayerThanEightDownArrow.isVisible) {
                 viewBinding.greayerThanEightDownArrow.visibility = View.GONE
                 viewBinding.greaterThanEightUpArrow.visibility = View.VISIBLE
@@ -394,8 +385,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.greaterThanEightUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.greaterThan8 }
             }
-            viewBinding.storesDownArrow.visibility=View.GONE
-            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.storesDownArrow.visibility = View.GONE
+            viewBinding.storesUpArrow.visibility = View.GONE
             viewBinding.closedUpArrow.visibility = View.GONE
             viewBinding.closedDownArrow.visibility = View.GONE
             viewBinding.lessThanTwoDownArrow.visibility = View.GONE
@@ -414,9 +405,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onClickRejected() {
-        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
-            && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
-        ) {
+        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             if (viewBinding.rejectedDownArrow.isVisible) {
                 viewBinding.rejectedDownArrow.visibility = View.GONE
                 viewBinding.rejectedUpArrow.visibility = View.VISIBLE
@@ -426,8 +415,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.rejectedUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.rejected }
             }
-            viewBinding.storesDownArrow.visibility=View.GONE
-            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.storesDownArrow.visibility = View.GONE
+            viewBinding.storesUpArrow.visibility = View.GONE
             viewBinding.closedUpArrow.visibility = View.GONE
             viewBinding.closedDownArrow.visibility = View.GONE
             viewBinding.lessThanTwoDownArrow.visibility = View.GONE
@@ -446,9 +435,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onClickPending() {
-        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
-            && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
-        ) {
+        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             if (viewBinding.pendingDownArrow.isVisible) {
                 viewBinding.pendingDownArrow.visibility = View.GONE
                 viewBinding.pendingUpArrow.visibility = View.VISIBLE
@@ -458,8 +445,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.pendingUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.pending }
             }
-            viewBinding.storesDownArrow.visibility=View.GONE
-            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.storesDownArrow.visibility = View.GONE
+            viewBinding.storesUpArrow.visibility = View.GONE
             viewBinding.closedUpArrow.visibility = View.GONE
             viewBinding.closedDownArrow.visibility = View.GONE
             viewBinding.lessThanTwoDownArrow.visibility = View.GONE
@@ -477,9 +464,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     }
 
     override fun onClickTotal() {
-        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null
-            && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0
-        ) {
+        if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             if (viewBinding.totalDownArrow.isVisible) {
                 viewBinding.totalDownArrow.visibility = View.GONE
                 viewBinding.totalUpArrow.visibility = View.VISIBLE
@@ -489,8 +474,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 viewBinding.totalUpArrow.visibility = View.GONE
                 ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.total }
             }
-            viewBinding.storesDownArrow.visibility=View.GONE
-            viewBinding.storesUpArrow.visibility=View.GONE
+            viewBinding.storesDownArrow.visibility = View.GONE
+            viewBinding.storesUpArrow.visibility = View.GONE
             viewBinding.closedUpArrow.visibility = View.GONE
             viewBinding.closedDownArrow.visibility = View.GONE
             viewBinding.lessThanTwoDownArrow.visibility = View.GONE

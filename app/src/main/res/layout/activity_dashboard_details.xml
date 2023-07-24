@@ -26,6 +26,7 @@
                     android:layout_height="32dp"
                     android:layout_marginTop="4dp"
                     android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickBack()}"
                     android:src="@drawable/ic_baseline_keyboard_arrow_left_24"
                     android:tint="@color/white"
                     tools:ignore="UseAppTint" />
@@ -134,11 +135,23 @@
                 android:layout_marginTop="@dimen/value_5dp"
                 android:layout_marginEnd="@dimen/value_10dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/reason_wise_ticket_count_by_role_recyclerview"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false" />
+                    android:orientation="horizontal">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/reason_wise_ticket_count_by_role_recyclerview_fixed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/reason_wise_ticket_count_by_role_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+                </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
 
@@ -458,4 +471,11 @@
 
 
     </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.DashboardDetailsCallback" />
+    </data>
 </layout>

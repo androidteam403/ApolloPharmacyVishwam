@@ -1881,15 +1881,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /*listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Ceo", R.drawable.ic_apollo_dashboard)));*/
 
         if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")){
-            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Ceo", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("Dashboard Manager", R.drawable.ic_apollo_dashboard)));
+            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Ceo", R.drawable.ic_apollo_dashboard)));
         }else if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("regional_head")){
-            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Regional Head", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("Dashboard Manager", R.drawable.ic_apollo_dashboard)));
+            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Regional Head", R.drawable.ic_apollo_dashboard)));
         }else if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_manager")){
-            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Manager", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("Dashboard Manager", R.drawable.ic_apollo_dashboard)));
+            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Manager", R.drawable.ic_apollo_dashboard)));
         }else if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_executive")){
-            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Executive", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("Dashboard Manager", R.drawable.ic_apollo_dashboard)));
+            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Executive", R.drawable.ic_apollo_dashboard)));
         }else if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_supervisor")){
-            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Supervisor", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("Dashboard Manager", R.drawable.ic_apollo_dashboard)));
+            listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Supervisor", R.drawable.ic_apollo_dashboard)));
         }
 
 //        if (true) {
