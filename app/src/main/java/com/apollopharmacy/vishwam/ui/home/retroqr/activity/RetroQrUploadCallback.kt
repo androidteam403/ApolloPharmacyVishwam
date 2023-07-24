@@ -7,6 +7,7 @@ import java.io.File
 interface RetroQrUploadCallback {
     fun onClickBackArrow()
     fun onClickSubmit()
+    fun onClickSubmitReview()
 
     fun imageData(position: Int, imageUrl: String, rackNo: String, qrCode: String,view:View)
 

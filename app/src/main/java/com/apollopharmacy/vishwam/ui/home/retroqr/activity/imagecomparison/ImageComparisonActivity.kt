@@ -2,28 +2,21 @@ package com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagecomparison
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.Handler
 import android.view.MotionEvent
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.ActivityImageComparisonBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagepreview.RetroImagePreviewActivity
-import com.apollopharmacy.vishwam.util.PopUpWIndow
-import com.bumptech.glide.Glide
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.opencv.android.OpenCVLoader
-import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URL
 
 class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
     private lateinit var activityImageComparisonBinding: ActivityImageComparisonBinding
@@ -68,6 +61,10 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
                         runOnUiThread {
                             activityImageComparisonBinding.beforeAfterSlider.setBeforeImage(BitmapDrawable(resources,
                                 bitmap2)).setAfterImage(BitmapDrawable(resources, bitmap1))
+
+
+
+
                         }
 
                     }
@@ -78,6 +75,45 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
             thread.start()
 //
 
+            activityImageComparisonBinding.beforeAfterSlider.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        // User starts touching the slider
+                        // Add your custom touch down logic here
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+
+
+                        val currentX = event.x // Current X coordinate of the touch
+                        val previousX = event.getHistoricalX(0) // Previous X coordinate of the touch
+                        val deltaX = currentX - previousX // Distance moved in the X direction
+
+                        // Determine the direction based on the deltaX value
+                        if (deltaX > 0) {
+                            activityImageComparisonBinding.firstImage.visibility=View.GONE
+                            activityImageComparisonBinding.secondImage.visibility=View.VISIBLE
+
+                            // The finger is moving to the right side
+                        } else if (deltaX < 0) {
+                            activityImageComparisonBinding.firstImage.visibility=View.VISIBLE
+                            activityImageComparisonBinding.secondImage.visibility=View.GONE
+
+                            // The finger is moving to the left side
+                        }
+                        // User is moving their finger on the slider
+                        // Add your custom touch move logic here
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        // User releases their finger from the slider
+                        // Add your custom touch up logic here
+                    }
+                    // For other touch actions like ACTION_CANCEL, you can add more cases if needed
+                }
+
+                // Return 'true' to indicate that you have handled the touch event
+                // Return 'false' if you want the default touch handling to continue (e.g., for sliding functionality)
+                true
+            }
 
             activityImageComparisonBinding.firstImage.setOnClickListener {
                 val intent = Intent(applicationContext, RetroImagePreviewActivity::class.java)
@@ -104,13 +140,13 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
                 finish()
             }
 
-//
+////
 //            Glide.with(this).load(firstImage)
 //                .placeholder(R.drawable.thumbnail_image)
-//                .into(activityImageComparisonBinding.firstimage)
+//                .into(activityImageComparisonBinding.firstimageview)
 //            Glide.with(this).load(secondImage)
 //                .placeholder(R.drawable.thumbnail_image)
-//                .into(activityImageComparisonBinding.secondimage)
+//                .into(activityImageComparisonBinding.secondimageview)
         }
 
 
