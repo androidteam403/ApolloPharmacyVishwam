@@ -29,13 +29,17 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.preview.Preview
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.fileupload.FileUploadModel
+import com.apollopharmacy.vishwam.util.fileuploadchamps.FileUploadChamps
+import com.apollopharmacy.vishwam.util.fileuploadchamps.FileUploadChampsCallback
+import com.apollopharmacy.vishwam.util.fileuploadchamps.FileUploadChampsModel
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 
 
-class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
+class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUploadChampsCallback {
 
     private lateinit var activityChampsSurveyBinding: ActivityChampsSurveyBinding
     private var getStoreWiseEmpIdResponse:GetStoreWiseEmpIdResponse?=null
@@ -450,7 +454,29 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     override fun onClickSubmit() {
 //     ChampsSurveyDialog().show(supportFragmentManager, "")
         if (technicalFilled && softSkillsFilled && otherTrainingFilled) {
-            saveApiRequest("submit")
+            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 0) {
+                var fileUploadModelList = ArrayList<FileUploadChampsModel>()
+
+            for(i in getCategoryAndSubCategoryDetails!!.categoryDetails!!){
+                for(j in i.imageDataLists!!){
+                    if(j.file!=null){
+                        var fileUploadModel = FileUploadChampsModel()
+                        fileUploadModel.file=j.file
+                        fileUploadModel.categoryName=i.categoryName
+                        fileUploadModelList.add(fileUploadModel)
+                    }
+
+                }
+            }
+
+                FileUploadChamps().uploadFiles(
+                    context,
+                    this,
+                    fileUploadModelList
+                )
+            }
+//
+//            saveApiRequest("submit")
         } else {
             Toast.makeText(applicationContext, "Please fill all the details", Toast.LENGTH_SHORT)
                 .show()
@@ -2141,6 +2167,28 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         }
 
+    }
+
+    override fun onFailureUpload(message: String) {
+        Utlis.hideLoading()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun allFilesUploaded(fileUploadModelList: List<FileUploadChampsModel>) {
+       for(i in fileUploadModelList){
+           for(j in getCategoryAndSubCategoryDetails!!.categoryDetails!!){
+               if(i.categoryName.equals(j.categoryName)){
+                   for(k in j.imageDataLists!!){
+                       if(!k.sensingUploadUrlFilled){
+                          k.imageUrl=i.sensingFileUploadResponse!!.referenceurl
+                           k.sensingUploadUrlFilled=true
+                       }
+                   }
+
+               }
+           }
+       }
+        saveApiRequest("submit")
     }
 }
 

@@ -1,8 +1,10 @@
 package com.apollopharmacy.vishwam.ui.home.model
 
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
 import com.apollopharmacy.vishwam.ui.home.champs.SampleModel
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse
+import com.apollopharmacy.vishwam.util.fileupload.FileDownloadResponse
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.File
@@ -102,9 +104,14 @@ import java.io.Serializable
          class ImagesDatas  : Serializable{
              var file: File?=null
              var imageUrl: String?=""
+             var sensingUploadUrlFilled:Boolean=false
              var imageFilled: Boolean=false
+             var sensingFileUploadResponse: SensingFileUploadResponse? = null
+             var fileDownloadResponse: FileDownloadResponse? = null
 
          }
+
+
 
 
         var subCategoryDetails: List<GetSubCategoryDetailsModelResponse.SubCategoryDetail>? = null
