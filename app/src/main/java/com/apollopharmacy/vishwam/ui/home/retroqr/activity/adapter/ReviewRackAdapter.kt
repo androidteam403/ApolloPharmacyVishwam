@@ -96,16 +96,26 @@ class ReviewRackAdapter(
             holder.reviewRackLayoutBinding.compareIconLayout.visibility = View.VISIBLE
             holder.reviewRackLayoutBinding.matchingPercentageLayout.visibility = View.VISIBLE
             val matchingPercentage = items.matchingPercentage!!.toInt()
-            if (matchingPercentage in 0..10) {
+            if (matchingPercentage >=0 && matchingPercentage<=70) {
                 holder.reviewRackLayoutBinding.rating.setBackgroundDrawable(
                     ContextCompat.getDrawable(
-                    mContext,
-                    R.drawable.round_rating_bar_red))
+                        mContext,
+                        R.drawable.round_rating_bar_red))
                 holder.reviewRackLayoutBinding.matchingPercentage.setText(images.get(position).matchingPercentage + "%")
-            } else {
+            } else  if (matchingPercentage >=90 && matchingPercentage<=100) {
+
                 holder.reviewRackLayoutBinding.rating.setBackgroundDrawable(ContextCompat.getDrawable(
                     mContext,
                     R.drawable.round_rating_bar_green))
+                holder.reviewRackLayoutBinding.matchingPercentage.setText(items.matchingPercentage + "%")
+            }
+
+
+            else  if (matchingPercentage >=70 && matchingPercentage<=90) {
+
+                holder.reviewRackLayoutBinding.rating.setBackgroundDrawable(ContextCompat.getDrawable(
+                    mContext,
+                    R.drawable.round_rating_bar_orane))
                 holder.reviewRackLayoutBinding.matchingPercentage.setText(items.matchingPercentage + "%")
             }
         }
@@ -146,7 +156,7 @@ class ReviewRackAdapter(
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence): FilterResults {
                 charString = charSequence.toString()
-                images = if (charString!!.isEmpty()) {
+                images = if (charString.equals("All")||charString!!.isEmpty()) {
                     imagesListList
                 } else {
                     imagesFilterList.clear()

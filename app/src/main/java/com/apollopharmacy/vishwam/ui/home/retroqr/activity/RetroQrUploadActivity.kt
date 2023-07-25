@@ -14,6 +14,8 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -45,15 +47,6 @@ import me.echodev.resizer.Resizer
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.opencv.android.OpenCVLoader
-import org.opencv.android.Utils
-import org.opencv.core.Core
-import org.opencv.core.Mat
-import org.opencv.core.MatOfDMatch
-import org.opencv.core.MatOfKeyPoint
-import org.opencv.features2d.DescriptorMatcher
-import org.opencv.features2d.ORB
-import org.opencv.imgproc.Imgproc
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -100,6 +93,17 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
 
 
+        activityRetroQrUploadBinding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedItem = parent?.getItemAtPosition(position).toString()
+                uploadRackAdapter.getFilter().filter(selectedItem)
+                reviewRackAdapter.getFilter().filter(selectedItem)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                uploadRackAdapter.getFilter().filter("")
+                reviewRackAdapter.getFilter().filter("")               }
+        }
 
         activityRetroQrUploadBinding.siteId.setText(Preferences.getQrSiteId())
         activityRetroQrUploadBinding.siteName.setText(Preferences.getQrSiteName())
@@ -124,41 +128,9 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
         }
 
-        activityRetroQrUploadBinding.rackNumber.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-            override fun afterTextChanged(editable: Editable) {
-                if (editable.length >= 2) {
-                    if (uploadRackAdapter != null) {
-                        uploadRackAdapter.getFilter().filter(editable)
-                        reviewRackAdapter.getFilter().filter(editable)
 
-                    }
-                } else if (activityRetroQrUploadBinding.rackNumber.getText().toString().equals("")) {
-                    if (uploadRackAdapter != null) {
-                        uploadRackAdapter.getFilter().filter("")
-                        reviewRackAdapter.getFilter().filter("")
+        // Set a listener to handle item selection
 
-                    }
-                } else {
-                    if (uploadRackAdapter != null) {
-                        uploadRackAdapter.getFilter().filter("")
-                        reviewRackAdapter.getFilter().filter("")
-
-                    }
-                }
-            }
-        })
-
-
-        activityRetroQrUploadBinding.rackArrow.setOnClickListener {
-
-
-
-            RackDialog().apply {
-                arguments = RackDialog().generateParsedData(rackList)
-            }.show(supportFragmentManager, "")
-        }
 
 
 
@@ -214,9 +186,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
 
                 var fileUploadModelList = ArrayList<RetroQrFileUploadModel>()
-                for (i in imagesList.indices) {
-                    if (imagesList[i].imageurl.toString()
-                            .contains(".") && imagesList[i].imageurl.toString().contains("SENSING")
+                for (i in reviewImagesList.indices) {
+                    if (reviewImagesList[i].reviewimageurl.isNullOrEmpty()
                     ) {
 
                     } else {
@@ -226,11 +197,11 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 //                .setOutputFilename(fileNameForCompressedImage)
                             .setOutputDirPath(
                                 ViswamApp.Companion.context.cacheDir.toString()
-                            ).setSourceImage(File(imagesList[i].imageurl)).resizedFile
+                            ).setSourceImage(File(reviewImagesList[i].reviewimageurl)).resizedFile
                         var fileUploadModel = RetroQrFileUploadModel()
                         fileUploadModel.file = resizedImage
-                        fileUploadModel.rackNo = imagesList[i].rackno
-                        fileUploadModel.qrCode = imagesList[i].qrcode
+                        fileUploadModel.rackNo = reviewImagesList[i].rackno
+                        fileUploadModel.qrCode = reviewImagesList[i].qrcode
                         fileUploadModelList.add(fileUploadModel)
                     }
                 }
@@ -274,10 +245,20 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     override fun onSuccessgetStoreWiseRackResponse(storeWiseRackDetails: StoreWiseRackDetails) {
 
         rackList.clear()
+        rackList.add("All")
 
         for(i in storeWiseRackDetails.storeDetails!!.indices){
             rackList.add(storeWiseRackDetails.storeDetails!!.get(i).rackno!!)
         }
+
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, rackList)
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        // Apply the adapter to the spinner
+        activityRetroQrUploadBinding.spinner.adapter = adapter
+
         storeDetailsList =
             storeWiseRackDetails.storeDetails as ArrayList<StoreWiseRackDetails.StoreDetail>
 
@@ -358,17 +339,26 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                     val request = Request.Builder().url(url.toString()).build()
                     val response = client.newCall(request).execute()
                     val inputStream = response.body!!.byteStream()
+
                     val bitmap1 = BitmapFactory.decodeStream(inputStream)
                     val bitmap2 = BitmapFactory.decodeFile(file.absolutePath)
+                    val newWidth = 200 // Desired width for the new Bitmap
+
+                    val newHeight = 150 // Desired height for the new Bitmap
 
 
-                    val matchingPercentage: String = calculateMatchingPercentage(bitmap1, bitmap2)
+// Resize the originalBitmap
 
+// Resize the originalBitmap
+                    val resizedBitmap1 = resizeBitmap(bitmap1, newWidth, newHeight)
+                    val resizedBitmap2 = resizeBitmap(bitmap2, newWidth, newHeight)
 
+                    val matchingPercentage: Double = calculateMatchingPercentage(resizedBitmap1!!,
+                        resizedBitmap2!!
+                    )
 
+                    reviewImagesList.get(position).matchingPercentage =matchingPercentage.toInt().toString()
 
-                    reviewImagesList.get(position).matchingPercentage =
-                        matchingPercentage.substringBefore(".")
                     runOnUiThread {
                         reviewRackAdapter.notifyDataSetChanged()
                         if (reviewImagesList.isNotEmpty()){
@@ -388,7 +378,9 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         thread.start()
     }
 
-
+    fun resizeBitmap(originalBitmap: Bitmap?, newWidth: Int, newHeight: Int): Bitmap? {
+        return Bitmap.createScaledBitmap(originalBitmap!!, newWidth, newHeight, false)
+    }
 
     override fun deleteImage(position: Int) {
 
@@ -495,57 +487,26 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
 
-    private fun calculateMatchingPercentage(bitmap1: Bitmap?, bitmap2: Bitmap?): String {
-
-        val firstImage = Mat()
-        val secondImage = Mat()
-        // Convert bitmap to Mat object
-        Utils.bitmapToMat(bitmap1, firstImage)
-        Utils.bitmapToMat(bitmap2, secondImage)
-        // Detect keypoints and compute descriptors using ORB
-        val orb = ORB.create()
-        val keypoints1 = MatOfKeyPoint()
-        val keypoints2 = MatOfKeyPoint()
-        val descriptors1 = Mat()
-        val descriptors2 = Mat()
-
-        orb.detectAndCompute(firstImage, Mat(), keypoints1, descriptors1)
-        orb.detectAndCompute(secondImage, Mat(), keypoints2, descriptors2)
-
-        // Match descriptors
-
-        // Match descriptors
-        val matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING)
-        val matches = MatOfDMatch()
-        matcher.match(descriptors1, descriptors2, matches)
-
-        // Calculate the percentage of similarity
-        val totalMatches = matches.rows().toDouble()
-        var goodMatches = 0.0
-        val thresholdDistance = 0.7 // Adjust this threshold to control the matching sensitivity
-
-
-        var i = 0
-        while (i < totalMatches) {
-            if (matches.toArray()[i].distance < thresholdDistance) {
-                goodMatches++
+    fun calculateMatchingPercentage(
+        bitmap1: Bitmap,
+        bitmap2: Bitmap,
+    ): Double {
+        val width1 = bitmap1.width
+        val height1 = bitmap1.height
+        val width2 = bitmap2.width
+        val height2 = bitmap2.height
+        require(!(width1 != width2 || height1 != height2)) { "Bitmaps must have the same dimensions." }
+        val pixels1 = IntArray(width1 * height1)
+        val pixels2 = IntArray(width2 * height2)
+        bitmap1.getPixels(pixels1, 0, width1, 0, 0, width1, height1)
+        bitmap2.getPixels(pixels2, 0, width2, 0, 0, width2, height2)
+        var matchingPixels = 0
+        for (i in pixels1.indices) {
+            if (pixels1[i] == pixels2[i]) {
+                matchingPixels++
             }
-            i++
         }
-
-        val percentageSimilarity = goodMatches / totalMatches * 100
-
-
-
-
-
-
-
-
-
-
-
-        return percentageSimilarity.toString()
+        return matchingPixels.toDouble() / pixels1.size * 100
     }
 
 
@@ -634,7 +595,6 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
     override fun selectGST(gst: String) {
-        activityRetroQrUploadBinding.rackNumber.setText(gst)
 
     }
 }

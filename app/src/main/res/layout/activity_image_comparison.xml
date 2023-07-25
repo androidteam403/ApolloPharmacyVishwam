@@ -42,11 +42,11 @@
                         android:textSize="@dimen/text_16sp" />
 
                     <TextView
+                        android:id="@+id/rackno"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Rack - 6"
-                        android:id="@+id/rackno"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_16sp" />
                 </LinearLayout>
@@ -94,9 +94,9 @@
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
+                        android:id="@+id/site_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/site_id"
                         android:text="Ameerpet, Hyderabad - 16015"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_12sp" />
@@ -119,6 +119,7 @@
                     android:id="@+id/beforeAfterSlider"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:textSize="@dimen/text_18sp"
                     app:after_image="@drawable/capture"
                     app:before_image="@drawable/desktop"
                     app:slider_thumb="@mipmap/white_circle" />
@@ -146,10 +147,10 @@
                             android:layout_height="match_parent">
 
                             <ImageView
+                                android:id="@+id/firstimage"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="@dimen/value_3dp"
-                                android:id="@+id/firstimage"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/capture1" />
 
@@ -204,11 +205,11 @@
                                 android:layout_height="match_parent">
 
                                 <ImageView
+                                    android:id="@+id/secondimage"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_marginStart="@dimen/value_3dp"
                                     android:scaleType="centerCrop"
-                                    android:id="@+id/secondimage"
                                     android:src="@drawable/capture1" />
 
                                 <ImageView
@@ -239,27 +240,29 @@
                         </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>-->
+            </LinearLayout>
+            -->
 
             <ImageView
                 android:layout_width="@dimen/value_50dp"
                 android:layout_height="@dimen/value_50dp"
-                android:visibility="gone"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/eighteen18_dp"
                 android:src="@drawable/rounded_background"
                 android:tint="#f7a54a"
+                android:visibility="gone"
                 tools:ignore="UseAppTint" />
+
             <ImageView
                 android:layout_width="@dimen/value_30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="25dp"
-                android:visibility="gone"
                 android:src="@drawable/ic_baseline_compare_24"
                 android:tint="@color/white"
+                android:visibility="gone"
                 tools:ignore="UseAppTint" />
 
 
@@ -305,23 +308,23 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_12sp" />-->
             <ImageView
+                android:id="@+id/first_image"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="@dimen/value_5dp"
-android:id="@+id/first_image"
                 android:src="@drawable/icon_cancel_order_header"
                 android:tint="@color/black"
                 tools:ignore="UseAppTint" />
 
 
             <ImageView
+                android:id="@+id/second_image"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="5dp"
-                android:id="@+id/second_image"
                 android:layout_marginTop="@dimen/value_5dp"
+                android:layout_marginEnd="5dp"
                 android:src="@drawable/icon_cancel_order_header"
                 android:tint="@color/black"
                 tools:ignore="UseAppTint" />
@@ -340,6 +343,7 @@ android:id="@+id/first_image"
                 android:gravity="center_vertical|center_horizontal">
 
                 <ImageView
+                    android:id="@+id/matchingcolor"
                     android:layout_width="@dimen/value_20dp"
                     android:layout_height="@dimen/value_20dp"
                     android:src="@drawable/rounded_background"
@@ -374,10 +378,11 @@ android:id="@+id/first_image"
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:visibility="visible">
 
                 <TextView
+                    android:id="@+id/ok"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/value_2dp"
@@ -390,7 +395,6 @@ android:id="@+id/first_image"
                     android:paddingEnd="25dp"
                     android:paddingBottom="8dp"
                     android:text="Ok"
-                    android:id="@+id/ok"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_14sp" />
             </LinearLayout>

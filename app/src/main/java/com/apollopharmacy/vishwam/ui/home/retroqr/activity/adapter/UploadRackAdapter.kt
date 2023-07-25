@@ -120,7 +120,7 @@ class UploadRackAdapter(
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence): FilterResults {
                 charString = charSequence.toString()
-                images = if (charString!!.isEmpty()) {
+                images = if (charString.equals("All")||charString!!.isEmpty()) {
                     imagesListList
                 } else {
                     imagesFilterList.clear()
