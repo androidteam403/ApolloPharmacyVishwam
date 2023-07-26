@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ChampsSurveyViewModel: ViewModel() {
+class ChampsSurveyViewModel : ViewModel() {
     val commands = LiveEvent<Command>()
     val state = MutableLiveData<State>()
     var getCategoryDetailsChamps = MutableLiveData<GetCategoryDetailsModelResponse>()
@@ -43,20 +43,24 @@ class ChampsSurveyViewModel: ViewModel() {
                         commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
-                      Command.ShowToast(it)
+                        Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -65,7 +69,7 @@ class ChampsSurveyViewModel: ViewModel() {
         }
     }
 
-    fun getTrainingAndColorDetails(champsSurveyCallBack: ChampsSurveyCallBack, type:String) {
+    fun getTrainingAndColorDetails(champsSurveyCallBack: ChampsSurveyCallBack, type: String) {
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
@@ -75,9 +79,9 @@ class ChampsSurveyViewModel: ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status) {
                         state.value = State.ERROR
-                        if(type.equals("TECH")){
+                        if (type.equals("TECH")) {
                             champsSurveyCallBack.onSuccessgetTrainingDetails(result.value)
-                        }else{
+                        } else {
                             champsSurveyCallBack.onSuccessgetColorDetails(result.value)
                         }
 
@@ -88,20 +92,24 @@ class ChampsSurveyViewModel: ViewModel() {
                         commands.value = Command.ShowToast(result.value.message)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -128,20 +136,24 @@ class ChampsSurveyViewModel: ViewModel() {
                         commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -149,7 +161,6 @@ class ChampsSurveyViewModel: ViewModel() {
             }
         }
     }
-
 
 
     fun getSurveyListByChampsID(champsSurveyCallBack: ChampsSurveyCallBack) {
@@ -170,20 +181,24 @@ class ChampsSurveyViewModel: ViewModel() {
                         commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -210,20 +225,24 @@ class ChampsSurveyViewModel: ViewModel() {
                         commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
-                       Command.ShowToast(it)
+                        Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -232,7 +251,10 @@ class ChampsSurveyViewModel: ViewModel() {
         }
     }
 
-    fun getSubCategoryDetailsChampsApi(champsSurveyCallBack: ChampsSurveyCallBack, categoryName: String) {
+    fun getSubCategoryDetailsChampsApi(
+        champsSurveyCallBack: ChampsSurveyCallBack,
+        categoryName: String,
+    ) {
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
@@ -242,7 +264,10 @@ class ChampsSurveyViewModel: ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status!!) {
                         state.value = State.ERROR
-                        champsSurveyCallBack.onSuccessgetSubCategoryDetails(result.value, categoryName)
+                        champsSurveyCallBack.onSuccessgetSubCategoryDetails(
+                            result.value,
+                            categoryName
+                        )
 
                     } else {
                         state.value = State.ERROR
@@ -250,20 +275,24 @@ class ChampsSurveyViewModel: ViewModel() {
                         champsSurveyCallBack.onFailuregetSubCategoryDetails(result.value)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -276,7 +305,7 @@ class ChampsSurveyViewModel: ViewModel() {
         champsSurveyCallBack: ChampsSurveyCallBack,
         startDate: String,
         endDate: String,
-        id: String
+        id: String,
     ) {
         state.postValue(State.LOADING)
         viewModelScope.launch {
@@ -295,20 +324,24 @@ class ChampsSurveyViewModel: ViewModel() {
                         commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -317,7 +350,10 @@ class ChampsSurveyViewModel: ViewModel() {
         }
     }
 
-    fun getTrainingAndColorDetailsApi(champsSurveyCallBack: ChampsSurveyCallBack, categoryName: String) {
+    fun getTrainingAndColorDetailsApi(
+        champsSurveyCallBack: ChampsSurveyCallBack,
+        categoryName: String,
+    ) {
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
@@ -327,9 +363,9 @@ class ChampsSurveyViewModel: ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status) {
                         state.value = State.ERROR
-                        if(categoryName.equals("TECH")){
+                        if (categoryName.equals("TECH")) {
                             champsSurveyCallBack.onSuccessgetTrainingDetails(result.value)
-                        }else{
+                        } else {
                             champsSurveyCallBack.onSuccessgetColorDetails(result.value)
                         }
 
@@ -340,20 +376,24 @@ class ChampsSurveyViewModel: ViewModel() {
                         champsSurveyCallBack.onFailuregetTrainingDetails(result.value)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
-                       Command.ShowToast(it)
+                        Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -365,7 +405,7 @@ class ChampsSurveyViewModel: ViewModel() {
     fun getSaveDetailsApi(
         saveSurveyModelRequest: SaveSurveyModelRequest,
         champsSurveyCallBack: ChampsSurveyCallBack,
-        type: String
+        type: String,
     ) {
         state.postValue(State.LOADING)
         viewModelScope.launch {
@@ -383,20 +423,24 @@ class ChampsSurveyViewModel: ViewModel() {
                         commands.value = Command.ShowToast(result.value.message)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
-                       Command.ShowToast(it)
+                        Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -404,7 +448,6 @@ class ChampsSurveyViewModel: ViewModel() {
             }
         }
     }
-
 
 
     @SuppressLint("SuspiciousIndentation")
@@ -419,7 +462,7 @@ class ChampsSurveyViewModel: ViewModel() {
                     if (result.value.status) {
                         state.value = State.ERROR
 
-                            champsSurveyCallBack.onSuccessGetSurveyDetailsByChampsId(result.value)
+                        champsSurveyCallBack.onSuccessGetSurveyDetailsByChampsId(result.value)
 
                     } else {
                         state.value = State.ERROR
@@ -427,20 +470,24 @@ class ChampsSurveyViewModel: ViewModel() {
                         champsSurveyCallBack.onFailureGetSurveyDetailsByChampsId(result.value)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -448,7 +495,11 @@ class ChampsSurveyViewModel: ViewModel() {
             }
         }
     }
-    fun getSubCategoryDetailsChamps(champsSurveyCallBack: ChampsSurveyCallBack, categoryName: String) {
+
+    fun getSubCategoryDetailsChamps(
+        champsSurveyCallBack: ChampsSurveyCallBack,
+        categoryName: String,
+    ) {
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
@@ -469,20 +520,24 @@ class ChampsSurveyViewModel: ViewModel() {
                         commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -491,7 +546,10 @@ class ChampsSurveyViewModel: ViewModel() {
         }
     }
 
-    fun saveUpdateApi(champsSurveyCallBack: ChampsSurveyCallBack, saveUpdateRequest: SaveUpdateRequest) {
+    fun saveUpdateApi(
+        champsSurveyCallBack: ChampsSurveyCallBack,
+        saveUpdateRequest: SaveUpdateRequest,
+    ) {
 //        val url = Preferences.getApi()
 //        val data = Gson().fromJson(url, ValidateResponse::class.java)
 //        for (i in data.APIS.indices) {
@@ -512,9 +570,10 @@ class ChampsSurveyViewModel: ViewModel() {
         var token = ""
         for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("SW SAVE IMAGE URLS")) {
-                baseUrl = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/cms_champs_survey/save-update"
+            baseUrl =
+                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/cms_champs_survey/save-update"//"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/cms_champs_survey/save-update"
 //                token = data.APIS[i].TOKEN
-                break
+            break
 //            }
         }
         viewModelScope.launch {
@@ -545,20 +604,24 @@ class ChampsSurveyViewModel: ViewModel() {
 
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(response.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -568,7 +631,6 @@ class ChampsSurveyViewModel: ViewModel() {
 //            }
 //        }
     }
-
 
 
     sealed class Command {
