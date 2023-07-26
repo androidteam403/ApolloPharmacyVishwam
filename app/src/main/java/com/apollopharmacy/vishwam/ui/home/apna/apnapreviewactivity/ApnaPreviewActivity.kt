@@ -11,10 +11,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewParent
+import android.view.*
 import android.widget.ScrollView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -51,7 +48,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
+class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack, ViewTreeObserver.OnScrollChangedListener {
     var toiletsAvailable: String = ""
     var parkingAvailable: String = ""
     var trafficType: String = ""
@@ -118,16 +115,17 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             onBackPressed()
         }
 
-
         apnaPreviewActivityBinding.scrollTop.setOnClickListener {
-            apnaPreviewActivityBinding.scrollView.post {
-                apnaPreviewActivityBinding.scrollView.fullScroll(View.FOCUS_UP)
-            }
+            apnaPreviewActivityBinding.scrollView.fullScroll(View.FOCUS_UP)
         }
-
+        apnaPreviewActivityBinding.scrollBottom.setOnClickListener {
+            apnaPreviewActivityBinding.scrollView.fullScroll(View.FOCUS_DOWN)
+        }
+        apnaPreviewActivityBinding.scrollView.viewTreeObserver.addOnScrollChangedListener(this@ApnaPreviewActivity)
         setUp()
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(33)
     private fun setUp() {
         if (intent != null) {
@@ -185,12 +183,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             }
             apnaPreviewActivityBinding.surveyby.setText("$fName$lName")
 
-            var locationName = ""
-            var cityName = ""
-            if (approvedOrders.location != null) {
-                if (approvedOrders.location!!.name != null) locationName =
-                    approvedOrders.location!!.name!!
-            }
+//            var locationName = ""
+//            var cityName = ""
+//            if (approvedOrders.location != null) {
+//                if (approvedOrders.location!!.name != null) locationName =
+//                    approvedOrders.location!!.name!!
+//            }
 //            if(approvedOrders.city!=null) {
 //                if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
 //            }
@@ -201,8 +199,28 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 //            if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
 
 //            apnaPreviewActivityBinding.location.setText("$locationName$cityName")
+            var city = ""
+            var state = ""
+            if (approvedOrders.city != null) {
+                if (approvedOrders.city!!.isNotEmpty()) {
+                    city = approvedOrders.city!!.toString()
+                } else {
+                    city = "-"
+                }
+            } else {
+                city = "-"
+            }
 
-            apnaPreviewActivityBinding.location.setText("-")
+            if (approvedOrders.state != null) {
+                if (approvedOrders.state!!.isNotEmpty()) {
+                    state = approvedOrders.state!!.toString()
+                } else {
+                    state = "-"
+                }
+            } else {
+                state = "-"
+            }
+            apnaPreviewActivityBinding.location.setText("$city, $state")
             val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val outputDateFormat = SimpleDateFormat("dd MMM, yyy")
             apnaPreviewActivityBinding.surveystart.setText(
@@ -888,6 +906,20 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.noVideoAvailable.visibility = View.VISIBLE
         }
 
+        if (value.data!!.apolloEmployee != null) {
+            if (value.data!!.apolloEmployee!!.name != null) {
+                if (value.data!!.apolloEmployee!!.name!!.isNotEmpty()) {
+                    apnaPreviewActivityBinding.apolloEmployee.setText(value.data!!.apolloEmployee!!.name!!.toString())
+                } else {
+                    apnaPreviewActivityBinding.apolloEmployee.setText("-")
+                }
+            } else {
+                apnaPreviewActivityBinding.apolloEmployee.setText("-")
+            }
+        } else {
+            apnaPreviewActivityBinding.apolloEmployee.setText("-")
+        }
+
         if (value.data!!.neighboringStore != null && value.data!!.neighboringStore!!.size > 0) {
 //            apnaPreviewActivityBinding.recyclerViewneighbour.visibility = View.VISIBLE
             apnaPreviewActivityBinding.neighbouringStoreNotFound.visibility = View.GONE
@@ -910,29 +942,29 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
         }
 
-        var location = ""
+        var region = ""
         var state = ""
         var city = ""
         var pin = ""
         var landmarks = ""
 
-        if (value.data!!.location != null) {
-            if (value.data!!.location!!.name != null) {
-                if (value.data!!.location!!.name.toString().isNotEmpty()) {
-                    if (!value.data!!.location!!.name.toString().equals("null", true)) {
-                        location = value.data!!.location!!.name.toString()
-                    } else {
-                        location = "-"
-                    }
-                } else {
-                    location = "-"
-                }
-            } else {
-                location = "-"
-            }
-        } else {
-            location = "-"
-        }
+//        if (value.data!!.location != null) {
+//            if (value.data!!.location!!.name != null) {
+//                if (value.data!!.location!!.name.toString().isNotEmpty()) {
+//                    if (!value.data!!.location!!.name.toString().equals("null", true)) {
+//                        location = value.data!!.location!!.name.toString()
+//                    } else {
+//                        location = "-"
+//                    }
+//                } else {
+//                    location = "-"
+//                }
+//            } else {
+//                location = "-"
+//            }
+//        } else {
+//            location = "-"
+//        }
 //
 //        if (value.data!!.city != null) {
 //            if (value.data!!.city!!.name != null) {
@@ -971,6 +1003,40 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 //            state = "-"
 //        }
 
+        if (value.data!!.region != null) {
+            if (value.data!!.region!!.name != null) {
+                if (value.data!!.region!!.name!!.isNotEmpty()) {
+                    region = value.data!!.region!!.name!!.toString()
+                } else {
+                    region = "-"
+                }
+            } else {
+                region = "-"
+            }
+        } else {
+            region = "-"
+        }
+
+        if (value.data!!.state != null) {
+            if (value.data!!.state!!.isNotEmpty()) {
+                state = value.data!!.state!!.toString()
+            } else {
+                state = "-"
+            }
+        } else {
+            state = "-"
+        }
+
+        if (value.data!!.city != null) {
+            if (value.data!!.city!!.isNotEmpty()) {
+                city = value.data!!.city!!.toString()
+            } else {
+                city = "-"
+            }
+        } else {
+            city = "-"
+        }
+
         if (value.data!!.pincode != null) {
             if (value.data!!.pincode.toString().isNotEmpty()) {
                 if (!value.data!!.pincode.toString().equals("null", true)) {
@@ -996,7 +1062,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         }
 
         apnaPreviewActivityBinding.locationdetails.setText(
-            "$location,$landmarks,$city,$state-$pin"
+            "$region,$landmarks,$city,$state-$pin"
         )
 
         if (value.data!!.trafficGenerator != null && value.data!!.trafficGenerator!!.size > 0) {
@@ -1096,9 +1162,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.totalAreaDimensionType.setText(
                 "(" + value.data!!.dimensionType!!.name!! + "): "
             )
+//            apnaPreviewActivityBinding.expectedRentUnit.setText(value.data!!.dimensionType!!.name!!.toString())
+//            apnaPreviewActivityBinding.securityDepositUnit.setText(value.data!!.dimensionType!!.name!!.toString())
         } else {
             apnaPreviewActivityBinding.dimensionType.setText("(-): ")
             apnaPreviewActivityBinding.totalAreaDimensionType.setText("(-): ")
+//            apnaPreviewActivityBinding.expectedRentUnit.setText("-")
+//            apnaPreviewActivityBinding.securityDepositUnit.setText("-")
         }
 
         apnaPreviewActivityBinding.length.setText(value.data!!.length.toString())
@@ -1216,9 +1286,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         }
 
         if (value.data!!.extngOutletAge != null) {
-            if (value.data!!.extngOutletAge.toString().isNotEmpty()) {
-                if (!value.data!!.extngOutletAge.toString().equals("null", true)) {
-                    apnaPreviewActivityBinding.existingOutletAge.setText(value.data!!.extngOutletAge.toString())
+            if (value.data!!.extngOutletAge!! > 0) {
+                if (value.data!!.extngOutletAge.toString().isNotEmpty()) {
+                    if (!value.data!!.extngOutletAge.toString().equals("null", true)) {
+                        apnaPreviewActivityBinding.existingOutletAge.setText(value.data!!.extngOutletAge.toString())
+                    } else {
+                        apnaPreviewActivityBinding.existingOutletAge.setText("-")
+                    }
                 } else {
                     apnaPreviewActivityBinding.existingOutletAge.setText("-")
                 }
@@ -1253,6 +1327,15 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 //            apnaPreviewActivityBinding.areadiscount.setText("-")
 //        }
 
+        if (value.data!!.occupation != null) {
+            if (value.data!!.occupation!!.toString().isNotEmpty()) {
+                apnaPreviewActivityBinding.occupation.setText(value.data!!.occupation!!.toString())
+            } else {
+                apnaPreviewActivityBinding.occupation.setText("-")
+            }
+        } else {
+            apnaPreviewActivityBinding.occupation.setText("-")
+        }
         if (value.data!!.serviceClass != null) {
             apnaPreviewActivityBinding.serviceClass.setText(
                 DecimalFormat("##,##,##0").format(value.data!!.serviceClass!!.toLong())
@@ -1344,6 +1427,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                 ContextCompat.getColor(applicationContext, R.color.black)
             )
         } else if (parkingAvailable.equals("No", true)) {
+            apnaPreviewActivityBinding.parkingAvailable.visibility = View.GONE
+            apnaPreviewActivityBinding.parkingNotAvailable.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.parkingText.setTextColor(
+                ContextCompat.getColor(applicationContext, R.color.grey)
+            )
+        } else {
             apnaPreviewActivityBinding.parkingAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.parkingNotAvailable.visibility = View.VISIBLE
             apnaPreviewActivityBinding.parkingText.setTextColor(
@@ -1565,5 +1654,20 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                 })
             }
         })
+    }
+
+    override fun onScrollChanged() {
+        val view =
+            apnaPreviewActivityBinding.scrollView.getChildAt(apnaPreviewActivityBinding.scrollView.childCount - 1)
+        val top = apnaPreviewActivityBinding.scrollView.scrollY
+        val bottom =
+            view.bottom - (apnaPreviewActivityBinding.scrollView.height + apnaPreviewActivityBinding.scrollView.scrollY)
+        if (bottom == 0) {
+            apnaPreviewActivityBinding.scrollTop.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.scrollBottom.visibility = View.GONE
+        } else if (top <= 0) {
+            apnaPreviewActivityBinding.scrollBottom.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.scrollTop.visibility = View.GONE
+        }
     }
 }

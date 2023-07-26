@@ -30,7 +30,7 @@ class ApnaSurveylViewModel : ViewModel() {
         rows: String,
         searchQuary: String,
         status: String,
-        isSearch: Boolean
+        isSearch: Boolean,
     ) {
 
         val url = Preferences.getApi()
@@ -51,8 +51,11 @@ class ApnaSurveylViewModel : ViewModel() {
         val approved = if (status.contains("approved")) "approved" else ""
         val cancelled = if (status.contains("cancelled")) "cancelled" else ""
 
+        //Dev base url : https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=${Preferences.getValidatedEmpId()}&page=${pageNo}&rows=${rows}" +
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/apna_project_survey/list/project-survey-list-for-mobile?"
+        baseUrl =
+            baseUrl + "employee_id=${Preferences.getValidatedEmpId()}&page=${pageNo}&rows=${rows}" +
 
                     if (isSearch) {
                         "&id=$searchQuary&"
@@ -84,13 +87,17 @@ class ApnaSurveylViewModel : ViewModel() {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
 
-                RegistrationRepo.getDetails(proxyBaseUrl,
+                RegistrationRepo.getDetails(
+                    proxyBaseUrl,
                     proxyToken,
-                    GetDetailsRequest(baseUrl,
+                    GetDetailsRequest(
+                        baseUrl,
                         "GET",
                         "The",
                         "",
-                        ""))
+                        ""
+                    )
+                )
 
 
             }
@@ -103,7 +110,8 @@ class ApnaSurveylViewModel : ViewModel() {
                             val res = BackShlash.removeBackSlashes(resp)
                             val surveyListResponse = Gson().fromJson(
                                 BackShlash.removeSubString(res),
-                                SurveyListResponse::class.java)
+                                SurveyListResponse::class.java
+                            )
                             if (surveyListResponse.success == true) {
                                 apnaSurveyCallback.onSuccessgetSurveyDetails(surveyListResponse)
 //                                getSurveyListResponse.value =
@@ -118,15 +126,19 @@ class ApnaSurveylViewModel : ViewModel() {
                     } else {
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }

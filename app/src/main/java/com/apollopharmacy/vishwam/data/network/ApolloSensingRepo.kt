@@ -166,6 +166,7 @@ object ApolloSensingRepo {
         }
     }
 
+/*
     suspend fun sensingFileUpload(
         url: String,
         type: String,
@@ -205,5 +206,6 @@ object ApolloSensingRepo {
             ApiResult.UnknownHostException(e.message)
         }
     }
+*/
 
 }

@@ -33,7 +33,9 @@ class NeighbouringLocationAdapter(
         holder.viewItemRowBinding.itemName.setText(data.get(position).name)
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            mCallback.onSelectNeighbourLocation(position, data.get(position).name.toString())
+            mCallback.onSelectNeighbourLocation(position,
+                data.get(position).name.toString(),
+                data[position].uid.toString())
         }
     }
 

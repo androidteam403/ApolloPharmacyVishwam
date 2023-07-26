@@ -45,7 +45,7 @@ class ChemistAdapter(
         }
 
         if (chemistList.get(position).organised.isNotEmpty()) {
-            holder.adapterChemistListBinding.organisedText.setText(chemistList[position].organised)
+            holder.adapterChemistListBinding.organisedText.setText(chemistList[position].organisedName)
         } else {
             holder.adapterChemistListBinding.organisedText.setText("-")
         }
@@ -59,7 +59,7 @@ class ChemistAdapter(
         }
 
         if (chemistList[position].unorganised.isNotEmpty()) {
-            holder.adapterChemistListBinding.unorganisedText.setText(chemistList[position].unorganised)
+            holder.adapterChemistListBinding.unorganisedText.setText(chemistList[position].unorganisedName)
         } else {
             holder.adapterChemistListBinding.unorganisedText.setText("-")
         }

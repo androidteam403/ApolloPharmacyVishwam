@@ -1,6 +1,8 @@
 package com.apollopharmacy.vishwam.data.network
 
 import com.apollopharmacy.vishwam.data.Config
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.google.gson.JsonSyntaxException
 import retrofit2.HttpException
@@ -46,38 +48,7 @@ object ChampsApiRepo {
         }
     }
 
-    suspend fun getStoreWiseDetailsChamps(): ApiResult<GetStoreWiseDetailsModelResponse> {
-        return try {
-            val response = Api.getClient().GET_STORE_WISE_DETAILS_CHAMPS()
-            ApiResult.Success(response)
-        } catch (e: Exception) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            ApiResult.NetworkError
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            ApiResult.UnknownError(e.message)
-        } catch (e: HttpException) {
-            ApiUtils.parseHttpError(e)
-        } catch (e: UnknownError) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: SocketTimeoutException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: JsonSyntaxException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: UnknownHostException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: ConnectException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: SocketException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: TimeoutException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: UnknownHostException) {
-            ApiResult.UnknownHostException(e.message)
-        }
-    }
+
 
     suspend fun getEmailDetailsChamps(): ApiResult<GetEmailAddressModelResponse> {
         return try {
@@ -344,7 +315,7 @@ object ChampsApiRepo {
         }
     }
 
-    suspend fun getStoreWiseDetailsChampsApi(empId: String): ApiResult<GetStoreWiseDetailsModelResponse> {
+    suspend fun getStoreWiseDetailsChampsApi(empId: String): ApiResult<GetStoreWiseEmpIdResponse> {
         return try {
             val response = Api.getClient().GET_STORE_WISE_DETAILS_CHAMPS_API(Config.ATTENDANCE_API_HEADER, empId)
             ApiResult.Success(response)
@@ -580,4 +551,40 @@ object ChampsApiRepo {
             ApiResult.UnknownHostException(e.message)
         }
     }
+    suspend fun saveUpdateApi(
+        baseUrl: String,
+        saveUpdateRequest: SaveUpdateRequest,
+    ): ApiResult<SaveUpdateResponse> {
+        return try {
+            val response = Api.getClient().saveUpdateApi(baseUrl, saveUpdateRequest)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
 }

@@ -29,7 +29,14 @@ class HospitalsPreviewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (data.get(position).speciality!!.uid!!.isNotEmpty()) {
-            holder.hospitalAdapterLayoutBinding.speciality.setText(data[position].speciality!!.uid)
+            if (data[position].speciality!!.uid!!.contains("_")) {
+                holder.hospitalAdapterLayoutBinding.speciality.setText(
+                    data[position].speciality!!.uid.toString().replace("_", " ").capitalize()
+                )
+            } else {
+                holder.hospitalAdapterLayoutBinding.speciality.setText(data[position].speciality!!.uid.toString()
+                    .capitalize())
+            }
         } else {
             holder.hospitalAdapterLayoutBinding.speciality.setText("-")
         }
