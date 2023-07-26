@@ -62,15 +62,16 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
 
 
 
-        Utlis.showLoading(this@DashboardDetailsActivity)/*viewModel.getReasonWiseTicketCountByRole(
+        Utlis.showLoading(this@DashboardDetailsActivity)
+        /*viewModel.getReasonWiseTicketCountByRole(
             this@DashboardDetailsActivity, "2023-06-05", "2023-06-30", "EX100011"
         )*/
         viewModel.getReasonWiseTicketCountByRole(
             this@DashboardDetailsActivity,
             Utils.getFirstDateOfCurrentMonth(),
             Utils.getCurrentDateCeoDashboard(),
-            Preferences.getValidatedEmpId()
-        )
+            row.employeeid, row.roleCode
+        )//Preferences.getValidatedEmpId()
 
         /* dashboardCategoryAdapter = DashboardCategoryAdapter(categoryList)
              val layoutManager = GridLayoutManager(this, 2)
@@ -214,11 +215,27 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
 
     override fun onFailureGetReasonWiseTicketCountByRoleApiCall(reasonWiseTicketCountByRoleResponse: ReasonWiseTicketCountbyRoleResponse) {
         Utlis.hideLoading()
-        Toast.makeText(
-            this@DashboardDetailsActivity,
-            reasonWiseTicketCountByRoleResponse.message,
-            Toast.LENGTH_SHORT
-        ).show()
+        if (reasonWiseTicketCountByRoleResponse != null) {
+            if (reasonWiseTicketCountByRoleResponse!!.message != null) {
+                Toast.makeText(
+                    this@DashboardDetailsActivity,
+                    reasonWiseTicketCountByRoleResponse.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(
+                    this@DashboardDetailsActivity,
+                    "No Data Found",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } else {
+            Toast.makeText(
+                this@DashboardDetailsActivity,
+                "No Data Found",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun onClickCategoryItem(
@@ -376,7 +393,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
             reasonWiseTicketCountbyRoleFixedAdapter!!.notifyDataSetChanged()
             dashboardCategoryAdapter.notifyDataSetChanged()
             reasonWiseTicketCountbyRoleAdapter!!.notifyDataSetChanged()
-            activityDashboardDetailsBinding.reasonWiseTicketCountByRoleRecyclerview.scrollToPosition(
+            activityDashboardDetailsBinding.reasonWiseTicketCountByRoleRecyclerview.smoothScrollToPosition(
                 0
             )
 
@@ -529,7 +546,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
             reasonWiseTicketCountbyRoleFixedAdapter!!.notifyDataSetChanged()
             dashboardCategoryAdapter.notifyDataSetChanged()
             reasonWiseTicketCountbyRoleAdapter!!.notifyDataSetChanged()
-            activityDashboardDetailsBinding.reasonWiseTicketCountByRoleRecyclerview.scrollToPosition(
+            activityDashboardDetailsBinding.reasonWiseTicketCountByRoleRecyclerview.smoothScrollToPosition(
                 pos
             )
         }

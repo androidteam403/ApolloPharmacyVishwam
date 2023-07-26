@@ -323,12 +323,14 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     fun stopTimer() {
         if (countDownTimer != null) {
             countDownTimer!!.cancel()
+            MainActivity.mInstance.apolloSensingSiteVisiblity(true)
         }
     }
 
     fun stopTimerUp() {
         if (countDownTimerUp != null) {
             countDownTimerUp!!.cancel()
+            MainActivity.mInstance.apolloSensingSiteVisiblity(true)
         }
     }
 
@@ -363,6 +365,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     }
 
     private fun startTimer() {
+        MainActivity.mInstance.apolloSensingSiteVisiblity(false)
         viewBinding.resendOtp.visibility = View.GONE
         countDownTimer = object : CountDownTimer(countDownTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -373,6 +376,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
             @SuppressLint("SetTextI18n")
             override fun onFinish() {
+                MainActivity.mInstance.apolloSensingSiteVisiblity(true)
                 otp = "-1"
                 viewBinding.timer.setText("00:00")
                 viewBinding.resendOtp.visibility = View.VISIBLE
@@ -387,6 +391,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
     private fun startTimerUp() {
         viewBinding.resendOtpUp!!.visibility = View.GONE
+        MainActivity.mInstance.apolloSensingSiteVisiblity(false)
         countDownTimerUp = object : CountDownTimer(countDownTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val remainingTime = millisUntilFinished / 1000
@@ -396,6 +401,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
             @SuppressLint("SetTextI18n")
             override fun onFinish() {
+                MainActivity.mInstance.apolloSensingSiteVisiblity(true)
                 otpUp = "-1"
                 viewBinding.timerUp!!.setText("00:00")
                 viewBinding.resendOtpUp!!.visibility = View.VISIBLE
@@ -1211,19 +1217,19 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun onSuccessCheckScreenStatusApiCall(checkScreenStatusResponse: CheckScreenStatusResponse) {
         hideLoading()
         if (checkScreenStatusResponse != null && checkScreenStatusResponse!!.status == true) {
-            if (checkScreenStatusResponse.CUSTLINK!! == true && checkScreenStatusResponse.STORELINK!! == true) {
+//            if (checkScreenStatusResponse.CUSTLINK!! == true && checkScreenStatusResponse.STORELINK!! == true) {
                 viewBinding.sendLink.visibility = View.VISIBLE
                 viewBinding.or.visibility = View.VISIBLE
                 viewBinding.takePhoto.visibility = View.VISIBLE
-            } else if (checkScreenStatusResponse.CUSTLINK!! == true) {
-                viewBinding.sendLink.visibility = View.VISIBLE
-                viewBinding.or.visibility = View.GONE
-                viewBinding.takePhoto.visibility = View.GONE
-            } else if (checkScreenStatusResponse.STORELINK!! == true) {
-                viewBinding.sendLink.visibility = View.GONE
-                viewBinding.or.visibility = View.GONE
-                viewBinding.takePhoto.visibility = View.VISIBLE
-            }
+//            } else if (checkScreenStatusResponse.CUSTLINK!! == true) {
+//                viewBinding.sendLink.visibility = View.VISIBLE
+//                viewBinding.or.visibility = View.GONE
+//                viewBinding.takePhoto.visibility = View.GONE
+//            } else if (checkScreenStatusResponse.STORELINK!! == true) {
+//                viewBinding.sendLink.visibility = View.GONE
+//                viewBinding.or.visibility = View.GONE
+//                viewBinding.takePhoto.visibility = View.VISIBLE
+//            }
         }
         setUpNew()
     }

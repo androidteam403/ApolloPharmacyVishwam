@@ -1837,12 +1837,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
 
-//        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
+        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
 
         if (isSensingRequired) {
             listView.addHeaderModel(new HeaderModel("Apollo Sensing", Color.WHITE, false, R.drawable.ic_menu_champ));
         }
-        /*listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));*/
+        listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
@@ -1858,10 +1858,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (isDrugRequired) {
             if (employeeRoleNewDrugRequest.equalsIgnoreCase("Yes")) {
                 listView.addHeaderModel(new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_menu_drug_request).addChildModel(new ChildModel("New Drug Request", R.drawable.ic_apollo_new_drug_request__1_)).addChildModel(new ChildModel("New Drug List", R.drawable.ic_apollo_new_drug_list)));
-
             }
         }
-
 
         if (isQcFailRequired) {
             listView.addHeaderModel(new HeaderModel("OMS QC", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("OutStanding", R.drawable.ic_apollo_pending)).addChildModel(new ChildModel("Approved", R.drawable.ic_apollo_approve__1_)).addChildModel(new ChildModel("Rejected", R.drawable.ic_apollo_reject))
@@ -1878,17 +1876,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh).addChildModel(new ChildModel("List", R.drawable.ic_apollo_list2)));
             }
         }
-        /*listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Ceo", R.drawable.ic_apollo_dashboard)));*/
 
-        if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")){
+        if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")) {
             listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Ceo", R.drawable.ic_apollo_dashboard)));
-        }else if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("regional_head")){
+        } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("regional_head")) {
             listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Regional Head", R.drawable.ic_apollo_dashboard)));
-        }else if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_manager")){
+        } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_manager")) {
             listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Manager", R.drawable.ic_apollo_dashboard)));
-        }else if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_executive")){
+        } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_executive")) {
             listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Executive", R.drawable.ic_apollo_dashboard)));
-        }else if(Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_supervisor")){
+        } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_supervisor")) {
             listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Supervisor", R.drawable.ic_apollo_dashboard)));
         }
 
@@ -2094,13 +2091,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Dashboard Ceo")) {
                     displaySelectedScreen("DashboardCeo");
-                }else if (childModelList.get(childPosition).getTitle().equals("Dashboard Regional Head")) {
+                } else if (childModelList.get(childPosition).getTitle().equals("Dashboard Regional Head")) {
                     displaySelectedScreen("Dashboard Regional Head");
-                }else if (childModelList.get(childPosition).getTitle().equals("Dashboard Store Manager")) {
+                } else if (childModelList.get(childPosition).getTitle().equals("Dashboard Store Manager")) {
                     displaySelectedScreen("Dashboard Store Manager");
-                }else if (childModelList.get(childPosition).getTitle().equals("Dashboard Store Executive")) {
+                } else if (childModelList.get(childPosition).getTitle().equals("Dashboard Store Executive")) {
                     displaySelectedScreen("Dashboard Store Executive");
-                }else if (childModelList.get(childPosition).getTitle().equals("Dashboard Store Supervisor")) {
+                } else if (childModelList.get(childPosition).getTitle().equals("Dashboard Store Supervisor")) {
                     displaySelectedScreen("Dashboard Store Supervisor");
                 }
 
@@ -2797,6 +2794,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (getSessionManager().getNotificationStatus()) updateSelection(1);
             else Toast.makeText(this, "No Notification.", Toast.LENGTH_SHORT).show();
         });
+    }
+
+    public void apolloSensingSiteVisiblity(boolean isSiteVisible) {
+        if (isSiteVisible) {
+            siteIdIcon.setVisibility(View.VISIBLE);
+        } else {
+            siteIdIcon.setVisibility(View.GONE);
+        }
     }
 }
 
