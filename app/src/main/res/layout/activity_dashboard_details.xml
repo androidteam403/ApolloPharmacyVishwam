@@ -26,6 +26,7 @@
                     android:layout_height="32dp"
                     android:layout_marginTop="4dp"
                     android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickBack()}"
                     android:src="@drawable/ic_baseline_keyboard_arrow_left_24"
                     android:tint="@color/white"
                     tools:ignore="UseAppTint" />
@@ -38,6 +39,7 @@
 
 
                     <TextView
+                        android:id="@+id/emp_role"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
@@ -74,6 +76,7 @@
 
 
                     <TextView
+                        android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_5dp"
@@ -83,6 +86,7 @@
                         android:textSize="@dimen/text_14sp" />
 
                     <TextView
+                        android:id="@+id/selected_emp_role"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_5dp"
@@ -107,6 +111,7 @@
                         android:layout_gravity="end"
                         android:src="@drawable/close_white_icon"
                         android:tint="@color/white"
+                        android:visibility="gone"
                         tools:ignore="UseAppTint" />
                 </LinearLayout>
 
@@ -117,155 +122,246 @@
                 android:id="@+id/header_category_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_dimen_10"
-                android:layout_marginEnd="@dimen/text_dimen_10"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginEnd="@dimen/value_10dp"
                 android:background="@color/sea_light_blue"
+                android:padding="@dimen/value_5dp"
                 tools:itemCount="1" />
 
-            <!--        <LinearLayout-->
-            <!--            android:layout_marginStart="@dimen/text_dimen_10"-->
-            <!--            android:layout_marginEnd="@dimen/text_dimen_10"-->
-            <!--            android:weightSum="1"-->
-            <!--            android:background="@color/sea_light_blue"-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:orientation="horizontal">-->
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_marginTop="@dimen/value_5dp"-->
-            <!--                android:layout_marginStart="@dimen/text_dimen_10"-->
-            <!--                android:layout_marginEnd="@dimen/text_dimen_10"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:orientation="vertical"-->
-            <!--                android:layout_weight="0.5"-->
-
-            <!--                android:gravity="center_vertical">-->
-
-
-            <!--                <TextView-->
-            <!--                    android:layout_marginStart="@dimen/value_5dp"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:fontFamily="@font/roboto_medium"-->
-            <!--                    android:text="85 ALL (MTD)"-->
-            <!--                    android:textColor="@color/black"-->
-            <!--                    android:textSize="@dimen/text_12sp" />-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_marginTop="@dimen/value_5dp"-->
-            <!--                    android:layout_marginStart="@dimen/value_5dp"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:fontFamily="@font/roboto_medium"-->
-            <!--                    android:text="07 Incorrect /Expired medicines"-->
-            <!--                    android:textColor="@color/black"-->
-            <!--                    android:textSize="@dimen/text_12sp" />-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_marginBottom="@dimen/text_dimen_10"-->
-            <!--                    android:layout_marginTop="@dimen/value_5dp"-->
-            <!--                    android:layout_marginStart="@dimen/value_5dp"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:fontFamily="@font/roboto_medium"-->
-            <!--                    android:text="15 inappropriate behaviour"-->
-            <!--                    android:textColor="@color/black"-->
-            <!--                    android:textSize="@dimen/text_12sp" />-->
-
-            <!--                <LinearLayout-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content">-->
-
-
-            <!--                </LinearLayout>-->
-            <!--            </LinearLayout>-->
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_marginTop="@dimen/value_5dp"-->
-            <!--                android:layout_marginStart="@dimen/text_dimen_10"-->
-            <!--                android:layout_marginEnd="@dimen/text_dimen_10"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:orientation="vertical"-->
-            <!--                android:layout_weight="0.5"-->
-
-            <!--                android:gravity="center_vertical">-->
-
-
-            <!--                <TextView-->
-            <!--                    android:layout_marginStart="@dimen/value_5dp"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:fontFamily="@font/roboto_medium"-->
-            <!--                    android:text="85 ALL (MTD)"-->
-            <!--                    android:textColor="@color/black"-->
-            <!--                    android:textSize="@dimen/text_12sp" />-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_marginTop="@dimen/value_5dp"-->
-            <!--                    android:layout_marginStart="@dimen/value_5dp"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:fontFamily="@font/roboto_medium"-->
-            <!--                    android:text="07 Incorrect /Expired medicines"-->
-            <!--                    android:textColor="@color/black"-->
-            <!--                    android:textSize="@dimen/text_12sp" />-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_marginBottom="@dimen/text_dimen_10"-->
-            <!--                    android:layout_marginTop="@dimen/value_5dp"-->
-            <!--                    android:layout_marginStart="@dimen/value_5dp"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:fontFamily="@font/roboto_medium"-->
-            <!--                    android:text="15 inappropriate behaviour"-->
-            <!--                    android:textColor="@color/black"-->
-            <!--                    android:textSize="@dimen/text_12sp" />-->
-
-            <!--                <LinearLayout-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content">-->
-
-
-            <!--                </LinearLayout>-->
-            <!--            </LinearLayout>-->
-
-
-            <!--        </LinearLayout>-->
-            <HorizontalScrollView
-                android:id="@+id/horizontalScrollView"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_marginEnd="@dimen/value_10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <!--<LinearLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/reason_wise_ticket_count_by_role_recyclerview_fixed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/reason_wise_ticket_count_by_role_recyclerview"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_30dp"
-                        android:orientation="horizontal"
-                        android:layout_marginStart="@dimen/text_dimen_10"
-                        android:layout_marginTop="@dimen/value_10dp"
-                        android:layout_marginEnd="@dimen/text_dimen_10">
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/header_category_recyclerview_remove"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_dimen_10"
+                    android:layout_marginEnd="@dimen/text_dimen_10"
+                    android:background="@color/sea_light_blue"
+                    tools:itemCount="1" />
+
+                <!--        <LinearLayout-->
+                <!--            android:layout_marginStart="@dimen/text_dimen_10"-->
+                <!--            android:layout_marginEnd="@dimen/text_dimen_10"-->
+                <!--            android:weightSum="1"-->
+                <!--            android:background="@color/sea_light_blue"-->
+                <!--            android:layout_width="match_parent"-->
+                <!--            android:layout_height="wrap_content"-->
+                <!--            android:orientation="horizontal">-->
+
+                <!--            <LinearLayout-->
+                <!--                android:layout_marginTop="@dimen/value_5dp"-->
+                <!--                android:layout_marginStart="@dimen/text_dimen_10"-->
+                <!--                android:layout_marginEnd="@dimen/text_dimen_10"-->
+                <!--                android:layout_width="0dp"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:orientation="vertical"-->
+                <!--                android:layout_weight="0.5"-->
+
+                <!--                android:gravity="center_vertical">-->
+
+
+                <!--                <TextView-->
+                <!--                    android:layout_marginStart="@dimen/value_5dp"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:fontFamily="@font/roboto_medium"-->
+                <!--                    android:text="85 ALL (MTD)"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="@dimen/text_12sp" />-->
+
+                <!--                <TextView-->
+                <!--                    android:layout_marginTop="@dimen/value_5dp"-->
+                <!--                    android:layout_marginStart="@dimen/value_5dp"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:fontFamily="@font/roboto_medium"-->
+                <!--                    android:text="07 Incorrect /Expired medicines"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="@dimen/text_12sp" />-->
+
+                <!--                <TextView-->
+                <!--                    android:layout_marginBottom="@dimen/text_dimen_10"-->
+                <!--                    android:layout_marginTop="@dimen/value_5dp"-->
+                <!--                    android:layout_marginStart="@dimen/value_5dp"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:fontFamily="@font/roboto_medium"-->
+                <!--                    android:text="15 inappropriate behaviour"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="@dimen/text_12sp" />-->
+
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content">-->
+
+
+                <!--                </LinearLayout>-->
+                <!--            </LinearLayout>-->
+
+                <!--            <LinearLayout-->
+                <!--                android:layout_marginTop="@dimen/value_5dp"-->
+                <!--                android:layout_marginStart="@dimen/text_dimen_10"-->
+                <!--                android:layout_marginEnd="@dimen/text_dimen_10"-->
+                <!--                android:layout_width="0dp"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:orientation="vertical"-->
+                <!--                android:layout_weight="0.5"-->
+
+                <!--                android:gravity="center_vertical">-->
+
+
+                <!--                <TextView-->
+                <!--                    android:layout_marginStart="@dimen/value_5dp"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:fontFamily="@font/roboto_medium"-->
+                <!--                    android:text="85 ALL (MTD)"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="@dimen/text_12sp" />-->
+
+                <!--                <TextView-->
+                <!--                    android:layout_marginTop="@dimen/value_5dp"-->
+                <!--                    android:layout_marginStart="@dimen/value_5dp"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:fontFamily="@font/roboto_medium"-->
+                <!--                    android:text="07 Incorrect /Expired medicines"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="@dimen/text_12sp" />-->
+
+                <!--                <TextView-->
+                <!--                    android:layout_marginBottom="@dimen/text_dimen_10"-->
+                <!--                    android:layout_marginTop="@dimen/value_5dp"-->
+                <!--                    android:layout_marginStart="@dimen/value_5dp"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:fontFamily="@font/roboto_medium"-->
+                <!--                    android:text="15 inappropriate behaviour"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="@dimen/text_12sp" />-->
+
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content">-->
+
+
+                <!--                </LinearLayout>-->
+                <!--            </LinearLayout>-->
+
+
+                <!--        </LinearLayout>-->
+                <HorizontalScrollView
+                    android:id="@+id/horizontalScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!--<LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_30dp"
+                            android:orientation="horizontal"
+                            android:layout_marginStart="@dimen/text_dimen_10"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginEnd="@dimen/text_dimen_10">
+
+                            <LinearLayout
+                                android:layout_width="290dp"
+                                android:layout_height="@dimen/value_30dp"
+                                android:gravity="center_vertical"
+                                android:weightSum="1">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_5dp"
+                                    android:layout_weight="0.8"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:gravity="center"
+                                    android:text="Stores(55)"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_14sp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_5dp"
+                                    android:layout_weight="0.2"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:gravity="center"
+                                    android:text="Total"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/value_30dp"
+                                android:gravity="center_vertical">
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/headerRcv"
+                                    android:layout_width="match_parent"
+                                    android:layout_marginStart="@dimen/value_5dp"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    tools:listitem="@layout/adapter_horizantal_category_header"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                            </LinearLayout>
+                        </LinearLayout>-->
 
                         <LinearLayout
-                            android:layout_width="290dp"
+                            android:layout_width="match_parent"
                             android:layout_height="@dimen/value_30dp"
+                            android:layout_marginStart="@dimen/text_dimen_10"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginEnd="@dimen/text_dimen_10"
                             android:gravity="center_vertical"
-                            android:weightSum="1">
+                            android:weightSum="1.1">
+
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_5dp"
-                                android:layout_weight="0.8"
+                                android:layout_weight="0.4"
                                 android:fontFamily="@font/roboto_medium"
-                                android:gravity="center"
-                                android:text="Stores(55)"
+                                android:text="Stores"
+                                android:textAlignment="viewStart"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_14sp" />
 
@@ -273,157 +369,113 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_5dp"
-                                android:layout_weight="0.2"
+                                android:layout_weight="0.1"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="Total"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_14sp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/headerRcv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:layout_weight="0.6"
+                                android:orientation="horizontal"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:itemCount="9"
+                                tools:listitem="@layout/adapter_horizantal_category_header" />
+
+                            <!--<TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/text_dimen_7"
+                                android:layout_weight="0.1"
+                                android:fontFamily="@font/roboto_medium"
+                                android:gravity="center"
+                                android:text="MTD"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen11sp" />-->
+
+                            <!--<TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:fontFamily="@font/roboto_medium"
+                                android:gravity="center"
+                                android:text="2"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen11sp" />-->
+
+                            <!--<TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:fontFamily="@font/roboto_medium"
+                                android:gravity="center"
+                                android:text="3 to 8"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen11sp" />-->
+
+                            <!--<TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:fontFamily="@font/roboto_medium"
+                                android:gravity="center"
+                                android:text="8"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen11sp" />-->
+
+                            <!--<TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:fontFamily="@font/roboto_medium"
+                                android:gravity="center"
+                                android:text="54"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen11sp" />-->
+
+                            <!--<TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:fontFamily="@font/roboto_medium"
+                                android:gravity="center"
+                                android:text="2"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen11sp" />-->
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/value_30dp"
-                            android:gravity="center_vertical">
+                            android:layout_height="wrap_content">
 
                             <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/headerRcv"
+                                android:id="@+id/dashboard_details_recyclerview"
                                 android:layout_width="match_parent"
-                                android:layout_marginStart="@dimen/value_5dp"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                tools:listitem="@layout/adapter_horizantal_category_header"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                                tools:listitem="@layout/adapter_details_dashboard" />
+
+
                         </LinearLayout>
-                    </LinearLayout>-->
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_30dp"
-                        android:layout_marginStart="@dimen/text_dimen_10"
-                        android:layout_marginTop="@dimen/value_10dp"
-                        android:layout_marginEnd="@dimen/text_dimen_10"
-                        android:gravity="center_vertical"
-                        android:weightSum="1.1">
-
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_5dp"
-                            android:layout_weight="0.4"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Stores"
-                            android:textAlignment="viewStart"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_14sp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_5dp"
-                            android:layout_weight="0.1"
-                            android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="Total"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_14sp" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/headerRcv"
-                            android:layout_width="0dp"
-                            android:layout_marginStart="@dimen/value_5dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.6"
-                            android:orientation="horizontal"
-                            tools:itemCount="9"
-                            tools:listitem="@layout/adapter_horizantal_category_header"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-                        <!--<TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/text_dimen_7"
-                            android:layout_weight="0.1"
-                            android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="MTD"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen11sp" />-->
-
-                        <!--<TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.1"
-                            android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="2"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen11sp" />-->
-
-                        <!--<TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.1"
-                            android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="3 to 8"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen11sp" />-->
-
-                        <!--<TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.1"
-                            android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="8"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen11sp" />-->
-
-                        <!--<TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.1"
-                            android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="54"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen11sp" />-->
-
-                        <!--<TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.1"
-                            android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="2"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen11sp" />-->
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/dashboard_details_recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            tools:listitem="@layout/adapter_details_dashboard" />
 
 
                     </LinearLayout>
-
-
-
-
-
-                </LinearLayout>
-            </HorizontalScrollView>
-
+                </HorizontalScrollView>
+            </RelativeLayout>
 
         </LinearLayout>
 
 
     </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.DashboardDetailsCallback" />
+    </data>
 </layout>

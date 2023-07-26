@@ -124,38 +124,52 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 }
                 apnaPreviewQuickGoDialogBinding.locationDetails.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
-                        activityApnaSurveyPreviewBinding.locationDetailsLayout)
+                    scrollToView(
+                        activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.locationDetailsLayout
+                    )
                 }
                 apnaPreviewQuickGoDialogBinding.siteSpecification.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
-                        activityApnaSurveyPreviewBinding.siteSpecificationsLayout)
+                    scrollToView(
+                        activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.siteSpecificationsLayout
+                    )
                 }
                 apnaPreviewQuickGoDialogBinding.marketInformation.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
-                        activityApnaSurveyPreviewBinding.marketInformationLayout)
+                    scrollToView(
+                        activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.marketInformationLayout
+                    )
                 }
                 apnaPreviewQuickGoDialogBinding.competitorsDetails.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
-                        activityApnaSurveyPreviewBinding.competitorsDetailsLayout)
+                    scrollToView(
+                        activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.competitorsDetailsLayout
+                    )
                 }
                 apnaPreviewQuickGoDialogBinding.populationAndHouses.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
-                        activityApnaSurveyPreviewBinding.populationAndHousesLayout)
+                    scrollToView(
+                        activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.populationAndHousesLayout
+                    )
                 }
                 apnaPreviewQuickGoDialogBinding.hospitals.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
-                        activityApnaSurveyPreviewBinding.hospitalsLayout)
+                    scrollToView(
+                        activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.hospitalsLayout
+                    )
                 }
                 apnaPreviewQuickGoDialogBinding.photosAndMedia.setOnClickListener {
                     customDialog.dismiss()
-                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
-                        activityApnaSurveyPreviewBinding.photosAndMediaLayout)
+                    scrollToView(
+                        activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.photosAndMediaLayout
+                    )
                 }
             }.show()
         }
@@ -225,9 +239,9 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         } else {
             pin = "-"
         }
-
+        activityApnaSurveyPreviewBinding.region.text = "$region"
         activityApnaSurveyPreviewBinding.locationDetails.setText(
-            "$region,$landMarks,$city,$state-$pin"
+            "$landMarks,$city,$state-$pin"
         )
 //        if (lat != null) {
 //            activityApnaSurveyPreviewBinding.lattitude.setText(lat)
@@ -783,7 +797,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.VISIBLE
             activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.trafficText.setText("Traffic V.High")
+            activityApnaSurveyPreviewBinding.trafficText.setText("Traffic Very High")
         } else {
             activityApnaSurveyPreviewBinding.trafficLow.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.GONE
@@ -899,8 +913,10 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity,
-                    IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(
+                    this@ApnaSurveyPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList)
+                )
                 mv.chartView = activityApnaSurveyPreviewBinding.hospitalsChart // For bounds control
 
                 activityApnaSurveyPreviewBinding.hospitalsChart.marker = mv
@@ -993,8 +1009,10 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity,
-                    IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(
+                    this@ApnaSurveyPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList)
+                )
                 mv.chartView =
                     activityApnaSurveyPreviewBinding.apartmentsChart // For bounds control
 
@@ -1077,8 +1095,10 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity,
-                    IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(
+                    this@ApnaSurveyPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList)
+                )
                 mv.chartView =
                     activityApnaSurveyPreviewBinding.competitorsChart // For bounds control
 
@@ -1155,8 +1175,10 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 stringValuesList.add("test")
-                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity,
-                    IndexAxisValueFormatter(stringValuesList))
+                val mv = XYMarkerView(
+                    this@ApnaSurveyPreviewActivity,
+                    IndexAxisValueFormatter(stringValuesList)
+                )
                 mv.chartView = activityApnaSurveyPreviewBinding.neighborChart // For bounds control
 
                 activityApnaSurveyPreviewBinding.neighborChart.marker = mv

@@ -166,8 +166,8 @@
 
                         android:background="@drawable/round_bg_blue_navy"
                         android:layout_centerInParent="true"
-                        android:layout_width="@dimen/value_30dp"
-                        android:layout_height="@dimen/value_30dp"
+                        android:layout_width="@dimen/value_25dp"
+                        android:layout_height="@dimen/value_25dp"
                         android:layout_gravity="center"
                         android:gravity="center">
 

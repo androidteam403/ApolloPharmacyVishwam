@@ -805,4 +805,19 @@ public class Utils {
         }
         return monthNum;
     }
+
+    public static String getFirstDateOfCurrentMonth() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//2023-06-30
+        System.out.println(sdf.format(cal.getTime()));
+        return sdf.format(cal.getTime());
+    }
+
+    public static String getCurrentDateCeoDashboard() {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//2023-06-30
+        System.out.println(sdf.format(cal.getTime()));
+        return sdf.format(cal.getTime());
+    }
 }

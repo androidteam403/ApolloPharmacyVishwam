@@ -6,12 +6,14 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -24,10 +26,14 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.Window
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.RadioButton
+import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -40,6 +46,8 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.adapter.*
+import com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload.FileUploadApnaSurvey
+import com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload.FileUploadApnaSurveyModel
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.DimensionTypeResponse.Data.ListData.Row
 import com.apollopharmacy.vishwam.util.Utlis
@@ -159,6 +167,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     private lateinit var apnaNewSurveyViewModel: ApnaNewSurveyViewModel
     var currentPosition: Int = 0
     var imageFileList = ArrayList<File>()
+    var videoFileList = ArrayList<File>()
 
     var imageFile: File? = null
     var videoFile: File? = null
@@ -191,6 +200,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     lateinit var supportMapFragment: SupportMapFragment
     lateinit var client: FusedLocationProviderClient
     var map: GoogleMap? = null
+
+    private var locationManager: LocationManager? = null
+    val GPS_REQUEST_CODE = 111
     public fun getStartIntent(context: Context): Intent {
         val intent = Intent(context, ApnaNewSurveyActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
@@ -209,8 +221,105 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 //        activityApnaNewSurveyBinding.scrollView.post(Runnable {
 //            activityApnaNewSurveyBinding.scrollView.scrollTo(0, 0)
 //        })
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (isGpsEnambled()) {
+            checkLocationPermission()
+        } else {
+            buildAlertMessageNoGps()
+        }
+//        setUp()
+    }
 
-        setUp()
+    private fun isGpsEnambled(): Boolean {
+        return locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    private fun checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ), 10
+            )
+            return
+        } else {
+            setUp()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 10) {
+            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (isGpsEnambled()) {
+                    checkLocationPermission()
+                } else {
+                    buildAlertMessageNoGps()
+                }
+            } else {
+                val dialog1 = Dialog(this, R.style.fadeinandoutcustomDialog)
+                val permissionDeniedBinding: DialogPermissionDeniedBinding =
+                    DataBindingUtil.inflate(
+                        LayoutInflater.from(this), R.layout.dialog_permission_denied, null, false
+                    )
+                dialog1.setContentView(permissionDeniedBinding.root)
+                dialog1.setCancelable(false)
+                permissionDeniedBinding.locationPermissionDeniedText.setText(R.string.label_location_permission_must_be_required_to_access_application)
+                permissionDeniedBinding.locationPermissionBtn.setText(R.string.label_location_permission)
+                permissionDeniedBinding.locationPermissionBtn.setOnClickListener {
+                    if (isGpsEnambled()) {
+                        checkLocationPermission()
+                    } else {
+                        buildAlertMessageNoGps()
+                    }
+                    dialog1.dismiss()
+                }
+                dialog1.show()
+            }
+        }
+    }
+
+    private fun buildAlertMessageNoGps() {
+        AlertDialog.Builder(this)
+            .setMessage("Your GPS seems to be disabled, do you want to enable it?")
+            .setCancelable(false).setPositiveButton(
+                "Yes"
+            ) { dialog: DialogInterface?, id: Int ->
+                startActivityForResult(
+                    Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), GPS_REQUEST_CODE
+                )
+            }.setNegativeButton("No") { dialog: DialogInterface, id: Int ->
+                dialog.dismiss()
+                dialog.cancel()
+                val dialog1 = Dialog(this, R.style.fadeinandoutcustomDialog)
+                val permissionDeniedBinding: DialogPermissionDeniedBinding =
+                    DataBindingUtil.inflate(
+                        LayoutInflater.from(this), R.layout.dialog_permission_denied, null, false
+                    )
+                dialog1.setContentView(permissionDeniedBinding.getRoot())
+                dialog1.setCancelable(false)
+                permissionDeniedBinding.locationPermissionDeniedText.setText(R.string.label_gps_enable_to_access_application)
+                permissionDeniedBinding.locationPermissionBtn.setText(R.string.gps_enable)
+                permissionDeniedBinding.locationPermissionBtn.setOnClickListener(View.OnClickListener {
+                    if (isGpsEnambled()) {
+                        checkLocationPermission()
+                    } else {
+                        buildAlertMessageNoGps()
+                    }
+                    dialog1.dismiss()
+                })
+                dialog1.show()
+            }.create().show()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -356,7 +465,6 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             )
             val customDialog = android.app.AlertDialog.Builder(this, 0).create()
             customDialog.apply {
-
                 setView(dialogBinding?.root)
                 setCancelable(false)
                 dialogBinding!!.close.setOnClickListener {
@@ -381,8 +489,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 }
                 dialogBinding.marketInformation.setOnClickListener {
                     if (validateLocationDetails() && validateSiteSpecification()) {
-                        showNext(2)
-                        customDialog.dismiss()
+                        if (isSiteSpecificationsCompleted == true) {
+                            showNext(2)
+                            customDialog.dismiss()
+                        } else {
+                            Toast.makeText(
+                                this@ApnaNewSurveyActivity,
+                                "Please fill site specifications first",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     } else {
                         Toast.makeText(
                             this@ApnaNewSurveyActivity,
@@ -393,8 +509,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 }
                 dialogBinding.competitorsDetails.setOnClickListener {
                     if (validateLocationDetails() && validateSiteSpecification()) {
-                        showNext(3)
-                        customDialog.dismiss()
+                        if (isMarketInformationCompleted == true) {
+                            showNext(3)
+                            customDialog.dismiss()
+                        } else {
+                            Toast.makeText(
+                                this@ApnaNewSurveyActivity,
+                                "Please fill market information first",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     } else {
                         Toast.makeText(
                             this@ApnaNewSurveyActivity,
@@ -405,8 +529,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 }
                 dialogBinding.populationAndHouses.setOnClickListener {
                     if (validateLocationDetails() && validateSiteSpecification()) {
-                        showNext(4)
-                        customDialog.dismiss()
+                        if (isCompetitorsDetailsCompleted == true) {
+                            showNext(4)
+                            customDialog.dismiss()
+                        } else {
+                            Toast.makeText(
+                                this@ApnaNewSurveyActivity,
+                                "Please fill competitors details first",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     } else {
                         Toast.makeText(
                             this@ApnaNewSurveyActivity,
@@ -417,8 +549,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 }
                 dialogBinding.hospitals.setOnClickListener {
                     if (validateLocationDetails() && validateSiteSpecification()) {
-                        showNext(5)
-                        customDialog.dismiss()
+                        if (isPopulationAndHousesCompleted == true) {
+                            showNext(5)
+                            customDialog.dismiss()
+                        } else {
+                            Toast.makeText(
+                                this@ApnaNewSurveyActivity,
+                                "Please fill population and houses first",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     } else {
                         Toast.makeText(
                             this@ApnaNewSurveyActivity,
@@ -429,8 +569,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 }
                 dialogBinding.photosAndMedia.setOnClickListener {
                     if (validateLocationDetails() && validateSiteSpecification()) {
-                        showNext(6)
-                        customDialog.dismiss()
+                        if (isHospitalsCompleted == true) {
+                            showNext(6)
+                            customDialog.dismiss()
+                        } else {
+                            Toast.makeText(
+                                this@ApnaNewSurveyActivity,
+                                "Please fill hospitals details first",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     } else {
                         Toast.makeText(
                             this@ApnaNewSurveyActivity,
@@ -446,8 +594,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.locationDetailsProgress.visibility = View.GONE
                     dialogBinding.locationDetails.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.greenn
+                            context, R.color.greenn
                         )
                     )
                     dialogBinding.locationDetailsView.visibility = View.GONE
@@ -458,8 +605,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.locationDetailsProgress.visibility = View.VISIBLE
                     dialogBinding.locationDetails.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.apna_project_actionbar_color
+                            context, R.color.apna_project_actionbar_color
                         )
                     )
                 } else {
@@ -468,8 +614,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.locationDetailsProgress.visibility = View.GONE
                     dialogBinding.locationDetails.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.grey
+                            context, R.color.grey
                         )
                     )
                 }
@@ -481,8 +626,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.siteSpecificationCompleted.visibility = View.VISIBLE
                     dialogBinding.siteSpecification.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.greenn
+                            context, R.color.greenn
                         )
                     )
                     dialogBinding.siteSpecificationsView.visibility = View.GONE
@@ -493,8 +637,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.siteSpecifiactionProgress.visibility = View.VISIBLE
                     dialogBinding.siteSpecification.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.apna_project_actionbar_color
+                            context, R.color.apna_project_actionbar_color
                         )
                     )
                 } else {
@@ -503,8 +646,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.siteSpecifiactionProgress.visibility = View.GONE
                     dialogBinding.siteSpecification.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.grey
+                            context, R.color.grey
                         )
                     )
                 }
@@ -516,8 +658,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.marketInformationCompleted.visibility = View.VISIBLE
                     dialogBinding.marketInformation.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.greenn
+                            context, R.color.greenn
                         )
                     )
                     dialogBinding.marketInformationView.visibility = View.GONE
@@ -528,8 +669,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.marketInformationProgress.visibility = View.VISIBLE
                     dialogBinding.marketInformation.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.apna_project_actionbar_color
+                            context, R.color.apna_project_actionbar_color
                         )
                     )
                 } else {
@@ -538,8 +678,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.marketInformationProgress.visibility = View.GONE
                     dialogBinding.marketInformation.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.grey
+                            context, R.color.grey
                         )
                     )
                 }
@@ -551,8 +690,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.competitorsDetailsCompleted.visibility = View.VISIBLE
                     dialogBinding.competitorsDetails.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.greenn
+                            context, R.color.greenn
                         )
                     )
                     dialogBinding.competitorsDetailsView.visibility = View.GONE
@@ -563,8 +701,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.competitorsDetailsProgress.visibility = View.VISIBLE
                     dialogBinding.competitorsDetails.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.apna_project_actionbar_color
+                            context, R.color.apna_project_actionbar_color
                         )
                     )
                 } else {
@@ -573,8 +710,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.competitorsDetailsProgress.visibility = View.GONE
                     dialogBinding.competitorsDetails.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.grey
+                            context, R.color.grey
                         )
                     )
                 }
@@ -586,8 +722,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.populationAndHousesCompleted.visibility = View.VISIBLE
                     dialogBinding.populationAndHouses.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.greenn
+                            context, R.color.greenn
                         )
                     )
                     dialogBinding.populationAndHousesView.visibility = View.GONE
@@ -598,8 +733,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.populationAndHousesProgress.visibility = View.VISIBLE
                     dialogBinding.populationAndHouses.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.apna_project_actionbar_color
+                            context, R.color.apna_project_actionbar_color
                         )
                     )
                 } else {
@@ -608,8 +742,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.populationAndHousesProgress.visibility = View.GONE
                     dialogBinding.populationAndHouses.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.grey
+                            context, R.color.grey
                         )
                     )
                 }
@@ -621,8 +754,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.hospitalsCompleted.visibility = View.VISIBLE
                     dialogBinding.hospitals.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.greenn
+                            context, R.color.greenn
                         )
                     )
                     dialogBinding.hospitalsView.visibility = View.GONE
@@ -633,8 +765,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.hospitalsProgress.visibility = View.VISIBLE
                     dialogBinding.hospitals.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.apna_project_actionbar_color
+                            context, R.color.apna_project_actionbar_color
                         )
                     )
                 } else {
@@ -643,8 +774,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.hospitalsProgress.visibility = View.GONE
                     dialogBinding.hospitals.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.grey
+                            context, R.color.grey
                         )
                     )
                 }
@@ -656,8 +786,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.photosAndMediaCompleted.visibility = View.VISIBLE
                     dialogBinding.photosAndMedia.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.greenn
+                            context, R.color.greenn
                         )
                     )
                 } else if (isPhotosAndMediaInProgress) {
@@ -666,8 +795,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.photosAndMediaProgress.visibility = View.VISIBLE
                     dialogBinding.photosAndMedia.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.apna_project_actionbar_color
+                            context, R.color.apna_project_actionbar_color
                         )
                     )
                 } else {
@@ -676,8 +804,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.photosAndMediaProgress.visibility = View.GONE
                     dialogBinding.photosAndMedia.setTextColor(
                         ContextCompat.getColor(
-                            context,
-                            R.color.grey
+                            context, R.color.grey
                         )
                     )
                 }
@@ -712,8 +839,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     activityApnaNewSurveyBinding.knownOfEmployeeRadioGroup.checkedRadioButtonId
                 val apolloEmployee = SurveyCreateRequest.ApolloEmployee()
                 apolloEmployee.uid =
-                    findViewById<RadioButton>(knownOfEmployeeRadioGroupId).text.toString()
-                        .trim()
+                    findViewById<RadioButton>(knownOfEmployeeRadioGroupId).text.toString().trim()
                 surveyCreateRequest.apolloEmployee = apolloEmployee
             }
 
@@ -749,9 +875,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 showNext(currentPosition)
             } else {
                 Toast.makeText(
-                    this@ApnaNewSurveyActivity,
-                    errorMessage,
-                    Toast.LENGTH_SHORT
+                    this@ApnaNewSurveyActivity, errorMessage, Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -1289,12 +1413,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         if (rent.toDouble() > 0 && sales.toDouble() > 0 && sqFt.toDouble() > 0) {
                             neighbouringStoreList.add(
                                 NeighbouringStoreData(
-                                    location,
-                                    locationName,
-                                    store,
-                                    rent,
-                                    sales,
-                                    sqFt
+                                    location, locationName, store, rent, sales, sqFt
                                 )
                             )
 
@@ -1327,9 +1446,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 }
             } else {
                 Toast.makeText(
-                    this@ApnaNewSurveyActivity,
-                    "You can add maximum 10 records",
-                    Toast.LENGTH_SHORT
+                    this@ApnaNewSurveyActivity, "You can add maximum 10 records", Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -1382,9 +1499,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 }
             } else {
                 Toast.makeText(
-                    this@ApnaNewSurveyActivity,
-                    "You can add maximum 10 records",
-                    Toast.LENGTH_SHORT
+                    this@ApnaNewSurveyActivity, "You can add maximum 10 records", Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -1402,12 +1517,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                 if (name.isNotEmpty() && specialityName.isNotEmpty() && beds.isNotEmpty() && noOfOpd.isNotEmpty() && occupancy.isNotEmpty()) {
                     if (validateHospitals()) {
-                        hospitalsList.add(HospitalData(name,
-                            beds,
-                            speciality,
-                            specialityName,
-                            noOfOpd,
-                            occupancy))
+                        hospitalsList.add(
+                            HospitalData(
+                                name, beds, speciality, specialityName, noOfOpd, occupancy
+                            )
+                        )
 
                         hospitalsAdapter = HospitalsAdapter(
                             this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, hospitalsList
@@ -1438,9 +1552,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 }
             } else {
                 Toast.makeText(
-                    this@ApnaNewSurveyActivity,
-                    "You can add maximum 10 records",
-                    Toast.LENGTH_SHORT
+                    this@ApnaNewSurveyActivity, "You can add maximum 10 records", Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -1470,12 +1582,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             unorganisedAvgSale
                         )
                     )
-                    chemistAdapter =
-                        ChemistAdapter(
-                            this@ApnaNewSurveyActivity,
-                            this@ApnaNewSurveyActivity,
-                            chemistList
-                        )
+                    chemistAdapter = ChemistAdapter(
+                        this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, chemistList
+                    )
                     activityApnaNewSurveyBinding.chemistRecyclerView.adapter = chemistAdapter
                     activityApnaNewSurveyBinding.chemistRecyclerView.layoutManager =
                         LinearLayoutManager(this@ApnaNewSurveyActivity)
@@ -1503,9 +1612,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 if (chemistList.size > 0) {
                     activityApnaNewSurveyBinding.chemistTotalLayout.visibility = View.VISIBLE
 
-                    val orgAvgSale =
-                        chemistList.filter { it.organisedAvgSale.isNotEmpty() }
-                            .map { it.organisedAvgSale }
+                    val orgAvgSale = chemistList.filter { it.organisedAvgSale.isNotEmpty() }
+                        .map { it.organisedAvgSale }
 
                     val totalOrganisedAvgSale = orgAvgSale.map { it.toInt() }.sum()
 
@@ -1544,9 +1652,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 }
             } else {
                 Toast.makeText(
-                    this@ApnaNewSurveyActivity,
-                    "You can add maximum 10 records",
-                    Toast.LENGTH_SHORT
+                    this@ApnaNewSurveyActivity, "You can add maximum 10 records", Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -1568,17 +1674,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             }
 
             neighbouringLocationAdapter = NeighbouringLocationAdapter(
-                this@ApnaNewSurveyActivity,
-                this@ApnaNewSurveyActivity,
-                neighbouringLocationList
+                this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, neighbouringLocationList
             )
             dialogNeighbourLocationBinding.neighbouringLocationRcv.adapter =
                 neighbouringLocationAdapter
             dialogNeighbourLocationBinding.neighbouringLocationRcv.layoutManager =
                 LinearLayoutManager(this@ApnaNewSurveyActivity)
             dialogNeighbourLocationBinding.searchNeighbouringLocationText.addTextChangedListener(
-                object :
-                    TextWatcher {
+                object : TextWatcher {
                     override fun beforeTextChanged(
                         s: CharSequence?,
                         start: Int,
@@ -1724,8 +1827,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
 
-                            if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.morningToSelect.text.toString()
+                            if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningToSelect.text.toString()
                                     .isEmpty()
                             ) {
                                 if (morningFromHour <= morningToHour) {
@@ -1851,8 +1953,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
 
-                            if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.morningToSelect.text.toString()
+                            if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningToSelect.text.toString()
                                     .isEmpty()
                             ) {
                                 if (morningFromHour <= morningToHour) {
@@ -1989,8 +2090,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.morningFromSelect.text.toString()
+                            if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningFromSelect.text.toString()
                                     .isEmpty()
                             ) {
                                 if (morningFromHour <= morningToHour) {
@@ -2121,8 +2221,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.morningFromSelect.text.toString()
+                            if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningFromSelect.text.toString()
                                     .isEmpty()
                             ) {
                                 if (morningFromHour <= morningToHour) {
@@ -2255,8 +2354,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            if (activityApnaNewSurveyBinding.eveningToSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.eveningToSelect.text.toString()
+                            if (activityApnaNewSurveyBinding.eveningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.eveningToSelect.text.toString()
                                     .isEmpty()
                             ) {
                                 if (eveningFromHour <= eveningToHour) {
@@ -2354,8 +2452,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            if (activityApnaNewSurveyBinding.eveningToSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.eveningToSelect.text.toString()
+                            if (activityApnaNewSurveyBinding.eveningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.eveningToSelect.text.toString()
                                     .isEmpty()
                             ) {
                                 if (eveningFromHour <= eveningToHour) {
@@ -2457,8 +2554,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
+                            if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
                                     .isEmpty()
                             ) {
                                 if (eveningFromHour <= eveningToHour) {
@@ -2552,8 +2648,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
+                            if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
                                     .isEmpty()
                             ) {
                                 if (eveningFromHour <= eveningToHour) {
@@ -3181,17 +3276,19 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         // on click submit
         activityApnaNewSurveyBinding.submitBtn.setOnClickListener {
             if (validateLocationDetails() && validateSiteSpecification()) {
-                surveyCreateRequest.employeeId = Preferences.getValidatedEmpId()
+                if (photosValidations()) {
+//                    if (videosValidation()) {
+                    surveyCreateRequest.employeeId = Preferences.getValidatedEmpId()
 
-                if (activityApnaNewSurveyBinding.knownOfEmployeeRadioGroup.checkedRadioButtonId != -1) {
-                    val knownOfEmployeeRadioGroupId =
-                        activityApnaNewSurveyBinding.knownOfEmployeeRadioGroup.checkedRadioButtonId
-                    val apolloEmployee = SurveyCreateRequest.ApolloEmployee()
-                    apolloEmployee.uid =
-                        findViewById<RadioButton>(knownOfEmployeeRadioGroupId).text.toString()
-                            .trim()
-                    surveyCreateRequest.apolloEmployee = apolloEmployee
-                }
+                    if (activityApnaNewSurveyBinding.knownOfEmployeeRadioGroup.checkedRadioButtonId != -1) {
+                        val knownOfEmployeeRadioGroupId =
+                            activityApnaNewSurveyBinding.knownOfEmployeeRadioGroup.checkedRadioButtonId
+                        val apolloEmployee = SurveyCreateRequest.ApolloEmployee()
+                        apolloEmployee.uid =
+                            findViewById<RadioButton>(knownOfEmployeeRadioGroupId).text.toString()
+                                .trim()
+                        surveyCreateRequest.apolloEmployee = apolloEmployee
+                    }
 
 //                if (activityApnaNewSurveyBinding.parkingRadioGroup.checkedRadioButtonId != -1) {
 //                    val parkingRadioGroupId =
@@ -3202,41 +3299,50 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 //                    surveyCreateRequest.parking = parking
 //                }
 
-                val dialog = Dialog(this@ApnaNewSurveyActivity)
-                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                val createSurveyConfirmDialogBinding =
-                    DataBindingUtil.inflate<CreateSurveyConfirmDialogBinding>(
-                        LayoutInflater.from(
-                            this@ApnaNewSurveyActivity
-                        ), R.layout.create_survey_confirm_dialog, null, false
-                    )
-                dialog.setContentView(createSurveyConfirmDialogBinding.root)
-                createSurveyConfirmDialogBinding.cancelButton.setOnClickListener {
-                    dialog.dismiss()
-                }
-                createSurveyConfirmDialogBinding.saveButton.setOnClickListener {
-                    dialog.dismiss()
-                    Utlis.showLoading(this@ApnaNewSurveyActivity)
-                    if (imageFileList != null && imageFileList.size > 0) {
-                        apnaNewSurveyViewModel.imagesListConnectToAzure(
-                            imageFileList, this@ApnaNewSurveyActivity, surveyCreateRequest
+                    val dialog = Dialog(this@ApnaNewSurveyActivity)
+                    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                    val createSurveyConfirmDialogBinding =
+                        DataBindingUtil.inflate<CreateSurveyConfirmDialogBinding>(
+                            LayoutInflater.from(
+                                this@ApnaNewSurveyActivity
+                            ), R.layout.create_survey_confirm_dialog, null, false
                         )
-                    } else if (videoFile != null) {
-                        var videoFileList = ArrayList<File>()
-                        videoFileList.add(videoFile!!)
-                        apnaNewSurveyViewModel.videoListConnectToAzure(
-                            videoFileList, this@ApnaNewSurveyActivity, surveyCreateRequest
-                        )
-                    } else {
-                        apnaNewSurveyViewModel.createSurvey(
-                            surveyCreateRequest, this@ApnaNewSurveyActivity
-                        )
+                    dialog.setContentView(createSurveyConfirmDialogBinding.root)
+                    createSurveyConfirmDialogBinding.cancelButton.setOnClickListener {
+                        dialog.dismiss()
                     }
-                }
-                dialog.setCancelable(false)
-                dialog.show()
+                    createSurveyConfirmDialogBinding.saveButton.setOnClickListener {
+                        dialog.dismiss()
+                        Utlis.showLoading(this@ApnaNewSurveyActivity)
+                        if (imageFileList != null && imageFileList.size > 0) {
+                            apnaNewSurveyViewModel.imagesListConnectToAzure(
+                                imageFileList, this@ApnaNewSurveyActivity, surveyCreateRequest
+                            )
+                        } else if (videoFile != null) {
+                            var videoFileList = ArrayList<File>()
+                            videoFileList.add(videoFile!!)
 
+                            var fileUploadApnaSurveyModelList =
+                                ArrayList<FileUploadApnaSurveyModel>()
+                            var fileUploadApnaSurveyModel = FileUploadApnaSurveyModel()
+                            fileUploadApnaSurveyModel.file = videoFile!!
+                            fileUploadApnaSurveyModelList.add(fileUploadApnaSurveyModel)
+                            FileUploadApnaSurvey().uploadFiles(
+                                this, this, fileUploadApnaSurveyModelList!!
+                            )/* apnaNewSurveyViewModel.videoListConnectToAzure(
+                                     videoFileList, this@ApnaNewSurveyActivity, surveyCreateRequest
+                                 )*/
+                        } else {
+                            apnaNewSurveyViewModel.createSurvey(
+                                surveyCreateRequest, this@ApnaNewSurveyActivity
+                            )
+                        }
+                    }
+                    dialog.setCancelable(false)
+                    dialog.show()
+//                    }
+                }
             } else {
                 Toast.makeText(
                     this@ApnaNewSurveyActivity,
@@ -3254,9 +3360,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         if (!name.contains(Regex("[a-zA-Z]"))) {
             activityApnaNewSurveyBinding.hospitalNameText.requestFocus()
             Toast.makeText(
-                this@ApnaNewSurveyActivity,
-                "Please enter valid hospital name",
-                Toast.LENGTH_SHORT
+                this@ApnaNewSurveyActivity, "Please enter valid hospital name", Toast.LENGTH_SHORT
             ).show()
             return false
         } else {
@@ -3269,9 +3373,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         if (!apartments.contains(Regex("[a-zA-Z]"))) {
             activityApnaNewSurveyBinding.apartmentsOrColony.requestFocus()
             Toast.makeText(
-                this@ApnaNewSurveyActivity,
-                "Please enter valid name",
-                Toast.LENGTH_SHORT
+                this@ApnaNewSurveyActivity, "Please enter valid name", Toast.LENGTH_SHORT
             ).show()
             return false
         } else {
@@ -3283,92 +3385,76 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         val chemist = activityApnaNewSurveyBinding.chemistText.text.toString()
         val organised = activityApnaNewSurveyBinding.organisedSelect.text.toString()
         val unOrganised = activityApnaNewSurveyBinding.unorganisedSelect.text.toString()
-        val organisedAvgSale =
-            activityApnaNewSurveyBinding.organisedAvgSaleText.text.toString()
-        val unorganisedAvgSale =
-            activityApnaNewSurveyBinding.unorganisedAvgSaleText.text.toString()
+        val organisedAvgSale = activityApnaNewSurveyBinding.organisedAvgSaleText.text.toString()
+        val unorganisedAvgSale = activityApnaNewSurveyBinding.unorganisedAvgSaleText.text.toString()
         if (chemist.isEmpty()) {
             activityApnaNewSurveyBinding.chemistText.requestFocus()
-            Toast.makeText(this@ApnaNewSurveyActivity,
-                "Chemist should not be empty",
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@ApnaNewSurveyActivity, "Chemist should not be empty", Toast.LENGTH_SHORT
+            ).show()
             return false
         } else if (!chemist.contains(Regex("[a-zA-Z]"))) {
             activityApnaNewSurveyBinding.chemistText.requestFocus()
             Toast.makeText(
-                this@ApnaNewSurveyActivity,
-                "Please enter valid chemist name",
-                Toast.LENGTH_SHORT
+                this@ApnaNewSurveyActivity, "Please enter valid chemist name", Toast.LENGTH_SHORT
             ).show()
             return false
         } else if (organised.isEmpty()) {
-            Toast.makeText(this@ApnaNewSurveyActivity,
-                "Please select organised",
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@ApnaNewSurveyActivity, "Please select organised", Toast.LENGTH_SHORT
+            ).show()
             return false
         } else if (organised.equals("Yes", true) && organisedAvgSale.isEmpty()) {
             activityApnaNewSurveyBinding.organisedAvgSaleText.requestFocus()
-            Toast.makeText(this@ApnaNewSurveyActivity,
-                "Please enter organised Avg Sale",
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@ApnaNewSurveyActivity, "Please enter organised Avg Sale", Toast.LENGTH_SHORT
+            ).show()
             return false
         } else if (organisedAvgSale.isNotEmpty() && organisedAvgSale.all { it == '.' }) {
             activityApnaNewSurveyBinding.organisedAvgSaleText.requestFocus()
             Toast.makeText(
-                this@ApnaNewSurveyActivity,
-                "Please enter valid value",
-                Toast.LENGTH_SHORT
+                this@ApnaNewSurveyActivity, "Please enter valid value", Toast.LENGTH_SHORT
             ).show()
             return false
         } else if (organisedAvgSale.startsWith(".")) {
             activityApnaNewSurveyBinding.organisedAvgSaleText.requestFocus()
             Toast.makeText(
-                this@ApnaNewSurveyActivity,
-                "Please enter valid value",
-                Toast.LENGTH_SHORT
+                this@ApnaNewSurveyActivity, "Please enter valid value", Toast.LENGTH_SHORT
             ).show()
             return false
         } else if (unOrganised.isEmpty()) {
-            Toast.makeText(this@ApnaNewSurveyActivity,
-                "Please select unorganised",
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@ApnaNewSurveyActivity, "Please select unorganised", Toast.LENGTH_SHORT
+            ).show()
             return false
         } else if (unOrganised.equals("Yes", true) && unorganisedAvgSale.isEmpty()) {
             activityApnaNewSurveyBinding.unorganisedAvgSaleText.requestFocus()
-            Toast.makeText(this@ApnaNewSurveyActivity,
-                "Please enter unOrganised Avg Sale",
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@ApnaNewSurveyActivity, "Please enter unOrganised Avg Sale", Toast.LENGTH_SHORT
+            ).show()
             return false
         } else if (unorganisedAvgSale.isNotEmpty() && unorganisedAvgSale.all { it == '.' }) {
             activityApnaNewSurveyBinding.unorganisedAvgSaleText.requestFocus()
             Toast.makeText(
-                this@ApnaNewSurveyActivity,
-                "Please enter valid value",
-                Toast.LENGTH_SHORT
+                this@ApnaNewSurveyActivity, "Please enter valid value", Toast.LENGTH_SHORT
             ).show()
             return false
         } else if (unorganisedAvgSale.startsWith(".")) {
             activityApnaNewSurveyBinding.unorganisedAvgSaleText.requestFocus()
             Toast.makeText(
-                this@ApnaNewSurveyActivity,
-                "Please enter valid value",
-                Toast.LENGTH_SHORT
+                this@ApnaNewSurveyActivity, "Please enter valid value", Toast.LENGTH_SHORT
             ).show()
             return false
         } else if (organisedAvgSale.isNotEmpty() && organisedAvgSale.toDouble() <= 0) {
             activityApnaNewSurveyBinding.organisedAvgSaleText.requestFocus()
             Toast.makeText(
-                this@ApnaNewSurveyActivity,
-                "Avg sale value should not be zero",
-                Toast.LENGTH_SHORT
+                this@ApnaNewSurveyActivity, "Avg sale value should not be zero", Toast.LENGTH_SHORT
             ).show()
             return false
         } else if (unorganisedAvgSale.isNotEmpty() && unorganisedAvgSale.toDouble() <= 0) {
             activityApnaNewSurveyBinding.unorganisedAvgSaleText.requestFocus()
             Toast.makeText(
-                this@ApnaNewSurveyActivity,
-                "Avg sale value should not be zero",
-                Toast.LENGTH_SHORT
+                this@ApnaNewSurveyActivity, "Avg sale value should not be zero", Toast.LENGTH_SHORT
             ).show()
             return false
         } else {
@@ -3383,25 +3469,19 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         if (!store.contains(Regex("[a-zA-Z]"))) {
             activityApnaNewSurveyBinding.storeText.requestFocus()
             Toast.makeText(
-                this@ApnaNewSurveyActivity,
-                "Please enter valid store name",
-                Toast.LENGTH_SHORT
+                this@ApnaNewSurveyActivity, "Please enter valid store name", Toast.LENGTH_SHORT
             ).show()
             return false
         } else if (sales.all { it == '.' }) {
             activityApnaNewSurveyBinding.salesText.requestFocus()
             Toast.makeText(
-                this@ApnaNewSurveyActivity,
-                "Please enter valid sales",
-                Toast.LENGTH_SHORT
+                this@ApnaNewSurveyActivity, "Please enter valid sales", Toast.LENGTH_SHORT
             ).show()
             return false
         } else if (sqFt.all { it == '.' }) {
             activityApnaNewSurveyBinding.sqFtText.requestFocus()
             Toast.makeText(
-                this@ApnaNewSurveyActivity,
-                "Please enter valid sqft",
-                Toast.LENGTH_SHORT
+                this@ApnaNewSurveyActivity, "Please enter valid sqft", Toast.LENGTH_SHORT
             ).show()
             return false
         } else {
@@ -3523,11 +3603,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         map.setOnMarkerDragListener(this@ApnaNewSurveyActivity)
                         this@ApnaNewSurveyActivity.map = map
                         if (location == null) {
-                            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                            getCurrentLocation()/*val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                             this@ApnaNewSurveyActivity.startActivityForResult(
                                 intent,
                                 REQUEST_CODE_LOCATION
-                            )
+                            )*/
                         } else {
                             val latLang = LatLng(location!!.latitude, location.longitude)
                             activityApnaNewSurveyBinding.latitude.setText(location.latitude.toString())
@@ -3535,9 +3615,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
 //                        geocoder = Geocoder(this@ApnaNewSurveyActivity, Locale.getDefault())
                             val addresses = geocoder.getFromLocation(
-                                location.latitude,
-                                location.longitude,
-                                1
+                                location.latitude, location.longitude, 1
                             )
                             activityApnaNewSurveyBinding.stateText.setText(addresses!!.get(0).adminArea)
                             activityApnaNewSurveyBinding.cityText.setText(addresses.get(0).locality)
@@ -3808,11 +3886,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
         intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30)//context.cacheDir
 
-        videoFile =
-            File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                    .toString(), "${System.currentTimeMillis()}.mp4"
-            )
+        videoFile = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                .toString(), "${System.currentTimeMillis()}.mp4"
+        )
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile))
@@ -3822,6 +3899,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri)
         }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.putExtra(android.provider.MediaStore.EXTRA_VIDEO_QUALITY, 0);
+        intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 3294912L);//5*1048*1048=5MB
 
         startActivityForResult(intent, REQUEST_CODE_VIDEO)
     }
@@ -3854,8 +3933,28 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             activityApnaNewSurveyBinding.deleteVideo.visibility = View.VISIBLE
             activityApnaNewSurveyBinding.playVideo.visibility = View.VISIBLE
             activityApnaNewSurveyBinding.afterCapturedVideo.setVideoURI(Uri.parse(videoFile!!.absolutePath))
+            videoFileList.add(videoFile!!)
         } else if (requestCode == REQUEST_CODE_LOCATION) {
             getCurrentLocation()
+        } else if (requestCode == GPS_REQUEST_CODE) {
+            if (isGpsEnambled()) {
+                val locationDeniedLayout = findViewById(R.id.location_denied) as LinearLayout
+                locationDeniedLayout.visibility = View.GONE
+                locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+                if (isGpsEnambled()) {
+                    checkLocationPermission()
+                } else {
+                    buildAlertMessageNoGps()
+                }
+            } else {
+                val locationDeniedLayout = findViewById(R.id.location_denied) as LinearLayout
+                val locationPermissionDeniedText =
+                    findViewById(R.id.location_permission_denied_text) as TextView
+                locationPermissionDeniedText.setText(R.string.label_gps_enable_to_access_application)
+                val locationPermissionBtn = findViewById(R.id.location_permission_btn) as Button
+                locationPermissionBtn.setText(R.string.gps_enable)
+                locationDeniedLayout.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -3920,6 +4019,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                 isLocationDetailsCompleted = true
                 isSiteSpecificationsInProgress = true
+
+
+
 
                 activityApnaNewSurveyBinding.locationDetailsNum.visibility = View.GONE
                 activityApnaNewSurveyBinding.locationDetailsText.visibility = View.GONE
@@ -4465,8 +4567,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     hospital.hospitals = hospitalsList[i].hospitalName
                     hospital.beds = hospitalsList[i].beds
                     hospital.noOpd = hospitalsList[i].noOfOpd
-                    hospital.occupancy = hospitalsList[i].occupancy
-                        .substring(0, hospitalsList[i].occupancy.length)
+                    hospital.occupancy =
+                        hospitalsList[i].occupancy.substring(0, hospitalsList[i].occupancy.length)
                     hospitals.add(hospital)
                 }
                 surveyCreateRequest.hospitals = hospitals
@@ -4552,9 +4654,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         var presentTrafficPatterns =
             activityApnaNewSurveyBinding.presentTrafficPatterns.text.toString().trim()
 
-        if (!activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim()
-                .isEmpty()
-        ) {
+        if (!activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim().isEmpty()) {
             if (ageOfTheBuilding.isEmpty()) {
                 ageOfTheBuilding = "0"
             }
@@ -4631,6 +4731,29 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             return true;
         } else {
             siteSpecificationsErrorMessage = ""
+            return true
+        }
+    }
+
+    fun photosValidations(): Boolean {
+        if (imageFileList != null && imageFileList.size > 0) {
+            return true
+        } else {
+            Toast.makeText(
+                this@ApnaNewSurveyActivity,
+                "Atleast one image should be uploaded",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        }
+    }
+
+    fun videosValidation(): Boolean {
+        if (videoFileList != null && videoFileList.size > 0) {
+            return true
+        } else {
+            Toast.makeText(this@ApnaNewSurveyActivity, "Video must be uploaded", Toast.LENGTH_SHORT)
+                .show()
             return true
         }
     }
@@ -4782,8 +4905,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             activityApnaNewSurveyBinding.chemistTotalLayout.visibility = View.VISIBLE
 
             val orgAvgSale =
-                chemistList.filter { it.organisedAvgSale.isNotEmpty() }
-                    .map { it.organisedAvgSale }
+                chemistList.filter { it.organisedAvgSale.isNotEmpty() }.map { it.organisedAvgSale }
 
             val totalOrganisedAvgSale = orgAvgSale.map { it.toInt() }.sum()
 
@@ -4991,8 +5113,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     override fun onSuccessGetDimensionTypeApiCall(dimensionTypeResponse: DimensionTypeResponse) {
         Utlis.hideLoading()
         if (dimensionTypeResponse != null && dimensionTypeResponse.data!!.listData != null && dimensionTypeResponse.data!!.listData!!.rows!!.size > 0) {
-            dimensionTypeList =
-                dimensionTypeResponse.data!!.listData!!.rows as ArrayList<Row>
+            dimensionTypeList = dimensionTypeResponse.data!!.listData!!.rows as ArrayList<Row>
 //            activityApnaNewSurveyBinding.expectedRentRadioGroup.check(activityApnaNewSurveyBinding.perSqFtRadioButton.id)
 
 //            activityApnaNewSurveyBinding.dimensionTypeSelect.setText(dimensionTypeList[0].name.toString())
@@ -5117,9 +5238,15 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         if (videoFile != null) {
             var videoFileList = ArrayList<File>()
             videoFileList.add(videoFile!!)
-            apnaNewSurveyViewModel.videoListConnectToAzure(
-                videoFileList, this@ApnaNewSurveyActivity, surveyCreateRequest
-            )
+            var fileUploadApnaSurveyModelList = ArrayList<FileUploadApnaSurveyModel>()
+            var fileUploadApnaSurveyModel = FileUploadApnaSurveyModel()
+            fileUploadApnaSurveyModel.file = videoFile!!
+            fileUploadApnaSurveyModelList.add(fileUploadApnaSurveyModel)
+            FileUploadApnaSurvey().uploadFiles(
+                this, this, fileUploadApnaSurveyModelList!!
+            )/* apnaNewSurveyViewModel.videoListConnectToAzure(
+                 videoFileList, this@ApnaNewSurveyActivity, surveyCreateRequest
+             )*/
         } else {
             apnaNewSurveyViewModel.createSurvey(
                 surveyCreateRequest, this@ApnaNewSurveyActivity
@@ -5134,13 +5261,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     override fun onSuccessVideoConnectAzure(
         videoUrlList: List<SurveyCreateRequest.VideoMb.Video>,
         surveyCreateRequest: SurveyCreateRequest,
-    ) {
-        var videoMb = SurveyCreateRequest.VideoMb()
+    ) {/*var videoMb = SurveyCreateRequest.VideoMb()
         videoMb.video = videoUrlList
         surveyCreateRequest.videoMb = videoMb
         apnaNewSurveyViewModel.createSurvey(
             surveyCreateRequest, this@ApnaNewSurveyActivity
-        )
+        )*/
     }
 
     override fun onFailureVideoConnectAzure(message: String) {
@@ -5186,6 +5312,28 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         this.regionCode = regionCode
         activityApnaNewSurveyBinding.locationText.setText(regionName)
         locationListDialog.dismiss()
+    }
+
+    override fun onFailureUpload(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun allFilesDownloaded(fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?) {
+        var videoMb = SurveyCreateRequest.VideoMb()
+
+        var videoList = ArrayList<SurveyCreateRequest.VideoMb.Video>()
+        var video = SurveyCreateRequest.VideoMb.Video()
+        video.url = fileUploadApnaSurveyModelList!!.get(0)!!.fileDownloadResponse!!.referenceurl!!
+        videoList.add(video)
+        videoMb.video = videoList
+        surveyCreateRequest.videoMb = videoMb
+        apnaNewSurveyViewModel.createSurvey(
+            surveyCreateRequest, this@ApnaNewSurveyActivity
+        )
+    }
+
+    override fun allFilesUploaded(fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?) {
+        TODO("Not yet implemented")
     }
 
     override fun onBackPressed() {
@@ -5252,8 +5400,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             dialogAgeOftheBuildingBinding.monthRcv.layoutManager =
                 LinearLayoutManager(this@ApnaNewSurveyActivity)
 
-            dialogAgeOftheBuildingBinding.searchMonth.addTextChangedListener(object :
-                TextWatcher {
+            dialogAgeOftheBuildingBinding.searchMonth.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,

@@ -36,9 +36,9 @@ class CeoDashboardViewModel : ViewModel() {
                 token = data.APIS[i].TOKEN
                 break
             }
-        }
+        }//https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/get-ticket-counts-by-status-role?
         var getTicketListByCountUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/get-ticket-counts-by-status-role?"
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/get-ticket-counts-by-status-role?"
         getTicketListByCountUrl += "from_date=$startDate&to_date=$endDate&employee_id=$id"
         state.postValue(State.LOADING)
         viewModelScope.launch {
