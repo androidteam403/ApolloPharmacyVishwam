@@ -83,7 +83,7 @@ class ReasonWiseTicketCountbyRoleFixedAdapter(
             if (role.equals("ceo")) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
                     "Manager (${rows.size})"
-            } else if (role.equals("regional_head")) {
+            } else if (role.equals("region_head")) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
                     "Executives (${rows.size})"
             } else if (role.equals("store_manager")) {

@@ -111,9 +111,9 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
             role = employeeDetailsResponse!!.data!!.role!!.code!!
             if (employeeDetailsResponse!!.data!!.role!!.code!!.equals("ceo")) {
                 activityDashboardDetailsBinding.empRole.text = "CEO Dashboard"
-                activityDashboardDetailsBinding.selectedEmpRole.text = "Regional Head"
-            } else if (employeeDetailsResponse!!.data!!.role!!.code!!.equals("regional_head")) {
-                activityDashboardDetailsBinding.empRole.text = "Regional Head Dashboard"
+                activityDashboardDetailsBinding.selectedEmpRole.text = "Region Head"
+            } else if (employeeDetailsResponse!!.data!!.role!!.code!!.equals("region_head")) {
+                activityDashboardDetailsBinding.empRole.text = "Region Head Dashboard"
                 activityDashboardDetailsBinding.selectedEmpRole.text = "Manager"
             } else if (employeeDetailsResponse!!.data!!.role!!.code!!.equals("store_manager")) {
                 activityDashboardDetailsBinding.empRole.text = "Manager Dashboard"

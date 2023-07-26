@@ -1418,7 +1418,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "DashboardCeo":
-                headerText.setText("Ceo Dashboard");
+                if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")) {
+                    headerText.setText("Ceo Dashboard");
+                } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("region_head")) {
+                    headerText.setText("Region Head Dashboard");
+                } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_manager")) {
+                    headerText.setText("Manager Dashboard");
+                } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_executive")) {
+                    headerText.setText("Executive Dashboard");
+                }
+
+
                 fragment = new CeoDashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
@@ -1837,20 +1847,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
 
-        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
+        /*listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));*/
 
         if (isSensingRequired) {
             listView.addHeaderModel(new HeaderModel("Apollo Sensing", Color.WHITE, false, R.drawable.ic_menu_champ));
         }
-        listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));
+        /*listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));*/
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
         }
         if (isCMSRequired) {
-            listView.addHeaderModel(new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register)).addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
-                    .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
-            );
+            listView.addHeaderModel(new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register)).addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list)).addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list)));
         }
         if (isDiscountRequired) {
             listView.addHeaderModel(new HeaderModel("Discount", Color.WHITE, true, R.drawable.ic_menu_discount).addChildModel(new ChildModel("Pending", R.drawable.ic_apollo_pending)).addChildModel(new ChildModel("Approved", R.drawable.ic_apollo_approve__1_)).addChildModel(new ChildModel("Rejected", R.drawable.ic_apollo_reject)).addChildModel(new ChildModel("Bill", R.drawable.ic_apollo_bill)));
@@ -1877,7 +1885,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")) {
+        if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo") || Preferences.INSTANCE.getRoleForCeoDashboard().equals("region_head") || Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_manager") || Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_executive")) {
+            listView.addHeaderModel(new HeaderModel("Monitoring", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard)));
+        }
+
+        /*if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")) {
             listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Ceo", R.drawable.ic_apollo_dashboard)));
         } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("regional_head")) {
             listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Regional Head", R.drawable.ic_apollo_dashboard)));
@@ -1887,7 +1899,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Executive", R.drawable.ic_apollo_dashboard)));
         } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_supervisor")) {
             listView.addHeaderModel(new HeaderModel("QC Dashboard CEO", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard Store Supervisor", R.drawable.ic_apollo_dashboard)));
-        }
+        }*/
 
 //        if (true) {
 //
@@ -1917,15 +1929,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
         if ((employeeRoleRetro.equalsIgnoreCase("Yes")) && (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER"))) {
-            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
-                    .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
-                    .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
         } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("NODATA")) {
-            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
-                    .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
+            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
         } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER")) {
-            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
-                    .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
         }
 
         listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
@@ -2085,9 +2093,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    displaySelectedScreen("After Completion Approval");
 //                }
 
-            }
+            }//Monitoring
 
-            if (listHeader.get(groupPosition).getTitle().equals("QC Dashboard CEO")) {
+            if (listHeader.get(groupPosition).getTitle().equals("Monitoring")) {
+                List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
+                if (childModelList.get(childPosition).getTitle().equals("Dashboard")) {
+                    displaySelectedScreen("DashboardCeo");
+                }
+            }
+           /* if (listHeader.get(groupPosition).getTitle().equals("QC Dashboard CEO")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Dashboard Ceo")) {
                     displaySelectedScreen("DashboardCeo");
@@ -2101,7 +2115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("Dashboard Store Supervisor");
                 }
 
-            }
+            }*/
 
 
 //            if (groupPosition == 1 && childPosition == 0) {

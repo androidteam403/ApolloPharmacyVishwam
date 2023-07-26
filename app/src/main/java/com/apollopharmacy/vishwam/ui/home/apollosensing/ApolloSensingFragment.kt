@@ -1217,19 +1217,19 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun onSuccessCheckScreenStatusApiCall(checkScreenStatusResponse: CheckScreenStatusResponse) {
         hideLoading()
         if (checkScreenStatusResponse != null && checkScreenStatusResponse!!.status == true) {
-//            if (checkScreenStatusResponse.CUSTLINK!! == true && checkScreenStatusResponse.STORELINK!! == true) {
+            if (checkScreenStatusResponse.CUSTLINK!! == true && checkScreenStatusResponse.STORELINK!! == true) {
                 viewBinding.sendLink.visibility = View.VISIBLE
                 viewBinding.or.visibility = View.VISIBLE
                 viewBinding.takePhoto.visibility = View.VISIBLE
-//            } else if (checkScreenStatusResponse.CUSTLINK!! == true) {
-//                viewBinding.sendLink.visibility = View.VISIBLE
-//                viewBinding.or.visibility = View.GONE
-//                viewBinding.takePhoto.visibility = View.GONE
-//            } else if (checkScreenStatusResponse.STORELINK!! == true) {
-//                viewBinding.sendLink.visibility = View.GONE
-//                viewBinding.or.visibility = View.GONE
-//                viewBinding.takePhoto.visibility = View.VISIBLE
-//            }
+            } else if (checkScreenStatusResponse.CUSTLINK!! == true) {
+                viewBinding.sendLink.visibility = View.VISIBLE
+                viewBinding.or.visibility = View.GONE
+                viewBinding.takePhoto.visibility = View.GONE
+            } else if (checkScreenStatusResponse.STORELINK!! == true) {
+                viewBinding.sendLink.visibility = View.GONE
+                viewBinding.or.visibility = View.GONE
+                viewBinding.takePhoto.visibility = View.VISIBLE
+            }
         }
         setUpNew()
     }

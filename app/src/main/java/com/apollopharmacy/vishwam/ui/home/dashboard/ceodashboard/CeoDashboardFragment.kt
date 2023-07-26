@@ -55,9 +55,9 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         data.add((70f))
         if (Preferences.getRoleForCeoDashboard().equals("ceo")) {
             viewBinding.dashboardName.setText("CEO Dashboard")
-            viewBinding.nameOfTheStore.setText("Regional Head")
-        } else if (Preferences.getRoleForCeoDashboard().equals("regional_head")) {
-            viewBinding.dashboardName.setText("Regional Head Dashboard")
+            viewBinding.nameOfTheStore.setText("Region Head")
+        } else if (Preferences.getRoleForCeoDashboard().equals("region_head")) {
+            viewBinding.dashboardName.setText("Region Head Dashboard")
             viewBinding.nameOfTheStore.setText("Store Manager")
         } else if (Preferences.getRoleForCeoDashboard().equals("store_manager")) {
             viewBinding.dashboardName.setText("Store Manager Dashboard")
