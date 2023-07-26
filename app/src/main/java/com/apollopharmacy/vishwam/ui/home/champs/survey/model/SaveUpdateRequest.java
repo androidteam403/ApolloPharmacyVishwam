@@ -11,6 +11,12 @@ public class SaveUpdateRequest implements Serializable {
     @SerializedName("date")
     @Expose
     private String date;
+
+    @SerializedName("champs_id")
+    @Expose
+    private String champsId;
+
+
     @SerializedName("issue")
     @Expose
     private String issue;
@@ -63,6 +69,14 @@ public class SaveUpdateRequest implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getChampsId() {
+        return champsId;
+    }
+
+    public void setChampsId(String champsId) {
+        this.champsId = champsId;
     }
 
     public String getIssue() {
