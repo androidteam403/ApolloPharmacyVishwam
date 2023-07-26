@@ -57,7 +57,7 @@ class UploadRackAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var items=images.get(position)
         val rackCount = position + 1
-        holder.uploadRackLayoutBinding.rackCount.text = "Rack $rackCount"
+        holder.uploadRackLayoutBinding.rackCount.text = items.rackno
 
 //        if (items.imageurl!!.contains(".")|| items.imageurl!!.isNullOrEmpty()) {
         if ( items.imageurl!!.isNotEmpty()) {
@@ -120,11 +120,12 @@ class UploadRackAdapter(
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence): FilterResults {
                 charString = charSequence.toString()
-                images = if (charString!!.isEmpty()) {
+                images = if (charString.equals("All")||charString!!.isEmpty()) {
                     imagesListList
                 } else {
                     imagesFilterList.clear()
                     for (row in imagesListList) {
+
                         if (!imagesFilterList.contains(row) && row.rackno!!.lowercase(Locale.getDefault()).contains(
                                 charString!!.lowercase(
                                 Locale.getDefault()))) {

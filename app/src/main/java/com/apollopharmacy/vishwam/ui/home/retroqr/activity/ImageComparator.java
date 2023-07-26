@@ -1,5 +1,17 @@
 package com.apollopharmacy.vishwam.ui.home.retroqr.activity;
 
+
+import static android.os.Build.VERSION_CODES.R;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.ebr163.bifacialview.view.utils.BitmapUtils;
+
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
@@ -8,7 +20,11 @@ import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.ORB;
 import org.opencv.imgcodecs.Imgcodecs;
 
-public class ImageComparator {
+
+public class ImageComparator implements View.OnTouchListener {
+
+    ImageView imageview;
+
     static {
         if (!OpenCVLoader.initDebug()) {
             OpenCVLoader.initDebug(true); // Enable extra image format support
@@ -16,7 +32,13 @@ public class ImageComparator {
     }
 
     public static double compareImages(Mat imagePath1, String imagePath2) {
-        // Load images
+
+//        Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.bitmap1);
+//        Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.bitmap2);
+
+//        double matchingPercentage = BitmapUtils.calculateMatchingPercentage(bitmap1, bitmap2);
+//        Log.d("MatchingPercentage", "Percentage: " + matchingPercentage + "%");
+
 
         Mat img1 = imagePath1;
         Mat img2 = Imgcodecs.imread(imagePath2, Imgcodecs.IMREAD_GRAYSCALE);
@@ -54,6 +76,49 @@ public class ImageComparator {
 
         double percentageSimilarity = (goodMatches / totalMatches) * 100;
         return percentageSimilarity;
+    }
+
+
+    public static double calculateMatchingPercentage(Bitmap bitmap1, Bitmap bitmap2) {
+        int width1 = bitmap1.getWidth();
+        int height1 = bitmap1.getHeight();
+        int width2 = bitmap2.getWidth();
+        int height2 = bitmap2.getHeight();
+
+        if (width1 != width2 || height1 != height2) {
+            throw new IllegalArgumentException("Bitmaps must have the same dimensions.");
+        }
+
+        int[] pixels1 = new int[width1 * height1];
+        int[] pixels2 = new int[width2 * height2];
+
+        bitmap1.getPixels(pixels1, 0, width1, 0, 0, width1, height1);
+        bitmap2.getPixels(pixels2, 0, width2, 0, 0, width2, height2);
+
+        int matchingPixels = 0;
+
+        for (int i = 0; i < pixels1.length; i++) {
+            if (pixels1[i] == pixels2[i]) {
+                matchingPixels++;
+            }
+        }
+
+        double matchingPercentage = (double) matchingPixels / pixels1.length * 100;
+        return matchingPercentage;
+    }
+
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (v.getId()) {
+            case 1:
+                if (v == imageview) {
+
+                    return true;
+                }
+
+        }
+        return false;
     }
 }
 

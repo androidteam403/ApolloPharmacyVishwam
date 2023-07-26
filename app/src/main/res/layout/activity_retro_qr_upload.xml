@@ -41,18 +41,18 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/siteId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="14001"
-                    android:id="@+id/siteId"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/siteName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Apollo Punjagutta"
-                    android:id="@+id/siteName"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_10sp"
                     android:textStyle="bold" />
@@ -67,157 +67,173 @@
             android:layout_marginBottom="@dimen/value_50dp"
             android:fillViewport="true">-->
 
-            <!--<FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">-->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value_50dp"
-                    android:layout_below="@+id/header_view"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_45dp"
-                        android:background="#f4f5f4"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/value_25dp"
-                                android:layout_marginEnd="@dimen/value_8dp"
-                                android:text="Rack No: "
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_12sp"
-                                android:textStyle="bold" />
-
-                            <EditText
-                                android:layout_width="@dimen/value_80dp"
-                                android:layout_height="@dimen/value_25dp"
-                                android:id="@+id/rack_number"
-                                android:textSize="12sp"
-                                android:layout_marginEnd="@dimen/value_3dp"
-                                android:background="@drawable/white_rounded_corner" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="@dimen/value_25dp"
-                                android:id="@+id/rack_arrow"
-                                android:background="@drawable/gray_rounded_bg"
-                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                android:contentDescription="@string/app_name" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="@dimen/value_5dp">
-
-                                <LinearLayout
-                                    android:layout_width="@dimen/value_40dp"
-                                    android:layout_height="@dimen/value_70dp"
-                                    android:layout_gravity="center"
-                                    android:layout_weight="0.10"
-                                    android:gravity="center">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/value_55dp"
-                                        android:layout_height="@dimen/value_55dp"
-                                        android:layout_gravity="center"
-                                        android:scaleType="fitXY"
-                                        android:src="@drawable/right_greenn"/>
-                                </LinearLayout>
-                            </LinearLayout>
-
-                            <!--<ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/right_green"
-                                android:contentDescription="@string/app_name" />-->
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lastUpdateLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="@dimen/value_8dp"
-                            android:gravity="center_vertical|end"
-                            android:visibility="gone"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginEnd="@dimen/value_5dp"
-                                android:gravity="center_vertical|end"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Last Update"
-                                    android:textColor="#666666"
-                                    android:textSize="@dimen/text_10sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/lastUpdateDate"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="10 June, 2023"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen11sp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                            <ImageView
-                                android:layout_width="@dimen/value_20dp"
-                                android:layout_height="@dimen/value_20dp"
-                                android:src="@drawable/calendar"
-                                android:tint="#979b97"
-                                tools:ignore="UseAppTint"
-                                android:contentDescription="@string/app_name" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/uploadRackRcv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:itemCount="4"
-                            tools:listitem="@layout/upload_rack_layout" />
-
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/reviewRack"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:itemCount="4"
-                            tools:listitem="@layout/review_rack_layout" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            <!--</FrameLayout>
-        </androidx.core.widget.NestedScrollView>-->
+        <!--<FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">-->
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_view"
+            android:layout_marginBottom="@dimen/value_50dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_45dp"
+                android:background="#f4f5f4"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_25dp"
+                        android:layout_marginEnd="@dimen/value_8dp"
+                        android:text="Rack No: "
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_12sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:background="@drawable/square_stroke_spinner_bg">
+
+                        <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+
+                    <!--                            <EditText-->
+                    <!--                                android:layout_width="@dimen/value_80dp"-->
+                    <!--                                android:layout_height="@dimen/value_25dp"-->
+                    <!--                                android:id="@+id/rack_number"-->
+                    <!--                                android:textSize="12sp"-->
+                    <!--                                android:layout_marginEnd="@dimen/value_3dp"-->
+                    <!--                                android:background="@drawable/white_rounded_corner" />-->
+
+
+                    <!--                            <ImageView-->
+                    <!--                                android:layout_width="wrap_content"-->
+                    <!--                                android:layout_height="@dimen/value_25dp"-->
+                    <!--                                android:id="@+id/rack_arrow"-->
+                    <!--                                android:background="@drawable/gray_rounded_bg"-->
+                    <!--                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"-->
+                    <!--                                android:contentDescription="@string/app_name" />-->
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/value_5dp">
+
+                        <LinearLayout
+                            android:layout_width="@dimen/value_40dp"
+                            android:layout_height="@dimen/value_70dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.10"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="@dimen/value_55dp"
+                                android:layout_height="@dimen/value_55dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/right_greenn" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!--<ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/right_green"
+                        android:contentDescription="@string/app_name" />-->
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lastUpdateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/value_8dp"
+                    android:gravity="center_vertical|end"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:gravity="center_vertical|end"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Last Update"
+                            android:textColor="#666666"
+                            android:textSize="@dimen/text_10sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/lastUpdateDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10 June, 2023"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/value_20dp"
+                        android:layout_height="@dimen/value_20dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/calendar"
+                        android:tint="#979b97"
+                        tools:ignore="UseAppTint" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/uploadRackRcv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/upload_rack_layout" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/reviewRack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/review_rack_layout" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <!--</FrameLayout>
+    </androidx.core.widget.NestedScrollView>-->
+
+        <LinearLayout
+            android:id="@+id/uploadsubmit_layout"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true"
-            android:id="@+id/uploadsubmit_layout"
             android:foreground="@drawable/gray_border_top"
             android:orientation="horizontal"
             android:weightSum="4">
@@ -302,10 +318,10 @@
                 android:id="@+id/submitButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:onClick="@{()->callback.onClickSubmit()}"
                 android:layout_weight="1.2"
                 android:background="#a1a1a1"
-                android:gravity="center_vertical|center_horizontal">
+                android:gravity="center_vertical|center_horizontal"
+                android:onClick="@{()->callback.onClickSubmit()}">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -318,12 +334,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/review_submit_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
-            android:visibility="gone"
-            android:id="@+id/review_submit_layout"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <View
                 android:layout_width="match_parent"

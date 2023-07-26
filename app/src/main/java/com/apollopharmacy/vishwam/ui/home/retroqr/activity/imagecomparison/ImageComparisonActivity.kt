@@ -2,30 +2,25 @@ package com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagecomparison
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.Handler
+import android.util.Log
 import android.view.MotionEvent
+import android.view.ViewTreeObserver.OnScrollChangedListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.ActivityImageComparisonBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagepreview.RetroImagePreviewActivity
-import com.apollopharmacy.vishwam.util.PopUpWIndow
-import com.bumptech.glide.Glide
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.opencv.android.OpenCVLoader
-import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URL
 
-class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
+
+class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback  {
     private lateinit var activityImageComparisonBinding: ActivityImageComparisonBinding
     private var firstImage: String = ""
     private var secondImage: String = ""
@@ -54,6 +49,7 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
             rackNo = intent.getStringExtra("rackNo")!!
             matchingPercentage = intent.getStringExtra("matchingPercentage")!!
 
+
             activityImageComparisonBinding.matchingPercentage.setText(matchingPercentage)
 
             val thread = Thread {
@@ -66,8 +62,17 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
                          bitmap1 = BitmapFactory.decodeStream(inputStream)
                          bitmap2 = BitmapFactory.decodeFile(secondImage)
                         runOnUiThread {
+//                            activityImageComparisonBinding.slider.setDrawableLeft(BitmapDrawable(resources, bitmap1))
+//                            activityImageComparisonBinding.slider.setDrawableRight(BitmapDrawable(resources, bitmap2))
+
+
                             activityImageComparisonBinding.beforeAfterSlider.setBeforeImage(BitmapDrawable(resources,
                                 bitmap2)).setAfterImage(BitmapDrawable(resources, bitmap1))
+
+
+
+
+
                         }
 
                     }
@@ -113,6 +118,11 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
 //                .into(activityImageComparisonBinding.secondimage)
         }
 
+
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return super.onTouchEvent(event)
 
     }
 
