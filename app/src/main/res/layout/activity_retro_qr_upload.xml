@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="RETRO QR UPLOAD"
+                android:id="@+id/headername"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_16sp" />
 

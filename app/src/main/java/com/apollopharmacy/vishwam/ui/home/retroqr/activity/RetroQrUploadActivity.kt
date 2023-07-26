@@ -109,21 +109,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         activityRetroQrUploadBinding.siteName.setText(Preferences.getQrSiteName())
 
         if (intent != null) {
-            activity = intent.getStringExtra("activity")!!
-            if (activity.equals("upload")) {
-                activityRetroQrUploadBinding.uploadRackRcv.visibility = View.VISIBLE
-                activityRetroQrUploadBinding.reviewRack.visibility = View.GONE
-                activityRetroQrUploadBinding.uploadsubmitLayout.visibility = View.VISIBLE
-                activityRetroQrUploadBinding.reviewSubmitLayout.visibility = View.GONE
+//            activity = intent.getStringExtra("activity")!!
 
-
-            } else if (activity.equals("review")) {
-                activityRetroQrUploadBinding.uploadRackRcv.visibility = View.VISIBLE
-                activityRetroQrUploadBinding.reviewRack.visibility = View.VISIBLE
-                activityRetroQrUploadBinding.uploadsubmitLayout.visibility = View.GONE
-                activityRetroQrUploadBinding.reviewSubmitLayout.visibility = View.VISIBLE
-
-            }
 
 
         }
@@ -177,7 +164,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
 
 
-            finish()
+//            finish()
         }
     }
 
@@ -217,7 +204,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
 
 
-                finish()
+//                finish()
             }
 
         }
@@ -234,6 +221,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
     override fun onSuccessUploadImagesApiCall(message: String) {
+        finish()
         Toast.makeText(this@RetroQrUploadActivity, message, Toast.LENGTH_SHORT).show()
         hideLoading()
     }
@@ -280,6 +268,34 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             storeWiseRackDetails.storeDetails!!.size.toString()
         imagesList =
             storeWiseRackDetails.storeDetails as ArrayList<StoreWiseRackDetails.StoreDetail>
+
+
+        if (imagesList.filter { it.imageurl!!.isNotEmpty() }.size>0) {
+            activity="review"
+
+            activityRetroQrUploadBinding.uploadRackRcv.visibility = View.VISIBLE
+            activityRetroQrUploadBinding.reviewRack.visibility = View.VISIBLE
+            activityRetroQrUploadBinding.uploadsubmitLayout.visibility = View.GONE
+            activityRetroQrUploadBinding.reviewSubmitLayout.visibility = View.VISIBLE
+            activityRetroQrUploadBinding.headername.setText("RETRO QR REVIEW")
+
+        }
+        else {
+            activity="upload"
+
+            activityRetroQrUploadBinding.headername.setText("RETRO QR UPLOAD")
+
+            activityRetroQrUploadBinding.uploadRackRcv.visibility = View.VISIBLE
+            activityRetroQrUploadBinding.reviewRack.visibility = View.GONE
+            activityRetroQrUploadBinding.uploadsubmitLayout.visibility = View.VISIBLE
+            activityRetroQrUploadBinding.reviewSubmitLayout.visibility = View.GONE
+
+
+
+        }
+
+
+
 
         activityRetroQrUploadBinding.updatedCount.setText(updatedCount.toString())
         activityRetroQrUploadBinding.pendingCount.setText((imagesList.size - updatedCount).toString())
