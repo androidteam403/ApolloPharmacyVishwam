@@ -80,7 +80,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
         showLoading()
         viewModel.getTicketListByCountApi(
-            this, Utils.getFirstDateOfCurrentMonth(), Utils.getCurrentDateCeoDashboard(), "SM1001"
+            this, Utils.getFirstDateOfCurrentMonth(), Utils.getCurrentDateCeoDashboard(), Preferences.getValidatedEmpId()//"APL67949"
         )
 
 //        viewModel.getTicketListByCountApi(this, "2023-06-05", "2023-06-30", "Srilekha")//EX100011//Preferences.getValidatedEmpId()
