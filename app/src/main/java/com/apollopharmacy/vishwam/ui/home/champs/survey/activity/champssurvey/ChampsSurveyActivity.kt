@@ -1536,8 +1536,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 activityChampsSurveyBinding.enterOtherTrainingEdittext.text.toString()
             saveUpdateRequest.trimpSoftSkill =
                 activityChampsSurveyBinding.enterSoftSkillsEdittext.text.toString()
-            saveUpdateRequest.trimpSoftSkills =
-                activityChampsSurveyBinding.enterSoftSkillsEdittext.text.toString()
+//            saveUpdateRequest.trimpSoftSkills =
+//                activityChampsSurveyBinding.enterSoftSkillsEdittext.text.toString()
             saveUpdateRequest.trimpTech =
                 activityChampsSurveyBinding.enterTextTechnicalEdittext.text.toString()
             saveUpdateRequest.store = activityChampsSurveyBinding.storeId.text.toString()
@@ -1599,7 +1599,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             saveUpdateRequest.cmsChampsSurveyQa = cmsChampsSurveQaList
 
 
-
+            saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
             champsSurveyViewModel.saveUpdateApi(this, saveUpdateRequest)
         } else {
             Utlis.hideLoading()
