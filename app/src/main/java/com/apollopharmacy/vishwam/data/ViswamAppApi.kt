@@ -22,6 +22,8 @@ import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCate
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
@@ -463,6 +465,12 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: OnUploadSwachModelRequest,
     ): OnUploadSwachModelResponse
+
+    @POST
+    suspend fun saveUpdateApi(
+        @Url url: String,
+        @Body data: SaveUpdateRequest,
+    ): SaveUpdateResponse
 
 
     @POST//("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStorependingAndApprovedList")

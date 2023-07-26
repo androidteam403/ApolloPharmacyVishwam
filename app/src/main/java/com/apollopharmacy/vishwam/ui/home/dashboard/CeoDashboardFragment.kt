@@ -22,10 +22,10 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     override fun setup() {
 //        val pie = AnyChart.pie()
 //
-//        val data: MutableList<DataEntry> = ArrayList()
-//        data.add(ValueDataEntry("John", 10000))
-//        data.add(ValueDataEntry("Jake", 12000))
-//        data.add(ValueDataEntry("Peter", 18000))
+        val data: MutableList<DataEntry> = ArrayList()
+        data.add(ValueDataEntry("John", 10000))
+        data.add(ValueDataEntry("Jake", 12000))
+        data.add(ValueDataEntry("Peter", 18000))
 
 //        val anyChartView = findViewById(R.id.any_chart_view) as AnyChartView
 //        viewBinding.anyChartView.setChart(pie) as AnyChartView
