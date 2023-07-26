@@ -6,10 +6,10 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
-import android.view.ViewTreeObserver.OnScrollChangedListener
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
@@ -19,8 +19,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.opencv.android.OpenCVLoader
 
-
-class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback  {
+class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
     private lateinit var activityImageComparisonBinding: ActivityImageComparisonBinding
     private var firstImage: String = ""
     private var secondImage: String = ""
@@ -43,6 +42,8 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback  {
     @SuppressLint("SetTextI18n")
     private fun setUp() {
 
+
+
         if (intent != null) {
             firstImage = intent.getStringExtra("firstimage")!!
             secondImage = intent.getStringExtra("secondimage")!!
@@ -50,7 +51,34 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback  {
             matchingPercentage = intent.getStringExtra("matchingPercentage")!!
 
 
-            activityImageComparisonBinding.matchingPercentage.setText(matchingPercentage)
+
+
+
+
+
+
+
+            if (matchingPercentage.toInt() >=0 && matchingPercentage.toInt()<=70) {
+                activityImageComparisonBinding.matchingcolor.setBackgroundDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.round_rating_bar_red))
+            } else  if (matchingPercentage.toInt() >=90 && matchingPercentage.toInt()<=100) {
+
+                activityImageComparisonBinding.matchingcolor.setBackgroundDrawable(ContextCompat.getDrawable(
+                    this,
+                    R.drawable.round_rating_bar_green))
+            }
+
+
+            else  if (matchingPercentage.toInt() >=70 && matchingPercentage.toInt()<=90) {
+
+                activityImageComparisonBinding.matchingcolor.setBackgroundDrawable(ContextCompat.getDrawable(
+                    this,
+                    R.drawable.round_rating_bar_orane))
+            }
+
+            activityImageComparisonBinding.matchingPercentage.setText(matchingPercentage+" %")
 
             val thread = Thread {
                 try {
@@ -62,14 +90,8 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback  {
                          bitmap1 = BitmapFactory.decodeStream(inputStream)
                          bitmap2 = BitmapFactory.decodeFile(secondImage)
                         runOnUiThread {
-//                            activityImageComparisonBinding.slider.setDrawableLeft(BitmapDrawable(resources, bitmap1))
-//                            activityImageComparisonBinding.slider.setDrawableRight(BitmapDrawable(resources, bitmap2))
-
-
                             activityImageComparisonBinding.beforeAfterSlider.setBeforeImage(BitmapDrawable(resources,
                                 bitmap2)).setAfterImage(BitmapDrawable(resources, bitmap1))
-
-
 
 
 
@@ -83,6 +105,45 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback  {
             thread.start()
 //
 
+//            activityImageComparisonBinding.beforeAfterSlider.setOnTouchListener { v, event ->
+//                when (event.action) {
+//                    MotionEvent.ACTION_DOWN -> {
+//                        // User starts touching the slider
+//                        // Add your custom touch down logic here
+//                    }
+//                    MotionEvent.ACTION_MOVE -> {
+//
+//
+//                        val currentX = event.x // Current X coordinate of the touch
+//                        val previousX = event.getHistoricalX(0) // Previous X coordinate of the touch
+//                        val deltaX = currentX - previousX // Distance moved in the X direction
+//
+//                        // Determine the direction based on the deltaX value
+//                        if (deltaX > 0) {
+//                            activityImageComparisonBinding.firstImage.visibility=View.GONE
+//                            activityImageComparisonBinding.secondImage.visibility=View.VISIBLE
+//
+//                            // The finger is moving to the right side
+//                        } else if (deltaX < 0) {
+//                            activityImageComparisonBinding.firstImage.visibility=View.VISIBLE
+//                            activityImageComparisonBinding.secondImage.visibility=View.GONE
+//
+//                            // The finger is moving to the left side
+//                        }
+//                        // User is moving their finger on the slider
+//                        // Add your custom touch move logic here
+//                    }
+//                    MotionEvent.ACTION_UP -> {
+//                        // User releases their finger from the slider
+//                        // Add your custom touch up logic here
+//                    }
+//                    // For other touch actions like ACTION_CANCEL, you can add more cases if needed
+//                }
+//
+//                // Return 'true' to indicate that you have handled the touch event
+//                // Return 'false' if you want the default touch handling to continue (e.g., for sliding functionality)
+//                true
+//            }
 
             activityImageComparisonBinding.firstImage.setOnClickListener {
                 val intent = Intent(applicationContext, RetroImagePreviewActivity::class.java)
@@ -109,20 +170,15 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback  {
                 finish()
             }
 
-//
+////
 //            Glide.with(this).load(firstImage)
 //                .placeholder(R.drawable.thumbnail_image)
-//                .into(activityImageComparisonBinding.firstimage)
+//                .into(activityImageComparisonBinding.firstimageview)
 //            Glide.with(this).load(secondImage)
 //                .placeholder(R.drawable.thumbnail_image)
-//                .into(activityImageComparisonBinding.secondimage)
+//                .into(activityImageComparisonBinding.secondimageview)
         }
 
-
-    }
-
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return super.onTouchEvent(event)
 
     }
 

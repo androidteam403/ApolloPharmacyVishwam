@@ -100,8 +100,8 @@ class ReviewRackAdapter(
             if (matchingPercentage >=0 && matchingPercentage<=70) {
                 holder.reviewRackLayoutBinding.rating.setBackgroundDrawable(
                     ContextCompat.getDrawable(
-                    mContext,
-                    R.drawable.round_rating_bar_red))
+                        mContext,
+                        R.drawable.round_rating_bar_red))
                 holder.reviewRackLayoutBinding.matchingPercentage.setText(images.get(position).matchingPercentage + "%")
             } else  if (matchingPercentage >=90 && matchingPercentage<=100) {
 
