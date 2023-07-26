@@ -27,6 +27,7 @@ class DashboardDetailsViewModel : ViewModel() {
         fromDate: String,
         toDate: String,
         employeeId: String,
+        roleCode: String
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -39,9 +40,11 @@ class DashboardDetailsViewModel : ViewModel() {
                 break
             }
         }
+        //api/ticket/list/reason-wise-ticket-count-by-role
+        //api/ticket/list/reason-wise-ticket-count-role-mobile
         var reasonWiseTicketCountByRoleUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/reason-wise-ticket-count-by-role?"
-        reasonWiseTicketCountByRoleUrl += "from_date=$fromDate&to_date=$toDate&employee_id=$employeeId"
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/reason-wise-ticket-count-role-mobile?"
+        reasonWiseTicketCountByRoleUrl += "from_date=$fromDate&to_date=$toDate&employee_id=$employeeId&role_code=$roleCode"
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(baseUrl,

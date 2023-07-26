@@ -14,15 +14,19 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.databinding.FragmentCeoDashboardBinding
 import com.apollopharmacy.vishwam.ui.home.dashboard.adapter.DashboardAdapter
 import com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.DashboardDetailsActivity
 import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRoleResponse
+import com.apollopharmacy.vishwam.util.Utils
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
 import lecho.lib.hellocharts.model.SliceValue
 import java.util.*
 
@@ -44,6 +48,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     override fun setup() {
         viewBinding.callback = this
+        empDetailsMobile()
         val data: MutableList<Float> = ArrayList()
         data.add((10.0f))
         data.add((20.0f))
@@ -74,11 +79,11 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 //        names.add("12")
 
         showLoading()
-        /* viewModel.getTicketListByCountApi(
-             this, Utils.getFirstDateOfCurrentMonth(), Utils.getCurrentDateCeoDashboard(), Preferences.getValidatedEmpId()
-         )*/
+        viewModel.getTicketListByCountApi(
+            this, Utils.getFirstDateOfCurrentMonth(), Utils.getCurrentDateCeoDashboard(), "SM1001"
+        )
 
-        viewModel.getTicketListByCountApi(this, "2023-06-05", "2023-06-30", "EX100011")
+//        viewModel.getTicketListByCountApi(this, "2023-06-05", "2023-06-30", "Srilekha")//EX100011//Preferences.getValidatedEmpId()
     }
 
     private fun createChart(chartData: ArrayList<PieEntry>) {
@@ -187,9 +192,29 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 //    }
 
     override fun onClickRightArrow(row: TicketCountsByStatusRoleResponse.Data.ListData.Row) {
-        val intent = Intent(ViswamApp.context, DashboardDetailsActivity::class.java)
-        intent.putExtra("SELECTED_ITEM", row)
-        startActivity(intent)
+        if (!role.equals("store_executive")) {
+            val intent = Intent(ViswamApp.context, DashboardDetailsActivity::class.java)
+            intent.putExtra("SELECTED_ITEM", row)
+            startActivity(intent)
+        }
+    }
+
+    var role = ""
+    private fun empDetailsMobile() {
+        var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+        var employeeDetailsResponse: EmployeeDetailsResponse? = null
+        try {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                empDetailsResponse, EmployeeDetailsResponse::class.java
+            )
+
+        } catch (e: JsonParseException) {
+            e.printStackTrace()
+        }
+        if (employeeDetailsResponse != null && employeeDetailsResponse!!.data != null && employeeDetailsResponse!!.data!!.role != null && employeeDetailsResponse!!.data!!.role!!.code != null) {
+            role = employeeDetailsResponse!!.data!!.role!!.code!!
+        }
     }
 
     var ticketCountsByStatsuRoleResponses: TicketCountsByStatusRoleResponse? = null
