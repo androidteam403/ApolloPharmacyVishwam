@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#ffffff</color>
+    <color name="blueee">#4798cd</color>
     <color name="navy">#dceaf4</color>
     <color name="cement">#EFEFEF</color>
     <color name="border_card">#01bfc0</color>
@@ -213,6 +214,12 @@
     <color name="light_white_color">#f4f4f4</color>
     <color name="whiteee">#ffffff</color>
     <color name="light_ashh">#f2f2f2</color>
+    <color name="light_ashh_trans">#C0C0C0</color>
     <color name="dark_sky_blue">#00BCBE</color>
+
+    <color name="lite_grey_ceo_dashboard">#f2f2f2</color>
+    <color name="dark_grey_ceo_dashboard">#e7e7e7</color>
+
+    <color name="green_color_bg">#43974f</color>
 
 </resources>

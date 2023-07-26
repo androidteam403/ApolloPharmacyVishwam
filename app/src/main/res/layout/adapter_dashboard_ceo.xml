@@ -33,7 +33,7 @@
             android:background="@drawable/background_for_closed"
             android:padding="@dimen/four4_dp"
             android:layout_width="0dp"
-            android:layout_weight="0.1"
+            android:layout_weight="0.12"
             android:layout_height="wrap_content">
 
             <TextView
@@ -71,7 +71,7 @@
             android:background="@drawable/red_background_qc"
             android:padding="@dimen/four4_dp"
             android:layout_width="0dp"
-            android:layout_weight="0.085"
+            android:layout_weight="0.1"
             android:layout_height="wrap_content">
 
             <TextView
@@ -109,7 +109,7 @@
             android:background="@drawable/redd_background_qc"
             android:padding="@dimen/four4_dp"
             android:layout_width="0dp"
-            android:layout_weight="0.11"
+            android:layout_weight="0.13"
             android:layout_height="wrap_content">
 
             <TextView
@@ -128,7 +128,7 @@
             android:background="@drawable/skyblue_background_qc"
             android:padding="@dimen/four4_dp"
             android:layout_width="0dp"
-            android:layout_weight="0.11"
+            android:layout_weight="0.12"
             android:layout_height="wrap_content">
 
             <TextView
@@ -147,7 +147,7 @@
             android:orientation="horizontal"
             android:layout_margin="@dimen/value_5dp"
             android:layout_width="0dp"
-            android:layout_weight="0.155"
+            android:layout_weight="0.13"
             android:layout_height="wrap_content">
 
             <LinearLayout
@@ -166,8 +166,8 @@
 
                         android:background="@drawable/round_bg_blue_navy"
                         android:layout_centerInParent="true"
-                        android:layout_width="@dimen/value_30dp"
-                        android:layout_height="@dimen/value_30dp"
+                        android:layout_width="@dimen/value_25dp"
+                        android:layout_height="@dimen/value_25dp"
                         android:layout_gravity="center"
                         android:gravity="center">
 

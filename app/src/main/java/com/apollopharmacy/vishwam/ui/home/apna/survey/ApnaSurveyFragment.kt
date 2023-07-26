@@ -2,10 +2,13 @@ package com.apollopharmacy.vishwam.ui.home.apna.survey
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.location.LocationManager
 import android.os.Handler
+import android.provider.Settings
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -15,6 +18,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.databinding.DialogPermissionDeniedBinding
 import com.apollopharmacy.vishwam.databinding.DialogSurveyListFilterBinding
 import com.apollopharmacy.vishwam.databinding.FragmentApnaSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
@@ -46,6 +51,8 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     var handler: Handler = Handler()
     var adapter: ApnaSurveyAdapter? = null
     val APNA_NEW_SURVEY_ACTIVITY_VALUE: Int? = 1000
+
+
     override val layoutRes: Int
         get() = R.layout.fragment_apna_survey
 
