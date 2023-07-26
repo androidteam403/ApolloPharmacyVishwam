@@ -1,6 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity
 
+import com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload.FileUploadApnaSurveyModel
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
+import com.apollopharmacy.vishwam.util.fileupload.FileUploadModel
 import java.io.File
 
 interface ApnaNewSurveyCallBack {
@@ -123,4 +125,10 @@ interface ApnaNewSurveyCallBack {
     fun onFailureGetRegionListApiCall(message: String)
 
     fun onRegionSelect(regionName: String, regionUid: String, regionCode: String)
+
+    fun onFailureUpload(message: String)
+
+    fun allFilesDownloaded(fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?)
+
+    fun allFilesUploaded(fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?)
 }

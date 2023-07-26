@@ -469,4 +469,12 @@
     <string name="label_your_nsignature_nhere">Your\nSignature\nHere</string>
     <string name="label_your_signature">your signature</string>
     <string name="label_cancel_text">Cancel Text</string>
+
+
+    <string name="label_gps_enable_to_access_application">GPS enable to access application</string>
+    <string name="gps_enable">GPS permission</string>
+
+
+    <string name="label_location_permission_must_be_required_to_access_application">Location permission must be required to access application</string>
+    <string name="label_location_permission">Location permission</string>
 </resources>

@@ -11,8 +11,8 @@ import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRo
 
 class DashboardAdapter(
     var ceoDashboardCallback: CeoDashboardCallback,
-    var ticketCountsByStatsuRoleResponse: List<TicketCountsByStatusRoleResponse.Data.ListData.Row>
-): RecyclerView.Adapter<DashboardAdapter.ViewHolder>() {
+    var ticketCountsByStatsuRoleResponse: List<TicketCountsByStatusRoleResponse.Data.ListData.Row>,
+) : RecyclerView.Adapter<DashboardAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,10 +21,10 @@ class DashboardAdapter(
                 LayoutInflater.from(parent.context),
                 R.layout.adapter_dashboard_ceo,
                 parent,
-                false)
+                false
+            )
         return ViewHolder(adapterDashboardCeoBinding)
     }
-
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -37,14 +37,15 @@ class DashboardAdapter(
         holder.adapterDashboardCeoBinding.totalQc.setText(response.total.toString())
         holder.adapterDashboardCeoBinding.threeToEight.setText(response.get3To8().toString())
 
-    holder.adapterDashboardCeoBinding.rightArrowQc.setOnClickListener{
-        ceoDashboardCallback.onClickRightArrow()
-    }
+        holder.adapterDashboardCeoBinding.rightArrowQc.setOnClickListener {
+            ceoDashboardCallback.onClickRightArrow(response)
+        }
     }
 
     override fun getItemCount(): Int {
         return ticketCountsByStatsuRoleResponse.size
     }
+
     class ViewHolder(var adapterDashboardCeoBinding: AdapterDashboardCeoBinding) :
         RecyclerView.ViewHolder(adapterDashboardCeoBinding.root) {}
 }

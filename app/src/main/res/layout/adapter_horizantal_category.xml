@@ -42,12 +42,11 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_marginStart="@dimen/value_2dp"
             android:visibility="visible"
             android:id="@+id/background_for_linear"
             android:orientation="horizontal"
-            android:layout_width="@dimen/thirty_seven_dp"
-            android:layout_height="@dimen/value_55dp">
+            android:layout_width="@dimen/value_40dp"
+            android:layout_height="@dimen/value_60dp">
 
             <TextView
                 android:id="@+id/count"
@@ -61,19 +60,19 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen11sp" />
         </LinearLayout>
-<!--        <LinearLayout-->
-<!--            android:id="@+id/middle_color"-->
-<!--            android:background="@color/light_white_color"-->
-<!--            android:layout_width="@dimen/value_3dp"-->
-<!--            android:layout_height="match_parent">-->
+        <LinearLayout
+            android:id="@+id/middle_color"
+            android:background="#fefefe"
+            android:layout_width="@dimen/value_3dp"
+            android:layout_height="match_parent">
 
-<!--            <TextView-->
+            <TextView
 
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"/>-->
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
 
-<!--        </LinearLayout>-->
+        </LinearLayout>
     </LinearLayout>
 
     

@@ -24,6 +24,7 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:layout_marginStart="@dimen/value_3dp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:layout_width="@dimen/value_120dp"
@@ -90,7 +91,6 @@
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:gravity="center"
-                            android:layout_marginStart="@dimen/value_5dp"
                             android:id="@+id/childRecyclerView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
