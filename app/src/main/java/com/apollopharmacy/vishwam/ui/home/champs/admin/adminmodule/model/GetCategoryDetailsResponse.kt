@@ -37,6 +37,8 @@ class GetCategoryDetailsResponse {
         @Expose
         var modifiedBy: String? = null
 
+        var isHavingSubCategoryDetails: Boolean=false
+
         @SerializedName("modified_date")
         @Expose
         var modifiedDate: String? = null

@@ -34,7 +34,22 @@
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".ui.home.retroqr.activity.retroqrscanner.RetroQrScannerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.retroqr.activity.retroqrreview.RetroQrReviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.retroqr.activity.imagecomparison.ImageComparisonActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.dashboard.dashboarddetailsactivity.DashboardDetailsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -90,6 +105,12 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.discount.pending.dashboardfilter.DashboardFilterActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ui.home.apnarectro.selectapnasite.SelectApnaSiteIDActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

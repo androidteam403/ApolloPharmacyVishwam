@@ -31,8 +31,8 @@ class NeighbouringStorePreviewAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (data[position].location!!.uid != null) {
-            holder.layoutNeighbouringStorePreviewBinding.neighborLocation.setText(data[position].location!!.uid)
+        if (data[position].location!!.name != null) {
+            holder.layoutNeighbouringStorePreviewBinding.neighborLocation.setText(data[position].location!!.name)
         } else {
             holder.layoutNeighbouringStorePreviewBinding.neighborLocation.setText("-")
         }

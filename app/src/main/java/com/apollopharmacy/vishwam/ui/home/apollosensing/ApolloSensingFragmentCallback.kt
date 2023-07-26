@@ -9,9 +9,16 @@ import java.io.File
 interface ApolloSensingFragmentCallback {
     fun deleteImage(position: Int, file: File)
 
-    fun onSuccessSendGlobalSms(sendGlobalSmsResponse: SendGlobalSmsResponse, type: String)
+    fun onSuccessSendGlobalSms(
+        sendGlobalSmsResponse: SendGlobalSmsResponse,
+        type: String,
+        isPrescriptionUploadFlow: Boolean,
+    )
 
-    fun onFailureSendGlobalSms(sendGlobalSmsResponse: SendGlobalSmsResponse, type: String)
+    fun onFailureSendGlobalSms(
+        sendGlobalSmsResponse: SendGlobalSmsResponse, type: String,
+        isPrescriptionUploadFlow: Boolean,
+    )
 
     fun onClickResend()
 
