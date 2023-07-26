@@ -41,6 +41,18 @@ public class SaveUpdateRequest implements Serializable {
     @SerializedName("store_id")
     @Expose
     private String store;
+    @SerializedName("total_score")
+    @Expose
+    private String totalScore;
+
+    public String getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(String totalScore) {
+        this.totalScore = totalScore;
+    }
+
     @SerializedName("cms_champs_survey_qa")
     @Expose
     private List<CmsChampsSurveyQa> cmsChampsSurveyQa;
@@ -155,9 +167,21 @@ public class SaveUpdateRequest implements Serializable {
         @SerializedName("category_name")
         @Expose
         private String categoryName;
+
+        public String getMaxScore() {
+            return maxScore;
+        }
+
+        public void setMaxScore(String maxScore) {
+            this.maxScore = maxScore;
+        }
+
         @SerializedName("question")
         @Expose
         private String question;
+        @SerializedName("max_score")
+        @Expose
+        private String maxScore;
 
         public AnswerImage getAnswerImage() {
             return answerImage;
