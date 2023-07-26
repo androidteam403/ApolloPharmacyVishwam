@@ -1540,6 +1540,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             saveUpdateRequest.trimpTech =
                 activityChampsSurveyBinding.enterTextTechnicalEdittext.text.toString()
             saveUpdateRequest.store = activityChampsSurveyBinding.storeId.text.toString()
+            saveUpdateRequest.totalScore=activityChampsSurveyBinding.percentageSum.text.toString()
 
             var cmsChampsSurveQaList = ArrayList<CmsChampsSurveyQa>()
 
@@ -1551,6 +1552,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                         cmsChampsSurveQa.categoryName = j.categoryName
                         if (j.givenRating != null
                         ) {
+                            cmsChampsSurveQa.maxScore=j.rating
                             cmsChampsSurveQa.answer =
                                 j.givenRating.toString()
                         } else {
