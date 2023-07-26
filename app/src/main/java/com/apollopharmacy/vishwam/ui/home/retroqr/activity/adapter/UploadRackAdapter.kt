@@ -66,7 +66,7 @@ class UploadRackAdapter(
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.VISIBLE
 //            holder.uploadRackLayoutBinding.eyeImage.visibility = View.VISIBLE
 
-            Glide.with(ViswamApp.context).load(RijndaelCipherEncryptDecrypt().decrypt(items.imageurl,"blobfilesload"))
+            Glide.with(ViswamApp.context).load(items.imageurl)
                 .placeholder(R.drawable.thumbnail_image)
                 .into(holder.uploadRackLayoutBinding.afterCapturedImage)
 

@@ -43,7 +43,6 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUpload
 import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
-import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import me.echodev.resizer.Resizer
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -401,7 +400,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
     override fun deleteImage(position: Int) {
 
-
+        reviewImagesList.get(position).setmatchingPercentage("")
+        reviewImagesList.get(position).setreviewimageurl("")
         updated--
         activityRetroQrUploadBinding.updated.setText(updated.toString())
         activityRetroQrUploadBinding.pending.setText((reviewImagesList.size - updated).toString())
@@ -414,14 +414,37 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
         }
         if (reviewImagesList.isNotEmpty()){
-            activityRetroQrUploadBinding.redtext.setText((reviewImagesList.filter { it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>=0&& it.matchingPercentage!!.toInt()<71 }.size).toString())
-            activityRetroQrUploadBinding.orangetext.setText((reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>70&& it.matchingPercentage!!.toInt()<91 }.size).toString())
-            activityRetroQrUploadBinding.greentext.setText((reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>90&& it.matchingPercentage!!.toInt()<101 }.size).toString())
+
+         if (reviewImagesList.filter { it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>=0&& it.matchingPercentage!!.toInt()<71 }.size>0){
+             activityRetroQrUploadBinding.redtext.setText((reviewImagesList.filter { it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>=0&& it.matchingPercentage!!.toInt()<71 }.size).toString())
+
+         }
+            else
+         {
+             activityRetroQrUploadBinding.redtext.setText("0")
+
+         }
+
+
+            if (reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>70&& it.matchingPercentage!!.toInt()<91 }.size>0){
+                activityRetroQrUploadBinding.orangetext.setText((reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>70&& it.matchingPercentage!!.toInt()<91 }.size).toString())
+
+            }
+            else{
+                activityRetroQrUploadBinding.orangetext.setText("0")
+            }
+
+            if (reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>90&& it.matchingPercentage!!.toInt()<101 }.size>0){
+                activityRetroQrUploadBinding.greentext.setText((reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>90&& it.matchingPercentage!!.toInt()<101 }.size).toString())
+
+            }else{
+                activityRetroQrUploadBinding.greentext.setText("0")
+            }
+
 
 
         }
-        reviewImagesList.get(position).setmatchingPercentage("")
-        reviewImagesList.get(position).setreviewimageurl("")
+
         reviewRackAdapter.notifyDataSetChanged()
     }
 
@@ -469,7 +492,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                 onClickCompare(
                     position,
                     File(reviewImagesList.get(position).reviewimageurl),
-                    RijndaelCipherEncryptDecrypt().decrypt( reviewImagesList.get(position).imageurl,"blobfilesload")
+                     reviewImagesList.get(position).imageurl
                 )
 
                 reviewRackAdapter.notifyItemChanged(position)
@@ -574,7 +597,34 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
     override fun allFilesDownloaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
-        if (fileUploadModelList != null && fileUploadModelList.size > 0) {
+//        if (fileUploadModelList != null && fileUploadModelList.size > 0) {
+//            val saveImageUrlsRequest = QrSaveImageUrlsRequest()
+//            saveImageUrlsRequest.storeid =
+//                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+//            saveImageUrlsRequest.userid = Preferences.getValidatedEmpId()
+//            val base64ImageList = ArrayList<QrSaveImageUrlsRequest.StoreDetail>()
+//            for (i in fileUploadModelList) {
+//                val base64Image = QrSaveImageUrlsRequest.StoreDetail()
+//                base64Image.imageurl = i.fileDownloadResponse!!.referenceurl
+//                base64Image.qrcode = ""
+//                base64Image.rackno = i.rackNo
+//                base64ImageList.add(base64Image)
+//            }
+//            saveImageUrlsRequest.storeDetails = base64ImageList
+//            viewModel.saveImageUrlsApiCall(
+//                saveImageUrlsRequest, this
+//            )
+//
+//        }
+    }
+
+
+
+
+
+    override fun allFilesUploaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
+
+       if (fileUploadModelList != null && fileUploadModelList.size > 0) {
             val saveImageUrlsRequest = QrSaveImageUrlsRequest()
             saveImageUrlsRequest.storeid =
                 Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
@@ -582,7 +632,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             val base64ImageList = ArrayList<QrSaveImageUrlsRequest.StoreDetail>()
             for (i in fileUploadModelList) {
                 val base64Image = QrSaveImageUrlsRequest.StoreDetail()
-                base64Image.imageurl = i.fileDownloadResponse!!.referenceurl
+                base64Image.imageurl = i.sensingFileUploadResponse!!.referenceurl
                 base64Image.qrcode = ""
                 base64Image.rackno = i.rackNo
                 base64ImageList.add(base64Image)
@@ -593,20 +643,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             )
 
         }
-    }
 
-
-
-
-
-    override fun allFilesUploaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
-
-//            vendor/SENSING/1689678494093.jpg
-//            vendor/SENSING/1689678498958.jpg
-//            vendor/SENSING/1689678506217.jpg
-//            viewModel.saveImageUrlsApiCall(
-//                saveImageUrlsRequest,this
-//            )
 
 
     }

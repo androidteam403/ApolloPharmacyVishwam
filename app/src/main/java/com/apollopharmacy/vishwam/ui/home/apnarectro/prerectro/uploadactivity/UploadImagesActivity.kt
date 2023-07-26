@@ -29,9 +29,13 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityUploadImagesBinding
 import com.apollopharmacy.vishwam.databinding.DialogForImageUploadBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.apnarectro.apnafileupload.ApnaRetroFileUpload
+import com.apollopharmacy.vishwam.ui.home.apnarectro.apnafileupload.ApnaRetroFileUploadCallback
+import com.apollopharmacy.vishwam.ui.home.apnarectro.apnafileupload.ApnaRetroFileUploadModel
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.reviewscreen.PostRectroReviewScreen
@@ -46,7 +50,7 @@ import com.apollopharmacy.vishwam.util.Utlis
 import me.echodev.resizer.Resizer
 import java.io.File
 
-class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUploadAdapter.CallbackInterface{
+class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUploadAdapter.CallbackInterface,ApnaRetroFileUploadCallback{
     lateinit var activityUploadImagesBinding: ActivityUploadImagesBinding
     private lateinit var uploadImagesViewModel: UploadImagesViewModel
     private var configApnaAdapter: ConfigApnaAdapter? = null
@@ -462,18 +466,42 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateButtonValidation() {
         if (uploadedImageCount == overallImageCount) {
-            activityUploadImagesBinding.uploadnowbutton.background = (resources.getDrawable(R.drawable.greenbackground_for_buttons))
+            activityUploadImagesBinding.uploadnowbutton.background =
+                (resources.getDrawable(R.drawable.greenbackground_for_buttons))
+
+            var fileUploadModelList = ArrayList<ApnaRetroFileUploadModel>()
+            for (i in apnaConfigList.indices) {
 
 
-//            for (i in swacchApolloList.get(0).configlist?.indices!!) {
+                var fileUploadModel = ApnaRetroFileUploadModel()
+                fileUploadModel.file =
+                    apnaConfigList.get(0).configlist!!.get(0).imageDataDto!!.get(i).file
+                    fileUploadModel.categoryId = apnaConfigList.get(0).configlist!!.get(0).categoryId
+//                    fileUploadModel.qrCode = imagesList[i].qrcode
+                fileUploadModelList.add(fileUploadModel)
+            }
+
+
+            Utlis.showLoading(context)
+
+
             uploadImagesViewModel.connectToAzure(
                 apnaConfigList, this, false
             )
+            ApnaRetroFileUpload().uploadFiles(
+                context, this, fileUploadModelList
+            )
+        }
+
+
+
+//            for (i in swacchApolloList.get(0).configlist?.indices!!) {
+
 
 //            }
 
 
-        } else {
+        else {
             Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
                 .show()
             Utlis.hideLoading()
@@ -514,7 +542,15 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         position: Int,
         categoryName: String?,
     ) {
-        TODO("Not yet implemented")
+    }
+
+    override fun onFailureUpload(message: String) {
+    }
+
+    override fun allFilesDownloaded(fileUploadModelList: List<ApnaRetroFileUploadModel>?) {
+    }
+
+    override fun allFilesUploaded(fileUploadModelList: List<ApnaRetroFileUploadModel>?) {
     }
 
 }
