@@ -4,8 +4,8 @@
 4
 5    <uses-sdk
 6        android:minSdkVersion="24"
-6-->D:\workplacenew\workspace\Vishwam_29_06_2023\openCV\java\AndroidManifest.xml
+6-->D:\naveen_workplace_24_07_2023\ceo_dashboard_24_07_2023\openCV\java\AndroidManifest.xml
 7        android:targetSdkVersion="33" />
-7-->D:\workplacenew\workspace\Vishwam_29_06_2023\openCV\java\AndroidManifest.xml
+7-->D:\naveen_workplace_24_07_2023\ceo_dashboard_24_07_2023\openCV\java\AndroidManifest.xml
 8
 9</manifest>
