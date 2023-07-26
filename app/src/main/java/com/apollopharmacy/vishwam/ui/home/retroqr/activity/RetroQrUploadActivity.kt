@@ -167,43 +167,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         }
 
 
-//        activityRetroQrUploadBinding.rackNumber.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-//            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-//            override fun afterTextChanged(editable: Editable) {
-//                if (editable.length >= 2) {
-//                    if (uploadRackAdapter != null) {
-//                        uploadRackAdapter.getFilter().filter(editable)
-//                        reviewRackAdapter.getFilter().filter(editable)
-//
-//                    }
-//                } else if (activityRetroQrUploadBinding.rackNumber.getText().toString().equals("")) {
-//                    if (uploadRackAdapter != null) {
-//                        uploadRackAdapter.getFilter().filter("")
-//                        reviewRackAdapter.getFilter().filter("")
-//
-//                    }
-//                } else {
-//                    if (uploadRackAdapter != null) {
-//                        uploadRackAdapter.getFilter().filter("")
-//                        reviewRackAdapter.getFilter().filter("")
-//
-//                    }
-//                }
-//            }
-//        })
-//
-//
-//        activityRetroQrUploadBinding.rackArrow.setOnClickListener {
-//
-//            for (i in imagesList.indices) {
-//                rackList.add(imagesList.get(i).rackno!!)
-//            }
-//
-//            RackDialog().apply {
-//                arguments = RackDialog().generateParsedData(rackList)
-//            }.show(supportFragmentManager, "")
-//        }
+
 
 
 
