@@ -25,6 +25,8 @@ class RetroQrUploadViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     val command = LiveEvent<Command>()
 
+    val key = "blobfilesload"
+
 
     fun saveImageUrlsApiCall(
         saveImageUrlsRequest: QrSaveImageUrlsRequest,

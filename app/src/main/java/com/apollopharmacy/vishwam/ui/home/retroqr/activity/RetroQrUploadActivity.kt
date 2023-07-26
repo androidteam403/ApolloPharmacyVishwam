@@ -43,6 +43,7 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUpload
 import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import me.echodev.resizer.Resizer
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -413,9 +414,9 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
         }
         if (reviewImagesList.isNotEmpty()){
-            activityRetroQrUploadBinding.redtext.setText(reviewImagesList.filter { it.matchingPercentage!!.toInt()>0&& it.matchingPercentage!!.toInt()<71 }.size.toString())
-            activityRetroQrUploadBinding.orangetext.setText(reviewImagesList.filter { it.matchingPercentage!!.toInt()>70&& it.matchingPercentage!!.toInt()<91 }.size.toString())
-            activityRetroQrUploadBinding.greentext.setText(reviewImagesList.filter { it.matchingPercentage!!.toInt()>90&& it.matchingPercentage!!.toInt()<101 }.size.toString())
+            activityRetroQrUploadBinding.redtext.setText((reviewImagesList.filter { it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>=0&& it.matchingPercentage!!.toInt()<71 }.size).toString())
+            activityRetroQrUploadBinding.orangetext.setText((reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>70&& it.matchingPercentage!!.toInt()<91 }.size).toString())
+            activityRetroQrUploadBinding.greentext.setText((reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>90&& it.matchingPercentage!!.toInt()<101 }.size).toString())
 
 
         }
@@ -468,7 +469,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                 onClickCompare(
                     position,
                     File(reviewImagesList.get(position).reviewimageurl),
-                    reviewImagesList.get(position).imageurl
+                    RijndaelCipherEncryptDecrypt().decrypt( reviewImagesList.get(position).imageurl,"blobfilesload")
                 )
 
                 reviewRackAdapter.notifyItemChanged(position)
