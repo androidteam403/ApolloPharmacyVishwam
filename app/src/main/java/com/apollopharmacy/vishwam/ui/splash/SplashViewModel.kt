@@ -30,6 +30,14 @@ class SplashViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (response.value.status) {
                         println(33)
+                        for (i in response.value.APIS) {
+                            var url = i.URL
+                            url = url.replace(
+                                "https://172.16.103.116",
+                                "https://phrmaptestp.apollopharmacy.info"
+                            )
+                            i.URL = url
+                        }
                         validateResponseMutableList.value = response.value!!
                         Preferences.saveApi(Gson().toJson(response.value))
                         Preferences.saveGlobalResponse(Gson().toJson(response.value))
@@ -50,18 +58,23 @@ class SplashViewModel : ViewModel() {
                         command.value = Command.ShowToast(response.value.message)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     command.postValue(Command.ShowToast(response.error ?: "Something went wrong"))
                 }
+
                 is ApiResult.NetworkError -> {
                     command.postValue(Command.ShowToast("Network Error"))
                 }
+
                 is ApiResult.UnknownError -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                 }
+
                 is ApiResult.UnknownHostException -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                 }
+
                 else -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                 }

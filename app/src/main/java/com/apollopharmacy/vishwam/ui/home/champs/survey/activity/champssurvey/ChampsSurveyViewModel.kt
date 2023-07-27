@@ -7,10 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ChampsApiRepo
+import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.SaveSurveyModelRequest
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
@@ -550,22 +554,20 @@ class ChampsSurveyViewModel : ViewModel() {
         champsSurveyCallBack: ChampsSurveyCallBack,
         saveUpdateRequest: SaveUpdateRequest,
     ) {
-//        val url = Preferences.getApi()
-//        val data = Gson().fromJson(url, ValidateResponse::class.java)
-//        for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("SAVE CATEGORY WISE IMAGE URLS")) {
-//                val baseUrl = data.APIS[i].URL
-//                val token = data.APIS[i].TOKEN
-        /*  val baseUrl =
-              "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/mobile-ticket-save"*/
-//                val onSubmitSwachModelRequestJson =
-//                    Gson().toJson(onSubmitSwachModelRequest)
-
-//                val header = "application/json"
-
-
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+        var baseUrLProxy = ""
+        var tokenProxy = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrLProxy = data.APIS[i].URL
+                tokenProxy = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
@@ -576,33 +578,38 @@ class ChampsSurveyViewModel : ViewModel() {
             break
 //            }
         }
+        val saveUpdateRequestJson = Gson().toJson(saveUpdateRequest)
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                ChampsApiRepo.saveUpdateApi(baseUrl, saveUpdateRequest)
-
-//                        RegistrationRepo.NewComplaintRegistration(
-//                            baseUrl,
-//                            header,
-//                            requestNewComplaintRegistration
-//                        )
+                RegistrationRepo.getDetails(
+                    baseUrLProxy,
+                    tokenProxy,
+                    GetDetailsRequest(baseUrl, "POST", saveUpdateRequestJson, "", ""))
+//                ChampsApiRepo.saveUpdateApi(baseUrl, saveUpdateRequest)
             }
             when (response) {
-
                 is ApiResult.Success -> {
-
                     state.value = State.ERROR
-                    champsSurveyCallBack.onSuccessSaveUpdateApi(response.value)
-//                    uploadSwachModel.value = response.value!!
-
-
-                    if (response.value.success ?: null == false) {
-                        state.value = State.ERROR
-                        CommandsNewSwachImp.ShowToast(response.value.message)
-                        champsSurveyCallBack.onFailureSaveUpdateApi(response.value)
-//                        uploadSwachModel.value?.message = response.value.message
-
-
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val saveUpdateRequestJsonResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    SaveUpdateResponse::class.java
+                                )
+                            champsSurveyCallBack.onSuccessSaveUpdateApi(
+                                saveUpdateRequestJsonResponse
+                            )
+                            if (saveUpdateRequestJsonResponse.success ?: null == false) {
+                                state.value = State.ERROR
+                                CommandsNewSwachImp.ShowToast(saveUpdateRequestJsonResponse.message)
+                                champsSurveyCallBack.onFailureSaveUpdateApi(saveUpdateRequestJsonResponse)
+                            }
+                        }
                     }
+
                 }
 
                 is ApiResult.GenericError -> {
@@ -628,8 +635,6 @@ class ChampsSurveyViewModel : ViewModel() {
                 }
             }
         }
-//            }
-//        }
     }
 
 

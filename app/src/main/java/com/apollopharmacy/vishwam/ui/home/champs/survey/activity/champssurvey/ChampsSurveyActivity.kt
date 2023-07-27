@@ -1391,7 +1391,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         type: String,
     ) {
         Utlis.hideLoading()
-
         dialogSubmit = Dialog(this)
         dialogSubmit.setContentView(R.layout.dialog_champs_survey)
         val close = dialogSubmit.findViewById<ImageView>(R.id.close_dialog_save_)
@@ -1535,12 +1534,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
             saveUpdateRequest.trimpOther =
                 activityChampsSurveyBinding.enterOtherTrainingEdittext.text.toString()
-            saveUpdateRequest.trimpSoftSkills =
+            saveUpdateRequest.trimpSoftSkill =
                 activityChampsSurveyBinding.enterSoftSkillsEdittext.text.toString()
+//            saveUpdateRequest.trimpSoftSkills =
+//                activityChampsSurveyBinding.enterSoftSkillsEdittext.text.toString()
             saveUpdateRequest.trimpTech =
                 activityChampsSurveyBinding.enterTextTechnicalEdittext.text.toString()
             saveUpdateRequest.store = activityChampsSurveyBinding.storeId.text.toString()
-            saveUpdateRequest.totalScore=activityChampsSurveyBinding.percentageSum.text.toString()
+            saveUpdateRequest.totalScore = activityChampsSurveyBinding.percentageSum.text.toString()
 
             var cmsChampsSurveQaList = ArrayList<CmsChampsSurveyQa>()
 
@@ -1552,7 +1553,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                         cmsChampsSurveQa.categoryName = j.categoryName
                         if (j.givenRating != null
                         ) {
-                            cmsChampsSurveQa.maxScore=j.rating
+                            cmsChampsSurveQa.maxScore = j.rating
                             cmsChampsSurveQa.answer =
                                 j.givenRating.toString()
                         } else {
@@ -1598,7 +1599,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             saveUpdateRequest.cmsChampsSurveyQa = cmsChampsSurveQaList
 
 
-
+            saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
             champsSurveyViewModel.saveUpdateApi(this, saveUpdateRequest)
         } else {
             Utlis.hideLoading()
@@ -2198,7 +2199,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     override fun onSuccessSaveUpdateApi(value: SaveUpdateResponse) {
-        Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
         Utlis.hideLoading()
     }
 

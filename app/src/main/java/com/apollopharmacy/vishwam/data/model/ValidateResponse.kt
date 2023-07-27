@@ -40,7 +40,7 @@ data class DeviceDetails(
 data class APISItem(
     @SerializedName("TOKEN") @Expose val TOKEN: String,
 
-    @SerializedName("URL") @Expose val URL: String,
+    @SerializedName("URL") @Expose var URL: String,
 
     @SerializedName("NAME") @Expose val NAME: String? = null,
 )
