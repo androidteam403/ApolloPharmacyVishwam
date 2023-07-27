@@ -198,7 +198,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     override fun onSuccessImageIsUploadedInAzur(response: ArrayList<GetStoreWiseCatDetailsApnaResponse>) {
         apnaConfigList=response
 
-        uploadApi()
+//        uploadApi()
     }
 
     override fun onSuccessSaveImageUrlsApi(saveImageUrlsResponse: SaveImageUrlsResponse) {
@@ -470,15 +470,20 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
                 (resources.getDrawable(R.drawable.greenbackground_for_buttons))
 
             var fileUploadModelList = ArrayList<ApnaRetroFileUploadModel>()
-            for (i in apnaConfigList.indices) {
-
-
+            for (i in apnaConfigList.get(0).configlist!!.indices) {
                 var fileUploadModel = ApnaRetroFileUploadModel()
-                fileUploadModel.file =
-                    apnaConfigList.get(0).configlist!!.get(0).imageDataDto!!.get(i).file
-                    fileUploadModel.categoryId = apnaConfigList.get(0).configlist!!.get(0).categoryId
+                fileUploadModel.categoryId = apnaConfigList.get(0).configlist!!.get(i).categoryId
+
+                for (j in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices){
+                    fileUploadModel.file =
+                        apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.get(j).file
+                    fileUploadModelList.add(fileUploadModel)
+
 //                    fileUploadModel.qrCode = imagesList[i].qrcode
-                fileUploadModelList.add(fileUploadModel)
+                }
+
+
+
             }
 
 
@@ -548,6 +553,21 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     }
 
     override fun allFilesDownloaded(fileUploadModelList: List<ApnaRetroFileUploadModel>?) {
+        for (j in fileUploadModelList!!.indices) {
+            for (i in apnaConfigList.get(0).configlist!!.indices) {
+
+                if (fileUploadModelList.get(i).categoryId.equals(apnaConfigList.get(0).configlist!!.get(i).categoryId)){
+                    for ( k in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices){
+                        apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.get(k).base64Images=
+                            fileUploadModelList.get(j).file.toString()
+                    }
+                }
+
+            }
+        }
+
+        uploadApi()
+        Toast.makeText(this, fileUploadModelList!!.size.toString(),Toast.LENGTH_LONG).show()
     }
 
     override fun allFilesUploaded(fileUploadModelList: List<ApnaRetroFileUploadModel>?) {
