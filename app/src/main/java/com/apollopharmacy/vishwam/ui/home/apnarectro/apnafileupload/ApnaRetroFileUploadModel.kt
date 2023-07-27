@@ -7,7 +7,7 @@ import java.io.File
 class ApnaRetroFileUploadModel {
     var file: File? = null
     var id: Int? = null
-    var rackNo:String?=null
+    var categoryId:String?=null
     var qrCode:String?=null
 
     var sensingFileUploadResponse: SensingFileUploadResponse? = null

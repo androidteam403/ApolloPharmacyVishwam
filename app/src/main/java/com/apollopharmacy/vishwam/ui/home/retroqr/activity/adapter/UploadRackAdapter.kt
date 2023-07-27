@@ -20,6 +20,7 @@ import com.apollopharmacy.vishwam.databinding.UploadRackLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.RetroQrUploadCallback
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.bumptech.glide.Glide
 import java.io.File
 import java.io.IOException
@@ -65,7 +66,7 @@ class UploadRackAdapter(
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.VISIBLE
 //            holder.uploadRackLayoutBinding.eyeImage.visibility = View.VISIBLE
 
-            Glide.with(ViswamApp.context).load(items.imageurl.toString())
+            Glide.with(ViswamApp.context).load(items.imageurl)
                 .placeholder(R.drawable.thumbnail_image)
                 .into(holder.uploadRackLayoutBinding.afterCapturedImage)
 

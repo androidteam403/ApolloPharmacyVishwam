@@ -52,7 +52,7 @@ class RetroQrFileUpload {
 
             var baseUrl ="http://172.16.103.116:8449/Apollo/SensingFileUpload"
             //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
-            var token = "9f15bdd0fcd5423190cHNK"
+            var token = "cTfznn4yhybBR7WSrNJn1gpos"
             //"9f15bdd0fcd5423190cHNK"
 //            for (i in data.APIS.indices) {
 //                if (data.APIS[i].NAME.equals("SEN BLOB")) {
@@ -111,8 +111,8 @@ class RetroQrFileUpload {
             uploadFile(fileUploadModelTemp)
         } else {
             hideLoading()
-//            fileUploadCallback!!.allFilesUploaded(fileUploadModelList)
-            downloadFiles(context!!, fileUploadCallback!!, fileUploadModelList)
+            fileUploadCallback!!.allFilesUploaded(fileUploadModelList)
+//            downloadFiles(context!!, fileUploadCallback!!, fileUploadModelList)
         }
     }
 
@@ -153,7 +153,7 @@ class RetroQrFileUpload {
             fileDownloadRequest.RefURL = fileUploadModel.sensingFileUploadResponse!!.referenceurl
 
             var baseUrl="http://172.16.103.116:8449/Apollo/SensingSingleFileDownload"
-            var token = "9f15bdd0fcd5423190cHNK"
+            var token = "cTfznn4yhybBR7WSrNJn1gpos"
             /*for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("SEN BLOB")) {
                     baseUrl = data.APIS[i].URL
@@ -163,7 +163,7 @@ class RetroQrFileUpload {
             }*/
 
 
-            val call = apiInterface.FILE_DOWNLOAD_API_CALL_QR(
+            val call = apiInterface.FILE_DOWNLOAD_API_CALL_QR_RETRO(
                 baseUrl, token, fileDownloadRequest
             )
             call.enqueue(object : Callback<RetroQrFileDownloadResponse?> {
