@@ -64,9 +64,7 @@ class RetroQrReviewActivity : AppCompatActivity(), RetroQrReviewCallback {
         imageData.images = images
 
         val reviewImage1 = ImageData.ReviewImage()
-        reviewImage1.url =
-            "https://pharmtest.blob.core.windows.net/cms//data/user/0/com.apollopharmacy.vishwam/cache/1688549930939.jpg"
-
+        reviewImage1.url ="https://pharmteststorage.blob.core.windows.net/test/vendor/SENSING/1689831004658.jpg?sv=2022-11-02&se=9999-12-31T23:59:59Z&sr=b&sp=r&sig=oggBsfDrGAbdYs6e0jHStYvzA0m6iFT5ws2XdnqKZ9I%3D"
         val reviewImage2 = ImageData.ReviewImage()
         reviewImage2.url =
             "https://pharmtest.blob.core.windows.net/cms//data/user/0/com.apollopharmacy.vishwam/cache/1688709499851.jpg"

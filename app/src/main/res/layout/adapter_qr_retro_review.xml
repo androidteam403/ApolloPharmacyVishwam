@@ -260,11 +260,11 @@
                         android:layout_width="@dimen/value_45dp"
                         android:layout_height="@dimen/value_45dp"
                         android:layout_marginStart="@dimen/dimen20dp"
-                        android:tint="#5c5c5c"
-                        android:padding="@dimen/value_8dp"
-                        android:backgroundTint="#f2f2f2"
                         android:background="@drawable/rounded_background"
+                        android:backgroundTint="#f2f2f2"
+                        android:padding="@dimen/value_8dp"
                         android:src="@drawable/ic_baseline_compare_24"
+                        android:tint="#5c5c5c"
                         tools:ignore="UseAppTint" />
                 </LinearLayout>
 
@@ -273,8 +273,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.33"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/rating"

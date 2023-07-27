@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="RETRO QR UPLOAD"
+                android:id="@+id/headername"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_16sp" />
 
@@ -44,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="14001"
+                    android:id="@+id/siteId"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 
@@ -51,6 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Apollo Punjagutta"
+                    android:id="@+id/siteName"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_10sp"
                     android:textStyle="bold" />
@@ -98,18 +101,18 @@
                                 android:textSize="@dimen/text_12sp"
                                 android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="@dimen/value_80dp"
-                                android:layout_height="@dimen/value_25dp"
-                                android:layout_marginEnd="@dimen/value_3dp"
-                                android:background="@drawable/white_rounded_corner" />
-
-                            <ImageView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="@dimen/value_25dp"
-                                android:background="@drawable/gray_rounded_bg"
-                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                android:contentDescription="@string/app_name" />
+                                android:layout_height="wrap_content"
+
+                                android:background="@drawable/square_stroke_spinner_bg">
+
+                                <Spinner
+                                    android:id="@+id/spinner"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                            </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -184,12 +187,26 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/uploadRackRcv"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:itemCount="8"
-                        tools:listitem="@layout/upload_rack_layout" />
+                        android:orientation="horizontal">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/uploadRackRcv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:itemCount="4"
+                            tools:listitem="@layout/upload_rack_layout" />
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/reviewRack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:itemCount="4"
+                            tools:listitem="@layout/review_rack_layout" />
+                    </LinearLayout>
+
                 </LinearLayout>
             <!--</FrameLayout>
         </androidx.core.widget.NestedScrollView>-->
@@ -198,6 +215,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true"
+            android:id="@+id/uploadsubmit_layout"
             android:foreground="@drawable/gray_border_top"
             android:orientation="horizontal"
             android:weightSum="4">
@@ -220,7 +238,7 @@
                     android:id="@+id/totalRackCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="25"
+                    android:text="-"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_16sp"
                     android:textStyle="bold" />
@@ -296,6 +314,241 @@
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:visibility="gone"
+            android:id="@+id/review_submit_layout"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eeeceb" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.25"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Racks"
+                        android:textColor="#7e7f83"
+                        android:textSize="@dimen/dimen11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/totalRacks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="25"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.001"
+                    android:background="#eeeceb" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/twenty_seven27_dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Updated:"
+                            android:textColor="#7e7f83"
+                            android:textSize="@dimen/dimen11sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/updated"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_16sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/text_dimen_10"
+                            android:background="#eeeceb" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:text="Pending:"
+                            android:textColor="#7e7f83"
+                            android:textSize="@dimen/dimen11sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/pending"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_16sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#eeeceb" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.33"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="@dimen/value_10dp"
+                                android:layout_height="@dimen/value_10dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:background="@drawable/round_rating_bar_green"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:text="0"
+                                android:id="@+id/greentext"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.33"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="@dimen/value_10dp"
+                                android:layout_height="@dimen/value_10dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:background="@drawable/round_rating_bar_orane"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:text="0"
+                                android:id="@+id/orangetext"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.33"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="@dimen/value_10dp"
+                                android:layout_height="@dimen/value_10dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:background="@drawable/round_rating_bar_red"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:text="0"
+                                android:id="@+id/redtext"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/submitButtonReview"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.25"
+                    android:background="#9b9b9b"
+                    android:gravity="center"
+                    android:onClick="@{()->callback.onClickSubmitReview()}"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SUBMIT"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.001"
+                    android:background="#eeeceb" />
+            </LinearLayout>
+        </LinearLayout>
+
     </RelativeLayout>
 
     <data>
