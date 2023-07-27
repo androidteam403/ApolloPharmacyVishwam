@@ -10,13 +10,14 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterDashboardCeoBinding
 import com.apollopharmacy.vishwam.databinding.AdapterDetailsDashboardBinding
 import com.apollopharmacy.vishwam.ui.home.dashboard.adapter.DashboardAdapter
+import com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.model.ReasonWiseTicketCountbyRoleResponse
 import com.apollopharmacy.vishwam.ui.home.dashboard.model.ReasonWiseTicketCountByRoleResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.adapter.SiteIdDisplayAdapter
 import java.util.ArrayList
 
 class DashboardDetailsAdapter(
     private var context: Context,
-    var reasonWiseTicketCountByRoleResponse: ReasonWiseTicketCountByRoleResponse,
+    var reasonWiseTicketCountByRoleResponse: ReasonWiseTicketCountbyRoleResponse,
 ) : RecyclerView.Adapter<DashboardDetailsAdapter.ViewHolder>() {
     var horizantalCategoryAdapter: HorizantalCategoryAdapter? = null
 
@@ -35,13 +36,13 @@ class DashboardDetailsAdapter(
     }
 
     override fun getItemCount(): Int {
-        return reasonWiseTicketCountByRoleResponse.data.listData.rows.size
+        return 0 //reasonWiseTicketCountByRoleResponse.data.listData.rows.size
     }
 
     override fun onBindViewHolder(holder: DashboardDetailsAdapter.ViewHolder, position: Int) {
-        if (position % 2 == 0) {
+       /* if (position % 2 == 0) {
             holder.adapterDashboardDetailsAdapterBinding.overallLayout.background =
-                (context.getDrawable(R.drawable.ash_background_qc))
+                (context.getDrawable(R.drawable.background_for_champs_names))
         } else {
 
             holder.adapterDashboardDetailsAdapterBinding.overallLayout.background =
@@ -63,7 +64,7 @@ class DashboardDetailsAdapter(
                 false
             )
         holder.adapterDashboardDetailsAdapterBinding.childRecyclerView.adapter =
-            horizantalCategoryAdapter
+            horizantalCategoryAdapter*/
 
 //        holder.adapterDashboardDetailsAdapterBinding.childRecyclerView.adapter =
 //            horizantalCategoryAdapter

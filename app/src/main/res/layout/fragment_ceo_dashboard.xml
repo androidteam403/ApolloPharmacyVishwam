@@ -13,11 +13,11 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/dashboard_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/value_10dp"
-                android:text="CEO DASHBOARD"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16sp"
@@ -70,6 +70,7 @@
                     android:layout_marginEnd="@dimen/text_dimen_10"
                     android:background="@color/blue_color"
                     android:gravity="center_vertical"
+                    android:padding="@dimen/value_3dp"
                     android:weightSum="1">
 
                     <LinearLayout
@@ -77,10 +78,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.25"
                         android:onClick="@{()-> callback.onClickStores()}"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/stores_ceo"
+                            android:id="@+id/name_of_the_store"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/value_5dp"
@@ -88,28 +89,33 @@
                             android:text="Stores"
                             android:textAlignment="viewStart"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_14sp" />
+                            android:textSize="@dimen/dimen11sp" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/value_3dp">
+                            android:layout_gravity="center"
+                            android:gravity="start">
 
                             <ImageView
                                 android:id="@+id/stores_up_arrow"
-                                android:layout_width="@dimen/value_17dp"
-                                android:layout_height="@dimen/value_17dp"
-                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_width="@dimen/value_12dp"
+                                android:layout_height="@dimen/value_12dp"
+                                android:layout_gravity="start"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:gravity="start"
                                 android:src="@drawable/baseline_arrow_upward_24"
                                 android:visibility="gone" />
 
                             <ImageView
                                 android:id="@+id/stores_down_arrow"
-                                android:layout_width="@dimen/value_17dp"
-                                android:layout_height="@dimen/value_17dp"
-                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_width="@dimen/value_12dp"
+                                android:layout_height="@dimen/value_12dp"
+                                android:layout_gravity="start"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:gravity="start"
                                 android:src="@drawable/down_arrow_white"
-                                android:visibility="gone" />
+                                android:visibility="visible" />
                         </LinearLayout>
 
 
@@ -117,18 +123,20 @@
 
 
                     <LinearLayout
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.1"
+                        android:layout_weight="0.12"
                         android:onClick="@{()-> callback.onClickClosed()}"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
                             android:gravity="center"
-
                             android:text="Closed"
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen10sp" />
@@ -136,20 +144,19 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/value_3dp">
+                            android:layout_gravity="center">
 
                             <ImageView
                                 android:id="@+id/closed_up_arrow"
-                                android:layout_width="@dimen/text_14sp"
-                                android:layout_height="@dimen/text_14sp"
+                                android:layout_width="@dimen/text_dimen_11"
+                                android:layout_height="@dimen/text_dimen_11"
                                 android:src="@drawable/baseline_arrow_upward_24"
                                 android:visibility="gone" />
 
                             <ImageView
                                 android:id="@+id/closed_down_arrow"
-                                android:layout_width="@dimen/text_14sp"
-                                android:layout_height="@dimen/text_14sp"
+                                android:layout_width="@dimen/text_dimen_11"
+                                android:layout_height="@dimen/text_dimen_11"
                                 android:src="@drawable/down_arrow_white"
                                 android:visibility="gone" />
                         </LinearLayout>
@@ -160,13 +167,15 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="0.085"
+                        android:gravity="center"
                         android:onClick="@{()-> callback.onClickLesssThanTwo()}"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/greaterThan2"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
                             android:gravity="center"
@@ -179,20 +188,19 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/value_3dp">
+                            android:layout_gravity="center">
 
                             <ImageView
                                 android:id="@+id/less_than_two_up_arrow"
-                                android:layout_width="@dimen/text_14sp"
-                                android:layout_height="@dimen/text_14sp"
+                                android:layout_width="@dimen/text_dimen_11"
+                                android:layout_height="@dimen/text_dimen_11"
                                 android:src="@drawable/baseline_arrow_upward_24"
                                 android:visibility="gone" />
 
                             <ImageView
                                 android:id="@+id/less_than_two_down_arrow"
-                                android:layout_width="@dimen/text_14sp"
-                                android:layout_height="@dimen/text_14sp"
+                                android:layout_width="@dimen/text_dimen_11"
+                                android:layout_height="@dimen/text_dimen_11"
                                 android:src="@drawable/down_arrow_white"
                                 android:visibility="gone" />
                         </LinearLayout>
@@ -203,12 +211,14 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.085"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.1"
+                        android:gravity="center"
                         android:onClick="@{()-> callback.onClickThreetoEight()}"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
 
@@ -220,22 +230,22 @@
 
 
                         <LinearLayout
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/value_3dp">
+                            android:layout_gravity="center">
 
                             <ImageView
                                 android:id="@+id/three_to_eight_up_arrow"
-                                android:layout_width="@dimen/text_14sp"
-                                android:layout_height="@dimen/text_14sp"
+                                android:layout_width="@dimen/text_dimen_11"
+                                android:layout_height="@dimen/text_dimen_11"
                                 android:src="@drawable/baseline_arrow_upward_24"
                                 android:visibility="gone" />
 
                             <ImageView
                                 android:id="@+id/three_to_eight_down_arrow"
-                                android:layout_width="@dimen/text_14sp"
-                                android:layout_height="@dimen/text_14sp"
+                                android:layout_width="@dimen/text_dimen_11"
+                                android:layout_height="@dimen/text_dimen_11"
                                 android:src="@drawable/down_arrow_white"
                                 android:visibility="gone" />
                         </LinearLayout>
@@ -247,12 +257,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.085"
+                        android:gravity="center"
                         android:onClick="@{()-> callback.onClickGreaterThanEight()}"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/greaterThan8"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
                             android:gravity="center"
@@ -265,8 +276,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/value_3dp">
+                            android:layout_gravity="center">
 
                             <ImageView
                                 android:id="@+id/greater_than_eight_up_arrow"
@@ -290,17 +300,18 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.11"
+                        android:layout_weight="0.13"
+                        android:gravity="center"
                         android:onClick="@{()-> callback.onClickRejected()}"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/rejected"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
 
-                            android:gravity="center"
+                            android:gravity="start"
 
                             android:text="Rejected"
                             android:textColor="@color/white"
@@ -311,19 +322,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/value_3dp">
+                            android:gravity="center">
 
                             <ImageView
                                 android:id="@+id/rejected_up_arrow"
-                                android:layout_width="@dimen/text_14sp"
-                                android:layout_height="@dimen/text_14sp"
+                                android:layout_width="@dimen/text_dimen_11"
+                                android:layout_height="@dimen/text_dimen_11"
                                 android:src="@drawable/baseline_arrow_upward_24"
                                 android:visibility="gone" />
 
                             <ImageView
                                 android:id="@+id/rejected_down_arrow"
-                                android:layout_width="@dimen/text_14sp"
-                                android:layout_height="@dimen/text_14sp"
+                                android:layout_width="@dimen/text_dimen_11"
+                                android:layout_height="@dimen/text_dimen_11"
                                 android:src="@drawable/down_arrow_white"
                                 android:visibility="gone" />
                         </LinearLayout>
@@ -334,12 +345,13 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.11"
+                        android:layout_marginStart="@dimen/value_2dp"
+                        android:layout_weight="0.12"
                         android:onClick="@{()-> callback.onClickPending()}"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
 
@@ -353,63 +365,65 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/value_3dp">
+                            android:layout_gravity="center">
 
                             <ImageView
                                 android:id="@+id/pending_up_arrow"
-                                android:layout_width="@dimen/text_14sp"
-                                android:layout_height="@dimen/text_14sp"
+                                android:layout_width="@dimen/text_dimen_11"
+                                android:layout_height="@dimen/text_dimen_11"
                                 android:src="@drawable/baseline_arrow_upward_24"
                                 android:visibility="gone" />
 
                             <ImageView
                                 android:id="@+id/pending_down_arrow"
-                                android:layout_width="@dimen/text_14sp"
-                                android:layout_height="@dimen/text_14sp"
+                                android:layout_width="@dimen/text_dimen_11"
+                                android:layout_height="@dimen/text_dimen_11"
                                 android:src="@drawable/down_arrow_white"
                                 android:visibility="gone" />
                         </LinearLayout>
 
 
                     </LinearLayout>
+                    <!--                     android:onClick="@{()-> callback.onClickTotal()}"-->
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.155"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.13"
                         android:onClick="@{()-> callback.onClickTotal()}"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-
-                            android:fontFamily="@font/roboto_medium"
+                            android:layout_gravity="center"
                             android:gravity="center"
-
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/roboto_medium"
                             android:text="Total"
+
+
                             android:textColor="@color/white"
-                            android:textSize="@dimen/dimen11sp" />
+                            android:textSize="@dimen/dimen11sp"
+                            android:visibility="visible" />
 
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/value_3dp">
+                            android:layout_gravity="center">
 
                             <ImageView
                                 android:id="@+id/total_up_arrow"
-                                android:layout_width="@dimen/text_14sp"
-                                android:layout_height="@dimen/text_14sp"
+                                android:layout_width="@dimen/text_12sp"
+                                android:layout_height="@dimen/text_12sp"
                                 android:src="@drawable/baseline_arrow_upward_24"
                                 android:visibility="gone" />
 
                             <ImageView
                                 android:id="@+id/total_down_arrow"
-                                android:layout_width="@dimen/text_14sp"
-                                android:layout_height="@dimen/text_14sp"
+                                android:layout_width="@dimen/text_12sp"
+                                android:layout_height="@dimen/text_12sp"
                                 android:src="@drawable/down_arrow_white"
                                 android:visibility="gone" />
                         </LinearLayout>

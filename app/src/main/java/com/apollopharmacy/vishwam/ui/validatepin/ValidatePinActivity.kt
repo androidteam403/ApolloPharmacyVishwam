@@ -60,9 +60,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //        onCheckBuildDetails()
         handleMPinService()
         viewModel.getApplevelDesignation(
-            Preferences.getValidatedEmpId(),
-            "SWACHH",
-            applicationContext
+            Preferences.getValidatedEmpId(), "SWACHH", applicationContext
         )
         viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
         Preferences.setSiteIdListFetchedQcFail(false)
@@ -77,7 +75,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         Preferences.setSiteRetroListFetched(false)
         Preferences.setReasonListFetched(false)
         viewModel.commands.observeForever { command ->
-           Utlis.hideLoading()
+            Utlis.hideLoading()
             when (command) {
                 is Command.NavigateTo -> {
                     val intent = Intent(this@ValidatePinActivity, ForgotPinActivity::class.java)
@@ -109,13 +107,13 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             } else {
                 Log.w("newToken", "token should not be null...")
             }
-        }).addOnFailureListener(OnFailureListener { e: Exception? -> }).addOnCanceledListener(
-            OnCanceledListener {}).addOnCompleteListener(OnCompleteListener { task: Task<String> ->
-            Log.v(
-                "newToken",
-                "This is the token : " + task.result
-            )
-        })
+        }).addOnFailureListener(OnFailureListener { e: Exception? -> })
+            .addOnCanceledListener(OnCanceledListener {})
+            .addOnCompleteListener(OnCompleteListener { task: Task<String> ->
+                Log.v(
+                    "newToken", "This is the token : " + task.result
+                )
+            })
 
 
 //        viewModel.employeeDetails.observeForever {
@@ -138,15 +136,12 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                handleNextIntent()
 
                 viewModel.getRole(Preferences.getValidatedEmpId())
-                viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
-                    "SWACHH",
-                    applicationContext
+                viewModel.getApplevelDesignation(
+                    Preferences.getValidatedEmpId(), "SWACHH", applicationContext
                 )
 
                 viewModel.getApplevelDesignationApnaRetro(
-                    Preferences.getValidatedEmpId(),
-                    "RETRO",
-                    applicationContext, this
+                    Preferences.getValidatedEmpId(), "RETRO", applicationContext, this
                 )
                 viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
 
@@ -174,14 +169,17 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                     if (it.data != null && it.data?.uploadSwach != null) {
 //                        it.data!!.role!!.code = "store_supervisor"
 //                        it.data!!.uploadSwach!!.uid = "Yes"
+
+//                        it.data!!.role!!.code="region_head"
                         Preferences.storeEmployeeDetailsResponseJson(Gson().toJson(it))
+                        Preferences.setRoleForCeoDashboard(it.data!!.role!!.code.toString())
+//                       Toast.makeText(applicationContext, ""+ Preferences.getRoleForCeoDashboard(), Toast.LENGTH_SHORT).show()
                         if (it.data?.uploadSwach?.uid != null) {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
                             Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
                             if (it.data?.uploadSwach?.uid!!.equals(
-                                    "Yes",
-                                    true
+                                    "Yes", true
                                 )
                             ) {
                                 if (it.data?.swacchDefaultSite != null && it.data?.swacchDefaultSite?.site != null) {
@@ -211,8 +209,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                            it.data?.swacchDefaultSite?.site = ""
                             Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.uploadApnaRetro?.uid!!)
                             if (it.data?.uploadApnaRetro?.uid!!.equals(
-                                    "Yes",
-                                    true
+                                    "Yes", true
                                 )
                             ) {
                                 Preferences.setRetroEmployeeRoleUid(it.data?.uploadApnaRetro?.uid!!)
@@ -251,8 +248,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                            it.data?.swacchDefaultSite?.site = ""
                             Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
                             if (it.data?.newDrugRequest?.uid!!.equals(
-                                    "Yes",
-                                    true
+                                    "Yes", true
                                 )
                             ) {
                                 Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
@@ -293,14 +289,12 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                }
 
             } else {
-                Toast.makeText(this, "Invalid Pin", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, "Invalid Pin", Toast.LENGTH_SHORT).show()
             }
         } else if (requestCode == REQUEST_CODE_CHANGE) {
             if (resultCode == RESULT_OK) {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
-                Toast.makeText(this, "PinCode Dialog : " + dialogStatus, Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, "PinCode Dialog : " + dialogStatus, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -336,8 +330,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     private fun handlePlayStoreIntent() {
         Utils.printMessage("ValidatePin", "Download URL : " + downloadUrl)
         val viewIntent = Intent(
-            "android.intent.action.VIEW",
-            Uri.parse(downloadUrl)
+            "android.intent.action.VIEW", Uri.parse(downloadUrl)
         )
         startActivity(viewIntent)
     }
@@ -348,11 +341,8 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             viewModel.checkMPinLogin(MPinRequest(userData.EMPID, "", "GETDETAILS"))
         } else {
             Toast.makeText(
-                this,
-                resources?.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
+                this, resources?.getString(R.string.label_network_error), Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -383,9 +373,9 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             try {
                 SessionManager(applicationContext).setLoginToken(loginResponse.data.token)
                 SessionManager(applicationContext).setRiderIconUrl(loginResponse.data.pic[0].dimenesions.get200200FullPath())
-                viewModel.getRiderProfileDetailsApi(SessionManager(applicationContext).getLoginToken(),
-                    applicationContext,
-                    this)
+                viewModel.getRiderProfileDetailsApi(
+                    SessionManager(applicationContext).getLoginToken(), applicationContext, this
+                )
             } catch (e: java.lang.Exception) {
                 println("onSuccessLoginApi ::::::::::::::::::::::::" + e.message)
                 ActivityUtils.hideDialog()

@@ -15,6 +15,7 @@ object Preferences {
     private const val KEY_SAVING_TOKEN = "KEY_USER_ID"
     private const val PREF_KEY_LOGIN_JSON = "PREF_KEY_LOGIN_JSON"
     private const val KEY_APP_LEVEL_DESIGNATION = "KEY_APP_LEVEL_DESIGNATION"
+    private const val KEY_APP_CEO_DASHBOARD_ROLE = "KEY_APP_CEO_DASHBOARD_ROLE"
     private const val KEY_FROM_DATE = "KEY_FROM_DATE"
     private const val PENDING_PAGE_SIZE_QC = "PENDING_PAGE_SIZE_QC"
     private const val APPROVED_PAGE_SIZE_QC = "APPROVED_PAGE_SIZE_QC"
@@ -599,7 +600,6 @@ object Preferences {
 
     }
 
-
     fun setAppLevelDesignation(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_APP_LEVEL_DESIGNATION, siteIdList).apply()
     }
@@ -607,6 +607,14 @@ object Preferences {
 
     fun getAppLevelDesignation(): String {
         return sharedPreferences.getString(KEY_APP_LEVEL_DESIGNATION, "")!!
+    }
+    fun setRoleForCeoDashboard(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_APP_CEO_DASHBOARD_ROLE, siteIdList).apply()
+    }
+
+
+    fun getRoleForCeoDashboard(): String {
+        return sharedPreferences.getString(KEY_APP_CEO_DASHBOARD_ROLE, "")!!
     }
 //        val storeString = sharedPreferences.getString(PREF_KEY_LOGIN_JSON, "")
 //        return try {
