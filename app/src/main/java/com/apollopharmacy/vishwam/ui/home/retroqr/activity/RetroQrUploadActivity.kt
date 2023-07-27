@@ -2,11 +2,13 @@ package com.apollopharmacy.vishwam.ui.home.retroqr.activity
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +18,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -41,9 +44,12 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUpload
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadCallback
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadModel
 import com.apollopharmacy.vishwam.util.PopUpWIndow
-import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import me.echodev.resizer.Resizer
+import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.util.Utlis.hideLoading
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
+
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.opencv.android.OpenCVLoader
@@ -59,6 +65,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     private lateinit var reviewRackAdapter: ReviewRackAdapter
     private var activity: String = ""
     var updated: Int = 0
+    private lateinit var cameraDialog: Dialog
 
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
@@ -86,7 +93,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
     private fun setUp() {
-        showLoading(context)
+        showLoading(this)
         OpenCVLoader.initDebug()
 
         viewModel.getStoreWiseRackDetails(this)
@@ -155,7 +162,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
 
 //
-            showLoading(context)
+            showLoading(this)
 
             RetroQrFileUpload().uploadFiles(
                 context, this, fileUploadModelList
@@ -195,7 +202,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
 
 //
-                showLoading(context)
+                showLoading(this)
 
                 RetroQrFileUpload().uploadFiles(
                     context, this, fileUploadModelList
@@ -400,53 +407,69 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
     override fun deleteImage(position: Int) {
 
-        reviewImagesList.get(position).setmatchingPercentage("")
-        reviewImagesList.get(position).setreviewimageurl("")
-        updated--
-        activityRetroQrUploadBinding.updated.setText(updated.toString())
-        activityRetroQrUploadBinding.pending.setText((reviewImagesList.size - updated).toString())
+        cameraDialog = Dialog(this)
+        cameraDialog.setContentView(R.layout.dialog_camera_delete)
+        val close = cameraDialog.findViewById<TextView>(R.id.no_btnN)
+        close.setOnClickListener {
+            cameraDialog.dismiss()
+        }
+        val ok = cameraDialog.findViewById<TextView>(R.id.yes_btnN)
+        ok.setOnClickListener {
+            reviewImagesList.get(position).setmatchingPercentage("")
+            reviewImagesList.get(position).setreviewimageurl("")
+            updated--
+            activityRetroQrUploadBinding.updated.setText(updated.toString())
+            activityRetroQrUploadBinding.pending.setText((reviewImagesList.size - updated).toString())
 
-        if (reviewImagesList.size - updated == 0) {
-            activityRetroQrUploadBinding.submitButtonReview.setBackgroundColor(Color.parseColor("#209804"))
+            if (reviewImagesList.size - updated == 0) {
+                activityRetroQrUploadBinding.submitButtonReview.setBackgroundColor(Color.parseColor("#209804"))
 
-        } else {
-            activityRetroQrUploadBinding.submitButtonReview.setBackgroundColor(Color.parseColor("#a1a1a1"))
+            } else {
+                activityRetroQrUploadBinding.submitButtonReview.setBackgroundColor(Color.parseColor("#a1a1a1"))
+
+            }
+            if (reviewImagesList.isNotEmpty()){
+
+                if (reviewImagesList.filter { it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>=0&& it.matchingPercentage!!.toInt()<71 }.size>0){
+                    activityRetroQrUploadBinding.redtext.setText((reviewImagesList.filter { it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>=0&& it.matchingPercentage!!.toInt()<71 }.size).toString())
+
+                }
+                else
+                {
+                    activityRetroQrUploadBinding.redtext.setText("0")
+
+                }
+
+
+                if (reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>70&& it.matchingPercentage!!.toInt()<91 }.size>0){
+                    activityRetroQrUploadBinding.orangetext.setText((reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>70&& it.matchingPercentage!!.toInt()<91 }.size).toString())
+
+                }
+                else{
+                    activityRetroQrUploadBinding.orangetext.setText("0")
+                }
+
+                if (reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>90&& it.matchingPercentage!!.toInt()<101 }.size>0){
+                    activityRetroQrUploadBinding.greentext.setText((reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>90&& it.matchingPercentage!!.toInt()<101 }.size).toString())
+
+                }else{
+                    activityRetroQrUploadBinding.greentext.setText("0")
+                }
+
+
+
+            }
+
+            reviewRackAdapter.notifyDataSetChanged()
+
+            cameraDialog.dismiss()
 
         }
-        if (reviewImagesList.isNotEmpty()){
 
-         if (reviewImagesList.filter { it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>=0&& it.matchingPercentage!!.toInt()<71 }.size>0){
-             activityRetroQrUploadBinding.redtext.setText((reviewImagesList.filter { it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>=0&& it.matchingPercentage!!.toInt()<71 }.size).toString())
-
-         }
-            else
-         {
-             activityRetroQrUploadBinding.redtext.setText("0")
+        cameraDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        cameraDialog.show()
 
          }
-
-
-            if (reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>70&& it.matchingPercentage!!.toInt()<91 }.size>0){
-                activityRetroQrUploadBinding.orangetext.setText((reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>70&& it.matchingPercentage!!.toInt()<91 }.size).toString())
-
-            }
-            else{
-                activityRetroQrUploadBinding.orangetext.setText("0")
-            }
-
-            if (reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>90&& it.matchingPercentage!!.toInt()<101 }.size>0){
-                activityRetroQrUploadBinding.greentext.setText((reviewImagesList.filter {  it.matchingPercentage!!.isNotEmpty()&&it.matchingPercentage!!.toInt()>90&& it.matchingPercentage!!.toInt()<101 }.size).toString())
-
-            }else{
-                activityRetroQrUploadBinding.greentext.setText("0")
-            }
-
-
-
-        }
-
-        reviewRackAdapter.notifyDataSetChanged()
-    }
 
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -492,7 +515,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                 onClickCompare(
                     position,
                     File(reviewImagesList.get(position).reviewimageurl),
-                     reviewImagesList.get(position).imageurl
+                    RijndaelCipherEncryptDecrypt().decrypt(reviewImagesList.get(position).imageurl!!,"blobfilesload"),
                 )
 
                 reviewRackAdapter.notifyItemChanged(position)
@@ -597,34 +620,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
     override fun allFilesDownloaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
-//        if (fileUploadModelList != null && fileUploadModelList.size > 0) {
-//            val saveImageUrlsRequest = QrSaveImageUrlsRequest()
-//            saveImageUrlsRequest.storeid =
-//                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
-//            saveImageUrlsRequest.userid = Preferences.getValidatedEmpId()
-//            val base64ImageList = ArrayList<QrSaveImageUrlsRequest.StoreDetail>()
-//            for (i in fileUploadModelList) {
-//                val base64Image = QrSaveImageUrlsRequest.StoreDetail()
-//                base64Image.imageurl = i.fileDownloadResponse!!.referenceurl
-//                base64Image.qrcode = ""
-//                base64Image.rackno = i.rackNo
-//                base64ImageList.add(base64Image)
-//            }
-//            saveImageUrlsRequest.storeDetails = base64ImageList
-//            viewModel.saveImageUrlsApiCall(
-//                saveImageUrlsRequest, this
-//            )
-//
-//        }
-    }
-
-
-
-
-
-    override fun allFilesUploaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
-
-       if (fileUploadModelList != null && fileUploadModelList.size > 0) {
+        if (fileUploadModelList != null && fileUploadModelList.size > 0) {
             val saveImageUrlsRequest = QrSaveImageUrlsRequest()
             saveImageUrlsRequest.storeid =
                 Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
@@ -632,7 +628,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             val base64ImageList = ArrayList<QrSaveImageUrlsRequest.StoreDetail>()
             for (i in fileUploadModelList) {
                 val base64Image = QrSaveImageUrlsRequest.StoreDetail()
-                base64Image.imageurl = i.sensingFileUploadResponse!!.referenceurl
+                base64Image.imageurl = i.fileDownloadResponse!!.referenceurl
                 base64Image.qrcode = ""
                 base64Image.rackno = i.rackNo
                 base64ImageList.add(base64Image)
@@ -643,6 +639,33 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             )
 
         }
+    }
+
+
+
+
+
+    override fun allFilesUploaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
+
+//       if (fileUploadModelList != null && fileUploadModelList.size > 0) {
+//            val saveImageUrlsRequest = QrSaveImageUrlsRequest()
+//            saveImageUrlsRequest.storeid =
+//                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+//            saveImageUrlsRequest.userid = Preferences.getValidatedEmpId()
+//            val base64ImageList = ArrayList<QrSaveImageUrlsRequest.StoreDetail>()
+//            for (i in fileUploadModelList) {
+//                val base64Image = QrSaveImageUrlsRequest.StoreDetail()
+//                base64Image.imageurl = i.sensingFileUploadResponse!!.referenceurl
+//                base64Image.qrcode = ""
+//                base64Image.rackno = i.rackNo
+//                base64ImageList.add(base64Image)
+//            }
+//            saveImageUrlsRequest.storeDetails = base64ImageList
+//            viewModel.saveImageUrlsApiCall(
+//                saveImageUrlsRequest, this
+//            )
+//
+//        }
 
 
 

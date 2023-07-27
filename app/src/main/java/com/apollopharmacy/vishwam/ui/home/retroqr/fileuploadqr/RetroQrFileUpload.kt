@@ -111,8 +111,8 @@ class RetroQrFileUpload {
             uploadFile(fileUploadModelTemp)
         } else {
             hideLoading()
-            fileUploadCallback!!.allFilesUploaded(fileUploadModelList)
-//            downloadFiles(context!!, fileUploadCallback!!, fileUploadModelList)
+//            fileUploadCallback!!.allFilesUploaded(fileUploadModelList)
+            downloadFiles(context!!, fileUploadCallback!!, fileUploadModelList)
         }
     }
 

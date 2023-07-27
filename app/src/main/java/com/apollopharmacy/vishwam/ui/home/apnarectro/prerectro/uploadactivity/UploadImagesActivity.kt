@@ -47,6 +47,7 @@ import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.G
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import me.echodev.resizer.Resizer
 import java.io.File
 
@@ -260,6 +261,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 
             }
             submit.imageUrls = imageUrlsList
+        showLoading(this)
             uploadImagesViewModel.onUploadImagesApna(submit, this)
 
 //        }
@@ -475,8 +477,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
                 fileUploadModel.categoryId = apnaConfigList.get(0).configlist!!.get(i).categoryId
 
                 for (j in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices){
-                    fileUploadModel.file =
-                        apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.get(j).file
+                    fileUploadModel.file = apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.get(j).file
                     fileUploadModelList.add(fileUploadModel)
 
 //                    fileUploadModel.qrCode = imagesList[i].qrcode
@@ -487,7 +488,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
             }
 
 
-            Utlis.showLoading(context)
+            showLoading(this)
 
 
             uploadImagesViewModel.connectToAzure(
@@ -556,10 +557,10 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         for (j in fileUploadModelList!!.indices) {
             for (i in apnaConfigList.get(0).configlist!!.indices) {
 
-                if (fileUploadModelList.get(i).categoryId.equals(apnaConfigList.get(0).configlist!!.get(i).categoryId)){
+                if (fileUploadModelList.get(j).categoryId.equals(apnaConfigList.get(0).configlist!!.get(i).categoryId)){
                     for ( k in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices){
                         apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.get(k).base64Images=
-                            fileUploadModelList.get(j).file.toString()
+                            fileUploadModelList.get(j).fileDownloadResponse!!.referenceurl!!
                     }
                 }
 
