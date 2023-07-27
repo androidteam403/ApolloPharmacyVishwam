@@ -33,7 +33,9 @@ class ApartmentTypeAdapter(
         holder.viewItemRowBinding.itemName.text = apartmentTypes[position].name
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            mCallback.onApartmentTypeItemSelect(position, apartmentTypes[position].name.toString())
+            mCallback.onApartmentTypeItemSelect(position,
+                apartmentTypes[position].name.toString(),
+                apartmentTypes[position].uid.toString())
         }
     }
 

@@ -42,7 +42,7 @@ class TrafficGeneratorAdapter(
                 trafficGenerators[position].isSelected = true
             }
             mCallback.onTrafficGeneratorItemSelect(position,
-                trafficGenerators[position].name.toString(),
+                trafficGenerators[position],
                 trafficGenerators[position].isSelected)
         }
         if (trafficGenerators[position].isSelected == true) {
