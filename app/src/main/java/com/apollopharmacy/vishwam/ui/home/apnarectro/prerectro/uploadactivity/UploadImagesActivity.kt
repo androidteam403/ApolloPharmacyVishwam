@@ -84,12 +84,6 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
         activityUploadImagesBinding.overAllCount.text = "/" +overallImageCount.toString()
 
-//        configLst!!.add(ImgeDtcl(null, "Signage"))
-//        configLst!!.add(ImgeDtcl(null, "Front glass facade left and right"))
-//        configLst!!.add(ImgeDtcl(null, "Merchadising of rack FMCG rack left and right"))
-//        configLst!!.add(ImgeDtcl(null, "Service desk covering system"))
-//        configLst!!.add(ImgeDtcl(null, "Pharma rack left and right"))
-
         if (NetworkUtil.isNetworkConnected(this)) {
             Utlis.showLoading(this)
             uploadImagesViewModel.getStoreWiseDetailsApna(this)

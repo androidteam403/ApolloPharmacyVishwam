@@ -22,6 +22,8 @@ import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCate
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
@@ -847,6 +849,12 @@ interface ViswamAppApi {
         @Query("to_date") tomDate: String,
         @Query("employee_id") id: String,
     ): TicketCountsByStatusRoleResponse
+    @POST
+    suspend fun saveUpdateApi(
+        @Url url: String,
+        @Body data: SaveUpdateRequest,
+    ): SaveUpdateResponse
+
 
     @GET
     suspend fun getImageUrl(
