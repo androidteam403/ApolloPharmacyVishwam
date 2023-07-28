@@ -16,11 +16,12 @@
 
 
         <TextView
+            android:id="@+id/submit_buttn_admin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="1dp"
-            android:background="#00BCBE"
+            android:background="@color/dark_sky_blue"
             android:gravity="center"
             android:onClick="@{()-> callback.onClickSubmit()}"
             android:text="@string/label_submit"
@@ -312,8 +313,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_10dp"
-                                        android:layout_weight="0.1"
-                                        android:onClick="@{()-> callback.onClickEditSub1()}">
+                                        android:layout_weight="0.1">
 
                                         <ImageView
                                             android:layout_width="match_parent"
@@ -425,8 +425,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_10dp"
-                                        android:layout_weight="0.1"
-                                        android:onClick="@{()-> callback.onClickEditSub2()}">
+                                        android:layout_weight="0.1">
 
                                         <ImageView
                                             android:layout_width="match_parent"
@@ -539,8 +538,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_10dp"
-                                        android:layout_weight="0.1"
-                                        android:onClick="@{()-> callback.onClickEditSub3()}">
+                                        android:layout_weight="0.1">
 
                                         <ImageView
                                             android:layout_width="match_parent"
@@ -651,8 +649,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_10dp"
-                                        android:layout_weight="0.1"
-                                        android:onClick="@{()-> callback.onClickEditSub4()}">
+                                        android:layout_weight="0.1">
 
                                         <ImageView
                                             android:layout_width="match_parent"
@@ -765,7 +762,6 @@
                                         android:layout_gravity="center"
                                         android:layout_marginStart="@dimen/value_5dp"
                                         android:background="@drawable/blue_circle"
-                                        android:onClick="@{()-> callback.onClickEditOverallHospitality()}"
                                         android:padding="@dimen/value_3dp">
 
                                         <ImageView

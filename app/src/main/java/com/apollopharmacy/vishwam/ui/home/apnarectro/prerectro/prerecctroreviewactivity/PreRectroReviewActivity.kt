@@ -84,6 +84,9 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
     private fun setUp() {
 
         activityPreRectroReviewScreenBinding.callback = this
+        activityPreRectroReviewScreenBinding.closeIconWhiteRetro.setOnClickListener {
+            super.onBackPressed()
+        }
 
 
         if(status == "0"){
@@ -374,7 +377,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
             imagesStatusAlertDialog.show()
         }
         else{
-            onBackPressed()
+            super.onBackPressed()
         }
     }
 

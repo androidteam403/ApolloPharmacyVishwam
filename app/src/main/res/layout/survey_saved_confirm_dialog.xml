@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
-                android:text="Survey Id : "
+                android:text="Survey ID : "
                 android:textColor="@color/grey"
                 android:textSize="@dimen/text_14sp"
                 android:visibility="visible" />

@@ -55,6 +55,9 @@ import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefau
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.fileupload.FileUpload
+import com.apollopharmacy.vishwam.util.fileupload.FileUploadCallback
+import com.apollopharmacy.vishwam.util.fileupload.FileUploadModel
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import me.echodev.resizer.Resizer
@@ -65,7 +68,7 @@ import java.io.FileNotFoundException
 
 
 class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApolloSensingBinding>(),
-    ApolloSensingFragmentCallback, MainActivityCallback {
+    ApolloSensingFragmentCallback, MainActivityCallback, FileUploadCallback {
     var isSendLinkApiCall: Boolean = false
     var isSiteIdEmpty: Boolean = false
     var employeeName: String = ""
@@ -74,11 +77,15 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     var isPrescriptionUpload: Boolean = false
     var countDownTime: Long = 60000
     var countDownTimer: CountDownTimer? = null
+    var countDownTimerUp: CountDownTimer? = null
+
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
     var prescriptionImageList = ArrayList<ImageDto>()
     var storeData = ArrayList<LoginDetails.StoreData>()
     var otp = "-1"
+    var otpUp = "-1"
+
     lateinit var dialog: Dialog
     var siteId: String = ""
     var errorMessage: String = ""
@@ -97,6 +104,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             showLoading()
             viewModel.checkScreenStatus(this@ApolloSensingFragment)
         }
+        sendOtpListenerPrescriptionUploadFlow()
 
     }
 
@@ -151,6 +159,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
         val userData = LoginRepo.getProfile()
         otpValidation()
+        otpValidationUp()
+        onClickResendOtpUp()
         if (userData != null) {
             employeeName = userData.EMPNAME
             storeData = userData.STOREDETAILS
@@ -184,7 +194,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     showLoading()
                     Utlis.hideKeyPad(context as Activity)
                     retrieveViewModel().sendGlobalSmsApiCall(
-                        "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment
+                        "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment, false
                     )
                 }
 
@@ -287,6 +297,32 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //        }
     }
 
+    fun setSiteSelectionVisible() {
+        var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+        var employeeDetailsResponse: EmployeeDetailsResponse? = null
+        try {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                empDetailsResponse,
+                EmployeeDetailsResponse::class.java
+            )
+
+        } catch (e: JsonParseException) {
+            e.printStackTrace()
+        }
+        if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.role != null) {
+            if (employeeDetailsResponse!!.data!!.role!!.name!!.equals("Store Supervisor", true)) {
+                val site = employeeDetailsResponse.data!!.site!!.site
+                val storeName = employeeDetailsResponse.data!!.site!!.storeName
+                if ((site != null && storeName != null) && (site.isNotEmpty() && storeName.isNotEmpty())) {
+                    MainActivity.mInstance.siteIdIcon.visibility = View.GONE
+                }
+            }
+        }
+
+
+    }
+
     private fun validateCustomerDetails(phoneNumber: String, name: String): Boolean {
         if (phoneNumber.isEmpty()) {
             viewBinding.phoneNumber.requestFocus()
@@ -313,6 +349,16 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     fun stopTimer() {
         if (countDownTimer != null) {
             countDownTimer!!.cancel()
+            MainActivity.mInstance.apolloSensingSiteVisiblity(true)
+            setSiteSelectionVisible()
+        }
+    }
+
+    fun stopTimerUp() {
+        if (countDownTimerUp != null) {
+            countDownTimerUp!!.cancel()
+            MainActivity.mInstance.apolloSensingSiteVisiblity(true)
+            setSiteSelectionVisible()
         }
     }
 
@@ -346,8 +392,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         return true
     }
 
-
     private fun startTimer() {
+        MainActivity.mInstance.apolloSensingSiteVisiblity(false)
         viewBinding.resendOtp.visibility = View.GONE
         countDownTimer = object : CountDownTimer(countDownTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -358,6 +404,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
             @SuppressLint("SetTextI18n")
             override fun onFinish() {
+                MainActivity.mInstance.apolloSensingSiteVisiblity(true)
+                setSiteSelectionVisible()
                 otp = "-1"
                 viewBinding.timer.setText("00:00")
                 viewBinding.resendOtp.visibility = View.VISIBLE
@@ -368,6 +416,30 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             }
         }
         countDownTimer!!.start()
+    }
+
+    private fun startTimerUp() {
+        viewBinding.resendOtpUp!!.visibility = View.GONE
+        MainActivity.mInstance.apolloSensingSiteVisiblity(false)
+        countDownTimerUp = object : CountDownTimer(countDownTime, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val remainingTime = millisUntilFinished / 1000
+                val timeFormat = String.format("%02d:%02d", remainingTime / 60, remainingTime % 60)
+                viewBinding.timerUp!!.setText(timeFormat)
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onFinish() {
+                MainActivity.mInstance.apolloSensingSiteVisiblity(true)
+                setSiteSelectionVisible()
+                otpUp = "-1"
+                viewBinding.timerUp!!.setText("00:00")
+                viewBinding.resendOtpUp!!.visibility = View.VISIBLE
+                viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
+                viewBinding.otpViewUp!!.getText()!!.clear()
+            }
+        }
+        countDownTimerUp!!.start()
     }
 
     private fun openDialog() {
@@ -390,12 +462,17 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         prescriptionUploadedConfirmDialogBinding.okButton.setOnClickListener {
             viewBinding.phoneNumber.getText()!!.clear()
             viewBinding.custName.getText()!!.clear()
+            viewBinding.otpViewUp.text!!.clear()
+            customerNameMobileEnable(true)
             viewBinding.prescriptionImgRcvLayout.gravity = Gravity.CENTER_HORIZONTAL
             viewBinding.prescriptionImgRcv.visibility = View.GONE
             viewBinding.uploadPrescriptionLayout.visibility = View.GONE
             viewBinding.uploadPrescriptionBtn.visibility = View.GONE
             viewBinding.uploadCustomerPrescriptionLayout.visibility = View.VISIBLE
             viewBinding.uploadYourPrescriptionLayout.visibility = View.GONE
+            viewBinding.verifiedSuccessfullyLayoutUp.visibility = View.GONE
+            viewBinding.addMorePrescription.visibility = View.GONE
+            viewBinding.sendOtpBtnUploadPrescription.visibility = View.VISIBLE
             viewBinding.uploadPrescriptionBtn.setBackgroundColor(Color.parseColor("#efefef"))
             viewBinding.uploadPrescriptionText.setTextColor(Color.parseColor("#b5b5b5"))
             prescriptionImageList.clear()
@@ -616,6 +693,16 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     viewBinding.uploadPrescriptionText.setTextColor(Color.parseColor("#b5b5b5"))
                     prescriptionImageList.clear()
                     isPrescriptionUpload = false
+
+                    stopTimer()
+                    stopTimerUp()
+
+                    viewBinding.otpViewUp.getText()!!.clear()
+                    viewBinding.otpVerificationLayoutUp.visibility = View.GONE
+                    customerNameMobileEnable(true)
+                    viewBinding.verifiedSuccessfullyLayoutUp.visibility = View.GONE
+                    viewBinding.sendOtpBtnUploadPrescription.visibility = View.VISIBLE
+
                     hideLoading()
                 }
             }
@@ -872,6 +959,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
         linkSendConfirmDialogBinding.okButton.setOnClickListener {
             stopTimer()
+            stopTimerUp()
             viewBinding.customerPhoneNumber.getText()!!.clear()
             viewBinding.name.getText()!!.clear()
             viewBinding.otpView.getText()!!.clear()
@@ -907,14 +995,25 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun onSuccessSendGlobalSms(
         sendGlobalSmsResponse: SendGlobalSmsResponse,
         type: String,
+        isPrescriptionUploadFlow: Boolean,
     ) {
         hideLoading()
-        if (type.equals("OTP")) {
-            otp = sendGlobalSmsResponse.otp!!
-            viewBinding.otpView.text!!.clear()
-            isOtpVerified = true
-            viewBinding.sendOtpBtn.visibility = View.GONE
-            viewBinding.otpVerificationLayout.visibility = View.VISIBLE
+        if (isPrescriptionUploadFlow) {
+            /*viewBinding.phoneNumber.isEnabled = false
+            viewBinding.custName.isEnabled = false*/
+            customerNameMobileEnable(false)
+            otpUp = sendGlobalSmsResponse.otp!!
+            viewBinding.otpViewUp.text!!.clear()
+            viewBinding.sendOtpBtnUploadPrescription!!.visibility = View.GONE
+            viewBinding.otpVerificationLayoutUp!!.visibility = View.VISIBLE
+            startTimerUp()
+        } else {
+            if (type.equals("OTP")) {
+                otp = sendGlobalSmsResponse.otp!!
+                viewBinding.otpView.text!!.clear()
+                isOtpVerified = true
+                viewBinding.sendOtpBtn.visibility = View.GONE
+                viewBinding.otpVerificationLayout.visibility = View.VISIBLE
 //            viewBinding.verifiedSuccessfullyLayout.visibility = View.VISIBLE
 //            viewBinding.sendLinkBtn.setBackgroundColor(
 //                ContextCompat.getColor(
@@ -926,22 +1025,24 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //                    requireContext(), R.color.white
 //                )
 //            )
-            startTimer()
-        } else {
+                startTimer()
+            } else {
 //            showConfirmDialog()
-            isSendLinkApiCall = true
-            val updateUserDefaultSiteRequest = UpdateUserDefaultSiteRequest()
-            updateUserDefaultSiteRequest.empId = Preferences.getToken()
-            updateUserDefaultSiteRequest.site = siteId
-            retrieveViewModel().updateDefaultSiteIdApiCall(
-                updateUserDefaultSiteRequest, this@ApolloSensingFragment
-            )
+                isSendLinkApiCall = true
+                val updateUserDefaultSiteRequest = UpdateUserDefaultSiteRequest()
+                updateUserDefaultSiteRequest.empId = Preferences.getToken()
+                updateUserDefaultSiteRequest.site = siteId
+                retrieveViewModel().updateDefaultSiteIdApiCall(
+                    updateUserDefaultSiteRequest, this@ApolloSensingFragment
+                )
+            }
         }
     }
 
     override fun onFailureSendGlobalSms(
         sendGlobalSmsResponse: SendGlobalSmsResponse,
         type: String,
+        isPrescriptionUploadFlow: Boolean,
     ) {
         hideLoading()
         if (sendGlobalSmsResponse.message != null) Toast.makeText(
@@ -962,7 +1063,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 showLoading()
                 Utlis.hideKeyPad(context as Activity)
                 retrieveViewModel().sendGlobalSmsApiCall(
-                    "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment
+                    "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment, false
                 )
             }
         }
@@ -997,7 +1098,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             showLoading()
             Utlis.hideKeyPad(context as Activity)
             retrieveViewModel().sendGlobalSmsApiCall(
-                "LINK", sendGlobalSmsRequest, this@ApolloSensingFragment
+                "LINK", sendGlobalSmsRequest, this@ApolloSensingFragment, false
             )
         }
     }
@@ -1050,7 +1151,6 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //                }
 
                 if (prescriptionImageList != null && prescriptionImageList.size > 0) {
-                    showLoading()
                     referenceUrls.clear()
                     uploadImages(prescriptionImageList, 0)
                 }
@@ -1062,7 +1162,28 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
     fun uploadImages(prescriptionImageList: ArrayList<ImageDto>?, pos: Int) {
         if (prescriptionImageList != null && prescriptionImageList.size > 0) {
-            var file: File? = null
+            var fileUploadModelList = ArrayList<FileUploadModel>()
+            for (i in prescriptionImageList!!) {
+                val resizedImage = Resizer(requireContext()).setTargetLength(1080).setQuality(100)
+                    .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                    .setOutputDirPath(
+                        ViswamApp.Companion.context.cacheDir.toString()
+                    )
+                    .setSourceImage(i.file).resizedFile
+                var fileUploadModel = FileUploadModel()
+                fileUploadModel.file = resizedImage
+                fileUploadModelList.add(fileUploadModel)
+            }
+
+            FileUpload().uploadFiles(
+                requireContext(),
+                this@ApolloSensingFragment,
+                fileUploadModelList
+            )
+
+
+            /*var file: File? = null
             if (prescriptionImageList != null && prescriptionImageList.size > 0) {
                 file = prescriptionImageList.get(pos).file
             }
@@ -1086,7 +1207,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                         this@ApolloSensingFragment, resizedImage, false
                     )
                 }
-            }
+            }*/
         }
     }
 
@@ -1126,19 +1247,19 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun onSuccessCheckScreenStatusApiCall(checkScreenStatusResponse: CheckScreenStatusResponse) {
         hideLoading()
         if (checkScreenStatusResponse != null && checkScreenStatusResponse!!.status == true) {
-//            if (checkScreenStatusResponse.CUSTLINK!! == true && checkScreenStatusResponse.STORELINK!! == true) {
+            if (checkScreenStatusResponse.CUSTLINK!! == true && checkScreenStatusResponse.STORELINK!! == true) {
                 viewBinding.sendLink.visibility = View.VISIBLE
                 viewBinding.or.visibility = View.VISIBLE
                 viewBinding.takePhoto.visibility = View.VISIBLE
-//            } else if (checkScreenStatusResponse.CUSTLINK!! == true) {
-//                viewBinding.sendLink.visibility = View.VISIBLE
-//                viewBinding.or.visibility = View.GONE
-//                viewBinding.takePhoto.visibility = View.GONE
-//            } else if (checkScreenStatusResponse.STORELINK!! == true) {
-//                viewBinding.sendLink.visibility = View.GONE
-//                viewBinding.or.visibility = View.GONE
-//                viewBinding.takePhoto.visibility = View.VISIBLE
-//            }
+            } else if (checkScreenStatusResponse.CUSTLINK!! == true) {
+                viewBinding.sendLink.visibility = View.VISIBLE
+                viewBinding.or.visibility = View.GONE
+                viewBinding.takePhoto.visibility = View.GONE
+            } else if (checkScreenStatusResponse.STORELINK!! == true) {
+                viewBinding.sendLink.visibility = View.GONE
+                viewBinding.or.visibility = View.GONE
+                viewBinding.takePhoto.visibility = View.VISIBLE
+            }
         }
         setUpNew()
     }
@@ -1154,28 +1275,28 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     ) {
 //        Toast.makeText(requireContext(), sensingFileUploadResponse.message, Toast.LENGTH_SHORT)
 //            .show()
-        referenceUrls.add(sensingFileUploadResponse.referenceurl!!)
-        if (isLastImage) {
-            val saveImageUrlsRequest = SaveImageUrlsRequest()
-            saveImageUrlsRequest.siteId =
-                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
-            saveImageUrlsRequest.type = "STORE"
-            saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
-            saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
-            saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
-            val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
-            for (i in referenceUrls) {
-                val base64Image = SaveImageUrlsRequest.Base64Image()
-                base64Image.base64Image = i
-                base64ImageList.add(base64Image)
-            }
-            saveImageUrlsRequest.base64ImageList = base64ImageList
-            retrieveViewModel().saveImageUrlsApiCall(
-                saveImageUrlsRequest, this@ApolloSensingFragment
-            )
-        } else {
-            uploadImages(prescriptionImageList, 1)
-        }
+        /* referenceUrls.add(sensingFileUploadResponse.referenceurl!!)
+         if (isLastImage) {
+             val saveImageUrlsRequest = SaveImageUrlsRequest()
+             saveImageUrlsRequest.siteId =
+                 Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+             saveImageUrlsRequest.type = "STORE"
+             saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
+             saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
+             saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
+             val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
+             for (i in referenceUrls) {
+                 val base64Image = SaveImageUrlsRequest.Base64Image()
+                 base64Image.base64Image = i
+                 base64ImageList.add(base64Image)
+             }
+             saveImageUrlsRequest.base64ImageList = base64ImageList
+             retrieveViewModel().saveImageUrlsApiCall(
+                 saveImageUrlsRequest, this@ApolloSensingFragment
+             )
+         } else {
+             uploadImages(prescriptionImageList, 1)
+         }*/
 
     }
 
@@ -1232,6 +1353,16 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
         dialogResetLinkSendFormBinding.yesButton.setOnClickListener {
             stopTimer()
+            stopTimerUp()
+            /*viewBinding.phoneNumber.isEnabled = true
+            viewBinding.custName.isEnabled = true*/
+            viewBinding.otpViewUp.getText()!!.clear()
+            viewBinding.otpVerificationLayoutUp.visibility = View.GONE
+            customerNameMobileEnable(true)
+            viewBinding.verifiedSuccessfullyLayoutUp.visibility = View.GONE
+            viewBinding.sendOtpBtnUploadPrescription.visibility = View.VISIBLE
+            viewBinding.addMorePrescription.visibility = View.GONE
+
             viewBinding.customerPhoneNumber.getText()!!.clear()
             viewBinding.name.getText()!!.clear()
             viewBinding.otpView.getText()!!.clear()
@@ -1247,6 +1378,18 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
         dialog.setCancelable(false)
         dialog.show()
+    }
+
+    fun customerNameMobileEnable(isEnable: Boolean) {
+        viewBinding.phoneNumber.isEnabled = isEnable
+        viewBinding.custName.isEnabled = isEnable
+        if (isEnable) {
+            viewBinding.phoneNumber.alpha = 1f
+            viewBinding.custName.alpha = 1f
+        } else {
+            viewBinding.phoneNumber.alpha = .3f
+            viewBinding.custName.alpha = .3f
+        }
     }
 
     fun confirmationForResetUploadPrescriptionForm() {
@@ -1267,6 +1410,14 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         dialogResetUploadPrescriptionFormBinding.yesButton.setOnClickListener {
             viewBinding.phoneNumber.getText()!!.clear()
             viewBinding.custName.getText()!!.clear()
+            viewBinding.otpViewUp.text!!.clear()
+            customerNameMobileEnable(true)
+            viewBinding.otpVerificationLayoutUp.visibility = View.GONE
+            viewBinding.sendOtpBtnUploadPrescription.visibility = View.VISIBLE
+            viewBinding.addMorePrescription.visibility = View.GONE
+            viewBinding.verifiedSuccessfullyLayoutUp.visibility = View.GONE
+            stopTimerUp()
+            stopTimer()
             viewBinding.prescriptionImgRcvLayout.gravity = Gravity.CENTER_HORIZONTAL
             viewBinding.prescriptionImgRcv.visibility = View.GONE
             viewBinding.uploadPrescriptionLayout.visibility = View.GONE
@@ -1339,5 +1490,142 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     }
 
     override fun onClickQcFilterIcon() {
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
+        TODO("Not yet implemented")
+    }
+
+    fun sendOtpListenerPrescriptionUploadFlow() {
+        viewBinding.sendOtpBtnUploadPrescription!!.setOnClickListener {
+            val phoneNumber = viewBinding.phoneNumber.text.toString().trim()
+            val name = viewBinding.custName.text.toString().trim()
+            if (validateCustomerDetails(phoneNumber, name)) {
+                if (NetworkUtil.isNetworkConnected(requireContext())) {
+                    showLoading()
+                    Utlis.hideKeyPad(context as Activity)
+                    val sendGlobalSmsRequest = SendGlobalSmsRequest()
+                    sendGlobalSmsRequest.sourceFor = "SENSING"
+                    sendGlobalSmsRequest.type = "OTP"
+                    sendGlobalSmsRequest.mobileNo = viewBinding.phoneNumber.text.toString().trim()
+                    sendGlobalSmsRequest.link = ""
+                    sendGlobalSmsRequest.customerName = viewBinding.custName.text.toString().trim()
+                    retrieveViewModel().sendGlobalSmsApiCall(
+                        "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment, true
+                    )
+                }
+            } else {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun otpValidationUp() {
+        viewBinding.otpViewUp.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int,
+                count: Int,
+            ) {
+                if (s != "") {
+                    //do your work here
+                }
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int,
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (s != null && s.toString().length == 6) {
+                    if (s.toString().equals(otpUp)) {
+                        Utlis.hideKeyPad(context as Activity)
+                        viewBinding.addMorePrescription.visibility = View.VISIBLE
+                        viewBinding.verifiedSuccessfullyLayoutUp!!.visibility = View.VISIBLE
+                        viewBinding.otpVerificationLayoutUp.visibility = View.GONE
+                        /*viewBinding.phoneNumber.isEnabled = false
+                        viewBinding.custName.isEnabled = false*/
+                        customerNameMobileEnable(false)
+                        stopTimerUp()
+                    } else {
+                        Toast.makeText(context, "Invalid OTP", Toast.LENGTH_SHORT).show()
+                        viewBinding.otpViewUp.text!!.clear()
+                        viewBinding.addMorePrescription.visibility = View.GONE
+                        viewBinding.verifiedSuccessfullyLayoutUp!!.visibility = View.GONE
+                    }
+                } else {
+                    viewBinding.addMorePrescription.visibility = View.GONE
+                    viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
+                    viewBinding.verifiedSuccessfullyLayoutUp!!.visibility = View.GONE
+                }
+            }
+        })
+    }
+
+    fun onClickResendOtpUp() {
+        viewBinding.resendOtpUp.setOnClickListener {
+            val phoneNumber = viewBinding.phoneNumber.text.toString().trim()
+            val name = viewBinding.custName.text.toString().trim()
+            if (validateCustomerDetails(phoneNumber, name)) {
+                if (NetworkUtil.isNetworkConnected(requireContext())) {
+                    showLoading()
+                    Utlis.hideKeyPad(context as Activity)
+                    val sendGlobalSmsRequest = SendGlobalSmsRequest()
+                    sendGlobalSmsRequest.sourceFor = "SENSING"
+                    sendGlobalSmsRequest.type = "OTP"
+                    sendGlobalSmsRequest.mobileNo = viewBinding.phoneNumber.text.toString().trim()
+                    sendGlobalSmsRequest.link = ""
+                    sendGlobalSmsRequest.customerName = viewBinding.custName.text.toString().trim()
+                    retrieveViewModel().sendGlobalSmsApiCall(
+                        "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment, true
+                    )
+                }
+            } else {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onFailureUpload(message: String) {
+
+    }
+
+    override fun allFilesDownloaded(fileUploadModelList: List<FileUploadModel>?) {
+
+    }
+
+    override fun allFilesUploaded(fileUploadModelList: List<FileUploadModel>?) {
+        if (fileUploadModelList != null && fileUploadModelList.size > 0) {
+            val saveImageUrlsRequest = SaveImageUrlsRequest()
+            saveImageUrlsRequest.siteId =
+                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+            saveImageUrlsRequest.type = "STORE"
+            saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
+            saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
+            saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
+            val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
+            for (i in fileUploadModelList) {
+                val base64Image = SaveImageUrlsRequest.Base64Image()
+                base64Image.base64Image = i.sensingFileUploadResponse!!.referenceurl
+                base64ImageList.add(base64Image)
+            }
+            saveImageUrlsRequest.base64ImageList = base64ImageList
+            retrieveViewModel().saveImageUrlsApiCall(
+                saveImageUrlsRequest, this@ApolloSensingFragment
+            )
+        }
     }
 }
