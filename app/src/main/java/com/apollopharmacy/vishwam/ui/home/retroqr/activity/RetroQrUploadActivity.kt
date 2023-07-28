@@ -86,7 +86,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
     private fun setUp() {
-        showLoading(context)
+        showLoading(this)
         OpenCVLoader.initDebug()
 
         viewModel.getStoreWiseRackDetails(this)
@@ -155,7 +155,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
 
 //
-            showLoading(context)
+            showLoading(this)
 
             RetroQrFileUpload().uploadFiles(
                 context, this, fileUploadModelList
@@ -195,7 +195,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
 
 //
-                showLoading(context)
+                showLoading(this)
 
                 RetroQrFileUpload().uploadFiles(
                     context, this, fileUploadModelList
@@ -597,42 +597,15 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
     override fun allFilesDownloaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
-//        if (fileUploadModelList != null && fileUploadModelList.size > 0) {
-//            val saveImageUrlsRequest = QrSaveImageUrlsRequest()
-//            saveImageUrlsRequest.storeid =
-//                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
-//            saveImageUrlsRequest.userid = Preferences.getValidatedEmpId()
-//            val base64ImageList = ArrayList<QrSaveImageUrlsRequest.StoreDetail>()
-//            for (i in fileUploadModelList) {
-//                val base64Image = QrSaveImageUrlsRequest.StoreDetail()
-//                base64Image.imageurl = i.fileDownloadResponse!!.referenceurl
-//                base64Image.qrcode = ""
-//                base64Image.rackno = i.rackNo
-//                base64ImageList.add(base64Image)
-//            }
-//            saveImageUrlsRequest.storeDetails = base64ImageList
-//            viewModel.saveImageUrlsApiCall(
-//                saveImageUrlsRequest, this
-//            )
-//
-//        }
-    }
-
-
-
-
-
-    override fun allFilesUploaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
-
-       if (fileUploadModelList != null && fileUploadModelList.size > 0) {
+        if (fileUploadModelList != null && fileUploadModelList.size > 0) {
             val saveImageUrlsRequest = QrSaveImageUrlsRequest()
-            saveImageUrlsRequest.storeid =
-                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+            saveImageUrlsRequest.storeid ="16001"
+               //Preferences.getSiteId()
             saveImageUrlsRequest.userid = Preferences.getValidatedEmpId()
             val base64ImageList = ArrayList<QrSaveImageUrlsRequest.StoreDetail>()
             for (i in fileUploadModelList) {
                 val base64Image = QrSaveImageUrlsRequest.StoreDetail()
-                base64Image.imageurl = i.sensingFileUploadResponse!!.referenceurl
+                base64Image.imageurl = i.fileDownloadResponse!!.referenceurl
                 base64Image.qrcode = ""
                 base64Image.rackno = i.rackNo
                 base64ImageList.add(base64Image)
@@ -643,6 +616,33 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             )
 
         }
+    }
+
+
+
+
+
+    override fun allFilesUploaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
+
+//       if (fileUploadModelList != null && fileUploadModelList.size > 0) {
+//            val saveImageUrlsRequest = QrSaveImageUrlsRequest()
+//            saveImageUrlsRequest.storeid =
+//                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+//            saveImageUrlsRequest.userid = Preferences.getValidatedEmpId()
+//            val base64ImageList = ArrayList<QrSaveImageUrlsRequest.StoreDetail>()
+//            for (i in fileUploadModelList) {
+//                val base64Image = QrSaveImageUrlsRequest.StoreDetail()
+//                base64Image.imageurl = i.sensingFileUploadResponse!!.referenceurl
+//                base64Image.qrcode = ""
+//                base64Image.rackno = i.rackNo
+//                base64ImageList.add(base64Image)
+//            }
+//            saveImageUrlsRequest.storeDetails = base64ImageList
+//            viewModel.saveImageUrlsApiCall(
+//                saveImageUrlsRequest, this
+//            )
+//
+//        }
 
 
 

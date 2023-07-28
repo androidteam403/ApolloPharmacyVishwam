@@ -34,8 +34,9 @@ class RetroQrUploadViewModel : ViewModel() {
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+//        var baseUrl = "http://172.16.103.116:8447/SaveImageUrls"
 
-        var baseUrl = "http://172.16.103.116:8447/SaveImageUrls"
+        var baseUrl = "https://phrmaptestp.apollopharmacy.info:8443/apnaqrcode/SaveImageUrls"
         var baseToken = "h72genrSSNFivOi/cfiX3A=="
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("SEN SAVEDETAILS")) {
@@ -91,8 +92,9 @@ class RetroQrUploadViewModel : ViewModel() {
         val state = MutableLiveData<State>()
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
-
-        var baseUrl = "http://172.16.103.116:8447/getStoreWiseRackDetails?STOREID=${Preferences.getQrSiteId()}"
+//        var baseUrl = "http://172.16.103.116:8447/getStoreWiseRackDetails?STOREID=${Preferences.getQrSiteId()}"
+//        https://phrmaptestp.apollopharmacy.info:8443/apnaqrcode/getStoreWiseRackDetails?STOREID=16001
+        var baseUrl = "https://phrmaptestp.apollopharmacy.info:8443/apnaqrcode/getStoreWiseRackDetails?STOREID=16001"
         var token = "h72genrSSNFivOi/cfiX3A=="
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("DISCOUNT COLOR")) {
