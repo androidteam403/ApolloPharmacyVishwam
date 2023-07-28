@@ -45,14 +45,14 @@ class LoginViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     Utlis.hideLoading()
                     if (response.value.status) {
-                        for (i in response.value.APIS) {
+                       /* for (i in response.value.APIS) {
                             var url = i.URL
                             url = url.replace(
                                 "https://172.16.103.116",
                                 "https://phrmaptestp.apollopharmacy.info"
                             )
                             i.URL = url
-                        }
+                        }*/
                         validateResponseMutableList.value = response.value!!
                         Preferences.saveApi(Gson().toJson(response.value))
                         Preferences.saveGlobalResponse(Gson().toJson(response.value))

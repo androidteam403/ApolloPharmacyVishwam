@@ -71,7 +71,7 @@ interface ViswamAppApi {
     ): DeviceDeRegResponse
 
 
-    @POST("https://phrmaptestp.apollopharmacy.info:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")//https://172.16.103.116
+    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")//https://172.16.103.116
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
     /*@POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
@@ -560,25 +560,44 @@ interface ViswamAppApi {
     @GET("http://jsonblob.com/api/jsonBlob/1081086295635410944")
     suspend fun GET_STORE_DETAILS_CHAMPS(): StoreDetailsModelResponse
 
-    @GET("https://172.16.103.116/Apollo/Champs/getStoreDetails")
-    suspend fun GET_STORE_DETAILS_API(
-        @Header("token") token: String,
-    ): StoreDetailsModelResponse
+//    @GET("https://172.16.103.116/Apollo/Champs/getStoreDetails")
+//    suspend fun GET_STORE_DETAILS_API(
+//        @Header("token") token: String,
+//    ): StoreDetailsModelResponse
+//    @GET //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseACCessDetails")
+//    suspend fun checkDayWiseAccess(
+//        @Url url: String,
+//        @Header("token") token: String, @Query("StoreId") storeId: String,
+//    ): CheckDayWiseAccessResponse
 
-    @GET("https://172.16.103.116/Apollo/Champs/getStoreBasedDetails")
+    @GET //("https://172.16.103.116/Apollo/Champs/getStoreBasedDetails")
     suspend fun GET_STORE_WISE_DETAILS_CHAMPS_API(
+        @Url url: String,
         @Header("token") token: String,
         @Query("TRAINERID") id: String,
     ): GetStoreWiseEmpIdResponse
 
+//    @GET("https://172.16.103.116/Apollo/Champs/getStoreBasedDetails")
+//    suspend fun GET_STORE_WISE_DETAILS_CHAMPS_API(
+//        @Header("token") token: String,
+//        @Query("TRAINERID") id: String,
+//    ): GetStoreWiseEmpIdResponse
+
     @GET("http://jsonblob.com/api/jsonBlob/1080156717643481088")
     suspend fun GET_EMAIL_DETAILS(): GetEmailAddressModelResponse
 
-    @GET("https://172.16.103.116/Apollo/Champs/getEmailListDetails")
+    @GET //("https://172.16.103.116/Apollo/Champs/getEmailListDetails")
     suspend fun GET_EMAIL_DETAILS_API(
+        @Url url: String,
         @Header("token") token: String,
         @Query("Type") id: String,
     ): GetEmailAddressModelResponse
+
+//    @GET("https://172.16.103.116/Apollo/Champs/getEmailListDetails")
+//    suspend fun GET_EMAIL_DETAILS_API(
+//        @Header("token") token: String,
+//        @Query("Type") id: String,
+//    ): GetEmailAddressModelResponse
 
     @GET("http://jsonblob.com/api/jsonBlob/1080351000740773888")
     suspend fun GET_CATEGORY_DETAILS(): GetCategoryDetailsModelResponse
@@ -587,58 +606,80 @@ interface ViswamAppApi {
 //    suspend fun GET_CATEGORY_DETAILS_OL(): GetCategoryDetailsModelResponseOl
 
 
-    @GET("https://172.16.103.116/Apollo/Champs/getCategoryDetails")
-    suspend fun GET_CATEGORY_DETAILS_API(
-        @Header("token") token: String,
-    ): GetCategoryDetailsModelResponse
+//    @GET("https://172.16.103.116/Apollo/Champs/getCategoryDetails")
+//    suspend fun GET_CATEGORY_DETAILS_API(
+//        @Header("token") token: String,
+//    ): GetCategoryDetailsModelResponse
 
 
-    @GET("http://jsonblob.com/api/jsonBlob/1080703461032738816")
-    suspend fun GET_SUB_CATEGORY_DETAILS(): GetSubCategoryDetailsModelResponse
 
-    @GET("https://172.16.103.116/Apollo/Champs/getSubCategoryDetails")
-    suspend fun GET_SUB_CATEGORY_DETAILS_API(
-        @Header("token") token: String,
-        @Query("categoryName") id: String,
-    ): GetSubCategoryDetailsModelResponse
+//    @GET("https://172.16.103.116/Apollo/Champs/getSubCategoryDetails")
+//    suspend fun GET_SUB_CATEGORY_DETAILS_API(
+//        @Header("token") token: String,
+//        @Query("categoryName") id: String,
+//    ): GetSubCategoryDetailsModelResponse
 
-    @GET("http://jsonblob.com/api/jsonBlob/1080728862249467904")
-    suspend fun GET_TRAINING_AND_COLOR_DETAILS(): GetTrainingAndColorDetailsModelResponse
 
     //    https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails?type=TECH
-    @GET("https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails")
+
+    @GET
     suspend fun GET_TRAINING_AND_COLOR_DETAILS_API(
+        @Url url: String,
         @Header("token") token: String,
         @Query("type") id: String,
     ): GetTrainingAndColorDetailsModelResponse
 
-    @POST("https://172.16.103.116/Apollo/Champs/saveChampsDetails")
+//    @GET("https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails")
+//    suspend fun GET_TRAINING_AND_COLOR_DETAILS_API(
+//        @Header("token") token: String,
+//        @Query("type") id: String,
+//    ): GetTrainingAndColorDetailsModelResponse
+
+    @POST
     suspend fun saveChampsApi(
+        @Url url: String,
         @Header("token") token: String,
         @Body saveSurveyModelRequest: SaveSurveyModelRequest,
     ): SaveSurveyModelResponse
 
-    //    https://172.16.103.116/Apollo/Champs/getServeyDetails?fromDate=2023-01-23&toDate=2023-01-24&empId=APL49392
-    @GET("https://172.16.103.116/Apollo/Champs/getServeyDetails")
-    suspend fun GET_SURVEY_DETAILS_API(
-        @Header("token") token: String,
+//    @POST("https://172.16.103.116/Apollo/Champs/saveChampsDetails")
+//    suspend fun saveChampsApi(
+//        @Header("token") token: String,
+//        @Body saveSurveyModelRequest: SaveSurveyModelRequest,
+//    ): SaveSurveyModelResponse
 
+    //    https://172.16.103.116/Apollo/Champs/getServeyDetails?fromDate=2023-01-23&toDate=2023-01-24&empId=APL49392
+//    @GET("https://172.16.103.116/Apollo/Champs/getServeyDetails")
+//    suspend fun GET_SURVEY_DETAILS_API(
+//        @Header("token") token: String,
+//        @Query("fromDate") fromDate: String,
+//        @Query("toDate") tomDate: String,
+//        @Query("empId") id: String,
+//    ): GetSurveyDetailsModelResponse
+
+    @GET //("https://172.16.103.116/Apollo/Champs/getServeyDetails")
+    suspend fun GET_SURVEY_DETAILS_API(
+        @Url url: String,
+        @Header("token") token: String,
         @Query("fromDate") fromDate: String,
         @Query("toDate") tomDate: String,
         @Query("empId") id: String,
     ): GetSurveyDetailsModelResponse
 
-    @GET("http://jsonblob.com/api/jsonBlob/1085226360330534912")
-    suspend fun GET_SURVEY_DETAILS_(): GetSurveyDetailsModelResponse
 
-    @GET("https://172.16.103.116/Apollo/Champs/getServeyDetailsByChampId")
-    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID_API(
+//    @GET("https://172.16.103.116/Apollo/Champs/getServeyDetailsByChampId")
+//    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID_API(
+//        @Header("token") token: String,
+//        @Query("CHAMPID") id: String,
+//    ): GetSurevyDetailsByChampsIdResponse
+
+    @GET //("https://172.16.103.116/Apollo/Champs/getServeyDetails")
+    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(
+        @Url url: String,
         @Header("token") token: String,
-        @Query("CHAMPID") id: String,
+        @Query("CHAMPID") fromDate: String,
     ): GetSurevyDetailsByChampsIdResponse
 
-    @GET("http://jsonblob.com/api/jsonBlob/1085424700242542592")
-    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(): GetSurevyDetailsByChampsIdResponse
 
 
     //champs admin
@@ -647,6 +688,21 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Url url: String,
     ): GetCategoryDetailsResponse
+
+    @GET //("https://172.16.103.116/Apollo/Champs/getServeyDetails")
+    suspend fun GET_CATEGORY_DETAILS_API_CALL_(
+        @Url url: String,
+        @Header("token") token: String,
+      ): GetCategoryDetailsModelResponse
+
+//    @GET
+//    suspend fun GET_CATEGORY_DETAILS_API_CALL_(
+//        @Header("token") token: String,
+//        @Url url: String,
+//    ): GetCategoryDetailsModelResponse
+
+
+
 
     @GET
     suspend fun GET_CATEGORY_DETAILS_API_CALL_JSONBLOB(
@@ -659,6 +715,15 @@ interface ViswamAppApi {
         @Url url: String,
         @Query("categoryName") id: String,
     ): GetSubCategoryDetailsResponse
+
+
+    @GET
+    suspend fun GET_SUB_CATEGORY_DETAILS_API_CALL_(
+        @Header("token") token: String,
+        @Url url: String,
+        @Query("categoryName") id: String,
+    ): GetSubCategoryDetailsModelResponse
+
 
     @GET
     suspend fun GET_SUB_CATEGORY_DETAILS_API_CALL_JSONBLOB(
