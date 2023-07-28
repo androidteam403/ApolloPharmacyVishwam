@@ -20,6 +20,7 @@ import com.apollopharmacy.vishwam.databinding.ReviewRackLayoutBinding
 import com.apollopharmacy.vishwam.databinding.UploadRackLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.RetroQrUploadCallback
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.bumptech.glide.Glide
 import java.io.File
 import java.io.IOException
@@ -83,9 +84,14 @@ class ReviewRackAdapter(
 
         }
 
+//        holder.reviewRackLayoutBinding.compareIconLayout.setOnClickListener {
+//            mCallback.onClickCompare(items.matchingPercentage!!,
+//                RijndaelCipherEncryptDecrypt().decrypt(items.imageurl!!,"blobfilesload"), items.reviewimageurl!!, items.rackno!!
+//            )
+//        }
         holder.reviewRackLayoutBinding.compareIconLayout.setOnClickListener {
             mCallback.onClickCompare(items.matchingPercentage!!,
-                items.imageurl!!, items.reviewimageurl!!, items.rackno!!
+               items.imageurl!!, items.reviewimageurl!!, items.rackno!!
             )
         }
 

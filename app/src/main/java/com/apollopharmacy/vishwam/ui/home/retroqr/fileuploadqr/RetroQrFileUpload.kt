@@ -112,6 +112,7 @@ class RetroQrFileUpload {
         } else {
             hideLoading()
 //            fileUploadCallback!!.allFilesUploaded(fileUploadModelList)
+
             downloadFiles(context!!, fileUploadCallback!!, fileUploadModelList)
         }
     }
@@ -152,8 +153,6 @@ class RetroQrFileUpload {
             var fileDownloadRequest = RetroQrFileDownloadRequest()
             fileDownloadRequest.RefURL = fileUploadModel.sensingFileUploadResponse!!.referenceurl
 
-//            var baseUrl="http://172.16.103.116:8449/Apollo/SensingSingleFileDownload"
-//            var token = "cTfznn4yhybBR7WSrNJn1gpos"
             var baseUrl="https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload"
             var token = "cTfznn4yhybBR7WSrNJn1gpos"
             /*for (i in data.APIS.indices) {

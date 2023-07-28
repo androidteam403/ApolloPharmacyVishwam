@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -18,7 +19,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -32,6 +32,7 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityUploadImagesBinding
 import com.apollopharmacy.vishwam.databinding.DialogForImageUploadBinding
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.apnafileupload.ApnaRetroFileUpload
 import com.apollopharmacy.vishwam.ui.home.apnarectro.apnafileupload.ApnaRetroFileUploadCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.apnafileupload.ApnaRetroFileUploadModel
@@ -41,14 +42,16 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.reviewscreen.Pos
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerecctroreviewactivity.PreRectroReviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.adapter.ConfigApnaAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.adapter.ImagesUploadAdapter
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.GetStoreWiseCatDetailsApnaResponse
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import me.echodev.resizer.Resizer
 import java.io.File
 
-class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUploadAdapter.CallbackInterface{
+class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUploadAdapter.CallbackInterface,ApnaRetroFileUploadCallback{
     lateinit var activityUploadImagesBinding: ActivityUploadImagesBinding
     private lateinit var uploadImagesViewModel: UploadImagesViewModel
     private var configApnaAdapter: ConfigApnaAdapter? = null
@@ -85,6 +88,12 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         activityUploadImagesBinding.storeId.text=Preferences.getApnaSiteId()
         activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
         activityUploadImagesBinding.overAllCount.text = "/" +overallImageCount.toString()
+
+//        configLst!!.add(ImgeDtcl(null, "Signage"))
+//        configLst!!.add(ImgeDtcl(null, "Front glass facade left and right"))
+//        configLst!!.add(ImgeDtcl(null, "Merchadising of rack FMCG rack left and right"))
+//        configLst!!.add(ImgeDtcl(null, "Service desk covering system"))
+//        configLst!!.add(ImgeDtcl(null, "Pharma rack left and right"))
 
         if (NetworkUtil.isNetworkConnected(this)) {
             Utlis.showLoading(this)
@@ -190,7 +199,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     override fun onSuccessImageIsUploadedInAzur(response: ArrayList<GetStoreWiseCatDetailsApnaResponse>) {
         apnaConfigList=response
 
-        uploadApi()
+//        uploadApi()
     }
 
     override fun onSuccessSaveImageUrlsApi(saveImageUrlsResponse: SaveImageUrlsResponse) {
@@ -252,7 +261,8 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 
             }
             submit.imageUrls = imageUrlsList
-//            uploadImagesViewModel.onUploadImagesApna(submit, this)
+        showLoading(this)
+            uploadImagesViewModel.onUploadImagesApna(submit, this)
 
 //        }
     }
@@ -467,8 +477,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
                 fileUploadModel.categoryId = apnaConfigList.get(0).configlist!!.get(i).categoryId
 
                 for (j in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices){
-                    fileUploadModel.file =
-                        apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.get(j).file
+                    fileUploadModel.file = apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.get(j).file
                     fileUploadModelList.add(fileUploadModel)
 
 //                    fileUploadModel.qrCode = imagesList[i].qrcode
@@ -485,7 +494,9 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
             uploadImagesViewModel.connectToAzure(
                 apnaConfigList, this, false
             )
-
+            ApnaRetroFileUpload().uploadFiles(
+                context, this, fileUploadModelList
+            )
         }
 
 
@@ -539,7 +550,28 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     ) {
     }
 
+    override fun onFailureUpload(message: String) {
+    }
 
+    override fun allFilesDownloaded(fileUploadModelList: List<ApnaRetroFileUploadModel>?) {
+        for (j in fileUploadModelList!!.indices) {
+            for (i in apnaConfigList.get(0).configlist!!.indices) {
 
+                if (fileUploadModelList.get(j).categoryId.equals(apnaConfigList.get(0).configlist!!.get(i).categoryId)){
+                    for ( k in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices){
+                        apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.get(k).base64Images=
+                            fileUploadModelList.get(j).fileDownloadResponse!!.referenceurl!!
+                    }
+                }
+
+            }
+        }
+
+        uploadApi()
+        Toast.makeText(this, fileUploadModelList!!.size.toString(),Toast.LENGTH_LONG).show()
+    }
+
+    override fun allFilesUploaded(fileUploadModelList: List<ApnaRetroFileUploadModel>?) {
+    }
 
 }
