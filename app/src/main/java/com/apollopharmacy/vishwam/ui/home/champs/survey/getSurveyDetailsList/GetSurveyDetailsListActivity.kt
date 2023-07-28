@@ -1,9 +1,13 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -15,6 +19,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityGetSurveyDetailsBinding
+import com.apollopharmacy.vishwam.databinding.DialoFilterChampsBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.adapter.GetSurveyDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
@@ -40,6 +45,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
     private var address: String = ""
     private var storeCity: String = ""
     private var region:String=""
+    var champsStatus: String = "Pending, Completed"
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,19 +96,59 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
                 .show()
         }
     }
-
+    var getSurvetDetailsModelResponses: GetSurveyDetailsModelResponse?=null
     override fun onSuccessSurveyList(getSurvetDetailsModelResponse: GetSurveyDetailsModelResponse) {
+        getSurvetDetailsModelResponses=getSurvetDetailsModelResponse
         if(getSurvetDetailsModelResponse!=null && getSurvetDetailsModelResponse.storeDetails!=null &&
                 getSurvetDetailsModelResponse.storeDetails.size>0){
+            getSurvetDetailsModelResponse.storeDetails.sortByDescending { it.visitDate }
             activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
             activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
-            getSurveyDetailsAdapter =
-                GetSurveyDetailsAdapter(getSurvetDetailsModelResponse, applicationContext, this
+            if(champsStatus.contains("Pending") && champsStatus.contains("Completed")){
+                activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+                activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+                getSurveyDetailsAdapter =
+                    GetSurveyDetailsAdapter(getSurvetDetailsModelResponse.storeDetails, applicationContext, this
+                    )
+                activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
+                    LinearLayoutManager(this)
                 )
-            activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
-                LinearLayoutManager(this)
-            )
-            activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
+                activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
+            }
+            else if(champsStatus.contains("Completed")){
+                if (getSurvetDetailsModelResponse.storeDetails.filter { it.status.equals("COMPLETED") }.size > 0) {
+                    activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+                    getSurveyDetailsAdapter =
+                        GetSurveyDetailsAdapter(getSurvetDetailsModelResponse.storeDetails.filter { it.status.equals("COMPLETED") }, applicationContext, this
+                        )
+                    activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
+                        LinearLayoutManager(this)
+                    )
+                    activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
+                }else{
+                    activityGetSurveyDetailsBinding.noListFound.visibility= View.VISIBLE
+                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.GONE
+                }
+            }
+            else if(champsStatus.contains("Pending")){
+                if (getSurvetDetailsModelResponse.storeDetails.filter { it.status.equals("PENDING") }.size > 0) {
+                    activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+                    getSurveyDetailsAdapter =
+                        GetSurveyDetailsAdapter(getSurvetDetailsModelResponse.storeDetails.filter { it.status.equals("PENDING") }, applicationContext, this
+                        )
+                    activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
+                        LinearLayoutManager(this)
+                    )
+                    activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
+                }else{
+                    activityGetSurveyDetailsBinding.noListFound.visibility= View.VISIBLE
+                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.GONE
+                }
+            }
+
+
         }else{
             activityGetSurveyDetailsBinding.noListFound.visibility= View.VISIBLE
             activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.GONE
@@ -181,4 +227,145 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
             }
         }
     }
+
+    override fun onClickFilterIcon() {
+        val uploadStatusFilterDialog = this?.let { Dialog(it) }
+        val dialogFilterUploadBinding: DialoFilterChampsBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(this), R.layout.dialo_filter_champs, null, false)
+        uploadStatusFilterDialog!!.setContentView(dialogFilterUploadBinding.root)
+        uploadStatusFilterDialog.getWindow()
+            ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialogFilterUploadBinding.closeDialog.setOnClickListener {
+            uploadStatusFilterDialog.dismiss()
+        }
+        if (this.champsStatus.contains("Pending")) {
+            dialogFilterUploadBinding.isPendingChecked = true
+        } else {
+            dialogFilterUploadBinding.isPendingChecked = false
+        }
+        if (this.champsStatus.contains("Completed")) {
+            dialogFilterUploadBinding.isCompletedChecked = true
+        } else {
+            dialogFilterUploadBinding.isCompletedChecked = false
+        }
+
+
+        submitButtonEnable(dialogFilterUploadBinding)
+
+
+        dialogFilterUploadBinding.approvedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogFilterUploadBinding)
+        }
+
+        dialogFilterUploadBinding.pendingStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogFilterUploadBinding)
+        }
+
+
+
+//        var complaintListStatusTemp = this.complaintListStatus
+//        dialogComplaintListFilterBinding.status = complaintListStatusTemp
+
+//        dialogComplaintListFilterBinding.statusRadioGroup.setOnCheckedChangeListener { radioGroup: RadioGroup, i: Int ->
+//            if (i == R.id.new_status) {
+//                complaintListStatusTemp = "new"
+//            } else if (i == R.id.in_progress_status) {
+//                complaintListStatusTemp = "inprogress"
+//            } else if (i == R.id.resolved_status) {
+//                complaintListStatusTemp = "solved"
+//            } else if (i == R.id.reopen_status) {
+//                complaintListStatusTemp = "reopened"
+//            } else if (i == R.id.closed_status) {
+//                complaintListStatusTemp = "closed"
+//            }
+//        }
+
+
+        dialogFilterUploadBinding.submit.setOnClickListener {
+//            this.complaintListStatus = complaintListStatusTemp
+            this.champsStatus = ""
+            if (dialogFilterUploadBinding.pendingStatus.isChecked) {
+                this.champsStatus = "Pending"
+            }
+            if (dialogFilterUploadBinding.approvedStatus.isChecked) {
+                if (this.champsStatus.isEmpty()) {
+                    this.champsStatus = "Completed"
+                } else {
+                    this.champsStatus = "${this.champsStatus},Completed"
+                }
+
+            }
+
+            if(champsStatus.contains("Pending") && champsStatus.contains("Completed")){
+                activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+                activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+                getSurveyDetailsAdapter =
+                    GetSurveyDetailsAdapter(getSurvetDetailsModelResponses!!.storeDetails, applicationContext, this
+                    )
+                activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
+                    LinearLayoutManager(this)
+                )
+                activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
+            }
+            else if(champsStatus.contains("Completed")){
+                if (getSurvetDetailsModelResponses!!.storeDetails.filter { it.status.equals("COMPLETED") }.size > 0) {
+
+                    activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+                    getSurveyDetailsAdapter =
+                        GetSurveyDetailsAdapter( getSurvetDetailsModelResponses!!.storeDetails.filter { it.status.equals("COMPLETED") }, applicationContext, this
+                        )
+                    activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
+                        LinearLayoutManager(this)
+                    )
+                    activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
+                }else{
+                    activityGetSurveyDetailsBinding.noListFound.visibility= View.VISIBLE
+                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.GONE
+                }
+            }
+            else if(champsStatus.contains("Pending")){
+                if (getSurvetDetailsModelResponses!!.storeDetails.filter { it.status.equals("PENDING") }.size > 0) {
+                    getSurvetDetailsModelResponses!!.storeDetails.filter { it.status.equals("PENDING") }
+                    activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+                    getSurveyDetailsAdapter =
+                        GetSurveyDetailsAdapter(getSurvetDetailsModelResponses!!.storeDetails.filter { it.status.equals("PENDING") }!!, applicationContext, this
+                        )
+                    activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
+                        LinearLayoutManager(this)
+                    )
+                    activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
+                }else{
+                    activityGetSurveyDetailsBinding.noListFound.visibility= View.VISIBLE
+                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.GONE
+                }
+            }
+
+//            complaintListStatus.length
+
+
+            if (uploadStatusFilterDialog != null && uploadStatusFilterDialog.isShowing) {
+                uploadStatusFilterDialog.dismiss()
+
+            }
+        }
+        uploadStatusFilterDialog.show()
+    }
+
+    fun submitButtonEnable(dialogFilterUploadBinding: DialoFilterChampsBinding) {
+        if (!dialogFilterUploadBinding.approvedStatus.isChecked
+            && !dialogFilterUploadBinding.pendingStatus.isChecked
+        ) {
+            dialogFilterUploadBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
+            dialogFilterUploadBinding.isSubmitEnable = false
+        } else {
+            dialogFilterUploadBinding.submit.setBackgroundResource(R.drawable.yellow_drawable)
+            dialogFilterUploadBinding.isSubmitEnable = true
+        }
+    }
+
+
 }

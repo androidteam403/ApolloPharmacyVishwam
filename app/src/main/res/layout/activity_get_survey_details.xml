@@ -69,6 +69,32 @@
                         android:paddingBottom="@dimen/value_8dp"
                         android:layout_gravity="center"
                         android:src="@drawable/plus" />
+
+                    <RelativeLayout
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:onClick="@{()-> callback.onClickFilterIcon()}"
+                        android:id="@+id/filterIcon"
+                        android:layout_width="@dimen/value_20dp"
+                        android:layout_height="@dimen/value_20dp"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:visibility="visible">
+
+                        <ImageView
+                            android:layout_width="@dimen/value_20dp"
+                            android:layout_height="@dimen/value_20dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/filtersnew"
+                            android:visibility="visible" />
+
+                        <View
+                            android:id="@+id/filter_indication"
+                            android:layout_width="@dimen/value_5dp"
+                            android:layout_height="@dimen/value_5dp"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/red_indication"
+                            android:visibility="gone" />
+                    </RelativeLayout>
                     <!--                    <ImageView-->
                     <!--                        android:layout_width="@dimen/value_25dp"-->
                     <!--                        android:layout_height="@dimen/value_25dp"-->

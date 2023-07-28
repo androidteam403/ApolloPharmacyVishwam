@@ -124,7 +124,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         activityChampsSurveyBinding.storeId.text = storeId
 
-        activityChampsSurveyBinding.address.text = storeId + ", " + siteName
+        activityChampsSurveyBinding.address.text = storeId + ", " + Preferences.getChampsSiteName()
         activityChampsSurveyBinding.storeCity.text = storeCity
         activityChampsSurveyBinding.region.text = region
         activityChampsSurveyBinding.percentageSum.text = "0"
@@ -202,18 +202,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
 
-        if (NetworkUtil.isNetworkConnected(this)) {
-//            Utlis.showLoading(this)
-            champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "TECH");
 
-        } else {
-            Toast.makeText(
-                context,
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        }
 
 //        if (NetworkUtil.isNetworkConnected(this)) {
 //            Utlis.showLoading(this)
@@ -2127,7 +2116,20 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             LinearLayoutManager(this)
         )
         activityChampsSurveyBinding.categoryRecyclerView.setAdapter(categoryDetailsAdapter)
-        Utlis.hideLoading()
+        if (NetworkUtil.isNetworkConnected(this)) {
+//            Utlis.showLoading(this)
+            champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "TECH");
+
+        }
+        else {
+            Toast.makeText(
+                context,
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+//        Utlis.hideLoading()
 
     }
 
@@ -2173,12 +2175,26 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 LinearLayoutManager(this)
             )
             activityChampsSurveyBinding.categoryRecyclerView.setAdapter(categoryDetailsAdapter)
-            Utlis.hideLoading()
-        } else {
-            Utlis.hideLoading()
+            if (NetworkUtil.isNetworkConnected(this)) {
+//            Utlis.showLoading(this)
+                champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "TECH");
+
+            }
+            else {
+                Toast.makeText(
+                    context,
+                    resources.getString(R.string.label_network_error),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+//            Utlis.hideLoading()
+        }
+        else {
+//            Utlis.hideLoading()
             if (champsRefernceId != null) {
 //
-                Utlis.showLoading(this)
+//                Utlis.showLoading(this)
                 champsSurveyViewModel.getSurveyListByChampsIDApi(
                     this,
                     champsRefernceId!!
