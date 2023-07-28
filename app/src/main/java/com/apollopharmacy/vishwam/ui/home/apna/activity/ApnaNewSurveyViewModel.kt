@@ -52,9 +52,18 @@ class ApnaNewSurveyViewModel : ViewModel() {
                 break
             }
         }
+        var dynamicUrl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA REGION DROPDOWN")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
 
-        var apnaSurveyUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/region/list/survey-region-for-select?"
+//        https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/region/list/survey-region-for-select?
+        var apnaSurveyUrl = dynamicUrl
         apnaSurveyUrl = apnaSurveyUrl + "emp_id=$empId"
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
@@ -93,9 +102,17 @@ class ApnaNewSurveyViewModel : ViewModel() {
                 break
             }
         }
-
-        val apnaSurveyUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/location/list/location-list-for-survey"
+        var dynamicUrl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA LOCATION LIST")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/location/list/location-list-for-survey
+        val apnaSurveyUrl = dynamicUrl
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(
@@ -133,8 +150,17 @@ class ApnaNewSurveyViewModel : ViewModel() {
                 break
             }
         }
-        val apnaSurveyUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/dimension_type"
+        var dynamicUrl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA DIMENSION TYPE")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/dimension_type
+        val apnaSurveyUrl = dynamicUrl
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
 //                ApnaSurveyApiRepo.getDimensionType(apnaSurveyUrl)
@@ -180,8 +206,17 @@ class ApnaNewSurveyViewModel : ViewModel() {
                 break
             }
         }
-        val apnaSurveyUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/YesNo"
+        var dynamicUrl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA CHOOSE DATA YES/NO")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/YesNo
+        val apnaSurveyUrl = dynamicUrl
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
 //                ApnaSurveyApiRepo.getParkingType(apnaSurveyUrl)
@@ -228,8 +263,17 @@ class ApnaNewSurveyViewModel : ViewModel() {
                 break
             }
         }
-        val apnaSurveyUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/traffic_street_types"
+        var dynamicUrl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA TRAFFIC STREET TYPE DROPDOWN")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/traffic_street_types
+        val apnaSurveyUrl = dynamicUrl
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
 //                ApnaSurveyApiRepo.getTrafficStreetType(apnaSurveyUrl)
@@ -276,9 +320,17 @@ class ApnaNewSurveyViewModel : ViewModel() {
                 break
             }
         }
-
-        val apnaSurveyUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/neighbouring_location"
+        var dynamicUrl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA NEIGHBOURING LOCATION DROPDOWN")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/neighbouring_location
+        val apnaSurveyUrl = dynamicUrl
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
 //                ApnaSurveyApiRepo.getNeighbouringLocation(apnaSurveyUrl)
@@ -329,8 +381,17 @@ class ApnaNewSurveyViewModel : ViewModel() {
                 break
             }
         }
-        val apnaSurveyUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/traffic_generators"
+        var dynamicUrl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA TRAFFIC GENERATORS DROPDOWN")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/traffic_generators
+        val apnaSurveyUrl = dynamicUrl
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
 //                ApnaSurveyApiRepo.getTrafficGeneratorsType(apnaSurveyUrl)
@@ -377,8 +438,17 @@ class ApnaNewSurveyViewModel : ViewModel() {
                 break
             }
         }
-        val apnaSurveyUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/apartment_type"
+        var dynamicUrl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA APARTMENT TYPE DROPDOWN")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/apartment_type
+        val apnaSurveyUrl = dynamicUrl
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
 //                ApnaSurveyApiRepo.getApartmentType(apnaSurveyUrl)
@@ -426,8 +496,17 @@ class ApnaNewSurveyViewModel : ViewModel() {
                 break
             }
         }
-        val apnaSurveyUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/apna_project_survey/save-update"
+        var dynamicUrl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA SURVEY SAVE UPDATE")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/apna_project_survey/save-update
+        val apnaSurveyUrl = dynamicUrl
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(
@@ -468,8 +547,17 @@ class ApnaNewSurveyViewModel : ViewModel() {
                 break
             }
         }
-        val apnaSurveyUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/apna_speciality"
+        var dynamicUrl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA SPECIALITY DROPDOWN")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/apna_speciality
+        val apnaSurveyUrl = dynamicUrl
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
 //                ApnaSurveyApiRepo.getApnaSpeciality(apnaSurveyUrl)
