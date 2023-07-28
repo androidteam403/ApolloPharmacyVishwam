@@ -12,7 +12,6 @@ import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.AdapterImagesuploadApnaBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.GetStoreWiseCatDetailsApnaResponse
-import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.bumptech.glide.Glide
 import java.io.File
 
@@ -82,17 +81,9 @@ class ImagesUploadAdapterPostRetro(
             for (i in posImageUrlList) {
                 if (i.stage.equals("1")) {
                     if (i.status.equals("0")) {
-                        if (i.url!!.contains(".")){
-                            Glide.with(context).load(i.url)
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
-                        else{
-                            Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.url,"blobfilesload"))
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
-
+                        Glide.with(context).load(i.url)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 0.5f
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility =
                             View.GONE
@@ -110,17 +101,10 @@ class ImagesUploadAdapterPostRetro(
 
                     } else if (i.status.equals("1"))
                     {
-                        if (i.url!!.contains(".")){
-                            Glide.with(context).load(i.url)
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
-                        else{
-                            Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.url,"blobfilesload"))
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
-
+                        Glide.with(context)
+                            .load(i.url)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 0.5f
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility =
                             View.GONE
@@ -139,16 +123,10 @@ class ImagesUploadAdapterPostRetro(
                     }
                     else if (i.status.equals("2")) {
                         if(i.file!=null){
-                            if (i.file.toString()!!.contains(".")){
-                                Glide.with(context).load(i.file)
-                                    .placeholder(R.drawable.placeholder_image)
-                                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                            }
-                            else{
-                                Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.file.toString(),"blobfilesload"))
-                                    .placeholder(R.drawable.placeholder_image)
-                                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                            }
+                            Glide.with(context)
+                                .load(i.file)
+                                .placeholder(R.drawable.placeholder_image)
+                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                             holder.adapterImagesuploadApnaBinding.redTrash.visibility=View.VISIBLE
                             holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.GONE
                             holder.adapterImagesuploadApnaBinding.tickMarkGreen.visibility =
@@ -157,16 +135,10 @@ class ImagesUploadAdapterPostRetro(
                                 ContextCompat.getColorStateList(context, R.color.material_amber_accent_700)
                             holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 1.0f
                         }else{
-                            if (i.url!!.contains(".")){
-                                Glide.with(context).load(i.url)
-                                    .placeholder(R.drawable.placeholder_image)
-                                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                            }
-                            else{
-                                Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.url,"blobfilesload"))
-                                    .placeholder(R.drawable.placeholder_image)
-                                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                            }
+                            Glide.with(context)
+                                .load(i.url)
+                                .placeholder(R.drawable.placeholder_image)
+                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                             holder.adapterImagesuploadApnaBinding.redTrash.visibility=View.GONE
                             holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.VISIBLE
                             holder.adapterImagesuploadApnaBinding.tickMarkGreen.visibility =
@@ -199,16 +171,10 @@ class ImagesUploadAdapterPostRetro(
                 if (i.stage.equals("2")) {
                     isPostCreate=false
                     if (i.status.equals("1")) {
-                        if (i.url!!.contains(".")){
-                            Glide.with(context).load(i.url)
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
-                        else{
-                            Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.url,"blobfilesload"))
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
+                        Glide.with(context)
+                            .load(i.url)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 0.5f
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility =
                             View.GONE
@@ -227,16 +193,10 @@ class ImagesUploadAdapterPostRetro(
                     }
                     else if (i.status.equals("1")) {
 //                    if(uploadStage){
-                        if (i.url!!.contains(".")){
-                            Glide.with(context).load(i.url)
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
-                        else{
-                            Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.url,"blobfilesload"))
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
+                        Glide.with(context)
+                            .load(i.url)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 0.5f
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility =
                             View.GONE
@@ -267,16 +227,10 @@ class ImagesUploadAdapterPostRetro(
                     else if (i.status.equals("2")) {
 
                         if(i.file!=null){
-                            if (i.file.toString()!!.contains(".")){
-                                Glide.with(context).load(i.file)
-                                    .placeholder(R.drawable.placeholder_image)
-                                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                            }
-                            else{
-                                Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.file.toString(),"blobfilesload"))
-                                    .placeholder(R.drawable.placeholder_image)
-                                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                            }
+                            Glide.with(context)
+                                .load(i.file)
+                                .placeholder(R.drawable.placeholder_image)
+                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                             holder.adapterImagesuploadApnaBinding.redTrash.visibility=View.VISIBLE
                             holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.GONE
                             holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 1.0f
@@ -285,16 +239,10 @@ class ImagesUploadAdapterPostRetro(
                             holder.adapterImagesuploadApnaBinding.imageTick.imageTintList =
                                 ContextCompat.getColorStateList(context, R.color.material_amber_accent_700)
                         }else{
-                            if (i.url!!.contains(".")){
-                                Glide.with(context).load(i.url)
-                                    .placeholder(R.drawable.placeholder_image)
-                                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                            }
-                            else{
-                                Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.url,"blobfilesload"))
-                                    .placeholder(R.drawable.placeholder_image)
-                                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                            }
+                            Glide.with(context)
+                                .load(i.url)
+                                .placeholder(R.drawable.placeholder_image)
+                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                             holder.adapterImagesuploadApnaBinding.redTrash.visibility=View.GONE
                             holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.VISIBLE
                             holder.adapterImagesuploadApnaBinding.tickMarkGreen.visibility =
@@ -313,16 +261,10 @@ class ImagesUploadAdapterPostRetro(
                     }else if (i.status.equals("9")){
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
                         holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
-                        if (i.file.toString()!!.contains(".")){
-                            Glide.with(context).load(i.file)
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
-                        else{
-                            Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.file.toString(),"blobfilesload"))
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
+                        Glide.with(context)
+                            .load(i.file)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.redTrash.visibility=View.VISIBLE
                         holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.GONE
                         holder.adapterImagesuploadApnaBinding.tickMarkGreen.visibility =
@@ -338,16 +280,9 @@ class ImagesUploadAdapterPostRetro(
                     if (i.stage.equals("1")) {
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
                         holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
-                        if (i.url!!.contains(".")){
-                            Glide.with(context).load(i.url)
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
-                        else{
-                            Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.url,"blobfilesload"))
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
+                        Glide.with(context).load(i.url)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 0.5f
 //            holder.afterCaptureImage.setImageURI(Uri.fromFile(SwachModelResponse?.file))
                         holder.adapterImagesuploadApnaBinding.eyeImage.visibility = View.GONE
@@ -365,16 +300,10 @@ class ImagesUploadAdapterPostRetro(
                 if (i.stage.equals("3")) {
                     isPostCreate=false
                     if (i.status.equals("0")) {
-                        if (i.url!!.contains(".")){
-                            Glide.with(context).load(i.url)
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
-                        else{
-                            Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.url,"blobfilesload"))
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
+                        Glide.with(context)
+                            .load(i.url)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 0.5f
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility =
                             View.GONE
@@ -393,16 +322,10 @@ class ImagesUploadAdapterPostRetro(
                     }
                     else if (i.status.equals("1")) {
 //                    if(uploadStage){
-                        if (i.url!!.contains(".")){
-                            Glide.with(context).load(i.url)
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
-                        else{
-                            Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.url,"blobfilesload"))
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
+                        Glide.with(context)
+                            .load(i.url)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 0.5f
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility =
                             View.GONE
@@ -432,16 +355,10 @@ class ImagesUploadAdapterPostRetro(
                     else if (i.status.equals("2")) {
 
                         if(i.file!=null){
-                            if (i.file.toString()!!.contains(".")){
-                                Glide.with(context).load(i.file)
-                                    .placeholder(R.drawable.placeholder_image)
-                                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                            }
-                            else{
-                                Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.file.toString(),"blobfilesload"))
-                                    .placeholder(R.drawable.placeholder_image)
-                                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                            }
+                            Glide.with(context)
+                                .load(i.file)
+                                .placeholder(R.drawable.placeholder_image)
+                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                             holder.adapterImagesuploadApnaBinding.redTrash.visibility=View.VISIBLE
                             holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.GONE
                             holder.adapterImagesuploadApnaBinding.tickMarkGreen.visibility =
@@ -450,16 +367,10 @@ class ImagesUploadAdapterPostRetro(
                             holder.adapterImagesuploadApnaBinding.imageTick.imageTintList =
                                 ContextCompat.getColorStateList(context, R.color.material_amber_accent_700)
                         }else{
-                            if (i.url!!.contains(".")){
-                                Glide.with(context).load(i.url)
-                                    .placeholder(R.drawable.placeholder_image)
-                                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                            }
-                            else{
-                                Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.url,"blobfilesload"))
-                                    .placeholder(R.drawable.placeholder_image)
-                                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                            }
+                            Glide.with(context)
+                                .load(i.url)
+                                .placeholder(R.drawable.placeholder_image)
+                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                             holder.adapterImagesuploadApnaBinding.redTrash.visibility=View.GONE
                             holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.VISIBLE
                             holder.adapterImagesuploadApnaBinding.tickMarkGreen.visibility =
@@ -477,16 +388,10 @@ class ImagesUploadAdapterPostRetro(
                     }else if (i.status.equals("9")){
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
                         holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
-                        if (i.file.toString()!!.contains(".")){
-                            Glide.with(context).load(i.file)
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
-                        else{
-                            Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.file.toString(),"blobfilesload"))
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
+                        Glide.with(context)
+                            .load(i.file)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.redTrash.visibility=View.VISIBLE
                         holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.GONE
                         holder.adapterImagesuploadApnaBinding.tickMarkGreen.visibility =
@@ -503,16 +408,9 @@ class ImagesUploadAdapterPostRetro(
                     if (i.stage.equals("2")) {
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
                         holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
-                        if (i.url!!.contains(".")){
-                            Glide.with(context).load(i.url)
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
-                        else{
-                            Glide.with(context).load(RijndaelCipherEncryptDecrypt().decrypt(i.url,"blobfilesload"))
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                        }
+                        Glide.with(context).load(i.url)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 0.5f
 //            holder.afterCaptureImage.setImageURI(Uri.fromFile(SwachModelResponse?.file))
                         holder.adapterImagesuploadApnaBinding.eyeImage.visibility = View.GONE
@@ -745,52 +643,52 @@ class ImagesUploadAdapterPostRetro(
 //        holder.adapterImagesuploadApnaBinding.eyeImage.setOnClickListener {
 //            uploadImagesCallback.onClickEyeImage()
 //        }
-            holder.adapterImagesuploadApnaBinding.aftercapturedimage.setOnClickListener {
-                if (stage.equals("isPreRetroStage")) {
-                    callbackInterface.onClickImageView(
-                        "isPreRetroStage",
-                        posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
-                        categoryName,
-                        categoryid,
-                        position,
-                        configPosition
-                    )
-                }
-                else if (stage.equals("isPostRetroStage")) {
-                    callbackInterface.onClickImageView(
-                        "isPostRetroStage",
-                        posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
-                        categoryName,
-                        categoryid,
-                        position,
-                        configPosition
-                    )
-                }
-                else if (stage.equals("isAfterCompletionStage")) {
-                    callbackInterface.onClickImageView(
-                        "isAfterCompletionStage",
-                        posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
-                        categoryName,
-                        categoryid,
-                        position,
-                        configPosition
-                    )
-                }
-
-            }
-
-            holder.adapterImagesuploadApnaBinding.cameraIcon.setOnClickListener {
-                callbackInterface.onClickCameraIcon(
-                    configPosition,
+        holder.adapterImagesuploadApnaBinding.aftercapturedimage.setOnClickListener {
+            if (stage.equals("isPreRetroStage")) {
+                callbackInterface.onClickImageView(
+                    "isPreRetroStage",
+                    posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
+                    categoryName,
+                    categoryid,
                     position,
-                    getImagesUrlList.get(position) as ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
+                    configPosition
                 )
             }
-            holder.adapterImagesuploadApnaBinding.redTrash.setOnClickListener {
-                callbackInterface.deleteImageCallBack(configPosition, position,
-                    getImagesUrlList.get(position) as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
+            else if (stage.equals("isPostRetroStage")) {
+                callbackInterface.onClickImageView(
+                    "isPostRetroStage",
+                    posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
+                    categoryName,
+                    categoryid,
+                    position,
+                    configPosition
                 )
             }
+            else if (stage.equals("isAfterCompletionStage")) {
+                callbackInterface.onClickImageView(
+                    "isAfterCompletionStage",
+                    posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
+                    categoryName,
+                    categoryid,
+                    position,
+                    configPosition
+                )
+            }
+
+        }
+
+        holder.adapterImagesuploadApnaBinding.cameraIcon.setOnClickListener {
+            callbackInterface.onClickCameraIcon(
+                configPosition,
+                position,
+                getImagesUrlList.get(position) as ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
+            )
+        }
+        holder.adapterImagesuploadApnaBinding.redTrash.setOnClickListener {
+            callbackInterface.deleteImageCallBack(configPosition, position,
+                getImagesUrlList.get(position) as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
+            )
+        }
 ////        callbackInterface.updateCount(pendingCount, approvedCount,reshootCount)
 //        }
     }
