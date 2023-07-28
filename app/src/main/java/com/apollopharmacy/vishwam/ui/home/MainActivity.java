@@ -1950,7 +1950,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
             }
         }
-        isApnaSurveyRequired = true;
+
         if (isApnaSurveyRequired) {
             listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
         }
