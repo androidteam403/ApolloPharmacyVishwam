@@ -42,8 +42,14 @@ import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.S
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PopUpWIndow
+import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
+import com.apollopharmacy.vishwam.util.fileuploadchamps.FileUploadChampsModel
+import com.apollopharmacy.vishwam.util.fileuploadswach.FileUploadSwachCallback
+import com.apollopharmacy.vishwam.util.fileuploadswach.FileUploadSwachModel
+import com.apollopharmacy.vishwam.util.fileuploadswach.FileUploadSwach
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import me.echodev.resizer.Resizer
 import java.io.File
 import java.io.FileOutputStream
@@ -52,7 +58,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.CallbackInterface {
+class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.CallbackInterface, FileUploadSwachCallback {
     lateinit var activityUploadNowButtonBinding: ActivityUploadNowButtonBinding
     private var swacchApolloList = ArrayList<SwachModelResponse>()
     lateinit var viewModel: UploadNowButtonViewModel
@@ -141,7 +147,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                     var dtcl_list = ArrayList<SwachModelResponse.Config.ImgeDtcl>()
                     for (count in 1..countUpload!!) {
                         overallImageCount++
-                        dtcl_list.add(SwachModelResponse.Config.ImgeDtcl(null, count, "", 0))
+                        dtcl_list.add(SwachModelResponse.Config.ImgeDtcl(null, count, "", 0, false))
 
                     }
                     swacchApolloList.get(0).configlist?.get(index)?.imageDataDto = dtcl_list
@@ -175,7 +181,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             when (it) {
                 is CommandsNewSwachImp.ImageIsUploadedInAzur -> {
 
-                    uploadApi()
+//                    uploadApi()
 //                    System.out.println(swac"test")
 //                    for (i in swacchApolloList.get(0).configlist!!.get(configPosition).imageDataDto!!.indices) {
 //                        for(i in it.filePath.indices){
@@ -213,7 +219,40 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
         activityUploadNowButtonBinding.uploadnowbutton.setOnClickListener {
             showLoading(this)
-            updateButtonValidation()
+
+
+            if (uploadedImageCount == overallImageCount) {
+                activityUploadNowButtonBinding.uploadnowbutton.setBackgroundColor(Color.parseColor("#00a651"));
+                if (swacchApolloList != null && swacchApolloList.get(0).configlist!!.size>0) {
+                    var fileUploadModelList = ArrayList<FileUploadSwachModel>()
+
+                    for(i in swacchApolloList!!.get(0).configlist!!!!) {
+                        if (i.imageDataDto != null) {
+                            for (j in i.imageDataDto!!) {
+                                if (j.file != null) {
+                                    var fileUploadModel = FileUploadSwachModel()
+                                    fileUploadModel.file = j.file
+                                    fileUploadModel.categoryName = i.categoryName
+                                    fileUploadModelList.add(fileUploadModel)
+                                }
+
+                            }
+                        }
+                    }
+
+                    FileUploadSwach().uploadFiles(
+                        context,
+                        this,
+                        fileUploadModelList
+                    )
+                }
+
+            } else {
+                Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
+                    .show()
+                hideLoading()
+            }
+//            updateButtonValidation()
 
         }
 
@@ -735,5 +774,45 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
             }
         }
+    }
+
+    override fun onFailureUpload(message: String) {
+        Utlis.hideLoading()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun allFilesDownloaded(fileUploadModelList: List<FileUploadSwachModel>) {
+
+        for (k in swacchApolloList!!.get(0).configlist!!) {
+            if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
+                for (l in k.imageDataDto!!) {
+                    for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
+                        if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
+                            l.base64Images = RijndaelCipherEncryptDecrypt().decrypt(z.fileDownloadResponse!!.referenceurl, "blobfilesload")
+                            l.sensingUploadUrlFilled = true
+                            z.imageUrlUsed = true
+                        }
+                    }
+
+                }
+            }
+
+        }
+        Utlis.hideLoading()
+
+//        for(i in fileUploadModelList){
+//            for(j in swacchApolloList.get(0)!!.configlist!!){
+//                if(i.categoryName.equals(j.categoryName)){
+//                    for(k in j.imageDataDto!!){
+////                        if(!k.sensingUploadUrlFilled){
+//                            k.base64Images=i.sensingFileUploadResponse!!.referenceurl!!
+////                            k.sensingUploadUrlFilled=true
+////                        }
+//                    }
+//
+//                }
+//            }
+//        }
+        uploadApi()
     }
 }

@@ -13,4 +13,5 @@ class FileUploadChampsModel {
     var isFileUploaded: Boolean = false
     var isFileDownloaded: Boolean = false
     var fileDownloadResponse: FileDownloadResponse? = null
+    var imageUrlUsed:Boolean=false
 }

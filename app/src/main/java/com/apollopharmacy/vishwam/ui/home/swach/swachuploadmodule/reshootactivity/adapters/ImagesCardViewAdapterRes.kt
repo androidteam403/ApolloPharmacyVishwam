@@ -44,9 +44,13 @@ class ImagesCardViewAdapterRes(
 //            holder.imageStatus.setImageResource(R.drawable.action_reshoot)
 //        }
 
-        if(imageUrls?.url!="IMAGE1" && imageUrls?.url!="IMAGE2" && imageUrls?.url!="") {
+        if((imageUrls?.file!=null && !imageUrls?.file!!.equals("")) || imageUrls?.url!=null) {
+            if(imageUrls!!.file!=null){
+                Glide.with(context).load(imageUrls?.file).into(holder.iageView)
+            }else{
+                Glide.with(context).load(imageUrls?.url).into(holder.iageView)
+            }
 
-            Glide.with(context).load(imageUrls?.url).into(holder.iageView)
         }else{
             Glide.with(context).load(R.drawable.placeholder_image).into(holder.iageView)
         }

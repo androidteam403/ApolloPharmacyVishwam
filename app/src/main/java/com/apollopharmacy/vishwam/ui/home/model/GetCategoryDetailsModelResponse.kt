@@ -104,6 +104,7 @@ import java.io.Serializable
          class ImagesDatas  : Serializable{
              var file: File?=null
              var imageUrl: String?=""
+             var flaFor3Images:Boolean=false
              var sensingUploadUrlFilled:Boolean=false
              var imageFilled: Boolean=false
              var sensingFileUploadResponse: SensingFileUploadResponse? = null

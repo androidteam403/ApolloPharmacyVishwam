@@ -559,11 +559,13 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
                 if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
                     getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+                  getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
                    imageUploadedCount++
                     break
                 }
             }
+
+            imagesDisplayChampsAdapter!!.notifyDataSetChanged()
 
 //            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists=imageDataList
 //            imagesDisplayChampsAdapter =
@@ -582,8 +584,8 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //                imagesDisplayChampsAdapter
 //            )
 //
-            Utlis.showLoading(this)
-            champsDetailsAndRatingBarViewModel.connectToAzure(resizedImage, this)
+//            Utlis.showLoading(this)
+//            champsDetailsAndRatingBarViewModel.connectToAzure(resizedImage, this)
 
 
         } else if (resultCode == RESULT_OK && requestCode == 999) {
@@ -620,10 +622,10 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                                         .setSourceImage(imageFileGallery).resizedFile
 
                                 getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
-                                Utlis.showLoading(this)
-                                champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
-
+                                 getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+//                                Utlis.showLoading(this)
+//                                champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
+                                imagesDisplayChampsAdapter!!.notifyDataSetChanged()
                                 break
                             }
                         }
@@ -653,13 +655,14 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
                                 .setSourceImage(imageFileGallery).resizedFile
                         getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+                       getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
                        imageUploadedCount++
                         break
                     }
                 }
-                Utlis.showLoading(this)
-                    champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
+                imagesDisplayChampsAdapter!!.notifyDataSetChanged()
+//                Utlis.showLoading(this)
+//                    champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
 
             }
         }

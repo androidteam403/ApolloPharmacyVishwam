@@ -6,17 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.azure.ConnectionAzureChamps
-import com.apollopharmacy.vishwam.data.azure.ConnectionAzureSwacch
-import com.apollopharmacy.vishwam.data.azure.ConnectionAzureSwachRes
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ChampsApiRepo
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyCallBack
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyViewModel
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsCallback
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsViewModel
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.CommandsNeww
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -106,7 +97,10 @@ class ChampsDetailsAndRatingBarViewModel : ViewModel() {
         }
     }
 
-    fun connectToAzure(image: File?, champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack) {
+    fun connectToAzure(
+        image: File?,
+        champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack
+    ) {
         state.value = State.SUCCESS
         viewModelScope.launch(Dispatchers.IO) {
             val response = ConnectionAzureChamps.connectToAzur(image,
