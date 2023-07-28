@@ -20,11 +20,23 @@ class AdminModuleViewModel : ViewModel() {
     fun getCategoryDetailsApiCall(mCallback: AdminModuleCallBack) {
         val state = MutableLiveData<State>()
 
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CHMP GET CATEGORIES LIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                ChampsAdminRepo.getCategoryDetailsApiCall("h72genrSSNFivOi/cfiX3A==",
-                    "https://172.16.103.116/Apollo/Champs/getCategoryDetails"//"https://172.16.103.116/Apollo/Champs/getCategoryDetails"
+                ChampsAdminRepo.getCategoryDetailsApiCall(token,
+                    baseUrl//"https://172.16.103.116/Apollo/Champs/getCategoryDetails"
                 )
             }
             when (response) {
@@ -67,14 +79,27 @@ class AdminModuleViewModel : ViewModel() {
     ) {
         val state = MutableLiveData<State>()
 
-        var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/getSubCategoryDetails"//?categoryName="+categoryName
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CHMP GET SUB CATEGORY DETAILS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+
+//        var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/getSubCategoryDetails"//?categoryName="+categoryName
         // var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/getSubCategoryDetails?categoryName=$categoryName"
 
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                ChampsAdminRepo.getSubCategoryDetailsApiCall("h72genrSSNFivOi/cfiX3A==",
-                    subCategoryUrl, categoryName)
+                ChampsAdminRepo.getSubCategoryDetailsApiCall(token,
+                    baseUrl, categoryName)
             }
             when (response) {
                 is ApiResult.Success -> {
