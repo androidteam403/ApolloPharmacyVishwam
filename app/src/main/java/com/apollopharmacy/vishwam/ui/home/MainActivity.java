@@ -96,6 +96,7 @@ import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.SwachLi
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy;
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.SampleSwachUi;
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessResponse;
 import com.apollopharmacy.vishwam.ui.rider.activity.SplashScreen;
 import com.apollopharmacy.vishwam.ui.rider.changepassword.ChangePasswordFragment;
 import com.apollopharmacy.vishwam.ui.rider.complaints.ComplaintsFragment;
@@ -162,6 +163,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isDrugRequired = false;
 
     public static boolean isSensingRequired = false;
+
+    public static boolean isChampsRequired = false;
+    public static boolean isApnaSurveyRequired = false;
+    public static boolean isApnaRetroRequired = false;
     //    private String mCurrentFrag;
     private int selectedItemPos = -1;
 
@@ -542,19 +547,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            employeeRole="Yes";
 //           userDesignation="EXECUTIVE";
 //           Toast.makeText(this, userDesignation, Toast.LENGTH_SHORT).show();
-            isAttendanceRequired = loginData.getIS_ATTANDENCEAPP();
-            isCMSRequired = loginData.getIS_CMSAPP();
-            isDiscountRequired = loginData.getIS_DISCOUNTAPP();
-            isSwachhRequired = loginData.getIS_SWACHHAPP();
-            isQcFailRequired = loginData.getIS_QCFAILAPP();
-            isDrugRequired = loginData.getIS_NEWDRUGAPP();
-            isSensingRequired = loginData.getIS_SENSINGAPP();
+
+
+            MobileAccessResponse.AccessDetails accessDetails = Preferences.INSTANCE.getVishwamAccessResponse().getAccessDetails();
+
+
+            isAttendanceRequired = accessDetails.getISATTENDENCEAPP(); //loginData.getIS_ATTANDENCEAPP();
+            isCMSRequired = accessDetails.getISCMSAPP(); //loginData.getIS_CMSAPP();
+            isDiscountRequired = accessDetails.getISDISCOUNTAPP(); //loginData.getIS_DISCOUNTAPP();
+            isSwachhRequired = accessDetails.getISSWACHHAPP(); //loginData.getIS_SWACHHAPP();
+            isQcFailRequired = accessDetails.getISQCFAILAPP(); //loginData.getIS_QCFAILAPP();
+            isDrugRequired = accessDetails.getISNEWDRUGAPP(); //loginData.getIS_NEWDRUGAPP();
+            isSensingRequired = accessDetails.getISSENSINGAPP(); //loginData.getIS_SENSINGAPP();
+            isChampsRequired = accessDetails.getISCHAMPAPP();
+            isApnaSurveyRequired = accessDetails.getISAPNAAPP();
+            isApnaRetroRequired = accessDetails.getISAPNARETROAPP();
         }
 
         TextView versionInfo = findViewById(R.id.versionInfo);
         versionInfo.setText("Version : " + BuildConfig.VERSION_NAME);
-        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired, isSensingRequired);
-//        updateDynamicNavMenu(false, false, false, false, false, false, false);
+        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired, isSensingRequired, isChampsRequired, isApnaSurveyRequired, isApnaRetroRequired);
+//        updateDynamicNavMenu(false, false, false, false, false, false, false, false, false, false);
 
 //        listView.expandGroup(2);
 
@@ -1837,7 +1850,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired, boolean isSensingRequired) {
+    private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired, boolean isSensingRequired, boolean isChampsRequired, boolean isApnaSurveyRequired, boolean isApnaRetroRequired) {
         listView.init(this).addHeaderModel(new HeaderModel("Home", R.drawable.ic_menu_home));
 
 //        listView = findViewById(R.id.expandable_navigation);
@@ -1871,7 +1884,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (isQcFailRequired) {
             listView.addHeaderModel(new HeaderModel("OMS QC", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("OutStanding", R.drawable.ic_apollo_pending)).addChildModel(new ChildModel("Approved", R.drawable.ic_apollo_approve__1_)).addChildModel(new ChildModel("Rejected", R.drawable.ic_apollo_reject))
-
 
             );
         }
@@ -1923,21 +1935,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            }
 //
 //        }
-
-        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
-//
+        if (isChampsRequired) {
+            listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
+        }
+        //
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
-        if ((employeeRoleRetro.equalsIgnoreCase("Yes")) && (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER"))) {
-            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
-        } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("NODATA")) {
-            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
-        } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER")) {
-            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+        if (isApnaRetroRequired) {
+            if ((employeeRoleRetro.equalsIgnoreCase("Yes")) && (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER"))) {
+                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+            } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("NODATA")) {
+                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
+            } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER")) {
+                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+            }
         }
-
-        listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
-
+        isApnaSurveyRequired = true;
+        if (isApnaSurveyRequired) {
+            listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
+        }
         listView.build().addOnGroupClickListener((parent, v, groupPosition, id) -> {
             List<HeaderModel> listHeader = listView.getListHeader();
             if (listHeader.get(groupPosition).getTitle().equals("Home")) {
