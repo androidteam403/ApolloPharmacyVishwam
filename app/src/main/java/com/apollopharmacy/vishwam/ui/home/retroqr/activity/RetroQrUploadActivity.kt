@@ -13,10 +13,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
@@ -33,6 +30,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityRetroQrUploadBinding
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcRegionDialog
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.ReviewRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.UploadRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagecomparison.ImageComparisonActivity
@@ -44,12 +42,9 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUpload
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadCallback
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadModel
 import com.apollopharmacy.vishwam.util.PopUpWIndow
+import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import me.echodev.resizer.Resizer
-import com.apollopharmacy.vishwam.base.BaseFragment
-import com.apollopharmacy.vishwam.util.Utlis.hideLoading
-import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
-
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.opencv.android.OpenCVLoader
@@ -100,23 +95,29 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
 
 
-        activityRetroQrUploadBinding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedItem = parent?.getItemAtPosition(position).toString()
-                uploadRackAdapter.getFilter().filter(selectedItem)
-                reviewRackAdapter.getFilter().filter(selectedItem)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                uploadRackAdapter.getFilter().filter("")
-                reviewRackAdapter.getFilter().filter("")               }
-        }
+//        activityRetroQrUploadBinding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                val selectedItem = parent?.getItemAtPosition(position).toString()
+//                uploadRackAdapter.getFilter().filter(selectedItem)
+//                reviewRackAdapter.getFilter().filter(selectedItem)
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//                uploadRackAdapter.getFilter().filter("")
+//                reviewRackAdapter.getFilter().filter("")               }
+//        }
 
         activityRetroQrUploadBinding.siteId.setText(Preferences.getQrSiteId())
         activityRetroQrUploadBinding.siteName.setText(Preferences.getQrSiteName())
 
         if (intent != null) {
 //            activity = intent.getStringExtra("activity")!!
+
+            activityRetroQrUploadBinding.rackArrow.setOnClickListener {
+                RackDialog().apply {
+                    arguments = RackDialog().generateParsedData(rackList)
+                }.show(supportFragmentManager, "")
+            }
 
 
 
@@ -165,7 +166,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             showLoading(this)
 
             RetroQrFileUpload().uploadFiles(
-                context, this, fileUploadModelList
+                this, this, fileUploadModelList
             )
 
 
@@ -205,7 +206,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                 showLoading(this)
 
                 RetroQrFileUpload().uploadFiles(
-                    context, this, fileUploadModelList
+                    this, this, fileUploadModelList
                 )
 
 
@@ -241,7 +242,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
         rackList.clear()
         rackList.add("All")
-
+        activityRetroQrUploadBinding.rackNum.setText("All")
         for(i in storeWiseRackDetails.storeDetails!!.indices){
             rackList.add(storeWiseRackDetails.storeDetails!!.get(i).rackno!!)
         }
@@ -511,11 +512,15 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             } else if (adapterName.equals("review")) {
                 reviewImagesList[position].reviewimageurl = (imageFile as File).toString()
 
-
+//onClickCompare(
+//                    position,
+//                    File(reviewImagesList.get(position).reviewimageurl),
+//                    RijndaelCipherEncryptDecrypt().decrypt(reviewImagesList.get(position).imageurl!!,"blobfilesload"),
+//                )
                 onClickCompare(
                     position,
                     File(reviewImagesList.get(position).reviewimageurl),
-                    RijndaelCipherEncryptDecrypt().decrypt(reviewImagesList.get(position).imageurl!!,"blobfilesload"),
+                    reviewImagesList.get(position).imageurl!!,
                 )
 
                 reviewRackAdapter.notifyItemChanged(position)
@@ -622,8 +627,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     override fun allFilesDownloaded(fileUploadModelList: List<RetroQrFileUploadModel>?) {
         if (fileUploadModelList != null && fileUploadModelList.size > 0) {
             val saveImageUrlsRequest = QrSaveImageUrlsRequest()
-            saveImageUrlsRequest.storeid =
-                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+            saveImageUrlsRequest.storeid =Preferences.getQrSiteId()
             saveImageUrlsRequest.userid = Preferences.getValidatedEmpId()
             val base64ImageList = ArrayList<QrSaveImageUrlsRequest.StoreDetail>()
             for (i in fileUploadModelList) {
@@ -634,6 +638,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                 base64ImageList.add(base64Image)
             }
             saveImageUrlsRequest.storeDetails = base64ImageList
+
+            showLoading(this)
             viewModel.saveImageUrlsApiCall(
                 saveImageUrlsRequest, this
             )
@@ -672,6 +678,15 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
     override fun selectGST(gst: String) {
+        activityRetroQrUploadBinding.rackNum.setText(gst)
+        if(gst.isNullOrEmpty()){
+            uploadRackAdapter.getFilter().filter("")
+                reviewRackAdapter.getFilter().filter("")
+        }
+        else{
+            uploadRackAdapter.getFilter().filter(gst)
+            reviewRackAdapter.getFilter().filter(gst)
+        }
 
     }
 }

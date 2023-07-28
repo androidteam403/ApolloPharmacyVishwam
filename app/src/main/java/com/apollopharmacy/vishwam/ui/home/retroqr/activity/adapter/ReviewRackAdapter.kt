@@ -83,9 +83,14 @@ class ReviewRackAdapter(
 
         }
 
+//        holder.reviewRackLayoutBinding.compareIconLayout.setOnClickListener {
+//            mCallback.onClickCompare(items.matchingPercentage!!,
+//                RijndaelCipherEncryptDecrypt().decrypt(items.imageurl!!,"blobfilesload"), items.reviewimageurl!!, items.rackno!!
+//            )
+//        }
         holder.reviewRackLayoutBinding.compareIconLayout.setOnClickListener {
             mCallback.onClickCompare(items.matchingPercentage!!,
-                RijndaelCipherEncryptDecrypt().decrypt(items.imageurl!!,"blobfilesload"), items.reviewimageurl!!, items.rackno!!
+               items.imageurl!!, items.reviewimageurl!!, items.rackno!!
             )
         }
 

@@ -34,16 +34,17 @@ class RetroQrUploadViewModel : ViewModel() {
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
-
-        var baseUrl = "http://172.16.103.116:8447/SaveImageUrls"
-        var baseToken = "h72genrSSNFivOi/cfiX3A=="
-//        for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("SEN SAVEDETAILS")) {
-//                baseUrl = data.APIS[i].URL
-//                baseToken = data.APIS[i].TOKEN
-//                break
-//            }
-//        }
+        var baseUrl = ""
+        var baseToken = ""
+//        var baseUrl = "https://phrmaptestp.apollopharmacy.info:8443/apnaqrcode/SaveImageUrls"
+//        var baseToken = "h72genrSSNFivOi/cfiX3A=="
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APQR SAVEIMAGEURLS")) {
+                baseUrl = data.APIS[i].URL
+                baseToken = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
@@ -91,21 +92,22 @@ class RetroQrUploadViewModel : ViewModel() {
         val state = MutableLiveData<State>()
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
-
-        var baseUrl = "http://172.16.103.116:8447/getStoreWiseRackDetails?STOREID=${Preferences.getQrSiteId()}"
-        var token = "h72genrSSNFivOi/cfiX3A=="
-//        for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("DISCOUNT COLOR")) {
-//                baseUrl = data.APIS[i].URL
-//                token = data.APIS[i].TOKEN
-//                break
-//            }
-//        }
+        var baseUrl = ""
+        var token = ""
+//        var baseUrl = "https://phrmaptestp.apollopharmacy.info:8443/apnaqrcode/getStoreWiseRackDetails?STOREID=${Preferences.getQrSiteId()}"
+//        var token = "h72genrSSNFivOi/cfiX3A=="
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APQR GETSTOREWISERACKDETAILS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 QrRetroRepo.getStoreWiseRackDetails(
-                    baseUrl,
+                    baseUrl+"STOREID=${Preferences.getQrSiteId()}",
                     token
                 )
             }

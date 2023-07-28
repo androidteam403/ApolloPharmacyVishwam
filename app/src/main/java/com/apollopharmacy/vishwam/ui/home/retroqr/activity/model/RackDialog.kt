@@ -51,6 +51,7 @@ class RackDialog: DialogFragment() {
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             viewBinding = DialogCustomBinding.inflate(inflater, container, false)
             viewBinding.textHead.text = "Select Rack"
+            viewBinding.headerLayout.setBackgroundColor(Color.parseColor("#f7941d"))
             viewBinding.closeDialog.setOnClickListener { dismiss() }
 
             viewBinding.searchSite.visibility = View.GONE
