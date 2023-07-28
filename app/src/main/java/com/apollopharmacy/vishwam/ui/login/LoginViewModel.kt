@@ -16,6 +16,8 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.data.repo.SplashRepo
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessRequest
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessResponse
 import com.apollopharmacy.vishwam.util.AppConstants.PROXY_TOKEN
 import com.apollopharmacy.vishwam.util.AppConstants.PROXY_URL
 import com.apollopharmacy.vishwam.util.Utils
@@ -72,8 +74,7 @@ class LoginViewModel : ViewModel() {
 //                        command.value =
 //                            NavigateTo(response.value)
                     } else {
-                        command.value =
-                            Command.ShowToast(response.value.message)
+                        command.value = Command.ShowToast(response.value.message)
                     }
                 }
 
@@ -131,7 +132,7 @@ class LoginViewModel : ViewModel() {
                             is ApiResult.Success -> {
                                 if (result.value.STATUS) {
                                     state.value = State.ERROR
-                                    commands.postValue(Command.ShowToast("Successfully login"))
+                                    /*commands.postValue(Command.ShowToast("Successfully login"))
                                     Preferences.saveAppDesignation(result.value.APPLEVELDESIGNATION)
                                     if (!result.value.STOREDETAILS.isNullOrEmpty()) {
                                         Preferences.saveSiteId(result.value.STOREDETAILS.get(0).SITEID)
@@ -142,8 +143,8 @@ class LoginViewModel : ViewModel() {
                                     Preferences.saveDesignation(result.value.DESIGNATION)
                                     Preferences.setAppLevelDesignation(result.value.APPLEVELDESIGNATION)
                                     Preferences.storeLoginJson(Gson().toJson(result.value))
-                                    Preferences.setLoginDate(Utils.getCurrentDate())
-                                    commands.value = Command.NavigateTo(result.value)
+                                    Preferences.setLoginDate(Utils.getCurrentDate())*/
+                                    commands.value = Command.NavigateTo(result.value, loginRequest)
                                 } else {
                                     state.value = State.ERROR
                                     commands.value = Command.ShowToast(result.value.MESSAGE)
@@ -226,13 +227,80 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    fun forMobileAccess(
+        mobileAccessRequest: MobileAccessRequest,
+        loginDetails: LoginDetails,
+        loginRequest: LoginRequest,
+    ) {
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VIS ACCESS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        state.postValue(State.LOADING)
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                LoginRepo.VISHWAM_ACCESS_API_CALL(baseUrl, token, mobileAccessRequest)
+            }
+            when (result) {
+                is ApiResult.Success -> {
+
+                    commands.postValue(Command.ShowToast("Successfully login"))
+                    Preferences.saveAppDesignation(loginDetails.APPLEVELDESIGNATION)
+                    if (!loginDetails.STOREDETAILS.isNullOrEmpty()) {
+                        Preferences.saveSiteId(loginDetails.STOREDETAILS.get(0).SITEID)
+
+                    }
+                    LoginRepo.saveProfile(loginDetails, loginRequest.PASSWORD)
+                    Preferences.savingToken(loginDetails.EMPID)
+                    Preferences.saveDesignation(loginDetails.DESIGNATION)
+                    Preferences.setAppLevelDesignation(loginDetails.APPLEVELDESIGNATION)
+                    Preferences.storeLoginJson(Gson().toJson(loginDetails))
+                    Preferences.setLoginDate(Utils.getCurrentDate())
+
+
+                    Preferences.setVishwamAccessResponse(result.value)
+                    commands.value = Command.VishwamAccessSuccesss(result.value)
+                }
+
+                is ApiResult.GenericError -> {
+                    commands.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.NetworkError -> {
+                    commands.postValue(Command.ShowToast("Network Error"))
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownError -> {
+                    commands.postValue(Command.ShowToast("An error has occurred"))
+                    state.value = State.ERROR
+                }
+
+                else -> {
+                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
 
 }
 
 sealed class Command {
     data class ShowToast(val message: String) : Command()
     data class NavigateTo(
-        val value: LoginDetails,
+        val value: LoginDetails, val loginRequest: LoginRequest,
     ) : Command()
 
     data class MpinValidation(
@@ -247,6 +315,10 @@ sealed class Command {
     data class ShowQcButtonSheet(
         val fragment: Class<out BottomSheetDialog>,
         val arguments: Bundle,
+    ) : Command()
+
+    data class VishwamAccessSuccesss(
+        val value: MobileAccessResponse,
     ) : Command()
 
 //    data class NavigateTo(

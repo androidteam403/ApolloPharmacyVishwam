@@ -11,7 +11,6 @@ import com.apollopharmacy.vishwam.data.model.cms.SiteDto
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.CityListResponse
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SiteListResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityViewModel
@@ -21,9 +20,8 @@ import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.ArrayList
 
-class ApolloSensingStoreViewModel: ViewModel() {
+class ApolloSensingStoreViewModel : ViewModel() {
     var siteLiveData = ArrayList<StoreListItem>()
     var command = LiveEvent<SelectSiteActivityViewModel.CmsCommandSelectSiteId>()
     val state = MutableLiveData<State>()
@@ -41,28 +39,41 @@ class ApolloSensingStoreViewModel: ViewModel() {
                 break
             }
         }
-        val siteListUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/list/site-list-for-upload-apna-retro?"
+
+        var siteListUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SEN SITELIST")) {
+                siteListUrl = data.APIS[i].URL
+                break
+            }
+        }
+
+
+//        val siteListUrl =
+//            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/list/site-list-for-upload-apna-retro?"
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(
                     baseUrL,
                     token,
-                    GetDetailsRequest(siteListUrl+"emp_id="+empId, "GET", "The", "", "")
+                    GetDetailsRequest(siteListUrl + "emp_id=" + empId, "GET", "The", "", "")
                 )
             }
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
                     val res = BackShlash.removeBackSlashes(resp)
-                    val siteListResponse = Gson().fromJson(BackShlash.removeSubString(res),
-                        SiteListResponse::class.java)
+                    val siteListResponse = Gson().fromJson(
+                        BackShlash.removeSubString(res),
+                        SiteListResponse::class.java
+                    )
                     if (siteListResponse.success == true) {
                         callback.onSuccessSiteListApiCall(siteListResponse)
                     } else {
 
                     }
                 }
+
                 else -> {}
             }
         }
@@ -99,7 +110,7 @@ class ApolloSensingStoreViewModel: ViewModel() {
                         state.value = State.SUCCESS
                         val response = withContext(Dispatchers.IO) {
                             RegistrationRepo.getDetails(
-                                baseUrL,token,
+                                baseUrL, token,
                                 GetDetailsRequest(
                                     baseUrl,
                                     "GET",
@@ -116,7 +127,8 @@ class ApolloSensingStoreViewModel: ViewModel() {
                                 val resp: String = response.value.string()
                                 val res = BackShlash.removeBackSlashes(resp)
                                 val reasonmasterV2Response =
-                                    Gson().fromJson(BackShlash.removeSubString(res),
+                                    Gson().fromJson(
+                                        BackShlash.removeSubString(res),
                                         SiteDto::class.java
                                     )
 
@@ -129,7 +141,8 @@ class ApolloSensingStoreViewModel: ViewModel() {
                                     // getDepartment()
                                     command.value =
                                         SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowSiteInfo(
-                                            "")
+                                            ""
+                                        )
                                 } else {
                                     command.value =
                                         SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowToast(
@@ -137,15 +150,19 @@ class ApolloSensingStoreViewModel: ViewModel() {
                                         )
                                 }
                             }
+
                             is ApiResult.GenericError -> {
                                 state.value = State.ERROR
                             }
+
                             is ApiResult.NetworkError -> {
                                 state.value = State.ERROR
                             }
+
                             is ApiResult.UnknownError -> {
                                 state.value = State.ERROR
                             }
+
                             is ApiResult.UnknownHostException -> {
                                 state.value = State.ERROR
                             }

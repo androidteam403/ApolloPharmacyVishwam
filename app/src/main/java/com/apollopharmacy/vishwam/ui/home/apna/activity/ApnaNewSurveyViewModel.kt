@@ -52,9 +52,18 @@ class ApnaNewSurveyViewModel : ViewModel() {
                 break
             }
         }
-
+        var dynamicurl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA REGION DROPDOWN")) {
+                dynamicurl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+//https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/region/list/survey-region-for-select?
         var apnaSurveyUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/region/list/survey-region-for-select?"
+            "$dynamicurl"
         apnaSurveyUrl = apnaSurveyUrl + "emp_id=$empId"
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {

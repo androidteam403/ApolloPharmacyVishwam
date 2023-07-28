@@ -297,6 +297,32 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //        }
     }
 
+    fun setSiteSelectionVisible() {
+        var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+        var employeeDetailsResponse: EmployeeDetailsResponse? = null
+        try {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                empDetailsResponse,
+                EmployeeDetailsResponse::class.java
+            )
+
+        } catch (e: JsonParseException) {
+            e.printStackTrace()
+        }
+        if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.role != null) {
+            if (employeeDetailsResponse!!.data!!.role!!.name!!.equals("Store Supervisor", true)) {
+                val site = employeeDetailsResponse.data!!.site!!.site
+                val storeName = employeeDetailsResponse.data!!.site!!.storeName
+                if ((site != null && storeName != null) && (site.isNotEmpty() && storeName.isNotEmpty())) {
+                    MainActivity.mInstance.siteIdIcon.visibility = View.GONE
+                }
+            }
+        }
+
+
+    }
+
     private fun validateCustomerDetails(phoneNumber: String, name: String): Boolean {
         if (phoneNumber.isEmpty()) {
             viewBinding.phoneNumber.requestFocus()
@@ -324,6 +350,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         if (countDownTimer != null) {
             countDownTimer!!.cancel()
             MainActivity.mInstance.apolloSensingSiteVisiblity(true)
+            setSiteSelectionVisible()
         }
     }
 
@@ -331,6 +358,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         if (countDownTimerUp != null) {
             countDownTimerUp!!.cancel()
             MainActivity.mInstance.apolloSensingSiteVisiblity(true)
+            setSiteSelectionVisible()
         }
     }
 
@@ -377,6 +405,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             @SuppressLint("SetTextI18n")
             override fun onFinish() {
                 MainActivity.mInstance.apolloSensingSiteVisiblity(true)
+                setSiteSelectionVisible()
                 otp = "-1"
                 viewBinding.timer.setText("00:00")
                 viewBinding.resendOtp.visibility = View.VISIBLE
@@ -402,6 +431,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             @SuppressLint("SetTextI18n")
             override fun onFinish() {
                 MainActivity.mInstance.apolloSensingSiteVisiblity(true)
+                setSiteSelectionVisible()
                 otpUp = "-1"
                 viewBinding.timerUp!!.setText("00:00")
                 viewBinding.resendOtpUp!!.visibility = View.VISIBLE
