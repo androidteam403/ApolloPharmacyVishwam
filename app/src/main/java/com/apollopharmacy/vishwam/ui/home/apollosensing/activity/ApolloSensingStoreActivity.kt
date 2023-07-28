@@ -5,12 +5,12 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
@@ -37,8 +37,10 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityApolloSensingStoreBinding =
-            DataBindingUtil.setContentView(this@ApolloSensingStoreActivity,
-                R.layout.activity_apollo_sensing_store)
+            DataBindingUtil.setContentView(
+                this@ApolloSensingStoreActivity,
+                R.layout.activity_apollo_sensing_store
+            )
         viewModel =
             ViewModelProvider(this)[ApolloSensingStoreViewModel::class.java]
         activityApolloSensingStoreBinding.callback = this
@@ -48,8 +50,10 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
         var employeeDetailsResponse: EmployeeDetailsResponse? = null
         try {
             val gson = GsonBuilder().setPrettyPrinting().create()
-            employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(empDetailsResponse,
-                EmployeeDetailsResponse::class.java)
+            employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                empDetailsResponse,
+                EmployeeDetailsResponse::class.java
+            )
 
         } catch (e: JsonParseException) {
             e.printStackTrace()
@@ -57,7 +61,8 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
         if (employeeDetailsResponse != null
             && employeeDetailsResponse!!.data != null
             && employeeDetailsResponse!!.data!!.role != null
-            && employeeDetailsResponse!!.data!!.role!!.name != null) {
+            && employeeDetailsResponse!!.data!!.role!!.name != null
+        ) {
             if (employeeDetailsResponse!!.data!!.role!!.name!!.equals("Store Executive", true)
                 || employeeDetailsResponse.data!!.role!!.name!!.equals("Manager", true)
                 || employeeDetailsResponse.data!!.role!!.name!!.equals("Regional Head", true)
@@ -70,15 +75,25 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
                 )
             } else {
                 Utlis.showLoading(this)
-                viewModel.siteId()
+                /*viewModel.siteList(
+                    Preferences.getToken(),
+                    this@ApolloSensingStoreActivity
+                )*/
+                 viewModel.siteId()
                 onSuccessSiteIdLIst()
             }
-        }else{
+        } else {
             Utlis.showLoading(this)
-            viewModel.siteId()
+            /*viewModel.siteList(
+                Preferences.getToken(),
+                this@ApolloSensingStoreActivity
+            )*/
+             viewModel.siteId()
             onSuccessSiteIdLIst()
         }
     }
+
+
 
     private fun onSuccessSiteIdLIst() {
         viewModel.fixedArrayList.observeForever {

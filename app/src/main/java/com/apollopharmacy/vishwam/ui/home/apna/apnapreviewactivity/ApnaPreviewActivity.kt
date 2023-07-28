@@ -180,14 +180,28 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 //            apnaPreviewActivityBinding.storeId.setText(approvedOrders.surveyId)
             var fName = ""
             var lName = ""
-            if (approvedOrders.createdId!!.firstName != null) {
+            var middleName = ""
+            var fullName = "-"
+            if (approvedOrders.createdId!!.firstName != null)
                 fName = approvedOrders.createdId!!.firstName!!
-            }
 
-            if (approvedOrders.createdId!!.lastName != null) {
-                lName = ", ${approvedOrders.createdId!!.lastName!!}"
+            if (approvedOrders.createdId!!.middleName != null) middleName =
+                approvedOrders.createdId!!.middleName!!
+
+            if (approvedOrders.createdId!!.lastName != null)
+                lName = approvedOrders.createdId!!.lastName!!
+
+
+            if (!fName.isEmpty()) {
+                fullName = fName
             }
-            apnaPreviewActivityBinding.surveyby.setText("$fName$lName")
+            if (!middleName.isEmpty()) {
+                fullName = "$fullName $middleName"
+            }
+            if (!lName.isEmpty()) {
+                fullName = "$fullName $lName"
+            }
+            apnaPreviewActivityBinding.surveyby.setText(fullName)
 
 //            var locationName = ""
 //            var cityName = ""

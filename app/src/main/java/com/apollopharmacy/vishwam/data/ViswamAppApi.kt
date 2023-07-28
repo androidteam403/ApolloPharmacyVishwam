@@ -49,6 +49,8 @@ import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.G
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessRequest
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
 import com.apollopharmacy.vishwam.util.fileupload.FileDownloadRequest
 import com.apollopharmacy.vishwam.util.fileupload.FileDownloadResponse
@@ -76,7 +78,7 @@ interface ViswamAppApi {
     ): DeviceDeRegResponse
 
 
-    @POST("https://phrmaptestp.apollopharmacy.info:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")//https://172.16.103.116
+    @POST("https://phrmaptestp.apollopharmacy.info:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR") //https://172.16.103.116
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
 //    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
@@ -92,6 +94,14 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: MPinRequest,
     ): MPinResponse
+
+    @POST
+    suspend fun VISHWAM_ACCESS_API_CALL(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: MobileAccessRequest,
+    ): MobileAccessResponse
+
 
     //API's for Discount App
 
