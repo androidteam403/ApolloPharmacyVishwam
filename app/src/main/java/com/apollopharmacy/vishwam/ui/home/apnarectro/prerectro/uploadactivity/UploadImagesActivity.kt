@@ -12,6 +12,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -47,20 +48,22 @@ import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.G
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import me.echodev.resizer.Resizer
 import java.io.File
 
-class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUploadAdapter.CallbackInterface,ApnaRetroFileUploadCallback{
+class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback,
+    ImagesUploadAdapter.CallbackInterface, ApnaRetroFileUploadCallback {
     lateinit var activityUploadImagesBinding: ActivityUploadImagesBinding
     private lateinit var uploadImagesViewModel: UploadImagesViewModel
     private var configApnaAdapter: ConfigApnaAdapter? = null
     private lateinit var dialog: Dialog
-    private var fragmentName:String =""
+    private var fragmentName: String = ""
     private var fileNameForCompressedImage: String? = null
     private lateinit var cameraDialog: Dialog
     var imageFromCameraFile: File? = null
-    var pos:Int=0
+    var pos: Int = 0
     private var apnaConfigList = ArrayList<GetStoreWiseCatDetailsApnaResponse>()
     private var uploadedImageCount: Int = 0
     private var overallImageCount: Int = 0
@@ -77,23 +80,18 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     }
 
     private fun setUp() {
-        activityUploadImagesBinding.callback=this
+        activityUploadImagesBinding.callback = this
         uploadImagesViewModel = ViewModelProvider(this)[UploadImagesViewModel::class.java]
         fragmentName = intent.getStringExtra("fragmentName")!!
 //        Toast.makeText(applicationContext,""+fragmentName, Toast.LENGTH_SHORT).show()
 //        activityUploadImagesBinding.storeId.text=Preferences.getApnaSiteId()
-        activityUploadImagesBinding.incharge.text=Preferences.getToken()
-        activityUploadImagesBinding.storeName.text=Preferences.getApnaSiteName()
+        activityUploadImagesBinding.incharge.text = Preferences.getToken()
+        activityUploadImagesBinding.storeName.text = Preferences.getApnaSiteName()
 
-        activityUploadImagesBinding.storeId.text=Preferences.getApnaSiteId()
-        activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
-        activityUploadImagesBinding.overAllCount.text = "/" +overallImageCount.toString()
+        activityUploadImagesBinding.storeId.text = Preferences.getApnaSiteId()
+        activityUploadImagesBinding.uploadedCount.text = uploadedImageCount.toString()
+        activityUploadImagesBinding.overAllCount.text = "/" + overallImageCount.toString()
 
-//        configLst!!.add(ImgeDtcl(null, "Signage"))
-//        configLst!!.add(ImgeDtcl(null, "Front glass facade left and right"))
-//        configLst!!.add(ImgeDtcl(null, "Merchadising of rack FMCG rack left and right"))
-//        configLst!!.add(ImgeDtcl(null, "Service desk covering system"))
-//        configLst!!.add(ImgeDtcl(null, "Pharma rack left and right"))
 
         if (NetworkUtil.isNetworkConnected(this)) {
             Utlis.showLoading(this)
@@ -109,14 +107,10 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         }
 
 
-
-
-
-
     }
 
 
-    class ImgeDtcl(var file: File?,  var categoryName: String)
+    class ImgeDtcl(var file: File?, var categoryName: String)
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onClickUpload() {
@@ -127,11 +121,11 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     }
 
     override fun onClickEyeImage() {
-        if(fragmentName.equals("fromPreRectro")){
+        if (fragmentName.equals("fromPreRectro")) {
             val intent = Intent(applicationContext, PreRectroReviewActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-        }else{
+        } else {
             val intent = Intent(applicationContext, PostRectroReviewScreen::class.java)
             intent.putExtra("fragmentName", fragmentName)
             startActivity(intent)
@@ -141,12 +135,12 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     }
 
     override fun onClickBackIcon() {
-       onClickBack()
+        onClickBack()
     }
 
 
     override fun onSuccessGetStoreWiseDetails(getStoreWiseResponse: GetStoreWiseCatDetailsApnaResponse) {
-        if(getStoreWiseResponse!=null && getStoreWiseResponse.message=="success"){
+        if (getStoreWiseResponse != null && getStoreWiseResponse.message == "success") {
             activityUploadImagesBinding.noOrdersFound.visibility = View.GONE
             apnaConfigList.add(getStoreWiseResponse)
             for ((index, value) in getStoreWiseResponse.configlist!!.withIndex()) {
@@ -154,15 +148,24 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
                 var dtcl_list = ArrayList<GetStoreWiseCatDetailsApnaResponse.Config.ImgeDtcl>()
                 for (count in 1..countUpload!!) {
                     overallImageCount++
-                    dtcl_list.add(GetStoreWiseCatDetailsApnaResponse.Config.ImgeDtcl(null, count, "", 0, "",""))
+                    dtcl_list.add(
+                        GetStoreWiseCatDetailsApnaResponse.Config.ImgeDtcl(
+                            null,
+                            count,
+                            "",
+                            0,
+                            "",
+                            ""
+                        )
+                    )
 
                 }
                 apnaConfigList.get(0).configlist?.get(index)?.imageDataDto = dtcl_list
 
             }
 
-            activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
-            activityUploadImagesBinding.overAllCount.text = "/" +overallImageCount.toString()
+            activityUploadImagesBinding.uploadedCount.text = uploadedImageCount.toString()
+            activityUploadImagesBinding.overAllCount.text = "/" + overallImageCount.toString()
 
 
 
@@ -174,43 +177,44 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
                 DefaultItemAnimator()
             activityUploadImagesBinding.categoryNameApnaRecyclerView.adapter = configApnaAdapter
 
-            Utlis.hideLoading()
-        }else{
+            hideLoading()
+        } else {
             activityUploadImagesBinding.noOrdersFound.visibility = View.VISIBLE
             Toast.makeText(applicationContext, "Store ID not Available", Toast.LENGTH_SHORT)
                 .show()
             super.onBackPressed()
-            Utlis.hideLoading()
+            hideLoading()
         }
 
     }
 
     override fun onFailureStoreWiseDetails(value: GetStoreWiseCatDetailsApnaResponse) {
         activityUploadImagesBinding.noOrdersFound.visibility = View.VISIBLE
-        Toast.makeText(applicationContext, ""+value.message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, "" + value.message, Toast.LENGTH_SHORT).show()
 
-        Utlis.hideLoading()
+        hideLoading()
     }
 
     override fun onClickCancel() {
-       onClickBack()
+        onClickBack()
     }
 
     override fun onSuccessImageIsUploadedInAzur(response: ArrayList<GetStoreWiseCatDetailsApnaResponse>) {
-        apnaConfigList=response
+        apnaConfigList = response
 
 //        uploadApi()
     }
 
     override fun onSuccessSaveImageUrlsApi(saveImageUrlsResponse: SaveImageUrlsResponse) {
 
-        if(saveImageUrlsResponse!=null && saveImageUrlsResponse.status==true){
-            Utlis.hideLoading()
+        if (saveImageUrlsResponse != null && saveImageUrlsResponse.status == true) {
+            hideLoading()
             dialog = Dialog(this)
             dialog.setContentView(R.layout.dialog_onsuccessupload_apna)
             val close = dialog.findViewById<LinearLayout>(R.id.close_apna)
             val textMessage = dialog.findViewById<TextView>(R.id.transaction_id_apna)
-            textMessage.text = "Pre Retro is Submitted for Review \n Transaction id is: " + saveImageUrlsResponse.retroid
+            textMessage.text =
+                "Pre Retro is Submitted for Review \n Transaction id is: " + saveImageUrlsResponse.retroid
             close.setOnClickListener {
                 dialog.dismiss()
                 val intent = Intent()
@@ -227,42 +231,47 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
             }
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.show()
-        }else{
-            Toast.makeText(applicationContext, ""+saveImageUrlsResponse.message, Toast.LENGTH_SHORT).show()
-            Utlis.hideLoading()
+        } else {
+            Toast.makeText(
+                applicationContext,
+                "" + saveImageUrlsResponse.message,
+                Toast.LENGTH_SHORT
+            ).show()
+            hideLoading()
         }
 
     }
 
     override fun onFailureSaveImageUrlsApi(saveImageUrlsResponse: SaveImageUrlsResponse) {
-        Toast.makeText(applicationContext, ""+saveImageUrlsResponse.message, Toast.LENGTH_SHORT).show()
-        Utlis.hideLoading()
+        Toast.makeText(applicationContext, "" + saveImageUrlsResponse.message, Toast.LENGTH_SHORT)
+            .show()
+        hideLoading()
     }
 
     private fun uploadApi() {
 //        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
 //            Utlis.showLoading(this)
-            var submit = SaveImagesUrlsRequest()
-            submit.actionEvent = "SUBMIT"
-            submit.storeid =Preferences.getApnaSiteId()
-            submit.userid = Preferences.getToken()
-            submit.stage="1"
-            var imageUrlsList = java.util.ArrayList<SaveImagesUrlsRequest.ImageUrl>()
+        var submit = SaveImagesUrlsRequest()
+        submit.actionEvent = "SUBMIT"
+        submit.storeid = Preferences.getApnaSiteId()
+        submit.userid = Preferences.getToken()
+        submit.stage = "1"
+        var imageUrlsList = java.util.ArrayList<SaveImagesUrlsRequest.ImageUrl>()
 
-            for (i in apnaConfigList.get(0).configlist!!.indices) {
-                for (j in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
-                    var imageUrl = submit.ImageUrl()
-                    imageUrl.url =
-                        apnaConfigList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
-                    imageUrl.categoryid = apnaConfigList.get(0).configlist!!.get(i).categoryId
-                    imageUrl.position=j
-                    imageUrlsList.add(imageUrl)
-                }
-
+        for (i in apnaConfigList.get(0).configlist!!.indices) {
+            for (j in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
+                var imageUrl = submit.ImageUrl()
+                imageUrl.url =
+                    apnaConfigList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
+                imageUrl.categoryid = apnaConfigList.get(0).configlist!!.get(i).categoryId
+                imageUrl.position = j
+                imageUrlsList.add(imageUrl)
             }
-            submit.imageUrls = imageUrlsList
+
+        }
+        submit.imageUrls = imageUrlsList
         showLoading(this)
-            uploadImagesViewModel.onUploadImagesApna(submit, this)
+        uploadImagesViewModel.onUploadImagesApna(submit, this)
 
 //        }
     }
@@ -271,7 +280,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         imageFromCameraFile =
-            File(ViswamApp.context.cacheDir, "${System.currentTimeMillis()}.jpg")
+            File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
         fileNameForCompressedImage = "${System.currentTimeMillis()}.jpg"
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
@@ -290,6 +299,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(cameraIntent, cameraRequest)
     }
+
     private fun checkPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
@@ -344,7 +354,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
                 .setOutputFormat("JPG")
 //                .setOutputFilename(fileNameForCompressedImage)
                 .setOutputDirPath(
-                    ViswamApp.Companion.context.cacheDir.toString()
+                    context.cacheDir.toString()
                 )
 
                 .setSourceImage(imageFromCameraFile)
@@ -354,6 +364,8 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
                 apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
                     uploadPosition
                 )?.file = resizedImage// resizedImage
+
+
             }
 
 //
@@ -364,7 +376,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
             apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
                 uploadPosition
             )?.positionLoop = uploadPosition
-           uploadedImageCount++
+            uploadedImageCount++
 
             checkAllImagesUploaded()
 
@@ -381,13 +393,15 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 
 
     }
+
     private fun checkAllImagesUploaded() {
-        activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
-        activityUploadImagesBinding.overAllCount.text = "/" +overallImageCount.toString()
+        activityUploadImagesBinding.uploadedCount.text = uploadedImageCount.toString()
+        activityUploadImagesBinding.overAllCount.text = "/" + overallImageCount.toString()
         if (apnaConfigList.get(0).configlist != null) {
             for ((index, value) in apnaConfigList.get(0).configlist!!.withIndex()) {
                 for ((index1, value1) in apnaConfigList.get(0).configlist?.get(index)?.imageDataDto?.withIndex()!!) {
-                    apnaConfigList.get(0).configlist!!.get(index).imageUploaded = apnaConfigList.get(0).configlist!!.get(index).imageDataDto?.get(index1)?.file != null
+                    apnaConfigList.get(0).configlist!!.get(index).imageUploaded =
+                        apnaConfigList.get(0).configlist!!.get(index).imageDataDto?.get(index1)?.file != null
                 }
 
             }
@@ -401,19 +415,22 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
             }
 
             if (uploadedImageCount == overallImageCount) {
-                activityUploadImagesBinding.warningLayout.visibility=View.GONE
-                activityUploadImagesBinding.completedMessage.visibility=View.VISIBLE
-                activityUploadImagesBinding.uploadnowbutton.background = (resources.getDrawable(R.drawable.greenbackground_for_buttons))
+                activityUploadImagesBinding.warningLayout.visibility = View.GONE
+                activityUploadImagesBinding.completedMessage.visibility = View.VISIBLE
+                activityUploadImagesBinding.uploadnowbutton.background =
+                    (resources.getDrawable(R.drawable.greenbackground_for_buttons))
                 activityUploadImagesBinding.uploadedCount.setTextColor(getColor(R.color.dark_green))
             } else {
-                activityUploadImagesBinding.warningLayout.visibility=View.VISIBLE
-                activityUploadImagesBinding.completedMessage.visibility=View.GONE
+                activityUploadImagesBinding.warningLayout.visibility = View.VISIBLE
+                activityUploadImagesBinding.completedMessage.visibility = View.GONE
                 activityUploadImagesBinding.uploadedCount.setTextColor(getColor(R.color.red))
-                activityUploadImagesBinding.uploadnowbutton.background = (resources.getDrawable(R.drawable.ashbackgrounf_for_buttons))
+                activityUploadImagesBinding.uploadnowbutton.background =
+                    (resources.getDrawable(R.drawable.ashbackgrounf_for_buttons))
             }
 
         }
     }
+
     var configPosition: Int = 0
     var uploadPosition: Int = 0
     override fun plusIconAddImage(configPos: Int, uploadPos: Int) {
@@ -468,37 +485,38 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateButtonValidation() {
         if (uploadedImageCount == overallImageCount) {
-            activityUploadImagesBinding.uploadnowbutton.background =
-                (resources.getDrawable(R.drawable.greenbackground_for_buttons))
+            activityUploadImagesBinding.uploadnowbutton.setBackgroundColor(Color.parseColor("#00a651"));
+            if (apnaConfigList != null && apnaConfigList.get(0).configlist!!.size > 0) {
+                var fileUploadModelList = ArrayList<ApnaRetroFileUploadModel>()
 
-            var fileUploadModelList = ArrayList<ApnaRetroFileUploadModel>()
-            for (i in apnaConfigList.get(0).configlist!!.indices) {
-                var fileUploadModel = ApnaRetroFileUploadModel()
-                fileUploadModel.categoryId = apnaConfigList.get(0).configlist!!.get(i).categoryId
+                for (i in apnaConfigList!!.get(0).configlist!!!!) {
+                    if (i.imageDataDto != null) {
+                        for (j in i.imageDataDto!!) {
+                            if (j.file != null) {
+                                var fileUploadModel = ApnaRetroFileUploadModel()
+                                fileUploadModel.file = j.file
+                                fileUploadModel.categoryId = i.categoryId
+                                fileUploadModelList.add(fileUploadModel)
+                            }
 
-                for (j in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices){
-                    fileUploadModel.file = apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.get(j).file
-                    fileUploadModelList.add(fileUploadModel)
-
-//                    fileUploadModel.qrCode = imagesList[i].qrcode
+                        }
+                    }
                 }
 
-
-
+                ApnaRetroFileUpload().uploadFiles(
+                    this,
+                    this,
+                    fileUploadModelList
+                )
             }
-
-
-            showLoading(this)
-
-
-            uploadImagesViewModel.connectToAzure(
-                apnaConfigList, this, false
-            )
-            ApnaRetroFileUpload().uploadFiles(
-                context, this, fileUploadModelList
-            )
+        } else {
+            Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
+                .show()
+            hideLoading()
         }
-
+//            uploadImagesViewModel.connectToAzure(
+//                apnaConfigList, this, false
+//            )
 
 
 //            for (i in swacchApolloList.get(0).configlist?.indices!!) {
@@ -507,12 +525,8 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 //            }
 
 
-        else {
-            Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
-                .show()
-            Utlis.hideLoading()
-        }
     }
+
     var configPositionDel: Int = 0
     var uploadPositionDel: Int = 0
     override fun deleteImageCallBack(configPosDelete: Int, deleteImagePosDelete: Int) {
@@ -554,24 +568,37 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     }
 
     override fun allFilesDownloaded(fileUploadModelList: List<ApnaRetroFileUploadModel>?) {
-        for (j in fileUploadModelList!!.indices) {
-            for (i in apnaConfigList.get(0).configlist!!.indices) {
 
-                if (fileUploadModelList.get(j).categoryId.equals(apnaConfigList.get(0).configlist!!.get(i).categoryId)){
-                    for ( k in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices){
-                        apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.get(k).base64Images=
-                            fileUploadModelList.get(j).fileDownloadResponse!!.referenceurl!!
-                    }
+
+        for (i in fileUploadModelList!!.indices) {
+            for (j in apnaConfigList.get(0).configlist!!.indices) {
+                for (k in fileUploadModelList.filter { it.categoryId.equals(apnaConfigList.get(0).configlist!!.get(j).categoryId) }.indices){
+                    apnaConfigList.get(0).configlist!!.get(j).imageDataDto!!.get(k).base64Images=
+                        fileUploadModelList.filter { it.categoryId.equals(apnaConfigList.get(0).configlist!!.get(j).categoryId) }.get(k).fileDownloadResponse!!.referenceurl!!
                 }
-
             }
         }
 
+
+
+
         uploadApi()
-        Toast.makeText(this, fileUploadModelList!!.size.toString(),Toast.LENGTH_LONG).show()
+
     }
 
     override fun allFilesUploaded(fileUploadModelList: List<ApnaRetroFileUploadModel>?) {
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 }
