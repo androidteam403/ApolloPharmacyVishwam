@@ -42,6 +42,7 @@
                         android:textSize="@dimen/text_16sp" />
 
                     <TextView
+                        android:id="@+id/rackno"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
@@ -93,6 +94,7 @@
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
+                        android:id="@+id/site_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ameerpet, Hyderabad - 16015"
@@ -111,22 +113,55 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:orientation="vertical"
+
                 android:layout_height="match_parent">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/first_image"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:src="@drawable/icon_cancel_order_header"
+                        android:tint="@color/black"
+                        tools:ignore="UseAppTint" />
+
+
+                    <ImageView
+                        android:id="@+id/second_image"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:layout_marginEnd="5dp"
+                        android:src="@drawable/icon_cancel_order_header"
+                        android:tint="@color/black"
+                        tools:ignore="UseAppTint" />
+
+
+                </RelativeLayout>
                 <com.github.developer__.BeforeAfterSlider
                     android:id="@+id/beforeAfterSlider"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:textSize="@dimen/text_18sp"
+                    android:layout_marginTop="@dimen/value_3dp"
                     app:after_image="@drawable/capture"
                     app:before_image="@drawable/desktop"
                     app:slider_thumb="@mipmap/white_circle" />
             </LinearLayout>
 
-            <!--<LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/first_image_layout"
@@ -144,6 +179,7 @@
                             android:layout_height="match_parent">
 
                             <ImageView
+                                android:id="@+id/firstimage"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="@dimen/value_3dp"
@@ -201,6 +237,7 @@
                                 android:layout_height="match_parent">
 
                                 <ImageView
+                                    android:id="@+id/secondimage"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_marginStart="@dimen/value_3dp"
@@ -235,9 +272,10 @@
                         </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>-->
+            </LinearLayout>
+            -->
 
-            <!--<ImageView
+            <ImageView
                 android:layout_width="@dimen/value_50dp"
                 android:layout_height="@dimen/value_50dp"
                 android:layout_alignParentBottom="true"
@@ -245,7 +283,20 @@
                 android:layout_marginBottom="@dimen/eighteen18_dp"
                 android:src="@drawable/rounded_background"
                 android:tint="#f7a54a"
-                tools:ignore="UseAppTint" />-->
+                android:visibility="gone"
+                tools:ignore="UseAppTint" />
+
+            <ImageView
+                android:layout_width="@dimen/value_30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="25dp"
+                android:src="@drawable/ic_baseline_compare_24"
+                android:tint="@color/white"
+                android:visibility="gone"
+                tools:ignore="UseAppTint" />
+
 
             <!--<TextView
                 android:layout_width="wrap_content"
@@ -288,7 +339,27 @@
                 android:text="Previous"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_12sp" />-->
+<!--            <ImageView-->
+<!--                android:id="@+id/first_image"-->
+<!--                android:layout_width="22dp"-->
+<!--                android:layout_height="22dp"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:layout_marginTop="@dimen/value_5dp"-->
+<!--                android:src="@drawable/icon_cancel_order_header"-->
+<!--                android:tint="@color/black"-->
+<!--                tools:ignore="UseAppTint" />-->
 
+
+<!--            <ImageView-->
+<!--                android:id="@+id/second_image"-->
+<!--                android:layout_width="22dp"-->
+<!--                android:layout_height="22dp"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_marginTop="@dimen/value_5dp"-->
+<!--                android:layout_marginEnd="5dp"-->
+<!--                android:src="@drawable/icon_cancel_order_header"-->
+<!--                android:tint="@color/black"-->
+<!--                tools:ignore="UseAppTint" />-->
         </RelativeLayout>
 
         <LinearLayout
@@ -304,6 +375,7 @@
                 android:gravity="center_vertical|center_horizontal">
 
                 <ImageView
+                    android:id="@+id/matchingcolor"
                     android:layout_width="@dimen/value_20dp"
                     android:layout_height="@dimen/value_20dp"
                     android:src="@drawable/rounded_background"
@@ -338,9 +410,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:visibility="visible">
 
                 <TextView
+                    android:id="@+id/ok"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/value_2dp"
@@ -348,15 +422,16 @@
                     android:backgroundTint="@color/greenn"
                     android:fontFamily="@font/roboto_medium"
                     android:onClick="@{()->callback.onClickSubmit()}"
-                    android:paddingStart="@dimen/eighteen18_dp"
+                    android:paddingStart="25dp"
                     android:paddingTop="8dp"
-                    android:paddingEnd="@dimen/eighteen18_dp"
+                    android:paddingEnd="25dp"
                     android:paddingBottom="8dp"
-                    android:text="SUBMIT"
+                    android:text="Ok"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_14sp" />
             </LinearLayout>
         </LinearLayout>
+
     </RelativeLayout>
 
     <data>
