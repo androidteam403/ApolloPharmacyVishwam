@@ -4,8 +4,8 @@
 4
 5    <uses-sdk
 6        android:minSdkVersion="24"
-6-->E:\workspace\ApolloVishwam19_6_23\openCV\java\AndroidManifest.xml
+6-->E:\workspace\ApnaRetro27_7_23\openCV\java\AndroidManifest.xml
 7        android:targetSdkVersion="33" />
-7-->E:\workspace\ApolloVishwam19_6_23\openCV\java\AndroidManifest.xml
+7-->E:\workspace\ApnaRetro27_7_23\openCV\java\AndroidManifest.xml
 8
 9</manifest>
