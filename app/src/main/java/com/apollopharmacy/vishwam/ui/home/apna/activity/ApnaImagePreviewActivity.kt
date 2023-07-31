@@ -17,11 +17,12 @@ class ApnaImagePreviewActivity : AppCompatActivity(), ViewPager.OnPageChangeList
     var currentPosition: Int = 0
     var totalImages: Int = 0
     var position: Int = 0
+    var viewPagerCurrentPos: Int = 0;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityApnaImagePreviewBinding =
-            DataBindingUtil.setContentView(this@ApnaImagePreviewActivity,
-                R.layout.activity_apna_image_preview)
+        activityApnaImagePreviewBinding = DataBindingUtil.setContentView(
+            this@ApnaImagePreviewActivity, R.layout.activity_apna_image_preview
+        )
 
         if (intent != null) {
             images =
@@ -49,12 +50,14 @@ class ApnaImagePreviewActivity : AppCompatActivity(), ViewPager.OnPageChangeList
         activityApnaImagePreviewBinding.previewImageViewpager.addOnPageChangeListener(this)
         activityApnaImagePreviewBinding.previewImageViewpager.adapter = surveyImagePreviewAdapter
         activityApnaImagePreviewBinding.previewImageViewpager.setCurrentItem(currentPosition, true)
+        nextPreviousListeners()
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
     }
 
     override fun onPageSelected(position: Int) {
+        viewPagerCurrentPos = position
         if (position == 0) {
             activityApnaImagePreviewBinding.previousArrow.visibility = View.GONE
         } else {
@@ -70,5 +73,19 @@ class ApnaImagePreviewActivity : AppCompatActivity(), ViewPager.OnPageChangeList
     }
 
     override fun onPageScrollStateChanged(state: Int) {
+    }
+
+    fun nextPreviousListeners() {
+        activityApnaImagePreviewBinding.previousArrow.setOnClickListener {
+            activityApnaImagePreviewBinding.previewImageViewpager.setCurrentItem(
+                viewPagerCurrentPos - 1, true
+            )
+
+        }
+        activityApnaImagePreviewBinding.nextArrow.setOnClickListener {
+            activityApnaImagePreviewBinding.previewImageViewpager.setCurrentItem(
+                viewPagerCurrentPos + 1, true
+            )
+        }
     }
 }

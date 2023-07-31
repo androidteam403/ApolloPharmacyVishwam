@@ -1952,6 +1952,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
+        isApnaSurveyRequired = true;
         if (isApnaSurveyRequired) {
             listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
         }

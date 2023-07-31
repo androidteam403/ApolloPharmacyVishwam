@@ -22,9 +22,9 @@
                 android:layout_height="@dimen/value_32dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/app_name"
-                android:tint="@color/white"
                 android:rotation="-90"
                 android:src="@drawable/ic_baseline_north_24"
+                android:tint="@color/white"
                 tools:ignore="UseAppTint" />
 
             <LinearLayout
@@ -60,10 +60,8 @@
             android:id="@+id/preview_image_viewpager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/value_60dp"
             android:layout_below="@+id/header_layout"
-            android:layout_marginStart="@dimen/value_35dp"
-            android:layout_marginEnd="@dimen/value_35dp" />
+            android:layout_marginBottom="@dimen/value_60dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -115,6 +113,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@color/white"
             android:rotation="180"
             android:src="@drawable/qc__forward"
             android:tint="@color/apna_project_actionbar_color"
@@ -126,6 +126,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@color/white"
             android:src="@drawable/qc__forward"
             android:tint="@color/apna_project_actionbar_color"
             tools:ignore="UseAppTint" />
