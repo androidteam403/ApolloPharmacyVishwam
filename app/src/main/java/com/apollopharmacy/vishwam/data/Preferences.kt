@@ -3,6 +3,12 @@ package com.apollopharmacy.vishwam.data
 import android.content.Context
 import android.content.SharedPreferences
 import com.apollopharmacy.vishwam.data.Config.VISWAM_PREFERENCE
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.UniqueStoreList
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessResponse
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
+import com.google.gson.reflect.TypeToken
 
 object Preferences {
 
@@ -12,6 +18,7 @@ object Preferences {
     private const val KEY_SAVING_TOKEN = "KEY_USER_ID"
     private const val PREF_KEY_LOGIN_JSON = "PREF_KEY_LOGIN_JSON"
     private const val KEY_APP_LEVEL_DESIGNATION = "KEY_APP_LEVEL_DESIGNATION"
+    private const val KEY_APP_CEO_DASHBOARD_ROLE = "KEY_APP_CEO_DASHBOARD_ROLE"
     private const val KEY_FROM_DATE = "KEY_FROM_DATE"
     private const val PENDING_PAGE_SIZE_QC = "PENDING_PAGE_SIZE_QC"
     private const val APPROVED_PAGE_SIZE_QC = "APPROVED_PAGE_SIZE_QC"
@@ -23,12 +30,20 @@ object Preferences {
     private const val KEY_QC_ORDER_TYPE = "KEY_QC_ORDER_TYPE"
     private const val KEY_DISC_SITE_ID = "KEY_DISC_SITE_ID"
     private const val KEY_DISC_REGION_ID = "KEY_DISC_REGION_ID"
+    private const val PREF_KEY_SITE_ID_LIST_CHAMPS = "PREF_KEY_SITE_ID_LIST_CHAMPS"
+    private const val KEY_QR_SITEID = "KEY_QR_SITEID"
 
 
     private const val KEY_QC_SITE_ID = "KEY_QC_SITE_ID"
+    private const val PREF_SITE_ID_FETCHED_CHAMPS = "PREF_SITE_ID_FETCHED_CHAMPS"
 
     private const val KEY_SITE_DETAILS = "KEY_SITE_DETAILS"
     private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
+
+    //    private const val PREF_KEY_SITE_ID_LIST_CHAMPS = "PREF_KEY_SITE_ID_LIST_CHAMPS"
+    private const val KEY_STORE_LIST_QCFAIL = "KEY_STORE_LIST_QCFAIL"
+
+
     private const val PREF_KEY_SITE_ID_LIST_QCFAIL = "PREF_KEY_SITE_ID_LIST_QCFAIL"
     private const val PREF_KEY_REGION_ID_LIST_QCFAIL = "PREF_KEY_REGION_ID_LIST_QCFAIL"
     private const val PREF_SITE_ID_FETCHED = "PREF_SITE_ID_FETCHED"
@@ -40,6 +55,7 @@ object Preferences {
     private const val PREF_REASON_LIST = "PREF_REASON_LIST"
     private const val PREF_REASON_DEPTARTMENT_LIST = "PREF_REASON_DEPTARTMENT_LIST"
     private const val PREF_REASON_OBJECT = "PREF_REASON_OBJECT"
+//    private const val PREF_SITE_ID_FETCHED_CHAMPS = "PREF_SITE_ID_FETCHED_CHAMPS"
 
     private const val PREF_SITE_ID_FETCHED_QC_FAIL = "PREF_SITE_ID_FETCHED_QC_FAIL"
     private const val PREF_REGION_ID_FETCHED_QC_FAIL = "PREF_REGION_ID_FETCHED_QC_FAIL"
@@ -54,6 +70,8 @@ object Preferences {
     private const val APNA_RETRO_SITE = "APNA_RETRO_SITE"
     private const val APP_LEVEL_DESIGNATION_RETRO = "APP_LEVEL_DESIGNATION_RETRO"
 
+    private const val PREF_KEY_VISHWAM_ACCESS = "PREF_KEY_VISHWAM_ACCESS"
+
 
     fun savingToken(userId: String) {
         sharedPreferences.edit().putString(KEY_SAVING_TOKEN, userId).apply()
@@ -63,6 +81,13 @@ object Preferences {
         return sharedPreferences.getString(KEY_SAVING_TOKEN, "")!!
     }
 
+    /* fun setSiteIdListChamps(siteIdListQcFail: String) {
+         sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_CHAMPS, siteIdListQcFail).apply()
+     }
+
+     fun getSiteIdListJsonChamps(): String {
+         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_CHAMPS, "")!!
+     }*/
     fun savingStoreData(storedata: String) {
         sharedPreferences.edit().putString(KEY_SITE_DETAILS, storedata).apply()
     }
@@ -88,6 +113,28 @@ object Preferences {
 //            e.printStackTrace()
 //            return null
 //        }
+    }
+
+    fun setVishwamAccessResponse(mobileAccessResponse: MobileAccessResponse) {
+        var mobileAccessResponseJson = Gson().toJson(mobileAccessResponse)
+        sharedPreferences.edit().putString(PREF_KEY_VISHWAM_ACCESS, mobileAccessResponseJson)
+            .apply()
+    }
+
+    fun getVishwamAccessResponse(): MobileAccessResponse {
+        var mobileAccessResponseJson = sharedPreferences.getString(PREF_KEY_VISHWAM_ACCESS, "")!!
+        var mobileAccessResponse: MobileAccessResponse? = null
+        try {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            mobileAccessResponse = gson.fromJson<MobileAccessResponse>(
+                mobileAccessResponseJson,
+                MobileAccessResponse::class.java
+            )
+        } catch (e: JsonParseException) {
+            e.printStackTrace()
+        }
+
+        return mobileAccessResponse!!
     }
 
     //------------------------ saving designation ------------------------------------
@@ -142,6 +189,7 @@ object Preferences {
 
     private const val KEY_API = "KEY_API"
     private const val SWACH_API = "SWACH_API"
+    private const val PREF_KEY_SITE_ID_LIST_QR_RETRO = "PREF_KEY_SITE_ID_LIST_QR_RETRO"
 
     private const val KEY_SITE_ID = "site_id"
     private const val KEY_SITE_INFORMATION = "site_information"
@@ -203,6 +251,33 @@ object Preferences {
     fun getSiteId(): String {
         return sharedPreferences.getString(KEY_SITE_ID, "")!!
     }
+    fun setQrSiteIdListFetched(isSiteIdListFetched: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED, isSiteIdListFetched).apply()
+    }
+
+    fun setSiteIdListFetchedQrRetro(isSiteIdListFetchedQcfail: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_KEY_SITE_ID_LIST_QR_RETRO, isSiteIdListFetchedQcfail)
+            .apply()
+    }
+    fun setQrSiteIdList(siteIdListQcFail: String) {
+        sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_CHAMPS, siteIdListQcFail).apply()
+    }
+
+    fun setQrSiteId(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_QR_SITEID, swachhSiteId).apply()
+    }
+
+    fun getQrSiteId(): String {
+        return sharedPreferences.getString(KEY_QR_SITEID, "")!!
+    }
+
+    fun getQrSiteIdListJson(): String {
+        return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_CHAMPS, "")!!
+    }
+    fun isSiteIdListFetchedQrRetro(): Boolean {
+        return sharedPreferences.getBoolean(PREF_KEY_SITE_ID_LIST_QR_RETRO, false)
+    }
+
 
     fun saveSiteInformation(siteInformation: String) {
         sharedPreferences.edit().putString(KEY_SITE_INFORMATION, siteInformation).apply()
@@ -280,6 +355,15 @@ object Preferences {
         sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED, isSiteIdListFetched).apply()
     }
 
+    /*fun setSiteIdListFetchedChamps(isSiteIdListFetchedQcfail: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED_CHAMPS, isSiteIdListFetchedQcfail)
+            .apply()
+    }
+
+    fun isSiteIdListFetchedChamps(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_CHAMPS, false)
+    }*/
+
     fun isSiteIdListFetched(): Boolean {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED, false)
     }
@@ -326,6 +410,14 @@ object Preferences {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_QC_FAIL, false)
     }
 
+    fun setSiteIdListFetchedChamps(isSiteIdListFetchedQcfail: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED_CHAMPS, isSiteIdListFetchedQcfail)
+            .apply()
+    }
+
+    fun isSiteIdListFetchedChamps(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_CHAMPS, false)
+    }
 
     fun setRegionIdListFetchedQcFail(isRegionIdListFetchedQcfail: Boolean) {
         sharedPreferences.edit()
@@ -390,6 +482,28 @@ object Preferences {
             .apply()
     }
 
+    fun setStoreIdListQcFail(storeId: List<UniqueStoreList?>?) {
+        val storeIddListString = Gson().toJson(storeId)
+        sharedPreferences.edit().putString(KEY_STORE_LIST_QCFAIL, storeIddListString)
+            .apply()
+    }
+
+    fun getStoreIdListJsonQcFail(): List<UniqueStoreList?>? {
+
+
+        val storeIddList: String? =
+            sharedPreferences.getString(KEY_STORE_LIST_QCFAIL, null)
+        val type = object : TypeToken<List<UniqueStoreList?>?>() {}.type
+        return Gson().fromJson(storeIddList, type)
+    }
+
+//    fun setStoreIdListQcFail(siteIdListQcFail: String) {
+//        sharedPreferences.edit().putString(KEY_STORE_LIST_QCFAIL, siteIdListQcFail).apply()
+//    }
+
+    //    fun getStoreIdListJsonQcFail(): String {
+//        return sharedPreferences.getString(KEY_STORE_LIST_QCFAIL, "")!!
+//    }
     fun setSiteIdListQcFail(siteIdListQcFail: String) {
         sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_QCFAIL, siteIdListQcFail).apply()
     }
@@ -397,6 +511,21 @@ object Preferences {
     fun getSiteIdListJsonQcFail(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_QCFAIL, "")!!
     }
+    fun setQrSiteName(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_SWACHH_SITENAME, swachhSiteId).apply()
+    }
+
+    fun getQrSiteName(): String {
+        return sharedPreferences.getString(KEY_SWACHH_SITENAME, "")!!
+    }
+    fun setSiteIdListChamps(siteIdListQcFail: String) {
+        sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_CHAMPS, siteIdListQcFail).apply()
+    }
+
+    fun getSiteIdListJsonChamps(): String {
+        return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_CHAMPS, "")!!
+    }
+
 
     fun setRegionIdListQcFail(regionIdListQcFail: String) {
         sharedPreferences.edit().putString(PREF_KEY_REGION_ID_LIST_QCFAIL, regionIdListQcFail)
@@ -535,7 +664,6 @@ object Preferences {
 
     }
 
-
     fun setAppLevelDesignation(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_APP_LEVEL_DESIGNATION, siteIdList).apply()
     }
@@ -543,6 +671,15 @@ object Preferences {
 
     fun getAppLevelDesignation(): String {
         return sharedPreferences.getString(KEY_APP_LEVEL_DESIGNATION, "")!!
+    }
+
+    fun setRoleForCeoDashboard(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_APP_CEO_DASHBOARD_ROLE, siteIdList).apply()
+    }
+
+
+    fun getRoleForCeoDashboard(): String {
+        return sharedPreferences.getString(KEY_APP_CEO_DASHBOARD_ROLE, "")!!
     }
 //        val storeString = sharedPreferences.getString(PREF_KEY_LOGIN_JSON, "")
 //        return try {
@@ -555,31 +692,39 @@ object Preferences {
     fun setDiscountFromDate(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_DISC_FROM_DATE, siteIdList).apply()
     }
+
     fun getDiscountFromDate(): String {
         return sharedPreferences.getString(KEY_DISC_FROM_DATE, "")!!
     }
 
     fun setQcFromDate(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_FROM_DATE, siteIdList).apply()
-    }fun getQcFromDate(): String {
+    }
+
+    fun getQcFromDate(): String {
         return sharedPreferences.getString(KEY_FROM_DATE, "")!!
     }
 
     fun setQcPendingPageSize(pageSize: Int) {
         sharedPreferences.edit().putInt(PENDING_PAGE_SIZE_QC, pageSize).apply()
     }
+
     fun getQcPendingPageSiz(): Int {
         return sharedPreferences.getInt(PENDING_PAGE_SIZE_QC, 5)!!
     }
+
     fun setQcApprovedPageSize(pageSize: Int) {
         sharedPreferences.edit().putInt(APPROVED_PAGE_SIZE_QC, pageSize).apply()
     }
+
     fun getQcApprovedPageSiz(): Int {
         return sharedPreferences.getInt(APPROVED_PAGE_SIZE_QC, 5)!!
     }
+
     fun setQcRejectedPageSize(pageSize: Int) {
         sharedPreferences.edit().putInt(REJECTED_PAGE_SIZE_QC, pageSize).apply()
     }
+
     fun getQcRejectedPageSiz(): Int {
         return sharedPreferences.getInt(REJECTED_PAGE_SIZE_QC, 5)!!
     }
@@ -587,6 +732,7 @@ object Preferences {
     fun setDiscountToDate(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_DISC_TO_DATE, siteIdList).apply()
     }
+
     fun getDiscountToDate(): String {
         return sharedPreferences.getString(KEY_DISC_TO_DATE, "")!!
     }
@@ -608,6 +754,7 @@ object Preferences {
     fun getQcSite(): String {
         return sharedPreferences.getString(KEY_QC_SITE_ID, "")!!
     }
+
     fun setDiscountSite(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_DISC_SITE_ID, siteIdList).apply()
     }
@@ -616,6 +763,7 @@ object Preferences {
     fun getDiscountSite(): String {
         return sharedPreferences.getString(KEY_DISC_SITE_ID, "")!!
     }
+
     fun setDiscountRegion(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_DISC_REGION_ID, siteIdList).apply()
     }
@@ -624,6 +772,7 @@ object Preferences {
     fun getDiscountRegion(): String {
         return sharedPreferences.getString(KEY_DISC_REGION_ID, "")!!
     }
+
     fun setQcRegion(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_QC_REGION_ID, siteIdList).apply()
     }

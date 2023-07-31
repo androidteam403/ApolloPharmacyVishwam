@@ -9,7 +9,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -19,6 +18,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -29,20 +29,22 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityUploadImagesBinding
 import com.apollopharmacy.vishwam.databinding.DialogForImageUploadBinding
-import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.apnarectro.apnafileupload.ApnaRetroFileUpload
+import com.apollopharmacy.vishwam.ui.home.apnarectro.apnafileupload.ApnaRetroFileUploadCallback
+import com.apollopharmacy.vishwam.ui.home.apnarectro.apnafileupload.ApnaRetroFileUploadModel
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.reviewscreen.PostRectroReviewScreen
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerecctroreviewactivity.PreRectroReviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.adapter.ConfigApnaAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.adapter.ImagesUploadAdapter
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.GetStoreWiseCatDetailsApnaResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import me.echodev.resizer.Resizer
 import java.io.File
 
@@ -83,12 +85,6 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         activityUploadImagesBinding.storeId.text=Preferences.getApnaSiteId()
         activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
         activityUploadImagesBinding.overAllCount.text = "/" +overallImageCount.toString()
-
-//        configLst!!.add(ImgeDtcl(null, "Signage"))
-//        configLst!!.add(ImgeDtcl(null, "Front glass facade left and right"))
-//        configLst!!.add(ImgeDtcl(null, "Merchadising of rack FMCG rack left and right"))
-//        configLst!!.add(ImgeDtcl(null, "Service desk covering system"))
-//        configLst!!.add(ImgeDtcl(null, "Pharma rack left and right"))
 
         if (NetworkUtil.isNetworkConnected(this)) {
             Utlis.showLoading(this)
@@ -136,7 +132,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     }
 
     override fun onClickBackIcon() {
-       onClickBack()
+        onClickBack()
     }
 
 
@@ -188,7 +184,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     }
 
     override fun onClickCancel() {
-       onClickBack()
+        onClickBack()
     }
 
     override fun onSuccessImageIsUploadedInAzur(response: ArrayList<GetStoreWiseCatDetailsApnaResponse>) {
@@ -237,26 +233,26 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     private fun uploadApi() {
 //        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
 //            Utlis.showLoading(this)
-            var submit = SaveImagesUrlsRequest()
-            submit.actionEvent = "SUBMIT"
-            submit.storeid =Preferences.getApnaSiteId()
-            submit.userid = Preferences.getToken()
-            submit.stage="1"
-            var imageUrlsList = java.util.ArrayList<SaveImagesUrlsRequest.ImageUrl>()
+        var submit = SaveImagesUrlsRequest()
+        submit.actionEvent = "SUBMIT"
+        submit.storeid =Preferences.getApnaSiteId()
+        submit.userid = Preferences.getToken()
+        submit.stage="1"
+        var imageUrlsList = java.util.ArrayList<SaveImagesUrlsRequest.ImageUrl>()
 
-            for (i in apnaConfigList.get(0).configlist!!.indices) {
-                for (j in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
-                    var imageUrl = submit.ImageUrl()
-                    imageUrl.url =
-                        apnaConfigList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
-                    imageUrl.categoryid = apnaConfigList.get(0).configlist!!.get(i).categoryId
-                    imageUrl.position=j
-                    imageUrlsList.add(imageUrl)
-                }
-
+        for (i in apnaConfigList.get(0).configlist!!.indices) {
+            for (j in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
+                var imageUrl = submit.ImageUrl()
+                imageUrl.url =
+                    apnaConfigList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
+                imageUrl.categoryid = apnaConfigList.get(0).configlist!!.get(i).categoryId
+                imageUrl.position=j
+                imageUrlsList.add(imageUrl)
             }
-            submit.imageUrls = imageUrlsList
-            uploadImagesViewModel.onUploadImagesApna(submit, this)
+
+        }
+        submit.imageUrls = imageUrlsList
+//            uploadImagesViewModel.onUploadImagesApna(submit, this)
 
 //        }
     }
@@ -358,7 +354,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
             apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
                 uploadPosition
             )?.positionLoop = uploadPosition
-           uploadedImageCount++
+            uploadedImageCount++
 
             checkAllImagesUploaded()
 
@@ -462,18 +458,45 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateButtonValidation() {
         if (uploadedImageCount == overallImageCount) {
-            activityUploadImagesBinding.uploadnowbutton.background = (resources.getDrawable(R.drawable.greenbackground_for_buttons))
+            activityUploadImagesBinding.uploadnowbutton.background =
+                (resources.getDrawable(R.drawable.greenbackground_for_buttons))
+
+            var fileUploadModelList = ArrayList<ApnaRetroFileUploadModel>()
+            for (i in apnaConfigList.get(0).configlist!!.indices) {
+                var fileUploadModel = ApnaRetroFileUploadModel()
+                fileUploadModel.categoryId = apnaConfigList.get(0).configlist!!.get(i).categoryId
+
+                for (j in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices){
+                    fileUploadModel.file =
+                        apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.get(j).file
+                    fileUploadModelList.add(fileUploadModel)
+
+//                    fileUploadModel.qrCode = imagesList[i].qrcode
+                }
 
 
-//            for (i in swacchApolloList.get(0).configlist?.indices!!) {
+
+            }
+
+
+            showLoading(this)
+
+
             uploadImagesViewModel.connectToAzure(
                 apnaConfigList, this, false
             )
 
+        }
+
+
+
+//            for (i in swacchApolloList.get(0).configlist?.indices!!) {
+
+
 //            }
 
 
-        } else {
+        else {
             Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
                 .show()
             Utlis.hideLoading()
@@ -514,7 +537,9 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         position: Int,
         categoryName: String?,
     ) {
-        TODO("Not yet implemented")
     }
+
+
+
 
 }

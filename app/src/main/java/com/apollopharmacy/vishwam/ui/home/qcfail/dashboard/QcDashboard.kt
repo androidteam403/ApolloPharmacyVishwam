@@ -195,7 +195,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
         viewModel.qcPendingCountList.observe(viewLifecycleOwner) {
-            Toast.makeText(context, "VishwamPendency refreshed", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "VishwamPendency refreshed", Toast.LENGTH_SHORT).show()
             hideLoading()
 
             designationsList.clear()
@@ -296,7 +296,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
         viewModel.qcPendingDashboardHistoryList.observe(viewLifecycleOwner) {
             hideLoading()
-            Toast.makeText(context, "RTO refreshed", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "RTO refreshed", Toast.LENGTH_SHORT).show()
             if (it.status == true) {
 //                Toast.makeText(context, "Refresh done", Toast.LENGTH_SHORT).show()
 
@@ -471,7 +471,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     }
 
     override fun onClickQcFilterIcon() {
-
+        showLoading()
 
         if (isVishwamPendingTab) {
             designationsList.clear()
@@ -484,6 +484,22 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
             dashboardHistoryList.clear()
             callApi()
         }
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
+        TODO("Not yet implemented")
     }
 
 }

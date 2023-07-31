@@ -753,16 +753,56 @@
                                 android:paddingEnd="@dimen/value_5dp"
                                 android:paddingBottom="@dimen/value_5dp">
 
-                                <TextView
-                                    android:id="@+id/location_details"
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/value_10dp"
-                                    android:layout_marginTop="@dimen/value_5dp"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="Venugoapl Nagar,Quthubullapur,Near Govt.Hospiutal,Hyderabad,Telanagana-500054"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_12sp" />
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_10dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Region: "
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/region"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Good"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_10dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Location: "
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/location_details"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Venugoapl Nagar,Quthubullapur,Near Govt.Hospiutal,Hyderabad,Telanagana-500054"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1228,6 +1268,34 @@
                                             android:text="Expected Rent: "
                                             android:textSize="@dimen/text_12sp" />
 
+                                        <!--<TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:textColor="@color/black"
+                                            android:text=" ( "
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:id="@+id/expectedRentUnit"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:text="sq.ft"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:textColor="@color/black"
+                                            android:text=" ): "
+                                            android:textSize="@dimen/text_12sp" />-->
+
                                         <TextView
                                             android:id="@+id/expected_rent"
                                             android:layout_width="wrap_content"
@@ -1253,6 +1321,34 @@
                                             android:fontFamily="@font/roboto_medium"
                                             android:text="Security Deposit: "
                                             android:textSize="@dimen/text_12sp" />
+
+                                        <!--<TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:textColor="@color/black"
+                                            android:text=" ( "
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:id="@+id/securityDepositUnit"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:text="sq.ft"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:textColor="@color/black"
+                                            android:text=" ): "
+                                            android:textSize="@dimen/text_12sp" />-->
 
                                         <TextView
                                             android:id="@+id/security_deposit"
@@ -3203,6 +3299,30 @@
                                         android:text="-"
                                         android:textColor="@color/black"
                                         android:visibility="gone" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:text="Known of Employee / Blood Relations: "
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:id="@+id/apolloEmployee"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:text="Yes"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp"
+                                            app:fontFamily="@font/roboto_medium" />
+                                    </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -3217,13 +3337,62 @@
             android:id="@+id/scroll_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/value_20dp"
-            android:layout_marginBottom="@dimen/value_30dp"
+            android:layout_marginEnd="@dimen/dimen20dp"
+            android:layout_marginBottom="@dimen/value_25dp"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/ic_baseline_north_24"
+            android:visibility="gone"
             app:backgroundTint="@color/apna_project_actionbar_color"
             app:fabCustomSize="@dimen/value_40dp"
             app:tint="@color/white" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/scroll_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/dimen20dp"
+            android:layout_marginBottom="@dimen/value_25dp"
+            android:contentDescription="@string/app_name"
+            android:rotation="180"
+            android:src="@drawable/ic_baseline_north_24"
+            android:visibility="visible"
+            app:backgroundTint="@color/apna_project_actionbar_color"
+            app:fabCustomSize="@dimen/value_40dp"
+            app:tint="@color/white" />
+
+        <!--<LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/dimen20dp"
+            android:layout_marginBottom="@dimen/value_25dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/scroll_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_baseline_north_24"
+                app:backgroundTint="@color/apna_project_actionbar_color"
+                app:fabCustomSize="@dimen/value_40dp"
+                app:tint="@color/white" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/scroll_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_baseline_north_24"
+                app:tint="@color/white"
+                android:rotation="180"
+                app:backgroundTint="@color/apna_project_actionbar_color"
+                app:fabCustomSize="@dimen/value_40dp" />
+        </LinearLayout>-->
     </RelativeLayout>
 </layout>

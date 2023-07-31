@@ -27,14 +27,12 @@ import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityComparisonScreenBinding
-import com.apollopharmacy.vishwam.databinding.ActivityPostRectroReviewScreenBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
 import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.bumptech.glide.Glide
-import java.io.File
-import java.security.AccessController.checkPermission
 import me.echodev.resizer.Resizer
 import okhttp3.internal.notify
+import java.io.File
 
 
 class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCallBack {
@@ -123,14 +121,14 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
 
         if (status.contains("Approved")){
-            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(ViswamApp.context.getColor(R.color.greenn))
+            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(context.getColor(R.color.greenn))
 
         }else  if (status.contains("Pending")){
-            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(ViswamApp.context.getColor(R.color.pending_color_for_apna))
+            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(context.getColor(R.color.pending_color_for_apna))
 
         }else
         {
-            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(ViswamApp.context.getColor(R.color.color_red))
+            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(context.getColor(R.color.color_red))
 
         }
 

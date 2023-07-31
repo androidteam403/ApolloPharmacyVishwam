@@ -163,6 +163,7 @@ class PreRectroApprovalFragment() :
         var list1: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
         var getPendingApproveList: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
 
+
         val retroIdsGroupedList: Map<String, List<GetRetroPendingAndApproveResponse.Retro>> =
             getStorePendingApprovedList.retrolist!!.stream()
                 .collect(Collectors.groupingBy { w -> w.retroid })
@@ -211,6 +212,22 @@ class PreRectroApprovalFragment() :
     }
 
     override fun onClickQcFilterIcon() {
+
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
 
     }
 

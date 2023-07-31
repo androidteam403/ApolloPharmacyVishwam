@@ -22,15 +22,24 @@ import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCate
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
+import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRoleResponse
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsResponse
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.model.ScannerResponse
+import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileDownloadRequest
+import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileDownloadResponse
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsResponse
@@ -40,20 +49,20 @@ import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.G
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessRequest
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
+import com.apollopharmacy.vishwam.util.fileupload.FileDownloadRequest
+import com.apollopharmacy.vishwam.util.fileupload.FileDownloadResponse
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.http.*
 import java.util.*
 
 
 interface ViswamAppApi {
 
-    //    @POST("https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")
-//    suspend fun validateEmpWithOtp(
-//        @Header("token") token: String,
-//        @Body validateOtpRequest: ValidateOtpRequest,
-//    ): ValidateOtpResponse
     @POST//("https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")
     suspend fun validateEmpWithOtp(
         @Url url: String,
@@ -61,26 +70,15 @@ interface ViswamAppApi {
         @Body validateOtpRequest: ValidateOtpRequest,
     ): ValidateOtpResponse
 
-    //    @GET("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
-//    suspend fun deRegisterDevice(
-//        @Header("token") token: String,
-//        @Query("EmpId") id: String,
-//    ): DeviceDeRegResponse
     @GET//("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
     suspend fun deRegisterDevice(
         @Url url: String,
         @Header("token") token: String,
-
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
 
 
-    /*
-        @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
-        suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
-    */
-
-    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    @POST("https://phrmaptestp.apollopharmacy.info:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR") //https://172.16.103.116
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
 //    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
@@ -96,6 +94,14 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: MPinRequest,
     ): MPinResponse
+
+    @POST
+    suspend fun VISHWAM_ACCESS_API_CALL(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: MobileAccessRequest,
+    ): MobileAccessResponse
+
 
     //API's for Discount App
 
@@ -128,11 +134,7 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: DrugRequest,
     ): DrugResponse
-//    suspend fun DrugResponse(
-//        @Url url: String,
-//        @Header("token") token: String,
-//        @Body data: DrugRequest,
-//    ): DrugResponse
+
 
     @POST //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun ApproveRejectResponse(
@@ -323,13 +325,7 @@ interface ViswamAppApi {
         @Query("ticket_uid") ticketuid: String,
     ): ResponseNewTicketlist.NewTicketHistoryResponse
 
-// @GET("https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/site-details?")
-//    suspend fun getresolvedticketstatus(
-//        @Query("site%5Bsite%5D") site: String?,
-//        @Query("department%5Buid%5D") department:String?,
-//        ): ResponseTicktResolvedapi
-
-    @GET
+    @GET //https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/site-details?
     suspend fun getresolvedticketstatus(
         @Url url: String,
     ): ResponseTicktResolvedapi
@@ -485,6 +481,12 @@ interface ViswamAppApi {
         @Body data: OnUploadSwachModelRequest,
     ): OnUploadSwachModelResponse
 
+    @POST
+    suspend fun saveUpdateApi(
+        @Url url: String,
+        @Body data: SaveUpdateRequest,
+    ): SaveUpdateResponse
+
 
     @POST//("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStorependingAndApprovedList")
     suspend fun getStorePersonHistory(
@@ -578,24 +580,40 @@ interface ViswamAppApi {
     suspend fun GET_STORE_DETAILS_API(
         @Header("token") token: String,
     ): StoreDetailsModelResponse
+//    @GET //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseACCessDetails")
+//    suspend fun checkDayWiseAccess(
+//        @Url url: String,
+//        @Header("token") token: String, @Query("StoreId") storeId: String,
+//    ): CheckDayWiseAccessResponse
 
-    @GET("http://jsonblob.com/api/jsonBlob/1081087017311551488")
-    suspend fun GET_STORE_WISE_DETAILS_CHAMPS(): GetStoreWiseDetailsModelResponse
-
-    @GET("https://172.16.103.116/Apollo/Champs/getStoreBasedDetails")
+    @GET //("https://172.16.103.116/Apollo/Champs/getStoreBasedDetails")
     suspend fun GET_STORE_WISE_DETAILS_CHAMPS_API(
+        @Url url: String,
         @Header("token") token: String,
-        @Query("storeId") id: String,
-    ): GetStoreWiseDetailsModelResponse
+        @Query("TRAINERID") id: String,
+    ): GetStoreWiseEmpIdResponse
+
+//    @GET("https://172.16.103.116/Apollo/Champs/getStoreBasedDetails")
+//    suspend fun GET_STORE_WISE_DETAILS_CHAMPS_API(
+//        @Header("token") token: String,
+//        @Query("TRAINERID") id: String,
+//    ): GetStoreWiseEmpIdResponse
 
     @GET("http://jsonblob.com/api/jsonBlob/1080156717643481088")
     suspend fun GET_EMAIL_DETAILS(): GetEmailAddressModelResponse
 
-    @GET("https://172.16.103.116/Apollo/Champs/getEmailListDetails")
+    @GET //("https://172.16.103.116/Apollo/Champs/getEmailListDetails")
     suspend fun GET_EMAIL_DETAILS_API(
+        @Url url: String,
         @Header("token") token: String,
         @Query("Type") id: String,
     ): GetEmailAddressModelResponse
+
+//    @GET("https://172.16.103.116/Apollo/Champs/getEmailListDetails")
+//    suspend fun GET_EMAIL_DETAILS_API(
+//        @Header("token") token: String,
+//        @Query("Type") id: String,
+//    ): GetEmailAddressModelResponse
 
     @GET("http://jsonblob.com/api/jsonBlob/1080351000740773888")
     suspend fun GET_CATEGORY_DETAILS(): GetCategoryDetailsModelResponse
@@ -623,11 +641,26 @@ interface ViswamAppApi {
     suspend fun GET_TRAINING_AND_COLOR_DETAILS(): GetTrainingAndColorDetailsModelResponse
 
     //    https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails?type=TECH
-    @GET("https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails")
+
+    @GET
     suspend fun GET_TRAINING_AND_COLOR_DETAILS_API(
+        @Url url: String,
         @Header("token") token: String,
         @Query("type") id: String,
     ): GetTrainingAndColorDetailsModelResponse
+
+//    @GET("https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails")
+//    suspend fun GET_TRAINING_AND_COLOR_DETAILS_API(
+//        @Header("token") token: String,
+//        @Query("type") id: String,
+//    ): GetTrainingAndColorDetailsModelResponse
+
+    @POST
+    suspend fun saveChampsApi(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body saveSurveyModelRequest: SaveSurveyModelRequest,
+    ): SaveSurveyModelResponse
 
     @POST("https://172.16.103.116/Apollo/Champs/saveChampsDetails")
     suspend fun saveChampsApi(
@@ -636,10 +669,18 @@ interface ViswamAppApi {
     ): SaveSurveyModelResponse
 
     //    https://172.16.103.116/Apollo/Champs/getServeyDetails?fromDate=2023-01-23&toDate=2023-01-24&empId=APL49392
-    @GET("https://172.16.103.116/Apollo/Champs/getServeyDetails")
-    suspend fun GET_SURVEY_DETAILS_API(
-        @Header("token") token: String,
+//    @GET("https://172.16.103.116/Apollo/Champs/getServeyDetails")
+//    suspend fun GET_SURVEY_DETAILS_API(
+//        @Header("token") token: String,
+//        @Query("fromDate") fromDate: String,
+//        @Query("toDate") tomDate: String,
+//        @Query("empId") id: String,
+//    ): GetSurveyDetailsModelResponse
 
+    @GET //("https://172.16.103.116/Apollo/Champs/getServeyDetails")
+    suspend fun GET_SURVEY_DETAILS_API(
+        @Url url: String,
+        @Header("token") token: String,
         @Query("fromDate") fromDate: String,
         @Query("toDate") tomDate: String,
         @Query("empId") id: String,
@@ -648,8 +689,15 @@ interface ViswamAppApi {
     @GET("http://jsonblob.com/api/jsonBlob/1085226360330534912")
     suspend fun GET_SURVEY_DETAILS_(): GetSurveyDetailsModelResponse
 
-    @GET("https://172.16.103.116/Apollo/Champs/getServeyDetailsByChampId")
-    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID_API(
+//    @GET("https://172.16.103.116/Apollo/Champs/getServeyDetailsByChampId")
+//    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID_API(
+//        @Header("token") token: String,
+//        @Query("CHAMPID") id: String,
+//    ): GetSurevyDetailsByChampsIdResponse
+
+    @GET //("https://172.16.103.116/Apollo/Champs/getServeyDetails")
+    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(
+        @Url url: String,
         @Header("token") token: String,
         @Query("CHAMPID") id: String,
     ): GetSurevyDetailsByChampsIdResponse
@@ -665,6 +713,21 @@ interface ViswamAppApi {
         @Url url: String,
     ): GetCategoryDetailsResponse
 
+    @GET //("https://172.16.103.116/Apollo/Champs/getServeyDetails")
+    suspend fun GET_CATEGORY_DETAILS_API_CALL_(
+        @Url url: String,
+        @Header("token") token: String,
+      ): GetCategoryDetailsModelResponse
+
+//    @GET
+//    suspend fun GET_CATEGORY_DETAILS_API_CALL_(
+//        @Header("token") token: String,
+//        @Url url: String,
+//    ): GetCategoryDetailsModelResponse
+
+
+
+
     @GET
     suspend fun GET_CATEGORY_DETAILS_API_CALL_JSONBLOB(
         @Url url: String,
@@ -676,6 +739,15 @@ interface ViswamAppApi {
         @Url url: String,
         @Query("categoryName") id: String,
     ): GetSubCategoryDetailsResponse
+
+
+    @GET
+    suspend fun GET_SUB_CATEGORY_DETAILS_API_CALL_(
+        @Header("token") token: String,
+        @Url url: String,
+        @Query("categoryName") id: String,
+    ): GetSubCategoryDetailsModelResponse
+
 
     @GET
     suspend fun GET_SUB_CATEGORY_DETAILS_API_CALL_JSONBLOB(
@@ -835,11 +907,23 @@ interface ViswamAppApi {
 
     @Multipart
     @POST
-    suspend fun SENSING_FILE_UPLOAD_API_CALL(
+    fun SENSING_FILE_UPLOAD_API_CALL(
         @Url url: String, @Header("TYPE") type: String, @Header("token") token: String,
         @Part file: MultipartBody.Part,
-    ): SensingFileUploadResponse
+    ): Call<SensingFileUploadResponse>
 
+    @POST
+    fun FILE_DOWNLOAD_API_CALL(
+        @Url url: String, @Header("token") token: String,
+        @Body fileDownloadRequest: FileDownloadRequest,
+    ): Call<FileDownloadResponse>
+
+
+    @POST
+    fun FILE_DOWNLOAD_API_CALL_QR_RETRO(
+        @Url url: String, @Header("token") token: String,
+        @Body fileDownloadRequest: RetroQrFileDownloadRequest,
+    ): Call<RetroQrFileDownloadResponse>
 
     @GET
     suspend fun getDiscountColorDetails(
@@ -847,7 +931,30 @@ interface ViswamAppApi {
         @Header("token") token: String,
     ): GetDiscountColorResponse
 
+    @GET("https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/get-ticket-counts-by-status-role")
+    suspend fun GET_TICKET_COUNT_BY_STATUS(
+        @Query("from_date") fromDate: String,
+        @Query("to_date") tomDate: String,
+        @Query("employee_id") id: String,
+    ): TicketCountsByStatusRoleResponse
+
+    @GET
+    suspend fun getImageUrl(
+        @Url url: String,
+    ): ScannerResponse
+
+
+    @GET
+    suspend fun getStoreWiseRackDetails(@Url url: String, @Header("token") token: String): StoreWiseRackDetails
+    @POST
+    suspend fun SaveImageUrLQrRetro(
+        @Url url: String, @Header("token") token: String,
+        @Body qrSaveImageUrlsRequest: QrSaveImageUrlsRequest,
+    ): QrSaveImageUrlsResponse
+    @POST
+    fun FILE_DOWNLOAD_API_CALL_QR(
+        @Url url: String, @Header("token") token: String,
+        @Body fileDownloadRequest: RetroQrFileDownloadRequest,
+    ): Call<RetroQrFileDownloadResponse>
+
 }
-
-
-//
