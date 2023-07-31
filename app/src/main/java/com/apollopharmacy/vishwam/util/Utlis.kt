@@ -224,6 +224,13 @@ object Utlis {
         return convertedDate
     }
 
+    fun filterDateFormateQc(dateForFilter: String): Date {
+        val sourceFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val destinationFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val convertedDate: Date = sourceFormat.parse(dateForFilter)
+        return convertedDate
+    }
+
     @SuppressLint("SimpleDateFormat")
     fun convertCmsDate(DatefromServer: String): String {
         val sourceFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)

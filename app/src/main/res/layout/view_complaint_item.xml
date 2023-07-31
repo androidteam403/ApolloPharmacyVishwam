@@ -990,8 +990,8 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-                <LinearLayout
+<!-- soubworkflow manual-->
+            <!--    <LinearLayout
                     android:id="@+id/sub_workflow_acceptreject_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1041,7 +1041,7 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </LinearLayout>-->
 
                 <LinearLayout
                     android:id="@+id/cc_action_layout"

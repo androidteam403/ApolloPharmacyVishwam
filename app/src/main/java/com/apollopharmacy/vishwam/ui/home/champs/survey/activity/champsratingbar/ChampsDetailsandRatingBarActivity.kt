@@ -52,6 +52,7 @@ import java.io.IOException
 
 class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandRatingBarCallBack {
     private var getCategoryName: String? = ""
+    private var sumIsZero:Boolean=true
     private lateinit var activityChampsDetailsandRatingBarBinding: ActivityChampsDetailsandRatingBarBinding
     private lateinit var champsDetailsAndRatingBarViewModel: ChampsDetailsAndRatingBarViewModel
     private var subCategoryAdapter: SubCategoryAdapter? = null
@@ -102,6 +103,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             status= intent.getStringExtra("status")!!
 
         }
+        calucateSumOfSubCategory()
         if(status.equals("COMPLETED")){
             activityChampsDetailsandRatingBarBinding.cameraText.visibility=View.GONE
             activityChampsDetailsandRatingBarBinding.continueLayout.visibility=View.GONE
@@ -114,17 +116,33 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         activityChampsDetailsandRatingBarBinding.address.setText(getCategoryAndSubCategoryDetails?.addressP)
 //        Toast.makeText(applicationContext, "" + getCategoryName, Toast.LENGTH_SHORT).show()
         activityChampsDetailsandRatingBarBinding.categoryName.setText(getCategoryName)
-        if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
+//        if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
+//            activityChampsDetailsandRatingBarBinding.overallSum.text =
+//                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).rating
+//        }
+        if(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!=null &&
+            getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.size>0  ){
+            var sumOfSubCategoryMaxRating = 0.0
+            for (i in  getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!) {
+                sumOfSubCategoryMaxRating = sumOfSubCategoryMaxRating + i.rating!!.toDouble()
+            }
+//            getCategoryDetails.sumOfSubCategoryRating = sumOfSubCategoryMaxRating
+//            if(!categoryPosForUpdate!!.isEmpty() && position.equals(categoryPosForUpdate!!.toInt())){
             activityChampsDetailsandRatingBarBinding.overallSum.text =
-                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).rating
+                sumOfSubCategoryMaxRating.toString()
         }
          if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
                 categoryPosition
             ).sumOfSubCategoryRating != null
         ) {
-            activityChampsDetailsandRatingBarBinding.sumOfrating.text =
-                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString()
-        }
+             if(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString().equals("0.0")){
+                 activityChampsDetailsandRatingBarBinding.sumOfrating.text = "0"
+             }else{
+                 activityChampsDetailsandRatingBarBinding.sumOfrating.text =
+                     getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString()
+
+             }
+            }
         activityChampsDetailsandRatingBarBinding.categoryPos.text =
             (categoryPosition + 1).toString()
 //        if (NetworkUtil.isNetworkConnected(this)) {
@@ -229,15 +247,21 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
         for(i in getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails?.indices!!){
             if(  getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating==null){
-                getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating=0.0f
+                getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating=0f
             }
         }
         calucateSumOfSubCategory()
-        val intent = Intent()
-        intent.putExtra("getCategoryAndSubCategoryDetails", getCategoryAndSubCategoryDetails)
-        intent.putExtra("categoryPosition", categoryPosition)
-        setResult(Activity.RESULT_OK, intent)
-        finish()
+        if(sumIsZero){
+            Toast.makeText(applicationContext, "Please enter the rating for sub categories", Toast.LENGTH_SHORT).show()
+        }else{
+            val intent = Intent()
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.putExtra("getCategoryAndSubCategoryDetails", getCategoryAndSubCategoryDetails)
+            intent.putExtra("categoryPosition", categoryPosition)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+
     }
 
     private fun onClickCamera() {
@@ -468,10 +492,26 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
                 }
             }
-            activityChampsDetailsandRatingBarBinding.sumOfrating.text =
-                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString()
+            if( getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString().equals("0.0")){
+                activityChampsDetailsandRatingBarBinding.sumOfrating.text = "0"
+            }else{
+                activityChampsDetailsandRatingBarBinding.sumOfrating.text =
+                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString()
+
+            }
+
 //            subCategoryAdapter!!.notifyDataSetChanged()
 
+        }
+        if(activityChampsDetailsandRatingBarBinding.sumOfrating.text.toString().equals("0.0")||
+            activityChampsDetailsandRatingBarBinding.sumOfrating.text.toString().equals("0")){
+            sumIsZero=true
+            activityChampsDetailsandRatingBarBinding.next.setBackgroundDrawable(applicationContext.getDrawable(R.drawable.grey_rectangle_submit))
+//            activityChampsDetailsandRatingBarBinding.next.setHintTextColor(applicationContext.getDrawable(R.color.black))
+        }else{
+            sumIsZero=false
+            activityChampsDetailsandRatingBarBinding.next.setBackgroundDrawable(applicationContext.getDrawable(R.drawable.green_rectangle))
+//
         }
 
     }
@@ -519,11 +559,13 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
                 if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
                     getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+                  getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
                    imageUploadedCount++
                     break
                 }
             }
+
+            imagesDisplayChampsAdapter!!.notifyDataSetChanged()
 
 //            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists=imageDataList
 //            imagesDisplayChampsAdapter =
@@ -542,8 +584,8 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //                imagesDisplayChampsAdapter
 //            )
 //
-            Utlis.showLoading(this)
-            champsDetailsAndRatingBarViewModel.connectToAzure(resizedImage, this)
+//            Utlis.showLoading(this)
+//            champsDetailsAndRatingBarViewModel.connectToAzure(resizedImage, this)
 
 
         } else if (resultCode == RESULT_OK && requestCode == 999) {
@@ -580,10 +622,10 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                                         .setSourceImage(imageFileGallery).resizedFile
 
                                 getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
-                                Utlis.showLoading(this)
-                                champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
-
+                                 getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+//                                Utlis.showLoading(this)
+//                                champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
+                                imagesDisplayChampsAdapter!!.notifyDataSetChanged()
                                 break
                             }
                         }
@@ -613,13 +655,14 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
                                 .setSourceImage(imageFileGallery).resizedFile
                         getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+                       getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
                        imageUploadedCount++
                         break
                     }
                 }
-                Utlis.showLoading(this)
-                    champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
+                imagesDisplayChampsAdapter!!.notifyDataSetChanged()
+//                Utlis.showLoading(this)
+//                    champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
 
             }
         }
@@ -910,6 +953,18 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                         }
                     }
                 }
+            }
+
+            if(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!=null &&
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.size>0  ){
+                var sumOfSubCategoryMaxRating = 0.0
+                for (i in  getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!) {
+                    sumOfSubCategoryMaxRating = sumOfSubCategoryMaxRating + i.rating!!.toDouble()
+                }
+//            getCategoryDetails.sumOfSubCategoryRating = sumOfSubCategoryMaxRating
+//            if(!categoryPosForUpdate!!.isEmpty() && position.equals(categoryPosForUpdate!!.toInt())){
+                activityChampsDetailsandRatingBarBinding.overallSum.text =
+                    sumOfSubCategoryMaxRating.toString()
             }
             subCategoryAdapter =
                 SubCategoryAdapter(

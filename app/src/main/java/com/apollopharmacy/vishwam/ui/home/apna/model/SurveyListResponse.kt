@@ -225,9 +225,9 @@ class SurveyListResponse : Serializable {
         @Expose
         var createdId: CreatedId? = null
 
-        @SerializedName("location")
-        @Expose
-        var location: Location? = null
+//        @SerializedName("location")
+//        @Expose
+//        var location: Location? = null
 
 //        @SerializedName("city")
 //        @Expose
@@ -244,6 +244,14 @@ class SurveyListResponse : Serializable {
         @SerializedName("id")
         @Expose
         var id: String? = null
+
+        @SerializedName("state")
+        @Expose
+        var state: String? = null
+
+        @SerializedName("city")
+        @Expose
+        var city: String? = null
 
         @SerializedName("created_time")
         @Expose
@@ -274,10 +282,10 @@ class SurveyListResponse : Serializable {
             return this
         }
 
-        fun withLocation(location: Location?): Row {
-            this.location = location
-            return this
-        }
+//        fun withLocation(location: Location?): Row {
+//            this.location = location
+//            return this
+//        }
 
 //        fun withCity(city: City?): Row {
 //            this.city = city

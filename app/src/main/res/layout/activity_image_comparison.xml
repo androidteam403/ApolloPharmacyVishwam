@@ -50,7 +50,7 @@
                         android:textSize="@dimen/text_16sp" />
                 </LinearLayout>
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical|end">
@@ -62,7 +62,7 @@
                         android:layout_marginEnd="@dimen/value_10dp"
                         android:onClick="@{()->callback.onClickClose()}"
                         android:src="@drawable/closee_whitee" />
-                </LinearLayout>
+                </LinearLayout>-->
             </LinearLayout>
 
             <LinearLayout
@@ -122,7 +122,7 @@
                     app:slider_thumb="@mipmap/white_circle" />
             </LinearLayout>
 
-            <!--<LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -235,7 +235,7 @@
                         </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>-->
+            </LinearLayout>
 
             <!--<ImageView
                 android:layout_width="@dimen/value_50dp"
@@ -247,7 +247,7 @@
                 android:tint="#f7a54a"
                 tools:ignore="UseAppTint" />-->
 
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -258,9 +258,9 @@
                 android:paddingEnd="@dimen/value_10dp"
                 android:text="Previous"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_12sp" />
+                android:textSize="@dimen/text_12sp" />-->
 
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -272,7 +272,7 @@
                 android:paddingEnd="@dimen/value_10dp"
                 android:text="Present"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_12sp" />
+                android:textSize="@dimen/text_12sp" />-->
 
             <!--<TextView
                 android:layout_width="wrap_content"
@@ -325,6 +325,7 @@
                         android:textSize="@dimen/dimen11sp" />
 
                     <TextView
+                        android:id="@+id/matchingPercentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="25%"
@@ -346,6 +347,7 @@
                     android:background="@drawable/gray_rounded_bg"
                     android:backgroundTint="@color/greenn"
                     android:fontFamily="@font/roboto_medium"
+                    android:onClick="@{()->callback.onClickSubmit()}"
                     android:paddingStart="@dimen/eighteen18_dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="@dimen/eighteen18_dp"

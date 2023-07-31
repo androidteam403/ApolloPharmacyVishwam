@@ -54,17 +54,26 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
         } catch (e: JsonParseException) {
             e.printStackTrace()
         }
-        if (employeeDetailsResponse!!.data!!.role!!.name!!.equals("Store Executive", true)
-            || employeeDetailsResponse.data!!.role!!.name!!.equals("Manager", true)
-            || employeeDetailsResponse.data!!.role!!.name!!.equals("Regional Head", true)
-            || employeeDetailsResponse.data!!.role!!.name!!.equals("HOD", true)
-        ) {
-            Utlis.showLoading(this)
-            viewModel.siteList(
-                Preferences.getToken(),
-                this@ApolloSensingStoreActivity
-            )
-        } else {
+        if (employeeDetailsResponse != null
+            && employeeDetailsResponse!!.data != null
+            && employeeDetailsResponse!!.data!!.role != null
+            && employeeDetailsResponse!!.data!!.role!!.name != null) {
+            if (employeeDetailsResponse!!.data!!.role!!.name!!.equals("Store Executive", true)
+                || employeeDetailsResponse.data!!.role!!.name!!.equals("Manager", true)
+                || employeeDetailsResponse.data!!.role!!.name!!.equals("Regional Head", true)
+                || employeeDetailsResponse.data!!.role!!.name!!.equals("HOD", true)
+            ) {
+                Utlis.showLoading(this)
+                viewModel.siteList(
+                    Preferences.getToken(),
+                    this@ApolloSensingStoreActivity
+                )
+            } else {
+                Utlis.showLoading(this)
+                viewModel.siteId()
+                onSuccessSiteIdLIst()
+            }
+        }else{
             Utlis.showLoading(this)
             viewModel.siteId()
             onSuccessSiteIdLIst()

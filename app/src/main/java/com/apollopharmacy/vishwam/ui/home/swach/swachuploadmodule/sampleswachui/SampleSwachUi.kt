@@ -295,7 +295,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                         var dtcl_list = ArrayList<SwachModelResponse.Config.ImgeDtcl>()
                         for (count in 1..countUpload!!) {
 
-                            dtcl_list.add(SwachModelResponse.Config.ImgeDtcl(null, count, "", 0))
+                            dtcl_list.add(SwachModelResponse.Config.ImgeDtcl(null, count, "", 0, false))
 
                         }
                         swacchApolloList.get(0).configlist?.get(index)?.imageDataDto = dtcl_list
@@ -848,6 +848,22 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     }
 
     override fun onClickQcFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
         TODO("Not yet implemented")
     }
 

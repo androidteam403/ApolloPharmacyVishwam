@@ -40,13 +40,17 @@ import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.fileuploadswach.FileUploadSwach
+import com.apollopharmacy.vishwam.util.fileuploadswach.FileUploadSwachCallback
+import com.apollopharmacy.vishwam.util.fileuploadswach.FileUploadSwachModel
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import me.echodev.resizer.Resizer
 import java.io.File
 import java.text.SimpleDateFormat
 
 
 class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackInterface,
-    OnClickStatusClickAdapter.CallbackInterfaceOnClick {
+    OnClickStatusClickAdapter.CallbackInterfaceOnClick , FileUploadSwachCallback{
     lateinit var activityreShootBinding: ActivityReShootBinding
     lateinit var viewModel: ReShootActivityViewModel
     private var getImageUrlsList = ArrayList<GetImageUrlModelResponse>()
@@ -255,7 +259,43 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
 
         activityreShootBinding.reshootButton.setOnClickListener {
-            reshootButton()
+            if (uploadedCount == overallreshootcount){
+//                activityUploadNowButtonBinding.uploadnowbutton.setBackgroundColor(Color.parseColor("#00a651"));
+                if (getImageUrlsList != null && getImageUrlsList.get(0).categoryList!!.size>0) {
+                    var fileUploadModelList = java.util.ArrayList<FileUploadSwachModel>()
+
+                    for(i in getImageUrlsList!!.get(0).categoryList!!!!) {
+                        if (i.imageUrls != null) {
+                            for (j in i.imageUrls!!) {
+                                if(j.status.equals("2")){
+                                    if (j.file != null) {
+                                        var fileUploadModel = FileUploadSwachModel()
+                                        fileUploadModel.file = j.file
+                                        fileUploadModel.categoryName = i.categoryname
+                                        fileUploadModel.reshootCategoryPos= i.categoryPosForUrl
+                                        fileUploadModel.reshootUrlPos= j.imagePosForUrl
+                                        fileUploadModelList.add(fileUploadModel)
+                                    }
+                                }
+
+
+                            }
+                        }
+                    }
+
+                    FileUploadSwach().uploadFiles(
+                        context,
+                        this,
+                        fileUploadModelList
+                    )
+                }
+
+            } else {
+                Toast.makeText(applicationContext, "Please reshoot all Images", Toast.LENGTH_SHORT)
+                    .show()
+                Utlis.hideLoading()
+            }
+//            reshootButton()
         }
 
         viewModel.uploadSwachModelRes.observeForever {
@@ -510,13 +550,24 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
                     .setSourceImage(imageFromCameraFile).resizedFile
 
-
-
-
-            Utlis.showLoading(this)
-//            viewModel.connectToAzure(imageFromCameraFile)
-
-            viewModel.connectToAzure(resizedImage)
+        getImageUrlsList.get(0).categoryList!!.get(configgpositionRes).imageUrls!!.get(urlPosition).file=resizedImage
+            getImageUrlsList.get(0).categoryList!!.get(configgpositionRes).categoryPosForUrl=  configgpositionRes
+            getImageUrlsList.get(0).categoryList!!.get(configgpositionRes).imageUrls!!.get(urlPosition).imagePosForUrl= urlPosition
+            getImageUrlsList.get(0).categoryList?.get(configgpositionRes)?.imageUrls?.get(
+                urlPosition
+            )?.isReshootStatus = true
+            uploadedCount++
+            activityreShootBinding.countOfIages.setText(uploadedCount.toString() + "" + "/" + overallreshootcount)
+            if (uploadedCount == overallreshootcount) {
+                activityreShootBinding.reshootButton.setBackgroundColor(Color.parseColor("#ed1c24"));
+            } else {
+                activityreShootBinding.reshootButton.setBackgroundColor(Color.parseColor("#a6a6a6"));
+            }
+            onClickStatusClickAdapter.notifyDataSetChanged()
+//            Utlis.showLoading(this)
+////            viewModel.connectToAzure(imageFromCameraFile)
+//
+//            viewModel.connectToAzure(resizedImage)
 
 
         }
@@ -586,4 +637,22 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         progressDialog.setCanceledOnTouchOutside(false)
         return progressDialog
     }
+
+    override fun onFailureUpload(message: String) {
+        Utlis.hideLoading()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun allFilesDownloaded(fileUploadModelList: List<FileUploadSwachModel>) {
+        for(i in fileUploadModelList){
+            for(j in getImageUrlsList.get(0)!!.categoryList!!){
+                if(i.categoryName.equals(j.categoryname)){
+                    j.imageUrls!!.get(i.reshootUrlPos!!).url =  RijndaelCipherEncryptDecrypt().decrypt(i.fileDownloadResponse!!.referenceurl, "blobfilesload")
+                }
+            }
+        }
+        onClickStatusClickAdapter.notifyDataSetChanged()
+        reshootButton()
+    }
+
 }

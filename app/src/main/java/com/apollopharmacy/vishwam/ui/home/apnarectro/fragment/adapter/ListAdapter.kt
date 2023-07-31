@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -14,6 +13,8 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.util.Utlis
 import java.text.SimpleDateFormat
+import java.util.Collections
+
 
 class ListAdapter(
     private var fragmentList: List<List<GetStorePendingAndApprovedListRes.Get>>,
@@ -47,8 +48,8 @@ class ListAdapter(
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = fragmentList.get(position)
 
+        val item = fragmentList.get(position)
 
         for (i in item.indices) {
             if (item.get(i).stage.equals("PRE-RETRO")) {
