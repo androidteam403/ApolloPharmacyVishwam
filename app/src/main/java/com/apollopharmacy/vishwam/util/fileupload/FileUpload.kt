@@ -54,7 +54,7 @@ class FileUpload {
                 "" //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
             var token = "" //"9f15bdd0fcd5423190cHNK"
             for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOB")) {
+                if (data.APIS[i].NAME.equals("SEN BLOBUPLOAD")) {//SEN BLOB
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
@@ -150,16 +150,16 @@ class FileUpload {
             var fileDownloadRequest = FileDownloadRequest()
             fileDownloadRequest.RefURL = fileUploadModel.sensingFileUploadResponse!!.referenceurl
 
-            var baseUrl =
-                "https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload"
-            var token = "9f15bdd0fcd5423190cHNK"
-            /*for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOB")) {
+            var baseUrl = ""
+            // "https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload"
+            var token = "" //"9f15bdd0fcd5423190cHNK"
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("SEN BLOBDOWNLOAD")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
                 }
-            }*/
+            }
 
 
             val call = apiInterface.FILE_DOWNLOAD_API_CALL(

@@ -36,19 +36,28 @@ class ApnaNewPreviewViewModel : ViewModel() {
                 break
             }
         }
-        var baseUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/apna_project_survey/select/?"
-        baseUrl = baseUrl + "uid=$uid"//EA4EED0B2C4D12CE92047C715E78DCB6
+        var dynamicUrl = ""
+        var dynamicToken = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("")) {
-                baseUrl =
-//                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket_touch_point/list/?"
-                    data.APIS[i].URL
-                //val token = data.APIS[i].TOKEN
+            if (data.APIS[i].NAME.equals("APNA SURVEY SELECT DETAILS")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
                 break
             }
-
         }
+        // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/apna_project_survey/select/?
+        var baseUrl = dynamicUrl
+        baseUrl = baseUrl + "uid=$uid"//EA4EED0B2C4D12CE92047C715E78DCB6
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("")) {
+//                baseUrl =
+////                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket_touch_point/list/?"
+//                    data.APIS[i].URL
+//                //val token = data.APIS[i].TOKEN
+//                break
+//            }
+//
+//        }
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {

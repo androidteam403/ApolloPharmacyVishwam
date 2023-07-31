@@ -50,12 +50,12 @@ class RetroQrFileUpload {
             var sensingFileUploadRequest = SensingFileUploadRequest()
             sensingFileUploadRequest.Filename = fileUploadModel.file
 
-            var baseUrl =""
+            var baseUrl = ""
             //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
-            var token = "cTfznn4yhybBR7WSrNJn1gpos"
+            var token = ""//"cTfznn4yhybBR7WSrNJn1gpos"
             //"9f15bdd0fcd5423190cHNK"
             for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOB")) {
+                if (data.APIS[i].NAME.equals("APQR BLOBUPLOAD")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
@@ -153,10 +153,10 @@ class RetroQrFileUpload {
             var fileDownloadRequest = RetroQrFileDownloadRequest()
             fileDownloadRequest.RefURL = fileUploadModel.sensingFileUploadResponse!!.referenceurl
 //            https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload
-            var baseUrl=""
-            var token = "cTfznn4yhybBR7WSrNJn1gpos"
+            var baseUrl = ""
+            var token = ""//"cTfznn4yhybBR7WSrNJn1gpos"
             for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOB")) {
+                if (data.APIS[i].NAME.equals("APQR BLOBDOWNLOAD")) {//SEN BLOB
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
