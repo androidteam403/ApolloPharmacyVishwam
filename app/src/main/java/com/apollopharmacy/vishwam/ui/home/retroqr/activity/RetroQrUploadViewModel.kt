@@ -118,7 +118,7 @@ class RetroQrUploadViewModel : ViewModel() {
                         retroQrUploadCallback.onSuccessgetStoreWiseRackResponse(response.value)
 
                     } else {
-
+retroQrUploadCallback.onFailureStoreWiseRackResponse(response.value.message.toString())
                     }
                 }
 

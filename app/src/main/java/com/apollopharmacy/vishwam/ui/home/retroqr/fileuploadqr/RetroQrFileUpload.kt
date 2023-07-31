@@ -50,17 +50,17 @@ class RetroQrFileUpload {
             var sensingFileUploadRequest = SensingFileUploadRequest()
             sensingFileUploadRequest.Filename = fileUploadModel.file
 
-            var baseUrl ="https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
+            var baseUrl =""
             //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
             var token = "cTfznn4yhybBR7WSrNJn1gpos"
             //"9f15bdd0fcd5423190cHNK"
-//            for (i in data.APIS.indices) {
-//                if (data.APIS[i].NAME.equals("SEN BLOB")) {
-//                    baseUrl = data.APIS[i].URL
-//                    token = data.APIS[i].TOKEN
-//                    break
-//                }
-//            }
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("SEN BLOB")) {
+                    baseUrl = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
+            }
 
             val requestBody = RequestBody.create("*/*".toMediaTypeOrNull(), fileUploadModel.file!!)
             val fileToUpload =
@@ -152,16 +152,16 @@ class RetroQrFileUpload {
 
             var fileDownloadRequest = RetroQrFileDownloadRequest()
             fileDownloadRequest.RefURL = fileUploadModel.sensingFileUploadResponse!!.referenceurl
-
-            var baseUrl="https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload"
+//            https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload
+            var baseUrl=""
             var token = "cTfznn4yhybBR7WSrNJn1gpos"
-            /*for (i in data.APIS.indices) {
+            for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("SEN BLOB")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
                 }
-            }*/
+            }
 
 
             val call = apiInterface.FILE_DOWNLOAD_API_CALL_QR_RETRO(

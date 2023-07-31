@@ -238,6 +238,12 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         Toast.makeText(this@RetroQrUploadActivity, message, Toast.LENGTH_SHORT).show()
     }
 
+    override fun onFailureStoreWiseRackResponse(message: String) {
+        hideLoading()
+        onBackPressed()
+        Toast.makeText(this@RetroQrUploadActivity, message, Toast.LENGTH_SHORT).show()
+    }
+
     override fun onSuccessgetStoreWiseRackResponse(storeWiseRackDetails: StoreWiseRackDetails) {
 
         rackList.clear()
