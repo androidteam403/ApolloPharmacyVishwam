@@ -57,12 +57,12 @@ class FileUploadChamps {
             sensingFileUploadRequest.Filename = fileUploadModel.file
 
             var baseUrl =
-                "http://172.16.103.116:8449/Apollo/SensingFileUpload" //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
-            var token = "NGT1TNkVP49zz+tgOEwRxw==" //"9f15bdd0fcd5423190cHNK"
+                "" //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
+            var token = "" //"9f15bdd0fcd5423190cHNK"
             for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOB")) {
-//                    baseUrl = data.APIS[i].URL
-//                    token = data.APIS[i].TOKEN
+                if (data.APIS[i].NAME.equals("CHMP BLOBUPLOAD")) {
+                    baseUrl = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
                     break
                 }
             }
@@ -156,15 +156,15 @@ class FileUploadChamps {
             fileDownloadRequest.RefURL = fileUploadModel.sensingFileUploadResponse!!.referenceurl
 
             var baseUrl =
-                "http://172.16.103.116:8449/Apollo/SensingSingleFileDownload"
-            var token = "NGT1TNkVP49zz+tgOEwRxw=="
-            /*for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOB")) {
+                ""
+            var token = ""
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("CHMP BLOBDOWNLOAD")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
                 }
-            }*/
+            }
 
 
             val call = apiInterface.FILE_DOWNLOAD_API_CALL(

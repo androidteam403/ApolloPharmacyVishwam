@@ -44,6 +44,8 @@ import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.G
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessRequest
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
 import com.apollopharmacy.vishwam.util.fileupload.FileDownloadRequest
 import com.apollopharmacy.vishwam.util.fileupload.FileDownloadResponse

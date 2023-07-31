@@ -239,7 +239,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                             }
                         }
                     }
-
+                    showLoadingTemp(this)
                     FileUploadSwach().uploadFiles(
                         context,
                         this,
@@ -813,6 +813,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //                }
 //            }
 //        }
+        Utlis.showLoading(this)
         uploadApi()
     }
 }
