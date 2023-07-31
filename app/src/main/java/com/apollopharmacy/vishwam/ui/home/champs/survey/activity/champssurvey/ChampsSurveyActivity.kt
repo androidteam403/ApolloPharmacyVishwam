@@ -26,6 +26,9 @@ import com.apollopharmacy.vishwam.databinding.ActivityChampsSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.adapter.CategoryDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.preview.PreviewActivity
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest.CmsChampsSurveyQa
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
@@ -1417,7 +1420,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         type: String,
     ) {
         Utlis.hideLoading()
-
         dialogSubmit = Dialog(this)
         dialogSubmit.setContentView(R.layout.dialog_champs_survey)
         val close = dialogSubmit.findViewById<ImageView>(R.id.close_dialog_save_)
@@ -1520,6 +1522,116 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             timeTaken.text = "$elapsedMinutes minutes, $elapsedSeconds seconds"
         } else {
             timeTaken.text = "$elapsedSeconds seconds"
+        }
+
+        if (!type.equals("saveDraft")) {
+
+
+            var saveUpdateRequest = SaveUpdateRequest()
+            val strDates = activityChampsSurveyBinding.issuedOn.text.toString()
+            val dateFormats = SimpleDateFormat("dd MMM, yyyy - hh:mm a");
+            val date = dateFormats.parse(strDates)
+//            023-01-23 17:32:16
+            val dateNewFormats =
+                SimpleDateFormat("yyyy-MM-dd").format(date)
+
+            saveUpdateRequest.date = dateNewFormats
+            saveUpdateRequest.issue =
+                activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.text.toString()
+            if (surveyRecDetailsList.get(0) != null) {
+                saveUpdateRequest.email = surveyRecDetailsList.get(0)
+            } else {
+                saveUpdateRequest.email = ""
+            }
+
+            if (getStoreWiseEmpIdResponse != null &&
+                getStoreWiseEmpIdResponse?.storeWiseDetails != null &&
+                getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail != null
+            ) {
+                saveUpdateRequest.trainerEmail =
+                    getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail
+            } else {
+                saveUpdateRequest.trainerEmail = ""
+            }
+
+
+            saveUpdateRequest.trainerId = Preferences.getValidatedEmpId()
+            val userData = LoginRepo.getProfile()
+            if (userData != null) {
+                saveUpdateRequest.trainerName = userData.EMPNAME
+            }
+
+            saveUpdateRequest.trimpOther =
+                activityChampsSurveyBinding.enterOtherTrainingEdittext.text.toString()
+            saveUpdateRequest.trimpSoftSkill =
+                activityChampsSurveyBinding.enterSoftSkillsEdittext.text.toString()
+//            saveUpdateRequest.trimpSoftSkills =
+//                activityChampsSurveyBinding.enterSoftSkillsEdittext.text.toString()
+            saveUpdateRequest.trimpTech =
+                activityChampsSurveyBinding.enterTextTechnicalEdittext.text.toString()
+            saveUpdateRequest.store = activityChampsSurveyBinding.storeId.text.toString()
+            saveUpdateRequest.totalScore = activityChampsSurveyBinding.percentageSum.text.toString()
+
+            var cmsChampsSurveQaList = ArrayList<CmsChampsSurveyQa>()
+
+
+            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
+                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                    for (j in i.subCategoryDetails!!) {
+                        var cmsChampsSurveQa = CmsChampsSurveyQa()
+                        cmsChampsSurveQa.categoryName = j.categoryName
+                        if (j.givenRating != null
+                        ) {
+                            cmsChampsSurveQa.maxScore = j.rating
+                            cmsChampsSurveQa.answer =
+                                j.givenRating.toString()
+                        } else {
+                            cmsChampsSurveQa.answer = ""
+                        }
+                        cmsChampsSurveQa.question = j.subCategoryName + " " + (j.rating)
+                        cmsChampsSurveQa.answerType = "text"
+                        cmsChampsSurveQaList.add(cmsChampsSurveQa)
+                    }
+
+                    if (i.imageDataLists != null && i.imageDataLists!!.size > 0) {
+                        var imagesExits: Boolean = false
+                        for (k in i.imageDataLists!!) {
+                            if (k.imageUrl != null && !k.imageUrl!!.isEmpty()) {
+                                imagesExits = true
+                                break
+                            }
+                        }
+                        if (imagesExits) {
+                            var answerImage = CmsChampsSurveyQa.AnswerImage()
+                            var imagesList = ArrayList<CmsChampsSurveyQa.AnswerImage.Image>()
+                            var image = answerImage.Image()
+                            var cmsChampsSurveQa = CmsChampsSurveyQa()
+                            cmsChampsSurveQa.categoryName = i.categoryName
+                            cmsChampsSurveQa.question = "Upload Images"
+                            cmsChampsSurveQa.answerType = "Images"
+                            for (k in i.imageDataLists!!) {
+                                if (k.imageUrl != null && !k.imageUrl!!.isEmpty()) {
+                                    image.url = k.imageUrl
+                                    imagesList.add(image)
+                                }
+                            }
+                            answerImage.images = imagesList
+                            cmsChampsSurveQa.answerImage = answerImage
+                            cmsChampsSurveQaList.add(cmsChampsSurveQa)
+                        }
+
+                    }
+
+
+                }
+            }
+            saveUpdateRequest.cmsChampsSurveyQa = cmsChampsSurveQaList
+
+
+            saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
+            champsSurveyViewModel.saveUpdateApi(this, saveUpdateRequest)
+        } else {
+            Utlis.hideLoading()
         }
 
         close.setOnClickListener {
@@ -2112,6 +2224,16 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     }
 
     override fun onFailuregetSubCategoryDetails(getSubCategoryResponse: GetSubCategoryDetailsModelResponse) {
+        Utlis.hideLoading()
+    }
+
+    override fun onSuccessSaveUpdateApi(value: SaveUpdateResponse) {
+//        Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
+        Utlis.hideLoading()
+    }
+
+    override fun onFailureSaveUpdateApi(value: SaveUpdateResponse) {
+        Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
         Utlis.hideLoading()
     }
 

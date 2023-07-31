@@ -15,17 +15,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.BuildConfig
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.LoginRequest
 import com.apollopharmacy.vishwam.data.model.MPinRequest
-import com.apollopharmacy.vishwam.data.model.ValidateRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.databinding.ActivityLoginBinding
 import com.apollopharmacy.vishwam.dialog.AppUpdateDialog
 import com.apollopharmacy.vishwam.ui.createpin.CreatePinActivity
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessRequest
 import com.apollopharmacy.vishwam.ui.validatepin.ValidatePinActivity
 import com.apollopharmacy.vishwam.util.DownloadController
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -66,8 +65,23 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.commands.observeForever { command ->
             hideLoading()
             when (command) {
-                is Command.NavigateTo -> {
+                is Command.VishwamAccessSuccesss -> {
                     handleGetPinService()
+                }
+
+                is Command.NavigateTo -> {
+                    var mobileAccessRequest = MobileAccessRequest()
+                    mobileAccessRequest.empid = Preferences.getValidatedEmpId()
+                    mobileAccessRequest.company = Preferences.getCompany()
+
+                    loginViewModel.forMobileAccess(
+                        mobileAccessRequest,
+                        command.value,
+                        command.loginRequest
+                    )
+
+
+//                    handleGetPinService()
 //                    val homeIntent = Intent(this, MainActivity::class.java)
 //                    startActivity(homeIntent)
 //                    finish()

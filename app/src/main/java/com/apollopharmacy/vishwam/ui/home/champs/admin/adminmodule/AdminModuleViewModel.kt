@@ -3,11 +3,14 @@ package com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ChampsAdminRepo
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsRequest
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -17,11 +20,23 @@ class AdminModuleViewModel : ViewModel() {
     fun getCategoryDetailsApiCall(mCallback: AdminModuleCallBack) {
         val state = MutableLiveData<State>()
 
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CHMP GET CATEGORIES LIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                ChampsAdminRepo.getCategoryDetailsApiCall("h72genrSSNFivOi/cfiX3A==",
-                    "https://172.16.103.116/Apollo/Champs/getCategoryDetails"//"https://172.16.103.116/Apollo/Champs/getCategoryDetails"
+                ChampsAdminRepo.getCategoryDetailsApiCall(token,
+                    baseUrl//"https://172.16.103.116/Apollo/Champs/getCategoryDetails"
                 )
             }
             when (response) {
@@ -64,14 +79,27 @@ class AdminModuleViewModel : ViewModel() {
     ) {
         val state = MutableLiveData<State>()
 
-        var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/getSubCategoryDetails"//?categoryName="+categoryName
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CHMP GET SUB CATEGORY DETAILS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+
+//        var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/getSubCategoryDetails"//?categoryName="+categoryName
         // var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/getSubCategoryDetails?categoryName=$categoryName"
 
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                ChampsAdminRepo.getSubCategoryDetailsApiCall("h72genrSSNFivOi/cfiX3A==",
-                    subCategoryUrl, categoryName)
+                ChampsAdminRepo.getSubCategoryDetailsApiCall(token,
+                    baseUrl, categoryName)
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -108,14 +136,26 @@ class AdminModuleViewModel : ViewModel() {
     ) {
         val state = MutableLiveData<State>()
 
-        var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/saveCategoryConfigurationDetails"
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CHMP SAVE CATEGORY CONFIGURATION DETAILS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+//        var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/saveCategoryConfigurationDetails"
         // var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/saveCategoryConfigurationDetails"
 
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                ChampsAdminRepo.saveCategoryConfigurationDetailsApiCall("h72genrSSNFivOi/cfiX3A==",
-                    subCategoryUrl,
+                ChampsAdminRepo.saveCategoryConfigurationDetailsApiCall(token,
+                    baseUrl,
                     saveCategoryConfigurationDetailsRequest)
             }
             when (response) {

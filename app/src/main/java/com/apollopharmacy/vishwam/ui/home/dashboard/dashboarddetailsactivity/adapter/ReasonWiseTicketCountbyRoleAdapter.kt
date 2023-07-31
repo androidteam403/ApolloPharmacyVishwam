@@ -82,11 +82,8 @@ class ReasonWiseTicketCountbyRoleAdapter(
             }
             if (role.equals("ceo")) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
-                    "Regional Head (${rows.size})"
-            } else if (role.equals("regional_head")) {
-                holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
                     "Manager (${rows.size})"
-            } else if (role.equals("store_manager")) {
+            } else if (role.equals("regional_head")) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
                     "Executives (${rows.size})"
             } else {
@@ -153,7 +150,8 @@ class ReasonWiseTicketCountbyRoleAdapter(
             holder.adapterReasonWiseTicketCountbyRoleBinding.names.visibility = View.GONE
             holder.adapterReasonWiseTicketCountbyRoleBinding.arrowToindicateName.visibility =
                 View.GONE
-            holder.adapterReasonWiseTicketCountbyRoleBinding.nameParentLayout.visibility = View.GONE
+            holder.adapterReasonWiseTicketCountbyRoleBinding.nameParentLayout.visibility =
+                View.GONE
             holder.adapterReasonWiseTicketCountbyRoleBinding.total.visibility = View.VISIBLE
             if (data1.isSelsected == true) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.arrowToindicateTotal.visibility =
@@ -207,7 +205,8 @@ class ReasonWiseTicketCountbyRoleAdapter(
             holder.adapterReasonWiseTicketCountbyRoleBinding.names.visibility = View.GONE
             holder.adapterReasonWiseTicketCountbyRoleBinding.arrowToindicateName.visibility =
                 View.GONE
-            holder.adapterReasonWiseTicketCountbyRoleBinding.nameParentLayout.visibility = View.GONE
+            holder.adapterReasonWiseTicketCountbyRoleBinding.nameParentLayout.visibility =
+                View.GONE
             holder.adapterReasonWiseTicketCountbyRoleBinding.total.visibility = View.GONE
             holder.adapterReasonWiseTicketCountbyRoleBinding.arrowToindicateTotal.visibility =
                 View.GONE
@@ -223,7 +222,7 @@ class ReasonWiseTicketCountbyRoleAdapter(
             }
             holder.adapterReasonWiseTicketCountbyRoleBinding.categoryParentLayout.visibility =
                 View.VISIBLE
-            holder.adapterReasonWiseTicketCountbyRoleBinding.category.text = "${position}"
+            holder.adapterReasonWiseTicketCountbyRoleBinding.category.text = "${position + 1}"
         }
 
         var reasonWiseTicketCountbyRoleValueAdapter = ReasonWiseTicketCountbyRoleValueAdapter(
@@ -237,7 +236,7 @@ class ReasonWiseTicketCountbyRoleAdapter(
             reasonWiseTicketCountbyRoleValueAdapter
 
         holder.itemView.setOnClickListener {
-            callback.onClickCategoryItem(data1)
+            callback.onClickCategoryItem(data1, position, false)
         }/*holder.adapterReasonWiseTicketCountbyRoleBinding.names.setOnClickListener {
             callback.onClickCategoryItem(data1)
         }

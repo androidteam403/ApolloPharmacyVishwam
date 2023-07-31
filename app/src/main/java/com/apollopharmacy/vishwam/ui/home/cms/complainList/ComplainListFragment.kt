@@ -963,7 +963,20 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     ) {
                         binding.ticketResolveBtn.visibility = View.GONE
                     }
-                    binding.ticketCloseBtn.visibility = View.VISIBLE
+                    if (items.ticketDetailsResponse != null) {
+                        if (items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == null
+                            || items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == "Yes"
+                        ) {
+                            binding.ticketCloseBtn.visibility = View.VISIBLE
+                        }else{
+                            binding.ticketCloseBtn.visibility = View.GONE
+                        }
+                    }
+
+
+
+
+
                     binding.ticketCloseBtn.setOnClickListener {
                         imageClickListener.onClickTicketClose(items, orderData, position)
                     }
@@ -1071,40 +1084,40 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 }
 
             }
-/*    // soubworkflow manual
-            if (items!!.have_subworkflow != null) {
-                if (items!!.have_subworkflow == true) {
-                    if (items!!.is_subworkflow_completed == false) {
-                        binding.ticketResolveBtn.visibility = View.GONE
-                    }
-                    if (isApprovalListFragment) {
-                        if (items!!.is_subworkflow_completed == true) {
-                            binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+            /*    // soubworkflow manual
+                        if (items!!.have_subworkflow != null) {
+                            if (items!!.have_subworkflow == true) {
+                                if (items!!.is_subworkflow_completed == false) {
+                                    binding.ticketResolveBtn.visibility = View.GONE
+                                }
+                                if (isApprovalListFragment) {
+                                    if (items!!.is_subworkflow_completed == true) {
+                                        binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                                    } else {
+                                        binding.subWorkflowAcceptrejectLayout.visibility = View.VISIBLE
+                                        binding.subWorkflowAcceptBtn.setOnClickListener {
+                                            imageClickListener.onClickSubWorkflowAccept(
+                                                items.ticketDetailsResponse!!.data, orderData, position
+                                            )
+                                        }
+
+                                        binding.subWorkflowRejectBtn.setOnClickListener {
+                                            imageClickListener.onClickSubWorkflowReject(
+                                                items.ticketDetailsResponse!!.data, orderData, position
+                                            )
+                                        }
+
+                                    }
+                                } else {
+                                    binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                                }
+                            } else {
+                                binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                            }
                         } else {
-                            binding.subWorkflowAcceptrejectLayout.visibility = View.VISIBLE
-                            binding.subWorkflowAcceptBtn.setOnClickListener {
-                                imageClickListener.onClickSubWorkflowAccept(
-                                    items.ticketDetailsResponse!!.data, orderData, position
-                                )
-                            }
-
-                            binding.subWorkflowRejectBtn.setOnClickListener {
-                                imageClickListener.onClickSubWorkflowReject(
-                                    items.ticketDetailsResponse!!.data, orderData, position
-                                )
-                            }
-
+                            binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
                         }
-                    } else {
-                        binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
-                    }
-                } else {
-                    binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
-                }
-            } else {
-                binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
-            }
-*/
+            */
 
 
 
@@ -1287,7 +1300,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             override fun getItemCount(): Int {
                 return remarkList.size
             }
-//test code
+
+            //test code
             inner class ViewHolder(val remarkBinding: ViewOrderStatusBinding) :
                 RecyclerView.ViewHolder(remarkBinding.root) {
                 fun bind(remarks: ResponseNewTicketlist.NewTicketHistoryResponse.Row) {
