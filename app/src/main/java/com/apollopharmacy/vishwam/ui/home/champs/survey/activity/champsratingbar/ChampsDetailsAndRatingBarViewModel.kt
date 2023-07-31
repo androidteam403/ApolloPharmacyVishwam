@@ -32,23 +32,27 @@ class ChampsDetailsAndRatingBarViewModel : ViewModel() {
                     } else {
                         state.value = State.ERROR
                         champsDetailsandRatingBarCallBack.onFailuregetSubCategoryDetails(result.value)
-                        commands.value =Command.ShowToast(result.value.message!!)
+                        commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -57,7 +61,10 @@ class ChampsDetailsAndRatingBarViewModel : ViewModel() {
         }
     }
 
-    fun getSubCategoryDetailsChampsApi(champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack, categoryName: String) {
+    fun getSubCategoryDetailsChampsApi(
+        champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack,
+        categoryName: String,
+    ) {
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
@@ -75,20 +82,24 @@ class ChampsDetailsAndRatingBarViewModel : ViewModel() {
                         champsDetailsandRatingBarCallBack.onFailuregetSubCategoryDetails(result.value)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
-                       Command.ShowToast(it)
+                        Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -99,14 +110,16 @@ class ChampsDetailsAndRatingBarViewModel : ViewModel() {
 
     fun connectToAzure(
         image: File?,
-        champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack
+        champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack,
     ) {
         state.value = State.SUCCESS
         viewModelScope.launch(Dispatchers.IO) {
-            val response = ConnectionAzureChamps.connectToAzur(image,
+            val response = ConnectionAzureChamps.connectToAzur(
+                image,
                 Config.CONTAINER_NAME_CHAMPS,
-                Config.STORAGE_CONNECTION_FOR_CCR_APP)
-           champsDetailsandRatingBarCallBack.onSuccessImageIsUploadedInAzur(response)
+                Config.STORAGE_CONNECTION_FOR_CCR_APP
+            )
+            champsDetailsandRatingBarCallBack.onSuccessImageIsUploadedInAzur(response)
 
 
 
@@ -132,20 +145,24 @@ class ChampsDetailsAndRatingBarViewModel : ViewModel() {
                         commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -153,6 +170,7 @@ class ChampsDetailsAndRatingBarViewModel : ViewModel() {
             }
         }
     }
+
     sealed class Command {
         data class ShowToast(val message: String) : Command()
         data class ImageIsUploadedInAzur(val filePath: String) : Command()
