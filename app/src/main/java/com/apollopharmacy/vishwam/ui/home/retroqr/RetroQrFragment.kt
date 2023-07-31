@@ -9,10 +9,8 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.FragmentRetroQrBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.RetroQrUploadActivity
-import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrreview.RetroQrReviewActivity
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.RetroQrScannerActivity
 import com.apollopharmacy.vishwam.ui.home.retroqr.selectqrretrositeid.SelectRetroQrSiteIDActivity
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 
 class RetroQrFragment : BaseFragment<RetroQrViewModel, FragmentRetroQrBinding>() {
     override val layoutRes: Int
@@ -33,12 +31,12 @@ class RetroQrFragment : BaseFragment<RetroQrViewModel, FragmentRetroQrBinding>()
             i.putExtra("modulename", "CHAMPS")
             startActivityForResult(i, 781)
         } else {
-            viewBinding.searchbystore.setText(Preferences.getQrSiteId()+" , "+Preferences.getQrSiteName())
+            viewBinding.searchbystore.setText(Preferences.getQrSiteId() + " , " + Preferences.getQrSiteName())
 
-            viewBinding.storename.setText(Preferences.getQrSiteId()+" , "+Preferences.getQrSiteName())
+            viewBinding.storename.setText(Preferences.getQrSiteId() + " , " + Preferences.getQrSiteName())
         }
 
-            MainActivity.mInstance.scannerIcon.setOnClickListener {
+        MainActivity.mInstance.scannerIcon.setOnClickListener {
             val intent = Intent(requireContext(), RetroQrScannerActivity::class.java)
             startActivity(intent)
         }
@@ -50,12 +48,12 @@ class RetroQrFragment : BaseFragment<RetroQrViewModel, FragmentRetroQrBinding>()
         }
         viewBinding.uploadButton.setOnClickListener {
             val intent = Intent(requireContext(), RetroQrUploadActivity::class.java)
-            intent.putExtra("activity","upload")
+            intent.putExtra("activity", "upload")
             startActivity(intent)
         }
         viewBinding.reviewButton.setOnClickListener {
             val intent = Intent(requireContext(), RetroQrUploadActivity::class.java)
-            intent.putExtra("activity","review")
+            intent.putExtra("activity", "review")
 
             startActivity(intent)
         }
@@ -68,22 +66,24 @@ class RetroQrFragment : BaseFragment<RetroQrViewModel, FragmentRetroQrBinding>()
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 781) {
                 if (data != null) {
-                    isSiteIdEmpty=data!!.getBooleanExtra("isSiteIdEmpty", isSiteIdEmpty)
-                    if (isSiteIdEmpty){
+                    isSiteIdEmpty = data!!.getBooleanExtra("isSiteIdEmpty", isSiteIdEmpty)
+                    if (isSiteIdEmpty) {
                         MainActivity.mInstance.onBackPressed()
                     }
 
-                    if ( data.getStringExtra("siteId").toString().isNotEmpty()&& data.getStringExtra("siteId").toString()!="null") {
+                    if (data.getStringExtra("siteId").toString()
+                            .isNotEmpty() && data.getStringExtra("siteId").toString() != "null"
+                    ) {
                         viewBinding.storename.setText(
                             data.getStringExtra("siteId")
                                 .toString() + " , " + data.getStringExtra("sitename").toString()
                         )
 
-                        viewBinding.searchbystore.setText( data.getStringExtra("siteId")
-                            .toString() + " , " + data.getStringExtra("sitename").toString())
+                        viewBinding.searchbystore.setText(
+                            data.getStringExtra("siteId")
+                                .toString() + " , " + data.getStringExtra("sitename").toString()
+                        )
                     }
-
-
 
 
                 }
