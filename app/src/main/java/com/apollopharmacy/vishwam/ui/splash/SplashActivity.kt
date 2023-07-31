@@ -77,7 +77,7 @@ class SplashActivity : AppCompatActivity() {
                 .show()
         }
 
-        splashViewModel.command.observeForever({ command ->
+        splashViewModel.command.observeForever { command ->
             when (command) {
                 is Command.NavigateTo -> {
                     if (isSplashTimeCompleted) {
@@ -88,6 +88,7 @@ class SplashActivity : AppCompatActivity() {
                         }, 2000)
                     }
                 }
+
                 is Command.ShowToast -> {
                     splashBinding.serviceLoading.visibility = View.GONE
                     ViswamApp.context?.let {
@@ -95,7 +96,7 @@ class SplashActivity : AppCompatActivity() {
                     }
                 }
             }
-        })
+        }
 
 
     }

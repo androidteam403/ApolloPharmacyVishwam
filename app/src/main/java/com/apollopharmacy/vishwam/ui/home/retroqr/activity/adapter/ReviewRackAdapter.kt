@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide
 import java.io.File
 import java.io.IOException
 import java.util.Locale
+import kotlin.math.roundToInt
 
 class ReviewRackAdapter(
     var mContext: Context,

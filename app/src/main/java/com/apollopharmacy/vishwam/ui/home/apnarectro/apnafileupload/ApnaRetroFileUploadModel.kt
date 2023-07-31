@@ -9,6 +9,7 @@ class ApnaRetroFileUploadModel {
     var id: Int? = null
     var categoryId:String?=null
     var qrCode:String?=null
+    var isFileAdded: Boolean = false
 
     var sensingFileUploadResponse: SensingFileUploadResponse? = null
     var isFileUploaded: Boolean = false
