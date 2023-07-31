@@ -210,6 +210,7 @@ object Preferences {
     private const val KEY_RECTRO_SITENAME = "KEY_RECTRO_SITENAME"
 
     private const val KEY_APNA_SITEID = "KEY_APNA_SITEID"
+    private const val KEY_CHAMPS_SITENAME = "KEY_CHAMPS_SITENAME"
     private const val KEY_APNA_SITENAME = "KEY_APNA_SITENAME"
 
     private const val KEY_SWACHH_SITENAME = "KEY_SWACHH_SITENAME"
@@ -625,6 +626,14 @@ object Preferences {
 
     fun getApnaSiteId(): String {
         return sharedPreferences.getString(KEY_APNA_SITEID, "")!!
+    }
+
+    fun setChampsSiteName(champsSiteId: String) {
+        sharedPreferences.edit().putString(KEY_CHAMPS_SITENAME, champsSiteId).apply()
+    }
+
+    fun getChampsSiteName(): String {
+        return sharedPreferences.getString(KEY_CHAMPS_SITENAME, "")!!
     }
 
     fun setSwachSiteName(swachhSiteId: String) {

@@ -165,6 +165,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                 if (value.get(i).site.equals(viewBinding.enterStoreEdittext.text.toString())) {
                     storeId = value.get(i).site
                     siteName = value.get(i).storeName
+                    Preferences.setChampsSiteName(siteName!!)
                     siteCity = value.get(i).city
                     region =    value.get(i).state!!.name
                     address = value.get(i).address

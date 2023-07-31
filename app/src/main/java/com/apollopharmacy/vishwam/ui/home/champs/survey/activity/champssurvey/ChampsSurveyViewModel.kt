@@ -795,55 +795,55 @@ class ChampsSurveyViewModel : ViewModel() {
 //        }
 //    }
 
-    fun getSubCategoryDetailsChamps(
-        champsSurveyCallBack: ChampsSurveyCallBack,
-        categoryName: String,
-    ) {
-        state.postValue(State.LOADING)
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getSubCategoryDetailsChamps();
-            }
-            when (result) {
-                is ApiResult.Success -> {
-                    if (result.value.status!!) {
-                        state.value = State.ERROR
-                        champsSurveyCallBack.onSuccessgetSubCategoryDetails(
-                            result.value,
-                            categoryName
-                        )
-//                        getStoreDetailsChamps.value = result.value
-                    } else {
-                        state.value = State.ERROR
-                        champsSurveyCallBack.onFailuregetSubCategoryDetails(result.value)
-                        commands.value = Command.ShowToast(result.value.message!!)
-                    }
-                }
-
-                is ApiResult.GenericError -> {
-                    commands.postValue(result.error?.let {
-                        Command.ShowToast(it)
-                    })
-                    state.value = State.ERROR
-                }
-
-                is ApiResult.NetworkError -> {
-                    commands.postValue(Command.ShowToast("Network Error"))
-                    state.value = State.ERROR
-                }
-
-                is ApiResult.UnknownError -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-
-                else -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-            }
-        }
-    }
+//    fun getSubCategoryDetailsChamps(
+//        champsSurveyCallBack: ChampsSurveyCallBack,
+//        categoryName: String,
+//    ) {
+//        state.postValue(State.LOADING)
+//        viewModelScope.launch {
+//            val result = withContext(Dispatchers.IO) {
+//                ChampsApiRepo.getSubCategoryDetailsChamps();
+//            }
+//            when (result) {
+//                is ApiResult.Success -> {
+//                    if (result.value.status!!) {
+//                        state.value = State.ERROR
+//                        champsSurveyCallBack.onSuccessgetSubCategoryDetails(
+//                            result.value,
+//                            categoryName
+//                        )
+////                        getStoreDetailsChamps.value = result.value
+//                    } else {
+//                        state.value = State.ERROR
+//                        champsSurveyCallBack.onFailuregetSubCategoryDetails(result.value)
+//                        commands.value = Command.ShowToast(result.value.message!!)
+//                    }
+//                }
+//
+//                is ApiResult.GenericError -> {
+//                    commands.postValue(result.error?.let {
+//                        Command.ShowToast(it)
+//                    })
+//                    state.value = State.ERROR
+//                }
+//
+//                is ApiResult.NetworkError -> {
+//                    commands.postValue(Command.ShowToast("Network Error"))
+//                    state.value = State.ERROR
+//                }
+//
+//                is ApiResult.UnknownError -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//
+//                else -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//            }
+//        }
+//    }
 
     fun saveUpdateApi(
         champsSurveyCallBack: ChampsSurveyCallBack,

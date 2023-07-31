@@ -9,4 +9,6 @@ interface GetSurveyDetailsListCallback {
      fun onClickPlusIcon()
 
      fun onClickback()
+
+     fun onClickFilterIcon()
 }
