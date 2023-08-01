@@ -73,6 +73,7 @@ class UploadRackAdapter(
                 .placeholder(R.drawable.thumbnail_image)
                 .into(holder.uploadRackLayoutBinding.afterCapturedImage)
 
+
             holder.uploadRackLayoutBinding.eyeImage.setOnClickListener {
                 mCallback.imageData(position, items.imageurl!!, items.rackno!!, items.qrcode!!,holder.uploadRackLayoutBinding.eyeImage)
             }

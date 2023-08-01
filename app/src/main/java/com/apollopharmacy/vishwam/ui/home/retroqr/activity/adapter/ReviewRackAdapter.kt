@@ -96,11 +96,18 @@ class ReviewRackAdapter(
         }
 
 
+
+        holder.reviewRackLayoutBinding.uploadButton.setOnClickListener {
+            mCallback.onUpload(position, items.rackno!!)
+        }
         if (items.matchingPercentage.toString().isNullOrEmpty()) {
             holder.reviewRackLayoutBinding.compareIconLayout.visibility = View.GONE
+            holder.reviewRackLayoutBinding.uploadButton.visibility=View.GONE
+
             holder.reviewRackLayoutBinding.matchingPercentageLayout.visibility = View.GONE
         } else {
             holder.reviewRackLayoutBinding.compareIconLayout.visibility = View.VISIBLE
+            holder.reviewRackLayoutBinding.uploadButton.visibility=View.VISIBLE
             holder.reviewRackLayoutBinding.matchingPercentageLayout.visibility = View.VISIBLE
             val matchingPercentage = items.matchingPercentage!!.toInt()
             if (matchingPercentage >=0 && matchingPercentage<=70) {

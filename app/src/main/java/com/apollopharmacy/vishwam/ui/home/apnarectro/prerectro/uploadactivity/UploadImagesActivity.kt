@@ -50,6 +50,7 @@ import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import me.echodev.resizer.Resizer
 import java.io.File
 
@@ -573,12 +574,11 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback,
         for (i in fileUploadModelList!!.indices) {
             for (j in apnaConfigList.get(0).configlist!!.indices) {
                 for (k in fileUploadModelList.filter { it.categoryId.equals(apnaConfigList.get(0).configlist!!.get(j).categoryId) }.indices){
-                    apnaConfigList.get(0).configlist!!.get(j).imageDataDto!!.get(k).base64Images=
-                        fileUploadModelList.filter { it.categoryId.equals(apnaConfigList.get(0).configlist!!.get(j).categoryId) }.get(k).fileDownloadResponse!!.referenceurl!!
+                    apnaConfigList.get(0).configlist!!.get(j).imageDataDto!!.get(k).base64Images= RijndaelCipherEncryptDecrypt().decrypt(fileUploadModelList.filter { it.categoryId.equals(apnaConfigList.get(0).configlist!!.get(j).categoryId) }.get(k).fileDownloadResponse!!.referenceurl!! ,"blobfilesload")
+
                 }
             }
         }
-
 
 
 
