@@ -53,17 +53,19 @@ class ApnaRetroFileUpload {
             var sensingFileUploadRequest = SensingFileUploadRequest()
             sensingFileUploadRequest.Filename = fileUploadModel.file
 
-            var baseUrl ="http://172.16.103.116:8449/Apollo/SensingFileUpload"
+            var baseUrl =""
+            var token=""
+//            var baseUrl ="https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
             //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
-            var token = "cTfznn4yhybBR7WSrNJn1gAAI"
+//            var token = "cTfznn4yhybBR7WSrNJn1gAAI"
             //"9f15bdd0fcd5423190cHNK"
-//            for (i in data.APIS.indices) {
-//                if (data.APIS[i].NAME.equals("SEN BLOB")) {
-//                    baseUrl = data.APIS[i].URL
-//                    token = data.APIS[i].TOKEN
-//                    break
-//                }
-//            }
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("RT BLOBUPLOAD")) {
+                    baseUrl = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
+            }
 
             val requestBody = RequestBody.create("*/*".toMediaTypeOrNull(), fileUploadModel.file!!)
             val fileToUpload =
@@ -154,16 +156,17 @@ class ApnaRetroFileUpload {
 
             var fileDownloadRequest = RetroQrFileDownloadRequest()
             fileDownloadRequest.RefURL = fileUploadModel.sensingFileUploadResponse!!.referenceurl
-
-            var baseUrl="http://172.16.103.116:8449/Apollo/SensingSingleFileDownload"
-            var token = "cTfznn4yhybBR7WSrNJn1gAAI"
-            /*for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOB")) {
+            var baseUrl=""
+            var token =""
+//            var baseUrl="https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload"
+//            var token = "cTfznn4yhybBR7WSrNJn1gAAI"
+           for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("RT BLOBDOWNLOAD")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
                 }
-            }*/
+            }
 
 
             val call = apiInterface.FILE_DOWNLOAD_API_CALL_QR(

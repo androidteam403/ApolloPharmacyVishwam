@@ -381,7 +381,7 @@ class ListAdapter(
         }
 
         holder.adapterListApnaBinding.postRetroStageLayout.setOnClickListener {
-            if (holder.adapterListApnaBinding.firstStageStatus.text.toString() == "Approved" && holder.adapterListApnaBinding.secondstageStatus.text.toString()!!.contains("Pending")
+            if (holder.adapterListApnaBinding.firstStageStatus.text.toString() == "Approved" && holder.adapterListApnaBinding.secondstageStatus.text.toString().replace(" ","").toUpperCase()!!.equals("PENDINGATUSER")
             )//doubt about status name
             {
 
@@ -400,8 +400,8 @@ class ListAdapter(
                     reshootBy,
                     reshootDate, "POST-RETRO"
                 )
-            } else if (holder.adapterListApnaBinding.secondstageStatus.text.toString()
-                    .equals("Approved")
+            } else if (holder.adapterListApnaBinding.secondstageStatus.text.toString().replace(" ","").toUpperCase()
+                    .equals("PENDING")||holder.adapterListApnaBinding.secondstageStatus.text.toString().equals("Approved")
             ) {
 
 
@@ -442,7 +442,7 @@ class ListAdapter(
         }
 
         holder.adapterListApnaBinding.afterCompletionStageLayout.setOnClickListener {
-            if (holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Approved") && holder.adapterListApnaBinding.thirdstagestatus.text.toString()!!.contains("Pending"))//doubt about status name
+            if (holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Approved") && holder.adapterListApnaBinding.thirdstagestatus.text.toString().replace(" ","").toUpperCase()!!.equals("PENDINGATUSER"))//doubt about status name
             {
                 preRectroCallback.onClickPostRetroPending(
                     "isAfterCompletionStage",
@@ -459,8 +459,8 @@ class ListAdapter(
                     reshootBy,
                     reshootDate, "AFTER-COMPLETION"
                 )
-            } else if (holder.adapterListApnaBinding.thirdstagestatus.text.toString()
-                    .equals("Approved")
+            } else if (holder.adapterListApnaBinding.thirdstagestatus.text.toString().replace(" ","").toUpperCase()
+                    .equals("PENDING")||holder.adapterListApnaBinding.thirdstagestatus.text.toString().equals("Approved")
             ) {
                 preRectroCallback.onClickPostRetroPending(
                     "isAfterCompletionStage",
