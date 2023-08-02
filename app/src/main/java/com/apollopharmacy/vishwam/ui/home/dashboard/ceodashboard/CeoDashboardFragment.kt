@@ -17,6 +17,7 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.databinding.FragmentCeoDashboardBinding
 import com.apollopharmacy.vishwam.ui.home.dashboard.adapter.DashboardAdapter
+import com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard.ceodashboardcalenderdialog.CeoDashboardCalenderDialog
 import com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity.DashboardDetailsActivity
 import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRoleResponse
 import com.apollopharmacy.vishwam.util.Utils
@@ -32,13 +33,18 @@ import java.util.*
 
 
 class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDashboardBinding>(),
-    CeoDashboardCallback {
+    CeoDashboardCallback, CeoDashboardCalenderDialog.DateSelected {
     private var chart: AnyChartView? = null
     var dashboardAdapter: DashboardAdapter? = null
     private val count = listOf(257, 321, 142)
     val data: MutableList<String> = ArrayList()
     private val lists = listOf("Pending", "Approved", "Reject")
     var pieData: List<SliceValue> = ArrayList()
+
+    var fromDate: String = ""
+    var toDate: String = ""
+    var isFromDateSelected: Boolean = false
+
     override val layoutRes: Int
         get() = R.layout.fragment_ceo_dashboard
 
@@ -68,6 +74,11 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         } else if (Preferences.getRoleForCeoDashboard().equals("store_supervisor")) {
             viewBinding.dashboardName.setText("Store Supervisor Dashboard")
         }
+        fromDate = Utils.getConvertedDateFormatddmmmyyyy(Utils.getFirstDateOfCurrentMonth())
+        toDate = Utils.getConvertedDateFormatddmmmyyyy(Utils.getCurrentDateCeoDashboard())
+
+        viewBinding.fromDate.setText(fromDate)
+        viewBinding.toDate.setText(toDate)
 
 //        configChartView()
         viewBinding.greaterThan2.setText("<2")
@@ -80,7 +91,10 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
         showLoading()
         viewModel.getTicketListByCountApi(
-            this, Utils.getFirstDateOfCurrentMonth(), Utils.getCurrentDateCeoDashboard(), Preferences.getValidatedEmpId()//"APL67949"
+            this,
+            Utils.getFirstDateOfCurrentMonth(),
+            Utils.getCurrentDateCeoDashboard(),
+            Preferences.getValidatedEmpId()//"APL67949"
         )
 
 //        viewModel.getTicketListByCountApi(this, "2023-06-05", "2023-06-30", "Srilekha")//EX100011//Preferences.getValidatedEmpId()
@@ -107,6 +121,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         viewBinding.pieChart.data = PieData(dataSet)
         viewBinding.pieChart.isDrawHoleEnabled = false
         viewBinding.pieChart.description = Description().apply { text = "" }
+        viewBinding.pieChart.notifyDataSetChanged()
         viewBinding.pieChart.invalidate()
         viewBinding.pieChart.animateY(1400, Easing.EaseInOutQuad);
         viewBinding.pieChart.legend.isEnabled = false
@@ -114,6 +129,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     }
 
     private fun creatChartLabels(colors: List<Int>, chartData: ArrayList<PieEntry>) {
+        viewBinding.chartLabels.removeAllViews()
         for (i in chartData.indices) {
             val view =
                 com.apollopharmacy.vishwam.databinding.LegendLayoutBinding.inflate(layoutInflater)
@@ -195,6 +211,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         if (!role.equals("store_executive")) {
             val intent = Intent(ViswamApp.context, DashboardDetailsActivity::class.java)
             intent.putExtra("SELECTED_ITEM", row)
+            intent.putExtra("FROM_DATE", viewBinding.fromDate.text.toString())
+            intent.putExtra("TO_DATE", viewBinding.toDate.text.toString())
             startActivity(intent)
         }
     }
@@ -219,7 +237,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     var ticketCountsByStatsuRoleResponses: TicketCountsByStatusRoleResponse? = null
     override fun onSuccessgetTicketListByCountApi(ticketCountsByStatsuRoleResponse: TicketCountsByStatusRoleResponse) {
-
+//        resetChart()
         ticketCountsByStatsuRoleResponses = ticketCountsByStatsuRoleResponse
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.name }
@@ -229,6 +247,11 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             viewBinding.dashboardCeoRecyclerview.layoutManager = layoutManager
             viewBinding.dashboardCeoRecyclerview.adapter = dashboardAdapter
+
+            viewBinding.recyclerView.visibility = View.VISIBLE
+            viewBinding.noListFound.visibility = View.GONE
+
+
             var sumOfClosed = 0f
             var sumOfLessThan2 = 0f
             var sumOfthreeToEight = 0f
@@ -268,6 +291,13 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         }
 
         hideLoading()
+    }
+
+    private fun resetChart() {
+        viewBinding.pieChart.data?.clearValues()
+        viewBinding.pieChart.clear()
+        viewBinding.pieChart.invalidate()
+        viewBinding.pieChart.notifyDataSetChanged()
     }
 
     override fun onFailuregetTicketListByCountApi(value: TicketCountsByStatusRoleResponse) {
@@ -515,5 +545,66 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             viewBinding.pendingUpArrow.visibility = View.GONE
         }
         dashboardAdapter!!.notifyDataSetChanged()
+    }
+
+    override fun onClickFromDate() {
+        isFromDateSelected = true
+        openDateDialog()
+    }
+
+    override fun onClickToDate() {
+        isFromDateSelected = false
+        openDateDialog()
+    }
+
+    fun openDateDialog() {
+        if (isFromDateSelected) {
+            CeoDashboardCalenderDialog().apply {
+                arguments = generateParsedData(
+                    viewBinding.fromDate.text.toString(),
+                    false,
+                    viewBinding.fromDate.text.toString(),
+                    viewBinding.toDate.text.toString()
+                )
+            }.show(childFragmentManager, "")
+        } else {
+            CeoDashboardCalenderDialog().apply {
+                arguments = generateParsedData(
+                    viewBinding.toDate.text.toString(),
+                    true,
+                    viewBinding.fromDate.text.toString(),
+                    viewBinding.toDate.text.toString()
+                )
+            }.show(childFragmentManager, "")
+        }
+    }
+
+    override fun onClickApplyDate() {
+
+    }
+
+    override fun selectedDateTo(dateSelected: String, showingDate: String) {
+        if (isFromDateSelected) {
+            isFromDateSelected = false
+            viewBinding.fromDate.setText(showingDate)
+            val fromDate = viewBinding.fromDate.text.toString()
+            val toDate = viewBinding.toDate.text.toString()
+            if (Utils.getDateDifference(fromDate, toDate) == 0) {
+                viewBinding.toDate.setText(Utils.getCurrentDate())
+            }
+        } else {
+            viewBinding.toDate.setText(showingDate)
+        }
+        showLoading()
+        viewModel.getTicketListByCountApi(
+            this,
+            Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
+            Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
+            Preferences.getValidatedEmpId()//"APL67949"
+        )
+    }
+
+    override fun selectedDatefrom(dateSelected: String, showingDate: String) {
+
     }
 }

@@ -211,6 +211,7 @@ object Preferences {
 
     private const val KEY_APNA_SITEID = "KEY_APNA_SITEID"
     private const val KEY_CHAMPS_SITENAME = "KEY_CHAMPS_SITENAME"
+    private const val KEY_CHAMPS_SITEID = "KEY_CHAMPS_SITEID"
     private const val KEY_APNA_SITENAME = "KEY_APNA_SITENAME"
 
     private const val KEY_SWACHH_SITENAME = "KEY_SWACHH_SITENAME"
@@ -252,14 +253,17 @@ object Preferences {
     fun getSiteId(): String {
         return sharedPreferences.getString(KEY_SITE_ID, "")!!
     }
+
     fun setQrSiteIdListFetched(isSiteIdListFetched: Boolean) {
         sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED, isSiteIdListFetched).apply()
     }
 
     fun setSiteIdListFetchedQrRetro(isSiteIdListFetchedQcfail: Boolean) {
-        sharedPreferences.edit().putBoolean(PREF_KEY_SITE_ID_LIST_QR_RETRO, isSiteIdListFetchedQcfail)
+        sharedPreferences.edit()
+            .putBoolean(PREF_KEY_SITE_ID_LIST_QR_RETRO, isSiteIdListFetchedQcfail)
             .apply()
     }
+
     fun setQrSiteIdList(siteIdListQcFail: String) {
         sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_CHAMPS, siteIdListQcFail).apply()
     }
@@ -275,6 +279,7 @@ object Preferences {
     fun getQrSiteIdListJson(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_CHAMPS, "")!!
     }
+
     fun isSiteIdListFetchedQrRetro(): Boolean {
         return sharedPreferences.getBoolean(PREF_KEY_SITE_ID_LIST_QR_RETRO, false)
     }
@@ -512,6 +517,7 @@ object Preferences {
     fun getSiteIdListJsonQcFail(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_QCFAIL, "")!!
     }
+
     fun setQrSiteName(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_SWACHH_SITENAME, swachhSiteId).apply()
     }
@@ -519,6 +525,7 @@ object Preferences {
     fun getQrSiteName(): String {
         return sharedPreferences.getString(KEY_SWACHH_SITENAME, "")!!
     }
+
     fun setSiteIdListChamps(siteIdListQcFail: String) {
         sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_CHAMPS, siteIdListQcFail).apply()
     }
@@ -636,6 +643,8 @@ object Preferences {
         return sharedPreferences.getString(KEY_CHAMPS_SITENAME, "")!!
     }
 
+
+//KEY_CHAMPS_SITEID
     fun setSwachSiteName(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_SWACHH_SITENAME, swachhSiteId).apply()
     }

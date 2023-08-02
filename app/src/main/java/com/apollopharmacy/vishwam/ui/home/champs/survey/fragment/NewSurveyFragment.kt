@@ -53,7 +53,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
             startActivityForResult(i, 781)
         } else {
 
-            viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
+            viewBinding.enterStoreEdittext.setText("${Preferences.getApnaSiteId()} - ${Preferences.getApnaSiteName()}")
 
 
 //
@@ -87,7 +87,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                 showLoading()
                 viewModel.getStoreWiseDetailsChampsApi(
                     this,
-                    viewBinding.enterStoreEdittext.text.toString()
+                    Preferences.getApnaSiteId()
                 )
             } else {
                 Toast.makeText(
@@ -160,17 +160,19 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     @SuppressLint("SuspiciousIndentation")
     override fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>) {
-        if (value != null ) {
+        if (value != null) {
             for (i in value.indices) {
-                if (value.get(i).site.equals(viewBinding.enterStoreEdittext.text.toString())) {
+                if (value.get(i).site.equals(Preferences.getApnaSiteId())) {//viewBinding.enterStoreEdittext.text.toString()
                     storeId = value.get(i).site
                     siteName = value.get(i).storeName
                     Preferences.setChampsSiteName(siteName!!)
                     siteCity = value.get(i).city
-                    region =    value.get(i).state!!.name
+                    region = value.get(i).state!!.name
                     address = value.get(i).address
-                    viewBinding.storeId.text = value.get(i).site
-                    viewBinding.region.text = value.get(i).city +  ", "+  value.get(i).state!!.name + ", " + value.get(i).district!!.name
+                    viewBinding.storeId.text =
+                        "${value.get(i).site} - ${Preferences.getApnaSiteName()}"
+                    viewBinding.region.text =
+                        value.get(i).city + ", " + value.get(i).state!!.name + ", " + value.get(i).district!!.name
                 }
             }
 
@@ -182,7 +184,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
             showLoading()
             viewModel.getStoreWiseDetailsChampsApi(
                 this,
-                Preferences.getValidatedEmpId()
+                Preferences.getApnaSiteId()
             )
         } else {
             Toast.makeText(
@@ -229,7 +231,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
         getSiteDetails = getStoreWiseDetailsResponses
-        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success  && getStoreWiseDetailsResponses.data.executive != null) {
+        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success && getStoreWiseDetailsResponses.data.executive != null) {
             viewBinding.emailId.setText(getStoreWiseDetailsResponses.data.executive.email)
         } else {
             viewBinding.emailId.setText("--")
@@ -312,12 +314,13 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                     }
                 }
             }
-            viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
+
+
+            viewBinding.enterStoreEdittext.setText("${Preferences.getApnaSiteId()} - ${Preferences.getApnaSiteName()}")
             if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                 showLoading()
                 viewModel.getStoreWiseDetailsChampsApi(
-                    this,
-                    viewBinding.enterStoreEdittext.text.toString()
+                    this, Preferences.getApnaSiteId()
                 )
             } else {
                 Toast.makeText(
