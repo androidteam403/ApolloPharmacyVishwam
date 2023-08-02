@@ -18,7 +18,7 @@ import java.util.Locale
 class CeoDashboardCalenderDialog : DialogFragment() {
 
     interface DateSelected {
-        fun selectedDateTo(dateSelected: String, showingDate: String)
+        fun selectedDateTo(dateSelected: String, showingDate: String, toDateFormatted: String)
         fun selectedDatefrom(dateSelected: String, showingDate: String)
 
     }
@@ -30,7 +30,7 @@ class CeoDashboardCalenderDialog : DialogFragment() {
         const val KEY_DATA = "data"
         const val KEY_FROM_DATE = "from_date"
         const val KEY_IS_TO = "is_to_date"
-        const val KEY_TO_DATE = "is_to_date"
+        const val KEY_TO_DATE = "to_date"
     }
 
     fun generateParsedData(
@@ -117,8 +117,10 @@ class CeoDashboardCalenderDialog : DialogFragment() {
             val toCal = Calendar.getInstance()
             val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             toCal.time = sdf.parse(toDate)
-            dataPickerBinding.datePicker.maxDate = (toCal.timeInMillis)
+            dataPickerBinding.datePicker.maxDate = (toCal.timeInMillis)//- 1000*60*60*24*30
 
+
+//            dataPickerBinding.datePicker.minDate = (toCal.timeInMillis - 2592000000)
 
 //            dataPickerBinding.datePicker.maxDate = (c.timeInMillis)
 
@@ -135,9 +137,27 @@ class CeoDashboardCalenderDialog : DialogFragment() {
             val monthFormat = SimpleDateFormat("MMM", Locale.ENGLISH)
             val getDate =
                 "${checkVal.format(_date)}-${monthFormat.format(c.time)}-${_year}"
-            dateSelectedListner!!.selectedDateTo(getDate, getDate)
+
+
+            val toDateTemp = Calendar.getInstance()
+            val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+            toDateTemp.time = sdf.parse(getDate)
+            var toDateTimeMills = toDateTemp.timeInMillis + 2592000000
+
+            var toDateFormatted = getToDateFormatted(toDateTimeMills, "dd-MMM-yyyy")
+            dateSelectedListner!!.selectedDateTo(getDate, getDate, toDateFormatted!!)
             dismiss()
         }
         return dataPickerBinding.root
+    }
+
+    fun getToDateFormatted(milliSeconds: Long, dateFormat: String?): String? {
+        // Create a DateFormatter object for displaying date in specified format.
+        val formatter = SimpleDateFormat(dateFormat)
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = milliSeconds
+        return formatter.format(calendar.time)
     }
 }

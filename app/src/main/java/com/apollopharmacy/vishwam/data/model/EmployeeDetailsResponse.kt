@@ -47,6 +47,20 @@ class EmployeeDetailsResponse : Serializable {
         @Expose
         var newDrugRequest: NewDrugRequest? = null
 
+        @SerializedName("enable_marketing_dashboard")
+        @Expose
+        var enableMarketingDashboard: EnableMarketingDashboard? = null
+
+
+        /* "enable_marketing_dashboard": {
+             "uid": "No",
+             "name": "No",
+             "other": {
+                 "color": null
+             },
+             "icon": null
+         }*/
+
         @SerializedName("email")
         @Expose
         var email: String? = null
@@ -218,6 +232,33 @@ class EmployeeDetailsResponse : Serializable {
 
 
             }
+        }
+
+
+        class EnableMarketingDashboard {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+
+            @SerializedName("other")
+            @Expose
+            var other: Other? = null
+
+            @SerializedName("icon")
+            @Expose
+            var icon: String? = null
+
+        }
+
+        class Other {
+            @SerializedName("color")
+            @Expose
+            var color: String? = null
+
         }
 
         class SwacchDefaultSite : Serializable {

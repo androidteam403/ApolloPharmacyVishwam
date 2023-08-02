@@ -241,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private RelativeLayout riderNotificationLayout;
     private ImageView notifyImage;
     private static TextView notificationTextCustom;
+    private String ceoDashboardAccessFromEmployee = "";
 
 
     public static Intent getStartIntent(Context context) {
@@ -413,6 +414,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             empDetailsResponses = gson.fromJson(empDetailsResponseJson, EmployeeDetailsResponse.class);
         } catch (JsonParseException e) {
             e.printStackTrace();
+        }
+
+        if (empDetailsResponses != null
+                && empDetailsResponses.getData() != null
+                && empDetailsResponses.getData().getEnableMarketingDashboard() != null
+                && empDetailsResponses.getData().getEnableMarketingDashboard().getUid() != null) {
+            ceoDashboardAccessFromEmployee = empDetailsResponses.getData().getEnableMarketingDashboard().getUid();
         }
 
         if (empDetailsResponses != null && empDetailsResponses.getData() != null && empDetailsResponses.getData().getRole() != null && empDetailsResponses.getData().getRole().getCode().equals("store_supervisor"))
@@ -1432,13 +1440,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "DashboardCeo":
                 if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")) {
-                    headerText.setText("Ceo Dashboard");
+//                    headerText.setText("Ceo Dashboard");
+                    headerText.setText("Dashboard");
                 } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("region_head")) {
-                    headerText.setText("Region Head Dashboard");
+//                    headerText.setText("Region Head Dashboard");
+                    headerText.setText("Dashboard");
                 } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_manager")) {
-                    headerText.setText("Manager Dashboard");
+//                    headerText.setText("Manager Dashboard");
+                    headerText.setText("Dashboard");
                 } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_executive")) {
-                    headerText.setText("Executive Dashboard");
+//                    headerText.setText("Executive Dashboard");
+                    headerText.setText("Dashboard");
+                }else {
+//                    headerText.setText("Ceo Dashboard");
+                    headerText.setText("Dashboard");
                 }
 
 
@@ -1897,7 +1912,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo") || Preferences.INSTANCE.getRoleForCeoDashboard().equals("region_head") || Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_manager") || Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_executive")) {
+        if (ceoDashboardAccessFromEmployee.equalsIgnoreCase("Yes")) {
+          /*  if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo") || Preferences.INSTANCE.getRoleForCeoDashboard().equals("region_head") || Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_manager") || Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_executive")) {
+                listView.addHeaderModel(new HeaderModel("Monitoring", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard)));
+            }*/
             listView.addHeaderModel(new HeaderModel("Monitoring", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard)));
         }
 
