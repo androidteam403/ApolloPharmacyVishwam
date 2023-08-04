@@ -9,7 +9,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.hardware.Camera
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -49,6 +48,10 @@ import me.echodev.resizer.Resizer
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.opencv.android.OpenCVLoader
+import org.opencv.android.Utils
+import org.opencv.core.Core
+import org.opencv.core.Mat
+import org.opencv.imgproc.Imgproc
 import java.io.File
 import java.lang.Math.abs
 import java.time.LocalDate
@@ -340,18 +343,15 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
                     val bitmap1 = BitmapFactory.decodeStream(inputStream)
                     val bitmap2 = BitmapFactory.decodeFile(file.absolutePath)
-                    val newWidth = 640 // Desired width for the new Bitmap
+                    val newWidth = 1920 // Desired width for the new Bitmap
 
-                    val newHeight = 480 // Desired height for the new Bitmap
+                    val newHeight = 1200 // Desired height for the new Bitmap
 
                     val resizedBitmap1 = resizeBitmap(bitmap1, newWidth, newHeight)
                     val resizedBitmap2 = resizeBitmap(bitmap2, newWidth, newHeight)
                     val threshold = 21
 
-                    val matchingPercentage: Double = calculateSimilarityPercentage(
-                        bitmap1!!,
-                        bitmap2!!,threshold
-                    )
+                    val matchingPercentage: Double = calculateMatchingPercentage(resizedBitmap1!!, resizedBitmap2!!)
 
                     reviewImagesList.get(position).matchingPercentage =
                         matchingPercentage.toInt().toString()
@@ -587,23 +587,23 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
     fun calculateColorDifference(color1: Int, color2: Int, thresholdAlpha: Int): Int {
         // Calculate the color difference between two pixels
-        val alpha1 = android.graphics.Color.alpha(color1)
-        val r1 = android.graphics.Color.red(color1)
-        val g1 = android.graphics.Color.green(color1)
-        val b1 = android.graphics.Color.blue(color1)
+        val alpha1 = Color.alpha(color1)
+        val r1 = Color.red(color1)
+        val g1 = Color.green(color1)
+        val b1 = Color.blue(color1)
 
-        val alpha2 = android.graphics.Color.alpha(color2)
-        val r2 = android.graphics.Color.red(color2)
-        val g2 = android.graphics.Color.green(color2)
-        val b2 = android.graphics.Color.blue(color2)
+        val alpha2 = Color.alpha(color2)
+        val r2 = Color.red(color2)
+        val g2 = Color.green(color2)
+        val b2 = Color.blue(color2)
 
         val alphaDifference = if (alpha1 > thresholdAlpha || alpha2 > thresholdAlpha) {
-            Math.abs(alpha1 - alpha2)
+            abs(alpha1 - alpha2)
         } else {
             0 // Ignore transparency if both colors are fully transparent
         }
 
-        return alphaDifference + Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2)
+        return alphaDifference + abs(r1 - r2) + abs(g1 - g2) + abs(b1 - b2)
     }
 
     fun calculateSimilarityPercentage(bitmap1: Bitmap, bitmap2: Bitmap, threshold: Int): Double {
@@ -631,6 +631,26 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
 
+    private fun calculateMatchingPercentage(bitmap1: Bitmap?, bitmap2: Bitmap?): Double {
+        val firstImage = Mat()
+        val secondImage = Mat()
+        // Convert bitmap to Mat object
+        Utils.bitmapToMat(bitmap1, firstImage)
+        Utils.bitmapToMat(bitmap2, secondImage)
+        // Convert images to grayscale
+        Imgproc.cvtColor(firstImage, firstImage, Imgproc.COLOR_BGR2GRAY)
+        Imgproc.cvtColor(secondImage, secondImage, Imgproc.COLOR_BGR2GRAY)
+        // Calculate matching percentage
+        val result = Mat()
+        Imgproc.matchTemplate(firstImage, secondImage, result, Imgproc.TM_CCOEFF_NORMED)
+        val minMaxLoc = Core.minMaxLoc(result)
+        val maxVal = minMaxLoc.maxVal
+        var matchingPercentage: Double = maxVal * 100
+        if (matchingPercentage < 0) {
+            matchingPercentage = 0.0
+        }
+        return matchingPercentage
+    }
 
 
     private fun checkPermission(): Boolean {
