@@ -12,6 +12,7 @@ import com.apollopharmacy.vishwam.databinding.AdapterGetsurveyDetailsBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListCallback
 import com.apollopharmacy.vishwam.ui.home.model.GetSurveyDetailsModelResponse
 import java.text.SimpleDateFormat
+import java.util.*
 
 class GetSurveyDetailsAdapter(
     private var getSurvetDetailsModelResponse: List<GetSurveyDetailsModelResponse.StoreDetail>,
@@ -40,10 +41,10 @@ class GetSurveyDetailsAdapter(
         holder.adapterGetSurveyDetailsBinding.siteName.text=surveyList.sitename + "," + " " + surveyList.city
 
         val strDate = surveyList.visitDate
-        val dateFormat = SimpleDateFormat("dd-MM-yy hh:mm:ss");
+        val dateFormat = SimpleDateFormat("dd-MM-yy kk:mm:ss");
         val date = dateFormat.parse(strDate)
         val dateNewFormat =
-            SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+            SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.getDefault()).format(date)
         if(surveyList.status.equals("PENDING")){
             holder.adapterGetSurveyDetailsBinding.status.setTextColor(context.getColor(R.color.pending_reshoot_color))
             holder.adapterGetSurveyDetailsBinding.statusLayout.setBackgroundColor((context.getColor(R.color.light_pink_for_reshoot_pending))
