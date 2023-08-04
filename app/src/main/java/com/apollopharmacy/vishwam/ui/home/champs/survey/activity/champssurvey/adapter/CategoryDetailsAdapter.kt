@@ -95,7 +95,10 @@ class CategoryDetailsAdapter(
 
         }
         holder.adapterCategoryDetailsBinding.categoryLayout.setOnClickListener {
-            champsSurveyCallBack.onClickCategory(categoryDetailss.categoryName!!, position)
+            if(categoryDetails!!.get(position)!!.subCategoryDetails!!.size>0){
+                champsSurveyCallBack.onClickCategory(categoryDetailss.categoryName!!, position)
+            }
+
         }
 
     }

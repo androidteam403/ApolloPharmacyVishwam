@@ -168,9 +168,26 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                     Preferences.setChampsSiteName(siteName!!)
                     siteCity = value.get(i).city
                     region =    value.get(i).state!!.name
+                    if(value.get(i).address!=null)
                     address = value.get(i).address
                     viewBinding.storeId.text = value.get(i).site
                     viewBinding.region.text = value.get(i).city +  ", "+  value.get(i).state!!.name + ", " + value.get(i).district!!.name
+
+                    if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+                        showLoading()
+                        viewModel.getStoreWiseDetailsChampsApi(
+                            this,
+                            viewBinding.enterStoreEdittext.text.toString()
+                        )
+                    }
+                    else {
+                        Toast.makeText(
+                            activity,
+                            resources.getString(R.string.label_network_error),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
                 }
             }
 
@@ -229,8 +246,13 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
         getSiteDetails = getStoreWiseDetailsResponses
-        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success  && getStoreWiseDetailsResponses.data.executive != null) {
-            viewBinding.emailId.setText(getStoreWiseDetailsResponses.data.executive.email)
+        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success  && getStoreWiseDetailsResponses.data.executive!= null ) {
+            if(getStoreWiseDetailsResponses.data.executive.email!=null){
+                viewBinding.emailId.setText(getStoreWiseDetailsResponses.data.executive.email)
+            }else{
+                viewBinding.emailId.setText("--")
+            }
+
         } else {
             viewBinding.emailId.setText("--")
             Preferences.setApnaSite("")
@@ -296,13 +318,16 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                     MainActivity.mInstance.onBackPressed()
 //                    hideLoadingTemp()
                     hideLoading()
-                } else {
+                }
+                else {
+                    viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                         showLoading()
                         viewModel.getStoreDetailsChampsApi(
                             this
                         )
-                    } else {
+                    }
+                    else {
                         Toast.makeText(
                             activity,
                             resources.getString(R.string.label_network_error),
@@ -310,23 +335,11 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                         )
                             .show()
                     }
+
+
                 }
             }
-            viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
-            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                showLoading()
-                viewModel.getStoreWiseDetailsChampsApi(
-                    this,
-                    viewBinding.enterStoreEdittext.text.toString()
-                )
-            } else {
-                Toast.makeText(
-                    activity,
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
+
 //            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
 //                showLoading()
 //                viewModel.getStoreDetailsChamps(this)
