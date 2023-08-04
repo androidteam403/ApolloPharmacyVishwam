@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.ActivityChampsSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity
@@ -33,6 +34,8 @@ import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -72,7 +75,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     private var softSkillsFilled = false
     private var otherTrainingFilled = false
     private var issuesToBeResolved = false
-    private var siteNameForAddress:String?=null
+    private var siteNameForAddress: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,7 +103,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
     private fun setUp() {
         activityChampsSurveyBinding.callback = this
-        siteNameForAddress =intent.getStringExtra("siteNameForAddress")
+        siteNameForAddress = intent.getStringExtra("siteNameForAddress")
         getStoreWiseEmpIdResponse =
             intent.getSerializableExtra("getStoreWiseEmpIdResponse") as GetStoreWiseEmpIdResponse?
         getStoreWiseDetails =
@@ -137,7 +140,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
             activityChampsSurveyBinding.storeId.text = storeId
 
-            activityChampsSurveyBinding.address.text = storeId + ", " + Preferences.getChampsSiteName()
+            activityChampsSurveyBinding.address.text =
+                storeId + ", " + Preferences.getChampsSiteName()
             activityChampsSurveyBinding.storeCity.text = storeCity
             activityChampsSurveyBinding.region.text = region
             activityChampsSurveyBinding.percentageSum.text = "0"
@@ -201,10 +205,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             )
                 .show()
         }
-
-
-
-
 
 
 //        if (NetworkUtil.isNetworkConnected(this)) {
@@ -446,17 +446,21 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     override fun onClickSubmit() {
 //     ChampsSurveyDialog().show(supportFragmentManager, "")
         if (technicalFilled && softSkillsFilled && otherTrainingFilled) {
-            var isAllCategoriesSubmitted=true
-            for(i in getCategoryAndSubCategoryDetails!!.categoryDetails!!){
-                if(!i.clickedSubmit!!){
-                    isAllCategoriesSubmitted=false
+            var isAllCategoriesSubmitted = true
+            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                if (!i.clickedSubmit!!) {
+                    isAllCategoriesSubmitted = false
                     break
                 }
             }
-            if(isAllCategoriesSubmitted){
+            if (isAllCategoriesSubmitted) {
                 saveApiRequest("submit")
-            }else{
-                Toast.makeText(applicationContext, "Please fill all the attending points", Toast.LENGTH_SHORT)
+            } else {
+                Toast.makeText(
+                    applicationContext,
+                    "Please fill all the attending points",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
 
@@ -503,7 +507,24 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 headerDetails.dateOfVisit = dateNewFormat
             }
 
-            if (getStoreWiseEmpIdResponse != null &&
+
+            var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+            var employeeDetailsResponse: EmployeeDetailsResponse? = null
+            try {
+                val gson = GsonBuilder().setPrettyPrinting().create()
+                employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                    empDetailsResponse, EmployeeDetailsResponse::class.java
+                )
+
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
+            if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
+                headerDetails.emailIdOfTrainer = employeeDetailsResponse.data!!.email!!
+            } else {
+                headerDetails.emailIdOfTrainer = ""
+            }
+            /*if (getStoreWiseEmpIdResponse != null &&
                 getStoreWiseEmpIdResponse?.storeWiseDetails != null &&
                 getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail != null
             ) {
@@ -511,7 +532,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                     getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail
             } else {
                 headerDetails.emailIdOfTrainer = ""
-            }
+            }*/
             if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null &&
                 getStoreWiseDetails!!.data.executive != null
             ) {
@@ -1258,13 +1279,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 activityChampsSurveyBinding.warningLayout.visibility = View.VISIBLE
                 activityChampsSurveyBinding.saveSaveDraft.visibility = View.VISIBLE
                 activityChampsSurveyBinding.preview.visibility = View.VISIBLE
-                if(activityChampsSurveyBinding.enterTextTechnicalEdittext.text.toString()!=""){
+                if (activityChampsSurveyBinding.enterTextTechnicalEdittext.text.toString() != "") {
                     activityChampsSurveyBinding.technicalCheckbox.isChecked = true
                 }
-                if(activityChampsSurveyBinding.enterSoftSkillsEdittext.text.toString()!=""){
+                if (activityChampsSurveyBinding.enterSoftSkillsEdittext.text.toString() != "") {
                     activityChampsSurveyBinding.softskillsCheckbox.isChecked = true
                 }
-                if(activityChampsSurveyBinding.enterOtherTrainingEdittext.text.toString()!=""){
+                if (activityChampsSurveyBinding.enterOtherTrainingEdittext.text.toString() != "") {
                     activityChampsSurveyBinding.otherTrainingCheckbox.isChecked = true
                 }
             } else {
@@ -1403,9 +1424,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 //                activityChampsSurveyBinding.progressBarTotal.background =
 //                    applicationContext.getDrawable(R.drawable.progress_bar_red)
 //                   getResources().getDrawable(R.drawable.progress_bar_red)
-            if(sumOfCategories==0.0f){
+            if (sumOfCategories == 0.0f) {
                 activityChampsSurveyBinding.percentageSum.text = "0"
-            }else{
+            } else {
                 activityChampsSurveyBinding.percentageSum.text = sumOfCategories.toString()
             }
 
@@ -1472,7 +1493,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 resources.getDrawable(R.drawable.bordered_seekbar_progress_style_red)
             percentageSum.text = overAllprogressBarCount.toString()
         }
-        if(overAllprogressBarCount==0.0f){
+        if (overAllprogressBarCount == 0.0f) {
             percentageSum.text = "0"
         }
         val currentTime: Date = Calendar.getInstance().getTime()
@@ -1544,7 +1565,24 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 saveUpdateRequest.email = ""
             }
 
-            if (getStoreWiseEmpIdResponse != null &&
+            var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+            var employeeDetailsResponse: EmployeeDetailsResponse? = null
+            try {
+                val gson = GsonBuilder().setPrettyPrinting().create()
+                employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                    empDetailsResponse, EmployeeDetailsResponse::class.java
+                )
+
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
+            if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
+                saveUpdateRequest.trainerEmail = employeeDetailsResponse.data!!.email!!
+            } else {
+                saveUpdateRequest.trainerEmail = ""
+            }
+
+            /*if (getStoreWiseEmpIdResponse != null &&
                 getStoreWiseEmpIdResponse?.storeWiseDetails != null &&
                 getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail != null
             ) {
@@ -1552,7 +1590,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                     getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail
             } else {
                 saveUpdateRequest.trainerEmail = ""
-            }
+            }*/
 
 
             saveUpdateRequest.trainerId = Preferences.getValidatedEmpId()
@@ -1608,7 +1646,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                             var cmsChampsSurveQa = CmsChampsSurveyQa()
                             cmsChampsSurveQa.categoryName = i.categoryName
                             cmsChampsSurveQa.question = "Upload Images"
-                            cmsChampsSurveQa.answerType = "Images"
+                            cmsChampsSurveQa.answerType = "Image"
                             for (k in i.imageDataLists!!) {
                                 if (k.imageUrl != null && !k.imageUrl!!.isEmpty()) {
                                     image.url = k.imageUrl
@@ -1628,9 +1666,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             saveUpdateRequest.cmsChampsSurveyQa = cmsChampsSurveQaList
 
 
-            if (champsRefernceId != null){
+            if (champsRefernceId != null) {
                 saveUpdateRequest.champsId = champsRefernceId
-            }else{
+            } else {
                 saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
             }
             champsSurveyViewModel.saveUpdateApi(this, saveUpdateRequest)
@@ -1716,22 +1754,23 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             activityChampsSurveyBinding.softskillsTextView.setText(getSurveyDetailsByChapmpsId!!.headerDetails.softSkills)
             activityChampsSurveyBinding.othertrainingTextview.setText(getSurveyDetailsByChapmpsId!!.headerDetails.otherTraining)
 
-            if(!getSurveyDetailsByChapmpsId!!.headerDetails.techinalDetails.isNullOrEmpty()){
+            if (!getSurveyDetailsByChapmpsId!!.headerDetails.techinalDetails.isNullOrEmpty()) {
                 activityChampsSurveyBinding.technicalCheckbox.isChecked = true
-            }else{
+            } else {
                 activityChampsSurveyBinding.technicalCheckbox.isChecked = false
             }
-            if(!getSurveyDetailsByChapmpsId!!.headerDetails.softSkills.isNullOrEmpty()){
+            if (!getSurveyDetailsByChapmpsId!!.headerDetails.softSkills.isNullOrEmpty()) {
                 activityChampsSurveyBinding.softskillsCheckbox.isChecked = true
-            }else{
+            } else {
                 activityChampsSurveyBinding.softskillsCheckbox.isChecked = false
             }
-            if(!getSurveyDetailsByChapmpsId!!.headerDetails.otherTraining.isNullOrEmpty()){
+            if (!getSurveyDetailsByChapmpsId!!.headerDetails.otherTraining.isNullOrEmpty()) {
                 activityChampsSurveyBinding.otherTrainingCheckbox.isChecked = true
-            }else{
+            } else {
                 activityChampsSurveyBinding.otherTrainingCheckbox.isChecked = false
             }
-            activityChampsSurveyBinding.region.text=getSurveyDetailsByChapmpsId.headerDetails.state
+            activityChampsSurveyBinding.region.text =
+                getSurveyDetailsByChapmpsId.headerDetails.state
 //            activityChampsSurveyBinding.siteId.text =
 //                getSurveyDetailsByChapmpsId.headerDetails.storeId
             val currentTime: Date = Calendar.getInstance().getTime()
@@ -1746,26 +1785,29 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             activityChampsSurveyBinding.issuedOn.text = dateNewFormat
 
             activityChampsSurveyBinding.issuedOn.text = dateNewFormat
-            if(!getSurveyDetailsByChapmpsId.headerDetails.state.isNullOrEmpty()){
-                activityChampsSurveyBinding.region.text = getSurveyDetailsByChapmpsId.headerDetails.state
-            }else{
-                activityChampsSurveyBinding.region.text="--"
+            if (!getSurveyDetailsByChapmpsId.headerDetails.state.isNullOrEmpty()) {
+                activityChampsSurveyBinding.region.text =
+                    getSurveyDetailsByChapmpsId.headerDetails.state
+            } else {
+                activityChampsSurveyBinding.region.text = "--"
             }
 
-            if(!getSurveyDetailsByChapmpsId.headerDetails.city.isNullOrEmpty()){
-                activityChampsSurveyBinding.storeCity.text = getSurveyDetailsByChapmpsId.headerDetails.city
-            }else{
-                activityChampsSurveyBinding.storeCity.text="--"
+            if (!getSurveyDetailsByChapmpsId.headerDetails.city.isNullOrEmpty()) {
+                activityChampsSurveyBinding.storeCity.text =
+                    getSurveyDetailsByChapmpsId.headerDetails.city
+            } else {
+                activityChampsSurveyBinding.storeCity.text = "--"
             }
-            if(!siteNameForAddress.isNullOrEmpty()){
+            if (!siteNameForAddress.isNullOrEmpty()) {
                 activityChampsSurveyBinding.address.text = siteNameForAddress
-            }else{
-                activityChampsSurveyBinding.address.text="--"
+            } else {
+                activityChampsSurveyBinding.address.text = "--"
             }
 
             activityChampsSurveyBinding.storeName.text =
                 siteName
-            activityChampsSurveyBinding.storeId.text=getSurveyDetailsByChapmpsId.headerDetails.storeId
+            activityChampsSurveyBinding.storeId.text =
+                getSurveyDetailsByChapmpsId.headerDetails.storeId
             activityChampsSurveyBinding.enterTextTechnicalEdittext.setText(
                 getSurveyDetailsByChapmpsId.headerDetails.techinalDetails.toString()
             )
@@ -1961,8 +2003,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
                     }
                 }
-                if (getSurveyDetailsByChapmpsId.categoryDetails.stockArrangementRefrigerator!= null
-                    && getSurveyDetailsByChapmpsId.categoryDetails.stockArrangementRefrigerator!= "null"
+                if (getSurveyDetailsByChapmpsId.categoryDetails.stockArrangementRefrigerator != null
+                    && getSurveyDetailsByChapmpsId.categoryDetails.stockArrangementRefrigerator != "null"
                 ) {
                     getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.sumOfSubCategoryRating =
                         (getSurveyDetailsByChapmpsId.categoryDetails.stockArrangementRefrigerator).toFloat() +
@@ -2199,8 +2241,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 //            Utlis.showLoading(this)
             champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "TECH");
 
-        }
-        else {
+        } else {
             Toast.makeText(
                 context,
                 resources.getString(R.string.label_network_error),
@@ -2258,8 +2299,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 //            Utlis.showLoading(this)
                 champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "TECH");
 
-            }
-            else {
+            } else {
                 Toast.makeText(
                     context,
                     resources.getString(R.string.label_network_error),
@@ -2268,8 +2308,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                     .show()
             }
 //            Utlis.hideLoading()
-        }
-        else {
+        } else {
 //            Utlis.hideLoading()
             if (champsRefernceId != null) {
 //

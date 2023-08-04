@@ -118,7 +118,8 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         region = intent.getStringExtra("region")!!
 
         setTrainerId()
-        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {/* Utlis.showLoading(this)
+        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+        /* Utlis.showLoading(this)
              surveyDetailsViewModel.getStoreWiseDetailsEmpIdChampsApi(
                  this,
                  Preferences.getValidatedEmpId()
