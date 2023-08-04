@@ -483,7 +483,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy kk:mm:ss").format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.getDefault()).format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             } else if (status.equals("PENDING")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
@@ -491,7 +491,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy kk:mm:ss").format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.getDefault()).format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             } else {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
@@ -499,7 +499,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy kk:mm:ss").format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.getDefault()).format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             }
 
