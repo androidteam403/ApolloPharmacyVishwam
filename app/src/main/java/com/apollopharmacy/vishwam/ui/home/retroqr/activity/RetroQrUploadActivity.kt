@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.hardware.Camera
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -49,6 +50,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.opencv.android.OpenCVLoader
 import java.io.File
+import java.lang.Math.abs
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -130,14 +132,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
                 } else {
 
-                    val resizedImage = Resizer(context).setTargetLength(1080).setQuality(100)
-                        .setOutputFormat("JPG")
-//                .setOutputFilename(fileNameForCompressedImage)
-                        .setOutputDirPath(
-                            ViswamApp.Companion.context.cacheDir.toString()
-                        ).setSourceImage(File(imagesList[i].imageurl)).resizedFile
                     var fileUploadModel = RetroQrFileUploadModel()
-                    fileUploadModel.file = resizedImage
+                    fileUploadModel.file = File(imagesList[i].imageurl)
                     fileUploadModel.rackNo = imagesList[i].rackno
                     fileUploadModel.qrCode = imagesList[i].qrcode
                     fileUploadModelList.add(fileUploadModel)
@@ -168,14 +164,9 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
                 } else {
 
-                    val resizedImage = Resizer(context).setTargetLength(1080).setQuality(100)
-                        .setOutputFormat("JPG")
-//                .setOutputFilename(fileNameForCompressedImage)
-                        .setOutputDirPath(
-                            ViswamApp.Companion.context.cacheDir.toString()
-                        ).setSourceImage(File(reviewImagesList[i].reviewimageurl)).resizedFile
+
                     var fileUploadModel = RetroQrFileUploadModel()
-                    fileUploadModel.file = resizedImage
+                    fileUploadModel.file = File(reviewImagesList[i].reviewimageurl)
                     fileUploadModel.rackNo = reviewImagesList[i].rackno
                     fileUploadModel.qrCode = reviewImagesList[i].qrcode
                     fileUploadModelList.add(fileUploadModel)
@@ -349,17 +340,17 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
                     val bitmap1 = BitmapFactory.decodeStream(inputStream)
                     val bitmap2 = BitmapFactory.decodeFile(file.absolutePath)
-                    val newWidth = 768 // Desired width for the new Bitmap
+                    val newWidth = 640 // Desired width for the new Bitmap
 
-                    val newHeight = 1024 // Desired height for the new Bitmap
+                    val newHeight = 480 // Desired height for the new Bitmap
 
                     val resizedBitmap1 = resizeBitmap(bitmap1, newWidth, newHeight)
                     val resizedBitmap2 = resizeBitmap(bitmap2, newWidth, newHeight)
                     val threshold = 21
 
                     val matchingPercentage: Double = calculateSimilarityPercentage(
-                        resizedBitmap1!!,
-                        resizedBitmap2!!,threshold
+                        bitmap1!!,
+                        bitmap2!!,threshold
                     )
 
                     reviewImagesList.get(position).matchingPercentage =
@@ -494,7 +485,12 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         imageFile = File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
+
+
         compressedImageFileName = "${System.currentTimeMillis()}.jpg"
+
+
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile))
         } else {
@@ -513,6 +509,19 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK && imageFile != null) {
             var imageDto = ImageDto(imageFile as File, "")
+
+            val resizedImage = Resizer(this)
+                .setTargetLength(1080)
+                .setQuality(100)
+                .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                .setOutputDirPath(
+                    context.cacheDir.toString()
+                )
+
+                .setSourceImage(imageFile)
+                .resizedFile
+
 //            images.get(position).image= imageFile as File
 
 
@@ -525,11 +534,11 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             }
 
             if (adapterName.equals("upload")) {
-                imagesList[position].imageurl = (imageFile as File).toString()
+                imagesList[position].imageurl = (resizedImage as File).toString()
                 updatedCount++
                 uploadRackAdapter.notifyItemChanged(position)
             } else if (adapterName.equals("review")) {
-                reviewImagesList[position].reviewimageurl = (imageFile as File).toString()
+                reviewImagesList[position].reviewimageurl = (resizedImage as File).toString()
 
 //onClickCompare(
 //                    position,
@@ -574,63 +583,56 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
 
-//    fun calculateMatchingPercentage(
-//        bitmap1: Bitmap,
-//        bitmap2: Bitmap,
-//    ): Double {
-//        val width1 = bitmap1.width
-//        val height1 = bitmap1.height
-//        val width2 = bitmap2.width
-//        val height2 = bitmap2.height
-//        require(!(width1 != width2 || height1 != height2)) { "Bitmaps must have the same dimensions." }
-//        val pixels1 = IntArray(width1 * height1)
-//        val pixels2 = IntArray(width2 * height2)
-//        bitmap1.getPixels(pixels1, 0, width1, 0, 0, width1, height1)
-//        bitmap2.getPixels(pixels2, 0, width2, 0, 0, width2, height2)
-//        var matchingPixels = 0
-//        for (i in pixels1.indices) {
-//            if (pixels1[i] == pixels2[i]) {
-//                matchingPixels++
-//            }
-//        }
-//        return matchingPixels.toDouble() / pixels1.size * 100
-//    }
 
-    private fun calculateSimilarityPercentage(bitmap1: Bitmap, bitmap2: Bitmap, threshold: Int): Double {
+
+    fun calculateColorDifference(color1: Int, color2: Int, thresholdAlpha: Int): Int {
+        // Calculate the color difference between two pixels
+        val alpha1 = android.graphics.Color.alpha(color1)
+        val r1 = android.graphics.Color.red(color1)
+        val g1 = android.graphics.Color.green(color1)
+        val b1 = android.graphics.Color.blue(color1)
+
+        val alpha2 = android.graphics.Color.alpha(color2)
+        val r2 = android.graphics.Color.red(color2)
+        val g2 = android.graphics.Color.green(color2)
+        val b2 = android.graphics.Color.blue(color2)
+
+        val alphaDifference = if (alpha1 > thresholdAlpha || alpha2 > thresholdAlpha) {
+            Math.abs(alpha1 - alpha2)
+        } else {
+            0 // Ignore transparency if both colors are fully transparent
+        }
+
+        return alphaDifference + Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2)
+    }
+
+    fun calculateSimilarityPercentage(bitmap1: Bitmap, bitmap2: Bitmap, threshold: Int): Double {
         // Ensure both bitmaps have the same dimensions
         if (bitmap1.width != bitmap2.width || bitmap1.height != bitmap2.height) {
             return 0.0
         }
 
-        // Calculate the number of matching pixels within the threshold
-        var matchingPixels = 0
+        // Calculate the total color difference
+        var totalColorDifference = 0
         for (x in 0 until bitmap1.width) {
             for (y in 0 until bitmap1.height) {
-                if (calculateColorDifference(bitmap1.getPixel(x, y), bitmap2.getPixel(x, y)) <= threshold) {
-                    matchingPixels++
-                }
+                totalColorDifference += calculateColorDifference(bitmap1.getPixel(x, y), bitmap2.getPixel(x, y), threshold)
             }
         }
 
-        // Calculate similarity percentage
+        // Calculate similarity percentage (average color difference)
         val totalPixels = bitmap1.width * bitmap1.height
-        val similarityPercentage = (matchingPixels.toDouble() / totalPixels) * 100.0
+        val averageColorDifference = totalColorDifference.toDouble() / totalPixels
 
-        return similarityPercentage
+        // Normalize the average color difference to be within the range [0, 1]
+        val normalizedSimilarity = 1.0 - (averageColorDifference / 255.0)
+
+        return normalizedSimilarity * 100.0
     }
 
-    private fun calculateColorDifference(color1: Int, color2: Int): Int {
-        // Calculate the color difference between two pixels
-        val r1 = android.graphics.Color.red(color1)
-        val g1 = android.graphics.Color.green(color1)
-        val b1 = android.graphics.Color.blue(color1)
 
-        val r2 = android.graphics.Color.red(color2)
-        val g2 = android.graphics.Color.green(color2)
-        val b2 = android.graphics.Color.blue(color2)
 
-        return Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2)
-    }
+
     private fun checkPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(

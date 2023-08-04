@@ -428,6 +428,15 @@ object Utlis {
         return datetime
     }
 
+
+    fun formatQcdate(DatefromServer: String): String {
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH)
+        val destFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val convertedDate: Date = sourceFormat.parse(DatefromServer)
+        return destFormat.format(convertedDate)
+    }
+
+
     fun getCurrentTimeStamp(): String {
         val tsLong = System.currentTimeMillis() / 1000
         return tsLong.toString()

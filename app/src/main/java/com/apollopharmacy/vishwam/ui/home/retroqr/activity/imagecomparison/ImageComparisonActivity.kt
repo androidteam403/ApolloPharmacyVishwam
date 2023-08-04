@@ -50,14 +50,6 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
             rackNo = intent.getStringExtra("rackNo")!!
             matchingPercentage = intent.getStringExtra("matchingPercentage")!!
 
-
-
-
-
-
-
-
-
             if (matchingPercentage.toInt() >=0 && matchingPercentage.toInt()<=70) {
                 activityImageComparisonBinding.matchingcolor.setBackgroundDrawable(
                     ContextCompat.getDrawable(
@@ -84,7 +76,7 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
                 try {
                     if (secondImage.isNotEmpty()) {
                         val client = OkHttpClient()
-                        val request = Request.Builder().url(firstImage.toString()).build()
+                        val request = Request.Builder().url(firstImage).build()
                         val response = client.newCall(request).execute()
                         val inputStream = response.body!!.byteStream()
                          bitmap1 = BitmapFactory.decodeStream(inputStream)

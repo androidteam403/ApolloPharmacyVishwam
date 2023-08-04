@@ -126,7 +126,11 @@ class QcItemListResponse : Serializable {
 
         var reason: String? = null
 
+        var isClick: Boolean = false
 
+        fun setisClick(pos: Boolean) {
+            isClick = pos
+        }
         fun withRecid(recid: Int?): Item {
             this.recid = recid
             return this
