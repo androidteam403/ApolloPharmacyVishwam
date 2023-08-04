@@ -135,26 +135,40 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 //                activityStartSurvey2Binding.trainer.text="--"
 //            }
 
-            if (getStoreWiseDetails!!.data != null && getStoreWiseDetails!!.data.regionHead != null && getStoreWiseDetails!!.data.regionHead.email != null) {
+            if (getStoreWiseDetails!!.data != null && getStoreWiseDetails!!.data.regionHead != null) {
+                if (getStoreWiseDetails!!.data.regionHead.email != null) {
+                    activityStartSurvey2Binding.regionalHead.text =
+                        getStoreWiseDetails!!.data.regionHead.email
 
-                activityStartSurvey2Binding.regionalHead.text =
-                    getStoreWiseDetails!!.data.regionHead.email
+                } else {
+                    activityStartSurvey2Binding.regionalHead.text = "--"
+                }
 
             } else {
                 activityStartSurvey2Binding.regionalHead.text = "--"
             }
 
-            if (getStoreWiseDetails!!.data != null && getStoreWiseDetails!!.data.executive != null && !getStoreWiseDetails!!.data.executive.email.isEmpty() && getStoreWiseDetails!!.data.executive.email != null) {
-                activityStartSurvey2Binding.executive.text =
-                    getStoreWiseDetails!!.data.executive.email
+            if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null && getStoreWiseDetails!!.data.executive != null) {
+                if (getStoreWiseDetails!!.data.executive.email != null) {
+                    activityStartSurvey2Binding.executive.text =
+                        getStoreWiseDetails!!.data.executive.email
+                } else {
+                    activityStartSurvey2Binding.executive.text = "--"
+                }
 
-            } else {
-                activityStartSurvey2Binding.executive.text = "--"
+
+            }else{
+                activityStartSurvey2Binding.executive.text="--"
 
             }
 
-            if (getStoreWiseDetails!!.data != null && getStoreWiseDetails!!.data.manager != null && !getStoreWiseDetails!!.data.manager.email.isEmpty() && getStoreWiseDetails!!.data.manager.email != null) {
-                activityStartSurvey2Binding.manager.text = getStoreWiseDetails!!.data.manager.email
+            if (getStoreWiseDetails!!.data != null && getStoreWiseDetails!!.data.manager != null) {
+                if (getStoreWiseDetails!!.data.manager.email != null) {
+                    activityStartSurvey2Binding.manager.text =
+                        getStoreWiseDetails!!.data.manager.email
+                } else {
+                    activityStartSurvey2Binding.manager.text = "--"
+                }
             } else {
                 activityStartSurvey2Binding.manager.text = "--"
             }
@@ -166,7 +180,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
             activityStartSurvey2Binding.regionalHead.text = "--"
         }
 
-        activityStartSurvey2Binding.storeId.text = "${storeId} - ${Preferences.getApnaSiteName()}"
+        activityStartSurvey2Binding.storeId.text = storeId
         if (region != null) {
             activityStartSurvey2Binding.address.text = region
         }
@@ -190,8 +204,11 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
         } else {
             Toast.makeText(
-                context, resources.getString(R.string.label_network_error), Toast.LENGTH_SHORT
-            ).show()
+                context,
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
         }
 
         if (NetworkUtil.isNetworkConnected(this)) {
@@ -200,8 +217,11 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
         } else {
             Toast.makeText(
-                context, resources.getString(R.string.label_network_error), Toast.LENGTH_SHORT
-            ).show()
+                context,
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
         }
 
 
@@ -253,7 +273,9 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
             activityStartSurvey2Binding.enterEmailEdittextRec.setText("")
         } else {
             Toast.makeText(
-                getApplicationContext(), "Please enter valid email address", Toast.LENGTH_SHORT
+                getApplicationContext(),
+                "Please enter valid email address",
+                Toast.LENGTH_SHORT
             ).show();
             //or
         }
@@ -322,7 +344,9 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
             activityStartSurvey2Binding.enterEmailEdittextCC.setText("")
         } else {
             Toast.makeText(
-                getApplicationContext(), "Please enter valid email address", Toast.LENGTH_SHORT
+                getApplicationContext(),
+                "Please enter valid email address",
+                Toast.LENGTH_SHORT
             ).show();
             //or
         }

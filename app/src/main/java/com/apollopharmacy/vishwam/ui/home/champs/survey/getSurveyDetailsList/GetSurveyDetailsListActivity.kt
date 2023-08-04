@@ -103,22 +103,27 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
                 .show()
         }
     }
+    var getSurvetDetailsModelResponses: GetSurveyDetailsModelResponse?=null
 
-    var getSurvetDetailsModelResponses: GetSurveyDetailsModelResponse? = null
     override fun onSuccessSurveyList(getSurvetDetailsModelResponse: GetSurveyDetailsModelResponse) {
-        getSurvetDetailsModelResponses = getSurvetDetailsModelResponse
-        if (getSurvetDetailsModelResponse != null && getSurvetDetailsModelResponse.storeDetails != null &&
-            getSurvetDetailsModelResponse.storeDetails.size > 0
-        ) {
+        getSurvetDetailsModelResponses=getSurvetDetailsModelResponse
+        var getSurvetDetailsModelResponsesList=ArrayList<GetSurveyDetailsModelResponse.StoreDetail>()
+        getSurvetDetailsModelResponsesList= getSurvetDetailsModelResponse.storeDetails as ArrayList<GetSurveyDetailsModelResponse.StoreDetail>
+
+        if(getSurvetDetailsModelResponse!=null && getSurvetDetailsModelResponse.storeDetails!=null &&
+                getSurvetDetailsModelResponse.storeDetails.size>0){
             getSurvetDetailsModelResponse.storeDetails.sortByDescending { it.visitDate }
-            activityGetSurveyDetailsBinding.noListFound.visibility = View.GONE
-            activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.VISIBLE
-            if (champsStatus.contains("Pending") && champsStatus.contains("Completed")) {
-                activityGetSurveyDetailsBinding.noListFound.visibility = View.GONE
-                activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.VISIBLE
+            activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+            activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+            if(champsStatus.contains("Pending") && champsStatus.contains("Completed")){
+                activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+                activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+                getSurvetDetailsModelResponses!!.storeDetails=getSurvetDetailsModelResponse.storeDetails
+                val sortedStoreDetails = getSurvetDetailsModelResponse?.storeDetails?.sortedByDescending { it.champsRefernceId } ?: emptyList()
+//                val sortedStoreDetails = getSurvetDetailsModelResponsesList.sortedWith(compareByDescending<GetSurveyDetailsModelResponse.StoreDetail> { it.visitDate }.thenByDescending { it.visitDate })
+
                 getSurveyDetailsAdapter =
-                    GetSurveyDetailsAdapter(
-                        getSurvetDetailsModelResponse.storeDetails, applicationContext, this
+                    GetSurveyDetailsAdapter(sortedStoreDetails, applicationContext, this
                     )
                 activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
                     LinearLayoutManager(this)
@@ -126,13 +131,11 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
                 activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
             } else if (champsStatus.contains("Completed")) {
                 if (getSurvetDetailsModelResponse.storeDetails.filter { it.status.equals("COMPLETED") }.size > 0) {
-                    activityGetSurveyDetailsBinding.noListFound.visibility = View.GONE
-                    activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.VISIBLE
+                    activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+                    val sortedStoreDetails = getSurvetDetailsModelResponse?.storeDetails?.sortedByDescending { it.champsRefernceId } ?: emptyList()
                     getSurveyDetailsAdapter =
-                        GetSurveyDetailsAdapter(
-                            getSurvetDetailsModelResponse.storeDetails.filter { it.status.equals("COMPLETED") },
-                            applicationContext,
-                            this
+                        GetSurveyDetailsAdapter(sortedStoreDetails.filter { it.status.equals("COMPLETED") }, applicationContext, this
                         )
                     activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
                         LinearLayoutManager(this)
@@ -146,13 +149,11 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
                 }
             } else if (champsStatus.contains("Pending")) {
                 if (getSurvetDetailsModelResponse.storeDetails.filter { it.status.equals("PENDING") }.size > 0) {
-                    activityGetSurveyDetailsBinding.noListFound.visibility = View.GONE
-                    activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.VISIBLE
+                    activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+                    val sortedStoreDetails = getSurvetDetailsModelResponse?.storeDetails?.sortedByDescending { it.champsRefernceId } ?: emptyList()
                     getSurveyDetailsAdapter =
-                        GetSurveyDetailsAdapter(
-                            getSurvetDetailsModelResponse.storeDetails.filter { it.status.equals("PENDING") },
-                            applicationContext,
-                            this
+                        GetSurveyDetailsAdapter(sortedStoreDetails.filter { it.status.equals("PENDING") }, applicationContext, this
                         )
                     activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
                         LinearLayoutManager(this)
@@ -182,13 +183,14 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
         Utlis.hideLoading()
     }
 
-    override fun onClickCardView(status: String?, champsRefernceId: String?) {
+    override fun onClickCardView(status: String?, champsRefernceId: String?, sitenames: String) {
         val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
         intent.putExtra("getStoreWiseEmpIdResponse", getStoreWiseEmpIdResponse)
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)
+        intent.putExtra("siteNameForAddress", sitenames)
         intent.putExtra("siteName", siteName)
         intent.putExtra("storeCity", storeCity)
         intent.putExtra("status", status)
@@ -321,12 +323,13 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
 
             }
 
-            if (champsStatus.contains("Pending") && champsStatus.contains("Completed")) {
-                activityGetSurveyDetailsBinding.noListFound.visibility = View.GONE
-                activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.VISIBLE
+            if(champsStatus.contains("Pending") && champsStatus.contains("Completed")){
+                activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+                activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+                val sortedStoreDetails = getSurvetDetailsModelResponses?.storeDetails?.sortedByDescending { it.champsRefernceId } ?: emptyList()
+
                 getSurveyDetailsAdapter =
-                    GetSurveyDetailsAdapter(
-                        getSurvetDetailsModelResponses!!.storeDetails, applicationContext, this
+                    GetSurveyDetailsAdapter(sortedStoreDetails, applicationContext, this
                     )
                 activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
                     LinearLayoutManager(this)
@@ -335,15 +338,12 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
             } else if (champsStatus.contains("Completed")) {
                 if (getSurvetDetailsModelResponses!!.storeDetails.filter { it.status.equals("COMPLETED") }.size > 0) {
 
-                    activityGetSurveyDetailsBinding.noListFound.visibility = View.GONE
-                    activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.VISIBLE
+                    activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+                    val sortedStoreDetails = getSurvetDetailsModelResponses?.storeDetails?.sortedByDescending { it.champsRefernceId } ?: emptyList()
+
                     getSurveyDetailsAdapter =
-                        GetSurveyDetailsAdapter(
-                            getSurvetDetailsModelResponses!!.storeDetails.filter {
-                                it.status.equals(
-                                    "COMPLETED"
-                                )
-                            }, applicationContext, this
+                        GetSurveyDetailsAdapter( sortedStoreDetails!!.filter { it.status.equals("COMPLETED") }, applicationContext, this
                         )
                     activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
                         LinearLayoutManager(this)
@@ -357,16 +357,13 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
                 }
             } else if (champsStatus.contains("Pending")) {
                 if (getSurvetDetailsModelResponses!!.storeDetails.filter { it.status.equals("PENDING") }.size > 0) {
-                    getSurvetDetailsModelResponses!!.storeDetails.filter { it.status.equals("PENDING") }
-                    activityGetSurveyDetailsBinding.noListFound.visibility = View.GONE
-                    activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.VISIBLE
+//                    getSurvetDetailsModelResponses!!.storeDetails.filter { it.status.equals("PENDING") }
+                    activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
+                    val sortedStoreDetails = getSurvetDetailsModelResponses?.storeDetails?.sortedByDescending { it.champsRefernceId } ?: emptyList()
+
                     getSurveyDetailsAdapter =
-                        GetSurveyDetailsAdapter(
-                            getSurvetDetailsModelResponses!!.storeDetails.filter {
-                                it.status.equals(
-                                    "PENDING"
-                                )
-                            }!!, applicationContext, this
+                        GetSurveyDetailsAdapter(sortedStoreDetails.filter { it.status.equals("PENDING") }!!, applicationContext, this
                         )
                     activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
                         LinearLayoutManager(this)
