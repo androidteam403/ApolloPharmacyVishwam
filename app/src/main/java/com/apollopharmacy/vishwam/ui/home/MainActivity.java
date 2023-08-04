@@ -1451,7 +1451,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_executive")) {
 //                    headerText.setText("Executive Dashboard");
                     headerText.setText("Dashboard");
-                }else {
+                } else {
 //                    headerText.setText("Ceo Dashboard");
                     headerText.setText("Dashboard");
                 }
@@ -1880,7 +1880,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (isSensingRequired) {
             listView.addHeaderModel(new HeaderModel("Apollo Sensing", Color.WHITE, false, R.drawable.ic_menu_champ));
         }
-//        listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));
+        listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));

@@ -1588,7 +1588,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             saveUpdateRequest.cmsChampsSurveyQa = cmsChampsSurveQaList
 
 
-            saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
+            if (champsRefernceId != null){
+                saveUpdateRequest.champsId = champsRefernceId
+            }else{
+                saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
+            }
             champsSurveyViewModel.saveUpdateApi(this, saveUpdateRequest)
         } else {
             Utlis.hideLoading()

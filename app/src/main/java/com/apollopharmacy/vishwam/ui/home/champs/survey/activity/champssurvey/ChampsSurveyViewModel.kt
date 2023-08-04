@@ -862,17 +862,23 @@ class ChampsSurveyViewModel : ViewModel() {
             }
         }
 
-
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("SW SAVE IMAGE URLS")) {
-            baseUrl =
-                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/cms_champs_survey/save-update"//"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/cms_champs_survey/save-update"
-//                token = data.APIS[i].TOKEN
-            break
-//            }
+            if (data.APIS[i].NAME.equals("CMS SAVE UPDATE")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
         }
+        /* for (i in data.APIS.indices) {
+ //            if (data.APIS[i].NAME.equals("SW SAVE IMAGE URLS")) {
+             baseUrl =
+                 "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/cms_champs_survey/save-update"//"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/cms_champs_survey/save-update"
+ //                token = data.APIS[i].TOKEN
+             break
+ //            }
+         }*/
         val saveUpdateRequestJson = Gson().toJson(saveUpdateRequest)
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
