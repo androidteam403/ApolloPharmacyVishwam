@@ -72,6 +72,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     var dtcl_list = java.util.ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
     var imageUploadedCount=0
     var plusIconPos = 0
+    var isFromCamera:Boolean=false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -558,7 +559,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
-
+            isFromCamera=true
             val resizedImage =
                 Resizer(this).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
 //                .setOutputFilename(fileNameForCompressedImage)
@@ -610,6 +611,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                     (images!!.itemCount <=3 && imageUploadedCount.equals(0)) ) {
                     if(images.itemCount>1){
                         isFromGallery=true
+                        isFromCamera=false
                     }else{
                         isFromGallery=false
                     }
@@ -648,6 +650,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                         Toast.LENGTH_SHORT).show()
                 }
             } else {
+                isFromCamera=false
                 val uri = data.data
                 var imagePath = getRealPathFromURI(applicationContext, uri!!)
                 var imageFileGallery: File? = File(imagePath)
@@ -1026,36 +1029,61 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null
             && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists != null
         ) {
-            for( i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists?.indices!!){
-                if(!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists?.get(i)?.imageFilled!!){
-                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists?.get(i)?.imageUrl=response
-                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists?.get(i)?.imageFilled=true
-                    break
+            if (!isFromCamera) {
+                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists?.indices!!) {
+                    if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists?.get(
+                            i
+                        )?.imageFilled!!
+                    ) {
+                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists?.get(
+                            i
+                        )?.imageUrl = response
+                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists?.get(
+                            i
+                        )?.imageFilled = true
+                        break
+                    }
                 }
+            } else {
+//                for( i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists?.indices!!){
+                if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists?.get(
+                        plusIconPos
+                    )?.imageFilled!!
+                ) {
+                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists?.get(
+                        plusIconPos
+                    )?.imageUrl = response
+                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists?.get(
+                        plusIconPos
+                    )?.imageFilled = true
+//                        break
+                }
+//            }
+
             }
 
+            runOnUiThread(Runnable {
+                // Stuff that updates the UI
+                imagesDisplayChampsAdapter =
+                    ImagesDisplayChampsAdapter(
+                        applicationContext,
+                        this,
+                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists,
+                        status
+                    )
+                activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
+                    LinearLayoutManager(
+                        applicationContext, LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.setAdapter(
+                    imagesDisplayChampsAdapter
+                )
+
+            })
+
+            Utlis.hideLoading()
         }
-
-        runOnUiThread(Runnable {
-            // Stuff that updates the UI
-            imagesDisplayChampsAdapter =
-                ImagesDisplayChampsAdapter(
-                    applicationContext,
-                   this,
-                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists, status
-                )
-            activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
-                LinearLayoutManager(
-                    applicationContext, LinearLayoutManager.HORIZONTAL,
-                    false
-                )
-            activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.setAdapter(
-                imagesDisplayChampsAdapter
-            )
-
-        })
-
-        Utlis.hideLoading()
     }
 
 
