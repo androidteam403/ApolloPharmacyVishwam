@@ -308,7 +308,6 @@ class SurveyDetailsList : Serializable {
         @Expose
         var bldgAgeInMonth: Double? = null
 
-
         @SerializedName("morning_from")
         @Expose
         var morningFrom: String? = null
