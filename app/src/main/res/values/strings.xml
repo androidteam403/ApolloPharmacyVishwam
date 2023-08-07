@@ -477,4 +477,5 @@
 
     <string name="label_location_permission_must_be_required_to_access_application">Location permission must be required to access application</string>
     <string name="label_location_permission">Location permission</string>
+    <string name="save_and_continue">Save and Continue</string>
 </resources>

@@ -92,7 +92,7 @@ dependencies {
     implementation project(path: ':digitlib')
     implementation project(path: ':drawroutemap')
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
-
+    implementation 'com.tomergoldst.android:tooltips:1.0.10'
     implementation 'com.google.android.exoplayer:exoplayer:2.18.6'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation project(path: ':openCV')
