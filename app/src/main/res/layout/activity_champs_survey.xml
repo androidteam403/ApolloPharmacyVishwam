@@ -1479,6 +1479,22 @@
 
                         </LinearLayout>
 
+                        <TextView
+                            android:id="@+id/issues_tobe_resolved_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_35dp"
+                            android:clickable="false"
+                            android:editable="false"
+                            android:ellipsize="start"
+                            android:gravity="start"
+                            android:paddingEnd="@dimen/value_10dp"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_15sp"
+                            android:visibility="gone" />
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/issues_tobe_resolved_edittext"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -1490,21 +1506,7 @@
                             android:textColorHint="@color/black"
                             app:counterMaxLength="750">
 
-                            <TextView
-                                android:id="@+id/issues_tobe_resolved_textView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/value_25dp"
-                                android:clickable="false"
-                                android:editable="false"
-                                android:ellipsize="start"
-                                android:gravity="start"
-                                android:paddingEnd="@dimen/value_10dp"
-                                android:textAlignment="viewStart"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/black"
-                                android:textSize="@dimen/text_15sp"
-                                android:visibility="gone" />
+
 
                             <androidx.appcompat.widget.AppCompatEditText
                                 android:id="@+id/enter_issues_tobe_resolved_edittext"
