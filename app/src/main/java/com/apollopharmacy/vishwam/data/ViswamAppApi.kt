@@ -34,7 +34,12 @@ import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsResponse
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.model.ScannerResponse
+import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileDownloadRequest
+import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileDownloadResponse
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsResponse
@@ -78,6 +83,7 @@ interface ViswamAppApi {
 
     /*@POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String*/
+
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
     suspend fun getValidateTest(): ValidateResponse
@@ -711,15 +717,13 @@ interface ViswamAppApi {
     suspend fun GET_CATEGORY_DETAILS_API_CALL_(
         @Url url: String,
         @Header("token") token: String,
-      ): GetCategoryDetailsModelResponse
+    ): GetCategoryDetailsModelResponse
 
 //    @GET
 //    suspend fun GET_CATEGORY_DETAILS_API_CALL_(
 //        @Header("token") token: String,
 //        @Url url: String,
 //    ): GetCategoryDetailsModelResponse
-
-
 
 
     @GET
@@ -912,6 +916,13 @@ interface ViswamAppApi {
         @Body fileDownloadRequest: FileDownloadRequest,
     ): Call<FileDownloadResponse>
 
+
+    @POST
+    fun FILE_DOWNLOAD_API_CALL_QR_RETRO(
+        @Url url: String, @Header("token") token: String,
+        @Body fileDownloadRequest: RetroQrFileDownloadRequest,
+    ): Call<RetroQrFileDownloadResponse>
+
     @GET
     suspend fun getDiscountColorDetails(
         @Url url: String,
@@ -929,5 +940,24 @@ interface ViswamAppApi {
     suspend fun getImageUrl(
         @Url url: String,
     ): ScannerResponse
+
+
+    @GET
+    suspend fun getStoreWiseRackDetails(
+        @Url url: String,
+        @Header("token") token: String,
+    ): StoreWiseRackDetails
+
+    @POST
+    suspend fun SaveImageUrLQrRetro(
+        @Url url: String, @Header("token") token: String,
+        @Body qrSaveImageUrlsRequest: QrSaveImageUrlsRequest,
+    ): QrSaveImageUrlsResponse
+
+    @POST
+    fun FILE_DOWNLOAD_API_CALL_QR(
+        @Url url: String, @Header("token") token: String,
+        @Body fileDownloadRequest: RetroQrFileDownloadRequest,
+    ): Call<RetroQrFileDownloadResponse>
 
 }

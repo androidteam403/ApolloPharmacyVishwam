@@ -1,29 +1,20 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.ChampsAdminRepo
 import com.apollopharmacy.vishwam.data.network.ChampsApiRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
-import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
-import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleCallBack
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsCallback
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsViewModel
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.SaveSurveyModelRequest
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.SampleSwachUiCallback
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.SampleSwachViewModel
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -262,7 +253,7 @@ class ChampsSurveyViewModel : ViewModel() {
 //        }
 //    }
 
-//    fun getCategoryDetailsChampsApi(champsSurveyCallBack: ChampsSurveyCallBack) {
+    //    fun getCategoryDetailsChampsApi(champsSurveyCallBack: ChampsSurveyCallBack) {
 //        state.postValue(State.LOADING)
 //
 //        val url = Preferences.getApi()
@@ -346,20 +337,24 @@ class ChampsSurveyViewModel : ViewModel() {
                         commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -368,7 +363,10 @@ class ChampsSurveyViewModel : ViewModel() {
         }
     }
 
-    fun getSubCategoryDetailsChampsApi(champsSurveyCallBack: ChampsSurveyCallBack, categoryName: String) {
+    fun getSubCategoryDetailsChampsApi(
+        champsSurveyCallBack: ChampsSurveyCallBack,
+        categoryName: String,
+    ) {
         state.postValue(State.LOADING)
 
         val url = Preferences.getApi()
@@ -386,7 +384,7 @@ class ChampsSurveyViewModel : ViewModel() {
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getSubCategoryDetailsApiCall(baseUrl, token,categoryName)
+                ChampsApiRepo.getSubCategoryDetailsApiCall(baseUrl, token, categoryName)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -402,20 +400,24 @@ class ChampsSurveyViewModel : ViewModel() {
                         commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -540,7 +542,7 @@ class ChampsSurveyViewModel : ViewModel() {
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getTraingAndColorDetailsApi(baseUrl, token,type)
+                ChampsApiRepo.getTraingAndColorDetailsApi(baseUrl, token, type)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -557,20 +559,24 @@ class ChampsSurveyViewModel : ViewModel() {
                         commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -579,9 +585,11 @@ class ChampsSurveyViewModel : ViewModel() {
         }
     }
 
-    fun getSaveDetailsApi(saveSurveyModelRequest: SaveSurveyModelRequest,
-                          champsSurveyCallBack: ChampsSurveyCallBack,
-                          type: String,) {
+    fun getSaveDetailsApi(
+        saveSurveyModelRequest: SaveSurveyModelRequest,
+        champsSurveyCallBack: ChampsSurveyCallBack,
+        type: String,
+    ) {
         state.postValue(State.LOADING)
 
         val url = Preferences.getApi()
@@ -599,7 +607,7 @@ class ChampsSurveyViewModel : ViewModel() {
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.saveChampsApi(baseUrl, token,saveSurveyModelRequest)
+                ChampsApiRepo.saveChampsApi(baseUrl, token, saveSurveyModelRequest)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -612,20 +620,24 @@ class ChampsSurveyViewModel : ViewModel() {
                         commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -699,7 +711,7 @@ class ChampsSurveyViewModel : ViewModel() {
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getSurveyDetailsByChampsApi(baseUrl, token,champsId)
+                ChampsApiRepo.getSurveyDetailsByChampsApi(baseUrl, token, champsId)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -712,20 +724,24 @@ class ChampsSurveyViewModel : ViewModel() {
                         commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -846,24 +862,31 @@ class ChampsSurveyViewModel : ViewModel() {
             }
         }
 
-
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("SW SAVE IMAGE URLS")) {
-            baseUrl =
-                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/cms_champs_survey/save-update"//"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/cms_champs_survey/save-update"
-//                token = data.APIS[i].TOKEN
-            break
-//            }
+            if (data.APIS[i].NAME.equals("CMS SAVE UPDATE")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
         }
+        /* for (i in data.APIS.indices) {
+ //            if (data.APIS[i].NAME.equals("SW SAVE IMAGE URLS")) {
+             baseUrl =
+                 "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/cms_champs_survey/save-update"//"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/cms_champs_survey/save-update"
+ //                token = data.APIS[i].TOKEN
+             break
+ //            }
+         }*/
         val saveUpdateRequestJson = Gson().toJson(saveUpdateRequest)
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(
                     baseUrLProxy,
                     tokenProxy,
-                    GetDetailsRequest(baseUrl, "POST", saveUpdateRequestJson, "", ""))
+                    GetDetailsRequest(baseUrl, "POST", saveUpdateRequestJson, "", "")
+                )
 //                ChampsApiRepo.saveUpdateApi(baseUrl, saveUpdateRequest)
             }
             when (response) {
@@ -884,7 +907,9 @@ class ChampsSurveyViewModel : ViewModel() {
                             if (saveUpdateRequestJsonResponse.success ?: null == false) {
                                 state.value = State.ERROR
                                 CommandsNewSwachImp.ShowToast(saveUpdateRequestJsonResponse.message)
-                                champsSurveyCallBack.onFailureSaveUpdateApi(saveUpdateRequestJsonResponse)
+                                champsSurveyCallBack.onFailureSaveUpdateApi(
+                                    saveUpdateRequestJsonResponse
+                                )
                             }
                         }
                     }

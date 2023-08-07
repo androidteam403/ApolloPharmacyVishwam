@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
+import android.view.LayoutInflater
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -20,17 +21,19 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.databinding.ActivityStartSurvey2Binding
-import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
+import com.apollopharmacy.vishwam.databinding.DialogNoTrainerBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressCCAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity
+import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseEmpIdResponse
-import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
 import java.util.*
 
 class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
@@ -58,8 +61,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 //        setContentView(R.layout.activity_start_survey2)
 
         activityStartSurvey2Binding = DataBindingUtil.setContentView(
-            this,
-            R.layout.activity_start_survey2
+            this, R.layout.activity_start_survey2
 
         )
         surveyDetailsViewModel = ViewModelProvider(this)[SurveyDetailsViewModel::class.java]
@@ -114,19 +116,18 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         siteName = intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
         region = intent.getStringExtra("region")!!
+
+        setTrainerId()
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-            Utlis.showLoading(this)
-            surveyDetailsViewModel.getStoreWiseDetailsEmpIdChampsApi(
-                this,
-                Preferences.getValidatedEmpId()
-            )
+        /* Utlis.showLoading(this)
+             surveyDetailsViewModel.getStoreWiseDetailsEmpIdChampsApi(
+                 this,
+                 Preferences.getValidatedEmpId()
+             )*/
         } else {
             Toast.makeText(
-                context,
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
+                context, resources.getString(R.string.label_network_error), Toast.LENGTH_SHORT
+            ).show()
         }
         if (getStoreWiseDetails != null) {
 //            if(!getStoreWiseDetails.data.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.trainerEmail!=null){
@@ -157,8 +158,8 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                 }
 
 
-            } else {
-                activityStartSurvey2Binding.executive.text = "--"
+            }else{
+                activityStartSurvey2Binding.executive.text="--"
 
             }
 
@@ -433,5 +434,42 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         activityStartSurvey2Binding.trainer.text = "--"
     }
 
+
+    fun setTrainerId() {
+        var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+        var employeeDetailsResponse: EmployeeDetailsResponse? = null
+        try {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                empDetailsResponse, EmployeeDetailsResponse::class.java
+            )
+
+        } catch (e: JsonParseException) {
+            e.printStackTrace()
+        }
+        if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
+            activityStartSurvey2Binding.trainer.text = employeeDetailsResponse.data!!.email!!
+        } else {
+            showTrainerNotAvailablePopup()
+        }
+    }
+
+    fun showTrainerNotAvailablePopup() {
+        dialog = Dialog(this)
+        val dialogNoTrainerBinding = DataBindingUtil.inflate<DialogNoTrainerBinding>(
+            LayoutInflater.from(this@SurveyDetailsActivity),
+            R.layout.dialog_no_trainer,
+            null,
+            false
+        )
+        dialog.setContentView(dialogNoTrainerBinding.root)
+        dialog.setCancelable(false)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogNoTrainerBinding.ok.setOnClickListener {
+            dialog.dismiss()
+            finish()
+        }
+        dialog.show()
+    }
 
 }

@@ -197,7 +197,7 @@ class QcSiteActivityViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcRegionLists.value = result.value
+                        qcRegionLists.value = result.value!!
                         regionLiveData = result.value.storelist as ArrayList<QcRegionList.Store>
                         qcregionIdList = result.value.storelist as ArrayList<QcRegionList.Store>?
 

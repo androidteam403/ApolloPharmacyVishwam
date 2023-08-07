@@ -84,7 +84,6 @@ dependencies {
     implementation "androidx.core:core-ktx:$core_version"
 //    implementation "androidx.appcompat:appcompat:$app_compact_version"
     implementation "androidx.appcompat:appcompat:1.4.1"
-    
     implementation "androidx.constraintlayout:constraintlayout:$constratint_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -212,7 +211,7 @@ dependencies {
     implementation 'com.github.dhaval2404:imagepicker:2.1'
     // Before and after image slider
     implementation 'com.github.blackfox94:before_after_slider:701e3d5861'
-
+    implementation 'com.github.pavel163:BifacialView:1.4.1'
 
     // This dependency is downloaded from the Google’s Maven repository.
     // So, make sure you also include that repository in your project's build.gradle file.
@@ -220,6 +219,10 @@ dependencies {
 
     // For Kotlin users also add the Kotlin extensions library for Play In-App Update:
     implementation 'com.google.android.play:app-update-ktx:2.0.1'
+
+
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
 
 }
 

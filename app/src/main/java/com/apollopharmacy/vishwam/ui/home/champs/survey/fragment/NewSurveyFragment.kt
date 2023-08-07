@@ -53,7 +53,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
             startActivityForResult(i, 781)
         } else {
 
-            viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
+            viewBinding.enterStoreEdittext.setText("${Preferences.getApnaSiteId()} - ${Preferences.getApnaSiteName()}")
 
 
 //
@@ -87,7 +87,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                 showLoading()
                 viewModel.getStoreWiseDetailsChampsApi(
                     this,
-                    viewBinding.enterStoreEdittext.text.toString()
+                    Preferences.getApnaSiteId()
                 )
             } else {
                 Toast.makeText(
@@ -160,9 +160,9 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     @SuppressLint("SuspiciousIndentation")
     override fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>) {
-        if (value != null ) {
+        if (value != null) {
             for (i in value.indices) {
-                if (value.get(i).site.equals(viewBinding.enterStoreEdittext.text.toString())) {
+                if (value.get(i).site.equals(Preferences.getApnaSiteId())) {//viewBinding.enterStoreEdittext.text.toString()
                     storeId = value.get(i).site
                     siteName = value.get(i).storeName
                     Preferences.setChampsSiteName(siteName!!)
@@ -170,7 +170,8 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                     region =    value.get(i).state!!.name
                     if(value.get(i).address!=null)
                     address = value.get(i).address
-                    viewBinding.storeId.text = value.get(i).site
+                    viewBinding.storeId.text =
+                        "${value.get(i).site} - ${Preferences.getApnaSiteName()}"
                     viewBinding.region.text = value.get(i).city +  ", "+  value.get(i).state!!.name + ", " + value.get(i).district!!.name
 
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
@@ -199,7 +200,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
             showLoading()
             viewModel.getStoreWiseDetailsChampsApi(
                 this,
-                Preferences.getValidatedEmpId()
+                Preferences.getApnaSiteId()
             )
         } else {
             Toast.makeText(

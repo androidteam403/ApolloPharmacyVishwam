@@ -61,12 +61,12 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
         if (employeeDetailsResponse != null
             && employeeDetailsResponse!!.data != null
             && employeeDetailsResponse!!.data!!.role != null
-            && employeeDetailsResponse!!.data!!.role!!.name != null
+            && employeeDetailsResponse!!.data!!.role!!.code != null
         ) {
-            if (employeeDetailsResponse!!.data!!.role!!.name!!.equals("Store Executive", true)
-                || employeeDetailsResponse.data!!.role!!.name!!.equals("Manager", true)
-                || employeeDetailsResponse.data!!.role!!.name!!.equals("Regional Head", true)
-                || employeeDetailsResponse.data!!.role!!.name!!.equals("HOD", true)
+            if (employeeDetailsResponse!!.data!!.role!!.code!!.equals("store_executive", true)
+                || employeeDetailsResponse.data!!.role!!.code!!.equals("store_manager", true)
+                || employeeDetailsResponse.data!!.role!!.code!!.equals("region_head", true)
+                || employeeDetailsResponse.data!!.role!!.code!!.equals("hod", true)
             ) {
                 Utlis.showLoading(this)
                 viewModel.siteList(

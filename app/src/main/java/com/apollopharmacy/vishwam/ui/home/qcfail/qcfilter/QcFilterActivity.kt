@@ -269,6 +269,14 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
             }
 
+            else if (fromQcDate.isNotEmpty()&&toQcDate.isNullOrEmpty()){
+                Toast.makeText(context, "Date Fields Should not be  Empty", Toast.LENGTH_LONG).show()
+
+            }
+            else if (fromQcDate.isNullOrEmpty()&&toQcDate.isNotEmpty()){
+                Toast.makeText(context, "Date Fields Should not be  Empty", Toast.LENGTH_LONG).show()
+
+            }
             else {
 //                orderType = activityQcFilterBinding.selectfiltertype.text.toString()
                 val intent = Intent()
@@ -402,7 +410,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             qcDate = sdf1.format(cal.time)
 
             if (Utlis.filterDateFormate(fromDate)
-                    .before(Utlis.filterDateFormate(qcDate)) || Utlis.filterDateFormate(fromDate)
+                    .after(Utlis.filterDateFormate(qcDate)) || Utlis.filterDateFormate(fromDate)
                     .equals(Utlis.filterDateFormate(qcDate))
             ) {
 

@@ -23,6 +23,7 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityRetroImagePreviewBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagecomparison.ImageComparisonActivity
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.model.ScannerResponse
+import com.bumptech.glide.Glide
 import java.io.File
 import java.io.IOException
 
@@ -30,6 +31,11 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
     private lateinit var activityRetroImagePreviewBinding: ActivityRetroImagePreviewBinding
     lateinit var scannerResponse: ScannerResponse
     var imageFile: File? = null
+
+    private var firstImage: String = ""
+    private var secondImage: String = ""
+    private var matchingPercentage: String = ""
+    private var rackNo: String = ""
     private var compressedImageFileName: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +48,20 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
 
     private fun setUp() {
         if (intent != null) {
-            scannerResponse = intent.getSerializableExtra("SCANNER_RESPONSE") as ScannerResponse
+            firstImage = intent.getStringExtra("firstimage")!!
+            secondImage = intent.getStringExtra("secondimage")!!
+            rackNo = intent.getStringExtra("rackNo")!!
+            matchingPercentage = intent.getStringExtra("matchingPercentage")!!
+
+
+
+            Glide.with(this).load(firstImage)
+                .placeholder(R.drawable.thumbnail_image)
+                .into(activityRetroImagePreviewBinding.image)
+
+            activityRetroImagePreviewBinding.rack.setText(rackNo)
+
+//            scannerResponse = intent.getSerializableExtra("SCANNER_RESPONSE") as ScannerResponse
         }
     }
 
@@ -53,6 +72,10 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
         } else {
             openCamera()
         }
+    }
+
+    override fun onClickBack() {
+        finish()
     }
 
     override fun onClickTick() {

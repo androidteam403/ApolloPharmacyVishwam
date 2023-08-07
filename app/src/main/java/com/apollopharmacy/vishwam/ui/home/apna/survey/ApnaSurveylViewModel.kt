@@ -44,6 +44,15 @@ class ApnaSurveylViewModel : ViewModel() {
                 break
             }
         }
+        var dynamicUrl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA SURVEY LIST")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
 
         val new = if (status.contains("new")) "new" else ""
         val inprogress = if (status.contains("inprogress")) "inprogress" else ""
@@ -52,8 +61,9 @@ class ApnaSurveylViewModel : ViewModel() {
         val cancelled = if (status.contains("cancelled")) "cancelled" else ""
 
         //Dev base url : https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/
-        var baseUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/apna_project_survey/list/project-survey-list-for-mobile?"
+
+        // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/apna_project_survey/list/project-survey-list-for-mobile?
+        var baseUrl = dynamicUrl
         baseUrl =
             baseUrl + "employee_id=${Preferences.getValidatedEmpId()}&page=${pageNo}&rows=${rows}" +
 
@@ -75,14 +85,14 @@ class ApnaSurveylViewModel : ViewModel() {
 
 
 
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("")) {
-                baseUrl = data.APIS[i].URL
-                val token = data.APIS[i].TOKEN
-                break
-            }
-
-        }
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("")) {
+//                baseUrl = data.APIS[i].URL
+//                val token = data.APIS[i].TOKEN
+//                break
+//            }
+//
+//        }
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {

@@ -105,7 +105,6 @@ class ComplaintListCalendarDialog : DialogFragment() {
             val monthFormat = SimpleDateFormat("MMM", Locale.ENGLISH)
             val getDate =
                 "${checkVal.format(_date)}-${monthFormat.format(c.time)}-${_year}"
-
                 dateSelectedListner!!.selectedDateTo(getDate, getDate)
 
 
