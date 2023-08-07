@@ -71,6 +71,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     var imageDataList: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>? = null
     var dtcl_list = java.util.ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
     var imageUploadedCount=0
+    var plusIconPos = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -244,15 +245,18 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
     override fun onClickSubmit() {
         getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.clickedSubmit = true
+        var allSubmitted=true
 
         for(i in getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails?.indices!!){
             if(  getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating==null){
-                getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating=0f
+                allSubmitted=false
+//                getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating=0f
+                break
             }
         }
         calucateSumOfSubCategory()
-        if(sumIsZero){
-            Toast.makeText(applicationContext, "Please enter the rating for sub categories", Toast.LENGTH_SHORT).show()
+        if(!allSubmitted){
+            Toast.makeText(applicationContext, "Please enter the rating for all the sub categories", Toast.LENGTH_SHORT).show()
         }else{
             val intent = Intent()
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -503,8 +507,16 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //            subCategoryAdapter!!.notifyDataSetChanged()
 
         }
-        if(activityChampsDetailsandRatingBarBinding.sumOfrating.text.toString().equals("0.0")||
-            activityChampsDetailsandRatingBarBinding.sumOfrating.text.toString().equals("0")){
+        var allSubmitted=true
+
+        for(i in getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails?.indices!!){
+            if(  getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating==null){
+                allSubmitted=false
+//                getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating=0f
+                break
+            }
+        }
+        if(!allSubmitted){
             sumIsZero=true
             activityChampsDetailsandRatingBarBinding.next.setBackgroundDrawable(applicationContext.getDrawable(R.drawable.grey_rectangle_submit))
 //            activityChampsDetailsandRatingBarBinding.next.setHintTextColor(applicationContext.getDrawable(R.color.black))
@@ -556,14 +568,14 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
                     .setSourceImage(imageFromCameraFile).resizedFile
 
-            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
-                if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
-                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
+//            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
+                if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(plusIconPos).imageFilled!!) {
+                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(plusIconPos).file = resizedImage
 //                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
                    imageUploadedCount++
-                    break
+//                    break
                 }
-            }
+//            }
 
 //            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists=imageDataList
 //            imagesDisplayChampsAdapter =
@@ -1088,6 +1100,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     }
 
     override fun onClickPlusIcon(position: Int) {
+        plusIconPos=position
         onClickCamera()
     }
 
