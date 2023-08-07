@@ -7,12 +7,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.ApolloSensingRepo
 import com.apollopharmacy.vishwam.data.network.QrRetroRepo
-import com.apollopharmacy.vishwam.data.network.discount.PendingRepo
-import com.apollopharmacy.vishwam.ui.home.apollosensing.ApolloSensingFragmentCallback
-import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
-import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragmentCallback
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.gson.Gson
@@ -107,7 +102,7 @@ class RetroQrUploadViewModel : ViewModel() {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 QrRetroRepo.getStoreWiseRackDetails(
-                    baseUrl+"STOREID=${Preferences.getQrSiteId()}",
+                    baseUrl + "STOREID=${Preferences.getQrSiteId()}",
                     token
                 )
             }
@@ -118,7 +113,7 @@ class RetroQrUploadViewModel : ViewModel() {
                         retroQrUploadCallback.onSuccessgetStoreWiseRackResponse(response.value)
 
                     } else {
-retroQrUploadCallback.onFailureStoreWiseRackResponse(response.value.message.toString())
+                        retroQrUploadCallback.onFailureStoreWiseRackResponse(response.value.message.toString())
                     }
                 }
 

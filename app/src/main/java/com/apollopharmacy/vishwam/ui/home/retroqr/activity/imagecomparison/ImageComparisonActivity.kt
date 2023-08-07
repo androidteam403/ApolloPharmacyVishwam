@@ -50,14 +50,6 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
             rackNo = intent.getStringExtra("rackNo")!!
             matchingPercentage = intent.getStringExtra("matchingPercentage")!!
 
-
-
-
-
-
-
-
-
             if (matchingPercentage.toInt() >=0 && matchingPercentage.toInt()<=70) {
                 activityImageComparisonBinding.matchingcolor.setBackgroundDrawable(
                     ContextCompat.getDrawable(
@@ -84,7 +76,7 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
                 try {
                     if (secondImage.isNotEmpty()) {
                         val client = OkHttpClient()
-                        val request = Request.Builder().url(firstImage.toString()).build()
+                        val request = Request.Builder().url(firstImage).build()
                         val response = client.newCall(request).execute()
                         val inputStream = response.body!!.byteStream()
                          bitmap1 = BitmapFactory.decodeStream(inputStream)
@@ -105,45 +97,7 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback {
             thread.start()
 //
 
-//            activityImageComparisonBinding.beforeAfterSlider.setOnTouchListener { v, event ->
-//                when (event.action) {
-//                    MotionEvent.ACTION_DOWN -> {
-//                        // User starts touching the slider
-//                        // Add your custom touch down logic here
-//                    }
-//                    MotionEvent.ACTION_MOVE -> {
-//
-//
-//                        val currentX = event.x // Current X coordinate of the touch
-//                        val previousX = event.getHistoricalX(0) // Previous X coordinate of the touch
-//                        val deltaX = currentX - previousX // Distance moved in the X direction
-//
-//                        // Determine the direction based on the deltaX value
-//                        if (deltaX > 0) {
-//                            activityImageComparisonBinding.firstImage.visibility=View.GONE
-//                            activityImageComparisonBinding.secondImage.visibility=View.VISIBLE
-//
-//                            // The finger is moving to the right side
-//                        } else if (deltaX < 0) {
-//                            activityImageComparisonBinding.firstImage.visibility=View.VISIBLE
-//                            activityImageComparisonBinding.secondImage.visibility=View.GONE
-//
-//                            // The finger is moving to the left side
-//                        }
-//                        // User is moving their finger on the slider
-//                        // Add your custom touch move logic here
-//                    }
-//                    MotionEvent.ACTION_UP -> {
-//                        // User releases their finger from the slider
-//                        // Add your custom touch up logic here
-//                    }
-//                    // For other touch actions like ACTION_CANCEL, you can add more cases if needed
-//                }
-//
-//                // Return 'true' to indicate that you have handled the touch event
-//                // Return 'false' if you want the default touch handling to continue (e.g., for sliding functionality)
-//                true
-//            }
+
 
             activityImageComparisonBinding.firstImage.setOnClickListener {
                 val intent = Intent(applicationContext, RetroImagePreviewActivity::class.java)

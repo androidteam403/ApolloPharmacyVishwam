@@ -50,7 +50,9 @@ import com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload.FileUploadApn
 import com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload.FileUploadApnaSurveyModel
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.DimensionTypeResponse.Data.ListData.Row
+import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -5323,7 +5325,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
         var videoList = ArrayList<SurveyCreateRequest.VideoMb.Video>()
         var video = SurveyCreateRequest.VideoMb.Video()
-        video.url = fileUploadApnaSurveyModelList!!.get(0)!!.fileDownloadResponse!!.referenceurl!!
+        video.url =  RijndaelCipherEncryptDecrypt().decrypt(fileUploadApnaSurveyModelList!!.get(0)!!.fileDownloadResponse!!.referenceurl!!, RijndaelCipherEncryptDecrypt().key)
         videoList.add(video)
         videoMb.video = videoList
         surveyCreateRequest.videoMb = videoMb

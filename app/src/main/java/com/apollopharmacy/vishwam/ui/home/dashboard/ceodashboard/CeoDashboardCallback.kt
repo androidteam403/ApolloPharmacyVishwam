@@ -26,4 +26,10 @@ interface CeoDashboardCallback {
 
     fun onClickTotal()
 
+    fun onClickFromDate()
+
+    fun onClickToDate()
+
+    fun onClickApplyDate()
+
 }

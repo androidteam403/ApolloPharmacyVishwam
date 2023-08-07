@@ -795,55 +795,55 @@ class ChampsSurveyViewModel : ViewModel() {
 //        }
 //    }
 
-    fun getSubCategoryDetailsChamps(
-        champsSurveyCallBack: ChampsSurveyCallBack,
-        categoryName: String,
-    ) {
-        state.postValue(State.LOADING)
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getSubCategoryDetailsChamps();
-            }
-            when (result) {
-                is ApiResult.Success -> {
-                    if (result.value.status!!) {
-                        state.value = State.ERROR
-                        champsSurveyCallBack.onSuccessgetSubCategoryDetails(
-                            result.value,
-                            categoryName
-                        )
-//                        getStoreDetailsChamps.value = result.value
-                    } else {
-                        state.value = State.ERROR
-                        champsSurveyCallBack.onFailuregetSubCategoryDetails(result.value)
-                        commands.value = Command.ShowToast(result.value.message!!)
-                    }
-                }
-
-                is ApiResult.GenericError -> {
-                    commands.postValue(result.error?.let {
-                        Command.ShowToast(it)
-                    })
-                    state.value = State.ERROR
-                }
-
-                is ApiResult.NetworkError -> {
-                    commands.postValue(Command.ShowToast("Network Error"))
-                    state.value = State.ERROR
-                }
-
-                is ApiResult.UnknownError -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-
-                else -> {
-                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-            }
-        }
-    }
+//    fun getSubCategoryDetailsChamps(
+//        champsSurveyCallBack: ChampsSurveyCallBack,
+//        categoryName: String,
+//    ) {
+//        state.postValue(State.LOADING)
+//        viewModelScope.launch {
+//            val result = withContext(Dispatchers.IO) {
+//                ChampsApiRepo.getSubCategoryDetailsChamps();
+//            }
+//            when (result) {
+//                is ApiResult.Success -> {
+//                    if (result.value.status!!) {
+//                        state.value = State.ERROR
+//                        champsSurveyCallBack.onSuccessgetSubCategoryDetails(
+//                            result.value,
+//                            categoryName
+//                        )
+////                        getStoreDetailsChamps.value = result.value
+//                    } else {
+//                        state.value = State.ERROR
+//                        champsSurveyCallBack.onFailuregetSubCategoryDetails(result.value)
+//                        commands.value = Command.ShowToast(result.value.message!!)
+//                    }
+//                }
+//
+//                is ApiResult.GenericError -> {
+//                    commands.postValue(result.error?.let {
+//                        Command.ShowToast(it)
+//                    })
+//                    state.value = State.ERROR
+//                }
+//
+//                is ApiResult.NetworkError -> {
+//                    commands.postValue(Command.ShowToast("Network Error"))
+//                    state.value = State.ERROR
+//                }
+//
+//                is ApiResult.UnknownError -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//
+//                else -> {
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//                }
+//            }
+//        }
+//    }
 
     fun saveUpdateApi(
         champsSurveyCallBack: ChampsSurveyCallBack,
@@ -862,17 +862,23 @@ class ChampsSurveyViewModel : ViewModel() {
             }
         }
 
-
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("SW SAVE IMAGE URLS")) {
-            baseUrl =
-                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/cms_champs_survey/save-update"//"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/cms_champs_survey/save-update"
-//                token = data.APIS[i].TOKEN
-            break
-//            }
+            if (data.APIS[i].NAME.equals("CMS SAVE UPDATE")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
         }
+        /* for (i in data.APIS.indices) {
+ //            if (data.APIS[i].NAME.equals("SW SAVE IMAGE URLS")) {
+             baseUrl =
+                 "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/cms_champs_survey/save-update"//"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/cms_champs_survey/save-update"
+ //                token = data.APIS[i].TOKEN
+             break
+ //            }
+         }*/
         val saveUpdateRequestJson = Gson().toJson(saveUpdateRequest)
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {

@@ -69,19 +69,18 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     var nextUploadDate: LocalDate? = null
     lateinit var layoutManager: LinearLayoutManager
     var handler: Handler = Handler()
-    var dayWiseAccessMessage:String?=null
-    var dayofTheWeekPosition:Int=0
-    var positionOfTheDayWeekNew:String=""
+    var dayWiseAccessMessage: String? = null
+    var dayofTheWeekPosition: Int = 0
+    var positionOfTheDayWeekNew: String = ""
 
     var userDesignation = ""
 
     private var charArray = ArrayList<String>()
-   private var positionofftheDay = ArrayList<Int>()
+    private var positionofftheDay = ArrayList<Int>()
     private var positionofftheDayNewForWeek = ArrayList<String>()
     private var dayOfCharArrayList = ArrayList<String>()
     private var dayOfCharArrayListNew = ArrayList<DayOfCharArrayListModel>()
     private var dayOfCharArrayListNewTemp = ArrayList<DayOfCharArrayListModel>()
-
 
 
     var complaintListStatus: String = "0,1,2,3"
@@ -112,8 +111,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             showLoading()
             val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
             startActivityForResult(i, 781)
-        }
-        else {
+        } else {
 
 //       viewBinding.callback=this
             viewModel.getLastUploadedDate(this)
@@ -424,7 +422,6 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             viewModel.getStorePersonHistory.observeForever {
 
 
-
 //            getStorePersonHistoryList.clear()
 //            hideLoading()
 //            if (it != null) {
@@ -623,8 +620,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             getStoreHistoryRequest.status = updatedComplaintListStatus
             viewModel.getStorePersonHistory(getStoreHistoryRequest, this)
 
-        }
-        else {
+        } else {
             Toast.makeText(
                 requireContext(),
                 resources.getString(R.string.label_network_error),
@@ -708,7 +704,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     endPageNum = 10
                     complaintListStatus = "0,1,2,3"
                     viewBinding.storeId.text = Preferences.getSwachhSiteId()
-                    viewBinding.userId.text=Preferences.getToken()
+                    viewBinding.userId.text = Preferences.getToken()
                     callAPI(startPage, endPageNum, complaintListStatus)
                     viewModel.checkDayWiseAccess(this)
                     viewModel.swachImagesRegisters()
@@ -732,7 +728,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         val uploadStatusFilterDialog = context?.let { Dialog(it) }
         val dialogFilterUploadBinding: DialogFilterUploadBinding =
             DataBindingUtil.inflate(
-                LayoutInflater.from(context), R.layout.dialog_filter_upload, null, false)
+                LayoutInflater.from(context), R.layout.dialog_filter_upload, null, false
+            )
         uploadStatusFilterDialog!!.setContentView(dialogFilterUploadBinding.root)
         uploadStatusFilterDialog.getWindow()
             ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -885,7 +882,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     @RequiresApi(Build.VERSION_CODES.O)
     private fun calcNextFriday(d: LocalDate, dayName: String): LocalDate? {
         var nameOfDayy: DayOfWeek? = null
-        if (dayName.equals("Sunday")|| dayName.equals("0")) {
+        if (dayName.equals("Sunday") || dayName.equals("0")) {
             nameOfDayy = DayOfWeek.SUNDAY
             return d.with(TemporalAdjusters.next(nameOfDayy))
         } else if (dayName.equals("Monday") || dayName.equals("1")) {
@@ -894,10 +891,10 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         } else if (dayName.equals("Tuesday") || dayName.equals("2")) {
             nameOfDayy = DayOfWeek.TUESDAY
             return d.with(TemporalAdjusters.next(nameOfDayy))
-        } else if (dayName.equals("Wednesday")|| dayName.equals("3")) {
+        } else if (dayName.equals("Wednesday") || dayName.equals("3")) {
             nameOfDayy = DayOfWeek.WEDNESDAY
             return d.with(TemporalAdjusters.next(nameOfDayy))
-        } else if (dayName.equals("Thursday")|| dayName.equals("4")) {
+        } else if (dayName.equals("Thursday") || dayName.equals("4")) {
             nameOfDayy = DayOfWeek.THURSDAY
             return d.with(TemporalAdjusters.next(nameOfDayy))
         } else if (dayName.equals("Friday") || dayName.equals("5")) {
@@ -906,7 +903,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         } else if (dayName.equals("Saturday") || dayName.equals("6")) {
             nameOfDayy = DayOfWeek.SATURDAY
             return d.with(TemporalAdjusters.next(nameOfDayy))
-        }else{
+        } else {
             return null
         }
     }
@@ -917,12 +914,13 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
     override fun onClickPending() {
     }
-   var checkDayWiseAccessResponses: CheckDayWiseAccessResponse?=null
+
+    var checkDayWiseAccessResponses: CheckDayWiseAccessResponse? = null
 
     @SuppressLint("SimpleDateFormat")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onSuccessDayWiseAccesss(checkDayWiseAccessResponse: CheckDayWiseAccessResponse) {
-        var isAlreadyUpload:Boolean=false
+        var isAlreadyUpload: Boolean = false
         if (checkDayWiseAccessResponse != null) {
             val sdf = SimpleDateFormat("EEEE")
             val d = Date()
@@ -936,23 +934,32 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             val todaysDate = sdfc.format(Date())
 
 
-            var lastUploadedDate=""
+            var lastUploadedDate = ""
             if (checkDayWiseAccessResponse.lastUploadedDate != null && !checkDayWiseAccessResponse.lastUploadedDate!!.isEmpty()) {
                 val strDate = checkDayWiseAccessResponse.lastUploadedDate
                 val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
                 val date = dateFormat.parse(strDate)
-                 lastUploadedDate = SimpleDateFormat("dd MMM, yyyy").format(date)  +" - "+SimpleDateFormat("hh:mm:ss a").format(date)
+                lastUploadedDate =
+                    SimpleDateFormat("dd MMM, yyyy").format(date) + " - " + SimpleDateFormat("hh:mm:ss a").format(
+                        date
+                    )
                 viewBinding.uploadedOn.text = lastUploadedDate
-                if(lastUploadedDate!=null && !lastUploadedDate.isEmpty() && todaysDate.equals(lastUploadedDate)){
-                    isAlreadyUpload=true
+                if (lastUploadedDate != null && !lastUploadedDate.isEmpty() && todaysDate.equals(
+                        lastUploadedDate
+                    )
+                ) {
+                    isAlreadyUpload = true
                 }
             } else {
                 viewBinding.uploadedOn.text = "--"
                 hideLoading()
 
             }
-            if(lastUploadedDate!=null && !lastUploadedDate.isEmpty() && todaysDate.equals(lastUploadedDate)){
-                isAlreadyUpload=true
+            if (lastUploadedDate != null && !lastUploadedDate.isEmpty() && todaysDate.equals(
+                    lastUploadedDate
+                )
+            ) {
+                isAlreadyUpload = true
             }
 
 
@@ -971,31 +978,34 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             }
 
             for (i in positionofftheDay.indices) {
-                if (positionofftheDay.get(i)==0) {
+                if (positionofftheDay.get(i) == 0) {
                     positionofftheDayNewForWeek.add("Sunday")
-                } else if (positionofftheDay.get(i)==1) {
+                } else if (positionofftheDay.get(i) == 1) {
                     positionofftheDayNewForWeek.add("Monday")
-                } else if (positionofftheDay.get(i)==2) {
+                } else if (positionofftheDay.get(i) == 2) {
                     positionofftheDayNewForWeek.add("Tuesday")
-                } else if (positionofftheDay.get(i)==3) {
+                } else if (positionofftheDay.get(i) == 3) {
                     positionofftheDayNewForWeek.add("Wednesday")
-                } else if (positionofftheDay.get(i)==4) {
+                } else if (positionofftheDay.get(i) == 4) {
                     positionofftheDayNewForWeek.add("Thursday")
-                } else if (positionofftheDay.get(i)==5) {
+                } else if (positionofftheDay.get(i) == 5) {
                     positionofftheDayNewForWeek.add("Friday")
-                } else if (positionofftheDay.get(i)==6) {
+                } else if (positionofftheDay.get(i) == 6) {
                     positionofftheDayNewForWeek.add("Saturday")
                 }
             }
 
 
 
-            if(positionofftheDayNewForWeek.size>1 && positionofftheDayNewForWeek.contains(dayOfTheWeek) && isAlreadyUpload){
-                var removePos:Int=0
+            if (positionofftheDayNewForWeek.size > 1 && positionofftheDayNewForWeek.contains(
+                    dayOfTheWeek
+                ) && isAlreadyUpload
+            ) {
+                var removePos: Int = 0
                 positionofftheDayNewForWeek.size
                 for (i in positionofftheDayNewForWeek.indices) {
-                    if (positionofftheDayNewForWeek.get(i)==dayOfTheWeek) {
-                        removePos=i
+                    if (positionofftheDayNewForWeek.get(i) == dayOfTheWeek) {
+                        removePos = i
                     }
                 }
                 positionofftheDayNewForWeek.removeAt(removePos)
@@ -1005,85 +1015,95 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 var dayOfCharArrayListModel = DayOfCharArrayListModel()
                 if (positionofftheDayNewForWeek.get(i) == "Sunday") {
                     dayofCharArray = "Sunday"
-                    dayOfCharArrayListModel!!.weekname="Sunday"
-                    dayOfCharArrayListModel!!.weekposition=0
-                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Sunday")
+                    dayOfCharArrayListModel!!.weekname = "Sunday"
+                    dayOfCharArrayListModel!!.weekposition = 0
+                    dayOfCharArrayListModel!!.localDate =
+                        nextComingdayDate(LocalDate.now(), "Sunday")
                 } else if (positionofftheDayNewForWeek.get(i) == "Monday") {
                     dayofCharArray = "Monday"
-                    dayOfCharArrayListModel!!.weekname="Monday"
-                    dayOfCharArrayListModel!!.weekposition=1
-                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Monday")
+                    dayOfCharArrayListModel!!.weekname = "Monday"
+                    dayOfCharArrayListModel!!.weekposition = 1
+                    dayOfCharArrayListModel!!.localDate =
+                        nextComingdayDate(LocalDate.now(), "Monday")
                 } else if (positionofftheDayNewForWeek.get(i) == "Tuesday") {
                     dayofCharArray = "Tuesday"
-                    dayOfCharArrayListModel!!.weekname="Tuesday"
-                    dayOfCharArrayListModel!!.weekposition=2
-                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Tuesday")
+                    dayOfCharArrayListModel!!.weekname = "Tuesday"
+                    dayOfCharArrayListModel!!.weekposition = 2
+                    dayOfCharArrayListModel!!.localDate =
+                        nextComingdayDate(LocalDate.now(), "Tuesday")
                 } else if (positionofftheDayNewForWeek.get(i) == "Wednesday") {
                     dayofCharArray = "Wednesday"
-                    dayOfCharArrayListModel!!.weekname="Wednesday"
-                    dayOfCharArrayListModel!!.weekposition=3
-                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Wednesday")
+                    dayOfCharArrayListModel!!.weekname = "Wednesday"
+                    dayOfCharArrayListModel!!.weekposition = 3
+                    dayOfCharArrayListModel!!.localDate =
+                        nextComingdayDate(LocalDate.now(), "Wednesday")
                 } else if (positionofftheDayNewForWeek.get(i) == "Thursday") {
                     dayofCharArray = "Thursday"
-                    dayOfCharArrayListModel!!.weekname="Thursday"
-                    dayOfCharArrayListModel!!.weekposition=4
-                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Thursday")
+                    dayOfCharArrayListModel!!.weekname = "Thursday"
+                    dayOfCharArrayListModel!!.weekposition = 4
+                    dayOfCharArrayListModel!!.localDate =
+                        nextComingdayDate(LocalDate.now(), "Thursday")
                 } else if (positionofftheDayNewForWeek.get(i) == "Friday") {
                     dayofCharArray = "Friday"
-                    dayOfCharArrayListModel!!.weekname="Friday"
-                    dayOfCharArrayListModel!!.weekposition=5
-                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Friday")
+                    dayOfCharArrayListModel!!.weekname = "Friday"
+                    dayOfCharArrayListModel!!.weekposition = 5
+                    dayOfCharArrayListModel!!.localDate =
+                        nextComingdayDate(LocalDate.now(), "Friday")
                 } else if (positionofftheDayNewForWeek.get(i) == "Saturday") {
                     dayofCharArray = "Saturday"
-                    dayOfCharArrayListModel!!.weekname="Saturday"
-                    dayOfCharArrayListModel!!.weekposition=6
-                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Saturday")
+                    dayOfCharArrayListModel!!.weekname = "Saturday"
+                    dayOfCharArrayListModel!!.weekposition = 6
+                    dayOfCharArrayListModel!!.localDate =
+                        nextComingdayDate(LocalDate.now(), "Saturday")
                 }
 //                dayOfCharArrayList.add(dayofCharArray!!)
                 dayOfCharArrayListNew.add(dayOfCharArrayListModel!!)
 
             }
 
-            var nearestDate : LocalDate? = null;
+            var nearestDate: LocalDate? = null;
             var isCurrentDay = false
-            for (i in dayOfCharArrayListNew){
-                if (nearestDate != null){
-                    if (i.localDate!!.isBefore(nearestDate)){
+            for (i in dayOfCharArrayListNew) {
+                if (nearestDate != null) {
+                    if (i.localDate!!.isBefore(nearestDate)) {
                         nearestDate = i.localDate
-                        positionofday =i.weekposition.toString()
+                        positionofday = i.weekposition.toString()
 
                     }
-                }else{
+                } else {
                     nearestDate = i.localDate
-                    positionofday =i.weekposition.toString()
+                    positionofday = i.weekposition.toString()
 
                 }
-                if (dayOfCharArrayListNew.get(dayOfCharArrayListNew.indexOf(i)).weekname.equals(dayOfTheWeek)) {
+                if (dayOfCharArrayListNew.get(dayOfCharArrayListNew.indexOf(i)).weekname.equals(
+                        dayOfTheWeek
+                    )
+                ) {
                     isCurrentDay = true
                 }
             }
 
             val dt = LocalDate.now()
             if (isCurrentDay) {
-                    if (isAlreadyUpload){
-                        viewBinding.todaysDateLayout.visibility = View.GONE
-                        viewBinding.todaysUpdateLayout.visibility = View.GONE
-                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                        viewBinding.uploadNowLayout.visibility = View.GONE
-                        viewBinding.uploadOnLayout.visibility = View.VISIBLE
-                        val strDate = calcNextFriday(dt, positionofday!!).toString()
-                        val dateFormat = SimpleDateFormat("yyyy-MM-dd");
-                        val date = dateFormat.parse(strDate.toString())
-                        val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
-                        viewBinding.dayoftheweekLayout.text = dateNewFormat
-                    }else{
-                        viewBinding.todaysDateLayout.visibility = View.GONE
-                        viewBinding.todaysUpdateLayout.visibility = View.GONE
-                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                        viewBinding.uploadNowLayout.visibility = View.VISIBLE
-                        viewBinding.uploadOnLayout.visibility = View.GONE
+                if (isAlreadyUpload) {
+                    viewBinding.todaysDateLayout.visibility = View.GONE
+                    viewBinding.todaysUpdateLayout.visibility = View.GONE
+                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                    viewBinding.uploadNowLayout.visibility = View.GONE
+                    viewBinding.uploadOnLayout.visibility = View.VISIBLE
+                    val strDate = calcNextFriday(dt, positionofday!!).toString()
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+                    val date = dateFormat.parse(strDate.toString())
+                    val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
+                    viewBinding.dayoftheweekLayout.text = dateNewFormat
+                } else {
+                    viewBinding.todaysDateLayout.visibility = View.GONE
+                    viewBinding.todaysUpdateLayout.visibility = View.GONE
+                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                    viewBinding.uploadNowLayout.visibility = View.VISIBLE
+                    viewBinding.uploadOnLayout.visibility = View.GONE
 
-                    }
+                }
             }
             if (!isCurrentDay && positionofday != null) {
                 viewBinding.todaysDateLayout.visibility = View.GONE
@@ -1098,12 +1118,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             }
 
 
-        }
-
-
-
-
-        else{
+        } else {
 
         }
         // hideLoading()
@@ -1129,9 +1144,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
             }
         }
-        if(!Preferences.getToken().isEmpty()){
+        if (!Preferences.getToken().isEmpty()) {
             viewBinding.userId.text = Preferences.getToken()
-        }else{
+        } else {
             viewBinding.userId.text = "--"
         }
     }
@@ -1148,7 +1163,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 viewBinding.noOrdersFound.visibility = View.GONE
                 viewBinding.imageRecyclerView.visibility = View.VISIBLE
                 getStorePersonAdapter =
-                    GetStorePersonAdapter(value.getList,
+                    GetStorePersonAdapter(
+                        value.getList,
                         this
                     )
                 layoutManager = LinearLayoutManager(ViswamApp.context)
@@ -1160,8 +1176,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 viewBinding.noOrdersFound.visibility = View.VISIBLE
                 viewBinding.imageRecyclerView.visibility = View.GONE
             }
-        }
-        else {
+        } else {
 
             if (isLoading) {
                 viewBinding.noOrdersFound.visibility = View.GONE
@@ -1180,7 +1195,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 viewBinding.noOrdersFound.visibility = View.GONE
                 viewBinding.imageRecyclerView.visibility = View.VISIBLE
                 getStorePersonAdapter =
-                    GetStorePersonAdapter(value.getList,
+                    GetStorePersonAdapter(
+                        value.getList,
                         this
                     )
                 layoutManager = LinearLayoutManager(ViswamApp.context)
@@ -1203,14 +1219,14 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     }
 
     override fun onSuccessOnUploadSwach(value: OnUploadSwachModelResponse) {
+        hideLoading()
+
+
+        if (value != null && value.status == true) {
+//                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
             hideLoading()
 
-
-            if (value != null && value.status == true) {
-//                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
-                hideLoading()
-
-            } else if (value != null && value.status == false && value.message == "ALREADY UPLAODED") {
+        } else if (value != null && value.status == false && value.message == "ALREADY UPLAODED") {
 
 //                if(positionofftheDayNewForWeek.size==1){
 //                    val simpleDateFormat = SimpleDateFormat("dd MMM, yyyy, EEEE")
@@ -1247,9 +1263,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
 
 
-            } else{
+        } else {
 
-            }
+        }
 
     }
 
@@ -1277,8 +1293,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         progressDialog.setCanceledOnTouchOutside(false)
         return progressDialog
     }
+
     @SuppressLint("NewApi")
-    private fun nextComingdayDate(d: LocalDate, dayName : String): LocalDate? {
+    private fun nextComingdayDate(d: LocalDate, dayName: String): LocalDate? {
         var nameOfDayy: DayOfWeek? = null
         if (dayName == "Sunday") {
 
@@ -1301,7 +1318,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         } else if (dayName == "Saturday") {
 
             return d.with(TemporalAdjusters.next(DayOfWeek.SATURDAY))
-        }else{
+        } else {
             return null
         }
 

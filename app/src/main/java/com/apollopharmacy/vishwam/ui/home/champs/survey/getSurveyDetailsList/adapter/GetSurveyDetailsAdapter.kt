@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.AdapterGetsurveyDetailsBinding
-import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListCallback
 import com.apollopharmacy.vishwam.ui.home.model.GetSurveyDetailsModelResponse
 import java.text.SimpleDateFormat
+import java.util.*
 
 class GetSurveyDetailsAdapter(
-    private var getSurvetDetailsModelResponse: GetSurveyDetailsModelResponse,
+    private var getSurvetDetailsModelResponse: List<GetSurveyDetailsModelResponse.StoreDetail>,
     private var applicationContext: Context,
     private var getSurveyDetailsListCallback: GetSurveyDetailsListCallback
 ) : RecyclerView.Adapter<GetSurveyDetailsAdapter.ViewHolder>()  {
@@ -36,15 +36,15 @@ class GetSurveyDetailsAdapter(
 
     @SuppressLint("ResourceType")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-       var surveyList = getSurvetDetailsModelResponse.storeDetails.get(position)
+       var surveyList = getSurvetDetailsModelResponse.get(position)
         holder.adapterGetSurveyDetailsBinding.champsRefId.text=surveyList.champsRefernceId
         holder.adapterGetSurveyDetailsBinding.siteName.text=surveyList.sitename + "," + " " + surveyList.city
 
         val strDate = surveyList.visitDate
-        val dateFormat = SimpleDateFormat("dd-MM-yy hh:mm:ss");
+        val dateFormat = SimpleDateFormat("dd-MM-yy kk:mm:ss");
         val date = dateFormat.parse(strDate)
         val dateNewFormat =
-            SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+            SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.getDefault()).format(date)
         if(surveyList.status.equals("PENDING")){
             holder.adapterGetSurveyDetailsBinding.status.setTextColor(context.getColor(R.color.pending_reshoot_color))
             holder.adapterGetSurveyDetailsBinding.statusLayout.setBackgroundColor((context.getColor(R.color.light_pink_for_reshoot_pending))
@@ -57,14 +57,14 @@ class GetSurveyDetailsAdapter(
         }
         holder.adapterGetSurveyDetailsBinding.visitDate.text=dateNewFormat
         holder.adapterGetSurveyDetailsBinding.cardView.setOnClickListener {
-            getSurveyDetailsListCallback.onClickCardView(surveyList.status, surveyList.champsRefernceId)
+            getSurveyDetailsListCallback.onClickCardView(surveyList.status, surveyList.champsRefernceId, holder.adapterGetSurveyDetailsBinding.siteName.text.toString())
         }
 
     }
 
 
     override fun getItemCount(): Int {
-       return getSurvetDetailsModelResponse.storeDetails.size
+       return getSurvetDetailsModelResponse.size
     }
 
 

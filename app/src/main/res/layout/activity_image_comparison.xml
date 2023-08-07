@@ -113,47 +113,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
+                android:layout_height="match_parent"
 
-                android:layout_height="match_parent">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/first_image"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:src="@drawable/icon_cancel_order_header"
-                        android:tint="@color/black"
-                        tools:ignore="UseAppTint" />
+                android:orientation="vertical">
 
 
-                    <ImageView
-                        android:id="@+id/second_image"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:layout_marginEnd="5dp"
-                        android:src="@drawable/icon_cancel_order_header"
-                        android:tint="@color/black"
-                        tools:ignore="UseAppTint" />
-
-
-                </RelativeLayout>
                 <com.github.developer__.BeforeAfterSlider
                     android:id="@+id/beforeAfterSlider"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="@dimen/text_18sp"
                     android:layout_marginTop="@dimen/value_3dp"
-                    app:after_image="@drawable/capture"
-                    app:before_image="@drawable/desktop"
+                    android:textSize="@dimen/text_18sp"
+
                     app:slider_thumb="@mipmap/white_circle" />
             </LinearLayout>
 
@@ -339,27 +310,68 @@
                 android:text="Previous"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_12sp" />-->
-<!--            <ImageView-->
-<!--                android:id="@+id/first_image"-->
-<!--                android:layout_width="22dp"-->
-<!--                android:layout_height="22dp"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:layout_marginTop="@dimen/value_5dp"-->
-<!--                android:src="@drawable/icon_cancel_order_header"-->
-<!--                android:tint="@color/black"-->
-<!--                tools:ignore="UseAppTint" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/first_image"-->
+            <!--                android:layout_width="22dp"-->
+            <!--                android:layout_height="22dp"-->
+            <!--                android:layout_marginStart="5dp"-->
+            <!--                android:layout_marginTop="@dimen/value_5dp"-->
+            <!--                android:src="@drawable/icon_cancel_order_header"-->
+            <!--                android:tint="@color/black"-->
+            <!--                tools:ignore="UseAppTint" />-->
 
 
-<!--            <ImageView-->
-<!--                android:id="@+id/second_image"-->
-<!--                android:layout_width="22dp"-->
-<!--                android:layout_height="22dp"-->
-<!--                android:layout_alignParentEnd="true"-->
-<!--                android:layout_marginTop="@dimen/value_5dp"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                android:src="@drawable/icon_cancel_order_header"-->
-<!--                android:tint="@color/black"-->
-<!--                tools:ignore="UseAppTint" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/second_image"-->
+            <!--                android:layout_width="22dp"-->
+            <!--                android:layout_height="22dp"-->
+            <!--                android:layout_alignParentEnd="true"-->
+            <!--                android:layout_marginTop="@dimen/value_5dp"-->
+            <!--                android:layout_marginEnd="5dp"-->
+            <!--                android:src="@drawable/icon_cancel_order_header"-->
+            <!--                android:tint="@color/black"-->
+            <!--                tools:ignore="UseAppTint" />-->
+
+            <LinearLayout
+                android:layout_width="@dimen/twenty_seven27_dp"
+                android:layout_height="@dimen/twenty_seven27_dp"
+android:layout_alignParentStart="true"
+                android:layout_marginStart="2dp"
+                android:background="@color/black">
+
+                <ImageView
+                    android:id="@+id/first_image"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:src="@drawable/icon_cancel_order_header"
+                    android:tint="@color/whiteee"
+                    tools:ignore="UseAppTint" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/twenty_seven27_dp"
+                android:layout_height="@dimen/twenty_seven27_dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="2dp"
+                android:background="@color/black">
+
+                <ImageView
+                    android:id="@+id/second_image"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:layout_marginEnd="5dp"
+
+                    android:src="@drawable/icon_cancel_order_header"
+                    android:tint="@color/whiteee"
+                    tools:ignore="UseAppTint" />
+
+            </RelativeLayout>
+
+
         </RelativeLayout>
 
         <LinearLayout
@@ -374,13 +386,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|center_horizontal">
 
-                <ImageView
+                <TextView
                     android:id="@+id/matchingcolor"
-                    android:layout_width="@dimen/value_20dp"
-                    android:layout_height="@dimen/value_20dp"
-                    android:src="@drawable/rounded_background"
-                    android:tint="@color/red"
-                    tools:ignore="UseAppTint" />
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_rating_bar_green"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -400,7 +415,7 @@
                         android:id="@+id/matchingPercentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="25%"
+                        android:text="0%"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_16sp"
                         android:textStyle="bold" />
