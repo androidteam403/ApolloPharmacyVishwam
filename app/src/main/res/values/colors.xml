@@ -222,5 +222,8 @@
     <color name="dark_grey_ceo_dashboard">#e7e7e7</color>
 
     <color name="green_color_bg">#43974f</color>
+    <color name="liight_green">#e8f7f2</color>
+    <color name="lightt_ash">#cacaca</color>
+    <color name="greenY">#009244</color>
 
 </resources>

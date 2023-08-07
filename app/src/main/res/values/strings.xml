@@ -16,7 +16,6 @@
 
     </string-array>
 
-
     <string name="label_pickup_instructions">Pickup Instructions</string>
     <string name="label_reached_the_store">1. Reached the Store</string>
     <string name="label_verify_otp">Verify OTP</string>

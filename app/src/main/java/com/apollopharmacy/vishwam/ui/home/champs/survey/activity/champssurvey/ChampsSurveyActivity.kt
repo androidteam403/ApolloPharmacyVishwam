@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -13,6 +14,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -330,6 +332,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         activityChampsSurveyBinding.technicalCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
+
+               openSoftKeyboard()
+                activityChampsSurveyBinding.enterTextTechnicalEdittext.requestFocus();
                 activityChampsSurveyBinding.technicalEdittext.visibility = View.VISIBLE
                 activityChampsSurveyBinding.charLeftLayoutTechnical.visibility = View.VISIBLE
             } else {
@@ -340,6 +345,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         activityChampsSurveyBinding.softskillsCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
+               openSoftKeyboard()
+                activityChampsSurveyBinding.enterSoftSkillsEdittext.requestFocus();
                 activityChampsSurveyBinding.softSkillsEdittext.visibility = View.VISIBLE
                 activityChampsSurveyBinding.charLeftLayoutSoftskills.visibility = View.VISIBLE
             } else {
@@ -350,6 +357,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         activityChampsSurveyBinding.otherTrainingCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
+                openSoftKeyboard()
+                activityChampsSurveyBinding.enterOtherTrainingEdittext.requestFocus();
                 activityChampsSurveyBinding.otherTrainingEdittext.visibility = View.VISIBLE
                 activityChampsSurveyBinding.charLeftLayoutOtherrTraining.visibility = View.VISIBLE
             } else {
@@ -402,6 +411,16 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 //            }).start()
 //        }
     }
+    var keyBoardOpen=false
+    fun openSoftKeyboard() {
+        if(!keyBoardOpen){
+            keyBoardOpen=true
+            val inputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        }
+
+    }
 
     private fun disableSaveSubmit() {
         if (technicalFilled && softSkillsFilled && otherTrainingFilled) {
@@ -420,6 +439,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     override fun onClickBack() {
         super.onBackPressed()
     }
+
 
     override fun onClickCategory(categoryName: String, position: Int) {
         getCategoryAndSubCategoryDetails?.storeIdP =
@@ -1439,6 +1459,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     ) {
         Utlis.hideLoading()
         dialogSubmit = Dialog(this)
+        dialogSubmit.setCancelable(false)
         dialogSubmit.setContentView(R.layout.dialog_champs_survey)
         val close = dialogSubmit.findViewById<ImageView>(R.id.close_dialog_save_)
 //        val siteId = dialogSubmit.findViewById<TextView>(R.id.site_id_save_)
@@ -1446,6 +1467,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         val startTime = dialogSubmit.findViewById<TextView>(R.id.started_survey_on_save_)
         val endTime = dialogSubmit.findViewById<TextView>(R.id.survey_ended_on_save_)
         val progressBar = dialogSubmit.findViewById<ProgressBar>(R.id.seekbar1_save_)
+        progressBar.isEnabled = false
         val timeTaken = dialogSubmit.findViewById<TextView>(R.id.total_time_taken_save_)
         val champsId = dialogSubmit.findViewById<TextView>(R.id.champs_id)
         val message = dialogSubmit.findViewById<TextView>(R.id.successfull_text)
@@ -1743,9 +1765,23 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     override fun onSuccessGetSurveyDetailsByChampsId(getSurveyDetailsByChapmpsId: GetSurevyDetailsByChampsIdResponse) {
         if (getSurveyDetailsByChapmpsId != null && getSurveyDetailsByChapmpsId.headerDetails != null) {
-            activityChampsSurveyBinding.issuesTobeResolvedTextView.setText(
-                getSurveyDetailsByChapmpsId!!.headerDetails.issuesToBeResolved
-            )
+            if (getSurveyDetailsByChapmpsId.headerDetails.status.equals("0")) {
+                activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.setText(
+                    getSurveyDetailsByChapmpsId.headerDetails.issuesToBeResolved.toString()
+                )
+            } else {
+                if (getSurveyDetailsByChapmpsId!!.headerDetails.issuesToBeResolved.isNullOrEmpty()) {
+                    activityChampsSurveyBinding.issuesTobeResolvedTextView.setText("--")
+                } else {
+                    activityChampsSurveyBinding.issuesTobeResolvedTextView.visibility = View.VISIBLE
+                    activityChampsSurveyBinding.issuesTobeResolvedTextView.setText(
+                        getSurveyDetailsByChapmpsId!!.headerDetails.issuesToBeResolved
+                    )
+                }
+
+            }
+
+
 //            headerDetails.state = activityChampsSurveyBinding.region.text.toString()
 //            headerDetails.city = activityChampsSurveyBinding.storeCity.text.toString()
 //            headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
@@ -1815,9 +1851,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             activityChampsSurveyBinding.enterOtherTrainingEdittext.setText(
                 getSurveyDetailsByChapmpsId.headerDetails.otherTraining.toString()
             )
-            activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.setText(
-                getSurveyDetailsByChapmpsId.headerDetails.issuesToBeResolved.toString()
-            )
+
             overallProgressBarCount((getSurveyDetailsByChapmpsId.headerDetails.total).toFloat())
             sumOfCategoriess = ((getSurveyDetailsByChapmpsId.headerDetails.total).toFloat())
             activityChampsSurveyBinding.employeeId.setText(getSurveyDetailsByChapmpsId.headerDetails.createdBy)
@@ -2013,10 +2047,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                                 (getSurveyDetailsByChapmpsId.categoryDetails.planogram).toFloat() +
                                 (getSurveyDetailsByChapmpsId.categoryDetails.licensesRenewal).toFloat() +
                                 (getSurveyDetailsByChapmpsId.categoryDetails.biometric).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.maintenanceHdRegister).toFloat()
-                    (getSurveyDetailsByChapmpsId.categoryDetails.dutyRostersAllotment).toFloat()
-                    (getSurveyDetailsByChapmpsId.categoryDetails.internet).toFloat()
-                    (getSurveyDetailsByChapmpsId.categoryDetails.swipingMachineWorking).toFloat()
+                                (getSurveyDetailsByChapmpsId.categoryDetails.maintenanceHdRegister).toFloat() +
+                                (getSurveyDetailsByChapmpsId.categoryDetails.dutyRostersAllotment).toFloat() +
+                                (getSurveyDetailsByChapmpsId.categoryDetails.internet).toFloat() +
+                                (getSurveyDetailsByChapmpsId.categoryDetails.swipingMachineWorking).toFloat() +
+                                (getSurveyDetailsByChapmpsId.categoryDetails.theCcCamerasWorking).toFloat() +
+                                (getSurveyDetailsByChapmpsId.categoryDetails.printersWorkingCondition).toFloat()
+
                     getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.clickedSubmit = true
                     getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
                         0

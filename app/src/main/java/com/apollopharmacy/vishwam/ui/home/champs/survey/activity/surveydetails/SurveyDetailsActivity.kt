@@ -181,7 +181,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
             activityStartSurvey2Binding.regionalHead.text = "--"
         }
 
-        activityStartSurvey2Binding.storeId.text = storeId
+        activityStartSurvey2Binding.storeId.text = "${storeId} - ${Preferences.getApnaSiteName()}"
         if (region != null) {
             activityStartSurvey2Binding.address.text = region
         }
