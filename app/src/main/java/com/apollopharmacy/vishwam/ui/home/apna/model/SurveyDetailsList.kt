@@ -304,6 +304,11 @@ class SurveyDetailsList : Serializable {
         @Expose
         var buildingAge: Double? = null
 
+        @SerializedName("bldg_age_in_month")
+        @Expose
+        var bldgAgeInMonth: Double? = null
+
+
         @SerializedName("morning_from")
         @Expose
         var morningFrom: String? = null

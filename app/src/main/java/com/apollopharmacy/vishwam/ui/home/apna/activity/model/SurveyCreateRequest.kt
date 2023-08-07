@@ -99,6 +99,11 @@ class SurveyCreateRequest : Serializable {
     @Expose
     var buildingAge: String? = null
 
+    @SerializedName("bldg_age_in_month ")
+    @Expose
+    var bldgAgeInMonth: String? = null
+
+
     @SerializedName("expected_rent")
     @Expose
     var expectedRent: Int? = null

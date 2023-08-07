@@ -46,7 +46,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     lateinit var layoutManager: LinearLayoutManager
     var isScrolling: Boolean = false
     private var isFirstTime: Boolean = true
-    var surveyStatusList: String = "new,inprogress,rejected,approved,cancelled"
+    var surveyStatusList: String = "new,inprogress,rejected,approved"//cancelled
     lateinit var dialogSurveyListFilterBinding: DialogSurveyListFilterBinding
     var handler: Handler = Handler()
     var adapter: ApnaSurveyAdapter? = null
@@ -151,7 +151,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         if (!viewBinding.pullToRefresh.isRefreshing) Utlis.showLoading(requireContext())
         pageNo = 1
         viewBinding.search.setText("")
-        surveyStatusList = "new,inprogress,rejected,approved,cancelled"
+        surveyStatusList = "new,inprogress,rejected,approved"//cancelled
 //        dialogSurveyListFilterBinding.isNewChecked = this.surveyStatusList.contains("new")
 //        dialogSurveyListFilterBinding.isInProgressChecked =
 //            this.surveyStatusList.contains("inprogress")
