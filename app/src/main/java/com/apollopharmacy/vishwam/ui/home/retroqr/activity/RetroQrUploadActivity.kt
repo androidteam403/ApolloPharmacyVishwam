@@ -116,8 +116,6 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         }
 
 
-
-
     }
 
     override fun onClickBackArrow() {
@@ -351,7 +349,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                     val resizedBitmap2 = resizeBitmap(bitmap2, newWidth, newHeight)
                     val threshold = 21
 
-                    val matchingPercentage: Double = calculateMatchingPercentage(resizedBitmap1!!, resizedBitmap2!!)
+                    val matchingPercentage: Double =
+                        calculateMatchingPercentage(resizedBitmap1!!, resizedBitmap2!!)
 
                     reviewImagesList.get(position).matchingPercentage =
                         matchingPercentage.toInt().toString()
@@ -583,8 +582,6 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     }
 
 
-
-
     fun calculateColorDifference(color1: Int, color2: Int, thresholdAlpha: Int): Int {
         // Calculate the color difference between two pixels
         val alpha1 = Color.alpha(color1)
@@ -616,7 +613,11 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         var totalColorDifference = 0
         for (x in 0 until bitmap1.width) {
             for (y in 0 until bitmap1.height) {
-                totalColorDifference += calculateColorDifference(bitmap1.getPixel(x, y), bitmap2.getPixel(x, y), threshold)
+                totalColorDifference += calculateColorDifference(
+                    bitmap1.getPixel(x, y),
+                    bitmap2.getPixel(x, y),
+                    threshold
+                )
             }
         }
 
