@@ -354,7 +354,27 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 //            }
 //        }
 
-        if (surveyCreateRequest.buildingAge != null && surveyCreateRequest.buildingAge != "") {
+        var ageofTheBuildingText = ""
+        if (surveyCreateRequest.buildingAge != null && !surveyCreateRequest.buildingAge!!.isEmpty()) {
+            ageofTheBuildingText = "${surveyCreateRequest.buildingAge} years"
+            if (surveyCreateRequest.bldgAgeInMonth != null && !surveyCreateRequest.bldgAgeInMonth!!.isEmpty()) {
+                ageofTheBuildingText =
+                    "$ageofTheBuildingText ${surveyCreateRequest.bldgAgeInMonth} months"
+            }
+            activityApnaSurveyPreviewBinding.ageOfTheBuilding.text = "$ageofTheBuildingText"
+        }else{
+            if (surveyCreateRequest.bldgAgeInMonth != null && !surveyCreateRequest.bldgAgeInMonth!!.isEmpty()) {
+                ageofTheBuildingText =
+                    "0 years ${surveyCreateRequest.bldgAgeInMonth} months"
+                activityApnaSurveyPreviewBinding.ageOfTheBuilding.text = "$ageofTheBuildingText"
+            }else{
+                ageofTheBuildingText = "-"
+                activityApnaSurveyPreviewBinding.ageOfTheBuilding.text = "$ageofTheBuildingText"
+            }
+        }
+
+
+       /* if (surveyCreateRequest.buildingAge != null && surveyCreateRequest.buildingAge != "") {
 
             var ageofBuilding = surveyCreateRequest.buildingAge
             if (ageofBuilding!!.contains(".")) {
@@ -371,7 +391,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             }
         } else {
             activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText("-")
-        }
+        }*/
 
         if (surveyCreateRequest.parking != null) {
             val parking: SurveyCreateRequest.Parking = surveyCreateRequest.parking!!

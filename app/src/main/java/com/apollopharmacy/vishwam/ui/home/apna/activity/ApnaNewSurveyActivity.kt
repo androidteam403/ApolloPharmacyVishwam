@@ -50,7 +50,6 @@ import com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload.FileUploadApn
 import com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload.FileUploadApnaSurveyModel
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.DimensionTypeResponse.Data.ListData.Row
-import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.bumptech.glide.Glide
@@ -4172,7 +4171,21 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim()
                     }"
                 }
-                surveyCreateRequest.buildingAge = ageOfTheBuilding
+
+                surveyCreateRequest.buildingAge =
+                    activityApnaNewSurveyBinding.ageOfTheBuildingText.text.toString().trim()
+                //ageOfTheBuilding
+
+
+                var ageofThebuildinginMnths: String =
+                    activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim()
+                if (ageofThebuildinginMnths != null && !ageofThebuildinginMnths.isEmpty()) {
+                    surveyCreateRequest.bldgAgeInMonth = ageofThebuildinginMnths
+                } else {
+                    surveyCreateRequest.bldgAgeInMonth = "0"
+                }
+                /*surveyCreateRequest.bldgAgeInMonth =
+                    activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim()*/
 
                 if (activityApnaNewSurveyBinding.parkingRadioGroup.checkedRadioButtonId != -1) {
                     val parkingRadioGroupId =
@@ -4853,6 +4866,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
     var organisedUid = ""
     override fun organisedItemSelect(position: Int, name: String, uid: String) {
+        if (uid.equals("No")) {
+            activityApnaNewSurveyBinding.organisedAvgSaleText.isEnabled = false
+        } else {
+            activityApnaNewSurveyBinding.organisedAvgSaleText.isEnabled = true
+        }
         this.organisedUid = uid
         activityApnaNewSurveyBinding.organisedSelect.setText(name)
         organisedDialog.dismiss()
@@ -4860,6 +4878,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
     var unOrganisedUid = ""
     override fun onUnorganisedItemSelect(position: Int, name: String, uid: String) {
+        if (uid.equals("No")) {
+            activityApnaNewSurveyBinding.unorganisedAvgSaleText.isEnabled = false
+        } else {
+            activityApnaNewSurveyBinding.unorganisedAvgSaleText.isEnabled = true
+        }
         this.unOrganisedUid = uid
         activityApnaNewSurveyBinding.unorganisedSelect.setText(name)
         unorganisedDialog.dismiss()
@@ -5325,7 +5348,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
         var videoList = ArrayList<SurveyCreateRequest.VideoMb.Video>()
         var video = SurveyCreateRequest.VideoMb.Video()
-        video.url =  RijndaelCipherEncryptDecrypt().decrypt(fileUploadApnaSurveyModelList!!.get(0)!!.fileDownloadResponse!!.referenceurl!!, RijndaelCipherEncryptDecrypt().key)
+        video.url = RijndaelCipherEncryptDecrypt().decrypt(
+            fileUploadApnaSurveyModelList!!.get(0)!!.fileDownloadResponse!!.referenceurl!!,
+            RijndaelCipherEncryptDecrypt().key
+        )
         videoList.add(video)
         videoMb.video = videoList
         surveyCreateRequest.videoMb = videoMb

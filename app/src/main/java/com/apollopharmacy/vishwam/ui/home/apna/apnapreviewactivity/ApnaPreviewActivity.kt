@@ -1283,6 +1283,30 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 //            apnaPreviewActivityBinding.toiletsAvailability.setText("-")
         }
 
+        var ageofTheBuildingText = ""
+        if (value.data!!.buildingAge != null) {
+            ageofTheBuildingText = "${value.data!!.buildingAge} years"
+            if (value.data!!.bldgAgeInMonth != null) {
+                ageofTheBuildingText =
+                    "$ageofTheBuildingText ${value.data!!.bldgAgeInMonth} months"
+            }
+            apnaPreviewActivityBinding.ageOfTheBuilding.text = "$ageofTheBuildingText"
+        } else {
+            if (value.data!!.bldgAgeInMonth != null) {
+                ageofTheBuildingText =
+                    "0 years ${value.data!!.bldgAgeInMonth} months"
+                apnaPreviewActivityBinding.ageOfTheBuilding.text = "$ageofTheBuildingText"
+            } else {
+                ageofTheBuildingText = "-"
+                apnaPreviewActivityBinding.ageOfTheBuilding.text = "$ageofTheBuildingText"
+            }
+        }
+
+
+
+
+
+/*
         if (value.data!!.buildingAge != null && value.data!!.buildingAge != 0.0) {
             val ageofBuilding = value.data!!.buildingAge.toString()
             if (ageofBuilding.contains(".")) {
@@ -1300,6 +1324,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         } else {
             apnaPreviewActivityBinding.ageOfTheBuilding.setText("")
         }
+*/
 
         if (value.data!!.parking != null) {
 //            apnaPreviewActivityBinding.parking.setText(value.data!!.parking!!.name)
