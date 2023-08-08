@@ -89,6 +89,7 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.druglist.DrugListFragment;
 import com.apollopharmacy.vishwam.ui.home.greeting.GreetingActivity;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
+import com.apollopharmacy.vishwam.ui.home.planogram.fragment.PlanogramFragment;
 import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboard;
 import com.apollopharmacy.vishwam.ui.home.retroqr.RetroQrFragment;
 import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
@@ -1103,6 +1104,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 riderNotificationLayout.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
+
+            case "Planogram Evaluation":
+                headerText.setText("Planogram Evaluation");
+                fragment = new PlanogramFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                plusIconApna.setVisibility(View.GONE);
+                filterIconApna.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                spinnerLayout.setVisibility(View.GONE);
+                isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                break;
             case "Profile":
                 headerText.setText("Profile");
                 fragment = new ProfileFragment();
@@ -1880,7 +1896,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (isSensingRequired) {
             listView.addHeaderModel(new HeaderModel("Apollo Sensing", Color.WHITE, false, R.drawable.ic_menu_champ));
         }
-        listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));
+//        listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
@@ -1957,6 +1973,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (isChampsRequired) {
             listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
         }
+//        listView.addHeaderModel(new HeaderModel("Planogram", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Planogram Evaluation", R.drawable.ic_apollo_survey_68__1_)));
         //
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
@@ -2122,6 +2139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
 
+
 //                else if (childModelList.get(childPosition).getTitle().equals("Post Rectro Approval")) {
 //                    displaySelectedScreen("Post Rectro Approval");
 //                }
@@ -2130,6 +2148,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                }
 
             }//Monitoring
+            else if (listHeader.get(groupPosition).getTitle().equals("Planogram")) {
+                List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
+                if (childModelList.get(childPosition).getTitle().equals("Planogram Evaluation")) {
+                    displaySelectedScreen("Planogram Evaluation");
+                }
+            }
 
             if (listHeader.get(groupPosition).getTitle().equals("Monitoring")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();

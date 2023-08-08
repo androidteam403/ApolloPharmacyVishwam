@@ -55,7 +55,7 @@ class ApnaSurveylViewModel : ViewModel() {
         }
 
         val new = if (status.contains("new")) "new" else ""
-        val inprogress = if (status.contains("inprogress")) "inprogress" else ""
+        val inprogress = if (status.contains("inprogress")) "in_progress" else ""
         val rejected = if (status.contains("rejected")) "rejected" else ""
         val approved = if (status.contains("approved")) "approved" else ""
         val cancelled = if (status.contains("cancelled")) "cancelled" else ""
