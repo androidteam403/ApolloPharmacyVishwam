@@ -282,7 +282,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                             }
                         }
                     }
-
+                    showLoadingTemp(this)
                     FileUploadSwach().uploadFiles(
                         context,
                         this,
@@ -301,7 +301,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         viewModel.uploadSwachModelRes.observeForever {
             if (it != null) {
                 Toast.makeText(context, "Images Uploaded Successfully", Toast.LENGTH_SHORT).show()
+                Utlis.hideLoading()
                 onBackPressed()
+
             }
 
 //            viewModel.onUploadSwachRes(submit)
@@ -652,6 +654,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             }
         }
         onClickStatusClickAdapter.notifyDataSetChanged()
+
+
+//        showLoadingTemp(this)
         reshootButton()
     }
 

@@ -3,6 +3,8 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -77,6 +79,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     private var softSkillsFilled = false
     private var otherTrainingFilled = false
     private var issuesToBeResolved = false
+    private var type=""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -460,6 +463,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //     ChampsSurveyDialog().show(supportFragmentManager, "")
         if (technicalFilled && softSkillsFilled && otherTrainingFilled) {
             if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 0) {
+                type="submit"
                 var fileUploadModelList = ArrayList<FileUploadChampsModel>()
 
                 for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
@@ -475,13 +479,18 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                         }
                     }
                 }
-                Utlis.showLoading(this)
-                FileUploadChamps().uploadFiles(
-                    context,
-                    this,
-                    fileUploadModelList
-                )
-            }
+                if(fileUploadModelList.size>0){
+                   showLoadingTemp(this)
+                    FileUploadChamps().uploadFiles(
+                        context,
+                        this,
+                        fileUploadModelList
+                    )
+                }else{
+                    saveApiRequest("submit")
+                }
+                }
+
 //
 //            saveApiRequest("submit")
         } else {
@@ -494,7 +503,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
     private fun saveApiRequest(type: String) {
         if (NetworkUtil.isNetworkConnected(context)) {
-            Utlis.showLoading(this)
+//            Utlis.showLoading(this)
             var submit = SaveSurveyModelRequest()
             var headerDetails = SaveSurveyModelRequest.HeaderDetails()
             headerDetails.state = ""
@@ -1176,8 +1185,35 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         }
         val ok = dialog.findViewById<TextView>(R.id.yes_btnSiteChange)
         ok.setOnClickListener {
+            type="saveDraft"
             dialog.dismiss()
-            saveApiRequest("saveDraft")
+            var fileUploadModelList = ArrayList<FileUploadChampsModel>()
+
+            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                if (i.imageDataLists != null) {
+                    for (j in i.imageDataLists!!) {
+                        if (j.file != null) {
+                            var fileUploadModel = FileUploadChampsModel()
+                            fileUploadModel.file = j.file
+                            fileUploadModel.categoryName = i.categoryName
+                            fileUploadModelList.add(fileUploadModel)
+                        }
+
+                    }
+                }
+            }
+            if(fileUploadModelList.size>0){
+                showLoadingTemp(this)
+                FileUploadChamps().uploadFiles(
+                    context,
+                    this,
+                    fileUploadModelList
+                )
+            }else{
+                saveApiRequest("saveDraft")
+            }
+
+//            saveApiRequest("saveDraft")
 //            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 //            dialog.show()
 //            val intent = Intent()
@@ -1788,7 +1824,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                                 GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
                             imageDatas!!.imageUrl = cleanlinessImagesList.get(i)
                             imageDatas.file = null
-                            imageDatas.imageFilled = true
+//                            imageDatas.imageFilled = true
                             imageUrlsCleanliness!!.add(imageDatas)
                         }
 
@@ -1843,7 +1879,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                                 GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
                             imageDatas!!.imageUrl = hosptalityImagesList.get(i)
                             imageDatas.file = null
-                            imageDatas.imageFilled = true
+//                            imageDatas.imageFilled = true
                             imageUrlsHospitality!!.add(imageDatas)
                         }
 
@@ -1912,7 +1948,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                                 GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
                             imageDatas!!.imageUrl = accuracyImagesList.get(i)
                             imageDatas.file = null
-                            imageDatas.imageFilled = true
+//                            imageDatas.imageFilled = true
                             imageUrlsAccuracy!!.add(imageDatas)
                         }
 
@@ -2004,7 +2040,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                                 GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
                             imageDatas!!.imageUrl = maintenanceImagesList.get(i)
                             imageDatas.file = null
-                            imageDatas.imageFilled = true
+//                            imageDatas.imageFilled = true
                             imageUrlsMaintainence!!.add(imageDatas)
                         }
 
@@ -2060,7 +2096,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                                 GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
                             imageDatas!!.imageUrl = productsImagesList.get(i)
                             imageDatas.file = null
-                            imageDatas.imageFilled = true
+//                            imageDatas.imageFilled = true
                             imageUrlsProducts!!.add(imageDatas)
                         }
                         getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists =
@@ -2106,7 +2142,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                                 GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
                             imageDatas!!.imageUrl = speedServiceSalesPromotionImagesList.get(i)
                             imageDatas.file = null
-                            imageDatas.imageFilled = true
+//                            imageDatas.imageFilled = true
                             imageUrlSpeedServiceSalesPromotion!!.add(imageDatas)
                         }
 
@@ -2327,7 +2363,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             }
 
         }
-        Utlis.hideLoading()
+//        Utlis.hideLoading()
         saveApiRequest("submit")
     }
 
@@ -2348,7 +2384,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             }
 
         }
-        Utlis.hideLoading()
+//        Utlis.hideLoading()
 
 
 
@@ -2369,7 +2405,32 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                break
 //            }
 //        }
-        saveApiRequest("submit")
+        saveApiRequest(type)
+    }
+
+    var mProgressDialogTemp: ProgressDialog? = null
+    fun showLoadingTemp(context: Context) {
+        hideLoadingTemp()
+        mProgressDialogTemp = showLoadingDialogTemp(context)
+    }
+
+    fun hideLoadingTemp() {
+        if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
+            mProgressDialogTemp!!.dismiss()
+        }
+    }
+
+    fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.show()
+        if (progressDialog.window != null) {
+            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        progressDialog.setContentView(R.layout.progress_dialog)
+        progressDialog.isIndeterminate = true
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        return progressDialog
     }
 }
 
