@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar
 
+import android.view.View
 import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSurevyDetailsByChampsIdResponse
 
@@ -16,4 +17,5 @@ interface ChampsDetailsandRatingBarCallBack {
     fun onFailureGetSurveyDetailsByChampsId(value: GetSurevyDetailsByChampsIdResponse)
     fun onClickPlusIcon(position: Int)
     fun onClickImageDelete(position: Int)
+    fun onClickImageView(view: View, file: String?)
 }

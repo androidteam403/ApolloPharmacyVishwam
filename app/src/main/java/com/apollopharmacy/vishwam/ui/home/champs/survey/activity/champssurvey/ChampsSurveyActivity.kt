@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
@@ -66,6 +67,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     private var storeCity: String = ""
     private var region: String = ""
     private lateinit var dialog: Dialog
+    private lateinit var leavingConfirmationDialog: Dialog
     private lateinit var dialogSubmit: Dialog
     private var overAllprogressBarCount = 0.0f
     private var countUp: Long? = null
@@ -78,6 +80,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     private var otherTrainingFilled = false
     private var issuesToBeResolved = false
     private var siteNameForAddress: String? = null
+    var surveyDetailsByChampsIdForCheckBox=false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +90,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             R.layout.activity_champs_survey
 
         )
+        surveyDetailsByChampsIdForCheckBox=true
         champsSurveyViewModel = ViewModelProvider(this)[ChampsSurveyViewModel::class.java]
         setUp()
         checkListeners()
@@ -104,6 +108,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     private fun setUp() {
+
         activityChampsSurveyBinding.callback = this
         siteNameForAddress = intent.getStringExtra("siteNameForAddress")
         getStoreWiseEmpIdResponse =
@@ -237,6 +242,38 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
     }
 
+    override fun onBackPressed() {
+        if(status.equals("PENDING") || status.equals("NEW")){
+            leavingConfirmationDialog = Dialog(this)
+            leavingConfirmationDialog.setContentView(R.layout.change_siteid)
+            val close = leavingConfirmationDialog.findViewById<TextView>(R.id.no_btnSiteChange)
+            val textForDialog = leavingConfirmationDialog.findViewById<TextView>(R.id.text_for_dialog)
+            textForDialog.setText("Are you sure you want to leave this page?")
+            close.setOnClickListener {
+                leavingConfirmationDialog.dismiss()
+            }
+            val ok = leavingConfirmationDialog.findViewById<TextView>(R.id.yes_btnSiteChange)
+            ok.setOnClickListener {
+                leavingConfirmationDialog.dismiss()
+                leavingConfirmationDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                super.onBackPressed()
+//            dialog.show()
+
+//            val intent = Intent()
+//            setResult(Activity.RESULT_OK, intent)
+//            finish()
+            }
+            leavingConfirmationDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            leavingConfirmationDialog.show()
+        }else{
+            super.onBackPressed()
+        }
+
+
+
+
+    }
+
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun checkListeners() {
@@ -332,9 +369,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         activityChampsSurveyBinding.technicalCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
+                if (status.equals("PENDING") && !surveyDetailsByChampsIdForCheckBox) {
+//                    openSoftKeyboard()
+                    activityChampsSurveyBinding.enterTextTechnicalEdittext.requestFocus();
+                }
 
-               openSoftKeyboard()
-                activityChampsSurveyBinding.enterTextTechnicalEdittext.requestFocus();
+
                 activityChampsSurveyBinding.technicalEdittext.visibility = View.VISIBLE
                 activityChampsSurveyBinding.charLeftLayoutTechnical.visibility = View.VISIBLE
             } else {
@@ -345,8 +385,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         activityChampsSurveyBinding.softskillsCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-               openSoftKeyboard()
-                activityChampsSurveyBinding.enterSoftSkillsEdittext.requestFocus();
+                if (status.equals("PENDING") && !surveyDetailsByChampsIdForCheckBox) {
+//                    openSoftKeyboard()
+                    activityChampsSurveyBinding.enterSoftSkillsEdittext.requestFocus();
+                }
+
                 activityChampsSurveyBinding.softSkillsEdittext.visibility = View.VISIBLE
                 activityChampsSurveyBinding.charLeftLayoutSoftskills.visibility = View.VISIBLE
             } else {
@@ -357,8 +400,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         activityChampsSurveyBinding.otherTrainingCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                openSoftKeyboard()
-                activityChampsSurveyBinding.enterOtherTrainingEdittext.requestFocus();
+                if (status.equals("PENDING") && !surveyDetailsByChampsIdForCheckBox) {
+//                    openSoftKeyboard()
+                    activityChampsSurveyBinding.enterOtherTrainingEdittext.requestFocus();
+                }
+
                 activityChampsSurveyBinding.otherTrainingEdittext.visibility = View.VISIBLE
                 activityChampsSurveyBinding.charLeftLayoutOtherrTraining.visibility = View.VISIBLE
             } else {
@@ -411,10 +457,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 //            }).start()
 //        }
     }
-    var keyBoardOpen=false
+
+    var keyBoardOpen = false
     fun openSoftKeyboard() {
-        if(!keyBoardOpen){
-            keyBoardOpen=true
+        if (!keyBoardOpen) {
+            keyBoardOpen = true
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
@@ -579,8 +626,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 headerDetails.emailIdOfRegionalHead = ""
             }
 
-            if (surveyRecDetailsList.get(0) != null) {
-                headerDetails.emailIdOfRecipients = surveyRecDetailsList.get(0)
+            if (surveyRecDetailsList!=null ) {
+                if(surveyRecDetailsList.get(0) != null){
+                    headerDetails.emailIdOfRecipients = surveyRecDetailsList.get(0)
+                }else{
+                    headerDetails.emailIdOfRecipients =""
+                }
+
             } else {
                 headerDetails.emailIdOfRecipients = ""
             }
@@ -604,6 +656,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.text.toString()
             headerDetails.total = activityChampsSurveyBinding.percentageSum.text.toString()
             headerDetails.createdBy = Preferences.getValidatedEmpId()
+            headerDetails.site_name = Preferences.getChampsSiteName()
             if (type.equals("submit")) {
                 headerDetails.status = "1"
             } else {
@@ -1295,6 +1348,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         }
 
         if (status.equals("PENDING") || status.equals("COMPLETED")) {
+
             if (status.equals("PENDING")) {
                 activityChampsSurveyBinding.warningLayout.visibility = View.VISIBLE
                 activityChampsSurveyBinding.saveSaveDraft.visibility = View.VISIBLE
@@ -1416,6 +1470,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     private fun overallProgressBarCount(sumOfCategories: Float) {
+        activityChampsSurveyBinding.progressBarTotalGreen.isEnabled=false
+        activityChampsSurveyBinding.progressBarTotalRed.isEnabled=false
+        activityChampsSurveyBinding.progressBarTotalOrange.isEnabled=false
         overAllprogressBarCount = sumOfCategories
         if (sumOfCategories <= 100 && sumOfCategories >= 80) {
             activityChampsSurveyBinding.progressBarTotalGreen.progress =
@@ -1636,7 +1693,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
             if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
-                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+
+                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.reversed()) {
                     for (j in i.subCategoryDetails!!) {
                         var cmsChampsSurveQa = CmsChampsSurveyQa()
                         cmsChampsSurveQa.categoryName = j.categoryName
@@ -1668,7 +1726,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                             var cmsChampsSurveQa = CmsChampsSurveyQa()
                             cmsChampsSurveQa.categoryName = i.categoryName
                             cmsChampsSurveQa.question = "Upload Images"
-                            cmsChampsSurveQa.answerType = "Image"
+                            cmsChampsSurveQa.answerType = "image"
                             for (k in i.imageDataLists!!) {
                                 if (k.imageUrl != null && !k.imageUrl!!.isEmpty()) {
                                     image.url = k.imageUrl
@@ -1766,6 +1824,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     override fun onSuccessGetSurveyDetailsByChampsId(getSurveyDetailsByChapmpsId: GetSurevyDetailsByChampsIdResponse) {
         if (getSurveyDetailsByChapmpsId != null && getSurveyDetailsByChapmpsId.headerDetails != null) {
             if (getSurveyDetailsByChapmpsId.headerDetails.status.equals("0")) {
+
                 activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.setText(
                     getSurveyDetailsByChapmpsId.headerDetails.issuesToBeResolved.toString()
                 )
@@ -1899,12 +1958,15 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
                         for (i in cleanlinessImagesList.indices) {
-                            var imageDatas =
-                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                            imageDatas!!.imageUrl = cleanlinessImagesList.get(i)
-                            imageDatas.file = null
-                            imageDatas.imageFilled = true
-                            imageUrlsCleanliness!!.add(imageDatas)
+                            if(!cleanlinessImagesList.get(i).isNullOrEmpty()){
+                                var imageDatas =
+                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                                imageDatas!!.imageUrl = cleanlinessImagesList.get(i)
+                                imageDatas.file = null
+                                imageDatas.imageFilled = true
+                                imageUrlsCleanliness!!.add(imageDatas)
+                            }
+
                         }
 
 
@@ -1954,12 +2016,15 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
                         for (i in hosptalityImagesList.indices) {
-                            var imageDatas =
-                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                            imageDatas!!.imageUrl = hosptalityImagesList.get(i)
-                            imageDatas.file = null
-                            imageDatas.imageFilled = true
-                            imageUrlsHospitality!!.add(imageDatas)
+                            if(! hosptalityImagesList.get(i).isNullOrEmpty()){
+                                var imageDatas =
+                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                                imageDatas!!.imageUrl = hosptalityImagesList.get(i)
+                                imageDatas.file = null
+                                imageDatas.imageFilled = true
+                                imageUrlsHospitality!!.add(imageDatas)
+                            }
+
                         }
 
 
@@ -2023,12 +2088,15 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
                         for (i in accuracyImagesList.indices) {
-                            var imageDatas =
-                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                            imageDatas!!.imageUrl = accuracyImagesList.get(i)
-                            imageDatas.file = null
-                            imageDatas.imageFilled = true
-                            imageUrlsAccuracy!!.add(imageDatas)
+                            if(!accuracyImagesList.get(i).isNullOrEmpty()){
+                                var imageDatas =
+                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                                imageDatas!!.imageUrl = accuracyImagesList.get(i)
+                                imageDatas.file = null
+                                imageDatas.imageFilled = true
+                                imageUrlsAccuracy!!.add(imageDatas)
+                            }
+
                         }
 
 
@@ -2118,12 +2186,15 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
                         for (i in maintenanceImagesList.indices) {
-                            var imageDatas =
-                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                            imageDatas!!.imageUrl = maintenanceImagesList.get(i)
-                            imageDatas.file = null
-                            imageDatas.imageFilled = true
-                            imageUrlsMaintainence!!.add(imageDatas)
+                            if(!maintenanceImagesList.get(i).isNullOrEmpty()){
+                                var imageDatas =
+                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                                imageDatas!!.imageUrl = maintenanceImagesList.get(i)
+                                imageDatas.file = null
+                                imageDatas.imageFilled = true
+                                imageUrlsMaintainence!!.add(imageDatas)
+                            }
+
                         }
 
 
@@ -2174,12 +2245,15 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
                         for (i in productsImagesList.indices) {
-                            var imageDatas =
-                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                            imageDatas!!.imageUrl = productsImagesList.get(i)
-                            imageDatas.file = null
-                            imageDatas.imageFilled = true
-                            imageUrlsProducts!!.add(imageDatas)
+                            if(!productsImagesList.get(i).isNullOrEmpty()){
+                                var imageDatas =
+                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                                imageDatas!!.imageUrl = productsImagesList.get(i)
+                                imageDatas.file = null
+                                imageDatas.imageFilled = true
+                                imageUrlsProducts!!.add(imageDatas)
+                            }
+
                         }
                         getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists =
                             imageUrlsProducts
@@ -2220,12 +2294,15 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
                         for (i in speedServiceSalesPromotionImagesList.indices) {
-                            var imageDatas =
-                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                            imageDatas!!.imageUrl = speedServiceSalesPromotionImagesList.get(i)
-                            imageDatas.file = null
-                            imageDatas.imageFilled = true
-                            imageUrlSpeedServiceSalesPromotion!!.add(imageDatas)
+                            if(!speedServiceSalesPromotionImagesList.get(i).isNullOrEmpty()){
+                                var imageDatas =
+                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                                imageDatas!!.imageUrl = speedServiceSalesPromotionImagesList.get(i)
+                                imageDatas.file = null
+                                imageDatas.imageFilled = true
+                                imageUrlSpeedServiceSalesPromotion!!.add(imageDatas)
+                            }
+
                         }
 
 
@@ -2382,6 +2459,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 111 && resultCode == Activity.RESULT_OK) {
+            surveyDetailsByChampsIdForCheckBox=true
             getCategoryAndSubCategoryDetails =
                 data!!.getSerializableExtra("getCategoryAndSubCategoryDetails") as GetCategoryDetailsModelResponse?
 //            Toast.makeText(context, ""+ getCategoryAndSubCategoryDetails?.emailDetails?.size,Toast.LENGTH_SHORT).show()

@@ -130,6 +130,10 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
         onBackPressed()
     }
 
+    override fun onClickImageView(it: View?, imageUrl: String?) {
+
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
     }

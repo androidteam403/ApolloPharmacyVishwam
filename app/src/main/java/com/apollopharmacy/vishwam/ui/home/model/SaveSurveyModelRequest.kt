@@ -88,6 +88,7 @@ class SaveSurveyModelRequest : Serializable {
         @Expose
         var champAutoId: String? = null
 
+        var site_name:String?=null
 
     }
 
