@@ -252,6 +252,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     override fun onBackPressed() {
         if(status.equals("PENDING") || status.equals("NEW")){
             leavingConfirmationDialog = Dialog(this)
+            leavingConfirmationDialog.setCancelable(false)
             leavingConfirmationDialog.setContentView(R.layout.change_siteid)
             val close = leavingConfirmationDialog.findViewById<TextView>(R.id.no_btnSiteChange)
             val textForDialog = leavingConfirmationDialog.findViewById<TextView>(R.id.text_for_dialog)

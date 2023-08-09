@@ -101,7 +101,7 @@ class ImagesDisplayChampsAdapter(
         }
 
         holder.adapterCaptureImagesSwachBinding.uploadImageChamps.setOnClickListener {
-            champsDetailsandRatingBarCallBack.onClickImageView(it,imageDataLists!!.get(position).imageUrl);
+            champsDetailsandRatingBarCallBack.onClickImageView(it,imageDataLists!!.get(position));
         }
 
 

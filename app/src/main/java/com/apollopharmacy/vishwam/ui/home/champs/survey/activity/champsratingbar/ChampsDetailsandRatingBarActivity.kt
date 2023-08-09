@@ -173,28 +173,56 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //        }
 
         LoadRecyclerView()
-        if((getCategoryAndSubCategoryDetails!=null && getCategoryAndSubCategoryDetails!!.categoryDetails!=null &&
-                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists==null && !status.equals("COMPLETED") )||
-                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size==0 && !status.equals("COMPLETED")){
-            var image1=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-            image1.imageFilled=false
-            image1.file=null
-            image1.imageUrl=""
-            dtcl_list.add(image1)
-            var image2=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-            image2.imageFilled=false
-            image2.file=null
-            image2.imageUrl=""
-            dtcl_list.add(image2)
-            var image3=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-            image3.imageFilled=false
-            image3.file=null
-            image3.imageUrl=""
-            dtcl_list.add(image3)
+        if(getCategoryAndSubCategoryDetails!=null && getCategoryAndSubCategoryDetails!!.categoryDetails!=null && !status.equals("COMPLETED")){
+            if( getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists==null || getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size==0){
+                imageUploadedCount=0
+                var image1=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image1.imageFilled=false
+                image1.file=null
+                image1.imageUrl=""
+                dtcl_list.add(image1)
+                var image2=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image2.imageFilled=false
+                image2.file=null
+                image2.imageUrl=""
+                dtcl_list.add(image2)
+                var image3=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image3.imageFilled=false
+                image3.file=null
+                image3.imageUrl=""
+                dtcl_list.add(image3)
 
-            imageDataList = dtcl_list
+                imageDataList = dtcl_list
 
-            getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists = imageDataList
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists = imageDataList
+
+            }
+            else if(getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size==1){
+                imageUploadedCount=1
+                var image2=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image2.imageFilled=false
+                image2.file=null
+                image2.imageUrl=""
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.add(image2)
+                var image3=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image3.imageFilled=false
+                image3.file=null
+                image3.imageUrl=""
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.add(image3)
+
+            }
+            else if(getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size==2){
+                imageUploadedCount=2
+                var image3=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image3.imageFilled=false
+                image3.file=null
+                image3.imageUrl=""
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.add(image3)
+
+            }
+            else if(getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size==3){
+                imageUploadedCount=3
+            }
             imagesDisplayChampsAdapter =
                 ImagesDisplayChampsAdapter(
                     this,
@@ -636,10 +664,11 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                                  getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
 //                                Utlis.showLoading(this)
 //                                champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
-                                imagesDisplayChampsAdapter!!.notifyDataSetChanged()
+
                                 break
                             }
                         }
+                        imagesDisplayChampsAdapter!!.notifyDataSetChanged()
 
                     }
 
@@ -749,6 +778,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             }
         }
         if(isFromGallery){
+            imageUploadedCount=imageFiles.size
             activityChampsDetailsandRatingBarBinding.uploadImagesProgressBar.progress =
                 imageUploadedCount
             activityChampsDetailsandRatingBarBinding.outOfThreeUploadedPhotostext.setText(
@@ -764,6 +794,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 }
             }
         }else{
+            imageUploadedCount=imageFiles.size
             activityChampsDetailsandRatingBarBinding.uploadImagesProgressBar.progress =
                 imageFiles!!.size
             activityChampsDetailsandRatingBarBinding.outOfThreeUploadedPhotostext.setText(
@@ -1137,11 +1168,21 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
     }
 
-    override fun onClickImageView(view: View, file: String?) {
-        PopUpWIndow(
-            ViswamApp.context, R.layout.layout_image_fullview, view,
-            file, null, "", 0
-        )
+    override fun onClickImageView(view: View, value: GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas) {
+        if(!value.imageUrl.isNullOrEmpty()){
+            PopUpWIndow(
+                ViswamApp.context, R.layout.layout_image_fullview, view,
+                value.imageUrl.toString(), null, "", 0
+            )
+        }else{
+            if(value.file!=null){
+                PopUpWIndow(
+                    ViswamApp.context, R.layout.layout_image_fullview, view,
+                    value.file.toString(), null, "", 0
+                )
+            }
+        }
+
     }
 
 
