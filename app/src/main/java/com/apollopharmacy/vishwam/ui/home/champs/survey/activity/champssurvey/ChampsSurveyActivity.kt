@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -36,6 +37,11 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.fileupload.FileUploadModel
+import com.apollopharmacy.vishwam.util.fileuploadchamps.FileUploadChamps
+import com.apollopharmacy.vishwam.util.fileuploadchamps.FileUploadChampsCallback
+import com.apollopharmacy.vishwam.util.fileuploadchamps.FileUploadChampsModel
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
@@ -44,7 +50,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 
-class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
+class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUploadChampsCallback {
 
     private lateinit var activityChampsSurveyBinding: ActivityChampsSurveyBinding
     private var getStoreWiseEmpIdResponse: GetStoreWiseEmpIdResponse? = null
@@ -81,6 +87,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     private var issuesToBeResolved = false
     private var siteNameForAddress: String? = null
     var surveyDetailsByChampsIdForCheckBox=false
+    private var type=""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -513,24 +520,54 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     override fun onClickSubmit() {
 //     ChampsSurveyDialog().show(supportFragmentManager, "")
         if (technicalFilled && softSkillsFilled && otherTrainingFilled) {
-            var isAllCategoriesSubmitted = true
-            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
-                if (!i.clickedSubmit!!) {
-                    isAllCategoriesSubmitted = false
-                    break
+            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 0) {
+                var isAllCategoriesSubmitted = true
+                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                    if (!i.clickedSubmit!!) {
+                        isAllCategoriesSubmitted = false
+                        break
+                    }
                 }
-            }
-            if (isAllCategoriesSubmitted) {
-                saveApiRequest("submit")
-            } else {
-                Toast.makeText(
-                    applicationContext,
-                    "Please fill all the attending points",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
+                if (isAllCategoriesSubmitted) {
+                    type="submit"
+                    var fileUploadModelList = ArrayList<FileUploadChampsModel>()
 
+                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                        if (i.imageDataLists != null) {
+                            for (j in i.imageDataLists!!) {
+                                if (j.file != null) {
+                                    var fileUploadModel = FileUploadChampsModel()
+                                    fileUploadModel.file = j.file
+                                    fileUploadModel.categoryName = i.categoryName
+                                    fileUploadModelList.add(fileUploadModel)
+                                }
+
+                            }
+                        }
+                    }
+                    if(fileUploadModelList.size>0){
+                        showLoadingTemp(this)
+                        FileUploadChamps().uploadFiles(
+                            context,
+                            this,
+                            fileUploadModelList
+                        )
+                    }else{
+                        saveApiRequest("submit")
+                    }
+                }else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Please fill all the attending points",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+
+                }
+
+//
+//            saveApiRequest("submit")
         } else {
             Toast.makeText(applicationContext, "Please fill all the details", Toast.LENGTH_SHORT)
                 .show()
@@ -541,7 +578,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
     private fun saveApiRequest(type: String) {
         if (NetworkUtil.isNetworkConnected(context)) {
-            Utlis.showLoading(this)
+//            Utlis.showLoading(this)
             var submit = SaveSurveyModelRequest()
             var headerDetails = SaveSurveyModelRequest.HeaderDetails()
             headerDetails.state = activityChampsSurveyBinding.region.text.toString()
@@ -1073,13 +1110,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
             }
 
-
-
-
-
-
-
-
             if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.size!! > 4 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
                     4
                 )?.subCategoryDetails != null
@@ -1253,8 +1283,35 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         }
         val ok = dialog.findViewById<TextView>(R.id.yes_btnSiteChange)
         ok.setOnClickListener {
+            type="saveDraft"
             dialog.dismiss()
-            saveApiRequest("saveDraft")
+            var fileUploadModelList = ArrayList<FileUploadChampsModel>()
+
+            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                if (i.imageDataLists != null) {
+                    for (j in i.imageDataLists!!) {
+                        if (j.file != null) {
+                            var fileUploadModel = FileUploadChampsModel()
+                            fileUploadModel.file = j.file
+                            fileUploadModel.categoryName = i.categoryName
+                            fileUploadModelList.add(fileUploadModel)
+                        }
+
+                    }
+                }
+            }
+            if(fileUploadModelList.size>0){
+                showLoadingTemp(this)
+                FileUploadChamps().uploadFiles(
+                    context,
+                    this,
+                    fileUploadModelList
+                )
+            }else{
+                saveApiRequest("saveDraft")
+            }
+
+//            saveApiRequest("saveDraft")
 //            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 //            dialog.show()
 //            val intent = Intent()
@@ -1348,7 +1405,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         }
 
         if (status.equals("PENDING") || status.equals("COMPLETED")) {
-
             if (status.equals("PENDING")) {
                 activityChampsSurveyBinding.warningLayout.visibility = View.VISIBLE
                 activityChampsSurveyBinding.saveSaveDraft.visibility = View.VISIBLE
@@ -2524,6 +2580,97 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         }
 
+    }
+
+    override fun onFailureUpload(message: String) {
+        Utlis.hideLoading()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun allFilesUploaded(fileUploadModelList: List<FileUploadChampsModel>) {
+        for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+            if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
+                for (l in k.imageDataLists!!) {
+                    for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
+                        if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
+                            l.imageUrl = z.sensingFileUploadResponse!!.referenceurl
+                            l.sensingUploadUrlFilled = true
+                            z.imageUrlUsed = true
+                        }
+                    }
+
+                }
+            }
+
+        }
+//        Utlis.hideLoading()
+        saveApiRequest("submit")
+    }
+
+    override fun allFilesDownloaded(fileUploadModelList: List<FileUploadChampsModel>) {
+
+        for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+            if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
+                for (l in k.imageDataLists!!) {
+                    for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
+                        if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
+                            l.imageUrl = RijndaelCipherEncryptDecrypt().decrypt(z.fileDownloadResponse!!.referenceurl, "blobfilesload")
+                            l.sensingUploadUrlFilled = true
+                            z.imageUrlUsed = true
+                        }
+                    }
+
+                }
+            }
+
+        }
+//        Utlis.hideLoading()
+
+
+
+//        for (i in fileUploadModelList) {
+//            for (j in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+//                if (i.categoryName.equals(j.categoryName)) {
+//                    for (k in j.imageDataLists!!) {
+//                        if (!k.sensingUploadUrlFilled && !i.imageUrlUsed) {
+//                            k.imageUrl = i.fileDownloadResponse!!.referenceurl
+//                            k.sensingUploadUrlFilled = true
+//                            i.imageUrlUsed = true
+//                            break
+//                        }
+//                    }
+//                    break
+//
+//                }
+//                break
+//            }
+//        }
+        saveApiRequest(type)
+    }
+
+    var mProgressDialogTemp: ProgressDialog? = null
+    fun showLoadingTemp(context: Context) {
+        hideLoadingTemp()
+        mProgressDialogTemp = showLoadingDialogTemp(context)
+    }
+
+    fun hideLoadingTemp() {
+        if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
+            mProgressDialogTemp!!.dismiss()
+        }
+    }
+
+    fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.show()
+        if (progressDialog.window != null) {
+            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        progressDialog.setContentView(R.layout.progress_dialog)
+        progressDialog.isIndeterminate = true
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        return progressDialog
     }
 }
 

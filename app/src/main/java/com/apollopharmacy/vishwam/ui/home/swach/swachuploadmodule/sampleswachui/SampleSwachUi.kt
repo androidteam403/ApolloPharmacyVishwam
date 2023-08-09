@@ -293,7 +293,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                         var dtcl_list = ArrayList<SwachModelResponse.Config.ImgeDtcl>()
                         for (count in 1..countUpload!!) {
 
-                            dtcl_list.add(SwachModelResponse.Config.ImgeDtcl(null, count, "", 0))
+                            dtcl_list.add(SwachModelResponse.Config.ImgeDtcl(null, count, "", 0, false))
 
                         }
                         swacchApolloList.get(0).configlist?.get(index)?.imageDataDto = dtcl_list
