@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter
+package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.preview.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterCaptureimagesChampsBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarCallBack
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.preview.PreviewActivityCallback
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.bumptech.glide.Glide
 
-class ImagesDisplayChampsAdapter(
+class ImagesDisplayChampsPreviewAdapter(
     private val context: Context,
-    private val champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack,
-    private val imageDataLists: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>?,
-    private val status: String
-) : RecyclerView.Adapter<ImagesDisplayChampsAdapter.ViewHolder>() {
+    private val previewActivityCallback: PreviewActivityCallback,
+    private val imageDataLists: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>?
+) : RecyclerView.Adapter<ImagesDisplayChampsPreviewAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(
@@ -54,22 +54,25 @@ class ImagesDisplayChampsAdapter(
                 Glide.with(context).load(imageDataLists.get(position).imageUrl)
                     .placeholder(R.drawable.placeholder_image)
                     .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
-                    if(status.equals("COMPLETED")){
-                        holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.GONE
-                    }else{
-                        holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.VISIBLE
-                    }
+                    holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.GONE
+//                    if(status.equals("COMPLETED")){
+//                        holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.GONE
+//                    }else{
+//                        holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.GONE
+//                    }
             }
             else {
-                if(status.equals("COMPLETED")){
                     holder.adapterCaptureImagesSwachBinding.imagePlusIcon.visibility = View.GONE
                     holder.adapterCaptureImagesSwachBinding.uploadImageLayout1.visibility = View.GONE
-                    holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.GONE
-                }else{
-                    holder.adapterCaptureImagesSwachBinding.imagePlusIcon.visibility = View.VISIBLE
-                    holder.adapterCaptureImagesSwachBinding.uploadImageLayout1.visibility = View.GONE
-                    holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.VISIBLE
-                }
+//                if(status.equals("COMPLETED")){
+//                    holder.adapterCaptureImagesSwachBinding.imagePlusIcon.visibility = View.GONE
+//                    holder.adapterCaptureImagesSwachBinding.uploadImageLayout1.visibility = View.GONE
+//                    holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.GONE
+//                }else{
+//                    holder.adapterCaptureImagesSwachBinding.imagePlusIcon.visibility = View.VISIBLE
+//                    holder.adapterCaptureImagesSwachBinding.uploadImageLayout1.visibility = View.GONE
+//                    holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.GONE
+//                }
 
             }
 
@@ -91,15 +94,15 @@ class ImagesDisplayChampsAdapter(
 //        }
 
 
-        holder.adapterCaptureImagesSwachBinding.imagePlusIcon.setOnClickListener {
-            champsDetailsandRatingBarCallBack.onClickPlusIcon(position)
-        }
-        holder.adapterCaptureImagesSwachBinding.redTrash.setOnClickListener {
-            champsDetailsandRatingBarCallBack.onClickImageDelete(position)
-        }
+//        holder.adapterCaptureImagesSwachBinding.imagePlusIcon.setOnClickListener {
+//            previewActivityCallback.onClickPlusIcon(position)
+//        }
+//        holder.adapterCaptureImagesSwachBinding.redTrash.setOnClickListener {
+//            previewActivityCallback.onClickImageDelete(position)
+//        }
 
         holder.adapterCaptureImagesSwachBinding.uploadImageChamps.setOnClickListener {
-            champsDetailsandRatingBarCallBack.onClickImageView(it,imageDataLists!!.get(position).imageUrl);
+            previewActivityCallback.onClickImageView(it,imageDataLists!!.get(position).imageUrl);
         }
 
 

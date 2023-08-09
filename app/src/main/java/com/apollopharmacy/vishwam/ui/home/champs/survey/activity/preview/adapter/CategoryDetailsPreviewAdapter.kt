@@ -24,6 +24,7 @@ class CategoryDetailsPreviewAdapter(
 ) : RecyclerView.Adapter<CategoryDetailsPreviewAdapter.ViewHolder>() {
 
     private var subCategoryPreviewAdapter: SubCategoryPreviewAdapter? = null
+    private var imagesDisplayChampsPreviewAdapter: ImagesDisplayChampsPreviewAdapter?=null
     private var recyclerViewVisible = false
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -110,6 +111,7 @@ class CategoryDetailsPreviewAdapter(
 ///
 
                 holder.adapterCategoryPreviewBinding.rightArrow.rotation = 90f
+                holder.adapterCategoryPreviewBinding.recyclerViewLayouts.visibility=View.VISIBLE
                 holder.adapterCategoryPreviewBinding.categoryRecyclerView.visibility = View.VISIBLE
                 recyclerViewVisible = true
                 subCategoryPreviewAdapter =
@@ -124,10 +126,29 @@ class CategoryDetailsPreviewAdapter(
                 holder.adapterCategoryPreviewBinding.categoryRecyclerView.setAdapter(
                     subCategoryPreviewAdapter
                 )
+                if( categoryDetails!!.get(position).imageDataLists!=null && categoryDetails!!.get(position).imageDataLists!!.size>0 ){
+                    imagesDisplayChampsPreviewAdapter =
+                        ImagesDisplayChampsPreviewAdapter(
+                            applicationContext,
+                            previewActivityCallback,
+                            categoryDetails!!.get(position).imageDataLists
+                        )
+                    holder.adapterCategoryPreviewBinding.imagesDisplayRecyclerview.layoutManager =
+                        LinearLayoutManager(
+                            applicationContext, LinearLayoutManager.HORIZONTAL,
+                            false
+                        )
+                    holder.adapterCategoryPreviewBinding.imagesDisplayRecyclerview.setAdapter(
+                        imagesDisplayChampsPreviewAdapter
+                    )
+                }
+
+
             } else {
 
                 holder.adapterCategoryPreviewBinding.rightArrow.rotation = 0f
                 holder.adapterCategoryPreviewBinding.categoryRecyclerView.visibility = View.GONE
+                holder.adapterCategoryPreviewBinding.recyclerViewLayouts.visibility=View.GONE
                 recyclerViewVisible = false
             }
         }

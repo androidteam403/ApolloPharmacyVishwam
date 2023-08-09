@@ -321,7 +321,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                     hideLoading()
                 }
                 else {
-                    viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
+                    viewBinding.enterStoreEdittext.setText("${Preferences.getApnaSiteId()} - ${Preferences.getApnaSiteName()}")
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                         showLoading()
                         viewModel.getStoreDetailsChampsApi(
