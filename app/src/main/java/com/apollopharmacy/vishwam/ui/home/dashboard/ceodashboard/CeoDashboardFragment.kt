@@ -282,8 +282,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         }
         viewModel.getTicketListByCountApi(
             this,
-            Utils.getFirstDateOfCurrentMonth(),
-            Utils.getCurrentDateCeoDashboard(),
+            Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
+            Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
             employee//"APL67949"
         )
     }
