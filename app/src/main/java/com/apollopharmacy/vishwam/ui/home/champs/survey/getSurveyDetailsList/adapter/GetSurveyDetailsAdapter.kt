@@ -57,7 +57,7 @@ class GetSurveyDetailsAdapter(
         }
         holder.adapterGetSurveyDetailsBinding.visitDate.text=dateNewFormat
         holder.adapterGetSurveyDetailsBinding.cardView.setOnClickListener {
-            getSurveyDetailsListCallback.onClickCardView(surveyList.status, surveyList.champsRefernceId, holder.adapterGetSurveyDetailsBinding.siteName.text.toString())
+            getSurveyDetailsListCallback.onClickCardView(surveyList.status, surveyList.champsRefernceId, holder.adapterGetSurveyDetailsBinding.siteName.text.toString(),   holder.adapterGetSurveyDetailsBinding.visitDate.text.toString())
         }
 
     }

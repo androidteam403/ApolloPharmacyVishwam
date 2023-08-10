@@ -45,7 +45,7 @@ object ConnectionToAzurePreRetroUploadApna {
                         }
 
                         val imageBlog = imageBlob!!.storageUri.primaryUri.toString()
-                        imagedtcl = (SwachModelResponse.Config.ImgeDtcl(k?.file, k!!.integerButtonCount, imageBlog, k.positionLoop))
+                        imagedtcl = (SwachModelResponse.Config.ImgeDtcl(k?.file, k!!.integerButtonCount, imageBlog, k.positionLoop, false))
                         k.base64Images=imagedtcl.base64Images
                         k.positionLoop=imagedtcl.positionLoop
                         k.file=imagedtcl.file

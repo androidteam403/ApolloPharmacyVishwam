@@ -1,26 +1,27 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList
 
-import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityGetSurveyDetailsBinding
 import com.apollopharmacy.vishwam.databinding.DialoFilterChampsBinding
+import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.MainActivityPlusIconCallback
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
+import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.adapter.GetSurveyDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseEmpIdResponse
@@ -31,9 +32,11 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
-class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCallback {
-    private lateinit var activityGetSurveyDetailsBinding: ActivityGetSurveyDetailsBinding
-    private lateinit var getSurveyDetailsListViewModel: GetSurveyDetailsListViewModel
+class GetSurveyDetailsListActivity :
+    BaseFragment<GetSurveyDetailsListViewModel, ActivityGetSurveyDetailsBinding>(),
+    MainActivityCallback, GetSurveyDetailsListCallback, MainActivityPlusIconCallback {
+    //    private lateinit var activityGetSurveyDetailsBinding: ActivityGetSurveyDetailsBinding
+//    private lateinit var getSurveyDetailsListViewModel: GetSurveyDetailsListViewModel
     private lateinit var getSurveyDetailsAdapter: GetSurveyDetailsAdapter
     private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
     private var getStoreWiseEmpIdResponse: GetStoreWiseEmpIdResponse? = null
@@ -46,38 +49,49 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
     private var region: String = ""
     var champsStatus: String = "Pending, Completed"
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("WrongViewCast")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_start_survey2)
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    @SuppressLint("WrongViewCast")
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+////        setContentView(R.layout.activity_start_survey2)
+//
+//        activityGetSurveyDetailsBinding = DataBindingUtil.setContentView(
+//            this,
+//            R.layout.activity_get_survey_details
+//
+//        )
+//        getSurveyDetailsListViewModel =
+//            ViewModelProvider(this)[GetSurveyDetailsListViewModel::class.java]
+//
+//        setUp()
+//
+//    }
 
-        activityGetSurveyDetailsBinding = DataBindingUtil.setContentView(
-            this,
-            R.layout.activity_get_survey_details
+    override val layoutRes: Int
+        get() = R.layout.activity_get_survey_details
 
-        )
-        getSurveyDetailsListViewModel =
-            ViewModelProvider(this)[GetSurveyDetailsListViewModel::class.java]
-
-        setUp()
-
+    override fun retrieveViewModel(): GetSurveyDetailsListViewModel {
+        return ViewModelProvider(this).get(GetSurveyDetailsListViewModel::class.java)
     }
 
-    private fun setUp() {
-        activityGetSurveyDetailsBinding.callback = this
-        getStoreWiseEmpIdResponse =
-            intent.getSerializableExtra("getStoreWiseEmpIdResponse") as GetStoreWiseEmpIdResponse?
-        getStoreWiseDetails =
-            intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
-        surveyRecDetailsList =
-            intent.getStringArrayListExtra("surveyRecDetailsList")!!
-        surveyCCDetailsList = intent.getStringArrayListExtra("surveyCCDetailsList")!!
-        address = intent.getStringExtra("address")!!
-        storeId = intent.getStringExtra("storeId")!!
-        siteName = intent.getStringExtra("siteName")
-        storeCity = intent.getStringExtra("storeCity")!!
-        region = intent.getStringExtra("region")!!
+
+    override fun setup() {
+//        activityGetSurveyDetailsBinding.callback = this
+        viewBinding.callback = this
+        MainActivity.mInstance.mainActivityCallback = this
+        MainActivity.mInstance.mainActivityPlusIconCallback = this
+//        getStoreWiseEmpIdResponse =
+//            intent.getSerializableExtra("getStoreWiseEmpIdResponse") as GetStoreWiseEmpIdResponse?
+//        getStoreWiseDetails =
+//            intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
+//        surveyRecDetailsList =
+//            intent.getStringArrayListExtra("surveyRecDetailsList")!!
+//        surveyCCDetailsList = intent.getStringArrayListExtra("surveyCCDetailsList")!!
+//        address = intent.getStringExtra("address")!!
+//        storeId = intent.getStringExtra("storeId")!!
+//        siteName = intent.getStringExtra("siteName")
+//        storeCity = intent.getStringExtra("storeCity")!!
+//        region = intent.getStringExtra("region")!!
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
@@ -85,9 +99,9 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
 
         var fromdate = simpleDateFormat.format(cal.time)
         var toDate = currentDate
-        if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
-            getSurveyDetailsListViewModel.getSurveyListApi(
+        if (NetworkUtil.isNetworkConnected(requireActivity())) {
+            Utlis.showLoading(requireActivity())
+            viewModel.getSurveyListApi(
                 this,
                 fromdate,
                 toDate,
@@ -102,75 +116,94 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
             )
                 .show()
         }
+
     }
-    var getSurvetDetailsModelResponses: GetSurveyDetailsModelResponse?=null
+
+    var getSurvetDetailsModelResponses: GetSurveyDetailsModelResponse? = null
 
     override fun onSuccessSurveyList(getSurvetDetailsModelResponse: GetSurveyDetailsModelResponse) {
-        getSurvetDetailsModelResponses=getSurvetDetailsModelResponse
-        var getSurvetDetailsModelResponsesList=ArrayList<GetSurveyDetailsModelResponse.StoreDetail>()
-        getSurvetDetailsModelResponsesList= getSurvetDetailsModelResponse.storeDetails as ArrayList<GetSurveyDetailsModelResponse.StoreDetail>
+        getSurvetDetailsModelResponses = getSurvetDetailsModelResponse
+        var getSurvetDetailsModelResponsesList =
+            ArrayList<GetSurveyDetailsModelResponse.StoreDetail>()
+        getSurvetDetailsModelResponsesList =
+            getSurvetDetailsModelResponse.storeDetails as ArrayList<GetSurveyDetailsModelResponse.StoreDetail>
 
-        if(getSurvetDetailsModelResponse!=null && getSurvetDetailsModelResponse.storeDetails!=null &&
-                getSurvetDetailsModelResponse.storeDetails.size>0){
+        if (getSurvetDetailsModelResponse != null && getSurvetDetailsModelResponse.storeDetails != null &&
+            getSurvetDetailsModelResponse.storeDetails.size > 0
+        ) {
             getSurvetDetailsModelResponse.storeDetails.sortByDescending { it.visitDate }
-            activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
-            activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
-            if(champsStatus.contains("Pending") && champsStatus.contains("Completed")){
-                activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
-                activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
-                getSurvetDetailsModelResponses!!.storeDetails=getSurvetDetailsModelResponse.storeDetails
-                val sortedStoreDetails = getSurvetDetailsModelResponse?.storeDetails?.sortedByDescending { it.champsRefernceId } ?: emptyList()
+            viewBinding.noListFound.visibility = View.GONE
+            viewBinding.recyclerViewList.visibility = View.VISIBLE
+            if (champsStatus.contains("Pending") && champsStatus.contains("Completed")) {
+                viewBinding.noListFound.visibility = View.GONE
+                viewBinding.recyclerViewList.visibility = View.VISIBLE
+                getSurvetDetailsModelResponses!!.storeDetails =
+                    getSurvetDetailsModelResponse.storeDetails
+                val sortedStoreDetails =
+                    getSurvetDetailsModelResponse?.storeDetails?.sortedByDescending { it.champsRefernceId }
+                        ?: emptyList()
 //                val sortedStoreDetails = getSurvetDetailsModelResponsesList.sortedWith(compareByDescending<GetSurveyDetailsModelResponse.StoreDetail> { it.visitDate }.thenByDescending { it.visitDate })
 
                 getSurveyDetailsAdapter =
-                    GetSurveyDetailsAdapter(sortedStoreDetails, applicationContext, this
+                    GetSurveyDetailsAdapter(
+                        sortedStoreDetails, requireActivity(), this
                     )
-                activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
-                    LinearLayoutManager(this)
+                viewBinding.recyclerViewList.setLayoutManager(
+                    LinearLayoutManager(requireActivity())
                 )
-                activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
+                viewBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
             } else if (champsStatus.contains("Completed")) {
                 if (getSurvetDetailsModelResponse.storeDetails.filter { it.status.equals("COMPLETED") }.size > 0) {
-                    activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
-                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
-                    val sortedStoreDetails = getSurvetDetailsModelResponse?.storeDetails?.sortedByDescending { it.champsRefernceId } ?: emptyList()
+                    viewBinding.noListFound.visibility = View.GONE
+                    viewBinding.recyclerViewList.visibility = View.VISIBLE
+                    val sortedStoreDetails =
+                        getSurvetDetailsModelResponse?.storeDetails?.sortedByDescending { it.champsRefernceId }
+                            ?: emptyList()
                     getSurveyDetailsAdapter =
-                        GetSurveyDetailsAdapter(sortedStoreDetails.filter { it.status.equals("COMPLETED") }, applicationContext, this
+                        GetSurveyDetailsAdapter(
+                            sortedStoreDetails.filter { it.status.equals("COMPLETED") },
+                            requireActivity(),
+                            this
                         )
-                    activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
-                        LinearLayoutManager(this)
+                    viewBinding.recyclerViewList.setLayoutManager(
+                        LinearLayoutManager(requireActivity())
                     )
-                    activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(
+                    viewBinding.recyclerViewList.setAdapter(
                         getSurveyDetailsAdapter
                     )
                 } else {
-                    activityGetSurveyDetailsBinding.noListFound.visibility = View.VISIBLE
-                    activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.GONE
+                    viewBinding.noListFound.visibility = View.VISIBLE
+                    viewBinding.recyclerViewList.visibility = View.GONE
                 }
             } else if (champsStatus.contains("Pending")) {
                 if (getSurvetDetailsModelResponse.storeDetails.filter { it.status.equals("PENDING") }.size > 0) {
-                    activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
-                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
-                    val sortedStoreDetails = getSurvetDetailsModelResponse?.storeDetails?.sortedByDescending { it.champsRefernceId } ?: emptyList()
+                    viewBinding.noListFound.visibility = View.GONE
+                    viewBinding.recyclerViewList.visibility = View.VISIBLE
+                    val sortedStoreDetails =
+                        getSurvetDetailsModelResponse?.storeDetails?.sortedByDescending { it.champsRefernceId }
+                            ?: emptyList()
                     getSurveyDetailsAdapter =
-                        GetSurveyDetailsAdapter(sortedStoreDetails.filter { it.status.equals("PENDING") }, applicationContext, this
+                        GetSurveyDetailsAdapter(
+                            sortedStoreDetails.filter { it.status.equals("PENDING") },
+                            requireActivity(),
+                            this
                         )
-                    activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
-                        LinearLayoutManager(this)
+                    viewBinding.recyclerViewList.setLayoutManager(
+                        LinearLayoutManager(requireActivity())
                     )
-                    activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(
+                    viewBinding.recyclerViewList.setAdapter(
                         getSurveyDetailsAdapter
                     )
                 } else {
-                    activityGetSurveyDetailsBinding.noListFound.visibility = View.VISIBLE
-                    activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.GONE
+                    viewBinding.noListFound.visibility = View.VISIBLE
+                    viewBinding.recyclerViewList.visibility = View.GONE
                 }
             }
 
 
         } else {
-            activityGetSurveyDetailsBinding.noListFound.visibility = View.VISIBLE
-            activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.GONE
+            viewBinding.noListFound.visibility = View.VISIBLE
+            viewBinding.recyclerViewList.visibility = View.GONE
         }
         Utlis.hideLoading()
 
@@ -178,12 +211,17 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
 
     override fun onFailureSurveyList(getSurvetDetailsModelResponse: GetSurveyDetailsModelResponse) {
 //    Toast.makeText(applicationContext, ""+getSurvetDetailsModelResponse.message, Toast.LENGTH_SHORT).show()
-        activityGetSurveyDetailsBinding.noListFound.visibility = View.VISIBLE
-        activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.GONE
+        viewBinding.noListFound.visibility = View.VISIBLE
+        viewBinding.recyclerViewList.visibility = View.GONE
         Utlis.hideLoading()
     }
 
-    override fun onClickCardView(status: String?, champsRefernceId: String?, sitenames: String) {
+    override fun onClickCardView(
+        status: String?,
+        champsRefernceId: String?,
+        sitenames: String,
+        visitDate: String,
+    ) {
         val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
@@ -194,16 +232,19 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
         intent.putExtra("siteName", siteName)
         intent.putExtra("storeCity", storeCity)
         intent.putExtra("status", status)
+
+        intent.putExtra("visitDate", visitDate)
+
         intent.putExtra("champsRefernceId", champsRefernceId)
         intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
         intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
         intent.putExtra("region", region)
-        startActivityForResult(intent, 781)
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        requireActivity().startActivityForResult(intent, 781)
+//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     override fun onClickPlusIcon() {
-        val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
+        val intent = Intent(ViswamApp.context, NewSurveyFragment::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
         intent.putExtra("getStoreWiseEmpIdResponse", getStoreWiseEmpIdResponse)
@@ -215,17 +256,17 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
         intent.putExtra("status", "NEW")
         intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
         intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
-        startActivityForResult(intent, 781)
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        requireActivity().startActivityForResult(intent, 891)
+//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     override fun onClickback() {
-        super.onBackPressed()
+        MainActivity.mInstance.onBackPressed()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 781 && resultCode == RESULT_OK) {
+        if (requestCode == 781 && resultCode == RESULT_OK || requestCode == 891 && resultCode == RESULT_OK ) {
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
             val cal = Calendar.getInstance()
             cal.add(Calendar.DATE, -7)
@@ -233,9 +274,9 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
 
             var fromdate = simpleDateFormat.format(cal.time)
             var toDate = currentDate
-            if (NetworkUtil.isNetworkConnected(this)) {
-                Utlis.showLoading(this)
-                getSurveyDetailsListViewModel.getSurveyListApi(
+            if (NetworkUtil.isNetworkConnected(requireActivity())) {
+                Utlis.showLoading(requireActivity())
+                viewModel.getSurveyListApi(
                     this,
                     fromdate,
                     toDate,
@@ -254,10 +295,10 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
     }
 
     override fun onClickFilterIcon() {
-        val uploadStatusFilterDialog = this?.let { Dialog(it) }
+        val uploadStatusFilterDialog = this?.let { Dialog(requireActivity()) }
         val dialogFilterUploadBinding: DialoFilterChampsBinding =
             DataBindingUtil.inflate(
-                LayoutInflater.from(this), R.layout.dialo_filter_champs, null, false
+                LayoutInflater.from(requireActivity()), R.layout.dialo_filter_champs, null, false
             )
         uploadStatusFilterDialog!!.setContentView(dialogFilterUploadBinding.root)
         uploadStatusFilterDialog.getWindow()
@@ -323,57 +364,70 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
 
             }
 
-            if(champsStatus.contains("Pending") && champsStatus.contains("Completed")){
-                activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
-                activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
-                val sortedStoreDetails = getSurvetDetailsModelResponses?.storeDetails?.sortedByDescending { it.champsRefernceId } ?: emptyList()
+            if (champsStatus.contains("Pending") && champsStatus.contains("Completed")) {
+                viewBinding.noListFound.visibility = View.GONE
+                viewBinding.recyclerViewList.visibility = View.VISIBLE
+                val sortedStoreDetails =
+                    getSurvetDetailsModelResponses?.storeDetails?.sortedByDescending { it.champsRefernceId }
+                        ?: emptyList()
 
                 getSurveyDetailsAdapter =
-                    GetSurveyDetailsAdapter(sortedStoreDetails, applicationContext, this
+                    GetSurveyDetailsAdapter(
+                        sortedStoreDetails, requireActivity(), this
                     )
-                activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
-                    LinearLayoutManager(this)
+                viewBinding.recyclerViewList.setLayoutManager(
+                    LinearLayoutManager(requireActivity())
                 )
-                activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
+                viewBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
             } else if (champsStatus.contains("Completed")) {
                 if (getSurvetDetailsModelResponses!!.storeDetails.filter { it.status.equals("COMPLETED") }.size > 0) {
 
-                    activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
-                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
-                    val sortedStoreDetails = getSurvetDetailsModelResponses?.storeDetails?.sortedByDescending { it.champsRefernceId } ?: emptyList()
+                    viewBinding.noListFound.visibility = View.GONE
+                    viewBinding.recyclerViewList.visibility = View.VISIBLE
+                    val sortedStoreDetails =
+                        getSurvetDetailsModelResponses?.storeDetails?.sortedByDescending { it.champsRefernceId }
+                            ?: emptyList()
 
                     getSurveyDetailsAdapter =
-                        GetSurveyDetailsAdapter( sortedStoreDetails!!.filter { it.status.equals("COMPLETED") }, applicationContext, this
+                        GetSurveyDetailsAdapter(
+                            sortedStoreDetails!!.filter { it.status.equals("COMPLETED") },
+                            requireActivity(),
+                            this
                         )
-                    activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
-                        LinearLayoutManager(this)
+                    viewBinding.recyclerViewList.setLayoutManager(
+                        LinearLayoutManager(requireActivity())
                     )
-                    activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(
+                    viewBinding.recyclerViewList.setAdapter(
                         getSurveyDetailsAdapter
                     )
                 } else {
-                    activityGetSurveyDetailsBinding.noListFound.visibility = View.VISIBLE
-                    activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.GONE
+                    viewBinding.noListFound.visibility = View.VISIBLE
+                    viewBinding.recyclerViewList.visibility = View.GONE
                 }
             } else if (champsStatus.contains("Pending")) {
                 if (getSurvetDetailsModelResponses!!.storeDetails.filter { it.status.equals("PENDING") }.size > 0) {
 //                    getSurvetDetailsModelResponses!!.storeDetails.filter { it.status.equals("PENDING") }
-                    activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
-                    activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
-                    val sortedStoreDetails = getSurvetDetailsModelResponses?.storeDetails?.sortedByDescending { it.champsRefernceId } ?: emptyList()
+                    viewBinding.noListFound.visibility = View.GONE
+                    viewBinding.recyclerViewList.visibility = View.VISIBLE
+                    val sortedStoreDetails =
+                        getSurvetDetailsModelResponses?.storeDetails?.sortedByDescending { it.champsRefernceId }
+                            ?: emptyList()
 
                     getSurveyDetailsAdapter =
-                        GetSurveyDetailsAdapter(sortedStoreDetails.filter { it.status.equals("PENDING") }!!, applicationContext, this
+                        GetSurveyDetailsAdapter(
+                            sortedStoreDetails.filter { it.status.equals("PENDING") }!!,
+                            requireActivity(),
+                            this
                         )
-                    activityGetSurveyDetailsBinding.recyclerViewList.setLayoutManager(
-                        LinearLayoutManager(this)
+                    viewBinding.recyclerViewList.setLayoutManager(
+                        LinearLayoutManager(requireActivity())
                     )
-                    activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(
+                    viewBinding.recyclerViewList.setAdapter(
                         getSurveyDetailsAdapter
                     )
                 } else {
-                    activityGetSurveyDetailsBinding.noListFound.visibility = View.VISIBLE
-                    activityGetSurveyDetailsBinding.recyclerViewList.visibility = View.GONE
+                    viewBinding.noListFound.visibility = View.VISIBLE
+                    viewBinding.recyclerViewList.visibility = View.GONE
                 }
             }
 
@@ -386,6 +440,30 @@ class GetSurveyDetailsListActivity : AppCompatActivity(), GetSurveyDetailsListCa
             }
         }
         uploadStatusFilterDialog.show()
+    }
+
+    override fun onClickSiteIdIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickQcFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
+        TODO("Not yet implemented")
     }
 
     fun submitButtonEnable(dialogFilterUploadBinding: DialoFilterChampsBinding) {

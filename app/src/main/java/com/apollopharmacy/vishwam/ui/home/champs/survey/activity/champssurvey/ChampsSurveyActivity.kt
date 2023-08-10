@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -22,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
@@ -35,6 +37,11 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.fileupload.FileUploadModel
+import com.apollopharmacy.vishwam.util.fileuploadchamps.FileUploadChamps
+import com.apollopharmacy.vishwam.util.fileuploadchamps.FileUploadChampsCallback
+import com.apollopharmacy.vishwam.util.fileuploadchamps.FileUploadChampsModel
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
@@ -43,7 +50,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 
-class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
+class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUploadChampsCallback {
 
     private lateinit var activityChampsSurveyBinding: ActivityChampsSurveyBinding
     private var getStoreWiseEmpIdResponse: GetStoreWiseEmpIdResponse? = null
@@ -61,11 +68,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     var surveyRecDetailsList = ArrayList<String>()
     private var isPending: Boolean = false
     var surveyCCDetailsList = ArrayList<String>()
+    public var isNewSurveyCreated= false
     var siteName: String? = ""
     var sumOfCategoriess: Float? = 0f
     private var storeCity: String = ""
     private var region: String = ""
     private lateinit var dialog: Dialog
+    private lateinit var leavingConfirmationDialog: Dialog
     private lateinit var dialogSubmit: Dialog
     private var overAllprogressBarCount = 0.0f
     private var countUp: Long? = null
@@ -78,6 +87,10 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     private var otherTrainingFilled = false
     private var issuesToBeResolved = false
     private var siteNameForAddress: String? = null
+    var surveyDetailsByChampsIdForCheckBox=false
+    private var type=""
+    var isFirstTime=true
+    var visitDate=""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +100,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             R.layout.activity_champs_survey
 
         )
+        isFirstTime=true
+
         champsSurveyViewModel = ViewModelProvider(this)[ChampsSurveyViewModel::class.java]
         setUp()
         checkListeners()
@@ -104,6 +119,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     private fun setUp() {
+
         activityChampsSurveyBinding.callback = this
         siteNameForAddress = intent.getStringExtra("siteNameForAddress")
         getStoreWiseEmpIdResponse =
@@ -120,15 +136,18 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         status = intent.getStringExtra("status")
         champsRefernceId = intent.getStringExtra("champsRefernceId")
         region = intent.getStringExtra("region")!!
+        visitDate = intent.getStringExtra("visitDate")!!
         val userData = LoginRepo.getProfile()
         if (userData != null) {
             activityChampsSurveyBinding.employeeName.text = userData.EMPNAME
         }
 
 
-        val currentTime: Date = Calendar.getInstance().getTime()
-        activityChampsSurveyBinding.issuedOn.text = currentTime.toString()
+
         if (status.equals("NEW")) {
+            surveyDetailsByChampsIdForCheckBox=false
+            val currentTime: Date = Calendar.getInstance().getTime()
+            activityChampsSurveyBinding.issuedOn.text = currentTime.toString()
             val strDate = currentTime.toString()
             val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy");
             val date = dateFormat.parse(strDate)
@@ -147,6 +166,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             activityChampsSurveyBinding.storeCity.text = storeCity
             activityChampsSurveyBinding.region.text = region
             activityChampsSurveyBinding.percentageSum.text = "0"
+        }else{
+            surveyDetailsByChampsIdForCheckBox=true
         }
 
 //        disableSaveSubmit()
@@ -234,6 +255,39 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 )
             }
         }
+
+    }
+
+    override fun onBackPressed() {
+        if(status.equals("PENDING") || status.equals("NEW")){
+            leavingConfirmationDialog = Dialog(this)
+            leavingConfirmationDialog.setCancelable(false)
+            leavingConfirmationDialog.setContentView(R.layout.change_siteid)
+            val close = leavingConfirmationDialog.findViewById<TextView>(R.id.no_btnSiteChange)
+            val textForDialog = leavingConfirmationDialog.findViewById<TextView>(R.id.text_for_dialog)
+            textForDialog.setText("Are you sure you want to leave this page?")
+            close.setOnClickListener {
+                leavingConfirmationDialog.dismiss()
+            }
+            val ok = leavingConfirmationDialog.findViewById<TextView>(R.id.yes_btnSiteChange)
+            ok.setOnClickListener {
+                leavingConfirmationDialog.dismiss()
+                leavingConfirmationDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                super.onBackPressed()
+//            dialog.show()
+
+//            val intent = Intent()
+//            setResult(Activity.RESULT_OK, intent)
+//            finish()
+            }
+            leavingConfirmationDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            leavingConfirmationDialog.show()
+        }else{
+            super.onBackPressed()
+        }
+
+
+
 
     }
 
@@ -332,9 +386,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         activityChampsSurveyBinding.technicalCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
+                if ((status.equals("PENDING") || (status.equals("NEW"))) && !isFirstTime) {
+//                    openSoftKeyboard()
+                    activityChampsSurveyBinding.enterTextTechnicalEdittext.requestFocus();
+                }
 
-               openSoftKeyboard()
-                activityChampsSurveyBinding.enterTextTechnicalEdittext.requestFocus();
+
                 activityChampsSurveyBinding.technicalEdittext.visibility = View.VISIBLE
                 activityChampsSurveyBinding.charLeftLayoutTechnical.visibility = View.VISIBLE
             } else {
@@ -345,8 +402,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         activityChampsSurveyBinding.softskillsCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-               openSoftKeyboard()
-                activityChampsSurveyBinding.enterSoftSkillsEdittext.requestFocus();
+                if ((status.equals("PENDING") || (status.equals("NEW"))) && !isFirstTime) {
+//                    openSoftKeyboard()
+                    activityChampsSurveyBinding.enterSoftSkillsEdittext.requestFocus();
+                }
+
                 activityChampsSurveyBinding.softSkillsEdittext.visibility = View.VISIBLE
                 activityChampsSurveyBinding.charLeftLayoutSoftskills.visibility = View.VISIBLE
             } else {
@@ -357,8 +417,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         activityChampsSurveyBinding.otherTrainingCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                openSoftKeyboard()
-                activityChampsSurveyBinding.enterOtherTrainingEdittext.requestFocus();
+                if ((status.equals("PENDING") || (status.equals("NEW"))) && !isFirstTime) {
+//                    openSoftKeyboard()
+                    activityChampsSurveyBinding.enterOtherTrainingEdittext.requestFocus();
+                }
+
                 activityChampsSurveyBinding.otherTrainingEdittext.visibility = View.VISIBLE
                 activityChampsSurveyBinding.charLeftLayoutOtherrTraining.visibility = View.VISIBLE
             } else {
@@ -411,10 +474,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 //            }).start()
 //        }
     }
-    var keyBoardOpen=false
+
+    var keyBoardOpen = false
     fun openSoftKeyboard() {
-        if(!keyBoardOpen){
-            keyBoardOpen=true
+        if (!keyBoardOpen) {
+            keyBoardOpen = true
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
@@ -466,24 +530,55 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     override fun onClickSubmit() {
 //     ChampsSurveyDialog().show(supportFragmentManager, "")
         if (technicalFilled && softSkillsFilled && otherTrainingFilled) {
-            var isAllCategoriesSubmitted = true
-            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
-                if (!i.clickedSubmit!!) {
-                    isAllCategoriesSubmitted = false
-                    break
+            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 0) {
+                var isAllCategoriesSubmitted = true
+                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                    if (!i.clickedSubmit!!) {
+                        isAllCategoriesSubmitted = false
+                        break
+                    }
                 }
-            }
-            if (isAllCategoriesSubmitted) {
-                saveApiRequest("submit")
-            } else {
-                Toast.makeText(
-                    applicationContext,
-                    "Please fill all the attending points",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
+                if (isAllCategoriesSubmitted) {
+                    type="submit"
+                    var fileUploadModelList = ArrayList<FileUploadChampsModel>()
 
+                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                        if (i.imageDataLists != null) {
+                            for (j in i.imageDataLists!!) {
+                                if (j.file != null) {
+                                    var fileUploadModel = FileUploadChampsModel()
+                                    fileUploadModel.file = j.file
+                                    fileUploadModel.categoryName = i.categoryName
+                                    fileUploadModelList.add(fileUploadModel)
+                                }
+
+                            }
+                        }
+                    }
+                    if(fileUploadModelList.size>0){
+                        showLoadingTemp(this)
+                        FileUploadChamps().uploadFiles(
+                            context,
+                            this,
+                            fileUploadModelList
+                        )
+                    }else{
+                        Utlis.showLoading(this)
+                        saveApiRequest("submit")
+                    }
+                }else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Please fill all the attending points",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+
+                }
+
+//
+//            saveApiRequest("submit")
         } else {
             Toast.makeText(applicationContext, "Please fill all the details", Toast.LENGTH_SHORT)
                 .show()
@@ -494,7 +589,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
     private fun saveApiRequest(type: String) {
         if (NetworkUtil.isNetworkConnected(context)) {
-            Utlis.showLoading(this)
+//            Utlis.showLoading(this)
             var submit = SaveSurveyModelRequest()
             var headerDetails = SaveSurveyModelRequest.HeaderDetails()
             headerDetails.state = activityChampsSurveyBinding.region.text.toString()
@@ -507,7 +602,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.getDefault()).format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss a").format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             } else if (status.equals("PENDING")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
@@ -515,7 +610,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.getDefault()).format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss a").format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             } else {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
@@ -523,11 +618,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.getDefault()).format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss a").format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             }
 
-
+        if(status.equals("NEW")) {
             var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
             var employeeDetailsResponse: EmployeeDetailsResponse? = null
             try {
@@ -579,8 +674,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 headerDetails.emailIdOfRegionalHead = ""
             }
 
-            if (surveyRecDetailsList.get(0) != null) {
-                headerDetails.emailIdOfRecipients = surveyRecDetailsList.get(0)
+            if (surveyRecDetailsList != null) {
+                if (surveyRecDetailsList.get(0) != null) {
+                    headerDetails.emailIdOfRecipients = surveyRecDetailsList.get(0)
+                } else {
+                    headerDetails.emailIdOfRecipients = ""
+                }
+
             } else {
                 headerDetails.emailIdOfRecipients = ""
             }
@@ -590,6 +690,72 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             } else {
                 headerDetails.emailIdOfCc = ""
             }
+        }
+        else if(status.equals("PENDING")){
+            if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+                if(getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfTrainer!=null){
+                    headerDetails.emailIdOfTrainer = getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfTrainer
+                }else{
+                    headerDetails.emailIdOfTrainer = ""
+                }
+            } else {
+                headerDetails.emailIdOfTrainer = ""
+            }
+
+            if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+                if(getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfExecutive!=null){
+                    headerDetails.emailIdOfExecutive = getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfExecutive
+                }else{
+                    headerDetails.emailIdOfExecutive = ""
+                }
+            } else {
+                headerDetails.emailIdOfExecutive = ""
+            }
+
+            if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+                if(getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfManager!=null){
+                    headerDetails.emailIdOfManager = getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfManager
+                }else{
+                    headerDetails.emailIdOfManager = ""
+                }
+            } else {
+                headerDetails.emailIdOfManager = ""
+            }
+
+            if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+                if(getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRegionalHead!=null){
+                    headerDetails.emailIdOfRegionalHead = getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRegionalHead
+                }else{
+                    headerDetails.emailIdOfRegionalHead = ""
+                }
+            } else {
+                headerDetails.emailIdOfRegionalHead = ""
+            }
+
+
+
+
+
+            if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+                if(getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients!=null){
+                    headerDetails.emailIdOfRecipients = getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients
+                }else{
+                    headerDetails.emailIdOfRecipients = ""
+                }
+            } else {
+                headerDetails.emailIdOfRecipients = ""
+            }
+
+            if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+                if(getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfCc!=null){
+                    headerDetails.emailIdOfCc = getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfCc
+                }else{
+                    headerDetails.emailIdOfCc = ""
+                }
+            } else {
+                headerDetails.emailIdOfCc = ""
+            }
+        }
 
 
             headerDetails.champAutoId = champsRefernceId
@@ -604,6 +770,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.text.toString()
             headerDetails.total = activityChampsSurveyBinding.percentageSum.text.toString()
             headerDetails.createdBy = Preferences.getValidatedEmpId()
+            headerDetails.site_name = Preferences.getChampsSiteName()
             if (type.equals("submit")) {
                 headerDetails.status = "1"
             } else {
@@ -1020,13 +1187,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
             }
 
-
-
-
-
-
-
-
             if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.size!! > 4 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
                     4
                 )?.subCategoryDetails != null
@@ -1200,8 +1360,36 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         }
         val ok = dialog.findViewById<TextView>(R.id.yes_btnSiteChange)
         ok.setOnClickListener {
+            type="saveDraft"
             dialog.dismiss()
-            saveApiRequest("saveDraft")
+            var fileUploadModelList = ArrayList<FileUploadChampsModel>()
+
+            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                if (i.imageDataLists != null) {
+                    for (j in i.imageDataLists!!) {
+                        if (j.file != null) {
+                            var fileUploadModel = FileUploadChampsModel()
+                            fileUploadModel.file = j.file
+                            fileUploadModel.categoryName = i.categoryName
+                            fileUploadModelList.add(fileUploadModel)
+                        }
+
+                    }
+                }
+            }
+            if(fileUploadModelList.size>0){
+                showLoadingTemp(this)
+                FileUploadChamps().uploadFiles(
+                    context,
+                    this,
+                    fileUploadModelList
+                )
+            }else{
+                Utlis.showLoading(this)
+                saveApiRequest("saveDraft")
+            }
+
+//            saveApiRequest("saveDraft")
 //            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 //            dialog.show()
 //            val intent = Intent()
@@ -1341,6 +1529,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
     override fun onFailuregetCategoryDetails(value: GetCategoryDetailsModelResponse) {
         if (value != null && value.message != null) {
+
             Toast.makeText(applicationContext, value.message, Toast.LENGTH_SHORT).show()
         }
         Utlis.hideLoading()
@@ -1348,6 +1537,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
     override fun onSuccessgetTrainingDetails(getTrainingAndColorDetails: GetTrainingAndColorDetailsModelResponse) {
         if (getTrainingAndColorDetails != null && getTrainingAndColorDetails.trainingDetails != null && getTrainingAndColorDetails.trainingDetails.size != null) {
+            isFirstTime=false
             getTrainingAndColorDetailss = getTrainingAndColorDetails;
             activityChampsSurveyBinding.enterTextTechnicalEdittext.filters =
                 arrayOf(InputFilter.LengthFilter(getTrainingAndColorDetails.trainingDetails.get(0).length.toInt()))
@@ -1416,6 +1606,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     private fun overallProgressBarCount(sumOfCategories: Float) {
+        activityChampsSurveyBinding.progressBarTotalGreen.isEnabled=false
+        activityChampsSurveyBinding.progressBarTotalRed.isEnabled=false
+        activityChampsSurveyBinding.progressBarTotalOrange.isEnabled=false
         overAllprogressBarCount = sumOfCategories
         if (sumOfCategories <= 100 && sumOfCategories >= 80) {
             activityChampsSurveyBinding.progressBarTotalGreen.progress =
@@ -1581,28 +1774,59 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
             saveUpdateRequest.date = dateNewFormats
             saveUpdateRequest.issue =
                 activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.text.toString()
-            if (surveyRecDetailsList.get(0) != null) {
-                saveUpdateRequest.email = surveyRecDetailsList.get(0)
-            } else {
-                saveUpdateRequest.email = ""
+
+            if(status.equals("NEW")){
+                if (surveyRecDetailsList.get(0) != null) {
+                    saveUpdateRequest.email = surveyRecDetailsList.get(0)
+                } else {
+                    saveUpdateRequest.email = ""
+                }
+
+                var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+                var employeeDetailsResponse: EmployeeDetailsResponse? = null
+                try {
+                    val gson = GsonBuilder().setPrettyPrinting().create()
+                    employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                        empDetailsResponse, EmployeeDetailsResponse::class.java
+                    )
+
+                } catch (e: JsonParseException) {
+                    e.printStackTrace()
+                }
+                if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
+                    saveUpdateRequest.trainerEmail = employeeDetailsResponse.data!!.email!!
+                } else {
+                    saveUpdateRequest.trainerEmail = ""
+                }
+            }  else if(status.equals("PENDING")){
+                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+                    if(getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients!=null){
+                        saveUpdateRequest.email = getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients
+                    }else{
+                        saveUpdateRequest.email= ""
+                    }
+                } else {
+                    saveUpdateRequest.email = ""
+                }
+
+                var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+                var employeeDetailsResponse: EmployeeDetailsResponse? = null
+                try {
+                    val gson = GsonBuilder().setPrettyPrinting().create()
+                    employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                        empDetailsResponse, EmployeeDetailsResponse::class.java
+                    )
+
+                } catch (e: JsonParseException) {
+                    e.printStackTrace()
+                }
+                if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
+                    saveUpdateRequest.trainerEmail = employeeDetailsResponse.data!!.email!!
+                } else {
+                    saveUpdateRequest.trainerEmail = ""
+                }
             }
 
-            var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
-            var employeeDetailsResponse: EmployeeDetailsResponse? = null
-            try {
-                val gson = GsonBuilder().setPrettyPrinting().create()
-                employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
-                    empDetailsResponse, EmployeeDetailsResponse::class.java
-                )
-
-            } catch (e: JsonParseException) {
-                e.printStackTrace()
-            }
-            if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
-                saveUpdateRequest.trainerEmail = employeeDetailsResponse.data!!.email!!
-            } else {
-                saveUpdateRequest.trainerEmail = ""
-            }
 
             /*if (getStoreWiseEmpIdResponse != null &&
                 getStoreWiseEmpIdResponse?.storeWiseDetails != null &&
@@ -1636,7 +1860,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
             if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
-                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+
+                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.reversed()) {
                     for (j in i.subCategoryDetails!!) {
                         var cmsChampsSurveQa = CmsChampsSurveyQa()
                         cmsChampsSurveQa.categoryName = j.categoryName
@@ -1668,7 +1893,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                             var cmsChampsSurveQa = CmsChampsSurveyQa()
                             cmsChampsSurveQa.categoryName = i.categoryName
                             cmsChampsSurveQa.question = "Upload Images"
-                            cmsChampsSurveQa.answerType = "Image"
+                            cmsChampsSurveQa.answerType = "image"
                             for (k in i.imageDataLists!!) {
                                 if (k.imageUrl != null && !k.imageUrl!!.isEmpty()) {
                                     image.url = k.imageUrl
@@ -1701,6 +1926,10 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         close.setOnClickListener {
             dialogSubmit.dismiss()
             val intent = Intent()
+            if(status.equals("NEW")){
+                intent.putExtra("isNewSurveyCreated", true)
+                intent.putExtra("status", "NEW")
+            }
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
@@ -1761,11 +1990,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         }
         Utlis.hideLoading()
     }
-
+   var getSurveyDetailsByChapmpsIdTemp: GetSurevyDetailsByChampsIdResponse?=null
     @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     override fun onSuccessGetSurveyDetailsByChampsId(getSurveyDetailsByChapmpsId: GetSurevyDetailsByChampsIdResponse) {
         if (getSurveyDetailsByChapmpsId != null && getSurveyDetailsByChapmpsId.headerDetails != null) {
+            getSurveyDetailsByChapmpsIdTemp=getSurveyDetailsByChapmpsId
             if (getSurveyDetailsByChapmpsId.headerDetails.status.equals("0")) {
+
                 activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.setText(
                     getSurveyDetailsByChapmpsId.headerDetails.issuesToBeResolved.toString()
                 )
@@ -1809,18 +2040,21 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 getSurveyDetailsByChapmpsId.headerDetails.state
 //            activityChampsSurveyBinding.siteId.text =
 //                getSurveyDetailsByChapmpsId.headerDetails.storeId
-            val currentTime: Date = Calendar.getInstance().getTime()
-            activityChampsSurveyBinding.issuedOn.text =
-                getSurveyDetailsByChapmpsId!!.headerDetails.dateOfVisit
+//            val currentTime: Date = Calendar.getInstance().getTime()
+            if(visitDate!=null){
+                activityChampsSurveyBinding.issuedOn.text =
+                    visitDate
+            }
 
-            val strDate = getSurveyDetailsByChapmpsId!!.headerDetails.dateOfVisit
-            val dateFormat = SimpleDateFormat("dd-MM-yy hh:mm:ss");
-            val date = dateFormat.parse(strDate)
-            val dateNewFormat =
-                SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
-            activityChampsSurveyBinding.issuedOn.text = dateNewFormat
 
-            activityChampsSurveyBinding.issuedOn.text = dateNewFormat
+//            val strDate = getSurveyDetailsByChapmpsId!!.headerDetails.dateOfVisit
+//            val dateFormat = SimpleDateFormat("dd-MM-yy hh:mm:ss");
+//            val date = dateFormat.parse(strDate)
+//            val dateNewFormat =
+//                SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+//            activityChampsSurveyBinding.issuedOn.text = dateNewFormat
+
+//            activityChampsSurveyBinding.issuedOn.text = getSurveyDetailsByChapmpsId!!.headerDetails.dateOfVisit
             if (!getSurveyDetailsByChapmpsId.headerDetails.state.isNullOrEmpty()) {
                 activityChampsSurveyBinding.region.text =
                     getSurveyDetailsByChapmpsId.headerDetails.state
@@ -1899,12 +2133,15 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
                         for (i in cleanlinessImagesList.indices) {
-                            var imageDatas =
-                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                            imageDatas!!.imageUrl = cleanlinessImagesList.get(i)
-                            imageDatas.file = null
-                            imageDatas.imageFilled = true
-                            imageUrlsCleanliness!!.add(imageDatas)
+                            if(!cleanlinessImagesList.get(i).isNullOrEmpty()){
+                                var imageDatas =
+                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                                imageDatas!!.imageUrl = cleanlinessImagesList.get(i)
+                                imageDatas.file = null
+                                imageDatas.imageFilled = true
+                                imageUrlsCleanliness!!.add(imageDatas)
+                            }
+
                         }
 
 
@@ -1954,12 +2191,15 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
                         for (i in hosptalityImagesList.indices) {
-                            var imageDatas =
-                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                            imageDatas!!.imageUrl = hosptalityImagesList.get(i)
-                            imageDatas.file = null
-                            imageDatas.imageFilled = true
-                            imageUrlsHospitality!!.add(imageDatas)
+                            if(! hosptalityImagesList.get(i).isNullOrEmpty()){
+                                var imageDatas =
+                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                                imageDatas!!.imageUrl = hosptalityImagesList.get(i)
+                                imageDatas.file = null
+                                imageDatas.imageFilled = true
+                                imageUrlsHospitality!!.add(imageDatas)
+                            }
+
                         }
 
 
@@ -2023,12 +2263,15 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
                         for (i in accuracyImagesList.indices) {
-                            var imageDatas =
-                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                            imageDatas!!.imageUrl = accuracyImagesList.get(i)
-                            imageDatas.file = null
-                            imageDatas.imageFilled = true
-                            imageUrlsAccuracy!!.add(imageDatas)
+                            if(!accuracyImagesList.get(i).isNullOrEmpty()){
+                                var imageDatas =
+                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                                imageDatas!!.imageUrl = accuracyImagesList.get(i)
+                                imageDatas.file = null
+                                imageDatas.imageFilled = true
+                                imageUrlsAccuracy!!.add(imageDatas)
+                            }
+
                         }
 
 
@@ -2118,12 +2361,15 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
                         for (i in maintenanceImagesList.indices) {
-                            var imageDatas =
-                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                            imageDatas!!.imageUrl = maintenanceImagesList.get(i)
-                            imageDatas.file = null
-                            imageDatas.imageFilled = true
-                            imageUrlsMaintainence!!.add(imageDatas)
+                            if(!maintenanceImagesList.get(i).isNullOrEmpty()){
+                                var imageDatas =
+                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                                imageDatas!!.imageUrl = maintenanceImagesList.get(i)
+                                imageDatas.file = null
+                                imageDatas.imageFilled = true
+                                imageUrlsMaintainence!!.add(imageDatas)
+                            }
+
                         }
 
 
@@ -2174,12 +2420,15 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
                         for (i in productsImagesList.indices) {
-                            var imageDatas =
-                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                            imageDatas!!.imageUrl = productsImagesList.get(i)
-                            imageDatas.file = null
-                            imageDatas.imageFilled = true
-                            imageUrlsProducts!!.add(imageDatas)
+                            if(!productsImagesList.get(i).isNullOrEmpty()){
+                                var imageDatas =
+                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                                imageDatas!!.imageUrl = productsImagesList.get(i)
+                                imageDatas.file = null
+                                imageDatas.imageFilled = true
+                                imageUrlsProducts!!.add(imageDatas)
+                            }
+
                         }
                         getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists =
                             imageUrlsProducts
@@ -2220,12 +2469,15 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
 
                         for (i in speedServiceSalesPromotionImagesList.indices) {
-                            var imageDatas =
-                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                            imageDatas!!.imageUrl = speedServiceSalesPromotionImagesList.get(i)
-                            imageDatas.file = null
-                            imageDatas.imageFilled = true
-                            imageUrlSpeedServiceSalesPromotion!!.add(imageDatas)
+                            if(!speedServiceSalesPromotionImagesList.get(i).isNullOrEmpty()){
+                                var imageDatas =
+                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                                imageDatas!!.imageUrl = speedServiceSalesPromotionImagesList.get(i)
+                                imageDatas.file = null
+                                imageDatas.imageFilled = true
+                                imageUrlSpeedServiceSalesPromotion!!.add(imageDatas)
+                            }
+
                         }
 
 
@@ -2446,6 +2698,97 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         }
 
+    }
+
+    override fun onFailureUpload(message: String) {
+        Utlis.hideLoading()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun allFilesUploaded(fileUploadModelList: List<FileUploadChampsModel>) {
+        for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+            if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
+                for (l in k.imageDataLists!!) {
+                    for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
+                        if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
+                            l.imageUrl = z.sensingFileUploadResponse!!.referenceurl
+                            l.sensingUploadUrlFilled = true
+                            z.imageUrlUsed = true
+                        }
+                    }
+
+                }
+            }
+
+        }
+//        Utlis.hideLoading()
+        saveApiRequest("submit")
+    }
+
+    override fun allFilesDownloaded(fileUploadModelList: List<FileUploadChampsModel>) {
+
+        for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+            if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
+                for (l in k.imageDataLists!!) {
+                    for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
+                        if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
+                            l.imageUrl = RijndaelCipherEncryptDecrypt().decrypt(z.fileDownloadResponse!!.referenceurl, "blobfilesload")
+                            l.sensingUploadUrlFilled = true
+                            z.imageUrlUsed = true
+                        }
+                    }
+
+                }
+            }
+
+        }
+//        Utlis.hideLoading()
+
+
+
+//        for (i in fileUploadModelList) {
+//            for (j in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+//                if (i.categoryName.equals(j.categoryName)) {
+//                    for (k in j.imageDataLists!!) {
+//                        if (!k.sensingUploadUrlFilled && !i.imageUrlUsed) {
+//                            k.imageUrl = i.fileDownloadResponse!!.referenceurl
+//                            k.sensingUploadUrlFilled = true
+//                            i.imageUrlUsed = true
+//                            break
+//                        }
+//                    }
+//                    break
+//
+//                }
+//                break
+//            }
+//        }
+        saveApiRequest(type)
+    }
+
+    var mProgressDialogTemp: ProgressDialog? = null
+    fun showLoadingTemp(context: Context) {
+        hideLoadingTemp()
+        mProgressDialogTemp = showLoadingDialogTemp(context)
+    }
+
+    fun hideLoadingTemp() {
+        if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
+            mProgressDialogTemp!!.dismiss()
+        }
+    }
+
+    fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.show()
+        if (progressDialog.window != null) {
+            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        progressDialog.setContentView(R.layout.progress_dialog)
+        progressDialog.isIndeterminate = true
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        return progressDialog
     }
 }
 

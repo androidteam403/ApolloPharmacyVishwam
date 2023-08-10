@@ -84,7 +84,7 @@ class SwacchImagesUploadFragment : BaseFragment<SwachhapolloViewModel, FragmentS
                     var dtcl_list = ArrayList<SwachModelResponse.Config.ImgeDtcl>()
                     for (count in 1..countUpload!!) {
 
-                        dtcl_list.add(SwachModelResponse.Config.ImgeDtcl(null, count, "", 0))
+                        dtcl_list.add(SwachModelResponse.Config.ImgeDtcl(null, count, "", 0, false))
 
                     }
                     swacchApolloList.get(0).configlist?.get(index)?.imageDataDto = dtcl_list
@@ -126,7 +126,7 @@ class SwacchImagesUploadFragment : BaseFragment<SwachhapolloViewModel, FragmentS
                                 it.filePath.file,
                                 it.filePath.integerButtonCount,
                                 it.filePath.base64Images,
-                                it.filePath.positionLoop
+                                it.filePath.positionLoop, false
                             )
                             swacchApolloList.get(0).configlist!!.get(configPosition).imageDataDto?.set(
                                 i,

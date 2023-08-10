@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.File
 import java.io.Serializable
 
 class GetImageUrlModelResponse : Serializable {
@@ -66,6 +67,8 @@ class GetImageUrlModelResponse : Serializable {
         @Expose
         var categoryname: String? = null
 
+        var categoryPosForUrl:Int?=null
+
         @SerializedName("IMAGE_URLS")
         @Expose
         var imageUrls: List<ImageUrl>? = null
@@ -74,6 +77,10 @@ class GetImageUrlModelResponse : Serializable {
             @SerializedName("URL")
             @Expose
             var url: String? = null
+
+            var file: File?=null
+
+            var imagePosForUrl:Int?=null
 
             @SerializedName("STATUS")
             @Expose

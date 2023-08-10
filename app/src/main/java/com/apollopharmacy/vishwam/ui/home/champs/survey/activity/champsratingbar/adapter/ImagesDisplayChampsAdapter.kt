@@ -47,18 +47,20 @@ class ImagesDisplayChampsAdapter(
 //                    .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
 //
 //            } else
-
-                if(imageDataLists!!.get(position).imageUrl!=null && !imageDataLists.get(position).imageUrl!!.isEmpty()){
+                if((imageDataLists!!.get(position).imageUrl!=null && !imageDataLists.get(position).imageUrl!!.isEmpty()) ||
+                    imageDataLists!!.get(position).file!=null){
                 holder.adapterCaptureImagesSwachBinding.imagePlusIcon.visibility = View.GONE
                 holder.adapterCaptureImagesSwachBinding.uploadImageLayout1.visibility = View.VISIBLE
-                Glide.with(context).load(imageDataLists.get(position).imageUrl)
-                    .placeholder(R.drawable.placeholder_image)
-                    .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
-                    if(status.equals("COMPLETED")){
-                        holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.GONE
+                    if(imageDataLists.get(position).imageUrl!=null && !imageDataLists.get(position).imageUrl!!.isEmpty()){
+                        Glide.with(context).load(imageDataLists.get(position).imageUrl)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
                     }else{
-                        holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.VISIBLE
+                        Glide.with(context).load(imageDataLists.get(position).file)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
                     }
+
             }
             else {
                 if(status.equals("COMPLETED")){
@@ -96,6 +98,10 @@ class ImagesDisplayChampsAdapter(
         }
         holder.adapterCaptureImagesSwachBinding.redTrash.setOnClickListener {
             champsDetailsandRatingBarCallBack.onClickImageDelete(position)
+        }
+
+        holder.adapterCaptureImagesSwachBinding.uploadImageChamps.setOnClickListener {
+            champsDetailsandRatingBarCallBack.onClickImageView(it,imageDataLists!!.get(position));
         }
 
 

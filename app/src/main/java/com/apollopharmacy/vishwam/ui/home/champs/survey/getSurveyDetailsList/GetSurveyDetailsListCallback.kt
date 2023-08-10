@@ -5,7 +5,12 @@ import com.apollopharmacy.vishwam.ui.home.model.GetSurveyDetailsModelResponse
 interface GetSurveyDetailsListCallback {
      fun onSuccessSurveyList(value: GetSurveyDetailsModelResponse)
      fun onFailureSurveyList(value: GetSurveyDetailsModelResponse)
-     fun onClickCardView(status: String?, champsRefernceId: String?, sitename: String)
+     fun onClickCardView(
+         status: String?,
+         champsRefernceId: String?,
+         sitename: String,
+         toString: String
+     )
      fun onClickPlusIcon()
 
      fun onClickback()

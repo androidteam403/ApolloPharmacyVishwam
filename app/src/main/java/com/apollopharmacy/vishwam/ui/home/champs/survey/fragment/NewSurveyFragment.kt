@@ -3,10 +3,13 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.fragment
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
@@ -15,6 +18,8 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.FragmentChampsSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsAndRatingBarViewModel
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarCallBack
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.adapter.GetStoreDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
@@ -23,9 +28,11 @@ import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 
-class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyBinding>(),
-    NewSurveyCallback, MainActivityCallback {
+class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
+    var fragmentChampsSurveyBinding: FragmentChampsSurveyBinding?=null
+    var newSurveyViewModel: NewSurveyViewModel?=null
     var getStoreDetailsAdapter: GetStoreDetailsAdapter? = null
     var getSiteDetails: GetStoreWiseDetailsModelResponse? = null
     var storeId: String? = ""
@@ -34,26 +41,44 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     var siteCity: String? = ""
     var region: String? = ""
     var isSiteIdEmpty: Boolean = false
+    var isNewSurveyCreated = false
+    var status= ""
 
-    override val layoutRes: Int
-        get() = R.layout.fragment_champs_survey
+//    override val layoutRes: Int
+//        get() = R.layout.fragment_champs_survey
+//
+//    override fun retrieveViewModel(): NewSurveyViewModel {
+//        return ViewModelProvider(this).get(NewSurveyViewModel::class.java)
+//    }
 
-    override fun retrieveViewModel(): NewSurveyViewModel {
-        return ViewModelProvider(this).get(NewSurveyViewModel::class.java)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_champs_detailsand_rating_bar)
+
+        fragmentChampsSurveyBinding = DataBindingUtil.setContentView(
+            this,
+            R.layout.fragment_champs_survey
+
+        )
+        newSurveyViewModel =
+            ViewModelProvider(this)[NewSurveyViewModel::class.java]
+//        champsDetailsandRatingBarCallBack = ChampsDetailsandRatingBarCallBack
+        setup()
     }
 
-    override fun setup() {
-        viewBinding.callback = this
-        MainActivity.mInstance.mainActivityCallback = this
+
+    private fun setup() {
+        fragmentChampsSurveyBinding!!.callback = this
+//        MainActivity.mInstance.mainActivityCallback = this
 //        Utlis.hideLoading()
         if (Preferences.getApnaSiteId().isEmpty()) {
 //            showLoading()
-            val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+            val i = Intent(applicationContext, SelectChampsSiteIDActivity::class.java)
             i.putExtra("modulename", "CHAMPS")
             startActivityForResult(i, 781)
         } else {
 
-            viewBinding.enterStoreEdittext.setText("${Preferences.getApnaSiteId()} - ${Preferences.getApnaSiteName()}")
+            fragmentChampsSurveyBinding!!.enterStoreEdittext.setText("${Preferences.getApnaSiteId()} - ${Preferences.getApnaSiteName()}")
 
 
 //
@@ -71,27 +96,27 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
 
             if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                showLoading()
-                viewModel.getStoreDetailsChampsApi(
+                Utlis.showLoading(this)
+                newSurveyViewModel!!.getStoreDetailsChampsApi(
                     this
                 )
             } else {
                 Toast.makeText(
-                    activity,
+                    applicationContext,
                     resources.getString(R.string.label_network_error),
                     Toast.LENGTH_SHORT
                 )
                     .show()
             }
             if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                showLoading()
-                viewModel.getStoreWiseDetailsChampsApi(
+                Utlis.showLoading(this)
+                newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
                     this,
                     Preferences.getApnaSiteId()
                 )
             } else {
                 Toast.makeText(
-                    activity,
+                    applicationContext,
                     resources.getString(R.string.label_network_error),
                     Toast.LENGTH_SHORT
                 )
@@ -100,7 +125,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 //
 
 
-            viewBinding.enterStoreEdittext.addTextChangedListener(object :
+            fragmentChampsSurveyBinding!!.enterStoreEdittext.addTextChangedListener(object :
                 TextWatcher {
                 override fun beforeTextChanged(
                     charSequence: CharSequence,
@@ -137,25 +162,27 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
 
     override fun onClickSearch() {
-        viewBinding.searchButton.visibility = View.GONE
-        viewBinding.cardViewStore.visibility = View.VISIBLE
+        fragmentChampsSurveyBinding!!.searchButton.visibility = View.GONE
+        fragmentChampsSurveyBinding!!.cardViewStore.visibility = View.VISIBLE
     }
 
     override fun onClickCardView() {
-        val intent = Intent(context, SurveyDetailsActivity::class.java)
+        val intent = Intent(applicationContext, SurveyDetailsActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getStoreWiseDetailsResponses", getSiteDetails)
         intent.putExtra("storeId", storeId)
         intent.putExtra("address", address)
         intent.putExtra("siteName", siteName)
         intent.putExtra("storeCity", siteCity)
-        intent.putExtra("region", viewBinding.region.text.toString())
-        startActivity(intent)
-        activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        intent.putExtra("region", fragmentChampsSurveyBinding!!.region.text.toString())
+        startActivityForResult(intent, 761)
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
+
+
     override fun onClickCloseIcon() {
-        viewBinding.enterStoreEdittext.setText("")
+        fragmentChampsSurveyBinding!!.enterStoreEdittext.setText("")
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -170,20 +197,20 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                     region =    value.get(i).state!!.name
                     if(value.get(i).address!=null)
                     address = value.get(i).address
-                    viewBinding.storeId.text =
+                    fragmentChampsSurveyBinding!!.storeId.text =
                         "${value.get(i).site} - ${Preferences.getApnaSiteName()}"
-                    viewBinding.region.text = value.get(i).city +  ", "+  value.get(i).state!!.name + ", " + value.get(i).district!!.name
+                    fragmentChampsSurveyBinding!!.region.text = value.get(i).city +  ", "+  value.get(i).state!!.name + ", " + value.get(i).district!!.name
 
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                        showLoading()
-                        viewModel.getStoreWiseDetailsChampsApi(
+                        Utlis.showLoading(this)
+                        newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
                             this,
-                            viewBinding.enterStoreEdittext.text.toString()
+                            fragmentChampsSurveyBinding!!.enterStoreEdittext.text.toString()
                         )
                     }
                     else {
                         Toast.makeText(
-                            activity,
+                            applicationContext,
                             resources.getString(R.string.label_network_error),
                             Toast.LENGTH_SHORT
                         )
@@ -197,14 +224,14 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         hideLoading()
 
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-            showLoading()
-            viewModel.getStoreWiseDetailsChampsApi(
+            Utlis.showLoading(this)
+            newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
                 this,
                 Preferences.getApnaSiteId()
             )
         } else {
             Toast.makeText(
-                activity,
+                applicationContext,
                 resources.getString(R.string.label_network_error),
                 Toast.LENGTH_SHORT
             )
@@ -214,7 +241,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     }
 
     override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
-        Toast.makeText(activity, "" + value, Toast.LENGTH_SHORT).show();
+        Toast.makeText(applicationContext, "" + value, Toast.LENGTH_SHORT).show();
         hideLoading()
 //        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
 //            showLoading()
@@ -231,13 +258,13 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 //        }
 
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-            showLoading()
-            viewModel.getStoreDetailsChampsApi(
+            Utlis.showLoading(this)
+            newSurveyViewModel!!.getStoreDetailsChampsApi(
                 this
             )
         } else {
             Toast.makeText(
-                activity,
+                applicationContext,
                 resources.getString(R.string.label_network_error),
                 Toast.LENGTH_SHORT
             )
@@ -249,15 +276,15 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         getSiteDetails = getStoreWiseDetailsResponses
         if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success  && getStoreWiseDetailsResponses.data.executive!= null ) {
             if(getStoreWiseDetailsResponses.data.executive.email!=null){
-                viewBinding.emailId.setText(getStoreWiseDetailsResponses.data.executive.email)
+                fragmentChampsSurveyBinding!!.emailId.setText(getStoreWiseDetailsResponses.data.executive.email)
             }else{
-                viewBinding.emailId.setText("--")
+                fragmentChampsSurveyBinding!!.emailId.setText("--")
             }
 
         } else {
-            viewBinding.emailId.setText("--")
+            fragmentChampsSurveyBinding!!.emailId.setText("--")
             Preferences.setApnaSite("")
-            val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+            val i = Intent(applicationContext, SelectChampsSiteIDActivity::class.java)
             i.putExtra("modulename", "CHAMPS")
             startActivityForResult(i, 781)
         }
@@ -266,9 +293,9 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
         if (value != null && value.message != null) {
-            viewBinding.emailId.setText("--")
+            fragmentChampsSurveyBinding!!.emailId.setText("--")
             Preferences.setApnaSite("")
-            val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+            val i = Intent(applicationContext, SelectChampsSiteIDActivity::class.java)
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             i.putExtra("modulename", "CHAMPS")
             startActivityForResult(i, 781)
@@ -277,36 +304,18 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         hideLoading()
     }
 
-    override fun onClickFilterIcon() {
-
-
+    override fun onClickBack() {
+       super.onBackPressed()
     }
 
+
     override fun onClickSiteIdIcon() {
-        val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+        val i = Intent(applicationContext, SelectChampsSiteIDActivity::class.java)
         i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivityForResult(i, 781)
     }
 
-    override fun onClickQcFilterIcon() {
-        TODO("Not yet implemented")
-    }
 
-    override fun onSelectApprovedFragment(listSize: String?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onSelectRejectedFragment() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onSelectPendingFragment() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onClickSpinnerLayout() {
-        TODO("Not yet implemented")
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -321,16 +330,16 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                     hideLoading()
                 }
                 else {
-                    viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
+                    fragmentChampsSurveyBinding!!.enterStoreEdittext.setText("${Preferences.getApnaSiteId()} - ${Preferences.getApnaSiteName()}")
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                        showLoading()
-                        viewModel.getStoreDetailsChampsApi(
+                        Utlis.showLoading(this)
+                        newSurveyViewModel!!.getStoreDetailsChampsApi(
                             this
                         )
                     }
                     else {
                         Toast.makeText(
-                            activity,
+                            applicationContext,
                             resources.getString(R.string.label_network_error),
                             Toast.LENGTH_SHORT
                         )
@@ -338,6 +347,16 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                     }
 
 
+                }
+            }else if(requestCode==761 && resultCode== RESULT_OK){
+                isNewSurveyCreated = data!!.getBooleanExtra("isNewSurveyCreated", false)
+                status= data!!.getStringExtra("status")!!
+                if (isNewSurveyCreated && status.equals("NEW")) {
+                    val intent = Intent()
+                    intent.putExtra("isNewSurveyCreated", isNewSurveyCreated)
+                    intent.putExtra("status", status)
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
                 }
             }
 

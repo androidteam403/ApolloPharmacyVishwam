@@ -3,7 +3,6 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingba
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.ContentUris
 import android.content.Context
@@ -25,7 +24,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -35,19 +33,18 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityChampsDetailsandRatingBarBinding
-import com.apollopharmacy.vishwam.ui.home.apollosensing.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.ImagesDisplayChampsAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.SubCategoryAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSurevyDetailsByChampsIdResponse
+import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis
 import me.echodev.resizer.Resizer
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
-import java.io.IOException
 
 
 class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandRatingBarCallBack {
@@ -176,28 +173,56 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //        }
 
         LoadRecyclerView()
-        if((getCategoryAndSubCategoryDetails!=null && getCategoryAndSubCategoryDetails!!.categoryDetails!=null &&
-                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists==null && !status.equals("COMPLETED") )||
-            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!=null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size==0 && !status.equals("COMPLETED")){
-            var image1=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-            image1.imageFilled=false
-            image1.file=null
-            image1.imageUrl=""
-            dtcl_list.add(image1)
-            var image2=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-            image2.imageFilled=false
-            image2.file=null
-            image2.imageUrl=""
-            dtcl_list.add(image2)
-            var image3=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-            image3.imageFilled=false
-            image3.file=null
-            image3.imageUrl=""
-            dtcl_list.add(image3)
+        if(getCategoryAndSubCategoryDetails!=null && getCategoryAndSubCategoryDetails!!.categoryDetails!=null && !status.equals("COMPLETED")){
+            if( getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists==null || getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size==0){
+                imageUploadedCount=0
+                var image1=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image1.imageFilled=false
+                image1.file=null
+                image1.imageUrl=""
+                dtcl_list.add(image1)
+                var image2=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image2.imageFilled=false
+                image2.file=null
+                image2.imageUrl=""
+                dtcl_list.add(image2)
+                var image3=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image3.imageFilled=false
+                image3.file=null
+                image3.imageUrl=""
+                dtcl_list.add(image3)
 
-            imageDataList = dtcl_list
+                imageDataList = dtcl_list
 
-            getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists = imageDataList
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists = imageDataList
+
+            }
+            else if(getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size==1){
+                imageUploadedCount=1
+                var image2=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image2.imageFilled=false
+                image2.file=null
+                image2.imageUrl=""
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.add(image2)
+                var image3=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image3.imageFilled=false
+                image3.file=null
+                image3.imageUrl=""
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.add(image3)
+
+            }
+            else if(getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size==2){
+                imageUploadedCount=2
+                var image3=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image3.imageFilled=false
+                image3.file=null
+                image3.imageUrl=""
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.add(image3)
+
+            }
+            else if(getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size==3){
+                imageUploadedCount=3
+            }
             imagesDisplayChampsAdapter =
                 ImagesDisplayChampsAdapter(
                     this,
@@ -572,11 +597,13 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
                 if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(plusIconPos).imageFilled!!) {
                     getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(plusIconPos).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+                  getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(plusIconPos).imageFilled = true
                    imageUploadedCount++
 //                    break
                 }
 //            }
+
+            imagesDisplayChampsAdapter!!.notifyDataSetChanged()
 
 //            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists=imageDataList
 //            imagesDisplayChampsAdapter =
@@ -595,8 +622,8 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //                imagesDisplayChampsAdapter
 //            )
 //
-            Utlis.showLoading(this)
-            champsDetailsAndRatingBarViewModel.connectToAzure(resizedImage, this)
+//            Utlis.showLoading(this)
+//            champsDetailsAndRatingBarViewModel.connectToAzure(resizedImage, this)
 
 
         } else if (resultCode == RESULT_OK && requestCode == 999) {
@@ -634,15 +661,17 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                                         .setSourceImage(imageFileGallery).resizedFile
 
                                 getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
-                                Utlis.showLoading(this)
-                                champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
-
+                                 getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+//                                Utlis.showLoading(this)
+//                                champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
                                 break
                             }
+
                         }
 
+                        imagesDisplayChampsAdapter!!.notifyDataSetChanged()
                     }
+
 
                 } else {
                     Toast.makeText(applicationContext,
@@ -668,13 +697,14 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
                                 .setSourceImage(imageFileGallery).resizedFile
                         getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+                       getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
                        imageUploadedCount++
                         break
                     }
                 }
-                Utlis.showLoading(this)
-                    champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
+                imagesDisplayChampsAdapter!!.notifyDataSetChanged()
+//                Utlis.showLoading(this)
+//                    champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
 
             }
         }
@@ -749,6 +779,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             }
         }
         if(isFromGallery){
+            imageUploadedCount=imageFiles.size
             activityChampsDetailsandRatingBarBinding.uploadImagesProgressBar.progress =
                 imageUploadedCount
             activityChampsDetailsandRatingBarBinding.outOfThreeUploadedPhotostext.setText(
@@ -764,6 +795,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 }
             }
         }else{
+            imageUploadedCount=imageFiles.size
             activityChampsDetailsandRatingBarBinding.uploadImagesProgressBar.progress =
                 imageFiles!!.size
             activityChampsDetailsandRatingBarBinding.outOfThreeUploadedPhotostext.setText(
@@ -1134,6 +1166,23 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
     override fun onClickImageDelete(position: Int) {
         onClickDelete(position)
+
+    }
+
+    override fun onClickImageView(view: View, value: GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas) {
+        if(!value.imageUrl.isNullOrEmpty()){
+            PopUpWIndow(
+                ViswamApp.context, R.layout.layout_image_fullview, view,
+                value.imageUrl.toString(), null, "", 0
+            )
+        }else{
+            if(value.file!=null){
+                PopUpWIndow(
+                    ViswamApp.context, R.layout.layout_image_fullview, view,
+                    value.file.toString(), null, "", 0
+                )
+            }
+        }
 
     }
 

@@ -87,6 +87,7 @@
 
 
                                     <ProgressBar
+                                        android:progressDrawable="@drawable/progress_drawable_green"
                                         android:id="@+id/progressBar"
                                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                                         android:layout_width="0dp"
@@ -95,8 +96,7 @@
                                         android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_weight="0.75"
                                         android:clickable="false"
-                                        android:contextClickable="false"
-                                        android:theme="@style/progressBarGreen" />
+                                        android:contextClickable="false" />
 
 
                                     <TextView
@@ -106,7 +106,7 @@
                                         android:layout_marginStart="@dimen/value_5dp"
                                         android:layout_weight="0.25"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_12sp" />
+                                        android:textSize="@dimen/dimen11sp" />
 
 
                                 </LinearLayout>

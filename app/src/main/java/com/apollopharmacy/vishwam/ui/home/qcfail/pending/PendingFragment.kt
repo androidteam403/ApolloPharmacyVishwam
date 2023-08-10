@@ -1402,6 +1402,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         }.show(childFragmentManager, "")
     }
 
+
     override fun selectListSize(listSize: String) {
         Preferences.setQcPendingPageSize(listSize.toInt());
         pageSize = Preferences.getQcPendingPageSiz()

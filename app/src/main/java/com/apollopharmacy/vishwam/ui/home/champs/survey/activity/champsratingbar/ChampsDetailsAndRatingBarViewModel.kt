@@ -122,6 +122,7 @@ class ChampsDetailsAndRatingBarViewModel : ViewModel() {
             champsDetailsandRatingBarCallBack.onSuccessImageIsUploadedInAzur(response)
 
 
+
 //            commands.postValue(Command.ImageIsUploadedInAzur(response!!))
         }
     }

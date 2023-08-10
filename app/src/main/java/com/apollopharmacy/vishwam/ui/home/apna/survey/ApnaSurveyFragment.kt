@@ -62,6 +62,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
+
         MainActivity.mInstance.filterIndicator.visibility = View.GONE
 //        showLoading()
         callAPI(pageNo, rowSize, false)
@@ -489,4 +490,5 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     override fun onClickSpinnerLayout() {
 
     }
+
 }
