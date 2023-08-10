@@ -1,11 +1,10 @@
-package com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload
+package com.apollopharmacy.vishwam.ui.home.cms.cmsfileupload
 
 import android.content.Context
 import android.widget.Toast
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.network.ApiClient
-import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
 import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
@@ -22,33 +21,30 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FileUploadApnaSurvey {
-
+class CmsFileUpload {
     var context: Context? = null
-    var apnaNewSurveyCallBack: ApnaNewSurveyCallBack? = null
-    var fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>? = null
-    var isImageUpload: Boolean? = null
-
-
+    var cmsFileUploadCallback: CmsFileUploadCallback? = null
+    var cmsFileUploadModelList: List<CmsFileUploadModel>? = null
+    var tag: String? = null
     fun uploadFiles(
         context: Context,
-        apnaNewSurveyCallBack: ApnaNewSurveyCallBack,
-        fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?, isImageUpload: Boolean,
+        cmsFileUploadCallback: CmsFileUploadCallback,
+        cmsFileUploadModelList: List<CmsFileUploadModel>?, tag: String,
     ) {
         this.context = context
-        this.apnaNewSurveyCallBack = apnaNewSurveyCallBack
-        this.fileUploadApnaSurveyModelList = fileUploadApnaSurveyModelList;
-        this.isImageUpload = isImageUpload
+        this.cmsFileUploadCallback = cmsFileUploadCallback
+        this.cmsFileUploadModelList = cmsFileUploadModelList
+        this.tag = tag
 
         if (NetworkUtils.isNetworkConnected(context)) {
-//            Utlis.showLoading(context!!)
-            uploadFile(fileUploadApnaSurveyModelList!!.get(0))
+            Utlis.showLoading(context!!)
+            uploadFile(cmsFileUploadModelList!!.get(0))
         } else {
-            apnaNewSurveyCallBack.onFailureUpload("Something went wrong.")
+            cmsFileUploadCallback.onFailureUpload("Something went wrong.")
         }
     }
 
-    fun uploadFile(fileUploadApnaSurveyModel: FileUploadApnaSurveyModel) {
+    fun uploadFile(cmsFileUploadModel: CmsFileUploadModel) {
         if (NetworkUtils.isNetworkConnected(context)) {
             val apiInterface = ApiClient.getApiServiceVishwam()
 
@@ -56,13 +52,13 @@ class FileUploadApnaSurvey {
             val data = Gson().fromJson(url, ValidateResponse::class.java)
 
             var sensingFileUploadRequest = SensingFileUploadRequest()
-            sensingFileUploadRequest.Filename = fileUploadApnaSurveyModel.file
+            sensingFileUploadRequest.Filename = cmsFileUploadModel.file
 
             var baseUrl =
-                ""//"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
-            var token = ""//"9f15bdd0fcd5423190cHNK"
+                "" //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
+            var token = "" //"9f15bdd0fcd5423190cHNK"
             for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOBUPLOAD")) {
+                if (data.APIS[i].NAME.equals("CMS BLOBUPLOAD")) {//SEN BLOB
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
@@ -70,13 +66,10 @@ class FileUploadApnaSurvey {
             }
 
             val requestBody =
-                RequestBody.create("*/*".toMediaTypeOrNull(), fileUploadApnaSurveyModel.file!!)
-            val fileToUpload =
-                MultipartBody.Part.createFormData(
-                    "file",
-                    fileUploadApnaSurveyModel.file!!.name,
-                    requestBody
-                )
+                RequestBody.create("*/*".toMediaTypeOrNull(), cmsFileUploadModel.file!!)
+            val fileToUpload = MultipartBody.Part.createFormData(
+                "file", cmsFileUploadModel.file!!.name, requestBody
+            )
 
             val call = apiInterface.SENSING_FILE_UPLOAD_API_CALL(
                 baseUrl, "multipart/form-data", token, fileToUpload
@@ -89,72 +82,71 @@ class FileUploadApnaSurvey {
                     response: Response<SensingFileUploadResponse?>,
                 ) {
                     if (response.body() != null && response.body()!!.status == true) {
-                        onSuccessFileUpload(fileUploadApnaSurveyModel, response.body()!!)
+                        onSuccessFileUpload(cmsFileUploadModel, response.body()!!)
                     } else {
-                        onFailureFileUpload(fileUploadApnaSurveyModel, response.body()!!)
+                        onFailureFileUpload(cmsFileUploadModel, response.body()!!)
                     }
                 }
 
                 override fun onFailure(call: Call<SensingFileUploadResponse?>, t: Throwable) {
-//                    ActivityUtils.hideDialog()
-                    apnaNewSurveyCallBack!!.onFailureUpload(t.message!!)
+                    ActivityUtils.hideDialog()
+                    cmsFileUploadCallback!!.onFailureUpload(t.message!!)
                 }
             })
         } else {
-            apnaNewSurveyCallBack!!.onFailureUpload("Something went wrong.")
+            cmsFileUploadCallback!!.onFailureUpload("Something went wrong.")
         }
     }
 
     fun onSuccessFileUpload(
-        fileUploadApnaSurveyModel: FileUploadApnaSurveyModel,
+        cmsFileUploadModel: CmsFileUploadModel,
         sensingFileUploadResponse: SensingFileUploadResponse,
     ) {
-        fileUploadApnaSurveyModel.isFileUploaded = true
-        fileUploadApnaSurveyModel.sensingFileUploadResponse = sensingFileUploadResponse
-        var fileUploadApnaSurveyModelTemp: FileUploadApnaSurveyModel? = null
-        for (i in fileUploadApnaSurveyModelList!!) {
+        cmsFileUploadModel.isFileUploaded = true
+        cmsFileUploadModel.sensingFileUploadResponse = sensingFileUploadResponse
+        var cmsFileUploadModelTemp: CmsFileUploadModel? = null
+        for (i in cmsFileUploadModelList!!) {
             if (!i.isFileUploaded) {
-                fileUploadApnaSurveyModelTemp = i
+                cmsFileUploadModelTemp = i
                 break
             }
         }
-        if (fileUploadApnaSurveyModelTemp != null) {
-            uploadFile(fileUploadApnaSurveyModelTemp)
+        if (cmsFileUploadModelTemp != null) {
+            uploadFile(cmsFileUploadModelTemp)
         } else {
-//            Utlis.hideLoading()
-//            apnaNewSurveyCallBack!!.allFilesUploaded(fileUploadApnaSurveyModelList, isImageUpload!!)
-            downloadFiles(context!!, apnaNewSurveyCallBack!!, fileUploadApnaSurveyModelList)
+            Utlis.hideLoading()
+//            fileUploadCallback!!.allFilesUploaded(cmsFileUploadModelList, tag!!)
+            downloadFiles(context!!, cmsFileUploadCallback!!, cmsFileUploadModelList)
         }
     }
 
     fun onFailureFileUpload(
-        fileUploadApnaSurveyModel: FileUploadApnaSurveyModel,
+        cmsFileUploadModel: CmsFileUploadModel,
         sensingFileUploadResponse: SensingFileUploadResponse,
     ) {
-//        ActivityUtils.hideDialog()
-        Utlis.hideLoading()
+        ActivityUtils.hideDialog()
         Toast.makeText(context, "File upload failed", Toast.LENGTH_SHORT).show()
     }
 
 
     fun downloadFiles(
         context: Context,
-        apnaNewSurveyCallBack: ApnaNewSurveyCallBack,
-        fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?,
+        cmsFileUploadCallback: CmsFileUploadCallback,
+        cmsFileUploadModelList: List<CmsFileUploadModel>?,
     ) {
         this.context = context
-        this.apnaNewSurveyCallBack = apnaNewSurveyCallBack
-        this.fileUploadApnaSurveyModelList = fileUploadApnaSurveyModelList;
+        this.cmsFileUploadCallback = cmsFileUploadCallback
+        this.cmsFileUploadModelList = cmsFileUploadModelList;
 
         if (NetworkUtils.isNetworkConnected(context)) {
-//            Utlis.showLoading(context!!)
-            downloadFile(fileUploadApnaSurveyModelList!!.get(0))
+            Utlis.showLoading(context!!)
+            downloadFile(cmsFileUploadModelList!!.get(0))
         } else {
-            apnaNewSurveyCallBack.onFailureUpload("Something went wrong.")
+            cmsFileUploadCallback.onFailureUpload("Something went wrong.")
         }
     }
 
-    fun downloadFile(fileUploadApnaSurveyModel: FileUploadApnaSurveyModel) {
+    fun downloadFile(cmsFileUploadModel: CmsFileUploadModel) {
         if (NetworkUtils.isNetworkConnected(context)) {
             val apiInterface = ApiClient.getApiServiceVishwam()
 
@@ -162,14 +154,13 @@ class FileUploadApnaSurvey {
             val data = Gson().fromJson(url, ValidateResponse::class.java)
 
             var fileDownloadRequest = FileDownloadRequest()
-            fileDownloadRequest.RefURL =
-                fileUploadApnaSurveyModel.sensingFileUploadResponse!!.referenceurl
+            fileDownloadRequest.RefURL = cmsFileUploadModel.sensingFileUploadResponse!!.referenceurl
 
             var baseUrl = ""
-            //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload"
+            // "https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload"
             var token = "" //"9f15bdd0fcd5423190cHNK"
             for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOBDOWNLOAD")) {
+                if (data.APIS[i].NAME.equals("CMS BLOBDOWNLOAD")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
@@ -188,52 +179,48 @@ class FileUploadApnaSurvey {
                     response: Response<FileDownloadResponse?>,
                 ) {
                     if (response.body() != null && response.body()!!.status == true) {
-                        onSuccessFileDownload(fileUploadApnaSurveyModel, response.body()!!)
+                        onSuccessFileDownload(cmsFileUploadModel, response.body()!!)
                     } else {
-                        onFailureFileDownload(fileUploadApnaSurveyModel, response.body()!!)
+                        onFailureFileDownload(cmsFileUploadModel, response.body()!!)
                     }
                 }
 
                 override fun onFailure(call: Call<FileDownloadResponse?>, t: Throwable) {
-//                    ActivityUtils.hideDialog()
-                    apnaNewSurveyCallBack!!.onFailureUpload(t.message!!)
+                    ActivityUtils.hideDialog()
+                    cmsFileUploadCallback!!.onFailureUpload(t.message!!)
                 }
             })
         } else {
-            apnaNewSurveyCallBack!!.onFailureUpload("Something went wrong.")
+            cmsFileUploadCallback!!.onFailureUpload("Something went wrong.")
         }
     }
 
     fun onSuccessFileDownload(
-        fileUploadApnaSurveyModel: FileUploadApnaSurveyModel,
+        cmsFileUploadModel: CmsFileUploadModel,
         fileDownloadResponse: FileDownloadResponse,
     ) {
-        fileUploadApnaSurveyModel.isFileDownloaded = true
+        cmsFileUploadModel.isFileDownloaded = true
         fileDownloadResponse.decryptedUrl = RijndaelCipherEncryptDecrypt().decrypt(
-            fileDownloadResponse.referenceurl,
-            RijndaelCipherEncryptDecrypt().key
+            fileDownloadResponse.referenceurl, RijndaelCipherEncryptDecrypt().key
         )
-        fileUploadApnaSurveyModel.fileDownloadResponse = fileDownloadResponse
-        var fileUploadModelTemp: FileUploadApnaSurveyModel? = null
-        for (i in fileUploadApnaSurveyModelList!!) {
+        cmsFileUploadModel.fileDownloadResponse = fileDownloadResponse
+        var cmsFileUploadModelTemp: CmsFileUploadModel? = null
+        for (i in cmsFileUploadModelList!!) {
             if (!i.isFileDownloaded) {
-                fileUploadModelTemp = i
+                cmsFileUploadModelTemp = i
                 break
             }
         }
-        if (fileUploadModelTemp != null) {
-            downloadFile(fileUploadModelTemp)
+        if (cmsFileUploadModelTemp != null) {
+            downloadFile(cmsFileUploadModelTemp)
         } else {
-//            Utlis.hideLoading()
-            apnaNewSurveyCallBack!!.allFilesDownloaded(
-                fileUploadApnaSurveyModelList,
-                isImageUpload!!
-            )
+            Utlis.hideLoading()
+            cmsFileUploadCallback!!.allFilesDownloaded(cmsFileUploadModelList, tag!!)
         }
     }
 
     fun onFailureFileDownload(
-        fileUploadApnaSurveyModel: FileUploadApnaSurveyModel,
+        cmsFileUploadModel: CmsFileUploadModel,
         fileDownloadResponse: FileDownloadResponse,
     ) {
         ActivityUtils.hideDialog()

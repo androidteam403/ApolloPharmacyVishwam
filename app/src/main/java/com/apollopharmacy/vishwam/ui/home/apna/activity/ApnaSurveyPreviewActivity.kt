@@ -310,6 +310,22 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         } else {
             activityApnaSurveyPreviewBinding.totalArea.setText("-")
         }
+
+        if (surveyCreateRequest!!.shopAddress != null && !surveyCreateRequest.shopAddress!!.isEmpty()) {
+            activityApnaSurveyPreviewBinding.shopAddress.text =
+                "${surveyCreateRequest!!.shopAddress}"
+        } else {
+            activityApnaSurveyPreviewBinding.shopAddress.text = "-"
+        }
+
+        if (surveyCreateRequest!!.shopNo != null && !surveyCreateRequest!!.shopNo!!.isEmpty()) {
+            activityApnaSurveyPreviewBinding.shopNumber.text = "${surveyCreateRequest!!.shopNo}"
+        } else {
+            activityApnaSurveyPreviewBinding.shopNumber.text = "-"
+        }
+
+
+
         if (surveyCreateRequest.expectedRent != null) {
             val decimalFormat = DecimalFormat("##,##,##0")
             val formattedNumber =
@@ -362,36 +378,36 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                     "$ageofTheBuildingText ${surveyCreateRequest.bldgAgeInMonth} months"
             }
             activityApnaSurveyPreviewBinding.ageOfTheBuilding.text = "$ageofTheBuildingText"
-        }else{
+        } else {
             if (surveyCreateRequest.bldgAgeInMonth != null && !surveyCreateRequest.bldgAgeInMonth!!.isEmpty()) {
                 ageofTheBuildingText =
                     "0 years ${surveyCreateRequest.bldgAgeInMonth} months"
                 activityApnaSurveyPreviewBinding.ageOfTheBuilding.text = "$ageofTheBuildingText"
-            }else{
+            } else {
                 ageofTheBuildingText = "-"
                 activityApnaSurveyPreviewBinding.ageOfTheBuilding.text = "$ageofTheBuildingText"
             }
         }
 
 
-       /* if (surveyCreateRequest.buildingAge != null && surveyCreateRequest.buildingAge != "") {
+        /* if (surveyCreateRequest.buildingAge != null && surveyCreateRequest.buildingAge != "") {
 
-            var ageofBuilding = surveyCreateRequest.buildingAge
-            if (ageofBuilding!!.contains(".")) {
-                activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText(
-                    "${
-                        ageofBuilding.substring(
-                            0,
-                            ageofBuilding.indexOf(".")
-                        )
-                    } years ${ageofBuilding.substring(ageofBuilding.indexOf(".") + 1)} months"
-                )
-            } else {
-                activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText("${surveyCreateRequest.buildingAge} Years")
-            }
-        } else {
-            activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText("-")
-        }*/
+             var ageofBuilding = surveyCreateRequest.buildingAge
+             if (ageofBuilding!!.contains(".")) {
+                 activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText(
+                     "${
+                         ageofBuilding.substring(
+                             0,
+                             ageofBuilding.indexOf(".")
+                         )
+                     } years ${ageofBuilding.substring(ageofBuilding.indexOf(".") + 1)} months"
+                 )
+             } else {
+                 activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText("${surveyCreateRequest.buildingAge} Years")
+             }
+         } else {
+             activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText("-")
+         }*/
 
         if (surveyCreateRequest.parking != null) {
             val parking: SurveyCreateRequest.Parking = surveyCreateRequest.parking!!

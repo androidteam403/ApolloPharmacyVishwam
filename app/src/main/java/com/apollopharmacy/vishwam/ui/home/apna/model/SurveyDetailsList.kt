@@ -256,6 +256,14 @@ class SurveyDetailsList : Serializable {
         @Expose
         var surveyId: String? = null
 
+        @SerializedName("shop_address")
+        @Expose
+        var shopAddress: String? = null
+
+        @SerializedName("shop_no")
+        @Expose
+        var shopNo: String? = null
+
         @SerializedName("toilets_availability")
         @Expose
         var toiletsAvailability: ToiletsAvailability? = null

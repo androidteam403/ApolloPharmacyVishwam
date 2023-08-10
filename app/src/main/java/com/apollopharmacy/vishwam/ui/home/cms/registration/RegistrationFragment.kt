@@ -39,6 +39,9 @@ import com.apollopharmacy.vishwam.dialog.CustomDialog.Companion.KEY_DATA
 import com.apollopharmacy.vishwam.dialog.model.Row
 import com.apollopharmacy.vishwam.ui.home.IOnBackPressed
 import com.apollopharmacy.vishwam.ui.home.MainActivity.isSuperAdmin
+import com.apollopharmacy.vishwam.ui.home.cms.cmsfileupload.CmsFileUpload
+import com.apollopharmacy.vishwam.ui.home.cms.cmsfileupload.CmsFileUploadCallback
+import com.apollopharmacy.vishwam.ui.home.cms.cmsfileupload.CmsFileUploadModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
 import com.apollopharmacy.vishwam.util.Utils
@@ -58,7 +61,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     SubmitcomplaintDialog.AbstractDialogSubmitClickListner, ConfirmSiteDialog.OnSiteClickListener,
     ReasonsDialog.ReasonsDialogClickListner,
     SearchArticleCodeDialog.SearchArticleDialogClickListner, CalendarFutureDate.DateSelectedFuture,
-    OnTransactionPOSSelectedListnier, IOnBackPressed {
+    OnTransactionPOSSelectedListnier, IOnBackPressed, CmsFileUploadCallback {
 
     private var statusInventory: String? = null
     lateinit var userData: LoginDetails
@@ -272,9 +275,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 is CmsCommand.VisibleLayout -> {
                     viewBinding.problemLayout.visibility = View.VISIBLE
                 }
+
                 is CmsCommand.InVisibleLayout -> {
                     viewBinding.problemLayout.visibility = View.GONE
                 }
+
                 else -> {}
             }
         })
@@ -439,17 +444,21 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 is CmsCommand.RefreshPageOnSuccess -> {
 
                 }
+
                 is CmsCommand.ImageIsUploadedInAzur -> {
-                    saveTicketApi(it)
+                    //saveTicketApi(it)
                 }
+
                 is CmsCommand.ShowToast -> {
                     hideLoading()
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
+
                 is CmsCommand.CheckValidatedUserWithSiteID -> {
                     hideLoading()
                     onSuccessUserWithSiteID(it.slectedStoreItem)
                 }
+
                 is CmsCommand.ShowSiteInfo -> {
                     hideLoading()
                     SiteDialog().apply {
@@ -459,9 +468,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                         arguments = SiteDialog().generateParsedData(viewModel.getSiteData())
                     }.show(childFragmentManager, "")
                 }
+
                 is CmsCommand.SuccessDeptList -> {
                     hideLoading()
                 }
+
                 else -> {}
             }
         })
@@ -1038,6 +1049,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     ).show()
                 }
             }
+
             REQUEST_CODE_PRODUCT_FRONT_CAMERA -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openCameraForFrontImage(1)
@@ -1131,6 +1143,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                         viewBinding.productImageView.frontImageDelete.visibility = View.VISIBLE
                         frontImageFile = compresImageSize(frontImageFile!!)
                     }
+
                     2 -> {
                         viewBinding.productImageView.productBackImagePreview.setImageURI(
                             Uri.fromFile(
@@ -1140,6 +1153,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                         viewBinding.productImageView.backImageDelete.visibility = View.VISIBLE
                         backImageFile = compresImageSize(backImageFile!!)
                     }
+
                     3 -> {
                         viewBinding.productImageView.productOtherImagePreview.setImageURI(
                             Uri.fromFile(
@@ -1156,9 +1170,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     1 -> {
                         frontImageFile = null
                     }
+
                     2 -> {
                         backImageFile = null
                     }
+
                     3 -> {
                         otherImageFile = null
                     }
@@ -1379,7 +1395,20 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     otherImageFile!!, ""
                 )
             )
-            viewModel.connectToAzure(InventoryfileArrayList, statusInventory!!)
+
+            var cmsFileUploadModelList = ArrayList<CmsFileUploadModel>()
+            for (i in InventoryfileArrayList) {
+                var cmsFileUploadModel = CmsFileUploadModel()
+                cmsFileUploadModel.file = i.file
+                cmsFileUploadModelList.add(cmsFileUploadModel)
+            }
+
+            CmsFileUpload().uploadFiles(
+                requireContext(),
+                this@RegistrationFragment,
+                cmsFileUploadModelList, statusInventory!!
+            )
+            //viewModel.connectToAzure(InventoryfileArrayList, statusInventory!!)
         } else {
             if (fileArrayList.isEmpty()) {
                 val ticketIt: Ticket_it? =
@@ -1400,12 +1429,28 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     }
                 callSubmitNewComplaintRegApi(description, problemDate, storeId, ticketIt)
             } else {
-                viewModel.connectToAzure(fileArrayList, statusInventory!!)
+                var cmsFileUploadModelList = ArrayList<CmsFileUploadModel>()
+                for (i in fileArrayList) {
+                    var cmsFileUploadModel = CmsFileUploadModel()
+                    cmsFileUploadModel.file = i.file
+                    cmsFileUploadModelList.add(cmsFileUploadModel)
+                }
+
+                CmsFileUpload().uploadFiles(
+                    requireContext(),
+                    this@RegistrationFragment,
+                    cmsFileUploadModelList, statusInventory!!
+                )
+
+                //viewModel.connectToAzure(fileArrayList, statusInventory!!)
             }
         }
     }
 
-    private fun saveTicketApi(cmsCommand: CmsCommand.ImageIsUploadedInAzur) {
+    private fun saveTicketApi(
+        cmsFileUploadModelList: List<CmsFileUploadModel>?,
+        tag: String,
+    ) {//cmsCommand: CmsCommand.ImageIsUploadedInAzur
 //        val storeId: String = if (employeeDetailsResponse != null
 //            && employeeDetailsResponse!!.data != null
 //            && employeeDetailsResponse!!.data!!.role != null
@@ -1422,15 +1467,15 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         var newPrice = 0.0
         var oldMrp = 0.0
         var mrp = 0.0
-        if (cmsCommand.tag.equals("MRP Change Request")) {
+        if (tag.equals("MRP Change Request")) {
             newPrice = viewBinding.newMrpEdit.text.toString().toDouble()
             oldMrp = viewBinding.oldmrpEditText.text.toString().toDouble()
-        } else if (cmsCommand.tag.equals("NEWBATCH")) {
+        } else if (tag.equals("NEWBATCH")) {
             mrp = viewBinding.mrpEditText.text.toString().toDouble()
         }
-        if (cmsCommand.tag.equals("MRP Change Request") || cmsCommand.tag.equals("NEWBATCH")) {
+        if (tag.equals("MRP Change Request") || tag.equals("NEWBATCH")) {
             val codeBatch: RequestSaveUpdateComplaintRegistration.CodeBatch =
-                if (cmsCommand.tag.equals("MRP Change Request")) {
+                if (tag.equals("MRP Change Request")) {
                     RequestSaveUpdateComplaintRegistration.CodeBatch("mrp_change", "MRP Change")
                 } else {
                     RequestSaveUpdateComplaintRegistration.CodeBatch("new_Batch", "New Batch")
@@ -1438,9 +1483,10 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             ticketInventoryItems.clear()
             ticketInventoryItems.add(
                 RequestSaveUpdateComplaintRegistration.TicketInventoryItem(
-                    cmsCommand.filePath[0].base64Images,
-                    cmsCommand.filePath[1].base64Images,
-                    if (cmsCommand.filePath.size > 2) cmsCommand.filePath[2].base64Images else "",
+
+                    cmsFileUploadModelList!!.get(0).fileDownloadResponse!!.decryptedUrl,
+                    cmsFileUploadModelList!!.get(1).fileDownloadResponse!!.decryptedUrl,
+                    if (cmsFileUploadModelList.size > 2) cmsFileUploadModelList.get(2).fileDownloadResponse!!.decryptedUrl else "",
                     viewModel.inventoryCategotyItem,
                     viewModel.inventoryCategotyItem.artcode,
                     viewBinding.batchText.text.toString(),
@@ -1484,9 +1530,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 )
             )
         } else {
-            for (i in cmsCommand.filePath.indices) {
-                imagesArrayListSend.add(SubmitNewV2Response.PrescriptionImagesItem(cmsCommand.filePath[i].base64Images))
-                NewimagesArrayListSend.add(RequestNewComplaintRegistration.Image(cmsCommand.filePath[i].base64Images))
+            for (i in cmsFileUploadModelList!!.indices) {
+                imagesArrayListSend.add(SubmitNewV2Response.PrescriptionImagesItem(cmsFileUploadModelList.get(i).fileDownloadResponse!!.decryptedUrl))
+                NewimagesArrayListSend.add(RequestNewComplaintRegistration.Image(cmsFileUploadModelList.get(i).fileDownloadResponse!!.decryptedUrl))
             }
             val ticketIt: Ticket_it? =
                 if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
@@ -1498,7 +1544,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                         viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
                         viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
                         viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString(),
-                        viewBinding.transactionDetailsLayout.billAmountEdit.text.toString().toDouble()
+                        viewBinding.transactionDetailsLayout.billAmountEdit.text.toString()
+                            .toDouble()
                     )
                 } else {
                     null
@@ -1506,6 +1553,114 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             callSubmitNewComplaintRegApi(description, problemDate, storeId, ticketIt)
         }
     }
+
+    /*
+        private fun saveTicketApi(
+            cmsFileUploadModelList: List<CmsFileUploadModel>?,
+            tag: String,
+        ) {//cmsCommand: CmsCommand.ImageIsUploadedInAzur
+    //        val storeId: String = if (employeeDetailsResponse != null
+    //            && employeeDetailsResponse!!.data != null
+    //            && employeeDetailsResponse!!.data!!.role != null
+    //            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+    //        ) {
+    //            employeeDetailsResponse!!.data!!.site!!.site.toString()
+    //        } else {
+            val storeId = Preferences.getSiteId()
+    //        }
+            val description = viewBinding.descriptionText.text.toString().trim()
+            val currentTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+            val problemDate =
+                Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
+            var newPrice = 0.0
+            var oldMrp = 0.0
+            var mrp = 0.0
+            if (cmsCommand.tag.equals("MRP Change Request")) {
+                newPrice = viewBinding.newMrpEdit.text.toString().toDouble()
+                oldMrp = viewBinding.oldmrpEditText.text.toString().toDouble()
+            } else if (cmsCommand.tag.equals("NEWBATCH")) {
+                mrp = viewBinding.mrpEditText.text.toString().toDouble()
+            }
+            if (cmsCommand.tag.equals("MRP Change Request") || cmsCommand.tag.equals("NEWBATCH")) {
+                val codeBatch: RequestSaveUpdateComplaintRegistration.CodeBatch =
+                    if (cmsCommand.tag.equals("MRP Change Request")) {
+                        RequestSaveUpdateComplaintRegistration.CodeBatch("mrp_change", "MRP Change")
+                    } else {
+                        RequestSaveUpdateComplaintRegistration.CodeBatch("new_Batch", "New Batch")
+                    }
+                ticketInventoryItems.clear()
+                ticketInventoryItems.add(
+                    RequestSaveUpdateComplaintRegistration.TicketInventoryItem(
+                        cmsCommand.filePath[0].base64Images,
+                        cmsCommand.filePath[1].base64Images,
+                        if (cmsCommand.filePath.size > 2) cmsCommand.filePath[2].base64Images else "",
+                        viewModel.inventoryCategotyItem,
+                        viewModel.inventoryCategotyItem.artcode,
+                        viewBinding.batchText.text.toString(),
+                        viewBinding.barcodeEdt.text.toString(),
+                        Utils.dateofoccurence(viewBinding.expireDateExpire.text.toString()) + " " + currentTime,
+                        viewBinding.purchasePriseEdit.text.toString().toDouble(),
+                        oldMrp,
+                        newPrice,
+                        mrp,
+                        1
+                    )
+                )
+
+                viewModel.submitTicketInventorySaveUpdate(
+                    RequestSaveUpdateComplaintRegistration(
+                        userData.EMPID,
+                        problemDate,
+                        description,
+                        RequestSaveUpdateComplaintRegistration.Platform(platformUid!!),
+                        RequestSaveUpdateComplaintRegistration.Category(categoryuid!!),
+                        RequestSaveUpdateComplaintRegistration.Department(deptuid!!, deptCode!!),
+                        RequestSaveUpdateComplaintRegistration.Site(
+                            viewModel.tisketstatusresponse.value!!.data.uid,
+                            storeId,
+                            viewModel.tisketstatusresponse.value!!.data.store_name
+                        ),
+                        RequestSaveUpdateComplaintRegistration.Reason(reasonuid!!, reasonSla),
+                        RequestSaveUpdateComplaintRegistration.Subcategory(subcategoryuid!!),
+                        RequestSaveUpdateComplaintRegistration.TicketInventory(
+                            ticketInventoryItems, null, codeBatch
+                        ),
+                        RequestSaveUpdateComplaintRegistration.TicketType(
+                            "64D9D9BE4A621E9C13A2C73404646655", "store", "store"
+                        ),
+                        viewModel.tisketstatusresponse.value!!.data.region,
+                        viewModel.tisketstatusresponse.value!!.data.cluster,
+                        viewModel.tisketstatusresponse.value!!.data.phone_no,
+                        viewModel.tisketstatusresponse.value!!.data.executive,
+                        viewModel.tisketstatusresponse.value!!.data.manager,
+                        viewModel.tisketstatusresponse.value!!.data.region_head,
+                    )
+                )
+            } else {
+                for (i in cmsCommand.filePath.indices) {
+                    imagesArrayListSend.add(SubmitNewV2Response.PrescriptionImagesItem(cmsCommand.filePath[i].base64Images))
+                    NewimagesArrayListSend.add(RequestNewComplaintRegistration.Image(cmsCommand.filePath[i].base64Images))
+                }
+                val ticketIt: Ticket_it? =
+                    if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
+                            "asb_not_completed"
+                        )
+                    ) {
+                        Ticket_it(
+                            posTid,
+                            viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
+                            viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
+                            viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString(),
+                            viewBinding.transactionDetailsLayout.billAmountEdit.text.toString()
+                                .toDouble()
+                        )
+                    } else {
+                        null
+                    }
+                callSubmitNewComplaintRegApi(description, problemDate, storeId, ticketIt)
+            }
+        }
+    */
 
     private fun callSubmitNewComplaintRegApi(
         description: String,
@@ -1540,6 +1695,21 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             return true
         }
         return false
+    }
+
+    override fun onFailureUpload(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun allFilesDownloaded(
+        cmsFileUploadModelList: List<CmsFileUploadModel>?,
+        tag: String,
+    ) {
+        saveTicketApi(cmsFileUploadModelList, tag)
+    }
+
+    override fun allFilesUploaded(cmsfileUploadModelList: List<CmsFileUploadModel>?, tag: String) {
+        TODO("Not yet implemented")
     }
 }
 

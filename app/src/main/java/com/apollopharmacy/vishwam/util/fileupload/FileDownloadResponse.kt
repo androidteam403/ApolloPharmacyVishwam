@@ -15,4 +15,7 @@ class FileDownloadResponse {
     @SerializedName("referenceurl")
     @Expose
     var referenceurl: String? = null
+
+    var decryptedUrl: String? = null
+
 }

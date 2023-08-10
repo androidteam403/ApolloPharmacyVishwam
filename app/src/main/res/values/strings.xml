@@ -481,5 +481,7 @@
     <string name="label_apply">Apply</string>
     <string name="label_from">From</string>
     <string name="label_to">To</string>
+    <string name="label_shop_number">Shop Number</string>
+    <string name="label_shop_address">Shop Address</string>
 
 </resources>

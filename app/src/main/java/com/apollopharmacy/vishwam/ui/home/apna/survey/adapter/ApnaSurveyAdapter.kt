@@ -137,6 +137,7 @@ class ApnaSurveyAdapter(
 //        holder.apnaSurveyLayoutBinding.location.setText("$locationName$cityName")
         var city = ""
         var state = ""
+        var pincode = ""
         if (approvedOrders.city != null) {
             if (approvedOrders.city!!.isNotEmpty()) {
                 city = approvedOrders.city!!.toString()
@@ -156,10 +157,19 @@ class ApnaSurveyAdapter(
         } else {
             state = "-"
         }
-        holder.apnaSurveyLayoutBinding.location.setText("$city, $state")
 
+        if (approvedOrders.pincode != null) {
+            pincode = approvedOrders.pincode!!.toString()
+        } else {
+            pincode = "-"
+        }
+
+
+
+        holder.apnaSurveyLayoutBinding.location.text = "$city, $state"
+        holder.apnaSurveyLayoutBinding.landmark.text = "${approvedOrders.landmarks}"
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val outputDateFormat = SimpleDateFormat("d MMM, yyyy")
+        val outputDateFormat = SimpleDateFormat("dd MMM, yyyy hh:mm a")
         holder.apnaSurveyLayoutBinding.surveystart.setText(
             outputDateFormat.format(
                 inputDateFormat.parse(

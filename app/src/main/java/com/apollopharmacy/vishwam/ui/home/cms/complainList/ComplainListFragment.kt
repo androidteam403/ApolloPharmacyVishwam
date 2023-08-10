@@ -742,7 +742,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob)
                         .placeholder(R.drawable.thumbnail_image).into(binding.backImgView)
                     binding.backImgView.setOnClickListener {
-                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.let { it1 ->
+                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.let { it1 ->
                             imageClickListener.onItemClick(position, it1)
                         }
                     }
@@ -755,7 +755,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob)
                         .placeholder(R.drawable.thumbnail_image).into(binding.otherImgView)
                     binding.otherImgView.setOnClickListener {
-                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.let { it1 ->
+                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob.let { it1 ->
                             imageClickListener.onItemClick(position, it1)
                         }
                     }
