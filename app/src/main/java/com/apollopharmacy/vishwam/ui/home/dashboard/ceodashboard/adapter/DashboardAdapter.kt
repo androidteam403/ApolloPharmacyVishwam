@@ -37,6 +37,13 @@ class DashboardAdapter(
         holder.adapterDashboardCeoBinding.totalQc.setText(response.total.toString())
         holder.adapterDashboardCeoBinding.threeToEight.setText(response.get3To8().toString())
 
+        holder.adapterDashboardCeoBinding.name.setOnClickListener {
+            if (!response.employeeid.isNullOrEmpty()){
+                ceoDashboardCallback.onClickEmployee(response.employeeid)
+
+            }
+        }
+
         holder.adapterDashboardCeoBinding.rightArrowQc.setOnClickListener {
             ceoDashboardCallback.onClickRightArrow(response)
         }

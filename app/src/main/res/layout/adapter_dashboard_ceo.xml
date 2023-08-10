@@ -25,6 +25,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
             android:text="N.Senthil Kumar"
+            android:lines="1"
+            android:ellipsize="end"
             android:textColor="@color/black"
             android:textSize="@dimen/text_12sp" />
 
