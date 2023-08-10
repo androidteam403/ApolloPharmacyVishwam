@@ -112,6 +112,7 @@ class CategoryDetailsPreviewAdapter(
 
                 holder.adapterCategoryPreviewBinding.rightArrow.rotation = 90f
                 holder.adapterCategoryPreviewBinding.recyclerViewLayouts.visibility=View.VISIBLE
+                holder.adapterCategoryPreviewBinding.imagesDisplayRecyclerview.visibility=View.VISIBLE
                 holder.adapterCategoryPreviewBinding.categoryRecyclerView.visibility = View.VISIBLE
                 recyclerViewVisible = true
                 subCategoryPreviewAdapter =
@@ -127,6 +128,7 @@ class CategoryDetailsPreviewAdapter(
                     subCategoryPreviewAdapter
                 )
                 if( categoryDetails!!.get(position).imageDataLists!=null && categoryDetails!!.get(position).imageDataLists!!.size>0 ){
+                    holder.adapterCategoryPreviewBinding.recyclerViewLayouts.visibility=View.VISIBLE
                     imagesDisplayChampsPreviewAdapter =
                         ImagesDisplayChampsPreviewAdapter(
                             applicationContext,

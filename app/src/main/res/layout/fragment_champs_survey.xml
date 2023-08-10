@@ -17,6 +17,70 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/text_color_blue"
+                android:orientation="horizontal"
+                android:padding="@dimen/value_10dp">
+
+                <ImageView
+                    android:layout_width="@dimen/value_40dp"
+                    android:layout_height="@dimen/value_40dp"
+                    android:layout_marginTop="@dimen/value_3dp"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickBack()}"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Survey"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_17sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="end"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:id="@+id/preview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:onClick="@{()-> callback.onClickSiteIdIcon()}"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen20dp"
+                            android:layout_height="@dimen/dimen20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/filtersnew" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical">

@@ -597,7 +597,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
                 if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(plusIconPos).imageFilled!!) {
                     getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(plusIconPos).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+                  getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(plusIconPos).imageFilled = true
                    imageUploadedCount++
 //                    break
                 }
@@ -664,13 +664,14 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                                  getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
 //                                Utlis.showLoading(this)
 //                                champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
-
                                 break
                             }
-                        }
-                        imagesDisplayChampsAdapter!!.notifyDataSetChanged()
 
+                        }
+
+                        imagesDisplayChampsAdapter!!.notifyDataSetChanged()
                     }
+
 
                 } else {
                     Toast.makeText(applicationContext,
