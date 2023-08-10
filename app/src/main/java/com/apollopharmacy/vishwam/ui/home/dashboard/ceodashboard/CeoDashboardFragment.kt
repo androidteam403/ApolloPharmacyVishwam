@@ -16,6 +16,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.databinding.FragmentCeoDashboardBinding
+import com.apollopharmacy.vishwam.ui.home.IOnBackPressed
 import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.XYMarkerView
 import com.apollopharmacy.vishwam.ui.home.dashboard.adapter.DashboardAdapter
 import com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard.ceodashboardcalenderdialog.CeoDashboardCalenderDialog
@@ -34,22 +35,25 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import lecho.lib.hellocharts.model.SliceValue
+import org.apache.commons.lang3.StringUtils
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDashboardBinding>(),
-    CeoDashboardCallback, CeoDashboardCalenderDialog.DateSelected {
+    CeoDashboardCallback, CeoDashboardCalenderDialog.DateSelected, IOnBackPressed {
     private var chart: AnyChartView? = null
     var dashboardAdapter: DashboardAdapter? = null
     private val count = listOf(257, 321, 142)
     val data: MutableList<String> = ArrayList()
     private val lists = listOf("Pending", "Approved", "Reject")
     var pieData: List<SliceValue> = ArrayList()
+    var empIdList = java.util.ArrayList<String>()
 
     var fromDate: String = ""
     var toDate: String = ""
     var isFromDateSelected: Boolean = false
+    var empId: String = ""
 
     override val layoutRes: Int
         get() = R.layout.fragment_ceo_dashboard
@@ -77,7 +81,9 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 //            viewBinding.dashboardName.setText("Store Manager Dashboard")
             viewBinding.dashboardName.setText("Dashboard")
             viewBinding.nameOfTheStore.setText("Store Excecutive")
-        } else if (Preferences.getRoleForCeoDashboard().equals("store_executive")) {
+        } else if (Preferences.getRoleForCeoDashboard()
+                .equals("store_executive") || Preferences.getRoleForCeoDashboard().equals(null)
+        ) {
 //            viewBinding.dashboardName.setText("Store Executive Dashboard")
             viewBinding.dashboardName.setText("Dashboard")
             viewBinding.nameOfTheStore.setText("Store List")
@@ -86,7 +92,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         }
         fromDate = Utils.getConvertedDateFormatddmmmyyyy(Utils.getFirstDateOfCurrentMonth())
         toDate = Utils.getConvertedDateFormatddmmmyyyy(Utils.getCurrentDateCeoDashboard())
-
         viewBinding.fromDate.setText(fromDate)
         viewBinding.toDate.setText(toDate)
 
@@ -99,6 +104,10 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 //        names.add("8")
 //        names.add("12")
 
+
+        if (empIdList.isNullOrEmpty()) {
+            empIdList.add(Preferences.getValidatedEmpId())
+        }
         showLoading()
         viewModel.getTicketListByCountApi(
             this,
@@ -110,7 +119,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 //        viewModel.getTicketListByCountApi(this, "2023-01-01", "2023-08-02", "APL48627")//EX100011//Preferences.getValidatedEmpId()
     }
 
-    private fun createChart(chartData: ArrayList<PieEntry>, valuesList : ArrayList<String>) {
+    private fun createChart(chartData: ArrayList<PieEntry>, valuesList: ArrayList<String>) {
         val pieEntry = chartData.map { PieEntry(it.value, it.value.toString()) }
         val rnd = Random()
         val colors = mutableListOf<Int>()
@@ -123,9 +132,12 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             colors.add(Color.parseColor("#6abcec"))
 //            colors.add(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)))
         }
+
+
         val dataSet = PieDataSet(pieEntry, "")
         dataSet.colors = colors
         dataSet.valueTextSize = 7f
+
         dataSet.setDrawValues(false)
         dataSet.valueTextColor = ContextCompat.getColor(requireContext(), android.R.color.white)
         viewBinding.pieChart.data = PieData(dataSet)
@@ -134,13 +146,16 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         viewBinding.pieChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
+
+                val selectedValue = e?.y?.toInt() ?: 0
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
 //               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
                 val mv = XYMarkerView(
                     requireContext(),
                     IndexAxisValueFormatter(valuesList)
                 )
-                mv.chartView =  viewBinding.pieChart // For bounds control
+                mv.chartView = viewBinding.pieChart // For bounds control
+
 
                 viewBinding.pieChart.marker = mv
 
@@ -255,6 +270,24 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         }
     }
 
+    override fun onClickEmployee(employee: String) {
+        showLoading()
+
+        empId = employee
+
+        if (empIdList.contains(employee)) {
+
+        } else {
+            empIdList.add(employee)
+        }
+        viewModel.getTicketListByCountApi(
+            this,
+            Utils.getFirstDateOfCurrentMonth(),
+            Utils.getCurrentDateCeoDashboard(),
+            employee//"APL67949"
+        )
+    }
+
     var role = ""
     private fun empDetailsMobile() {
         var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
@@ -279,9 +312,22 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         ticketCountsByStatsuRoleResponses = ticketCountsByStatsuRoleResponse
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.name }
-            dashboardAdapter = DashboardAdapter(
-                this, ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!
-            )
+
+            if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.isNullOrEmpty()) {
+                viewBinding.nameOfTheStore.text = "Stores"
+            } else {
+                viewBinding.nameOfTheStore.text = StringUtils.capitalize(
+                    ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.replace(
+                        "_",
+                        " "
+                    )
+                )
+
+            }
+
+
+            dashboardAdapter =
+                DashboardAdapter(this, ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!)
             var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             viewBinding.dashboardCeoRecyclerview.layoutManager = layoutManager
             viewBinding.dashboardCeoRecyclerview.adapter = dashboardAdapter
@@ -327,7 +373,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             sumOfList.add(PieEntry(sumOfrejected, "Rejeted"))
             sumOfList.add(PieEntry(sumOfpending, "Pending"))
 
-            var valuesList =ArrayList<String>()
+            var valuesList = ArrayList<String>()
             valuesList.add(sumOfClosed.toString())
             valuesList.add(sumOfLessThan2.toString())
             valuesList.add(sumOfthreeToEight.toString())
@@ -360,7 +406,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
         viewBinding.recyclerView.visibility = View.GONE
         viewBinding.noListFound.visibility = View.VISIBLE
-
         viewBinding.dashboardName.visibility = View.GONE
         viewBinding.pieChart.visibility = View.GONE
         viewBinding.chartLabels.visibility = View.GONE
@@ -641,12 +686,23 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     override fun onClickApplyDate() {
         showLoading()
-        viewModel.getTicketListByCountApi(
-            this,
-            Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
-            Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-            Preferences.getValidatedEmpId()//"APL67949"
-        )
+
+        if (empId.isNullOrEmpty()) {
+            viewModel.getTicketListByCountApi(
+                this,
+                Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
+                Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
+                Preferences.getValidatedEmpId()//"APL67949"
+            )
+        } else {
+            viewModel.getTicketListByCountApi(
+                this,
+                Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
+                Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
+                empId//"APL67949"
+            )
+        }
+
     }
 
     override fun selectedDateTo(
@@ -678,5 +734,33 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     override fun selectedDatefrom(dateSelected: String, showingDate: String) {
 
+    }
+
+    override fun onBackPressed(): Boolean {
+
+        for (i in empIdList.indices) {
+            if (empId.equals(empIdList.get(i))) {
+                empIdList.removeAt(i)
+            }
+        }
+
+
+
+        if (empIdList.size > 0) {
+            showLoading()
+            val lastIndex = empIdList.size - 1
+
+            viewModel.getTicketListByCountApi(
+                this,
+                Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
+                Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
+                empIdList.get(lastIndex)
+                //"APL67949"
+            )
+            empIdList.removeAt(lastIndex)
+            return true
+        } else {
+            return false
+        }
     }
 }
