@@ -775,6 +775,7 @@
                                             android:layout_height="@dimen/value_50dp"
                                             android:hint="Length *"
                                             android:inputType="numberDecimal"
+                                            android:maxLength="5"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -797,6 +798,7 @@
                                             android:layout_height="@dimen/value_50dp"
                                             android:hint="Width *"
                                             android:inputType="numberDecimal"
+                                            android:maxLength="5"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -829,6 +831,7 @@
                                             android:layout_height="@dimen/value_50dp"
                                             android:hint="Ceiling Height *"
                                             android:inputType="numberDecimal"
+                                            android:maxLength="5"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -926,8 +929,8 @@
                                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:textColorHint="@color/black"
                                         android:layout_marginTop="@dimen/value_5dp"
+                                        android:textColorHint="@color/black"
                                         android:theme="@style/TextLabelEditTextApnaProject">
 
                                         <androidx.appcompat.widget.AppCompatEditText

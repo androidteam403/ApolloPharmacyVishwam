@@ -166,7 +166,7 @@ class ApnaSurveyAdapter(
 
 
 
-        holder.apnaSurveyLayoutBinding.location.text = "$city, $state"
+        holder.apnaSurveyLayoutBinding.location.text = "$city, $state, $pincode"
         holder.apnaSurveyLayoutBinding.landmark.text = "${approvedOrders.landmarks}"
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val outputDateFormat = SimpleDateFormat("dd MMM, yyyy hh:mm a")

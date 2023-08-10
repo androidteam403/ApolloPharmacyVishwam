@@ -4915,6 +4915,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     override fun organisedItemSelect(position: Int, name: String, uid: String) {
         if (uid.equals("No")) {
             activityApnaNewSurveyBinding.organisedAvgSaleText.isEnabled = false
+            activityApnaNewSurveyBinding.organisedAvgSaleText.setText("")
         } else {
             activityApnaNewSurveyBinding.organisedAvgSaleText.isEnabled = true
         }
@@ -4927,6 +4928,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     override fun onUnorganisedItemSelect(position: Int, name: String, uid: String) {
         if (uid.equals("No")) {
             activityApnaNewSurveyBinding.unorganisedAvgSaleText.isEnabled = false
+            activityApnaNewSurveyBinding.unorganisedAvgSaleText.setText("")
         } else {
             activityApnaNewSurveyBinding.unorganisedAvgSaleText.isEnabled = true
         }
