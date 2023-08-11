@@ -2,17 +2,23 @@ package com.apollopharmacy.vishwam.ui.home.apna.survey
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.location.LocationManager
 import android.os.Handler
+import android.provider.Settings
+import android.text.Editable
 import android.text.InputFilter
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.databinding.DialogPermissionDeniedBinding
 import com.apollopharmacy.vishwam.databinding.DialogSurveyListFilterBinding
 import com.apollopharmacy.vishwam.databinding.FragmentApnaSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
@@ -39,11 +46,13 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     lateinit var layoutManager: LinearLayoutManager
     var isScrolling: Boolean = false
     private var isFirstTime: Boolean = true
-    var surveyStatusList: String = "new,inprogress,rejected,approved,cancelled"
+    var surveyStatusList: String = "new,inprogress,rejected,approved"//cancelled
     lateinit var dialogSurveyListFilterBinding: DialogSurveyListFilterBinding
     var handler: Handler = Handler()
     var adapter: ApnaSurveyAdapter? = null
     val APNA_NEW_SURVEY_ACTIVITY_VALUE: Int? = 1000
+
+
     override val layoutRes: Int
         get() = R.layout.fragment_apna_survey
 
@@ -70,27 +79,79 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
         viewBinding.search.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
         viewBinding.search.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+            override fun onEditorAction(
+                textView: TextView?,
+                actionId: Int,
+                event: KeyEvent?,
+            ): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    pageNo = 1
-                    isLoading = false
-                    isFirstTime = true
-                    showLoading()
-                    callAPI(pageNo, rowSize, true)
-                    return true
+                    if (textView!!.text.trim().isEmpty()) {
+                        pageNo = 1
+                        isLoading = false
+                        isFirstTime = true
+                        showLoading()
+                        Utlis.hideKeyPad(context as Activity)
+                        callAPI(pageNo, rowSize, false)
+                        return true
+                    } else {
+                        pageNo = 1
+                        isLoading = false
+                        isFirstTime = true
+                        showLoading()
+                        Utlis.hideKeyPad(context as Activity)
+                        callAPI(pageNo, rowSize, true)
+                        return true
+                    }
                 }
                 return false
             }
         })
+        viewBinding.searchIcon.setOnClickListener {
+            val searchText = viewBinding.search.text.toString().trim()
+            if (searchText.isEmpty()) {
+                pageNo = 1
+                isLoading = false
+                isFirstTime = true
+                showLoading()
+                Utlis.hideKeyPad(context as Activity)
+                callAPI(pageNo, rowSize, false)
+            } else {
+                pageNo = 1
+                isLoading = false
+                isFirstTime = true
+                showLoading()
+                Utlis.hideKeyPad(context as Activity)
+                callAPI(pageNo, rowSize, true)
+            }
+        }
+        viewBinding.search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
 
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchText = s.toString()
+                if (searchText.isEmpty()) {
+                    pageNo = 1
+                    isLoading = false
+                    isFirstTime = true
+                    showLoading()
+                    Utlis.hideKeyPad(context as Activity)
+                    viewBinding.search.clearFocus()
+                    callAPI(pageNo, rowSize, false)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
     }
 
     fun submitClick() {
-        if (!viewBinding.pullToRefresh.isRefreshing)
-            Utlis.showLoading(requireContext())
+        if (!viewBinding.pullToRefresh.isRefreshing) Utlis.showLoading(requireContext())
         pageNo = 1
         viewBinding.search.setText("")
-        surveyStatusList = "new,inprogress,rejected,approved,cancelled"
+        surveyStatusList = "new,inprogress,rejected,approved"//cancelled
 //        dialogSurveyListFilterBinding.isNewChecked = this.surveyStatusList.contains("new")
 //        dialogSurveyListFilterBinding.isInProgressChecked =
 //            this.surveyStatusList.contains("inprogress")
@@ -123,11 +184,12 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         hideLoading()
         if (viewBinding.pullToRefresh.isRefreshing) {
             viewBinding.pullToRefresh.isRefreshing = false
-            pageNo = 1;
+            pageNo = 1
             isLastPage = false
         }
         var getsurveyList = surveyListResponse.data!!.listData!!.rows
         if (getsurveyList != null && getsurveyList!!.size > 0) {
+            viewBinding.pullToRefresh.visibility = View.VISIBLE
             viewBinding.recyclerViewApproved.visibility = View.VISIBLE
             viewBinding.noListFound.visibility = View.GONE
             if (pageNo == 1) {
@@ -136,8 +198,8 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 surveyResponseList.clear()
                 surveyResponseList.addAll(getsurveyList!!)
                 layoutManager = LinearLayoutManager(context)
-                viewBinding.recyclerViewApproved.layoutManager =
-                    layoutManager
+                viewBinding.recyclerViewApproved!!.removeAllViews()
+                viewBinding.recyclerViewApproved.layoutManager = layoutManager
                 initAdapter()
                 pageNo++
                 addScrollerListener()
@@ -161,6 +223,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 isLoading = false
             }
             if (pageNo == 1) {
+                viewBinding.pullToRefresh.visibility = View.GONE
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 viewBinding.noListFound.visibility = View.VISIBLE
             } else {
@@ -192,7 +255,8 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                     ////It checks, fully visible view is the last one.
 
                     if (layoutManager.findLastCompletelyVisibleItemPosition() == surveyResponseList.size!! - 1) {//adapter!!.getData()?
-                        loadMore()
+                        if (surveyResponseList.size >= rowSize)
+                            loadMore()
                     }
 
                 }
@@ -218,8 +282,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     fun callAPI(startPageNo: Int, rowsize: Int, isSearch: Boolean) {
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             isFirstTime = false
-            if (!isLoading)
-                showLoading()
+            if (!isLoading) showLoading()
             viewModel.getApnaSurveyList(
                 this,
                 startPageNo.toString(),
@@ -234,8 +297,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 requireContext(),
                 resources.getString(R.string.label_network_error),
                 Toast.LENGTH_SHORT
-            )
-                .show()
+            ).show()
         }
     }
 
@@ -281,13 +343,9 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     override fun onClickFilterIcon() {
 
         val surveyListStatusFilterDialog = context?.let { Dialog(it) }
-        dialogSurveyListFilterBinding =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(context),
-                R.layout.dialog_survey_list_filter,
-                null,
-                false
-            )
+        dialogSurveyListFilterBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(context), R.layout.dialog_survey_list_filter, null, false
+        )
         viewBinding.search.setText("")
         surveyListStatusFilterDialog!!.setContentView(dialogSurveyListFilterBinding.root)
         surveyListStatusFilterDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -299,14 +357,11 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         dialogSurveyListFilterBinding.isInProgressChecked =
             this.surveyStatusList.contains("inprogress")
 
-        dialogSurveyListFilterBinding.isRejectedChecked =
-            this.surveyStatusList.contains("rejected")
+        dialogSurveyListFilterBinding.isRejectedChecked = this.surveyStatusList.contains("rejected")
 
-        dialogSurveyListFilterBinding.isApproveChecked =
-            this.surveyStatusList.contains("approved")
+        dialogSurveyListFilterBinding.isApproveChecked = this.surveyStatusList.contains("approved")
 
-        dialogSurveyListFilterBinding.isClosedChecked =
-            this.surveyStatusList.contains("cancelled")
+        dialogSurveyListFilterBinding.isClosedChecked = this.surveyStatusList.contains("cancelled")
 
 
 
@@ -417,5 +472,21 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
     override fun onClickQcFilterIcon() {
         TODO("Not yet implemented")
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
+
     }
 }

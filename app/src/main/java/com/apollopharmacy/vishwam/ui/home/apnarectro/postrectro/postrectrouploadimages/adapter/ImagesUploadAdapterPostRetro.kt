@@ -643,52 +643,52 @@ class ImagesUploadAdapterPostRetro(
 //        holder.adapterImagesuploadApnaBinding.eyeImage.setOnClickListener {
 //            uploadImagesCallback.onClickEyeImage()
 //        }
-            holder.adapterImagesuploadApnaBinding.aftercapturedimage.setOnClickListener {
-                if (stage.equals("isPreRetroStage")) {
-                    callbackInterface.onClickImageView(
-                        "isPreRetroStage",
-                        posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
-                        categoryName,
-                        categoryid,
-                        position,
-                        configPosition
-                    )
-                }
-                else if (stage.equals("isPostRetroStage")) {
-                    callbackInterface.onClickImageView(
-                        "isPostRetroStage",
-                        posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
-                        categoryName,
-                        categoryid,
-                        position,
-                        configPosition
-                    )
-                }
-                else if (stage.equals("isAfterCompletionStage")) {
-                    callbackInterface.onClickImageView(
-                        "isAfterCompletionStage",
-                        posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
-                        categoryName,
-                        categoryid,
-                        position,
-                        configPosition
-                    )
-                }
-
-            }
-
-            holder.adapterImagesuploadApnaBinding.cameraIcon.setOnClickListener {
-                callbackInterface.onClickCameraIcon(
-                    configPosition,
+        holder.adapterImagesuploadApnaBinding.aftercapturedimage.setOnClickListener {
+            if (stage.equals("isPreRetroStage")) {
+                callbackInterface.onClickImageView(
+                    "isPreRetroStage",
+                    posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
+                    categoryName,
+                    categoryid,
                     position,
-                    getImagesUrlList.get(position) as ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
+                    configPosition
                 )
             }
-            holder.adapterImagesuploadApnaBinding.redTrash.setOnClickListener {
-                callbackInterface.deleteImageCallBack(configPosition, position,
-                    getImagesUrlList.get(position) as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
+            else if (stage.equals("isPostRetroStage")) {
+                callbackInterface.onClickImageView(
+                    "isPostRetroStage",
+                    posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
+                    categoryName,
+                    categoryid,
+                    position,
+                    configPosition
                 )
             }
+            else if (stage.equals("isAfterCompletionStage")) {
+                callbackInterface.onClickImageView(
+                    "isAfterCompletionStage",
+                    posImageUrlList as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
+                    categoryName,
+                    categoryid,
+                    position,
+                    configPosition
+                )
+            }
+
+        }
+
+        holder.adapterImagesuploadApnaBinding.cameraIcon.setOnClickListener {
+            callbackInterface.onClickCameraIcon(
+                configPosition,
+                position,
+                getImagesUrlList.get(position) as ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
+            )
+        }
+        holder.adapterImagesuploadApnaBinding.redTrash.setOnClickListener {
+            callbackInterface.deleteImageCallBack(configPosition, position,
+                getImagesUrlList.get(position) as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
+            )
+        }
 ////        callbackInterface.updateCount(pendingCount, approvedCount,reshootCount)
 //        }
     }

@@ -13,9 +13,9 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="@dimen/value_40dp"
+                android:layout_width="30dp"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/value_15dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/gray_rounded_bg"
                 android:backgroundTint="#f4f5f5"
                 android:gravity="center_vertical">
@@ -34,18 +34,18 @@
                     android:id="@+id/rackCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/roboto_bold"
                     android:layout_gravity="center_vertical"
                     android:rotation="-90"
                     android:text="Rack 10"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dimen11sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="@dimen/value_80dp"
-                android:layout_height="@dimen/value_70dp"
-                android:layout_marginEnd="@dimen/value_5dp"
+                android:layout_width="63dp"
+                android:layout_height="53dp"
+                android:layout_marginEnd="3dp"
                 android:layout_marginBottom="@dimen/value_2dp"
                 android:layout_marginTop="@dimen/value_2dp"
                 app:cardBackgroundColor="@color/white"
@@ -73,7 +73,7 @@
                             android:background="@drawable/rounded_background"
                             android:backgroundTint="#ec9da8"
                             android:contentDescription="@string/app_name"
-                            android:padding="@dimen/value_5dp"
+                            android:padding="2dp"
                             android:src="@drawable/ic_outline_camera_alt_24"
                             android:tint="@color/white"
                             tools:ignore="UseAppTint" />
@@ -164,7 +164,7 @@
                         <ImageView
                             android:layout_width="@dimen/value_30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/eye2withbackground"
+                            android:src="@drawable/eye"
                             android:contentDescription="@string/app_name" />
                     </LinearLayout>
                 </RelativeLayout>

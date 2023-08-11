@@ -56,13 +56,19 @@ class SubCategoryAdapter(
         }
 
         if (subCategory.givenRating != null) {
-            var value = (subCategory.givenRating)!!.toFloat() * 2
-            holder.adapterSubCategoryAdapterBinding.seekbar1.progress = (value.roundToInt())
+            if(subCategory.givenRating==0.0f){
+                holder.adapterSubCategoryAdapterBinding.displayGivenRatingLayout.visibility=View.VISIBLE
+                holder.adapterSubCategoryAdapterBinding.displayGivenRating.text = "0"
+            }else{
+                var value = (subCategory.givenRating)!!.toFloat() * 2
+                holder.adapterSubCategoryAdapterBinding.seekbar1.progress = (value.roundToInt())
 //            if(subCategory.givenRating!=0f && !subCategory.givenRating.equals((subCategoryDetails.get(position).rating)!!.toFloat())){
 //                holder.adapterSubCategoryAdapterBinding.seekbar1.thumb=getThumb(subCategory.givenRating)
                 holder.adapterSubCategoryAdapterBinding.displayGivenRatingLayout.visibility=View.VISIBLE
                 holder.adapterSubCategoryAdapterBinding.displayGivenRating.text = subCategory.givenRating.toString()
 //            }
+            }
+
 
         }
 
@@ -72,8 +78,15 @@ class SubCategoryAdapter(
 //                Toast.makeText(applicationContext,
 //                    "Value: " + getConvertedValue((progress).toFloat()),
 //                    Toast.LENGTH_SHORT).show()
-                holder.adapterSubCategoryAdapterBinding.displayGivenRatingLayout.visibility=View.VISIBLE
-                holder.adapterSubCategoryAdapterBinding.displayGivenRating.text = getConvertedValue(progress.toFloat()).toString()
+                if( getConvertedValue(progress.toFloat())==0.0f) {
+                    holder.adapterSubCategoryAdapterBinding.displayGivenRatingLayout.visibility =
+                        View.VISIBLE
+                    holder.adapterSubCategoryAdapterBinding.displayGivenRating.text = "0"
+                }else{
+                    holder.adapterSubCategoryAdapterBinding.displayGivenRatingLayout.visibility=View.VISIBLE
+                    holder.adapterSubCategoryAdapterBinding.displayGivenRating.text = getConvertedValue(progress.toFloat()).toString()
+
+                }
 
 //                if(!getConvertedValue(progress.toFloat()).equals((subCategoryDetails.get(position).rating)!!.toFloat())){
 ////                    holder.adapterSubCategoryAdapterBinding.seekbar1.thumb.mutate().alpha=255

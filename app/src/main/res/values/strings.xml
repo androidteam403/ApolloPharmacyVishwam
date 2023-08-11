@@ -16,7 +16,6 @@
 
     </string-array>
 
-
     <string name="label_pickup_instructions">Pickup Instructions</string>
     <string name="label_reached_the_store">1. Reached the Store</string>
     <string name="label_verify_otp">Verify OTP</string>
@@ -436,7 +435,6 @@
     <string name="label_on_hold">OnHold</string>
     <string name="label_complaint_list_status_filter">Complaint list status filter</string>
     <string name="label_filters_by_status">Filters by status</string>
-    <string name="label_apply">Apply</string>
     <string name="label_item_code">Item Code (Enter 5 minimum characters of article code/name) *</string>
     <string name="label_Batch_No">Batch No. *</string>
     <string name="label_Barcode">Barcode</string>
@@ -469,4 +467,19 @@
     <string name="label_your_nsignature_nhere">Your\nSignature\nHere</string>
     <string name="label_your_signature">your signature</string>
     <string name="label_cancel_text">Cancel Text</string>
+
+
+    <string name="label_gps_enable_to_access_application">GPS enable to access application</string>
+    <string name="gps_enable">GPS permission</string>
+
+
+    <string name="label_location_permission_must_be_required_to_access_application">Location permission must be required to access application</string>
+    <string name="label_location_permission">Location permission</string>
+    <string name="label_trainer_not_available_for_this_employee">Trainer not available for this Employee.</string>
+
+
+    <string name="label_apply">Apply</string>
+    <string name="label_from">From</string>
+    <string name="label_to">To</string>
+
 </resources>

@@ -224,6 +224,13 @@ object Utlis {
         return convertedDate
     }
 
+    fun filterDateFormateQc(dateForFilter: String): Date {
+        val sourceFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val destinationFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val convertedDate: Date = sourceFormat.parse(dateForFilter)
+        return convertedDate
+    }
+
     @SuppressLint("SimpleDateFormat")
     fun convertCmsDate(DatefromServer: String): String {
         val sourceFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
@@ -420,6 +427,15 @@ object Utlis {
         }
         return datetime
     }
+
+
+    fun formatQcdate(DatefromServer: String): String {
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH)
+        val destFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val convertedDate: Date = sourceFormat.parse(DatefromServer)
+        return destFormat.format(convertedDate)
+    }
+
 
     fun getCurrentTimeStamp(): String {
         val tsLong = System.currentTimeMillis() / 1000

@@ -1,6 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity
 
+import com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload.FileUploadApnaSurveyModel
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
+import com.apollopharmacy.vishwam.util.fileupload.FileUploadModel
 import java.io.File
 
 interface ApnaNewSurveyCallBack {
@@ -8,9 +10,9 @@ interface ApnaNewSurveyCallBack {
 
     fun onCityItemSelect(position: Int, item: String, uid: String)
 
-    fun onOrganisedItemSelect(position: Int, item: String)
+    fun organisedItemSelect(position: Int, name: String, uid: String)
 
-    fun onUnorganisedItemSelect(position: Int, item: String)
+    fun onUnorganisedItemSelect(position: Int, name: String, uid: String)
 
     fun onLocationListItemSelect(
         position: Int,
@@ -28,17 +30,17 @@ interface ApnaNewSurveyCallBack {
 
     fun onClickDeleteHospital(position: Int)
 
-    fun onApartmentTypeItemSelect(position: Int, item: String)
+    fun onApartmentTypeItemSelect(position: Int, name: String, uid: String)
 
-    fun onTrafficStreetItemSelect(position: Int, item: String)
+    fun onTrafficStreetTypeSelect(position: Int, uid: String, name: String)
 
-    fun onApnaSpecialityItemSelect(position: Int, item: String)
+    fun onApnaSpecialityItemSelect(position: Int, uid: String, name: String)
 
-    fun onClickTrafficGeneratorItemDelete(position: Int, deletedItem: String)
+    fun onClickTrafficGeneratorItemDelete(position: Int, deletedItem: TrafficGeneratorsResponse.Data.ListData.Row)
 
     fun onClickNeighbouringStoreDelete(position: Int)
 
-    fun onTrafficGeneratorItemSelect(position: Int, item: String, selected: Boolean?)
+    fun onTrafficGeneratorItemSelect(position: Int, item: TrafficGeneratorsResponse.Data.ListData.Row, selected: Boolean?)
 
     fun deleteSiteImage(position: Int, file: File)
 
@@ -114,7 +116,19 @@ interface ApnaNewSurveyCallBack {
         dimenTypeSelectedItem: DimensionTypeResponse.Data.ListData.Row,
     )
 
-    fun onSelectNeighbourLocation(position: Int, item: String)
+    fun onSelectNeighbourLocation(position: Int, name: String, uid: String)
 
     fun onSelectedAgeoftheBuildingMonth(month: String)
+
+    fun onSuccessGetRegionListApiCall(regionListResponse: RegionListResponse)
+
+    fun onFailureGetRegionListApiCall(message: String)
+
+    fun onRegionSelect(regionName: String, regionUid: String, regionCode: String)
+
+    fun onFailureUpload(message: String)
+
+    fun allFilesDownloaded(fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?)
+
+    fun allFilesUploaded(fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?)
 }

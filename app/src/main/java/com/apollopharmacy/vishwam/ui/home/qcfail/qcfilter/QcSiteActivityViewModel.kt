@@ -55,7 +55,7 @@ class QcSiteActivityViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcStoreList.value = result.value
+                        qcStoreList.value = result.value!!
                         qcFilterSiteCallBack.getSiteIdList(result.value.storelist)
                         siteLiveData = result.value.storelist as ArrayList<QcStoreList.Store>
                         qcStoreIdList = result.value.storelist as ArrayList<QcStoreList.Store>?
@@ -197,7 +197,7 @@ class QcSiteActivityViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcRegionLists.value = result.value
+                        qcRegionLists.value = result.value!!
                         regionLiveData = result.value.storelist as ArrayList<QcRegionList.Store>
                         qcregionIdList = result.value.storelist as ArrayList<QcRegionList.Store>?
 

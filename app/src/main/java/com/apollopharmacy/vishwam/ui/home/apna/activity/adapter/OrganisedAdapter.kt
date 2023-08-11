@@ -33,7 +33,9 @@ class OrganisedAdapter(
         holder.viewItemRowBinding.itemName.text = unorganisedList[position].name
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            mCallback.onOrganisedItemSelect(position, unorganisedList[position].name.toString())
+            mCallback.organisedItemSelect(position,
+                unorganisedList[position].name.toString(),
+                unorganisedList[position].uid.toString())
         }
     }
 

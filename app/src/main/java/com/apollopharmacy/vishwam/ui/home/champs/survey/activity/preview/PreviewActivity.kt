@@ -61,7 +61,7 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
             activityPreviewBinding.issuedOn.setText(getCategoryAndSubCategoryDetails?.issuedOnP)
             activityPreviewBinding.storeName.setText(getCategoryAndSubCategoryDetails?.storeNameP)
             activityPreviewBinding.storeCity.setText(getCategoryAndSubCategoryDetails?.storeCityP)
-            activityPreviewBinding.siteId.setText(getCategoryAndSubCategoryDetails?.storeIdP)
+//            activityPreviewBinding.siteId.setText(getCategoryAndSubCategoryDetails?.storeIdP)
             activityPreviewBinding.state.setText(getCategoryAndSubCategoryDetails?.storeStateP)
 
             activityPreviewBinding.technicalCheckbox.setText(getCategoryAndSubCategoryDetails?.technicalDetails)
@@ -175,7 +175,12 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
             activityPreviewBinding.progressBarTotalGreen.visibility = View.VISIBLE
             activityPreviewBinding.progressBarTotalRed.visibility = View.GONE
             activityPreviewBinding.progressBarTotalOrange.visibility = View.GONE
-            activityPreviewBinding.percentageSum.text = sumOfCategories.toString() + "%"
+            if(sumOfCategories==0.0f){
+                activityPreviewBinding.percentageSum.text = "0%"
+            }else{
+                activityPreviewBinding.percentageSum.text = sumOfCategories.toString() + "%"
+            }
+
         }
         else if (sumOfCategories <= 80 && sumOfCategories >= 60) {
             activityPreviewBinding.progressBarTotalOrange.progress =
@@ -185,7 +190,12 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
             activityPreviewBinding.progressBarTotalGreen.visibility = View.GONE
             activityPreviewBinding.progressBarTotalRed.visibility = View.GONE
             activityPreviewBinding.progressBarTotalOrange.visibility = View.VISIBLE
-            activityPreviewBinding.percentageSum.text = sumOfCategories.toString() + "%"
+            if(sumOfCategories==0.0f){
+                activityPreviewBinding.percentageSum.text = "0%"
+            }else{
+                activityPreviewBinding.percentageSum.text = sumOfCategories.toString() + "%"
+            }
+//            activityPreviewBinding.percentageSum.text = sumOfCategories.toString() + "%"
         }
         else {
             activityPreviewBinding.progressBarTotalRed.progress =
@@ -196,7 +206,12 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
 //                activityChampsSurveyBinding.progressBarTotal.background =
 //                    applicationContext.getDrawable(R.drawable.progress_bar_red)
 //                   getResources().getDrawable(R.drawable.progress_bar_red)
-            activityPreviewBinding.percentageSum.text = sumOfCategories.toString() + "%"
+            if(sumOfCategories==0.0f){
+                activityPreviewBinding.percentageSum.text = "0%"
+            }else{
+                activityPreviewBinding.percentageSum.text = sumOfCategories.toString() + "%"
+            }
+//            activityPreviewBinding.percentageSum.text = sumOfCategories.toString() + "%"
         }
     }
 }

@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.TrafficGeneratorsLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.TrafficGeneratorsResponse
 
 class TrafficGeneratorsItemAdapter(
     var mContext: Context,
     var mCallback: ApnaNewSurveyCallBack,
-    var items: ArrayList<String>,
+    var items: ArrayList<TrafficGeneratorsResponse.Data.ListData.Row>,
 ) : RecyclerView.Adapter<TrafficGeneratorsItemAdapter.ViewHolder>() {
 
     class ViewHolder(val trafficGeneratorsLayoutBinding: TrafficGeneratorsLayoutBinding) :
@@ -30,7 +31,7 @@ class TrafficGeneratorsItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.trafficGeneratorsLayoutBinding.name.text = items[position]
+        holder.trafficGeneratorsLayoutBinding.name.text = items[position].name
 
         holder.trafficGeneratorsLayoutBinding.delete.setOnClickListener {
             mCallback.onClickTrafficGeneratorItemDelete(position, items[position])

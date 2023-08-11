@@ -52,7 +52,7 @@ class HospitalsAdapter(
         }
 
         if (hospitalsList.get(position).speciality.isNotEmpty()) {
-            holder.adapterHospitalsListBinding.speciality.setText(hospitalsList[position].speciality)
+            holder.adapterHospitalsListBinding.speciality.setText(hospitalsList[position].specialityName)
         } else {
             holder.adapterHospitalsListBinding.speciality.setText("-")
         }

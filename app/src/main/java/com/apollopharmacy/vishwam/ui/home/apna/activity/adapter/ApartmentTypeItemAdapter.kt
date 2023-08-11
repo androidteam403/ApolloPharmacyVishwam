@@ -43,8 +43,8 @@ class ApartmentTypeItemAdapter(
             holder.adapterApartmentsListBinding.apartmentsText.setText("-")
         }
 
-        if (data.get(position).apartmentType.isNotEmpty()) {
-            holder.adapterApartmentsListBinding.apartmentTypeText.setText(data[position].apartmentType)
+        if (data.get(position).apartmentTypeName.isNotEmpty()) {
+            holder.adapterApartmentsListBinding.apartmentTypeText.setText(data[position].apartmentTypeName)
         } else {
             holder.adapterApartmentsListBinding.apartmentTypeText.setText("-")
         }

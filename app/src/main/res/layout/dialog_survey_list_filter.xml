@@ -14,7 +14,6 @@
             type="Boolean" />
 
 
-
         <variable
             name="isRejectedChecked"
             type="Boolean" />
@@ -117,7 +116,6 @@
                 android:buttonTint="@color/apna_project_actionbar_color" />
 
 
-
             <CheckBox
                 android:id="@+id/rejected_status"
                 android:layout_width="match_parent"
@@ -155,14 +153,15 @@
                 android:layout_marginTop="@dimen/value_5dp"
                 android:buttonTint="@color/apna_project_actionbar_color"
                 android:checked="@{isClosedChecked}"
-                android:text="Cancelled" />
+                android:text="Cancelled"
+                android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginTop="@dimen/value_2dp"
-                android:background="@color/grey" />
-
+                android:background="@color/grey"
+                android:visibility="gone" />
 
 
             <!--            </RadioGroup>-->
