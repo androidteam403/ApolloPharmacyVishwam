@@ -205,6 +205,8 @@
     <string name="err_msg_enter_purchase_price">Please Enter Purchase Rate</string>
     <string name="err_msg_enter_purchase_price_">Please Enter Purchase Price greater than 0</string>
     <string name="err_msg_price_diff">Purchase rate should be higher than enter MRP</string>
+    <string name="err_msg_old_new_price_should_not_same">Old MRP and New MRP should not be same</string>
+
     <string name="err_msg_purchace_price_diff">Purchase rate should be Less than MRP</string>
     <string name="err_msg_purchace_price_old_new">Purchase rate should be Less than Old MRP and new MRP</string>
     <string name="err_msg_select_expiry_date">Please enter Expiry Date</string>
@@ -481,5 +483,7 @@
     <string name="label_apply">Apply</string>
     <string name="label_from">From</string>
     <string name="label_to">To</string>
+    <string name="label_shop_number">Shop Number</string>
+    <string name="label_shop_address">Shop Address</string>
 
 </resources>

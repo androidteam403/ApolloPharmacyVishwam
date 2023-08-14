@@ -593,9 +593,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //                .setOutputFilename(fileNameForCompressedImage)
                     .setOutputDirPath(
                         ViswamApp.Companion.context.cacheDir.toString()
-                    )
-
-                    .setSourceImage(imageFile).resizedFile
+                    ).setSourceImage(imageFile).resizedFile
 
                 prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!, resizedImage))
                 viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())

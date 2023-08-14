@@ -64,11 +64,12 @@ class ApnaSurveylViewModel : ViewModel() {
 
         // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/apna_project_survey/list/project-survey-list-for-mobile?
         var baseUrl = dynamicUrl
+      //id
         baseUrl =
             baseUrl + "employee_id=${Preferences.getValidatedEmpId()}&page=${pageNo}&rows=${rows}" +
 
                     if (isSearch) {
-                        "&id=$searchQuary&"
+                        "&survey_search=$searchQuary&"
                     } else {
                         "&"
                     } + "${

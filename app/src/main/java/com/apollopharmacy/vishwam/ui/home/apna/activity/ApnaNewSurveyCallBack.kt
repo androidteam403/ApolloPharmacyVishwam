@@ -36,11 +36,18 @@ interface ApnaNewSurveyCallBack {
 
     fun onApnaSpecialityItemSelect(position: Int, uid: String, name: String)
 
-    fun onClickTrafficGeneratorItemDelete(position: Int, deletedItem: TrafficGeneratorsResponse.Data.ListData.Row)
+    fun onClickTrafficGeneratorItemDelete(
+        position: Int,
+        deletedItem: TrafficGeneratorsResponse.Data.ListData.Row,
+    )
 
     fun onClickNeighbouringStoreDelete(position: Int)
 
-    fun onTrafficGeneratorItemSelect(position: Int, item: TrafficGeneratorsResponse.Data.ListData.Row, selected: Boolean?)
+    fun onTrafficGeneratorItemSelect(
+        position: Int,
+        item: TrafficGeneratorsResponse.Data.ListData.Row,
+        selected: Boolean?,
+    )
 
     fun deleteSiteImage(position: Int, file: File)
 
@@ -128,7 +135,13 @@ interface ApnaNewSurveyCallBack {
 
     fun onFailureUpload(message: String)
 
-    fun allFilesDownloaded(fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?)
+    fun allFilesDownloaded(
+        fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?,
+        isImageUpload: Boolean,
+    )
 
-    fun allFilesUploaded(fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?)
+    fun allFilesUploaded(
+        fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?,
+        isImageUpload: Boolean,
+    )
 }

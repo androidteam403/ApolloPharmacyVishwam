@@ -43,6 +43,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.adapter.*
@@ -70,6 +71,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import me.echodev.resizer.Resizer
 import java.io.File
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -3317,9 +3319,26 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         dialog.dismiss()
                         Utlis.showLoading(this@ApnaNewSurveyActivity)
                         if (imageFileList != null && imageFileList.size > 0) {
-                            apnaNewSurveyViewModel.imagesListConnectToAzure(
-                                imageFileList, this@ApnaNewSurveyActivity, surveyCreateRequest
+
+
+                            var fileUploadApnaSurveyModelList =
+                                ArrayList<FileUploadApnaSurveyModel>()
+
+                            for (i in imageFileList) {
+                                var fileUploadApnaSurveyModel = FileUploadApnaSurveyModel()
+                                fileUploadApnaSurveyModel.file = i!!
+                                fileUploadApnaSurveyModelList.add(fileUploadApnaSurveyModel)
+                            }
+
+
+                            FileUploadApnaSurvey().uploadFiles(
+                                this, this, fileUploadApnaSurveyModelList!!, true
                             )
+
+
+                            /*apnaNewSurveyViewModel.imagesListConnectToAzure(
+                                imageFileList, this@ApnaNewSurveyActivity, surveyCreateRequest
+                            )*/
                         } else if (videoFile != null) {
                             var videoFileList = ArrayList<File>()
                             videoFileList.add(videoFile!!)
@@ -3330,10 +3349,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             fileUploadApnaSurveyModel.file = videoFile!!
                             fileUploadApnaSurveyModelList.add(fileUploadApnaSurveyModel)
                             FileUploadApnaSurvey().uploadFiles(
-                                this, this, fileUploadApnaSurveyModelList!!
+                                this, this, fileUploadApnaSurveyModelList!!, false
                             )/* apnaNewSurveyViewModel.videoListConnectToAzure(
-                                     videoFileList, this@ApnaNewSurveyActivity, surveyCreateRequest
-                                 )*/
+                                         videoFileList, this@ApnaNewSurveyActivity, surveyCreateRequest
+                                     )*/
                         } else {
                             apnaNewSurveyViewModel.createSurvey(
                                 surveyCreateRequest, this@ApnaNewSurveyActivity
@@ -3924,7 +3943,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK && imageFile != null) {
-            imageFileList.add(imageFile!!)
+            val resizedImage =
+                Resizer(this).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                    .setOutputDirPath(
+                        ViswamApp.Companion.context.cacheDir.toString()
+                    ).setSourceImage(imageFile).resizedFile
+
+            imageFileList.add(resizedImage!!)
             //  imageList.add(ImageDto(imageFile!!, ""))
             activityApnaNewSurveyBinding.totalSitePhoto.setText(imageFileList.size.toString())
             imageAdapter.notifyDataSetChanged()
@@ -4184,6 +4210,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 } else {
                     surveyCreateRequest.bldgAgeInMonth = "0"
                 }
+
+                surveyCreateRequest.shopAddress =
+                    activityApnaNewSurveyBinding.shopAddress.text.toString().trim()
+
+                surveyCreateRequest.shopNo =
+                    activityApnaNewSurveyBinding.shopNumber.text.toString().trim()
+
+
                 /*surveyCreateRequest.bldgAgeInMonth =
                     activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim()*/
 
@@ -4669,6 +4703,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         var presentTrafficPatterns =
             activityApnaNewSurveyBinding.presentTrafficPatterns.text.toString().trim()
 
+        var shopAddress = activityApnaNewSurveyBinding.shopAddress.text.toString().trim()
+        var shopNumber = activityApnaNewSurveyBinding.shopNumber.text.toString().trim()
+
+
         if (!activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim().isEmpty()) {
             if (ageOfTheBuilding.isEmpty()) {
                 ageOfTheBuilding = "0"
@@ -4677,6 +4715,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim()
             }"
         }
+
 
 //        var ageOfTheBuilding = ""
 //        if (activityApnaNewSurveyBinding.ageOfTheBuildingText.text.toString().trim().isNotEmpty()) {
@@ -4739,6 +4778,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         } else if (presentTrafficPatterns.isNotEmpty() && presentTrafficPatterns.all { it == '0' }) {
             activityApnaNewSurveyBinding.presentTrafficPatterns.requestFocus()
             siteSpecificationsErrorMessage = "Present traffic patterns should not contain all zeros"
+            return false
+        } else if (!shopAddress.isEmpty() && shopAddress.all { it == '0' }) {
+            activityApnaNewSurveyBinding.shopAddress.requestFocus()
+            siteSpecificationsErrorMessage = "Shop Address patterns should not contain all zeros"
+            return false
+        } else if (!shopNumber.isEmpty() && shopNumber.all { it == '0' }) {
+            activityApnaNewSurveyBinding.shopNumber.requestFocus()
+            siteSpecificationsErrorMessage = "Shop Number patterns should not contain all zeros"
             return false
         } else if (ageOfTheBuilding.isEmpty()) {
             return true
@@ -4868,6 +4915,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     override fun organisedItemSelect(position: Int, name: String, uid: String) {
         if (uid.equals("No")) {
             activityApnaNewSurveyBinding.organisedAvgSaleText.isEnabled = false
+            activityApnaNewSurveyBinding.organisedAvgSaleText.setText("")
         } else {
             activityApnaNewSurveyBinding.organisedAvgSaleText.isEnabled = true
         }
@@ -4880,6 +4928,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     override fun onUnorganisedItemSelect(position: Int, name: String, uid: String) {
         if (uid.equals("No")) {
             activityApnaNewSurveyBinding.unorganisedAvgSaleText.isEnabled = false
+            activityApnaNewSurveyBinding.unorganisedAvgSaleText.setText("")
         } else {
             activityApnaNewSurveyBinding.unorganisedAvgSaleText.isEnabled = true
         }
@@ -5268,7 +5317,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             fileUploadApnaSurveyModel.file = videoFile!!
             fileUploadApnaSurveyModelList.add(fileUploadApnaSurveyModel)
             FileUploadApnaSurvey().uploadFiles(
-                this, this, fileUploadApnaSurveyModelList!!
+                this, this, fileUploadApnaSurveyModelList!!, false
             )/* apnaNewSurveyViewModel.videoListConnectToAzure(
                  videoFileList, this@ApnaNewSurveyActivity, surveyCreateRequest
              )*/
@@ -5343,24 +5392,62 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         TODO("Not yet implemented")
     }
 
-    override fun allFilesDownloaded(fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?) {
-        var videoMb = SurveyCreateRequest.VideoMb()
+    override fun allFilesDownloaded(
+        fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?,
+        isImageUpload: Boolean,
+    ) {
+        if (isImageUpload) {
+            var siteImageMb = SurveyCreateRequest.SiteImageMb()
+            var imageUrlList = ArrayList<SurveyCreateRequest.SiteImageMb.Image>()
 
-        var videoList = ArrayList<SurveyCreateRequest.VideoMb.Video>()
-        var video = SurveyCreateRequest.VideoMb.Video()
-        video.url = RijndaelCipherEncryptDecrypt().decrypt(
-            fileUploadApnaSurveyModelList!!.get(0)!!.fileDownloadResponse!!.referenceurl!!,
-            RijndaelCipherEncryptDecrypt().key
-        )
-        videoList.add(video)
-        videoMb.video = videoList
-        surveyCreateRequest.videoMb = videoMb
-        apnaNewSurveyViewModel.createSurvey(
-            surveyCreateRequest, this@ApnaNewSurveyActivity
-        )
+            for (i in fileUploadApnaSurveyModelList!!) {
+                var image = SurveyCreateRequest.SiteImageMb.Image()
+                image.url = i.fileDownloadResponse!!.decryptedUrl
+                imageUrlList.add(image)
+            }
+
+            siteImageMb.images = imageUrlList
+            surveyCreateRequest.siteImageMb = siteImageMb
+            if (videoFile != null) {
+                var videoFileList = ArrayList<File>()
+                videoFileList.add(videoFile!!)
+                var fileUploadApnaSurveyModelList = ArrayList<FileUploadApnaSurveyModel>()
+                var fileUploadApnaSurveyModel = FileUploadApnaSurveyModel()
+                fileUploadApnaSurveyModel.file = videoFile!!
+                fileUploadApnaSurveyModelList.add(fileUploadApnaSurveyModel)
+                FileUploadApnaSurvey().uploadFiles(
+                    this, this, fileUploadApnaSurveyModelList!!, false
+                )/* apnaNewSurveyViewModel.videoListConnectToAzure(
+                 videoFileList, this@ApnaNewSurveyActivity, surveyCreateRequest
+             )*/
+            } else {
+                apnaNewSurveyViewModel.createSurvey(
+                    surveyCreateRequest, this@ApnaNewSurveyActivity
+                )
+            }
+        } else {
+            var videoMb = SurveyCreateRequest.VideoMb()
+
+            var videoList = ArrayList<SurveyCreateRequest.VideoMb.Video>()
+            var video = SurveyCreateRequest.VideoMb.Video()
+            video.url = RijndaelCipherEncryptDecrypt().decrypt(
+                fileUploadApnaSurveyModelList!!.get(0)!!.fileDownloadResponse!!.referenceurl!!,
+                RijndaelCipherEncryptDecrypt().key
+            )
+            videoList.add(video)
+            videoMb.video = videoList
+            surveyCreateRequest.videoMb = videoMb
+            apnaNewSurveyViewModel.createSurvey(
+                surveyCreateRequest, this@ApnaNewSurveyActivity
+            )
+        }
+
     }
 
-    override fun allFilesUploaded(fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?) {
+    override fun allFilesUploaded(
+        fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?,
+        isImageUpload: Boolean,
+    ) {
         TODO("Not yet implemented")
     }
 

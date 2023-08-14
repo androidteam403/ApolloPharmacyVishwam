@@ -65,7 +65,6 @@ class ImagesDisplayChampsAdapter(
                     }else{
                         holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.VISIBLE
                     }
-
             }
             else {
                 if(status.equals("COMPLETED")){

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -20,55 +21,37 @@ import com.apollopharmacy.vishwam.databinding.AreasToFocusonDialogBinding
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.adapter.AreasToFocusOnAdapter
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.adapter.PlanogramCateoryAdapter
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramCatList
-import com.apollopharmacy.vishwam.ui.home.planogram.fragment.PlanogramViewModel
-import com.tomergoldst.tooltips.ToolTip
+import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSurveyQuestionsListResponse
+import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
+import com.apollopharmacy.vishwam.util.Utlis
 import com.tomergoldst.tooltips.ToolTipsManager
 
-class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallback , ToolTipsManager.TipListener {
+class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallback,
+    ToolTipsManager.TipListener {
     lateinit var activityPlanogramEvaluationBinding: ActivityPlanogramEvaluationBinding
-    var planogramViewModel: PlanogramViewModel? = null
+    lateinit var planogramActivityViewModel: PlanogramActivityViewModel
     var planogramCategoryAdapter: PlanogramCateoryAdapter? = null
     private lateinit var dialogSubmit: Dialog
     var areasToFocusOnAdapter: AreasToFocusOnAdapter? = null
-    var toolTip: ToolTipsManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_planogram_evaluation)
-
         activityPlanogramEvaluationBinding = DataBindingUtil.setContentView(
             this,
             R.layout.activity_planogram_evaluation
-
         )
-        planogramViewModel = ViewModelProvider(this)[PlanogramViewModel::class.java]
+        planogramActivityViewModel = ViewModelProvider(this)[PlanogramActivityViewModel::class.java]
         setUp()
     }
 
     private fun setUp() {
         activityPlanogramEvaluationBinding.callback = this
-
-        val data: MutableList<PlanogramCatList.CatList> = ArrayList()
-        data.add(PlanogramCatList.CatList("Baby Food", "#a77b54"))
-        data.add(PlanogramCatList.CatList("Baby Care", "#a77b54"))
-        data.add(PlanogramCatList.CatList("Women's Health", "#a77b54"))
-        data.add(PlanogramCatList.CatList("Skin Care", "#bca931"))
-        data.add(PlanogramCatList.CatList("Hair Care", "#bca931"))
-        data.add(PlanogramCatList.CatList("Oral Care", "#bca931"))
-        data.add(PlanogramCatList.CatList("Men's Grooming", "#bca931"))
-        data.add(PlanogramCatList.CatList("Pain relief", "#00a99c"))
-        data.add(PlanogramCatList.CatList("OTC", "#00a99c"))
-        data.add(PlanogramCatList.CatList("Immunity", "#00a99c"))
-        data.add(PlanogramCatList.CatList("Supports and Braces", "#00a99c"))
-        toolTip = ToolTipsManager(this);
-        planogramCategoryAdapter =
-            PlanogramCateoryAdapter(applicationContext, data, this, toolTip!!, this)
-        activityPlanogramEvaluationBinding.planogramCategoryRecyclerview.setLayoutManager(
-            LinearLayoutManager(this)
-        )
-        activityPlanogramEvaluationBinding.planogramCategoryRecyclerview.setAdapter(
-            planogramCategoryAdapter
-        )
+        if (NetworkUtils.isNetworkConnected(this)) {
+            Utlis.showLoading(this@PlanogramEvaluationActivity)
+            planogramActivityViewModel.planogramSurveyQuestionsListApi(this)
+        } else {
+            Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onClickBack() {
@@ -167,6 +150,35 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
 
     override fun showTillTop() {
 
+    }
+
+    override fun onSuccessPlanogramSurveyQuestionsListApiCall(planogramSurveyQuestionsListResponse: PlanogramSurveyQuestionsListResponse) {
+        Utlis.hideLoading()
+        if (planogramSurveyQuestionsListResponse != null
+            && planogramSurveyQuestionsListResponse.data != null
+            && planogramSurveyQuestionsListResponse.data!!.listData != null
+            && planogramSurveyQuestionsListResponse.data!!.listData!!.rows != null
+            && planogramSurveyQuestionsListResponse.data!!.listData!!.rows!!.size > 0
+        ) {
+            val data: MutableList<PlanogramCatList.CatList> = ArrayList()
+            planogramCategoryAdapter =
+                PlanogramCateoryAdapter(
+                    planogramSurveyQuestionsListResponse.data!!.listData!!.rows!!,
+                    applicationContext,
+                    this,
+                )
+            activityPlanogramEvaluationBinding.planogramCategoryRecyclerview.setLayoutManager(
+                LinearLayoutManager(this)
+            )
+            activityPlanogramEvaluationBinding.planogramCategoryRecyclerview.setAdapter(
+                planogramCategoryAdapter
+            )
+        }
+
+    }
+
+    override fun onFailurePlanogramSurveyQuestionsListApiCall(message: String) {
+        Utlis.hideLoading()
     }
 
     override fun onTipDismissed(view: View?, anchorViewId: Int, byUser: Boolean) {
