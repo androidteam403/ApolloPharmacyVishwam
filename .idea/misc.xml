@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -47,6 +48,7 @@
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_comparison_screen.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_create_pin.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_dashboard_details.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_form_home.xml" value="0.24615384615384617" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_image_comparison.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/activity_pre_rectro_review.xml" value="0.25" />
@@ -94,6 +96,7 @@
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_cash_closer.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_ceo_dashboard.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_champs_survey.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_pre_rectro.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_rectro_qr.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/fragment_rejected_qc.xml" value="0.25" />
@@ -111,6 +114,7 @@
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/survey_saved_confirm_dialog.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/layout/upload_rack_layout.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2555" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwam/navigationlistview/src/main/res/layout/list_item.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/drawable/background_for_champs_names.xml" value="0.2115" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/drawable/cancel_button.xml" value="0.136" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/drawable/cash_deposit_item_background.xml" value="0.1485" />
