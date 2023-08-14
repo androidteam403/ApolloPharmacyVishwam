@@ -600,10 +600,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
         }
 
-        var j: Int = 0
 
 
-        if (typeString.isNotEmpty()&&regionId.isEmpty()&&siteId.isEmpty()) {
+        if (typeString.isNotEmpty()&&regionId.isEmpty()&&siteId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
                 if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")) {
@@ -614,7 +613,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             return orderTypeFilteredPendinglist
         }
-        else if (storeIdList.isEmpty()&&siteId.isNotEmpty()) {
+        else if (storeIdList.isEmpty()&&siteId.isNotEmpty()&&regionId.isEmpty()&&typeString.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -630,7 +629,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             return orderTypeFilteredPendinglist
         }
-        else if (regionIdList.isEmpty()&&regionId.isNotEmpty()) {
+        else if (regionIdList.isEmpty()&&regionId.isNotEmpty()&&siteId.isEmpty()&&typeString.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -646,7 +645,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             return orderTypeFilteredPendinglist
         }
-        else if (storeIdList.isEmpty() && regionIdList.isEmpty()&&typeString.isNotEmpty()) {
+        else if (storeIdList.isEmpty() && regionIdList.isEmpty()&&typeString.isNotEmpty()&&siteId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -668,7 +667,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             return orderTypeFilteredPendinglist
         }
-        else if (typeString.isNotEmpty() && storeIdList.size > 1 && regionIdList.size > 1) {
+        else if (typeString.isNotEmpty() && storeIdList.size > 1 && regionIdList.size > 1&&fromDate.isEmpty()&&currentDate.isEmpty()) {
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
                 var site = i.storeid!!.toUpperCase()
@@ -696,7 +695,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             return orderTypeFilteredPendinglist
         }
-        else if (regionIdList.size > 1&&typeString.isEmpty()) {
+        else if (regionIdList.size > 1&&typeString.isEmpty()&&siteId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -714,7 +713,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             return orderTypeFilteredPendinglist
         }
-        else if (storeIdList.size > 1&&typeString.isEmpty()) {
+        else if (storeIdList.size > 1&&typeString.isEmpty()&&regionId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -735,7 +734,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             return orderTypeFilteredPendinglist
         }
-        else if (regionIdList.size > 1 && storeIdList.size > 1) {
+        else if (regionIdList.size > 1 && storeIdList.size > 1&&typeString.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -762,7 +761,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             return orderTypeFilteredPendinglist
         }
-        else if (regionIdList.size > 1 && typeString.isNotEmpty()) {
+        else if (regionIdList.size > 1 && typeString.isNotEmpty()&&siteId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
                 var site = i.storeid!!.toUpperCase()
@@ -785,7 +784,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             return orderTypeFilteredPendinglist
         }
-        else if (storeIdList.size > 1 && typeString.isNotEmpty()) {
+        else if (storeIdList.size > 1 && typeString.isNotEmpty()&&regionId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
                 var site = i.storeid!!.toUpperCase()
@@ -808,7 +807,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             return orderTypeFilteredPendinglist
         }
-        else if (storeIdList.isEmpty() && regionIdList.isEmpty()&&siteId.isNotEmpty()&&regionId.isNotEmpty()) {
+        else if (storeIdList.isEmpty() && regionIdList.isEmpty()&&fromDate.isEmpty()&&typeString.isEmpty()&&typeString.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -821,7 +820,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             return orderTypeFilteredPendinglist
         }
-        else if (regionIdList.isEmpty()&&typeString.isNotEmpty()&&regionId.isNotEmpty()) {
+        else if (regionIdList.isEmpty()&&typeString.isNotEmpty()&&siteId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -843,7 +842,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
             return orderTypeFilteredPendinglist
         }
-        else if (storeIdList.isEmpty()&&typeString.isNotEmpty()&&siteId.isNotEmpty()) {
+        else if (storeIdList.isEmpty()&&typeString.isNotEmpty()&&regionId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -965,7 +964,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                             this
                         )
 
-                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
 
                     } else if (pendingListList.size == pendingListMain.size) {
@@ -1402,6 +1401,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             arguments = QcListSizeDialog().generateParsedData(pageSizeList)
         }.show(childFragmentManager, "")
     }
+
 
     override fun selectListSize(listSize: String) {
         Preferences.setQcPendingPageSize(listSize.toInt());

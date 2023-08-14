@@ -69,9 +69,13 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         Preferences.setSiteIdListFetchedChamps(false)
         Preferences.setRegionIdListFetchedQcFail(false)
         Preferences.setRegionIdListQcFail("")
+
         Preferences.setDoctorSpecialityListFetched(false)
         Preferences.setItemTypeListFetched(false)
         Preferences.setSiteIdListFetched(false)
+        Preferences.setQrSiteIdListFetched(false)
+        Preferences.setSiteIdListFetchedQrRetro(false)
+
         Preferences.setSiteRetroListFetched(false)
         Preferences.setReasonListFetched(false)
         viewModel.commands.observeForever { command ->

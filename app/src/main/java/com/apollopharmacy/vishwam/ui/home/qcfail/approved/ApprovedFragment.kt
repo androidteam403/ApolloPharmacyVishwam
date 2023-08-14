@@ -746,6 +746,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         }.show(childFragmentManager, "")
     }
 
+
     override fun selectListSize(listSize: String) {
         Preferences.setQcApprovedPageSize(listSize.toInt());
         viewBinding.selectfiltertype.setText("Per page: " + listSize)

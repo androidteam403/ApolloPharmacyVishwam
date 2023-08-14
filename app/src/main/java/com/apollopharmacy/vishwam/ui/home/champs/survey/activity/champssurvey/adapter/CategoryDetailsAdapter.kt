@@ -57,6 +57,13 @@ class CategoryDetailsAdapter(
                 holder.adapterCategoryDetailsBinding.categoryIdBg.setBackgroundResource(R.drawable.grey_backgroundup)
                 holder.adapterCategoryDetailsBinding.applyBackgroundLayout.setBackgroundResource(R.drawable.background_for_champs_names)
             } else {
+//                holder.adapterCategoryDetailsBinding.progressBar.setProgressDrawable(
+//                    applicationContext.resources.getDrawable(R.drawable.progress_drawable_green)
+//                )
+                holder.adapterCategoryDetailsBinding.progressBar.progress =
+                    (categoryDetailss.sumOfSubCategoryRating)!!.toInt()
+                holder.adapterCategoryDetailsBinding.progressBar.max =
+                    (categoryDetailss.rating)!!.toDouble().toInt()
 
                 holder.adapterCategoryDetailsBinding.outOfRating.text =
                     ((categoryDetailss.sumOfSubCategoryRating)).toString() + "/" + categoryDetailss.rating
@@ -67,18 +74,13 @@ class CategoryDetailsAdapter(
                 holder.adapterCategoryDetailsBinding.applyBackgroundLayout.setBackgroundResource(R.drawable.background_for_champs_green)
                 holder.adapterCategoryDetailsBinding.categoryIdBg.setBackgroundResource(R.drawable.background_green)
 
-                holder.adapterCategoryDetailsBinding.progressBar.setProgressDrawable(
-                    applicationContext.resources.getDrawable(R.drawable.progress_drawable_green)
-                )
+
                 holder.adapterCategoryDetailsBinding.categoryName.setTextColor(
                     applicationContext.getColor(
                         R.color.white
                     )
                 )
-                holder.adapterCategoryDetailsBinding.progressBar.progress =
-                    (categoryDetailss.sumOfSubCategoryRating)!!.toInt()
-                holder.adapterCategoryDetailsBinding.progressBar.max =
-                    (categoryDetailss.rating)!!.toDouble().toInt()
+
             }
 
         } else {
@@ -95,7 +97,10 @@ class CategoryDetailsAdapter(
 
         }
         holder.adapterCategoryDetailsBinding.categoryLayout.setOnClickListener {
-            champsSurveyCallBack.onClickCategory(categoryDetailss.categoryName!!, position)
+            if(categoryDetails!!.get(position)!!.subCategoryDetails!!.size>0){
+                champsSurveyCallBack.onClickCategory(categoryDetailss.categoryName!!, position)
+            }
+
         }
 
     }

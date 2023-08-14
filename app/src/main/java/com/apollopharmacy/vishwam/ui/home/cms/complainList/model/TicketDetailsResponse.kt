@@ -6,7 +6,7 @@ import com.apollopharmacy.vishwam.data.model.cms.TicketInventoryItem
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class TicketDetailsResponse (
+data class TicketDetailsResponse(
 
     @Expose
     @SerializedName("message")
@@ -17,7 +17,7 @@ data class TicketDetailsResponse (
     @Expose
     @SerializedName("data")
     var data: TicketData,
-    var position: Int
+    var position: Int,
 )
 
 data class TicketData(
@@ -137,8 +137,9 @@ data class TicketUser(
     val role: Role,
     @Expose
     @SerializedName("level")
-    val level: Level
+    val level: Level,
 )
+
 //
 //data class Level(
 //    @Expose
@@ -215,8 +216,9 @@ data class Ticket_it(
     val bill_amount: String,
     @Expose
     @SerializedName("acted_on")
-    val acted_on: String
+    val acted_on: String,
 )
+
 //
 data class Acted_by(
     @Expose
@@ -239,8 +241,9 @@ data class Acted_by(
     val middle_name: String,
     @Expose
     @SerializedName("login_unique")
-    val login_unique: String
+    val login_unique: String,
 )
+
 //
 data class Tid(
     @Expose
@@ -248,14 +251,16 @@ data class Tid(
     val uid: String,
     @Expose
     @SerializedName("tid")
-    val tid: String
+    val tid: String,
 )
+
 //
 data class Ticket_type(
     @Expose
     @SerializedName("uid")
-    val uid: String
+    val uid: String,
 )
+
 //
 //data class Status(
 //    @Expose
@@ -287,8 +292,9 @@ data class Ticket_inventory(
     val drug_request: Drug_request,
     @Expose
     @SerializedName("ticket_inventory_item")
-    val ticket_inventory_item: List<TicketInventoryItem>
+    val ticket_inventory_item: List<TicketInventoryItem>,
 )
+
 //
 data class Drug_request(
     @Expose
@@ -362,8 +368,9 @@ data class Drug_request(
     val bill: List<String>,
     @Expose
     @SerializedName("side")
-    val side: List<String>
+    val side: List<String>,
 )
+
 //
 data class Item_type(
     @Expose
@@ -371,9 +378,10 @@ data class Item_type(
     val uid: String,
     @Expose
     @SerializedName("name")
-    val name: String
+    val name: String,
 
-)
+    )
+
 //
 data class Doctor_specialty(
     @Expose
@@ -381,14 +389,16 @@ data class Doctor_specialty(
     val uid: String,
     @Expose
     @SerializedName("name")
-    val name: String
+    val name: String,
 )
+
 //
 data class Code_batch(
     @Expose
     @SerializedName("uid")
-    val uid: String
+    val uid: String,
 )
+
 //
 //data class Status(
 //    @Expose
@@ -417,8 +427,9 @@ data class Subcategory(
     val code: String,
     @Expose
     @SerializedName("name")
-    val name: String
+    val name: String,
 )
+
 //
 data class TicketSite(
     @Expose
@@ -447,8 +458,9 @@ data class TicketSite(
     val hod: Hod,
     @Expose
     @SerializedName("manager")
-    val manager: Manager
+    val manager: Manager,
 )
+
 //
 data class TicketManager(
     @Expose
@@ -471,8 +483,9 @@ data class TicketManager(
     val middle_name: String,
     @Expose
     @SerializedName("login_unique")
-    val login_unique: String
+    val login_unique: String,
 )
+
 //
 data class Hod(
     @Expose
@@ -480,8 +493,9 @@ data class Hod(
     val uid: String,
     @Expose
     @SerializedName("first_name")
-    val first_name: String
+    val first_name: String,
 )
+
 //
 data class Ou(
     @Expose
@@ -492,8 +506,9 @@ data class Ou(
     val code: String,
     @Expose
     @SerializedName("name")
-    val name: String
+    val name: String,
 )
+
 //
 data class Region(
     @Expose
@@ -501,14 +516,16 @@ data class Region(
     val uid: String,
     @Expose
     @SerializedName("name")
-    val name: String
+    val name: String,
 )
+
 //
 data class Site_type(
     @Expose
     @SerializedName("uid")
-    val uid: String
+    val uid: String,
 )
+
 //
 //data class Parent(
 //    @Expose
@@ -537,8 +554,32 @@ data class Reason(
     val reason_sla: List<Reason_sla>,
     @Expose
     @SerializedName("reason_dept")
-    val reason_dept: List<ReasonDept>
-)
+    val reason_dept: List<ReasonDept>,
+
+    @Expose
+    @SerializedName("allow_manual_ticket_closure")
+    val allow_manual_ticket_closure: AllowManualTicketClosure,
+
+    )
+
+data class AllowManualTicketClosure(
+    @Expose
+    @SerializedName("uid")
+    val uid: String,
+    @Expose
+    @SerializedName("name")
+    val name: String,
+
+    @Expose
+    @SerializedName("other")
+    val other: Other,
+
+    @Expose
+    @SerializedName("icon")
+    val icon: String,
+
+    )
+
 //
 data class Reason_sla(
     @Expose
@@ -546,20 +587,23 @@ data class Reason_sla(
     val uid: String,
     @Expose
     @SerializedName("sla_status")
-    val sla_status: Sla_status
+    val sla_status: Sla_status,
 )
+
 //
 data class Sla_status(
     @Expose
     @SerializedName("uid")
-    val uid: String
+    val uid: String,
 )
+
 //
 data class Sub_workflow(
     @Expose
     @SerializedName("uid")
-    val uid: String
+    val uid: String,
 )
+
 //
 data class Location(
     @Expose
@@ -567,8 +611,9 @@ data class Location(
     val uid: String,
     @Expose
     @SerializedName("name")
-    val name: String
+    val name: String,
 )
+
 //
 //data class Ou(
 //    @Expose
@@ -603,8 +648,9 @@ data class Executive(
     val middle_name: String,
     @Expose
     @SerializedName("login_unique")
-    val login_unique: String
+    val login_unique: String,
 )
+
 //
 data class Created_id(
     @Expose
@@ -630,8 +676,9 @@ data class Created_id(
     val phone: String,
     @Expose
     @SerializedName("role")
-    val role: Role
+    val role: Role,
 )
+
 //
 //data class Role(
 //    @Expose
@@ -654,8 +701,9 @@ data class TicketDepartment(
     val code: String,
     @Expose
     @SerializedName("name")
-    val name: String
+    val name: String,
 )
+
 //
 //data class Allocation_type(
 //    @Expose
@@ -684,7 +732,7 @@ data class Category(
     val code: String,
     @Expose
     @SerializedName("name")
-    val name: String
+    val name: String,
 )
 //
 //data class Level(
@@ -702,17 +750,17 @@ data class Cluster(
     val code: String,
     @Expose
     @SerializedName("name")
-    val name: String
+    val name: String,
 )
 
 data class Priority(
     @Expose
     @SerializedName("uid")
-    val uid: String
+    val uid: String,
 )
 
 data class Platform(
     @Expose
     @SerializedName("uid")
-    val uid: String
+    val uid: String,
 )

@@ -165,4 +165,5 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
     public void onClickSpinnerLayout() {
 
     }
+
 }

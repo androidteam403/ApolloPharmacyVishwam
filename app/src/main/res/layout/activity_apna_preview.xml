@@ -1496,6 +1496,82 @@
                                     </LinearLayout>
                                 </LinearLayout>-->
 
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <!--
+                                                                        <TextView
+                                                                            android:id="@+id/shop_details"
+                                                                            android:layout_width="wrap_content"
+                                                                            android:layout_height="wrap_content"
+                                                                            android:layout_marginStart="@dimen/value_10dp"
+                                                                            android:layout_marginTop="@dimen/value_5dp"
+                                                                            android:fontFamily="@font/roboto_medium"
+                                                                            android:text="Shop Details"
+                                                                            android:textColor="@color/black"
+                                                                            android:textSize="@dimen/text_12sp" />
+                                    -->
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_10dp"
+                                        android:orientation="vertical">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginTop="@dimen/value_5dp"
+                                                android:fontFamily="@font/roboto_medium"
+                                                android:text="Shop Address: "
+                                                android:textSize="@dimen/text_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/shop_address"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginTop="@dimen/value_5dp"
+                                                android:text="100"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/text_12sp"
+                                                app:fontFamily="@font/roboto_medium" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginTop="@dimen/value_5dp"
+                                                android:fontFamily="@font/roboto_medium"
+                                                android:text="Shop Number: "
+                                                android:textSize="@dimen/text_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/shop_number"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginTop="@dimen/value_5dp"
+                                                android:text="100"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/text_12sp"
+                                                app:fontFamily="@font/roboto_medium" />
+                                        </LinearLayout>
+                                    </LinearLayout>
+                                </LinearLayout>
+
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"

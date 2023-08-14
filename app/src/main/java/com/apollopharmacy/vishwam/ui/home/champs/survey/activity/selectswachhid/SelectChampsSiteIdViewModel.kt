@@ -36,7 +36,10 @@ class SelectChampsSiteIdViewModel : ViewModel() {
             val siteIdList = Preferences.getSiteIdListJsonChamps()
             val type = object : TypeToken<List<StoreDetailsModelResponse.Row?>?>() {}.type
 
-            this.siteLiveData = gson.fromJson<List<StoreDetailsModelResponse.Row>>(siteIdList, type) as ArrayList<StoreDetailsModelResponse.Row>
+            this.siteLiveData = gson.fromJson<List<StoreDetailsModelResponse.Row>>(
+                siteIdList,
+                type
+            ) as ArrayList<StoreDetailsModelResponse.Row>
             commands.value = Command.ShowToast("")
             fixedArrayList.value = siteLiveData
         } else {
@@ -53,14 +56,16 @@ class SelectChampsSiteIdViewModel : ViewModel() {
                 }
             }
 
+            var baseUrl = ""
+            var token = ""
             for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("")) {
-                    val baseUrl = data.APIS[i].URL
-                    val token = data.APIS[i].TOKEN
+                if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
+                    baseUrl = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
                     break
                 }
 
-            }
+            }//"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/list/mobile-site-list"
             viewModelScope.launch {
                 state.value = State.SUCCESS
                 val response = withContext(Dispatchers.IO) {
@@ -69,7 +74,7 @@ class SelectChampsSiteIdViewModel : ViewModel() {
                         proxyBaseUrl,
                         proxyToken,
                         GetDetailsRequest(
-                            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/list/mobile-site-list",
+                            baseUrl,
                             "GET",
                             "The",
                             "",
@@ -95,7 +100,7 @@ class SelectChampsSiteIdViewModel : ViewModel() {
                                     storeListResponse.data!!.listData!!.rows!!.map {
 
                                         siteLiveData.add(it)
-                                        fixedArrayList.value= siteLiveData
+                                        fixedArrayList.value = siteLiveData
 
                                     }
                                     commands.value = Command.ShowToast("")
@@ -110,7 +115,8 @@ class SelectChampsSiteIdViewModel : ViewModel() {
                                     selectChampsSiteIdCallBack.onFailuregetStoreDetails(
                                         storeListResponse
                                     )
-                                    commands.value = Command.ShowToast(storeListResponse.message.toString())
+                                    commands.value =
+                                        Command.ShowToast(storeListResponse.message.toString())
 
                                 }
 
@@ -145,13 +151,6 @@ class SelectChampsSiteIdViewModel : ViewModel() {
     fun getSiteData(): ArrayList<StoreDetailsModelResponse.Row> {
         return siteLiveData
     }
-
-
-
-
-
-
-
 
 
     //    fun siteId() {
@@ -243,19 +242,6 @@ class SelectChampsSiteIdViewModel : ViewModel() {
 //    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 //    fun getStoreDetailsChamps(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback) {
 //        state.postValue(State.LOADING)
 //        viewModelScope.launch {
@@ -297,7 +283,10 @@ class SelectChampsSiteIdViewModel : ViewModel() {
 //    }
 
 
-    fun getProxyStoreWiseDetailResponse(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback, siteId: String) {
+    fun getProxyStoreWiseDetailResponse(
+        selectChampsSiteIdCallBack: SelectChampsSiteIdCallback,
+        siteId: String,
+    ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var proxyBaseUrl = ""
@@ -310,14 +299,16 @@ class SelectChampsSiteIdViewModel : ViewModel() {
             }
         }
 
+        var baseUrl = ""
+        var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("")) {
-                val  baseUrl = data.APIS[i].URL
-                val token = data.APIS[i].TOKEN
+            if (data.APIS[i].NAME.equals("CHMP GET STORE USERS")) {
+                 baseUrl = data.APIS[i].URL
+                 token = data.APIS[i].TOKEN
                 break
             }
 
-        }
+        }//"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/get-store-users?
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
@@ -326,7 +317,7 @@ class SelectChampsSiteIdViewModel : ViewModel() {
                     proxyBaseUrl,
                     proxyToken,
                     GetDetailsRequest(
-                        "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/get-store-users?site=${siteId}",
+                        "${baseUrl}site=${siteId}",
                         "GET",
                         "The",
                         "",
@@ -348,12 +339,16 @@ class SelectChampsSiteIdViewModel : ViewModel() {
                                 GetStoreWiseDetailsModelResponse::class.java
                             )
                             if (storeWiseDetailListResponse.success) {
-                                selectChampsSiteIdCallBack.onSuccessgetStoreWiseDetails(storeWiseDetailListResponse)
+                                selectChampsSiteIdCallBack.onSuccessgetStoreWiseDetails(
+                                    storeWiseDetailListResponse
+                                )
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
                             } else {
-                                selectChampsSiteIdCallBack.onFailuregetStoreWiseDetails(storeWiseDetailListResponse)
+                                selectChampsSiteIdCallBack.onFailuregetStoreWiseDetails(
+                                    storeWiseDetailListResponse
+                                )
 
                             }
 

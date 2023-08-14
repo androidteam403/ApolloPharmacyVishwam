@@ -216,10 +216,14 @@
     <color name="light_ashh">#f2f2f2</color>
     <color name="light_ashh_trans">#C0C0C0</color>
     <color name="dark_sky_blue">#00BCBE</color>
+    <color name="milkwhite">#FEFFE3</color>
 
     <color name="lite_grey_ceo_dashboard">#f2f2f2</color>
     <color name="dark_grey_ceo_dashboard">#e7e7e7</color>
 
     <color name="green_color_bg">#43974f</color>
+    <color name="liight_green">#e8f7f2</color>
+    <color name="lightt_ash">#cacaca</color>
+    <color name="greenY">#009244</color>
 
 </resources>

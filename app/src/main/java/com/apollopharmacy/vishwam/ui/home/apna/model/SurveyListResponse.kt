@@ -66,6 +66,11 @@ class SurveyListResponse : Serializable {
         @SerializedName("login_unique")
         @Expose
         var loginUnique: String? = null
+
+        @SerializedName("middle_name")
+        @Expose
+        var middleName: String? = null
+
         fun withUid(uid: String?): CreatedId {
             this.uid = uid
             return this
@@ -261,7 +266,15 @@ class SurveyListResponse : Serializable {
         @Expose
         var modifiedTime: String? = null
 
-        var isLoading : String? = null
+        @SerializedName("landmarks")
+        @Expose
+        var landmarks: String? = null
+
+        @SerializedName("pincode")
+        @Expose
+        var pincode: Int? = null
+
+        var isLoading: String? = null
         fun withUid(uid: String?): Row {
             this.uid = uid
             return this

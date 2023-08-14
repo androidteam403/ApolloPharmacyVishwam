@@ -40,6 +40,8 @@ class QcPendingOrderDetailsAdapter(
     RecyclerView.Adapter<QcPendingOrderDetailsAdapter.ViewHolder>() {
 
 
+    var isClickReason: Boolean = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val orderLayoutBinding: QcOrderLayoutBinding =
@@ -67,13 +69,21 @@ class QcPendingOrderDetailsAdapter(
         if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("EXECUTIVE", true)) {
             if (items.qty != null) {
 
-                holder.orderdetailsBinding.approveQtyText.setText(items.qty.toString())
+                if (items.isClick) {
+                    holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
+
+                } else {
+                    holder.orderdetailsBinding.approveQtyText.setText(items.qty.toString())
+
+                }
                 aprqty = items.qty!!
                 qcaprqty = items.qty!!
             }
 
 
-        } else if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("MANAGER", true)) {
+        } else if (Preferences.getAppLevelDesignationQCFail().replace(" ", "")
+                .equals("MANAGER", true)
+        ) {
             if (items.approvedqty != null) {
                 holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
 
@@ -231,8 +241,10 @@ class QcPendingOrderDetailsAdapter(
 
 
         if (items.imageurls.toString().isNullOrEmpty()) {
-            holder.orderdetailsBinding.eyeImage.setColorFilter(R.color.dark_grey,
-                android.graphics.PorterDuff.Mode.MULTIPLY)
+            holder.orderdetailsBinding.eyeImage.setColorFilter(
+                R.color.dark_grey,
+                android.graphics.PorterDuff.Mode.MULTIPLY
+            )
 
 
         } else {
@@ -240,10 +252,12 @@ class QcPendingOrderDetailsAdapter(
                 if (items.imageurls.toString().isNullOrEmpty()) {
                     Toast.makeText(mContext, "No Image Urls", Toast.LENGTH_LONG)
                 } else {
-                    imageClicklistner.imageData(position,
+                    imageClicklistner.imageData(
+                        position,
                         orderId,
                         items.itemname.toString(),
-                        items.imageurls.toString())
+                        items.imageurls.toString()
+                    )
                 }
 
             }
@@ -253,7 +267,8 @@ class QcPendingOrderDetailsAdapter(
 
         holder.orderdetailsBinding.selectResonItem.setOnClickListener {
             holder.orderdetailsBinding.approveQtyText.setText("0")
-
+            items.setisClick(true)
+            items.approvedqty=holder.orderdetailsBinding.approveQtyText.text.toString().toInt()
             pendingFragmentCallback.onClickReason(pos, position, items.orderno)
         }
 
@@ -273,9 +288,11 @@ class QcPendingOrderDetailsAdapter(
                 !!
 
             ) {
-                Toast.makeText(mContext,
+                Toast.makeText(
+                    mContext,
                     "Approval Qty should not exceed the Requested Qty",
-                    Toast.LENGTH_LONG).show()
+                    Toast.LENGTH_LONG
+                ).show()
             } else {
                 count++;
                 holder.orderdetailsBinding.approveQtyText.setText(count.toString())

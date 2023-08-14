@@ -122,7 +122,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
 
         if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.role != null) {
-            if (employeeDetailsResponse!!.data!!.role!!.name!!.equals("Store Supervisor", true)) {
+            if (employeeDetailsResponse!!.data!!.role!!.code!!.equals("store_supervisor", true)) {
                 val site = employeeDetailsResponse.data!!.site!!.site
                 val storeName = employeeDetailsResponse.data!!.site!!.storeName
                 if ((site != null && storeName != null) && (site.isNotEmpty() && storeName.isNotEmpty())) {
@@ -297,6 +297,31 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //        }
     }
 
+    fun setSiteSelectionVisible() {
+        var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+        var employeeDetailsResponse: EmployeeDetailsResponse? = null
+        try {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                empDetailsResponse, EmployeeDetailsResponse::class.java
+            )
+
+        } catch (e: JsonParseException) {
+            e.printStackTrace()
+        }
+        if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.role != null) {
+            if (employeeDetailsResponse!!.data!!.role!!.code!!.equals("store_supervisor", true)) {
+                val site = employeeDetailsResponse.data!!.site!!.site
+                val storeName = employeeDetailsResponse.data!!.site!!.storeName
+                if ((site != null && storeName != null) && (site.isNotEmpty() && storeName.isNotEmpty())) {
+                    MainActivity.mInstance.siteIdIcon.visibility = View.GONE
+                }
+            }
+        }
+
+
+    }
+
     private fun validateCustomerDetails(phoneNumber: String, name: String): Boolean {
         if (phoneNumber.isEmpty()) {
             viewBinding.phoneNumber.requestFocus()
@@ -324,6 +349,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         if (countDownTimer != null) {
             countDownTimer!!.cancel()
             MainActivity.mInstance.apolloSensingSiteVisiblity(true)
+            setSiteSelectionVisible()
         }
     }
 
@@ -331,6 +357,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         if (countDownTimerUp != null) {
             countDownTimerUp!!.cancel()
             MainActivity.mInstance.apolloSensingSiteVisiblity(true)
+            setSiteSelectionVisible()
         }
     }
 
@@ -377,6 +404,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             @SuppressLint("SetTextI18n")
             override fun onFinish() {
                 MainActivity.mInstance.apolloSensingSiteVisiblity(true)
+                setSiteSelectionVisible()
                 otp = "-1"
                 viewBinding.timer.setText("00:00")
                 viewBinding.resendOtp.visibility = View.VISIBLE
@@ -402,6 +430,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             @SuppressLint("SetTextI18n")
             override fun onFinish() {
                 MainActivity.mInstance.apolloSensingSiteVisiblity(true)
+                setSiteSelectionVisible()
                 otpUp = "-1"
                 viewBinding.timerUp!!.setText("00:00")
                 viewBinding.resendOtpUp!!.visibility = View.VISIBLE
@@ -564,9 +593,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //                .setOutputFilename(fileNameForCompressedImage)
                     .setOutputDirPath(
                         ViswamApp.Companion.context.cacheDir.toString()
-                    )
-
-                    .setSourceImage(imageFile).resizedFile
+                    ).setSourceImage(imageFile).resizedFile
 
                 prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!, resizedImage))
                 viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
@@ -968,8 +995,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         isPrescriptionUploadFlow: Boolean,
     ) {
         hideLoading()
-        if (isPrescriptionUploadFlow) {
-            /*viewBinding.phoneNumber.isEnabled = false
+        if (isPrescriptionUploadFlow) {/*viewBinding.phoneNumber.isEnabled = false
             viewBinding.custName.isEnabled = false*/
             customerNameMobileEnable(false)
             otpUp = sendGlobalSmsResponse.otp!!
@@ -1139,17 +1165,14 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //                .setOutputFilename(fileNameForCompressedImage)
                     .setOutputDirPath(
                         ViswamApp.Companion.context.cacheDir.toString()
-                    )
-                    .setSourceImage(i.file).resizedFile
+                    ).setSourceImage(i.file).resizedFile
                 var fileUploadModel = FileUploadModel()
                 fileUploadModel.file = resizedImage
                 fileUploadModelList.add(fileUploadModel)
             }
 
             FileUpload().uploadFiles(
-                requireContext(),
-                this@ApolloSensingFragment,
-                fileUploadModelList
+                requireContext(), this@ApolloSensingFragment, fileUploadModelList
             )
 
 
@@ -1323,8 +1346,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
         dialogResetLinkSendFormBinding.yesButton.setOnClickListener {
             stopTimer()
-            stopTimerUp()
-            /*viewBinding.phoneNumber.isEnabled = true
+            stopTimerUp()/*viewBinding.phoneNumber.isEnabled = true
             viewBinding.custName.isEnabled = true*/
             viewBinding.otpViewUp.getText()!!.clear()
             viewBinding.otpVerificationLayoutUp.visibility = View.GONE
@@ -1525,8 +1547,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                         Utlis.hideKeyPad(context as Activity)
                         viewBinding.addMorePrescription.visibility = View.VISIBLE
                         viewBinding.verifiedSuccessfullyLayoutUp!!.visibility = View.VISIBLE
-                        viewBinding.otpVerificationLayoutUp.visibility = View.GONE
-                        /*viewBinding.phoneNumber.isEnabled = false
+                        viewBinding.otpVerificationLayoutUp.visibility = View.GONE/*viewBinding.phoneNumber.isEnabled = false
                         viewBinding.custName.isEnabled = false*/
                         customerNameMobileEnable(false)
                         stopTimerUp()
@@ -1580,8 +1601,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun allFilesUploaded(fileUploadModelList: List<FileUploadModel>?) {
         if (fileUploadModelList != null && fileUploadModelList.size > 0) {
             val saveImageUrlsRequest = SaveImageUrlsRequest()
-            saveImageUrlsRequest.siteId =
-                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+            saveImageUrlsRequest.siteId = Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
             saveImageUrlsRequest.type = "STORE"
             saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
             saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()

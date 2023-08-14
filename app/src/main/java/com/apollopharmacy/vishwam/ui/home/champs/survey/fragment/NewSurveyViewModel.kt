@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-class NewSurveyViewModel  : ViewModel() {
+class NewSurveyViewModel : ViewModel() {
 
 
     val commands = LiveEvent<Command>()
@@ -49,20 +49,24 @@ class NewSurveyViewModel  : ViewModel() {
                         commands.value = Command.ShowToast(result.value.message.toString())
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -70,7 +74,6 @@ class NewSurveyViewModel  : ViewModel() {
             }
         }
     }
-
 
 
     @SuppressLint("SuspiciousIndentation")
@@ -87,14 +90,16 @@ class NewSurveyViewModel  : ViewModel() {
             }
         }
 
+        var baseUrl = ""
+        var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("")) {
-                val  baseUrl = data.APIS[i].URL
-                val token = data.APIS[i].TOKEN
+            if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
                 break
             }
 
-        }
+        }//"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/list/mobile-site-list"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
@@ -103,7 +108,7 @@ class NewSurveyViewModel  : ViewModel() {
                     proxyBaseUrl,
                     proxyToken,
                     GetDetailsRequest(
-                        "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/list/mobile-site-list",
+                        baseUrl,
                         "GET",
                         "The",
                         "",
@@ -120,7 +125,7 @@ class NewSurveyViewModel  : ViewModel() {
                         var resp: String? = ""
 
                         try {
-                            resp= response.value.string()
+                            resp = response.value.string()
                         } catch (e: IOException) {
                             e.printStackTrace()
                         }
@@ -129,8 +134,10 @@ class NewSurveyViewModel  : ViewModel() {
                             val gson = Gson()
                             val type = object : TypeToken<StoreDetailsModelResponse>() {}.type
 
-                            val storeListResponse = gson.fromJson<StoreDetailsModelResponse>(BackSlash.removeSubString(res), type)
-                            if (storeListResponse.data!=null) {
+                            val storeListResponse = gson.fromJson<StoreDetailsModelResponse>(
+                                BackSlash.removeSubString(res), type
+                            )
+                            if (storeListResponse.data != null) {
                                 newSurveyCallback.onSuccessgetStoreDetails(storeListResponse.data!!.listData!!.rows!!)
 
 //                                getSurveyListResponse.value =
@@ -140,11 +147,9 @@ class NewSurveyViewModel  : ViewModel() {
 
                             }
 
-                        }
-                        else{
+                        } else {
 
                         }
-
 
 
                     }
@@ -185,15 +190,16 @@ class NewSurveyViewModel  : ViewModel() {
                 break
             }
         }
-
+        var baseUrl = ""
+        var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("")) {
-                val  baseUrl = data.APIS[i].URL
-                val token = data.APIS[i].TOKEN
+            if (data.APIS[i].NAME.equals("CHMP GET STORE USERS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
                 break
             }
 
-        }
+        }//https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/get-store-users?
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
@@ -202,7 +208,7 @@ class NewSurveyViewModel  : ViewModel() {
                     proxyBaseUrl,
                     proxyToken,
                     GetDetailsRequest(
-                        "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/get-store-users?site=${siteId}",
+                        "${baseUrl}site=${siteId}",
                         "GET",
                         "The",
                         "",
@@ -224,12 +230,16 @@ class NewSurveyViewModel  : ViewModel() {
                                 GetStoreWiseDetailsModelResponse::class.java
                             )
                             if (storeWiseDetailListResponse.success) {
-                                newSurveyCallback.onSuccessgetStoreWiseDetails(storeWiseDetailListResponse)
+                                newSurveyCallback.onSuccessgetStoreWiseDetails(
+                                    storeWiseDetailListResponse
+                                )
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
                             } else {
-                                newSurveyCallback.onFailuregetStoreWiseDetails(storeWiseDetailListResponse)
+                                newSurveyCallback.onFailuregetStoreWiseDetails(
+                                    storeWiseDetailListResponse
+                                )
 
                             }
 
@@ -258,8 +268,6 @@ class NewSurveyViewModel  : ViewModel() {
         }
 
     }
-
-
 
 
     sealed class Command {

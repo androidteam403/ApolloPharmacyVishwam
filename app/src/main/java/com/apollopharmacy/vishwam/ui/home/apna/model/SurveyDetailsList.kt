@@ -256,6 +256,14 @@ class SurveyDetailsList : Serializable {
         @Expose
         var surveyId: String? = null
 
+        @SerializedName("shop_address")
+        @Expose
+        var shopAddress: String? = null
+
+        @SerializedName("shop_no")
+        @Expose
+        var shopNo: String? = null
+
         @SerializedName("toilets_availability")
         @Expose
         var toiletsAvailability: ToiletsAvailability? = null
@@ -302,7 +310,11 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("building_age")
         @Expose
-        var buildingAge: Double? = null
+        var buildingAge: Int? = null
+
+        @SerializedName("bldg_age_in_month")
+        @Expose
+        var bldgAgeInMonth: Int? = null
 
         @SerializedName("morning_from")
         @Expose
@@ -590,7 +602,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withBuildingAge(buildingAge: Double?): Data {
+        fun withBuildingAge(buildingAge: Int?): Data {
             this.buildingAge = buildingAge
             return this
         }

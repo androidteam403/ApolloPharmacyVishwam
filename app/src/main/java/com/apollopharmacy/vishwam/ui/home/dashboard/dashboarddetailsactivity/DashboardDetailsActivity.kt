@@ -40,6 +40,10 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
 
     var reasonWiseTicketCountbyRoleAdapter: ReasonWiseTicketCountbyRoleAdapter? = null
     var reasonWiseTicketCountbyRoleFixedAdapter: ReasonWiseTicketCountbyRoleFixedAdapter? = null
+
+
+    var fromDate: String = ""
+    var toDate: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityDashboardDetailsBinding = DataBindingUtil.setContentView(
@@ -55,6 +59,8 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
         if (intent != null) {
             row =
                 intent.getSerializableExtra("SELECTED_ITEM") as TicketCountsByStatusRoleResponse.Data.ListData.Row?
+            fromDate = intent.getSerializableExtra("FROM_DATE") as String
+            toDate = intent.getSerializableExtra("TO_DATE") as String
         }
         activityDashboardDetailsBinding.name.text = row!!.name
         activityDashboardDetailsBinding.callback = this@DashboardDetailsActivity
@@ -68,8 +74,8 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
         )*/
         viewModel.getReasonWiseTicketCountByRole(
             this@DashboardDetailsActivity,
-            Utils.getFirstDateOfCurrentMonth(),
-            Utils.getCurrentDateCeoDashboard(),
+            Utils.getConvertedDateFormatyyyymmdd(fromDate),
+            Utils.getConvertedDateFormatyyyymmdd(toDate),
             row.employeeid, row.roleCode
         )//Preferences.getValidatedEmpId()
 

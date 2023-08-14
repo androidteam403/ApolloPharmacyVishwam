@@ -11,9 +11,13 @@ interface NewSurveyCallback {
    fun onClickCardView()
 
     fun onClickCloseIcon()
+
+    fun onClickSiteIdIcon()
     fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>)
      fun onFailuregetStoreDetails(value: StoreDetailsModelResponse)
 
     fun onSuccessgetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse)
     fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse)
+
+    fun onClickBack()
 }

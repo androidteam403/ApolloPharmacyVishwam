@@ -14,11 +14,13 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterPreviewSubCategoryBinding
 import com.apollopharmacy.vishwam.databinding.AdapterSubCategoryBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarCallBack
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.ImagesDisplayChampsAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.preview.PreviewActivityCallback
 import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelResponse
 import kotlin.math.roundToInt
@@ -64,6 +66,7 @@ class SubCategoryPreviewAdapter(
             }
 
         }
+
 
 //        holder.adapterSubCategoryPreviewAdapterBinding.seekbar1.setOnSeekBarChangeListener(object :
 //            SeekBar.OnSeekBarChangeListener {

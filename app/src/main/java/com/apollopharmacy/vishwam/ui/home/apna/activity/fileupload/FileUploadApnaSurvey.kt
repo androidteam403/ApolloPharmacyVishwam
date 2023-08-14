@@ -12,6 +12,7 @@ import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.fileupload.FileDownloadRequest
 import com.apollopharmacy.vishwam.util.fileupload.FileDownloadResponse
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -26,16 +27,18 @@ class FileUploadApnaSurvey {
     var context: Context? = null
     var apnaNewSurveyCallBack: ApnaNewSurveyCallBack? = null
     var fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>? = null
+    var isImageUpload: Boolean? = null
 
 
     fun uploadFiles(
         context: Context,
         apnaNewSurveyCallBack: ApnaNewSurveyCallBack,
-        fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?,
+        fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?, isImageUpload: Boolean,
     ) {
         this.context = context
         this.apnaNewSurveyCallBack = apnaNewSurveyCallBack
         this.fileUploadApnaSurveyModelList = fileUploadApnaSurveyModelList;
+        this.isImageUpload = isImageUpload
 
         if (NetworkUtils.isNetworkConnected(context)) {
 //            Utlis.showLoading(context!!)
@@ -55,15 +58,16 @@ class FileUploadApnaSurvey {
             var sensingFileUploadRequest = SensingFileUploadRequest()
             sensingFileUploadRequest.Filename = fileUploadApnaSurveyModel.file
 
-            var baseUrl = "https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
-            var token = "9f15bdd0fcd5423190cHNK"
-            /*for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOB")) {
+            var baseUrl =
+                ""//"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
+            var token = ""//"9f15bdd0fcd5423190cHNK"
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("SEN BLOBUPLOAD")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
                 }
-            }*/
+            }
 
             val requestBody =
                 RequestBody.create("*/*".toMediaTypeOrNull(), fileUploadApnaSurveyModel.file!!)
@@ -118,7 +122,7 @@ class FileUploadApnaSurvey {
             uploadFile(fileUploadApnaSurveyModelTemp)
         } else {
 //            Utlis.hideLoading()
-//            apnaNewSurveyCallBack!!.allFilesUploaded(fileUploadApnaSurveyModelList)
+//            apnaNewSurveyCallBack!!.allFilesUploaded(fileUploadApnaSurveyModelList, isImageUpload!!)
             downloadFiles(context!!, apnaNewSurveyCallBack!!, fileUploadApnaSurveyModelList)
         }
     }
@@ -161,16 +165,16 @@ class FileUploadApnaSurvey {
             fileDownloadRequest.RefURL =
                 fileUploadApnaSurveyModel.sensingFileUploadResponse!!.referenceurl
 
-            var baseUrl =
-                "https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload"
-            var token = "9f15bdd0fcd5423190cHNK"
-            /*for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOB")) {
+            var baseUrl = ""
+            //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload"
+            var token = "" //"9f15bdd0fcd5423190cHNK"
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("SEN BLOBDOWNLOAD")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
                 }
-            }*/
+            }
 
 
             val call = apiInterface.FILE_DOWNLOAD_API_CALL(
@@ -205,6 +209,10 @@ class FileUploadApnaSurvey {
         fileDownloadResponse: FileDownloadResponse,
     ) {
         fileUploadApnaSurveyModel.isFileDownloaded = true
+        fileDownloadResponse.decryptedUrl = RijndaelCipherEncryptDecrypt().decrypt(
+            fileDownloadResponse.referenceurl,
+            RijndaelCipherEncryptDecrypt().key
+        )
         fileUploadApnaSurveyModel.fileDownloadResponse = fileDownloadResponse
         var fileUploadModelTemp: FileUploadApnaSurveyModel? = null
         for (i in fileUploadApnaSurveyModelList!!) {
@@ -217,7 +225,10 @@ class FileUploadApnaSurvey {
             downloadFile(fileUploadModelTemp)
         } else {
 //            Utlis.hideLoading()
-            apnaNewSurveyCallBack!!.allFilesDownloaded(fileUploadApnaSurveyModelList)
+            apnaNewSurveyCallBack!!.allFilesDownloaded(
+                fileUploadApnaSurveyModelList,
+                isImageUpload!!
+            )
         }
     }
 

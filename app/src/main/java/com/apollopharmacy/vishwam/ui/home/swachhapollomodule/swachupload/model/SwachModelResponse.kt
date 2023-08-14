@@ -47,7 +47,7 @@ class SwachModelResponse : Serializable {
 
         var imageDataDto: MutableList<ImgeDtcl>? = null
 
-          class ImgeDtcl(var file: File?, var integerButtonCount: Int,  var base64Images: String, var positionLoop: Int)
+          class ImgeDtcl(var file: File?, var integerButtonCount: Int,  var base64Images: String, var positionLoop: Int, var sensingUploadUrlFilled:Boolean)
 
 
     }
