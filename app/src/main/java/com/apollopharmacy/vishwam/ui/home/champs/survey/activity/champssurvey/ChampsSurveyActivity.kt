@@ -1913,7 +1913,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             saveUpdateRequest.cmsChampsSurveyQa = cmsChampsSurveQaList
 
 
-            if (champsRefernceId != null) {
+            if (!champsRefernceId.isNullOrEmpty()) {
                 saveUpdateRequest.champsId = champsRefernceId
             } else {
                 saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
