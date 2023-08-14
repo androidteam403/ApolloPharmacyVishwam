@@ -1341,11 +1341,11 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 //            apnaPreviewActivityBinding.trafficStreetType.setText("-")
         }
 
-        if (value.data!!.expectedRent != null) {
+        /*if (value.data!!.expectedRent != null) {
             apnaPreviewActivityBinding.expectedrentsrft.setText(value.data!!.expectedRent.toString())
         } else {
             apnaPreviewActivityBinding.expectedrentsrft.setText("-")
-        }
+        }*/
 
 //        if (value.data!!.extngOutletName != null) {
 //            apnaPreviewActivityBinding.existingOutletName.setText(value.data!!.extngOutletName)

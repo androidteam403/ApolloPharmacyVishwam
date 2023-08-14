@@ -75,7 +75,6 @@ import com.apollopharmacy.vishwam.ui.home.apollosensing.ApolloSensingFragment;
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsFragment;
-import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationFragment;
@@ -440,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         plusIconApna = findViewById(R.id.plusIconapna);
         filterIcon = findViewById(R.id.filterIcon);
         siteIdIcon = findViewById(R.id.siteId_icon);
-        onClickPlusIcon= findViewById(R.id.plusIcon);
+        onClickPlusIcon = findViewById(R.id.plusIcon);
         onClickPlusIcon.setVisibility(View.GONE);
         scannerIcon = findViewById(R.id.scanner);
         spinnerLayout = findViewById(R.id.spinnerlayoutRelative);

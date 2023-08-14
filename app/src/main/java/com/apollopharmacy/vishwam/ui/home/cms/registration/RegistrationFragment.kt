@@ -685,6 +685,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     } else if (oldmrpPrice.toDouble() < purchasePrice.toDouble() || newMrpPrice.toDouble() < purchasePrice.toDouble()) {
                         showErrorMsg(context?.resources?.getString(R.string.err_msg_purchace_price_old_new))
                         return false
+                    }else if (!newMrpPrice.isEmpty() && !oldmrpPrice.isEmpty() && newMrpPrice.toDouble() == oldmrpPrice.toDouble()){
+                        showErrorMsg(context?.resources?.getString(R.string.err_msg_old_new_price_should_not_same))
+                        return false
                     }
                 } else if (statusInventory.equals("NEWBATCH")) {
                     if (mrpPrice.toDouble() < purchasePrice.toDouble()) {

@@ -60,7 +60,11 @@ class ImagesDisplayChampsAdapter(
                             .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
                     }
-
+                    if(status.equals("COMPLETED")){
+                        holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.GONE
+                    }else{
+                        holder.adapterCaptureImagesSwachBinding.redTrash.visibility=View.VISIBLE
+                    }
             }
             else {
                 if(status.equals("COMPLETED")){

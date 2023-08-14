@@ -12,27 +12,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.FragmentChampsSurveyBinding
-import com.apollopharmacy.vishwam.ui.home.MainActivity
-import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsAndRatingBarViewModel
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarCallBack
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.adapter.GetStoreDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
-
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 
 class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
-    var fragmentChampsSurveyBinding: FragmentChampsSurveyBinding?=null
-    var newSurveyViewModel: NewSurveyViewModel?=null
+    var fragmentChampsSurveyBinding: FragmentChampsSurveyBinding? = null
+    var newSurveyViewModel: NewSurveyViewModel? = null
     var getStoreDetailsAdapter: GetStoreDetailsAdapter? = null
     var getSiteDetails: GetStoreWiseDetailsModelResponse? = null
     var storeId: String? = ""
@@ -42,7 +36,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
     var region: String? = ""
     var isSiteIdEmpty: Boolean = false
     var isNewSurveyCreated = false
-    var status= ""
+    var status = ""
 
 //    override val layoutRes: Int
 //        get() = R.layout.fragment_champs_survey
@@ -180,7 +174,6 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
     }
 
 
-
     override fun onClickCloseIcon() {
         fragmentChampsSurveyBinding!!.enterStoreEdittext.setText("")
     }
@@ -194,12 +187,13 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                     siteName = value.get(i).storeName
                     Preferences.setChampsSiteName(siteName!!)
                     siteCity = value.get(i).city
-                    region =    value.get(i).state!!.name
-                    if(value.get(i).address!=null)
-                    address = value.get(i).address
+                    region = value.get(i).state!!.name
+                    if (value.get(i).address != null)
+                        address = value.get(i).address
                     fragmentChampsSurveyBinding!!.storeId.text =
                         "${value.get(i).site} - ${Preferences.getApnaSiteName()}"
-                    fragmentChampsSurveyBinding!!.region.text = value.get(i).city +  ", "+  value.get(i).state!!.name + ", " + value.get(i).district!!.name
+                    fragmentChampsSurveyBinding!!.region.text =
+                        value.get(i).city + ", " + value.get(i).state!!.name + ", " + value.get(i).district!!.name
 
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                         Utlis.showLoading(this)
@@ -207,8 +201,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                             this,
                             fragmentChampsSurveyBinding!!.enterStoreEdittext.text.toString()
                         )
-                    }
-                    else {
+                    } else {
                         Toast.makeText(
                             applicationContext,
                             resources.getString(R.string.label_network_error),
@@ -274,10 +267,10 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
 
     override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
         getSiteDetails = getStoreWiseDetailsResponses
-        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success  && getStoreWiseDetailsResponses.data.executive!= null ) {
-            if(getStoreWiseDetailsResponses.data.executive.email!=null){
+        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success && getStoreWiseDetailsResponses.data.executive != null) {
+            if (getStoreWiseDetailsResponses.data.executive.email != null) {
                 fragmentChampsSurveyBinding!!.emailId.setText(getStoreWiseDetailsResponses.data.executive.email)
-            }else{
+            } else {
                 fragmentChampsSurveyBinding!!.emailId.setText("--")
             }
 
@@ -305,7 +298,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
     }
 
     override fun onClickBack() {
-       super.onBackPressed()
+        super.onBackPressed()
     }
 
 
@@ -316,7 +309,6 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
     }
 
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -325,19 +317,17 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                 hideLoading()
                 Utlis.hideLoading()
                 if (isSiteIdEmpty) {
-                    MainActivity.mInstance.onBackPressed()
+                    finish()
 //                    hideLoadingTemp()
                     hideLoading()
-                }
-                else {
+                } else {
                     fragmentChampsSurveyBinding!!.enterStoreEdittext.setText("${Preferences.getApnaSiteId()} - ${Preferences.getApnaSiteName()}")
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                         Utlis.showLoading(this)
                         newSurveyViewModel!!.getStoreDetailsChampsApi(
                             this
                         )
-                    }
-                    else {
+                    } else {
                         Toast.makeText(
                             applicationContext,
                             resources.getString(R.string.label_network_error),
@@ -348,9 +338,9 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
 
 
                 }
-            }else if(requestCode==761 && resultCode== RESULT_OK){
+            } else if (requestCode == 761 && resultCode == RESULT_OK) {
                 isNewSurveyCreated = data!!.getBooleanExtra("isNewSurveyCreated", false)
-                status= data!!.getStringExtra("status")!!
+                status = data!!.getStringExtra("status")!!
                 if (isNewSurveyCreated && status.equals("NEW")) {
                     val intent = Intent()
                     intent.putExtra("isNewSurveyCreated", isNewSurveyCreated)

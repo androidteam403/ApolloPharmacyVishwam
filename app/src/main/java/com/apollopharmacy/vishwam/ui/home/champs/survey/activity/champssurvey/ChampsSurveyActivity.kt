@@ -501,7 +501,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     }
 
     override fun onClickBack() {
-        super.onBackPressed()
+       // super.onBackPressed()
+        onBackPressed()
     }
 
 
