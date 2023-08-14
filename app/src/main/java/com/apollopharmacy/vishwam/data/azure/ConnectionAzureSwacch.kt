@@ -39,7 +39,7 @@ object ConnectionAzureSwacch {
         }
 
             val imageBlog = imageBlob!!.storageUri.primaryUri.toString()
-        imagedtcl = (SwachModelResponse.Config.ImgeDtcl(image?.file, image!!.integerButtonCount, imageBlog, image.positionLoop))
+        imagedtcl = (SwachModelResponse.Config.ImgeDtcl(image?.file, image!!.integerButtonCount, imageBlog, image.positionLoop, false))
 
         return imagedtcl!!
     }
@@ -77,7 +77,7 @@ object ConnectionAzureSwacch {
                         }
 
                         val imageBlog = imageBlob!!.storageUri.primaryUri.toString()
-                        imagedtcl = (SwachModelResponse.Config.ImgeDtcl(k?.file, k!!.integerButtonCount, imageBlog, k.positionLoop))
+                        imagedtcl = (SwachModelResponse.Config.ImgeDtcl(k?.file, k!!.integerButtonCount, imageBlog, k.positionLoop, false))
                         k.base64Images=imagedtcl.base64Images
                         k.positionLoop=imagedtcl.positionLoop
                         k.file=imagedtcl.file

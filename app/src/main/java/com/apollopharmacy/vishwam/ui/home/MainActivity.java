@@ -75,7 +75,7 @@ import com.apollopharmacy.vishwam.ui.home.apollosensing.ApolloSensingFragment;
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsFragment;
-import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment;
+import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationFragment;
 import com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard.CeoDashboardFragment;
@@ -154,9 +154,10 @@ import java.util.Locale;
 
 import kotlin.jvm.internal.Intrinsics;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityCallback {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityCallback, MainActivityPlusIconCallback {
     public static MainActivity mInstance;
     public MainActivityCallback mainActivityCallback;
+    public MainActivityPlusIconCallback mainActivityPlusIconCallback;
     public static boolean isSuperAdmin = false;
     public static boolean isAttendanceRequired = false;
     public static boolean isQcFailRequired = false;
@@ -212,12 +213,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public RelativeLayout spinnerLayout;
     public ImageView plusIconApna;
     public ImageView filterIconApna;
-   public ImageView openDrawer;
+
+    public RelativeLayout onClickPlusIcon;
     public LinearLayout scannerIcon;
     public ImageView refreshIconQc;
-
-    public ImageView backArrow;
-
 
     public RelativeLayout filterIcon;
     public RelativeLayout qcfilterIcon;
@@ -226,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Context context;
     public View filterIndicator;
     public View qcfilterIndicator;
+
     private ViewGroup header;
     private boolean isLanchedByPushNotification;
     private boolean IS_COMPLAINT_RESOLVED;
@@ -433,13 +433,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else isStoreSuperVisour = false;
         qcfilterIcon = findViewById(R.id.qc_filter_icon);
         refreshIconQc = findViewById(R.id.refreshIconQc);
-        backArrow=findViewById(R.id.backButton);
 
 
         filterIconApna = findViewById(R.id.filtericonapna);
         plusIconApna = findViewById(R.id.plusIconapna);
         filterIcon = findViewById(R.id.filterIcon);
         siteIdIcon = findViewById(R.id.siteId_icon);
+        onClickPlusIcon = findViewById(R.id.plusIcon);
+        onClickPlusIcon.setVisibility(View.GONE);
         scannerIcon = findViewById(R.id.scanner);
         spinnerLayout = findViewById(R.id.spinnerlayoutRelative);
         siteIdIcon.setOnClickListener(v -> {
@@ -450,6 +451,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         filterIcon.setOnClickListener(v -> {
             if (mainActivityCallback != null) {
                 mainActivityCallback.onClickFilterIcon();
+            }
+        });
+
+        onClickPlusIcon.setOnClickListener(v -> {
+            if (mainActivityPlusIconCallback != null) {
+                mainActivityPlusIconCallback.onClickPlusIcon();
             }
         });
 
@@ -585,7 +592,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        listView.expandGroup(2);
 
-         openDrawer = findViewById(R.id.openDrawer);
+        ImageView openDrawer = findViewById(R.id.openDrawer);
         headerText = findViewById(R.id.headerTitle);
         displaySelectedScreen("HOME");
         listView.setSelected(0);
@@ -707,8 +714,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-backArrow.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -724,9 +730,7 @@ backArrow.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 isAllowFragmentChange = true;
@@ -742,9 +746,7 @@ backArrow.setVisibility(View.GONE);
                 headerText.setText("Complaint List");
                 fragment = new ComplainListFragment();
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
@@ -762,9 +764,7 @@ backArrow.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 Bundle bundle1 = new Bundle();
@@ -785,9 +785,7 @@ backArrow.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -803,11 +801,10 @@ backArrow.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -819,11 +816,10 @@ backArrow.setVisibility(View.GONE);
                 headerText.setText("Pending List");
                 fragment = new PendingOrderFragment();
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -840,10 +836,9 @@ backArrow.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 fragment = new ApprovedFragment();
                 filterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -856,12 +851,12 @@ backArrow.setVisibility(View.GONE);
                 headerText.setText("Rejected List");
                 fragment = new RejectedFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -874,6 +869,7 @@ backArrow.setVisibility(View.GONE);
                 headerText.setText("Bill List");
                 fragment = new BillCompletedFragment();
                 filterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
@@ -882,8 +878,6 @@ backArrow.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
@@ -893,11 +887,10 @@ backArrow.setVisibility(View.GONE);
                 fragment = new SwacchImagesUploadFragment();
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -911,12 +904,12 @@ backArrow.setVisibility(View.GONE);
                 headerText.setText("SWACHH LIST");
                 fragment = new SwacchFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -931,11 +924,10 @@ backArrow.setVisibility(View.GONE);
                 fragment = new SampleSwachUi();
                 filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 siteIdIcon.setVisibility(View.VISIBLE);
                 scannerIcon.setVisibility(View.GONE);
@@ -949,13 +941,13 @@ backArrow.setVisibility(View.GONE);
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 filterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.VISIBLE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -968,13 +960,13 @@ backArrow.setVisibility(View.GONE);
                 headerText.setText("New Drug Request");
                 fragment = new Drug();
                 filterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 isAllowFragmentChange = true;
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -986,7 +978,6 @@ backArrow.setVisibility(View.GONE);
             case "Greetings to Chairman":
                 Intent i = new Intent(this, GreetingActivity.class);
                 refreshIconQc.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 startActivity(i);
                 break;
@@ -997,11 +988,10 @@ backArrow.setVisibility(View.GONE);
                 fragment = new CashCloserFragment();
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1028,10 +1018,8 @@ backArrow.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -1043,11 +1031,10 @@ backArrow.setVisibility(View.GONE);
                 headerText.setText("Apollo Pharmacy");
                 fragment = new ApolloSensingFragment();
                 filterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 qcfilterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.VISIBLE);
@@ -1062,14 +1049,13 @@ backArrow.setVisibility(View.GONE);
                 headerText.setText("RETRO QR");
                 fragment = new RetroQrFragment();
                 filterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.VISIBLE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
@@ -1080,11 +1066,10 @@ backArrow.setVisibility(View.GONE);
                 headerText.setText("New Drug List");
                 fragment = new DrugListFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
 
                 filterIcon.setVisibility(View.GONE);
                 Bundle bundle = new Bundle();
@@ -1106,9 +1091,7 @@ backArrow.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.VISIBLE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1126,12 +1109,10 @@ backArrow.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
 //                selectFilterType.setText("Rows: " +String.valueOf(Preferences.INSTANCE.getQcPendingPageSiz()));
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
@@ -1139,7 +1120,6 @@ backArrow.setVisibility(View.GONE);
                 break;
             case "Login":
                 Intent j = new Intent(this, SplashScreen.class);
-
                 startActivity(j);
                 break;
             case "Dashboard":
@@ -1149,9 +1129,7 @@ backArrow.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1164,13 +1142,11 @@ backArrow.setVisibility(View.GONE);
                 headerText.setText("Planogram Evaluation");
                 fragment = new PlanogramFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
                 siteIdIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -1183,9 +1159,7 @@ backArrow.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1201,9 +1175,7 @@ backArrow.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1219,9 +1191,7 @@ backArrow.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1237,9 +1207,7 @@ backArrow.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1256,9 +1224,7 @@ backArrow.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1274,9 +1240,7 @@ backArrow.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1291,9 +1255,7 @@ backArrow.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1306,7 +1268,6 @@ backArrow.setVisibility(View.GONE);
             case "LogOut":
                 getSessionManager().clearAllSharedPreferences();
                 Intent intent = new Intent(this, LoginActivity.class);
-
                 overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
                 startActivity(intent);
                 break;
@@ -1317,13 +1278,11 @@ backArrow.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
 //                selectFilterType.setText("Rows: "+(String.valueOf(Preferences.INSTANCE.getQcApprovedPageSiz())));
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
@@ -1337,9 +1296,7 @@ backArrow.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
 //                selectFilterType.setText("Rows: "+ String.valueOf(Preferences.INSTANCE.getQcRejectedPageSiz()));
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1356,17 +1313,16 @@ backArrow.setVisibility(View.GONE);
 //                imageView.setVisibility(View.GONE);
 //                break;
             case "Champs Survey":
-                headerText.setText("New Survey");
-                fragment = new NewSurveyFragment();
+                headerText.setText("Survey Details List");
+                fragment = new GetSurveyDetailsListActivity();
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
+                onClickPlusIcon.setVisibility(View.VISIBLE);
 
-                filterIcon.setVisibility(View.GONE);
-                siteIdIcon.setVisibility(View.VISIBLE);
+                filterIcon.setVisibility(View.VISIBLE);
+                siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -1381,9 +1337,7 @@ backArrow.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1398,10 +1352,9 @@ backArrow.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1419,9 +1372,7 @@ backArrow.setVisibility(View.GONE);
                 fragPreRectro.setArguments(bundlePreRectro);
                 fragment = fragPreRectro;
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.VISIBLE);
@@ -1440,9 +1391,7 @@ backArrow.setVisibility(View.GONE);
                 fragment = fragPostRectro;
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1461,9 +1410,7 @@ backArrow.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1481,11 +1428,10 @@ backArrow.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.VISIBLE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1504,9 +1450,7 @@ backArrow.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1523,9 +1467,7 @@ backArrow.setVisibility(View.GONE);
                 fragment = fragAfterCompletionApproval;
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1540,9 +1482,7 @@ backArrow.setVisibility(View.GONE);
                 fragment = new AssetsFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
@@ -1575,9 +1515,7 @@ backArrow.setVisibility(View.GONE);
                 fragment = new CeoDashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
@@ -1592,9 +1530,7 @@ backArrow.setVisibility(View.GONE);
                 fragment = new CeoDashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
@@ -1609,9 +1545,7 @@ backArrow.setVisibility(View.GONE);
                 fragment = new CeoDashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
@@ -1626,9 +1560,7 @@ backArrow.setVisibility(View.GONE);
                 fragment = new CeoDashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
@@ -1643,9 +1575,7 @@ backArrow.setVisibility(View.GONE);
                 fragment = new CeoDashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
@@ -1660,9 +1590,7 @@ backArrow.setVisibility(View.GONE);
                 fragment = new ManagerDashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                openDrawer.setVisibility(View.VISIBLE);
-
+                onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
@@ -2084,8 +2012,8 @@ backArrow.setVisibility(View.GONE);
         if (isChampsRequired) {
             listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
         }
-//        listView.addHeaderModel(new HeaderModel("Planogram", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Planogram Evaluation", R.drawable.ic_apollo_survey_68__1_)));
-        //
+        listView.addHeaderModel(new HeaderModel("Planogram", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Planogram Evaluation", R.drawable.ic_apollo_survey_68__1_)));
+
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
         if (isApnaRetroRequired) {
@@ -2248,7 +2176,6 @@ backArrow.setVisibility(View.GONE);
                 else if (childModelList.get(childPosition).getTitle().equals("Approval")) {
                     displaySelectedScreen("Approval");
                 }
-
 
 
 //                else if (childModelList.get(childPosition).getTitle().equals("Post Rectro Approval")) {
@@ -2987,6 +2914,11 @@ backArrow.setVisibility(View.GONE);
         } else {
             siteIdIcon.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onClickPlusIcon() {
+
     }
 }
 

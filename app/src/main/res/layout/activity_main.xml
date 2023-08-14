@@ -54,6 +54,8 @@
             android:layout_margin="@dimen/value_20dp"
             android:orientation="horizontal">
 
+
+
             <LinearLayout
                 android:id="@+id/scanner"
                 android:layout_width="wrap_content"
@@ -89,18 +91,18 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="@dimen/value_5dp"
                     android:paddingTop="5dp"
-                    android:visibility="gone"
                     android:paddingBottom="5dp"
-                    android:src="@drawable/plus" />
+                    android:src="@drawable/plus"
+                    android:visibility="gone" />
                 <!--                android:background="@drawable/green_backgroundplus"-->
 
                 <ImageView
                     android:id="@+id/filtericonapna"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:visibility="gone"
                     android:layout_gravity="center"
-                    android:src="@drawable/filtersnew" />
+                    android:src="@drawable/filtersnew"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <ImageView
@@ -110,39 +112,39 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/siteid_icon"
                 android:visibility="gone" />
+
             <RelativeLayout
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:visibility="gone"
-                android:layout_marginBottom="@dimen/value_5dp"
                 android:id="@+id/spinnerlayoutRelative"
                 android:layout_width="@dimen/value_120dp"
                 android:layout_height="wrap_content"
-                >
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/value_5dp"
+                android:gravity="center"
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/filtertypes"
-                    android:gravity="center"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/value_15dp"
                     android:focusable="true"
+                    android:gravity="center"
                     android:textColorHint="@color/white"
 
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:gravity="center"
-                        android:layout_gravity="center"
                         android:id="@+id/selectfiltertype"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
+                        android:layout_gravity="center"
                         android:clickable="true"
                         android:drawableEnd="@drawable/ic_baseline_arrow"
                         android:editable="false"
                         android:enabled="true"
                         android:focusable="false"
+                        android:gravity="center"
                         android:hint="Select Rows"
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
@@ -158,8 +160,34 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_gravity="center"
-                android:tint="@color/white"
-                android:src="@drawable/ic_refresh_black" />
+                android:src="@drawable/ic_refresh_black"
+                android:tint="@color/white" />
+
+
+
+
+            <RelativeLayout
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:id="@+id/plusIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:visibility="visible"
+                    android:paddingTop="@dimen/value_6dp"
+                    android:paddingBottom="@dimen/value_6dp"
+                    android:background="@drawable/green_backgroundplus"
+                    android:layout_width="@dimen/twenty_seven27_dp"
+                    android:layout_height="@dimen/twenty_seven27_dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/plus" />
+            </RelativeLayout>
+
+
+
 
             <RelativeLayout
                 android:id="@+id/filterIcon"

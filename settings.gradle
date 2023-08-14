@@ -8,3 +8,4 @@ include ':navigationlistview'
 include ':app'
 rootProject.name = "ApolloPharmacy"
 include ':openCV'
+include ':library'

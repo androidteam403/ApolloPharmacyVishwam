@@ -108,7 +108,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity"
+            android:name=".ui.home.champs.survey.fragment.NewSurveyFragment"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

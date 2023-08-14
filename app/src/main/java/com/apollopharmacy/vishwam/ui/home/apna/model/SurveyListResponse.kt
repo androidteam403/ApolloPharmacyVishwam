@@ -266,6 +266,14 @@ class SurveyListResponse : Serializable {
         @Expose
         var modifiedTime: String? = null
 
+        @SerializedName("landmarks")
+        @Expose
+        var landmarks: String? = null
+
+        @SerializedName("pincode")
+        @Expose
+        var pincode: Int? = null
+
         var isLoading: String? = null
         fun withUid(uid: String?): Row {
             this.uid = uid

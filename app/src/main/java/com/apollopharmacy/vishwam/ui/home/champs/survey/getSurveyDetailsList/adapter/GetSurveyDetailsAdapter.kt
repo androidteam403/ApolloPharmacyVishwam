@@ -38,7 +38,7 @@ class GetSurveyDetailsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        var surveyList = getSurvetDetailsModelResponse.get(position)
         holder.adapterGetSurveyDetailsBinding.champsRefId.text=surveyList.champsRefernceId
-        holder.adapterGetSurveyDetailsBinding.siteName.text=surveyList.sitename + "," + " " + surveyList.city
+        holder.adapterGetSurveyDetailsBinding.siteName.text=surveyList.sitename// + "," + " " + surveyList.city
 
         val strDate = surveyList.visitDate
         val dateFormat = SimpleDateFormat("dd-MM-yy kk:mm:ss");
@@ -57,7 +57,7 @@ class GetSurveyDetailsAdapter(
         }
         holder.adapterGetSurveyDetailsBinding.visitDate.text=dateNewFormat
         holder.adapterGetSurveyDetailsBinding.cardView.setOnClickListener {
-            getSurveyDetailsListCallback.onClickCardView(surveyList.status, surveyList.champsRefernceId, holder.adapterGetSurveyDetailsBinding.siteName.text.toString())
+            getSurveyDetailsListCallback.onClickCardView(surveyList.status, surveyList.champsRefernceId, holder.adapterGetSurveyDetailsBinding.siteName.text.toString(),   holder.adapterGetSurveyDetailsBinding.visitDate.text.toString())
         }
 
     }

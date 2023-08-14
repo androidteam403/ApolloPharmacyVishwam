@@ -1,32 +1,24 @@
 package com.apollopharmacy.vishwam.ui.home.planogram.activity.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterPlanogramSubcategoryBinding
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.PlanogramActivityCallback
-import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramCatList
-import com.tomergoldst.tooltips.ToolTip
-import com.tomergoldst.tooltips.ToolTipsManager
+import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSurveyQuestionsListResponse
+import com.tooltip.Tooltip
 
 class PlanogramSubCategoryAdapter(
+    var questionsList: ArrayList<PlanogramSurveyQuestionsListResponse.Questions>,
     var applicationContext: Context,
-    var data: MutableList<PlanogramCatList.CatList>,
     var planogramCateoryCallback: PlanogramActivityCallback,
-    var toolTipsManager: ToolTipsManager,
-    var toolTipsManagerCallback: ToolTipsManager.TipListener,
 ) : RecyclerView.Adapter<PlanogramSubCategoryAdapter.ViewHolder>() {
-        var  tooltipView:ImageView?=null;
-    var relativeLayout:RelativeLayout?=null
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
@@ -43,33 +35,26 @@ class PlanogramSubCategoryAdapter(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: PlanogramSubCategoryAdapter.ViewHolder, position: Int) {
-        var data = data.get(position)
-        tooltipView = holder.adapterPlanogramSubCategoryBinding.infoButton
-        relativeLayout=holder.adapterPlanogramSubCategoryBinding.relativeLayout
-        holder.adapterPlanogramSubCategoryBinding.infoButton.setOnClickListener{
-//           planogramCateoryCallback.showTillTop()
-            toolTipsManager= ToolTipsManager(toolTipsManagerCallback);
-            displayToolTip(ToolTip.POSITION_RIGHT_TO, ToolTip.ALIGN_CENTER);
-
+        var question = questionsList.get(position)
+        holder.adapterPlanogramSubCategoryBinding.question.text = question.name
+        holder.adapterPlanogramSubCategoryBinding.infoButton.setOnClickListener {
+            Tooltip.Builder(holder.adapterPlanogramSubCategoryBinding.infoButton, R.style.Tooltip)
+                .setCancelable(true)
+                .setDismissOnClick(false)
+                .setCornerRadius(20f)
+                .setText(question.hintText)
+                .build().show()
         }
-         }
-
-    @SuppressLint("ResourceType")
-    private fun displayToolTip(positionRightTo: Int, alignCenter: Int) {
-//        toolTipsManager.findAndDismiss(tooltipView!!);
-        val builder = ToolTip.Builder(applicationContext, tooltipView!!, relativeLayout!!, "Hi", positionRightTo)
-        builder.setBackgroundColor(Color.WHITE);
-        builder.setTextAppearance(Color.BLACK)
-        toolTipsManager.show(builder.build());
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return questionsList.size//data.size
     }
 
     override fun getItemViewType(position: Int): Int {
         return super.getItemViewType(position)
     }
+
     class ViewHolder(val adapterPlanogramSubCategoryBinding: AdapterPlanogramSubcategoryBinding) :
         RecyclerView.ViewHolder(adapterPlanogramSubCategoryBinding.root)
 }

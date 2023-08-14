@@ -33,6 +33,7 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
+import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSurveyQuestionsListResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsResponse
@@ -960,4 +961,6 @@ interface ViswamAppApi {
         @Body fileDownloadRequest: RetroQrFileDownloadRequest,
     ): Call<RetroQrFileDownloadResponse>
 
+    @GET
+    fun PLANOGRAM_SURVEY_QUESTIONS_LIST_API_CALL(@Url url: String): Call<PlanogramSurveyQuestionsListResponse>
 }

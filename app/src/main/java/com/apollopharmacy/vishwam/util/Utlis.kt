@@ -28,13 +28,13 @@ import java.util.*
 
 object Utlis {
     @kotlin.jvm.JvmField
-    var ORDER_DETAILS_RESPONSE: String= "ORDER_DETAILS_RESPONSE"
+    var ORDER_DETAILS_RESPONSE: String = "ORDER_DETAILS_RESPONSE"
 
     @kotlin.jvm.JvmField
-    var NOTIFICATIONS_COUNT: Int=0
+    var NOTIFICATIONS_COUNT: Int = 0
 
     @kotlin.jvm.JvmField
-    var CURRENT_SCREEN: String=" "
+    var CURRENT_SCREEN: String = " "
     var mProgressDialog: ProgressDialog? = null
     var spotsDialog: SpotsDialog? = null
 
@@ -46,8 +46,10 @@ object Utlis {
             if (neededTime[Calendar.MONTH] == nowTime[Calendar.MONTH]) {
                 if (neededTime[Calendar.DATE] - nowTime[Calendar.DATE] == 1) {
                     //here return like "Tomorrow at 12:00"
-                    SimpleDateFormat("MMM dd, yyyy hh:mm aa",
-                        Locale.getDefault()).format(neededTime.time) //new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
+                    SimpleDateFormat(
+                        "MMM dd, yyyy hh:mm aa",
+                        Locale.getDefault()
+                    ).format(neededTime.time) //new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
                 } else if (nowTime[Calendar.DATE] == neededTime[Calendar.DATE]) {
                     //here return like "Today at 12:00"
                     val time =
@@ -57,38 +59,57 @@ object Utlis {
                     if (time.endsWith("a.m.") || time.endsWith("am")) {
                         ampm = "AM"
                         times =
-                            if (time.endsWith("am")) time.substring(0,
-                                time.length - 2) + ampm else time.substring(0,
-                                time.length - 4) + ampm
+                            if (time.endsWith("am")) time.substring(
+                                0,
+                                time.length - 2
+                            ) + ampm else time.substring(
+                                0,
+                                time.length - 4
+                            ) + ampm
                     } else {
                         ampm = "PM"
                         times =
-                            if (time.endsWith("pm")) time.substring(0,
-                                time.length - 2) + ampm else time.substring(0,
-                                time.length - 4) + ampm
+                            if (time.endsWith("pm")) time.substring(
+                                0,
+                                time.length - 2
+                            ) + ampm else time.substring(
+                                0,
+                                time.length - 4
+                            ) + ampm
                     }
-                    "Today at " + SimpleDateFormat("hh:mm a",
-                        Locale.getDefault()).format(neededTime.time) //times;
+                    "Today at " + SimpleDateFormat(
+                        "hh:mm a",
+                        Locale.getDefault()
+                    ).format(neededTime.time) //times;
                 } else if (nowTime[Calendar.DATE] - neededTime[Calendar.DATE] == 1) {
                     //here return like "Yesterday at 12:00"
-                    SimpleDateFormat("MMM dd, yyyy hh:mm aa",
-                        Locale.getDefault()).format(neededTime.time) //new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
+                    SimpleDateFormat(
+                        "MMM dd, yyyy hh:mm aa",
+                        Locale.getDefault()
+                    ).format(neededTime.time) //new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
                 } else {
                     //here return like "May 31, 12:00"
-                    SimpleDateFormat("MMM dd, yyyy hh:mm aa",
-                        Locale.getDefault()).format(neededTime.time) // new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
+                    SimpleDateFormat(
+                        "MMM dd, yyyy hh:mm aa",
+                        Locale.getDefault()
+                    ).format(neededTime.time) // new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
                 }
             } else {
                 //here return like "May 31, 12:00"
-                SimpleDateFormat("MMM dd, yyyy hh:mm aa",
-                    Locale.getDefault()).format(neededTime.time) //new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
+                SimpleDateFormat(
+                    "MMM dd, yyyy hh:mm aa",
+                    Locale.getDefault()
+                ).format(neededTime.time) //new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
             }
         } else {
             //here return like "May 31 2010, 12:00" - it's a different year we need to show it
-            SimpleDateFormat("MMM dd, yyyy hh:mm aa",
-                Locale.getDefault()).format(neededTime.time) //new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
+            SimpleDateFormat(
+                "MMM dd, yyyy hh:mm aa",
+                Locale.getDefault()
+            ).format(neededTime.time) //new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
         }
     }
+
     fun getfromDate(): String? {
         return SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(Date())
     }
@@ -120,6 +141,7 @@ object Utlis {
             false
         }
     }
+
     fun hideKeyPad(activity: Activity) {
         activity.let {
             val imm: InputMethodManager =
@@ -131,12 +153,14 @@ object Utlis {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
+
     fun getScreenSize(context: Context): DisplayMetrics? {
         val displayMetrics = DisplayMetrics()
         val mWindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         mWindowManager.defaultDisplay.getMetrics(displayMetrics)
         return displayMetrics
     }
+
     fun getStatusBarHeight(context: Context): Int {
         var result = 0
         val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
@@ -199,6 +223,7 @@ object Utlis {
             return ""
         }
     }
+
     @SuppressLint("SimpleDateFormat")
     fun convertDateTimeZone(DateFromServer: String): String {
         try {
@@ -210,6 +235,7 @@ object Utlis {
             return ""
         }
     }
+
     fun formatTheDate(dateToFormat: String): String {
         val sourceFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
         val destFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
@@ -220,8 +246,20 @@ object Utlis {
     fun filterDateFormate(dateForFilter: String): Date {
         val sourceFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         val destinationFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
-        val convertedDate: Date = sourceFormat.parse(dateForFilter)
-        return convertedDate
+
+//        val dtStart = "2010-10-15T09:27:37Z"
+        val format = SimpleDateFormat("dd-MMM-yyyy")
+        try {
+            val date = format.parse(dateForFilter)
+            System.out.println(date)
+            return date
+        } catch (e: ParseException) {
+            e.printStackTrace()
+            return Date()
+        }
+
+        /*val convertedDate: Date = sourceFormat.parse(dateForFilter)
+        return convertedDate*/
     }
 
     fun filterDateFormateQc(dateForFilter: String): Date {
@@ -252,10 +290,14 @@ object Utlis {
         val convertedDate = sourceFormat.parse(dateToFormat)
         return destFormat.format(convertedDate)
     }
+
     fun getBeforeSevenDaysDate(): String? {
-        return SimpleDateFormat("yyyy-MM-dd",
-            Locale.getDefault()).format(Date().time - 518400000L) //604800000L
+        return SimpleDateFormat(
+            "yyyy-MM-dd",
+            Locale.getDefault()
+        ).format(Date().time - 518400000L) //604800000L
     }
+
     fun getDateSevenDaysEarlier(pattern: String?): String? {
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
 
@@ -273,6 +315,7 @@ object Utlis {
         val convertedDate: Date = sourceFormat.parse(DatefromServer)
         return destFormat.format(convertedDate)
     }
+
     fun getDatethirtyDays(pattern: String?): String? {
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
 
@@ -288,9 +331,11 @@ object Utlis {
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
         return sdf.format(Date())
     }
+
     fun getTodayDate(): String? {
         return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
     }
+
     fun convertSpannableStrings(
         header: String?,
         description: String?,
@@ -300,25 +345,34 @@ object Utlis {
         descColor: Int,
     ): SpannableString? {
         val stringHeader = SpannableString(header)
-        stringHeader.setSpan(RelativeSizeSpan(headerSize),
+        stringHeader.setSpan(
+            RelativeSizeSpan(headerSize),
             0,
             stringHeader.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        stringHeader.setSpan(ForegroundColorSpan(headerColor),
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        stringHeader.setSpan(
+            ForegroundColorSpan(headerColor),
             0,
             stringHeader.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         val StringDesc = SpannableString(description)
-        StringDesc.setSpan(RelativeSizeSpan(descSize),
+        StringDesc.setSpan(
+            RelativeSizeSpan(descSize),
             0,
             StringDesc.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        StringDesc.setSpan(ForegroundColorSpan(descColor),
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        StringDesc.setSpan(
+            ForegroundColorSpan(descColor),
             0,
             StringDesc.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         return SpannableString(TextUtils.concat(stringHeader, "\n", StringDesc))
     }
+
     fun getCurrentTimeDate(): String? {
         return SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
     }
@@ -344,37 +398,53 @@ object Utlis {
     ): SpannableString? {
         val typeface = ResourcesCompat.getFont(context!!, font)
         val stringDefault = SpannableString(defaultStr)
-        stringDefault.setSpan(RelativeSizeSpan(descSize),
+        stringDefault.setSpan(
+            RelativeSizeSpan(descSize),
             0,
             stringDefault.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         val stringResultCnt = SpannableString(resultCnt)
-        stringResultCnt.setSpan(RelativeSizeSpan(headerSize),
+        stringResultCnt.setSpan(
+            RelativeSizeSpan(headerSize),
             0,
             stringResultCnt.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        stringResultCnt.setSpan(StyleSpan(typeface!!.style),
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        stringResultCnt.setSpan(
+            StyleSpan(typeface!!.style),
             0,
             stringResultCnt.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         val stringResultsTxt = SpannableString(resultsTxt)
-        stringResultsTxt.setSpan(RelativeSizeSpan(descSize),
+        stringResultsTxt.setSpan(
+            RelativeSizeSpan(descSize),
             0,
             stringResultsTxt.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         val stringSearchTxt = SpannableString(inputSearchTxt)
-        stringSearchTxt.setSpan(RelativeSizeSpan(headerSize),
+        stringSearchTxt.setSpan(
+            RelativeSizeSpan(headerSize),
             0,
             stringSearchTxt.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        stringSearchTxt.setSpan(StyleSpan(typeface.style),
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        stringSearchTxt.setSpan(
+            StyleSpan(typeface.style),
             0,
             stringSearchTxt.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        return SpannableString(TextUtils.concat(stringDefault,
-            stringResultCnt,
-            stringResultsTxt,
-            stringSearchTxt))
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        return SpannableString(
+            TextUtils.concat(
+                stringDefault,
+                stringResultCnt,
+                stringResultsTxt,
+                stringSearchTxt
+            )
+        )
     }
 
     fun checkPlayServices(context: Context?): Boolean {
@@ -384,14 +454,20 @@ object Utlis {
         } else if (ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED == result) {
             DialogManager.showToast(context, "Update google play services for better performance")
         } else if (ConnectionResult.SERVICE_MISSING == result) {
-            DialogManager.showToast(context,
-                "google play services missing install/update for better performance")
+            DialogManager.showToast(
+                context,
+                "google play services missing install/update for better performance"
+            )
         } else if (ConnectionResult.SERVICE_DISABLED == result) {
-            DialogManager.showToast(context,
-                "google play services disabled enable for better performance")
+            DialogManager.showToast(
+                context,
+                "google play services disabled enable for better performance"
+            )
         } else if (ConnectionResult.SERVICE_INVALID == result) {
-            DialogManager.showToast(context,
-                "google play services invalid install/update for better performance")
+            DialogManager.showToast(
+                context,
+                "google play services invalid install/update for better performance"
+            )
         }
 
         /*if (GooglePlayServicesUtil.isUserRecoverableError(result)) {
@@ -441,6 +517,7 @@ object Utlis {
         val tsLong = System.currentTimeMillis() / 1000
         return tsLong.toString()
     }
+
     fun getCurrentTimeStampFormat(): String? {
         return try {
             val dateFormat =

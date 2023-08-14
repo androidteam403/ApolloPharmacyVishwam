@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -24,8 +25,10 @@ import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.databinding.ActivityStartSurvey2Binding
 import com.apollopharmacy.vishwam.databinding.DialogNoTrainerBinding
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressCCAdapter
+import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
@@ -50,6 +53,8 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
     private var address: String = ""
     var siteName: String? = ""
     private var region: String = ""
+    var isNewSurveyCreated = false
+    var status= ""
 
     //    private lateinit var seekbar : SeekBar
     private lateinit var dialog: Dialog
@@ -119,11 +124,11 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
         setTrainerId()
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-        /* Utlis.showLoading(this)
-             surveyDetailsViewModel.getStoreWiseDetailsEmpIdChampsApi(
-                 this,
-                 Preferences.getValidatedEmpId()
-             )*/
+            /* Utlis.showLoading(this)
+                 surveyDetailsViewModel.getStoreWiseDetailsEmpIdChampsApi(
+                     this,
+                     Preferences.getValidatedEmpId()
+                 )*/
         } else {
             Toast.makeText(
                 context, resources.getString(R.string.label_network_error), Toast.LENGTH_SHORT
@@ -158,8 +163,8 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                 }
 
 
-            }else{
-                activityStartSurvey2Binding.executive.text="--"
+            } else {
+                activityStartSurvey2Binding.executive.text = "--"
 
             }
 
@@ -244,9 +249,24 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         super.onBackPressed()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 891 && resultCode == RESULT_OK) {
+            isNewSurveyCreated = data!!.getBooleanExtra("isNewSurveyCreated", false)
+            status= data!!.getStringExtra("status")!!
+            if (isNewSurveyCreated && status.equals("NEW")) {
+                val intent = Intent()
+                intent.putExtra("isNewSurveyCreated", isNewSurveyCreated)
+                intent.putExtra("status", status)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        }
+    }
+
 
     override fun onClickStartChampsSurvey() {
-        val intent = Intent(context, GetSurveyDetailsListActivity::class.java)
+        val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
         intent.putExtra("getStoreWiseEmpIdResponse", getStoreWiseEmpIdResponse)
@@ -255,9 +275,24 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         intent.putExtra("siteName", siteName)
         intent.putExtra("storeCity", storeCity)
         intent.putExtra("region", region)
+        intent.putExtra("status", "NEW")
+        intent.putExtra("visitDate", "")
+        intent.putExtra("champsRefernceId", "")
         intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
         intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
-        startActivity(intent)
+        startActivityForResult(intent, 891)
+//        val intent = Intent(context, GetSurveyDetailsListActivity::class.java)
+//        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//        intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
+//        intent.putExtra("getStoreWiseEmpIdResponse", getStoreWiseEmpIdResponse)
+//        intent.putExtra("address", address)
+//        intent.putExtra("storeId", storeId)
+//        intent.putExtra("siteName", siteName)
+//        intent.putExtra("storeCity", storeCity)
+//        intent.putExtra("region", region)
+//        intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
+//        intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
+//        startActivity(intent)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 

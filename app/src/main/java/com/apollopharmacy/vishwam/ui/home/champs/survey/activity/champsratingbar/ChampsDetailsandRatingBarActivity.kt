@@ -3,7 +3,6 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingba
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.ContentUris
 import android.content.Context
@@ -25,7 +24,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -35,24 +33,23 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityChampsDetailsandRatingBarBinding
-import com.apollopharmacy.vishwam.ui.home.apollosensing.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.ImagesDisplayChampsAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.SubCategoryAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSurevyDetailsByChampsIdResponse
+import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis
 import me.echodev.resizer.Resizer
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
-import java.io.IOException
 
 
 class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandRatingBarCallBack {
     private var getCategoryName: String? = ""
-    private var sumIsZero:Boolean=true
+    private var sumIsZero: Boolean = true
     private lateinit var activityChampsDetailsandRatingBarBinding: ActivityChampsDetailsandRatingBarBinding
     private lateinit var champsDetailsAndRatingBarViewModel: ChampsDetailsAndRatingBarViewModel
     private var subCategoryAdapter: SubCategoryAdapter? = null
@@ -64,15 +61,17 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     private var getCategoryAndSubCategoryDetails: GetCategoryDetailsModelResponse? = null
     private var champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack? = null
     private var categoryPosition: Int = 0
-    private var status:String=""
+    private var status: String = ""
     private var isPending: Boolean = false
-    var thread: Thread?=null
-    var isFromGallery:Boolean=false
-    var imageDataList: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>? = null
-    var dtcl_list = java.util.ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
-    var imageUploadedCount=0
+    var thread: Thread? = null
+    var isFromGallery: Boolean = false
+    var imageDataList: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>? =
+        null
+    var dtcl_list =
+        java.util.ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
+    var imageUploadedCount = 0
     var plusIconPos = 0
-    var isFromCamera:Boolean=false
+    var isFromCamera: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,17 +101,17 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 intent.getSerializableExtra("getCategoryAndSubCategoryDetails") as GetCategoryDetailsModelResponse?
             categoryPosition = intent.getIntExtra("position", 0)
             isPending = intent.getBooleanExtra("isPending", isPending)
-            status= intent.getStringExtra("status")!!
+            status = intent.getStringExtra("status")!!
 
         }
         calucateSumOfSubCategory()
-        if(status.equals("COMPLETED")){
-            activityChampsDetailsandRatingBarBinding.cameraText.visibility=View.GONE
-            activityChampsDetailsandRatingBarBinding.continueLayout.visibility=View.GONE
+        if (status.equals("COMPLETED")) {
+            activityChampsDetailsandRatingBarBinding.cameraText.visibility = View.GONE
+            activityChampsDetailsandRatingBarBinding.continueLayout.visibility = View.GONE
 //            calucateSumOfSubCategory() 
-        }else{
-            activityChampsDetailsandRatingBarBinding.cameraText.visibility=View.VISIBLE
-            activityChampsDetailsandRatingBarBinding.continueLayout.visibility=View.VISIBLE
+        } else {
+            activityChampsDetailsandRatingBarBinding.cameraText.visibility = View.VISIBLE
+            activityChampsDetailsandRatingBarBinding.continueLayout.visibility = View.VISIBLE
         }
         activityChampsDetailsandRatingBarBinding.storeId.setText(getCategoryAndSubCategoryDetails?.storeIdP)
         activityChampsDetailsandRatingBarBinding.address.setText(getCategoryAndSubCategoryDetails?.addressP)
@@ -122,10 +121,11 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //            activityChampsDetailsandRatingBarBinding.overallSum.text =
 //                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).rating
 //        }
-        if(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!=null &&
-            getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.size>0  ){
+        if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails != null &&
+            getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.size > 0
+        ) {
             var sumOfSubCategoryMaxRating = 0.0
-            for (i in  getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!) {
+            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!) {
                 sumOfSubCategoryMaxRating = sumOfSubCategoryMaxRating + i.rating!!.toDouble()
             }
 //            getCategoryDetails.sumOfSubCategoryRating = sumOfSubCategoryMaxRating
@@ -133,18 +133,20 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             activityChampsDetailsandRatingBarBinding.overallSum.text =
                 sumOfSubCategoryMaxRating.toString()
         }
-         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
+        if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
                 categoryPosition
             ).sumOfSubCategoryRating != null
         ) {
-             if(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString().equals("0.0")){
-                 activityChampsDetailsandRatingBarBinding.sumOfrating.text = "0"
-             }else{
-                 activityChampsDetailsandRatingBarBinding.sumOfrating.text =
-                     getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString()
+            if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString()
+                    .equals("0.0")
+            ) {
+                activityChampsDetailsandRatingBarBinding.sumOfrating.text = "0"
+            } else {
+                activityChampsDetailsandRatingBarBinding.sumOfrating.text =
+                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString()
 
-             }
             }
+        }
         activityChampsDetailsandRatingBarBinding.categoryPos.text =
             (categoryPosition + 1).toString()
 //        if (NetworkUtil.isNetworkConnected(this)) {
@@ -176,28 +178,66 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //        }
 
         LoadRecyclerView()
-        if((getCategoryAndSubCategoryDetails!=null && getCategoryAndSubCategoryDetails!!.categoryDetails!=null &&
-                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists==null && !status.equals("COMPLETED") )||
-            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!=null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size==0 && !status.equals("COMPLETED")){
-            var image1=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-            image1.imageFilled=false
-            image1.file=null
-            image1.imageUrl=""
-            dtcl_list.add(image1)
-            var image2=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-            image2.imageFilled=false
-            image2.file=null
-            image2.imageUrl=""
-            dtcl_list.add(image2)
-            var image3=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-            image3.imageFilled=false
-            image3.file=null
-            image3.imageUrl=""
-            dtcl_list.add(image3)
+        if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && !status.equals(
+                "COMPLETED"
+            )
+        ) {
+            if (getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists == null || getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+                    categoryPosition
+                )?.imageDataLists!!.size == 0
+            ) {
+                imageUploadedCount = 0
+                var image1 = GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image1.imageFilled = false
+                image1.file = null
+                image1.imageUrl = ""
+                dtcl_list.add(image1)
+                var image2 = GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image2.imageFilled = false
+                image2.file = null
+                image2.imageUrl = ""
+                dtcl_list.add(image2)
+                var image3 = GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image3.imageFilled = false
+                image3.file = null
+                image3.imageUrl = ""
+                dtcl_list.add(image3)
 
-            imageDataList = dtcl_list
+                imageDataList = dtcl_list
 
-            getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists = imageDataList
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists =
+                    imageDataList
+
+            } else if (getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size == 1) {
+                imageUploadedCount = 1
+                var image2 = GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image2.imageFilled = false
+                image2.file = null
+                image2.imageUrl = ""
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.add(
+                    image2
+                )
+                var image3 = GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image3.imageFilled = false
+                image3.file = null
+                image3.imageUrl = ""
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.add(
+                    image3
+                )
+
+            } else if (getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size == 2) {
+                imageUploadedCount = 2
+                var image3 = GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                image3.imageFilled = false
+                image3.file = null
+                image3.imageUrl = ""
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.add(
+                    image3
+                )
+
+            } else if (getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size == 3) {
+                imageUploadedCount = 3
+            }
             imagesDisplayChampsAdapter =
                 ImagesDisplayChampsAdapter(
                     this,
@@ -239,26 +279,51 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
     }
 
+    private lateinit var leavingConfirmationDialog: Dialog
+
     override fun onClickBack() {
-        super.onBackPressed()
+        leavingConfirmationDialog = Dialog(this)
+        leavingConfirmationDialog.setCancelable(false)
+        leavingConfirmationDialog.setContentView(R.layout.change_siteid)
+        val close = leavingConfirmationDialog.findViewById<TextView>(R.id.no_btnSiteChange)
+        val textForDialog = leavingConfirmationDialog.findViewById<TextView>(R.id.text_for_dialog)
+        textForDialog.setText("Are you sure you want to leave this page?")
+        close.setOnClickListener {
+            leavingConfirmationDialog.dismiss()
+        }
+        val ok = leavingConfirmationDialog.findViewById<TextView>(R.id.yes_btnSiteChange)
+        ok.setOnClickListener {
+            leavingConfirmationDialog.dismiss()
+            super.onBackPressed()
+        }
+        leavingConfirmationDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        leavingConfirmationDialog.show()
     }
 
 
     override fun onClickSubmit() {
-        getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.clickedSubmit = true
-        var allSubmitted=true
+        getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.clickedSubmit =
+            true
+        var allSubmitted = true
 
-        for(i in getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails?.indices!!){
-            if(  getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating==null){
-                allSubmitted=false
+        for (i in getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails?.indices!!) {
+            if (getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(
+                    i
+                ).givenRating == null
+            ) {
+                allSubmitted = false
 //                getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating=0f
                 break
             }
         }
         calucateSumOfSubCategory()
-        if(!allSubmitted){
-            Toast.makeText(applicationContext, "Please enter the rating for all the sub categories", Toast.LENGTH_SHORT).show()
-        }else{
+        if (!allSubmitted) {
+            Toast.makeText(
+                applicationContext,
+                "Please enter the rating for all the sub categories",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
             val intent = Intent()
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             intent.putExtra("getCategoryAndSubCategoryDetails", getCategoryAndSubCategoryDetails)
@@ -279,7 +344,9 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
         }
     }
-    var imageUrlDeleted= false
+
+    var imageUrlDeleted = false
+
     @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     private fun onClickDelete(deletePosition: Int) {
         dialog = Dialog(this)
@@ -290,10 +357,19 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         }
         val ok = dialog.findViewById<TextView>(R.id.yes_btnN)
         ok.setOnClickListener {
-            if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.size > 0) {
-                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(deletePosition).file = null
-                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(deletePosition).imageUrl = ""
-                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(deletePosition).imageFilled = false
+            if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
+                    categoryPosition
+                ).imageDataLists!!.size > 0
+            ) {
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(
+                    deletePosition
+                ).file = null
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(
+                    deletePosition
+                ).imageUrl = ""
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(
+                    deletePosition
+                ).imageFilled = false
                 imageUploadedCount--
             }
             disableUploadOption()
@@ -387,7 +463,8 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                         .show()
                 }
             }
-            Config.REQUEST_CODE_GALLERY ->{
+
+            Config.REQUEST_CODE_GALLERY -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     val intent = Intent()
                     intent.type = "image/*"
@@ -497,9 +574,11 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
                 }
             }
-            if( getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString().equals("0.0")){
+            if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString()
+                    .equals("0.0")
+            ) {
                 activityChampsDetailsandRatingBarBinding.sumOfrating.text = "0"
-            }else{
+            } else {
                 activityChampsDetailsandRatingBarBinding.sumOfrating.text =
                     getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString()
 
@@ -508,22 +587,33 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //            subCategoryAdapter!!.notifyDataSetChanged()
 
         }
-        var allSubmitted=true
+        var allSubmitted = true
 
-        for(i in getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails?.indices!!){
-            if(  getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating==null){
-                allSubmitted=false
+        for (i in getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails?.indices!!) {
+            if (getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(
+                    i
+                ).givenRating == null
+            ) {
+                allSubmitted = false
 //                getCategoryAndSubCategoryDetails?.categoryDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating=0f
                 break
             }
         }
-        if(!allSubmitted){
-            sumIsZero=true
-            activityChampsDetailsandRatingBarBinding.next.setBackgroundDrawable(applicationContext.getDrawable(R.drawable.grey_rectangle_submit))
+        if (!allSubmitted) {
+            sumIsZero = true
+            activityChampsDetailsandRatingBarBinding.next.setBackgroundDrawable(
+                applicationContext.getDrawable(
+                    R.drawable.grey_rectangle_submit
+                )
+            )
 //            activityChampsDetailsandRatingBarBinding.next.setHintTextColor(applicationContext.getDrawable(R.color.black))
-        }else{
-            sumIsZero=false
-            activityChampsDetailsandRatingBarBinding.next.setBackgroundDrawable(applicationContext.getDrawable(R.drawable.green_rectangle))
+        } else {
+            sumIsZero = false
+            activityChampsDetailsandRatingBarBinding.next.setBackgroundDrawable(
+                applicationContext.getDrawable(
+                    R.drawable.green_rectangle
+                )
+            )
 //
         }
 
@@ -559,7 +649,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
-            isFromCamera=true
+            isFromCamera = true
             val resizedImage =
                 Resizer(this).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
 //                .setOutputFilename(fileNameForCompressedImage)
@@ -570,13 +660,22 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                     .setSourceImage(imageFromCameraFile).resizedFile
 
 //            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
-                if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(plusIconPos).imageFilled!!) {
-                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(plusIconPos).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
-                   imageUploadedCount++
+            if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(
+                    plusIconPos
+                ).imageFilled!!
+            ) {
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(
+                    plusIconPos
+                ).file = resizedImage
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(
+                    plusIconPos
+                ).imageFilled = true
+                imageUploadedCount++
 //                    break
-                }
+            }
 //            }
+
+            imagesDisplayChampsAdapter!!.notifyDataSetChanged()
 
 //            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists=imageDataList
 //            imagesDisplayChampsAdapter =
@@ -595,8 +694,8 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //                imagesDisplayChampsAdapter
 //            )
 //
-            Utlis.showLoading(this)
-            champsDetailsAndRatingBarViewModel.connectToAzure(resizedImage, this)
+//            Utlis.showLoading(this)
+//            champsDetailsAndRatingBarViewModel.connectToAzure(resizedImage, this)
 
 
         } else if (resultCode == RESULT_OK && requestCode == 999) {
@@ -605,15 +704,16 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             if (images != null) {
 
 
-                if ((images!!.itemCount ==1 && imageUploadedCount.equals(2))||
-                    (images!!.itemCount ==2 && imageUploadedCount.equals(1)) ||
-                    (images!!.itemCount ==3 && imageUploadedCount.equals(0))||
-                    (images!!.itemCount <=3 && imageUploadedCount.equals(0)) ) {
-                    if(images.itemCount>1){
-                        isFromGallery=true
-                        isFromCamera=false
-                    }else{
-                        isFromGallery=false
+                if ((images!!.itemCount == 1 && imageUploadedCount.equals(2)) ||
+                    (images!!.itemCount == 2 && imageUploadedCount.equals(1)) ||
+                    (images!!.itemCount == 3 && imageUploadedCount.equals(0)) ||
+                    (images!!.itemCount <= 3 && imageUploadedCount.equals(0))
+                ) {
+                    if (images.itemCount > 1) {
+                        isFromGallery = true
+                        isFromCamera = false
+                    } else {
+                        isFromGallery = false
                     }
                     for (i in 0 until images.itemCount) {
                         imageUploadedCount++
@@ -622,10 +722,16 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                         var imageFileGallery: File? = File(imagePath)
 //                        val imageBase64 = encodeImage(imageFileGallery!!.absolutePath)
 
-                        for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
-                            if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
+                        for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
+                            categoryPosition
+                        ).imageDataLists!!.indices) {
+                            if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
+                                    categoryPosition
+                                ).imageDataLists!!.get(i).imageFilled!!
+                            ) {
                                 val resizedImage =
-                                    Resizer(this).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
+                                    Resizer(this).setTargetLength(1080).setQuality(100)
+                                        .setOutputFormat("JPG")
 //                .setOutputFilename(fileNameForCompressedImage)
                                         .setOutputDirPath(
                                             ViswamApp.context.cacheDir.toString()
@@ -633,24 +739,32 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
                                         .setSourceImage(imageFileGallery).resizedFile
 
-                                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
-                                Utlis.showLoading(this)
-                                champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
-
+                                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
+                                    categoryPosition
+                                ).imageDataLists!!.get(i).file = resizedImage
+                                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
+                                    categoryPosition
+                                ).imageDataLists!!.get(i).imageFilled = true
+//                                Utlis.showLoading(this)
+//                                champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
                                 break
                             }
+
                         }
 
+                        imagesDisplayChampsAdapter!!.notifyDataSetChanged()
                     }
 
+
                 } else {
-                    Toast.makeText(applicationContext,
+                    Toast.makeText(
+                        applicationContext,
                         "You are allowed to upload only 3 images",
-                        Toast.LENGTH_SHORT).show()
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } else {
-                isFromCamera=false
+                isFromCamera = false
                 val uri = data.data
                 var imagePath = getRealPathFromURI(applicationContext, uri!!)
                 var imageFileGallery: File? = File(imagePath)
@@ -658,23 +772,32 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //                prescriptionImageList.add(ImageDto(imageFileGallery!!, imageBase64!!))
 
                 for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
-                    if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
+                    if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(
+                            i
+                        ).imageFilled!!
+                    ) {
                         val resizedImage =
-                            Resizer(this).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
+                            Resizer(this).setTargetLength(1080).setQuality(100)
+                                .setOutputFormat("JPG")
 //                .setOutputFilename(fileNameForCompressedImage)
                                 .setOutputDirPath(
                                     ViswamApp.context.cacheDir.toString()
                                 )
 
                                 .setSourceImage(imageFileGallery).resizedFile
-                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
-                       imageUploadedCount++
+                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(
+                            i
+                        ).file = resizedImage
+                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(
+                            i
+                        ).imageFilled = true
+                        imageUploadedCount++
                         break
                     }
                 }
-                Utlis.showLoading(this)
-                    champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
+                imagesDisplayChampsAdapter!!.notifyDataSetChanged()
+//                Utlis.showLoading(this)
+//                    champsDetailsAndRatingBarViewModel.connectToAzure(imageFileGallery, this)
 
             }
         }
@@ -735,20 +858,36 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     }
 
 
-
     fun disableUploadOption() {
         var imageFiles = ArrayList<Boolean>()
         if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists != null) {
             for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
-                if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file!=null) {
-                    imageFiles.add(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!)
-                }     else if(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageUrl!=null &&
-                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageUrl!="") {
-                          imageFiles.add(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!)
+                if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(
+                        i
+                    ).file != null
+                ) {
+                    imageFiles.add(
+                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
+                            categoryPosition
+                        ).imageDataLists!!.get(i).imageFilled!!
+                    )
+                } else if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(
+                        i
+                    ).imageUrl != null &&
+                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(
+                        i
+                    ).imageUrl != ""
+                ) {
+                    imageFiles.add(
+                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
+                            categoryPosition
+                        ).imageDataLists!!.get(i).imageFilled!!
+                    )
                 }
             }
         }
-        if(isFromGallery){
+        if (isFromGallery) {
+            imageUploadedCount = imageFiles.size
             activityChampsDetailsandRatingBarBinding.uploadImagesProgressBar.progress =
                 imageUploadedCount
             activityChampsDetailsandRatingBarBinding.outOfThreeUploadedPhotostext.setText(
@@ -757,13 +896,15 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             if (imageUploadedCount != null && imageUploadedCount > 0) {
                 if (imageUploadedCount == 3) {
                     activityChampsDetailsandRatingBarBinding.openGallery.visibility = View.GONE
-                    activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility = View.VISIBLE
+                    activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility =
+                        View.VISIBLE
                 } else {
                     activityChampsDetailsandRatingBarBinding.openGallery.visibility = View.VISIBLE
                     activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility = View.GONE
                 }
             }
-        }else{
+        } else {
+            imageUploadedCount = imageFiles.size
             activityChampsDetailsandRatingBarBinding.uploadImagesProgressBar.progress =
                 imageFiles!!.size
             activityChampsDetailsandRatingBarBinding.outOfThreeUploadedPhotostext.setText(
@@ -772,7 +913,8 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             if (imageFiles != null && imageFiles.size > 0) {
                 if (imageFiles.size == 3) {
                     activityChampsDetailsandRatingBarBinding.openGallery.visibility = View.GONE
-                    activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility = View.VISIBLE
+                    activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility =
+                        View.VISIBLE
                 } else {
                     activityChampsDetailsandRatingBarBinding.openGallery.visibility = View.VISIBLE
                     activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility = View.GONE
@@ -815,6 +957,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                             "storage" + "/" + docId.replace(":", "/")
                         }
                     }
+
                     isDownloadsDocument(uri) -> {
                         val fileName = getFilePath(context, uri)
                         if (fileName != null) {
@@ -828,10 +971,13 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                             if (file.exists()) return id
                         }
                         val contentUri =
-                            ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),
-                                java.lang.Long.valueOf(id))
+                            ContentUris.withAppendedId(
+                                Uri.parse("content://downloads/public_downloads"),
+                                java.lang.Long.valueOf(id)
+                            )
                         return getDataColumn(context, contentUri, null, null)
                     }
+
                     isMediaDocument(uri) -> {
                         val docId = DocumentsContract.getDocumentId(uri)
                         val split = docId.split(":").toTypedArray()
@@ -841,9 +987,11 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                             "image" -> {
                                 contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                             }
+
                             "video" -> {
                                 contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
                             }
+
                             "audio" -> {
                                 contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
                             }
@@ -854,13 +1002,17 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                     }
                 }
             }
+
             "content".equals(uri.scheme, ignoreCase = true) -> {
                 // Return the remote address
-                return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(context,
+                return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
+                    context,
                     uri,
                     null,
-                    null)
+                    null
+                )
             }
+
             "file".equals(uri.scheme, ignoreCase = true) -> {
                 return uri.path
             }
@@ -915,8 +1067,10 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         )
         try {
             if (uri == null) return null
-            cursor = context.contentResolver.query(uri, projection, selection, selectionArgs,
-                null)
+            cursor = context.contentResolver.query(
+                uri, projection, selection, selectionArgs,
+                null
+            )
             if (cursor != null && cursor.moveToFirst()) {
                 val index = cursor.getColumnIndexOrThrow(column)
                 return cursor.getString(index)
@@ -934,8 +1088,10 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         )
         try {
             if (uri == null) return null
-            cursor = context.contentResolver.query(uri, projection, null, null,
-                null)
+            cursor = context.contentResolver.query(
+                uri, projection, null, null,
+                null
+            )
             if (cursor != null && cursor.moveToFirst()) {
                 val index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
                 return cursor.getString(index)
@@ -967,10 +1123,11 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 }
             }
 
-            if(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!=null &&
-                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.size>0  ){
+            if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails != null &&
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.size > 0
+            ) {
                 var sumOfSubCategoryMaxRating = 0.0
-                for (i in  getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!) {
+                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!) {
                     sumOfSubCategoryMaxRating = sumOfSubCategoryMaxRating + i.rating!!.toDouble()
                 }
 //            getCategoryDetails.sumOfSubCategoryRating = sumOfSubCategoryMaxRating
@@ -1009,8 +1166,11 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         progress: Float,
         subCategoryPosition: Int,
     ) {
-        for( i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.indices){
-            if(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).categoryName!!.equals(getCategoryName)){
+        for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.indices) {
+            if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).categoryName!!.equals(
+                    getCategoryName
+                )
+            ) {
                 getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).subCategoryDetails!!.get(
                     subCategoryPosition
                 ).givenRating =
@@ -1091,7 +1251,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         if (!checkPermission()) {
             askPermissions(Config.REQUEST_CODE_GALLERY)
             return
-        }else{
+        } else {
             val intent = Intent()
             intent.type = "image/*"
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -1128,12 +1288,32 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     }
 
     override fun onClickPlusIcon(position: Int) {
-        plusIconPos=position
+        plusIconPos = position
         onClickCamera()
     }
 
     override fun onClickImageDelete(position: Int) {
         onClickDelete(position)
+
+    }
+
+    override fun onClickImageView(
+        view: View,
+        value: GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas,
+    ) {
+        if (!value.imageUrl.isNullOrEmpty()) {
+            PopUpWIndow(
+                ViswamApp.context, R.layout.layout_image_fullview, view,
+                value.imageUrl.toString(), null, "", 0
+            )
+        } else {
+            if (value.file != null) {
+                PopUpWIndow(
+                    ViswamApp.context, R.layout.layout_image_fullview, view,
+                    value.file.toString(), null, "", 0
+                )
+            }
+        }
 
     }
 

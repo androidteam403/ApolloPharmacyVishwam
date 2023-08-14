@@ -42,9 +42,10 @@
 
             <ImageView
                 android:id="@+id/close_dialog"
-                android:layout_width="wrap_content"
+                android:layout_width="43dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{()-> callback.onClickCancel()}"
                 android:paddingStart="@dimen/value_10dp"

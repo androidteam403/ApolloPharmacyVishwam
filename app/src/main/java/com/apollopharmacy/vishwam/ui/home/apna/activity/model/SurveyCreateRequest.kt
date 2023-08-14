@@ -95,6 +95,14 @@ class SurveyCreateRequest : Serializable {
     @Expose
     var totalArea: Float? = null
 
+    @SerializedName("shop_address")
+    @Expose
+    var shopAddress: String? = null
+
+    @SerializedName("shop_no")
+    @Expose
+    var shopNo: String? = null
+
     @SerializedName("building_age")
     @Expose
     var buildingAge: String? = null
