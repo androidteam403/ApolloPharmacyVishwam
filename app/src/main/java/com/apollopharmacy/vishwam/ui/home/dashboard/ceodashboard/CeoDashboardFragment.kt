@@ -1,10 +1,11 @@
 package com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard
 
+import android.R.attr.x
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
-import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -39,6 +40,7 @@ import com.google.gson.JsonParseException
 import lecho.lib.hellocharts.model.SliceValue
 import org.apache.commons.lang3.StringUtils
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDashboardBinding>(),
@@ -54,7 +56,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     var pieData: List<SliceValue> = ArrayList()
     var empIdList = java.util.ArrayList<String>()
     public var isEmpty: Boolean = false
-
+    var ticketCountsByStatsuRoleResponses: TicketCountsByStatusRoleResponse? = null
+    var statusRoleResponseList = ArrayList<TicketCountsByStatusRoleResponse>()
     var fromDate: String = ""
     var toDate: String = ""
     var isFromDateSelected: Boolean = false
@@ -106,9 +109,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         viewBinding.greaterThan2.setText("<2")
         viewBinding.greaterThan8.setText(">8")
 
-
-
-
         showLoading()
         viewModel.getTicketListByCountApi(
             this,
@@ -119,11 +119,12 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
 
 
-
         if (countApiCall == 0) {
             viewBinding.fromDate.isClickable = true
             viewBinding.toDate.isClickable = true
             viewBinding.apply.isClickable = true
+
+            viewBinding.apply.setBackgroundColor(Color.parseColor("#4b9e2e"))
             MainActivity.mInstance.backArrow.visibility = View.GONE
             MainActivity.mInstance.openDrawer.visibility = View.VISIBLE
 
@@ -131,6 +132,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             viewBinding.fromDate.isClickable = false
             viewBinding.toDate.isClickable = false
             viewBinding.apply.isClickable = false
+            viewBinding.apply.setBackgroundColor(Color.parseColor("#a6a6a6"))
+
             MainActivity.mInstance.openDrawer.visibility = View.GONE
             MainActivity.mInstance.backArrow.visibility = View.VISIBLE
 
@@ -138,45 +141,52 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
 
 
-
-
         MainActivity.mInstance.backArrow.setOnClickListener {
-            countApiCall--
 
-            for (i in empIdList.indices) {
-                if (empId.equals(empIdList.get(i))) {
-                    empIdList.removeAt(i)
+            countApiCall--
+            if (countApiCall == 0) {
+                for (i in statusRoleResponseList.indices) {
+
+                    if (Preferences.getValidatedEmpId()
+                            .equals(statusRoleResponseList.get(i).empId)
+                    ) {
+                        ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                    callAdapter()
+                    }
+
+                }
+
+            } else {
+                for (i in empIdList.indices) {
+                    if (empId.equals(empIdList.get(i))) {
+                        empIdList.removeAt(i)
+                    }
+
+
                 }
             }
 
-            if (countApiCall == 0) {
-                showLoading()
-                viewModel.getTicketListByCountApi(
-                    this,
-                    Utils.getFirstDateOfCurrentMonth(),
-                    Utils.getCurrentDateCeoDashboard(),
-                    Preferences.getValidatedEmpId()//"APL67949"
-                )
-            }
 
-            if (empIdList.size > 0) {
-                showLoading()
+
+
+
+            if (empIdList.size > 0&&countApiCall!=0) {
+//            showLoading()
                 val lastIndex = empIdList.size - 1
 
-                viewModel.getTicketListByCountApi(
-                    this,
-                    Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
-                    Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-                    empIdList.get(lastIndex)
-                    //"APL67949"
-                )
+                for (i in statusRoleResponseList.indices) {
+                    if (empIdList.get(lastIndex).equals(statusRoleResponseList.get(i).getEmpId())) {
+                        ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                    callAdapter()
+                    }
+                }
+
                 empIdList.removeAt(lastIndex)
             }
         }
-
+    }
 
 //        viewModel.getTicketListByCountApi(this, "2023-01-01", "2023-08-02", "APL48627")//EX100011//Preferences.getValidatedEmpId()
-    }
 
     private fun createChart(chartData: ArrayList<PieEntry>, valuesList: ArrayList<String>) {
         val pieEntry = chartData.map { PieEntry(it.value, it.label) }
@@ -200,7 +210,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         dataSet.setDrawValues(false)
         dataSet.valueTextColor = ContextCompat.getColor(requireContext(), android.R.color.white)
         viewBinding.pieChart.data = PieData(dataSet)
-
 
         viewBinding.pieChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {
@@ -256,6 +265,25 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             val view =
                 com.apollopharmacy.vishwam.databinding.LegendLayoutBinding.inflate(layoutInflater)
             view.legendBox.setBackgroundColor(colors[i])
+
+//            view.legendTitle.setOnClickListener {
+//                for (j in chartData.indices) {
+//                    if (chartData[j].label.equals(view.legendTitle.text.toString())) {
+//
+//                        val highlight = Highlight(chartData[j]!!.x, chartData[j]!!.y, 0)
+//                        viewBinding.pieChart.highlightValues(arrayOf(highlight))
+//                        viewBinding.pieChart.invalidate()
+//
+//
+//                    }
+//
+//
+//                }
+//
+////                viewBinding.pieChart.invalidate() // Refresh the chart
+//
+//
+//            }
 
             if (label.isNotEmpty()) {
                 if (label.equals(chartData.get(i).label) && value == chartData.get(i).y) {
@@ -317,7 +345,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     }
 
     override fun onClickEmployee(employee: String) {
-        showLoading()
 
         empId = employee
 
@@ -332,12 +359,23 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
             empIdList.add(employee)
         }
-        viewModel.getTicketListByCountApi(
-            this,
-            Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
-            Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-            employee//"APL67949"
-        )
+        if (statusRoleResponseList.filter { it.empId.equals(employee) }.size>0){
+            for (i in statusRoleResponseList.indices) {
+                if (employee.equals(statusRoleResponseList.get(i).getEmpId())) {
+                    ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                    callAdapter()
+                }
+            }
+        }else{
+            showLoading()
+            viewModel.getTicketListByCountApi(
+                this,
+                Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
+                Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
+                employee//"APL67949"
+            )
+        }
+
     }
 
     var role = ""
@@ -358,13 +396,14 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         }
     }
 
-    var ticketCountsByStatsuRoleResponses: TicketCountsByStatusRoleResponse? = null
-    override fun onSuccessgetTicketListByCountApi(ticketCountsByStatsuRoleResponse: TicketCountsByStatusRoleResponse) {
 
+    fun callAdapter() {
         if (countApiCall == 0) {
             viewBinding.fromDate.isClickable = true
             viewBinding.toDate.isClickable = true
             viewBinding.fromDate.isEnabled = true
+            viewBinding.apply.setBackgroundColor(Color.parseColor("#4b9e2e"))
+
             viewBinding.toDate.isEnabled = true
             viewBinding.apply.isClickable = true
             MainActivity.mInstance.backArrow.visibility = View.GONE
@@ -376,12 +415,13 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             viewBinding.fromDate.isEnabled = false
             viewBinding.toDate.isEnabled = false
             viewBinding.apply.isClickable = false
+            viewBinding.apply.setBackgroundColor(Color.parseColor("#a6a6a6"))
+
             MainActivity.mInstance.openDrawer.visibility = View.GONE
             MainActivity.mInstance.backArrow.visibility = View.VISIBLE
 
         }
-//        resetChart()
-        ticketCountsByStatsuRoleResponses = ticketCountsByStatsuRoleResponse
+
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.name }
 
@@ -481,6 +521,31 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             viewBinding.pieChart.visibility = View.GONE
             viewBinding.chartLabels.visibility = View.GONE
         }
+
+    }
+
+
+    override fun onSuccessgetTicketListByCountApi(ticketCountsByStatsuRoleResponse: TicketCountsByStatusRoleResponse) {
+
+//        resetChart()
+        if (empId.isNullOrEmpty()) {
+            ticketCountsByStatsuRoleResponse.setEmpId(Preferences.getValidatedEmpId())
+
+        } else {
+            ticketCountsByStatsuRoleResponse.setEmpId(empId)
+
+        }
+        statusRoleResponseList.add(ticketCountsByStatsuRoleResponse)
+        for (i in statusRoleResponseList.indices) {
+            if (empId.isNullOrEmpty() && statusRoleResponseList.size == 1) {
+                ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+            } else if (empId.equals(statusRoleResponseList.get(i).getEmpId())) {
+                ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+
+            }
+        }
+
+        callAdapter()
 
         hideLoading()
     }
@@ -779,12 +844,22 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         showLoading()
 
         if (empId.isNullOrEmpty()) {
-            viewModel.getTicketListByCountApi(
-                this,
-                Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
-                Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-                Preferences.getValidatedEmpId()//"APL67949"
-            )
+            if (Utils.getFirstDateOfCurrentMonth()
+                    .equals(Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString())) && Utils.getCurrentDateCeoDashboard()
+                    .equals(Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()))
+            ) {
+                hideLoading()
+                callAdapter()
+            } else {
+                statusRoleResponseList.removeAt(0)
+                viewModel.getTicketListByCountApi(
+                    this,
+                    Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
+                    Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
+                    Preferences.getValidatedEmpId()//"APL67949"
+                )
+            }
+
         } else {
             viewModel.getTicketListByCountApi(
                 this,
@@ -829,41 +904,53 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     override fun onBackPressed(): Boolean {
         countApiCall--
-
-        for (i in empIdList.indices) {
-            if (empId.equals(empIdList.get(i))) {
-                empIdList.removeAt(i)
-            }
-
-
-        }
         if (countApiCall == 0) {
-            showLoading()
-            viewModel.getTicketListByCountApi(
-                this,
-                Utils.getFirstDateOfCurrentMonth(),
-                Utils.getCurrentDateCeoDashboard(),
-                Preferences.getValidatedEmpId()//"APL67949"
-            )
+            for (i in statusRoleResponseList.indices) {
+
+                if (Preferences.getValidatedEmpId().equals(statusRoleResponseList.get(i).empId)) {
+                    ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                    callAdapter()
+                }
+
+            }
+//            showLoading()
+//            viewModel.getTicketListByCountApi(
+//                this,
+//                Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
+//                Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
+//                Preferences.getValidatedEmpId()//"APL67949"
+//            )
+        }else{
+            for (i in empIdList.indices) {
+                if (empId.equals(empIdList.get(i))) {
+                    empIdList.removeAt(i)
+                }
+
+
+            }
         }
 
 
-        if (empIdList.size > 0) {
-            showLoading()
+
+
+
+        if (empIdList.size > 0&&countApiCall!=0) {
+//            showLoading()
             val lastIndex = empIdList.size - 1
 
-            viewModel.getTicketListByCountApi(
-                this,
-                Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
-                Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-                empIdList.get(lastIndex)
-                //"APL67949"
-            )
+            for (i in statusRoleResponseList.indices) {
+                if (empIdList.get(lastIndex).equals(statusRoleResponseList.get(i).getEmpId())) {
+                    ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                    callAdapter()
+                }
+            }
+
             empIdList.removeAt(lastIndex)
             return true
-        } else {
+        } else if (countApiCall<0){
             return false
         }
+        return true
     }
 
     override fun onClickFilterIcon() {
