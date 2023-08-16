@@ -173,10 +173,10 @@ class ApnaSurveyAdapter(
         holder.apnaSurveyLayoutBinding.surveystart.setText(
             outputDateFormat.format(
                 inputDateFormat.parse(
-                    approvedOrders.createdTime!!
+                    approvedOrders.surveyed_on!!
                 )!!
             )
-        )
+        )//approvedOrders.createdTime!!
 
         if (approvedOrders.status != null) {
             if (approvedOrders.status!!.name != null) {

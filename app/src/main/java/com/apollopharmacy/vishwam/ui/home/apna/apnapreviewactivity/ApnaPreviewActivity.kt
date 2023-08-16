@@ -240,14 +240,14 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
             }
             apnaPreviewActivityBinding.location.setText("$city, $state")
             val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            val outputDateFormat = SimpleDateFormat("dd MMM, yyy")
+            val outputDateFormat = SimpleDateFormat("dd MMM, yyyy hh:mm a")
             apnaPreviewActivityBinding.surveystart.setText(
                 outputDateFormat.format(
                     inputDateFormat.parse(
-                        approvedOrders.createdTime!!
+                       approvedOrders.surveyed_on!!
                     )!!
                 )
-            )
+            )// approvedOrders.createdTime!!
 //            apnaPreviewActivityBinding.surveyended.setText(
 //                outputDateFormat.format(
 //                    inputDateFormat.parse(

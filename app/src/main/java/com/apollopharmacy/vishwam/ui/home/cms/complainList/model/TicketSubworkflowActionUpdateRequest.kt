@@ -18,9 +18,49 @@ class TicketSubworkflowActionUpdateRequest {
     @SerializedName("to_user")
     var toUser: ToUser? = null
 
+
+    @field:SerializedName("items_uid")
+    var items_uid: String? = null
+
+    @field:SerializedName("manager")
+    var manager: Manager? = null
+
+    @field:SerializedName("ticket")
+    var ticket: Ticket? = null
+
+    @field:SerializedName("old_manager")
+    var old_manager: OldManager? = null
+
+    @field:SerializedName("site")
+    var site: Site? = null
+
     class Subworkflow {
         @field:SerializedName("uid")
         var uid: String? = null
+    }
+
+    class Manager {
+        @field:SerializedName("uid")
+        var uid: String? = null
+    }
+
+    class Ticket {
+        @field:SerializedName("uid")
+        var uid: String? = null
+    }
+
+    class OldManager {
+        @field:SerializedName("uid")
+        var uid: String? = null
+    }
+
+    class Site {
+        @field:SerializedName("uid")
+        var uid: String? = null
+
+        @field:SerializedName("site")
+        var site: String? = null
+
     }
 
     class ToUser {

@@ -1644,14 +1644,14 @@ class ComplainListViewModel : ViewModel() {
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
-        var baseUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-subworkflow-action-update"
+        var baseUrl = ""
+         //   "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-subworkflow-action-update"
         // "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/ticket-subworkflow-action-update"
         var token1 = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("")) {
-//                baseUrl = data.APIS[i].URL
-//                token1 = data.APIS[i].TOKEN
+            if (data.APIS[i].NAME.equals("CMS TICKET SUBWORKFLOW ACTION UPDATE")) {
+                baseUrl = data.APIS[i].URL
+                token1 = data.APIS[i].TOKEN
                 break
             }
         }
@@ -1750,13 +1750,9 @@ class ComplainListViewModel : ViewModel() {
             URLEncoder.encode("dependents[site_type]", "utf-8")
         }=${responseList.get(position)!!.site!!.site_type!!.uid}" + "&&${
             URLEncoder.encode("dependents[employee_id]", "utf-8")
-        }=${Preferences.getValidatedEmpId()}"//SE35674  RH75774748
-       /* + "&&${
-            URLEncoder.encode(
-                "dependents[ch_role]",
-                "utf-8"
-            )
-        }=${}"*/
+        }=${Preferences.getValidatedEmpId()}" + "&&${
+            URLEncoder.encode("dependents[ch_role]", "utf-8")
+        }=${row.assign_to_role!!.uid}"////SE35674  RH75774748
 
         var proxyBaseUrL = ""
         var proxyToken = ""
@@ -1772,9 +1768,7 @@ class ComplainListViewModel : ViewModel() {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(
-                    proxyBaseUrL,
-                    proxyToken,
-                    GetDetailsRequest(baseUrl, "GET", "The", "", "")
+                    proxyBaseUrL, proxyToken, GetDetailsRequest(baseUrl, "GET", "The", "", "")
                 )
             }
             when (response) {
@@ -1790,11 +1784,7 @@ class ComplainListViewModel : ViewModel() {
                             )
                             if (request.success!!) {
                                 complaintListFragmentCallback.onSuccessUsersListforSubworkflow(
-                                    ticketData,
-                                    responseList,
-                                    position,
-                                    row,
-                                    request
+                                    ticketData, responseList, position, row, request
                                 )
                             } else {
                                 command.value = CmsCommand.ShowToast(request.message.toString())

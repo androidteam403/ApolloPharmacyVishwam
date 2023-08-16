@@ -51,6 +51,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload.FileUploadApn
 import com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload.FileUploadApnaSurveyModel
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.DimensionTypeResponse.Data.ListData.Row
+import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.bumptech.glide.Glide
@@ -200,6 +201,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     val REQUEST_CODE_CAMERA = 2235211
     val REQUEST_CODE_VIDEO = 2156
 
+    var surveyStartedDateTime = ""
     lateinit var supportMapFragment: SupportMapFragment
     lateinit var client: FusedLocationProviderClient
     var map: GoogleMap? = null
@@ -221,6 +223,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
         apnaNewSurveyViewModel = ViewModelProvider(this)[ApnaNewSurveyViewModel::class.java]
 
+        surveyStartedDateTime = Utils.getCurrentTimeDate()
+        surveyCreateRequest.surveyed_on = surveyStartedDateTime
 //        activityApnaNewSurveyBinding.scrollView.post(Runnable {
 //            activityApnaNewSurveyBinding.scrollView.scrollTo(0, 0)
 //        })

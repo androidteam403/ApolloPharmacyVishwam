@@ -13,6 +13,10 @@ class SurveyCreateRequest : Serializable {
     @Expose
     var parking: Parking? = null
 
+    @SerializedName("surveyed_on")
+    @Expose
+    var surveyed_on: String? = null
+
     @SerializedName("toilets_availability")
     @Expose
     var toiletsAvailability: ToiletsAvailability? = null

@@ -693,7 +693,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                             "forward"
                         ) && managerUid.equals(employeeDetailsResponse?.data!!.uid)
                     ) {
-                        binding.inventoryActionLayout.visibility = View.VISIBLE
+//                        binding.inventoryActionLayout.visibility = View.VISIBLE// ::::: inventory_action_layout_remove
                         binding.inventoryRejectBtn.visibility = View.VISIBLE
                         binding.inventoryForwardManagerBtn.visibility = View.GONE
                         binding.inventoryChangeForwardBtn.visibility = View.VISIBLE
@@ -702,7 +702,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                             items.ticketDetailsResponse?.data?.user!!.uid
                         )
                     ) {
-                        binding.inventoryActionLayout.visibility = View.VISIBLE
+//                        binding.inventoryActionLayout.visibility = View.VISIBLE// ::::: inventory_action_layout_remove
                         binding.inventoryRejectBtn.visibility = View.VISIBLE
                         binding.inventoryForwardManagerBtn.visibility = View.GONE
                         binding.inventoryChangeForwardBtn.visibility = View.GONE
@@ -721,7 +721,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         imageClickListener.onClickForwardChangeManager(items, position, orderData)
                     }
                 } else {
-                    binding.inventoryActionLayout.visibility = View.GONE
+//                    binding.inventoryActionLayout.visibility = View.GONE// ::::: inventory_action_layout_remove
                 }
                 binding.inventoryImagesLayout.visibility = View.VISIBLE
                 if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.isNullOrEmpty()) {
@@ -768,7 +768,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             } else {
                 isDonthaveInventory = true
                 binding.inventoryDetailsLayout.visibility = View.GONE
-                binding.inventoryActionLayout.visibility = View.GONE
+//                binding.inventoryActionLayout.visibility = View.GONE// ::::: inventory_action_layout_remove
                 binding.inventoryImagesLayout.visibility = View.GONE
             }
             items.created_id?.first_name + (if (items.created_id?.middle_name != null) " " + items.created_id?.middle_name else "") + (if (items.created_id?.last_name != null) " " + items.created_id?.last_name else "") + " (" + items.created_id?.login_unique + ")"
@@ -968,7 +968,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                             || items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == "Yes"
                         ) {
                             binding.ticketCloseBtn.visibility = View.VISIBLE
-                        }else{
+                        } else {
                             binding.ticketCloseBtn.visibility = View.GONE
                         }
                     }
@@ -2114,7 +2114,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         responseList: ArrayList<ResponseNewTicketlist.Row>,
         position: Int, row: SubworkflowConfigDetailsResponse.Rows,
     ) {
-        if (row.action!!.code.equals("forward") && row.assignToUser!!.uid!!.equals("Yes")) {
+        if ((row.action!!.code.equals("forward") || row.action!!.code.equals("change_forward_manager")) && row.assignToUser!!.uid!!.equals("Yes")) {
             if (NetworkUtil.isNetworkConnected(requireContext())) {
                 showLoading()
                 viewModel.userlistForSubworkflowApiCall(
@@ -2156,7 +2156,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         var userDropdownLayout =
             dialog.findViewById(R.id.user_dropdown_layout) as LinearLayout
         var userForsubworkflow = UserListForSubworkflowResponse.Rows()
-        if (row.action!!.code.equals("forward") && row.assignToUser!!.uid!!.equals("Yes")) {
+        if ((row.action!!.code.equals("forward") || row.action!!.code.equals("change_forward_manager")) && row.assignToUser!!.uid!!.equals("Yes")) {
             if (userListForSubworkflowResponse != null
                 && userListForSubworkflowResponse.success!!
                 && userListForSubworkflowResponse.data != null
@@ -2211,6 +2211,60 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     ticketSubworkflowActionUpdateRequest.employee_id =
                         "${Preferences.getValidatedEmpId()}"//"RH75774748" //"SE35674"
                     // "SE35674"//${Preferences.getValidatedEmpId()}
+                    ticketSubworkflowActionUpdateRequest.items_uid =
+                        data.ticket_inventory!!.ticket_inventory_item!!.get(0).uid
+                    if (row.action!!.code != null && row.action!!.code.equals("forward_to_manager")) {
+                        ticketSubworkflowActionUpdateRequest.items_uid =
+                            data.ticket_inventory!!.ticket_inventory_item!!.get(0).uid
+                        var manager = TicketSubworkflowActionUpdateRequest.Manager()
+                        manager.uid = data.manager!!.uid
+                        ticketSubworkflowActionUpdateRequest.manager = manager
+                        var ticket = TicketSubworkflowActionUpdateRequest.Ticket()
+                        ticket.uid = responseList.get(position).uid
+                        ticketSubworkflowActionUpdateRequest.ticket = ticket
+                    }
+
+                    if (row.action!!.code != null && row.action!!.code.equals("change_forward_manager") && row.assignToUser!!.uid!!.equals(
+                            "Yes"
+                        )
+                    ) {
+                        ticketSubworkflowActionUpdateRequest.items_uid =
+                            data.ticket_inventory!!.ticket_inventory_item!!.get(0).uid
+                        var manager = TicketSubworkflowActionUpdateRequest.Manager()
+                        manager.uid = userForsubworkflow!!.uid
+                        ticketSubworkflowActionUpdateRequest.manager = manager
+                        var ticket = TicketSubworkflowActionUpdateRequest.Ticket()
+                        ticket.uid = responseList.get(position).uid
+                        ticketSubworkflowActionUpdateRequest.ticket = ticket
+
+                        var oldManager = TicketSubworkflowActionUpdateRequest.OldManager()
+                        oldManager.uid = data.manager!!.uid
+                        ticketSubworkflowActionUpdateRequest.old_manager = oldManager
+
+                        var toUser = TicketSubworkflowActionUpdateRequest.ToUser()
+                        toUser.uid = userForsubworkflow.uid
+                        toUser.firstName = userForsubworkflow.firstName
+                        toUser.middleName = userForsubworkflow.middleName
+                        toUser.lastName = userForsubworkflow.lastName
+                        toUser.loginUnique = userForsubworkflow.loginUnique
+                        var role = TicketSubworkflowActionUpdateRequest.Role()
+                        role.uid = userForsubworkflow.role!!.uid
+                        role.code = userForsubworkflow.role!!.code
+                        role.name = userForsubworkflow.role!!.name
+                        toUser.role = role
+                        var level = TicketSubworkflowActionUpdateRequest.Level()
+                        level.uid = userForsubworkflow.level!!.uid
+                        level.name = userForsubworkflow.level!!.name
+                        toUser.level = level
+                        ticketSubworkflowActionUpdateRequest.toUser = toUser
+
+
+                        var site = TicketSubworkflowActionUpdateRequest.Site()
+                        site.uid = data.site.uid
+                        site.site = data.site.site
+                        ticketSubworkflowActionUpdateRequest.site = site
+                    }
+
                     var subworkflow = TicketSubworkflowActionUpdateRequest.Subworkflow()
                     subworkflow.uid = row.uid!!
                     ticketSubworkflowActionUpdateRequest.subworkflow = subworkflow
@@ -2420,7 +2474,6 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     override fun onClickSpinnerLayout() {
         TODO("Not yet implemented")
     }
-
 
 
     override fun onSelectedManager(data: Row) {
