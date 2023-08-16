@@ -30,6 +30,7 @@
     <color name="terniary">#808080</color>
     <color name="colorBlack">#000000</color>
     <color name="label_color">#3f9bb3</color>
+    <color name="label_color_ceo">#005EFF</color>
 
     <color name="customer_search_border">#d5d6d8</color>
     <color name="pay_btn_color">#fcb815</color>

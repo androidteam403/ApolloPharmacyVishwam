@@ -217,6 +217,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public RelativeLayout onClickPlusIcon;
     public LinearLayout scannerIcon;
     public ImageView refreshIconQc;
+    public ImageView backArrow;
+    public ImageView openDrawer;
 
     public RelativeLayout filterIcon;
     public RelativeLayout qcfilterIcon;
@@ -433,6 +435,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else isStoreSuperVisour = false;
         qcfilterIcon = findViewById(R.id.qc_filter_icon);
         refreshIconQc = findViewById(R.id.refreshIconQc);
+        openDrawer = findViewById(R.id.openDrawer);
+        backArrow = findViewById(R.id.backButton);
 
 
         filterIconApna = findViewById(R.id.filtericonapna);

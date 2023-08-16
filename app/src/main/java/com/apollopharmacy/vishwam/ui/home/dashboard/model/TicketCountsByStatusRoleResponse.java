@@ -43,6 +43,16 @@ public class TicketCountsByStatusRoleResponse implements Serializable {
         this.data = data;
     }
 
+    public  String  empId;
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(String empId) {
+        this.empId = empId;
+    }
+
     public class Data implements Serializable {
 
         @SerializedName("listData")

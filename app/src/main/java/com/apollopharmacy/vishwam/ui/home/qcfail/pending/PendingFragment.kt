@@ -82,7 +82,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var reason: String = "test"
     var qcreasonCode: String = ""
     private var filterPendingList = ArrayList<QcListsResponse.Pending>()
-    var subList: java.util.ArrayList<java.util.ArrayList<QcListsResponse.Pending>>? =
+    var subList: ArrayList<ArrayList<QcListsResponse.Pending>>? =
         java.util.ArrayList()
 
     //    var subListTempFilter: java.util.ArrayList<QcListsResponse.Pending>? =
