@@ -446,7 +446,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             } else {
 
                 viewBinding.dashboardName.setText( WordUtils.capitalize(
-                    ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.replace("_", " ")).replace(" ","")+" Summary")
+                    ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.replace("_", " "))+" Summary")
 
 //                if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.uppercase()
 //                        .contains("REGION")
