@@ -39,6 +39,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import lecho.lib.hellocharts.model.SliceValue
 import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.text.WordUtils
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -265,25 +266,36 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             val view =
                 com.apollopharmacy.vishwam.databinding.LegendLayoutBinding.inflate(layoutInflater)
             view.legendBox.setBackgroundColor(colors[i])
+            val highlightedEntries = mutableListOf<Int>()
 
-//            view.legendTitle.setOnClickListener {
-//                for (j in chartData.indices) {
-//                    if (chartData[j].label.equals(view.legendTitle.text.toString())) {
+//                        view.legendTitle.setOnClickListener {
+//                                            for (j in chartData.indices) {
 //
-//                        val highlight = Highlight(chartData[j]!!.x, chartData[j]!!.y, 0)
-//                        viewBinding.pieChart.highlightValues(arrayOf(highlight))
-//                        viewBinding.pieChart.invalidate()
+//                                                if (chartData[j].label.equals(view.legendTitle.text.toString())) {
+//
+//                                                    val isSecondEntryHighlighted = highlightedEntries.contains(j)
+//                                                    if (isSecondEntryHighlighted){
+//                                                        viewBinding.pieChart.highlightValue(null)
+//
+//                                                    }
+//                                                    else{
+//                                                        viewBinding.pieChart.highlightValue(
+//                                                            (j).toFloat(),
+//                                                            0
+//                                                        )
+//                                                        highlightedEntries.add(j)
+//                                                    }
 //
 //
-//                    }
 //
+//                                                }
 //
-//                }
+//                                            }
 //
-////                viewBinding.pieChart.invalidate() // Refresh the chart
-//
-//
-//            }
+//                        }
+
+
+
 
             if (label.isNotEmpty()) {
                 if (label.equals(chartData.get(i).label) && value == chartData.get(i).y) {
@@ -429,22 +441,26 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
             if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.isNullOrEmpty()) {
                 viewBinding.nameOfTheStore.text = "Stores"
-                viewBinding.dashboardName.setText("Stores Dashboard")
+                viewBinding.dashboardName.setText("Stores Summary")
 
             } else {
-                if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.uppercase()
-                        .contains("REGION")
-                ) {
-                    viewBinding.dashboardName.setText("Ceo Dashboard")
-                } else if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.uppercase()
-                        .contains("MANAGER")
-                ) {
-                    viewBinding.dashboardName.setText("RegionHead Dashboard")
-                } else if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.uppercase()
-                        .contains("EXECUTIVE")
-                ) {
-                    viewBinding.dashboardName.setText("Executive Dashboard")
-                }
+
+                viewBinding.dashboardName.setText( WordUtils.capitalize(
+                    ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.replace("_", " ")).replace(" ","")+" Summary")
+
+//                if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.uppercase()
+//                        .contains("REGION")
+//                ) {
+//                    viewBinding.dashboardName.setText("Ceo Dashboard")
+//                } else if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.uppercase()
+//                        .contains("MANAGER")
+//                ) {
+//                    viewBinding.dashboardName.setText("RegionHead Dashboard")
+//                } else if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.uppercase()
+//                        .contains("EXECUTIVE")
+//                ) {
+//                    viewBinding.dashboardName.setText("Executive Dashboard")
+//                }
 
                 viewBinding.nameOfTheStore.text = StringUtils.capitalize(
                     ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.replace(
