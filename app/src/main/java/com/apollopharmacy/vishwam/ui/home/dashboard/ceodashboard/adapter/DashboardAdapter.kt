@@ -46,7 +46,7 @@ class DashboardAdapter(
 
         holder.adapterDashboardCeoBinding.name.setOnClickListener {
             if (!response.employeeid.isNullOrEmpty()){
-                ceoDashboardCallback.onClickEmployee(response.employeeid)
+                ceoDashboardCallback.onClickEmployee(response.employeeid,response.roleCode)
 
             }
 

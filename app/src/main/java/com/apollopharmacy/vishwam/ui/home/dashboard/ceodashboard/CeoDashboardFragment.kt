@@ -1,9 +1,13 @@
 package com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard
 
+import android.R.attr.x
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.TypedValue
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -47,6 +51,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     private var chart: AnyChartView? = null
     var dashboardAdapter: DashboardAdapter? = null
     private var count = listOf(257, 321, 142)
+    var highlightedEntries = java.util.ArrayList<Int>()
 
     var countApiCall: Int = 0
     val data: MutableList<String> = ArrayList()
@@ -112,7 +117,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             this,
             Utils.getFirstDateOfCurrentMonth(),
             Utils.getCurrentDateCeoDashboard(),
-            Preferences.getValidatedEmpId()//"APL67949"
+            Preferences.getValidatedEmpId(), ""//"APL67949"
         )
 
 
@@ -263,35 +268,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             val view =
                 com.apollopharmacy.vishwam.databinding.LegendLayoutBinding.inflate(layoutInflater)
             view.legendBox.setBackgroundColor(colors[i])
-            val highlightedEntries = mutableListOf<Int>()
-
-//                        view.legendTitle.setOnClickListener {
-//                                            for (j in chartData.indices) {
-//
-//                                                if (chartData[j].label.equals(view.legendTitle.text.toString())) {
-//
-//                                                    val isSecondEntryHighlighted = highlightedEntries.contains(j)
-//                                                    if (isSecondEntryHighlighted){
-//                                                        viewBinding.pieChart.highlightValue(null)
-//
-//                                                    }
-//                                                    else{
-//                                                        viewBinding.pieChart.highlightValue(
-//                                                            (j).toFloat(),
-//                                                            0
-//                                                        )
-//                                                        highlightedEntries.add(j)
-//                                                    }
-//
-//
-//
-//                                                }
-//
-//                                            }
-//
-//                        }
-
-
             if (label.isNotEmpty()) {
                 if (label.equals(chartData.get(i).label) && value == chartData.get(i).y) {
 
@@ -329,17 +305,56 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                     view.legendBox.layoutParams = layoutParams
                 }
             }
-
-
-
-
             view.legendTitle.text = chartData[i].label
+            view.legendTitle.setOnClickListener {
+                for (j in chartData.indices) {
+                    if (chartData[j].label == view.legendTitle.text.toString()) {
+
+                        if (highlightedEntries.contains(j)) {
+                            highlightedEntries.remove(j)
+                            view.legendTitle.textSize = 12F
+
+
+
+                            view.legendTitle.setTextColor(Color.parseColor("#808080"))
+                            val desiredWidthInDp = 10
+                            val desiredHeightInDp = 10
+
+                            val density = resources.displayMetrics.density
+                            val desiredWidthInPx = (desiredWidthInDp * density).toInt()
+                            val desiredHeightInPx = (desiredHeightInDp * density).toInt()
+
+                            val layoutParams = view.legendBox.layoutParams
+                            layoutParams.width = desiredWidthInPx
+                            layoutParams.height = desiredHeightInPx
+                            view.legendBox.layoutParams = layoutParams
+                        } else {
+                            highlightedEntries.add(j)
+                        }
+                    }
+                }
+
+                // Unhighlight all values first
+                viewBinding.pieChart.highlightValue(null)
+
+                // Then highlight the selected entries
+                for (highlightedIndex in highlightedEntries) {
+                    viewBinding.pieChart.highlightValue(highlightedIndex.toFloat(), 0)
+                }
+
+            }
 
             view.legendBox.animate()
             viewBinding.chartLabels.addView(view.root)
         }
     }
 
+    fun getDefaultTextColor(context: Context): Int {
+        val typedValue = TypedValue()
+        val theme = context.theme
+        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true)
+        return typedValue.data
+    }
 
     override fun onClickRightArrow(row: TicketCountsByStatusRoleResponse.Data.ListData.Row) {
         if (!role.equals("store_executive")) {
@@ -351,12 +366,13 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         }
     }
 
-    override fun onClickEmployee(employee: String) {
+    override fun onClickEmployee(employee: String, roleCode: String) {
 
         empId = employee
 
         if (countApiCall < 0) {
             countApiCall = 0
+
         }
 
         if (empIdList.contains(employee)) {
@@ -379,7 +395,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 this,
                 Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
                 Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-                employee//"APL67949"
+                employee, roleCode//"APL67949"
             )
         }
 
@@ -860,20 +876,29 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     override fun onClickApplyDate() {
         showLoading()
 
-        if (empId.isNullOrEmpty()) {
+        if (empId.isNullOrEmpty() && statusRoleResponseList.size > 0) {
             if (Utils.getFirstDateOfCurrentMonth()
                     .equals(Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString())) && Utils.getCurrentDateCeoDashboard()
                     .equals(Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()))
             ) {
                 hideLoading()
                 callAdapter()
-            } else {
-                statusRoleResponseList.removeAt(0)
+            } else if (statusRoleResponseList.isNotEmpty()) {
+
+                for (i in statusRoleResponseList.indices) {
+                    if (statusRoleResponseList[i].empId.equals(Preferences.getValidatedEmpId())) {
+                        statusRoleResponseList.removeAt(i)
+
+                    }
+
+                }
+
+
                 viewModel.getTicketListByCountApi(
                     this,
                     Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
                     Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-                    Preferences.getValidatedEmpId()//"APL67949"
+                    Preferences.getValidatedEmpId(), ""//"APL67949"
                 )
             }
 
@@ -882,7 +907,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 this,
                 Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
                 Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-                empId//"APL67949"
+                empId, ""//"APL67949"
             )
         }
 
@@ -930,13 +955,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 }
 
             }
-//            showLoading()
-//            viewModel.getTicketListByCountApi(
-//                this,
-//                Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
-//                Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-//                Preferences.getValidatedEmpId()//"APL67949"
-//            )
         } else {
             for (i in empIdList.indices) {
                 if (empId.equals(empIdList.get(i))) {
