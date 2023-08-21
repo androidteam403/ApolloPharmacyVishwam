@@ -27,9 +27,9 @@ object PendingRepo {
         url: String,
     ): ApiResult<PendingOrder> {
         return try {
-           // var temppendingrequest=PendingOrderRequest("APL00002")
+//            var temppendingrequest=PendingOrderRequest("APL00225")
             val encriptData =
-                EncryptionManager.encryptData(Gson().toJson(loginApiRequest), ENCRIPTION_KEY)
+                EncryptionManager.encryptData(Gson().toJson(loginApiRequest), ENCRIPTION_KEY)//loginApiRequest
             Utils.printMessage("EncriptPendingList", encriptData.toString().trim())
             val response =
                 Api.getClient().getPendingList(url, CommonRequest(encriptData.toString()))

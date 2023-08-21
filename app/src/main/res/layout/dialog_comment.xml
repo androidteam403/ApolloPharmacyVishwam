@@ -146,31 +146,45 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_10dp"
-                        android:text="Select User"
+                        android:text="User:"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_16sp"
                         android:textStyle="bold" />
 
                     <RelativeLayout
+                        android:id="@+id/user_list_selected_item_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_5dp">
 
-                        <Spinner
-                            android:id="@+id/user_list_for_subworkflow_spinner"
-                            style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                        <EditText
+                            android:id="@+id/user_list_selected_item"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular" />
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_marginEnd="@dimen/value_10dp"
+                            android:background="@drawable/edit_text_bg"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:hint="Select User"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_16sp" />
 
-                        <ImageView
-                            android:layout_width="@dimen/twenty20_dp"
-                            android:layout_height="@dimen/twenty20_dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="@dimen/eight_dp"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/bg_spinner" />
+                        <!-- <Spinner
+                             android:id="@+id/user_list_for_subworkflow_spinner"
+                             style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:fontFamily="@font/roboto_regular" />
+
+                         <ImageView
+                             android:layout_width="@dimen/twenty20_dp"
+                             android:layout_height="@dimen/twenty20_dp"
+                             android:layout_alignParentEnd="true"
+                             android:layout_centerVertical="true"
+                             android:layout_marginEnd="@dimen/eight_dp"
+                             android:contentDescription="@string/app_name"
+                             android:src="@drawable/bg_spinner" />-->
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -227,7 +241,7 @@
                         android:backgroundTint="@color/rejected"
                         android:text="Cancel"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/text_15sp"
+                        android:textSize="@dimen/text_12sp"
                         android:textStyle="bold"
                         app:cornerRadius="@dimen/value_10dp" />
 
@@ -241,7 +255,7 @@
                         android:backgroundTint="@color/splash_start_color"
                         android:text="@string/label_submit"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/text_15sp"
+                        android:textSize="@dimen/text_12sp"
                         android:textStyle="bold"
                         app:cornerRadius="@dimen/value_10dp" />
 

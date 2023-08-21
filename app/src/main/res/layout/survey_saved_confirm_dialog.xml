@@ -31,8 +31,9 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:text="Survey ID : "
-                android:textColor="@color/grey"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_14sp"
+                android:textStyle="bold"
                 android:visibility="visible" />
 
             <TextView

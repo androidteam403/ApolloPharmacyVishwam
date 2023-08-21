@@ -14,6 +14,9 @@ class TicketSubworkflowActionUpdateResponse {
     val data: Data? = null
 
     class Data {
+        @field:SerializedName("res")
+        val res: String? = null
+
         @field:SerializedName("uid")
         val uid: String? = null
 

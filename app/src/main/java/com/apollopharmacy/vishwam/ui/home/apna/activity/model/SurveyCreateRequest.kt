@@ -97,7 +97,7 @@ class SurveyCreateRequest : Serializable {
 
     @SerializedName("total_area")
     @Expose
-    var totalArea: Float? = null
+    var totalArea: Double? = null
 
     @SerializedName("shop_address")
     @Expose
@@ -163,6 +163,10 @@ class SurveyCreateRequest : Serializable {
     @SerializedName("extng_outlet_age")
     @Expose
     var extngOutletAge: Float? = null
+
+    @SerializedName("extng_outlet_age_in_month")
+    @Expose
+    var extng_outlet_age_in_month: Float? = null
 
     @SerializedName("cs_pharma")
     @Expose
@@ -279,11 +283,11 @@ class SurveyCreateRequest : Serializable {
 
         @SerializedName("sales")
         @Expose
-        var sales: Float? = null
+        var sales: Double? = null
 
         @SerializedName("sqft")
         @Expose
-        var sqft: Float? = null
+        var sqft: Double? = null
 
         class Location : Serializable {
             @SerializedName("uid")

@@ -30,15 +30,57 @@ class PreviewNeighbouringStoreAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = listData.get(position)
-        holder.neighbourStoreAdapterLayoutBinding.rent.setText("\u20B9" + DecimalFormat("##,##,##0").format(
-            items.rent.toLong()))
+        holder.neighbourStoreAdapterLayoutBinding.rent.setText(
+            "\u20B9" + DecimalFormat("##,##,##0").format(
+                items.rent.toLong()
+            )
+        )
 
         holder.neighbourStoreAdapterLayoutBinding.neighborLocation.setText(items.location!!.name)
 
-        holder.neighbourStoreAdapterLayoutBinding.sqft.setText(items.sqft!!.toString())
+        if (items.sqft != null) {
+            var sqftFromResponse = DecimalFormat("###.0##").format(items.sqft)
+            var sqft = ""
+            var sqftSplit =
+                "${sqftFromResponse}".split(
+                    "."
+                )
+            if (sqftSplit[1].toInt() > 0) {
+                sqft =
+                    DecimalFormat("##,##,###.0##").format(sqftFromResponse.toDouble())
+            } else {
+                sqft =
+                    DecimalFormat("##,##,###").format(sqftFromResponse.toDouble())
+            }
+            holder.neighbourStoreAdapterLayoutBinding.sqft.setText(sqft)
+
+
+            /* val df = DecimalFormat("##,##,##0").format(items.sqft!!)
+             holder.neighbourStoreAdapterLayoutBinding.sqft.setText(df.toString())*/
+        } else {
+            holder.neighbourStoreAdapterLayoutBinding.sqft.setText("-")
+
+        }
         holder.neighbourStoreAdapterLayoutBinding.store.setText(items.store.toString())
         if (items.sales != null) {
-            holder.neighbourStoreAdapterLayoutBinding.sales.setText(items.sales!!.toString())
+
+
+            var salesFromResponse = DecimalFormat("###.0##").format(items.sales)
+            var sales = ""
+            var salesSplit =
+                "${salesFromResponse}".split(
+                    "."
+                )
+            if (salesSplit[1].toInt() > 0) {
+                sales =
+                    DecimalFormat("##,##,###.0##").format(salesFromResponse.toDouble())
+            } else {
+                sales =
+                    DecimalFormat("##,##,###").format(salesFromResponse.toDouble())
+            }
+            holder.neighbourStoreAdapterLayoutBinding.sales.setText(sales)
+            /* val df = DecimalFormat("##,##,##0").format(items.sales!!)
+             holder.neighbourStoreAdapterLayoutBinding.sales.setText(df.toString())*/
 //            holder.neighbourStoreAdapterLayoutBinding.sales.setText("\u20B9" + DecimalFormat("##,##,##0").format(
 //                items.sales.toLong()))
         } else {

@@ -244,7 +244,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
             apnaPreviewActivityBinding.surveystart.setText(
                 outputDateFormat.format(
                     inputDateFormat.parse(
-                       approvedOrders.surveyed_on!!
+                        approvedOrders.surveyed_on!!
                     )!!
                 )
             )// approvedOrders.createdTime!!
@@ -1217,17 +1217,60 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 //            apnaPreviewActivityBinding.securityDepositUnit.setText("-")
         }
 
-        apnaPreviewActivityBinding.length.setText(value.data!!.length.toString())
-        apnaPreviewActivityBinding.width.setText(value.data!!.width.toString())
-
-        if (value.data!!.ceilingHeight != null) {
-            apnaPreviewActivityBinding.ceilingHeight.setText(value.data!!.ceilingHeight.toString())
+        var length = ""
+        var lengthSplit = "${value.data!!.length}".split(".")
+        if (lengthSplit[1].toInt() > 0) {
+            length = DecimalFormat("##,##,###.0##").format(value.data!!.length)
         } else {
-            apnaPreviewActivityBinding.ceilingHeight.setText("-")
+            length = DecimalFormat("##,##,###").format(value.data!!.length)
+        }
+
+        var width = ""
+        var widthSplit = "${value.data!!.width}".split(".")
+        if (widthSplit[1].toInt() > 0) {
+            width = DecimalFormat("##,##,###.0##").format(value.data!!.width)
+        } else {
+            width = DecimalFormat("##,##,###").format(value.data!!.width)
+        }
+
+        var ceilingHeight = ""
+        var ceilingHeightSplit = "${value.data!!.ceilingHeight}".split(".")
+        if (ceilingHeightSplit[1].toInt() > 0) {
+            ceilingHeight = DecimalFormat("##,##,###.0##").format(value.data!!.ceilingHeight)
+        } else {
+            ceilingHeight = DecimalFormat("##,##,###").format(value.data!!.ceilingHeight)
+        }
+
+        //DecimalFormat("##,##,###.0##")
+
+        var dimensions =
+            "${length} (L) X ${width} (W) X ${ceilingHeight} (H)"
+        //"${value.data!!.length} (L) X ${value.data!!.width} (W) X ${value.data!!.ceilingHeight} (H)"
+        apnaPreviewActivityBinding.length.setText(dimensions)
+
+//        apnaPreviewActivityBinding.length.setText(value.data!!.length.toString())
+        /* apnaPreviewActivityBinding.width.setText(value.data!!.width.toString())
+
+         if (value.data!!.ceilingHeight != null) {
+             apnaPreviewActivityBinding.ceilingHeight.setText(value.data!!.ceilingHeight.toString())
+         } else {
+             apnaPreviewActivityBinding.ceilingHeight.setText("-")
+         }*/
+
+
+        var totalAreaFromResponse = DecimalFormat("###.0##").format(value.data!!.totalArea)
+        var totalArea = ""
+        var totalAreaSplit = "${totalAreaFromResponse}".split(".")
+        if (totalAreaSplit[1].toInt() > 0) {
+            totalArea = DecimalFormat("##,##,###.0##").format(totalAreaFromResponse.toDouble())
+        } else {
+            totalArea = DecimalFormat("##,##,###").format(totalAreaFromResponse.toDouble())
         }
 
         if (value.data!!.totalArea != null) {
-            apnaPreviewActivityBinding.totalareasqft.setText(value.data!!.totalArea.toString())
+            apnaPreviewActivityBinding.totalareasqft.setText(totalArea)
+//            val df = DecimalFormat("##.###").format(value.data!!.totalArea!!)
+//            apnaPreviewActivityBinding.totalareasqft.setText(df.toString())
         } else {
             apnaPreviewActivityBinding.totalareasqft.setText("-")
         }
@@ -1353,17 +1396,36 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 //            apnaPreviewActivityBinding.existingOutletName.setText("-")
 //        }
 
-        if (value.data!!.eoSiteId != null) {
-            apnaPreviewActivityBinding.existingOutletSiteId.setText(value.data!!.eoSiteId)
+        var siteIdName = ""
+        if (!value.data!!.eoSiteId.isNullOrEmpty()) {
+            siteIdName = value.data!!.eoSiteId!!
+        }
+        if (!value.data!!.eoSiteName.isNullOrEmpty()) {
+            if (siteIdName.isEmpty()) {
+                siteIdName = value.data!!.eoSiteName!!
+            } else {
+                siteIdName = "${siteIdName} - ${value.data!!.eoSiteName!!}"
+            }
+        }
+        if (siteIdName.isNullOrEmpty()) {
+            apnaPreviewActivityBinding.existingOutletSiteName.text = "-"
         } else {
-            apnaPreviewActivityBinding.existingOutletSiteId.setText("-")
+            apnaPreviewActivityBinding.existingOutletSiteName.text = siteIdName
+
         }
 
-        if (value.data!!.eoSiteName != null) {
+
+        /* if (value.data!!.eoSiteId != null) {
+             apnaPreviewActivityBinding.existingOutletSiteId.setText(value.data!!.eoSiteId)
+         } else {
+             apnaPreviewActivityBinding.existingOutletSiteId.setText("-")
+         }*/
+
+        /*if (value.data!!.eoSiteName != null) {
             apnaPreviewActivityBinding.existingOutletSiteName.setText(value.data!!.eoSiteName)
         } else {
             apnaPreviewActivityBinding.existingOutletSiteName.setText("-")
-        }
+        }*/
 
         if (value.data!!.extngOutletAge != null) {
             if (value.data!!.extngOutletAge!! > 0) {

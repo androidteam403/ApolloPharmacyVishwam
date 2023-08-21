@@ -905,7 +905,7 @@ class SurveyDetailsList : Serializable {
         var rent = 0
 
         @SerializedName("sales")
-        var sales: Float = 0.0F
+        var sales: Double? = null
 
         @SerializedName("sqft")
         var sqft = 0.0

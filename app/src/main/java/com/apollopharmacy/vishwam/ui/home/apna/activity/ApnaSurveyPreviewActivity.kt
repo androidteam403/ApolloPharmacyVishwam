@@ -290,23 +290,82 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 //            activityApnaSurveyPreviewBinding.expectedRentUnit.setText("-")
 //            activityApnaSurveyPreviewBinding.securityDepositUnit.setText("-")
         }
-        if (surveyCreateRequest.length != null) {
-            activityApnaSurveyPreviewBinding.length.setText(surveyCreateRequest.length)
+
+        if (!surveyCreateRequest.length.isNullOrEmpty()) {
+            var length = ""
+            if (surveyCreateRequest.length!!.contains(".")) {
+                length =
+                    DecimalFormat("##,##,###.0##").format(surveyCreateRequest.length!!.toDouble())
+            } else {
+                length = DecimalFormat("##,##,###").format(surveyCreateRequest.length!!.toDouble())
+            }
+
+            var width = ""
+            if (surveyCreateRequest.width!!.contains(".")) {
+                width =
+                    DecimalFormat("##,##,###.0##").format(surveyCreateRequest.width!!.toDouble())
+            } else {
+                width = DecimalFormat("##,##,###").format(surveyCreateRequest.width!!.toDouble())
+            }
+
+            var ceilingHeight = ""
+            if (surveyCreateRequest.ceilingHeight!!.contains(".")) {
+                ceilingHeight =
+                    DecimalFormat("##,##,###.0##").format(surveyCreateRequest.ceilingHeight!!.toDouble())
+            } else {
+                ceilingHeight =
+                    DecimalFormat("##,##,###").format(surveyCreateRequest.ceilingHeight!!.toDouble())
+            }
+
+
+            var dimensions = "${length} (L) X ${width} (W) X ${ceilingHeight} (H)"
+            //"${surveyCreateRequest.length} (L) X ${surveyCreateRequest.width} (W) X ${surveyCreateRequest.ceilingHeight} (H)"
+            activityApnaSurveyPreviewBinding.length.setText(dimensions)
         } else {
-            activityApnaSurveyPreviewBinding.length.setText("-")
+            var dimensions = "- (L) X - (W) X - (H)"
+            activityApnaSurveyPreviewBinding.length.setText(dimensions)
         }
-        if (surveyCreateRequest.width != null) {
-            activityApnaSurveyPreviewBinding.width.setText(surveyCreateRequest.width)
-        } else {
-            activityApnaSurveyPreviewBinding.width.setText("-")
-        }
-        if (surveyCreateRequest.ceilingHeight != null) {
-            activityApnaSurveyPreviewBinding.ceilingHeight.setText(surveyCreateRequest.ceilingHeight)
-        } else {
-            activityApnaSurveyPreviewBinding.ceilingHeight.setText("-")
-        }
+        /* if (surveyCreateRequest.length != null) {
+             activityApnaSurveyPreviewBinding.length.setText(surveyCreateRequest.length)
+         } else {
+             activityApnaSurveyPreviewBinding.length.setText("-")
+         }
+         if (surveyCreateRequest.width != null) {
+             activityApnaSurveyPreviewBinding.width.setText(surveyCreateRequest.width)
+         } else {
+             activityApnaSurveyPreviewBinding.width.setText("-")
+         }
+         if (surveyCreateRequest.ceilingHeight != null) {
+             activityApnaSurveyPreviewBinding.ceilingHeight.setText(surveyCreateRequest.ceilingHeight)
+         } else {
+             activityApnaSurveyPreviewBinding.ceilingHeight.setText("-")
+         }*/
         if (surveyCreateRequest.totalArea != null) {
-            activityApnaSurveyPreviewBinding.totalArea.setText(surveyCreateRequest.totalArea.toString())
+            var totalAreaFromResponse =
+                DecimalFormat("###.0##").format(surveyCreateRequest.totalArea)
+            var totalArea = ""
+            var totalAreaSplit =
+                "${totalAreaFromResponse}".split(
+                    "."
+                )
+            if (totalAreaSplit[1].toInt() > 0) {
+                totalArea =
+                    DecimalFormat("##,##,###.0##").format(totalAreaFromResponse.toDouble())
+            } else {
+                totalArea =
+                    DecimalFormat("##,##,###").format(totalAreaFromResponse.toDouble())
+            }
+
+            activityApnaSurveyPreviewBinding.totalArea.setText(totalArea)
+
+
+            /* String.format(
+                 "%.2f",
+                 (surveyCreateRequest.length!!.toDouble() * surveyCreateRequest.width!!.toDouble())
+             )*/
+
+
+//            activityApnaSurveyPreviewBinding.totalArea.setText(surveyCreateRequest.totalArea.toString())
         } else {
             activityApnaSurveyPreviewBinding.totalArea.setText("-")
         }
@@ -469,19 +528,65 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         }
 
         // Market information
-        if (surveyCreateRequest.eoSiteId != null && surveyCreateRequest.eoSiteId != "") {
-            activityApnaSurveyPreviewBinding.existingOutletSiteId.setText(surveyCreateRequest.eoSiteId)
+
+
+        var siteIdName = ""
+        if (!surveyCreateRequest.eoSiteId.isNullOrEmpty()) {
+            siteIdName = surveyCreateRequest.eoSiteId!!
+        }
+        if (!surveyCreateRequest.eoSiteName.isNullOrEmpty()) {
+            if (siteIdName.isEmpty()) {
+                siteIdName = surveyCreateRequest.eoSiteName!!
+            } else {
+                siteIdName = "${siteIdName} - ${surveyCreateRequest.eoSiteName!!}"
+            }
+        }
+        if (siteIdName.isNullOrEmpty()) {
+            activityApnaSurveyPreviewBinding.existingOutletSiteName.text = "-"
         } else {
-            activityApnaSurveyPreviewBinding.existingOutletSiteId.setText("-")
+            activityApnaSurveyPreviewBinding.existingOutletSiteName.text = siteIdName
+
         }
 
-        if (surveyCreateRequest.eoSiteName != null && surveyCreateRequest.eoSiteName != "") {
-            activityApnaSurveyPreviewBinding.existingOutletSiteName.setText(surveyCreateRequest.eoSiteName)
-        } else {
-            activityApnaSurveyPreviewBinding.existingOutletSiteName.setText("-")
-        }
+        /* if (surveyCreateRequest.eoSiteId != null && surveyCreateRequest.eoSiteId != "") {
+             activityApnaSurveyPreviewBinding.existingOutletSiteId.setText(surveyCreateRequest.eoSiteId)
+         } else {
+             activityApnaSurveyPreviewBinding.existingOutletSiteId.setText("-")
+         }
 
+         if (surveyCreateRequest.eoSiteName != null && surveyCreateRequest.eoSiteName != "") {
+             activityApnaSurveyPreviewBinding.existingOutletSiteName.setText(surveyCreateRequest.eoSiteName)
+         } else {
+             activityApnaSurveyPreviewBinding.existingOutletSiteName.setText("-")
+         }*/
+
+
+        /*
+                var existingOutletAge = ""
+                if (surveyCreateRequest.extngOutletAge != null) {
+                    existingOutletAge =
+                }*/
+
+        var existingOutletAge = ""
         if (surveyCreateRequest.extngOutletAge != null) {
+            existingOutletAge = "${Math.round(surveyCreateRequest.extngOutletAge!!)} years"
+            if (surveyCreateRequest.extng_outlet_age_in_month != null) {
+                existingOutletAge =
+                    "$existingOutletAge ${Math.round(surveyCreateRequest.extng_outlet_age_in_month!!)} months"
+            }
+            activityApnaSurveyPreviewBinding.existingOutletAge.text = "$existingOutletAge"
+        } else {
+            if (surveyCreateRequest.extng_outlet_age_in_month != null) {
+                existingOutletAge =
+                    "0 years ${Math.round(surveyCreateRequest.extng_outlet_age_in_month!!)} months"
+                activityApnaSurveyPreviewBinding.existingOutletAge.text = "$existingOutletAge"
+            } else {
+                existingOutletAge = "-"
+                activityApnaSurveyPreviewBinding.existingOutletAge.text = "$existingOutletAge"
+            }
+        }
+
+       /* if (surveyCreateRequest.extngOutletAge != null) {
             if (surveyCreateRequest.extngOutletAge!! > 0) {
                 activityApnaSurveyPreviewBinding.existingOutletAge.setText(surveyCreateRequest.extngOutletAge.toString())
             } else {
@@ -489,7 +594,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             }
         } else {
             activityApnaSurveyPreviewBinding.existingOutletAge.setText("-")
-        }
+        }*/
 
 //        if (surveyCreateRequest.csPharma != null) {
 //            activityApnaSurveyPreviewBinding.pharma.setText(surveyCreateRequest.csPharma.toString())

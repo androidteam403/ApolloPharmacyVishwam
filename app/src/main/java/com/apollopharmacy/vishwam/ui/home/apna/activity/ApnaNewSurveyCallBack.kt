@@ -1,8 +1,20 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity
 
 import com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload.FileUploadApnaSurveyModel
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
-import com.apollopharmacy.vishwam.util.fileupload.FileUploadModel
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ApartmentTypeResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ApnaSpecialityResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.CityListResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.DimensionTypeResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ImageDto
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.LocationListResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringLocationResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ParkingTypeResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.RegionListResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.StateListResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.TrafficGeneratorsResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.TrafficStreetTypeResponse
 import java.io.File
 
 interface ApnaNewSurveyCallBack {
@@ -126,6 +138,8 @@ interface ApnaNewSurveyCallBack {
     fun onSelectNeighbourLocation(position: Int, name: String, uid: String)
 
     fun onSelectedAgeoftheBuildingMonth(month: String)
+
+    fun onSelectedExistingOutletinMonth(month: String)
 
     fun onSuccessGetRegionListApiCall(regionListResponse: RegionListResponse)
 

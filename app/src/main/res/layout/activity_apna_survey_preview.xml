@@ -959,7 +959,7 @@
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_13sp" />
 
-                                    <TextView
+                                   <!-- <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_4dp"
@@ -1022,7 +1022,7 @@
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="(H)"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_13sp" />
+                                        android:textSize="@dimen/text_13sp" />-->
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -1844,7 +1844,7 @@
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp" />
 
-                                    <TextView
+                                  <!--  <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/value_5dp"
@@ -1870,7 +1870,7 @@
                                         android:fontFamily="@font/roboto_medium"
                                         android:text=")"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_12sp" />
+                                        android:textSize="@dimen/text_12sp" />-->
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -2479,7 +2479,7 @@
                                         <TableLayout
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight="1"
+                                            android:layout_weight=".8"
                                             android:background="@drawable/apna_table_border_right">
 
                                             <TextView
@@ -2497,7 +2497,7 @@
                                         <TableLayout
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight=".8"
+                                            android:layout_weight="1"
                                             android:background="@drawable/apna_table_border_right">
 
                                             <TextView
@@ -2515,7 +2515,7 @@
                                         <TableLayout
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight="1.2"
+                                            android:layout_weight="1"
                                             android:background="@drawable/apna_table_border_right">
 
                                             <TextView
@@ -2533,7 +2533,7 @@
                                         <TableLayout
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight=".8"
+                                            android:layout_weight="1"
                                             android:background="@drawable/apna_table_border_right">
 
                                             <TextView
@@ -2600,7 +2600,7 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:fontFamily="@font/roboto_medium"
-                                                android:text="Organized: "
+                                                android:text="Organised: "
                                                 android:textSize="10sp" />
 
                                             <TextView
@@ -2623,7 +2623,7 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:fontFamily="@font/roboto_medium"
-                                                android:text="Un Organized: "
+                                                android:text="Un Organised: "
                                                 android:textSize="10sp" />
 
                                             <TextView

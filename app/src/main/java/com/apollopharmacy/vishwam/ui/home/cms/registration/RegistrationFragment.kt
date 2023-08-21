@@ -558,6 +558,40 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
             }
         })
+        viewBinding.oldmrpEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int,
+            ) {
+            }
+
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                val text = charSequence.toString()
+                if (charSequence.length <= 1) {
+                    if (text.contains(".") && text.indexOf(".") == 0) {
+                        viewBinding.oldmrpEditText.setText(
+                            viewBinding.oldmrpEditText.text.toString().replace(".", "")
+                        )
+                        viewBinding.oldmrpEditText.setSelection(viewBinding.oldmrpEditText.text.toString().length)
+                    }
+                } else {
+                    if (text.contains(".") && text.indexOf(".") != text.length - 1 && text[text.length - 1].toString() == ".") {
+                        viewBinding.oldmrpEditText.setText(text.substring(0, text.length - 1))
+                        viewBinding.oldmrpEditText.setSelection(viewBinding.oldmrpEditText.text.toString().length)
+                    }
+                    if (text.contains(".") && text.substring(text.indexOf(".") + 1).length > 2) {
+                        viewBinding.oldmrpEditText.setText(text.substring(0, text.length - 1))
+                        viewBinding.oldmrpEditText.setSelection(viewBinding.oldmrpEditText.text.toString().length)
+                    }
+                }
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+
+            }
+        })
 
         viewBinding.newMrpEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(

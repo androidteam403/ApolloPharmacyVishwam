@@ -695,13 +695,14 @@ class ComplainListViewModel : ViewModel() {
                                 InventoryAcceptRejectResponse::class.java
                             )
                             if (responseNewTicketlistNewTicketHistoryResponse.success) {
-//                                command.value = CmsCommand.RefreshPageOnSuccess(
-//                                    responseNewTicketlistNewTicketHistoryResponse.data.uid
-//                                )
-//                                command.value = CmsCommand.ShowToast(
-//                                    responseNewTicketlistNewTicketHistoryResponse.data.uid.toString()
-//                                )
-//                                actionWorkflowUpdate(workFlowUpdateModel,itemPos)
+                                //test:::::
+                                command.value = CmsCommand.RefreshPageOnSuccess(
+                                    responseNewTicketlistNewTicketHistoryResponse.data.uid
+                                )
+                                command.value = CmsCommand.ShowToast(
+                                    responseNewTicketlistNewTicketHistoryResponse.data.uid.toString()
+                                )
+//                                actionWorkflowUpdate(workFlowUpdateModel, itemPos)
                             } else {
                                 command.value = CmsCommand.ShowToast(
                                     responseNewTicketlistNewTicketHistoryResponse.data.res.toString()
@@ -1645,7 +1646,7 @@ class ComplainListViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
-         //   "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-subworkflow-action-update"
+        //   "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-subworkflow-action-update"
         // "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/ticket-subworkflow-action-update"
         var token1 = ""
         for (i in data.APIS.indices) {
@@ -1693,7 +1694,8 @@ class ComplainListViewModel : ViewModel() {
                                     request, row, remark, data1, responseList, position
                                 )
                             } else {
-                                command.value = CmsCommand.ShowToast(request.message.toString())
+                                command.value =
+                                    CmsCommand.ShowToast(request.message.toString() + " " + request.data!!.res!!)
                             }
 
                         }

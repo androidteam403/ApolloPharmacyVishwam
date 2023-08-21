@@ -1,11 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard
 
-import android.R.attr.x
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -41,7 +39,6 @@ import lecho.lib.hellocharts.model.SliceValue
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.text.WordUtils
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDashboardBinding>(),
@@ -152,7 +149,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                             .equals(statusRoleResponseList.get(i).empId)
                     ) {
                         ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
-                    callAdapter()
+                        callAdapter()
                     }
 
                 }
@@ -171,14 +168,14 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
 
 
-            if (empIdList.size > 0&&countApiCall!=0) {
+            if (empIdList.size > 0 && countApiCall != 0) {
 //            showLoading()
                 val lastIndex = empIdList.size - 1
 
                 for (i in statusRoleResponseList.indices) {
                     if (empIdList.get(lastIndex).equals(statusRoleResponseList.get(i).getEmpId())) {
                         ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
-                    callAdapter()
+                        callAdapter()
                     }
                 }
 
@@ -295,8 +292,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 //                        }
 
 
-
-
             if (label.isNotEmpty()) {
                 if (label.equals(chartData.get(i).label) && value == chartData.get(i).y) {
 
@@ -371,14 +366,14 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
             empIdList.add(employee)
         }
-        if (statusRoleResponseList.filter { it.empId.equals(employee) }.size>0){
+        if (statusRoleResponseList.filter { it.empId.equals(employee) }.size > 0) {
             for (i in statusRoleResponseList.indices) {
                 if (employee.equals(statusRoleResponseList.get(i).getEmpId())) {
                     ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
                     callAdapter()
                 }
             }
-        }else{
+        } else {
             showLoading()
             viewModel.getTicketListByCountApi(
                 this,
@@ -445,8 +440,14 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
             } else {
 
-                viewBinding.dashboardName.setText( WordUtils.capitalize(
-                    ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.replace("_", " "))+" Summary")
+                viewBinding.dashboardName.setText(
+                    WordUtils.capitalize(
+                        ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.replace(
+                            "_",
+                            " "
+                        )
+                    ) + " Summary"
+                )
 
 //                if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.uppercase()
 //                        .contains("REGION")
@@ -936,7 +937,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 //                Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
 //                Preferences.getValidatedEmpId()//"APL67949"
 //            )
-        }else{
+        } else {
             for (i in empIdList.indices) {
                 if (empId.equals(empIdList.get(i))) {
                     empIdList.removeAt(i)
@@ -950,7 +951,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
 
 
-        if (empIdList.size > 0&&countApiCall!=0) {
+        if (empIdList.size > 0 && countApiCall != 0) {
 //            showLoading()
             val lastIndex = empIdList.size - 1
 
@@ -963,7 +964,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
             empIdList.removeAt(lastIndex)
             return true
-        } else if (countApiCall<0){
+        } else if (countApiCall < 0) {
             return false
         }
         return true
