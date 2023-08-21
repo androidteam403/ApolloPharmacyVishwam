@@ -6,7 +6,7 @@ import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRo
 interface CeoDashboardCallback {
 
     fun onClickRightArrow(row: TicketCountsByStatusRoleResponse.Data.ListData.Row)
-    fun onClickEmployee(employee:String)
+    fun onClickEmployee(employee:String,roleCode:String)
 
     fun onSuccessgetTicketListByCountApi(value: TicketCountsByStatusRoleResponse)
 
