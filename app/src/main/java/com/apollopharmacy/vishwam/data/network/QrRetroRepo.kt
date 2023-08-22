@@ -4,6 +4,7 @@ import com.apollopharmacy.vishwam.data.model.discount.GetDiscountColorResponse
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetImageByRackResponse
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
@@ -59,7 +60,43 @@ object QrRetroRepo {
     }
 
 
+    suspend fun getImageUrlsByRack(
+        url: String,
+        token: String,
 
+        ): ApiResult<GetImageByRackResponse> {
+        return try {
+            val response = Api.getClient().getImageUrlsByRack(url, token)
+            ApiResult.Success(response)
+        }
+        catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
 
 
 

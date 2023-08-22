@@ -54,6 +54,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.apollopharmacy.vishw.PendingFragment;
@@ -203,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     public String employeeRole = "";
     public String employeeRoleRetro = "";
+    public String activity = "";
 
     public String employeeRoleNewDrugRequest;
     private ActionBarDrawerToggle toggle;
@@ -362,6 +364,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             IS_COMPLAINT_RESOLVED = getIntent().getBooleanExtra("COMPLAINT_RESOLVED", false);
             isLanchedByPushNotification = (Boolean) getIntent().getBooleanExtra("isPushNotfication", false);
             isFromNotificaionIcon = (Boolean) getIntent().getBooleanExtra("is_from_notification", false);
+            activity=getIntent().getStringExtra("activity");
+            if (activity!=null&&!activity.isEmpty()) {
+                if (activity.equals("comparision")) {
+                    fragment = new RetroQrFragment();
+
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_container, fragment);
+                    ft.commit();
+                }
+            }
         }
         LinearLayout locationDeniedLayout = (LinearLayout) findViewById(R.id.location_denied);
         locationDeniedLayout.setVisibility(View.GONE);
@@ -702,6 +714,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            showAlertDialog(itemName);
 //            return;
 //        }
+
 
 
         if (!itemName.equalsIgnoreCase("Greetings to Chairman")) {

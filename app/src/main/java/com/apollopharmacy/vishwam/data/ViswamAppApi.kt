@@ -949,6 +949,14 @@ interface ViswamAppApi {
         @Header("token") token: String,
     ): StoreWiseRackDetails
 
+
+    @GET
+    suspend fun getImageUrlsByRack(
+        @Url url: String,
+        @Header("token") token: String,
+    ): GetImageByRackResponse
+
+
     @POST
     suspend fun SaveImageUrLQrRetro(
         @Url url: String, @Header("token") token: String,

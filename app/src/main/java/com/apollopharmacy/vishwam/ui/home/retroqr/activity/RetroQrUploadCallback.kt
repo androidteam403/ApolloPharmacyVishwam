@@ -15,6 +15,13 @@ interface RetroQrUploadCallback {
     fun onFailureStoreWiseRackResponse(message: String)
 
     fun onSuccessgetStoreWiseRackResponse(storeWiseRackDetails: StoreWiseRackDetails)
+
+
+
+
+
+
+
     fun onClickCameraIcon(position: Int, adapter: String)
     fun onClickCompare(
         matchingPercentage: String,

@@ -326,6 +326,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         intent.putExtra("firstimage", firstImage)
         intent.putExtra("secondimage", secondImage)
         intent.putExtra("rackNo", rackNo)
+        intent.putExtra("activity","upload")
+
         intent.putExtra("matchingPercentage", matchingPercentage)
         startActivity(intent)
     }
