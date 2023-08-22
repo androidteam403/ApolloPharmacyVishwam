@@ -466,8 +466,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         apnaPreviewActivityBinding.hospitalsChart.data = barData
-        apnaPreviewActivityBinding.hospitalsChart.setDragEnabled(true)
-        apnaPreviewActivityBinding.hospitalsChart.setScaleEnabled(true);
+        apnaPreviewActivityBinding.hospitalsChart.setDragEnabled(false)
+        apnaPreviewActivityBinding.hospitalsChart.setScaleEnabled(false)
+        apnaPreviewActivityBinding.hospitalsChart.setPinchZoom(false)
+        apnaPreviewActivityBinding.hospitalsChart.isDoubleTapToZoomEnabled = false
         apnaPreviewActivityBinding.hospitalsChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -561,8 +563,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         apnaPreviewActivityBinding.apartmentsChart.data = barData
-        apnaPreviewActivityBinding.apartmentsChart.setDragEnabled(true)
-        apnaPreviewActivityBinding.apartmentsChart.setScaleEnabled(true);
+        apnaPreviewActivityBinding.apartmentsChart.setDragEnabled(false)
+        apnaPreviewActivityBinding.apartmentsChart.setScaleEnabled(false)
+        apnaPreviewActivityBinding.apartmentsChart.setPinchZoom(false)
+        apnaPreviewActivityBinding.apartmentsChart.isDoubleTapToZoomEnabled = false
         apnaPreviewActivityBinding.apartmentsChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -649,8 +653,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         lineDataSet.isHighlightEnabled = true
         val lineData = LineData(lineDataSet)
         apnaPreviewActivityBinding.competitorsChart.data = lineData
-        apnaPreviewActivityBinding.competitorsChart.setDragEnabled(true)
-        apnaPreviewActivityBinding.competitorsChart.setScaleEnabled(true);
+        apnaPreviewActivityBinding.competitorsChart.setDragEnabled(false)
+        apnaPreviewActivityBinding.competitorsChart.setScaleEnabled(false)
+        apnaPreviewActivityBinding.competitorsChart.setPinchZoom(false)
+        apnaPreviewActivityBinding.competitorsChart.isDoubleTapToZoomEnabled = false
         apnaPreviewActivityBinding.competitorsChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -725,8 +731,11 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         val barDataSet = BarDataSet(neighborEntries, "")
         barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
-        apnaPreviewActivityBinding.neighborChart.setDragEnabled(true)
-        apnaPreviewActivityBinding.neighborChart.setScaleEnabled(true);
+        apnaPreviewActivityBinding.neighborChart.setDragEnabled(false)
+        apnaPreviewActivityBinding.neighborChart.setScaleEnabled(false)
+        apnaPreviewActivityBinding.neighborChart.setPinchZoom(false)
+        apnaPreviewActivityBinding.neighborChart.isDoubleTapToZoomEnabled = false
+
         apnaPreviewActivityBinding.neighborChart.data = barData
         apnaPreviewActivityBinding.neighborChart.setDrawValueAboveBar(true)
         apnaPreviewActivityBinding.neighborChart.setOnChartValueSelectedListener(object :
@@ -1427,23 +1436,44 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
             apnaPreviewActivityBinding.existingOutletSiteName.setText("-")
         }*/
 
+
+        var existingOutletAge = ""
         if (value.data!!.extngOutletAge != null) {
-            if (value.data!!.extngOutletAge!! > 0) {
-                if (value.data!!.extngOutletAge.toString().isNotEmpty()) {
-                    if (!value.data!!.extngOutletAge.toString().equals("null", true)) {
-                        apnaPreviewActivityBinding.existingOutletAge.setText(value.data!!.extngOutletAge.toString())
-                    } else {
-                        apnaPreviewActivityBinding.existingOutletAge.setText("-")
-                    }
-                } else {
-                    apnaPreviewActivityBinding.existingOutletAge.setText("-")
-                }
-            } else {
-                apnaPreviewActivityBinding.existingOutletAge.setText("-")
+            existingOutletAge = "${Math.round(value.data!!.extngOutletAge!!)} years"
+            if (value.data!!.extng_outlet_age_in_month != null) {
+                existingOutletAge =
+                    "$existingOutletAge ${Math.round(value.data!!.extng_outlet_age_in_month!!)} months"
             }
+            apnaPreviewActivityBinding.existingOutletAge.text = "$existingOutletAge"
         } else {
-            apnaPreviewActivityBinding.existingOutletAge.setText("-")
+            if (value.data!!.extng_outlet_age_in_month != null) {
+                existingOutletAge =
+                    "0 years ${Math.round(value.data!!.extng_outlet_age_in_month!!)} months"
+                apnaPreviewActivityBinding.existingOutletAge.text = "$existingOutletAge"
+            } else {
+                existingOutletAge = "-"
+                apnaPreviewActivityBinding.existingOutletAge.text = "$existingOutletAge"
+            }
         }
+
+
+        /* if (value.data!!.extngOutletAge != null) {
+             if (value.data!!.extngOutletAge!! > 0) {
+                 if (value.data!!.extngOutletAge.toString().isNotEmpty()) {
+                     if (!value.data!!.extngOutletAge.toString().equals("null", true)) {
+                         apnaPreviewActivityBinding.existingOutletAge.setText(value.data!!.extngOutletAge.toString())
+                     } else {
+                         apnaPreviewActivityBinding.existingOutletAge.setText("-")
+                     }
+                 } else {
+                     apnaPreviewActivityBinding.existingOutletAge.setText("-")
+                 }
+             } else {
+                 apnaPreviewActivityBinding.existingOutletAge.setText("-")
+             }
+         } else {
+             apnaPreviewActivityBinding.existingOutletAge.setText("-")
+         }*/
 
 //        if (value.data!!.csPharma != null) {
 //            apnaPreviewActivityBinding.pharma.setText(value.data!!.csPharma.toString())

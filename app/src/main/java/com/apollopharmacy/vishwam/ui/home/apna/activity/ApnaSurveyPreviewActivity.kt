@@ -586,15 +586,15 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             }
         }
 
-       /* if (surveyCreateRequest.extngOutletAge != null) {
-            if (surveyCreateRequest.extngOutletAge!! > 0) {
-                activityApnaSurveyPreviewBinding.existingOutletAge.setText(surveyCreateRequest.extngOutletAge.toString())
-            } else {
-                activityApnaSurveyPreviewBinding.existingOutletAge.setText("-")
-            }
-        } else {
-            activityApnaSurveyPreviewBinding.existingOutletAge.setText("-")
-        }*/
+        /* if (surveyCreateRequest.extngOutletAge != null) {
+             if (surveyCreateRequest.extngOutletAge!! > 0) {
+                 activityApnaSurveyPreviewBinding.existingOutletAge.setText(surveyCreateRequest.extngOutletAge.toString())
+             } else {
+                 activityApnaSurveyPreviewBinding.existingOutletAge.setText("-")
+             }
+         } else {
+             activityApnaSurveyPreviewBinding.existingOutletAge.setText("-")
+         }*/
 
 //        if (surveyCreateRequest.csPharma != null) {
 //            activityApnaSurveyPreviewBinding.pharma.setText(surveyCreateRequest.csPharma.toString())
@@ -1045,9 +1045,10 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         activityApnaSurveyPreviewBinding.hospitalsChart.data = barData
-
-        activityApnaSurveyPreviewBinding.hospitalsChart.setDragEnabled(true)
-        activityApnaSurveyPreviewBinding.hospitalsChart.setScaleEnabled(true);
+        activityApnaSurveyPreviewBinding.hospitalsChart.setDragEnabled(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.setScaleEnabled(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.setPinchZoom(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.isDoubleTapToZoomEnabled = false
         activityApnaSurveyPreviewBinding.hospitalsChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -1141,9 +1142,10 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         activityApnaSurveyPreviewBinding.apartmentsChart.data = barData
-
-        activityApnaSurveyPreviewBinding.apartmentsChart.setDragEnabled(true)
-        activityApnaSurveyPreviewBinding.apartmentsChart.setScaleEnabled(true);
+        activityApnaSurveyPreviewBinding.apartmentsChart.setDragEnabled(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.setScaleEnabled(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.setPinchZoom(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.isDoubleTapToZoomEnabled = false
         activityApnaSurveyPreviewBinding.apartmentsChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -1227,9 +1229,10 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         val lineData = LineData(lineDataSet)
         lineDataSet.isHighlightEnabled = true
         activityApnaSurveyPreviewBinding.competitorsChart.data = lineData
-
-        activityApnaSurveyPreviewBinding.competitorsChart.setDragEnabled(true)
-        activityApnaSurveyPreviewBinding.competitorsChart.setScaleEnabled(true);
+        activityApnaSurveyPreviewBinding.competitorsChart.setDragEnabled(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.setScaleEnabled(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.setPinchZoom(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.isDoubleTapToZoomEnabled = false
         activityApnaSurveyPreviewBinding.competitorsChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -1306,9 +1309,10 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         val barData = BarData(barDataSet)
         barDataSet.isHighlightEnabled = true
         activityApnaSurveyPreviewBinding.neighborChart.data = barData
-
-        activityApnaSurveyPreviewBinding.neighborChart.setDragEnabled(true)
-        activityApnaSurveyPreviewBinding.neighborChart.setScaleEnabled(true);
+        activityApnaSurveyPreviewBinding.neighborChart.setDragEnabled(false)
+        activityApnaSurveyPreviewBinding.neighborChart.setScaleEnabled(false)
+        activityApnaSurveyPreviewBinding.neighborChart.setPinchZoom(false)
+        activityApnaSurveyPreviewBinding.neighborChart.isDoubleTapToZoomEnabled = false
         activityApnaSurveyPreviewBinding.neighborChart.setDrawValueAboveBar(true)
         activityApnaSurveyPreviewBinding.neighborChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {

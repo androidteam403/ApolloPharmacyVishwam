@@ -380,6 +380,11 @@ class SurveyDetailsList : Serializable {
         @Expose
         var extngOutletAge: Double? = null
 
+        @SerializedName("extng_outlet_age_in_month")
+        @Expose
+        var extng_outlet_age_in_month: Double? = null
+
+
         @SerializedName("site_image_mb")
         @Expose
         var siteImageMb: SiteImageMb? = null

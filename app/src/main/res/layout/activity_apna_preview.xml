@@ -2031,33 +2031,33 @@
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp" />
 
-                                   <!-- <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/value_5dp"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text=" ("
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_12sp" />
+                                    <!-- <TextView
+                                         android:layout_width="wrap_content"
+                                         android:layout_height="wrap_content"
+                                         android:layout_marginTop="@dimen/value_5dp"
+                                         android:fontFamily="@font/roboto_medium"
+                                         android:text=" ("
+                                         android:textColor="@color/black"
+                                         android:textSize="@dimen/text_12sp" />
 
-                                    <TextView
-                                        android:id="@+id/existingOutletSiteId"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/value_5dp"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text="4567"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_12sp" />
+                                     <TextView
+                                         android:id="@+id/existingOutletSiteId"
+                                         android:layout_width="wrap_content"
+                                         android:layout_height="wrap_content"
+                                         android:layout_marginTop="@dimen/value_5dp"
+                                         android:fontFamily="@font/roboto_medium"
+                                         android:text="4567"
+                                         android:textColor="@color/black"
+                                         android:textSize="@dimen/text_12sp" />
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/value_5dp"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text=")"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_12sp" />-->
+                                     <TextView
+                                         android:layout_width="wrap_content"
+                                         android:layout_height="wrap_content"
+                                         android:layout_marginTop="@dimen/value_5dp"
+                                         android:fontFamily="@font/roboto_medium"
+                                         android:text=")"
+                                         android:textColor="@color/black"
+                                         android:textSize="@dimen/text_12sp" />-->
                                 </LinearLayout>
 
                                 <!--<LinearLayout
@@ -2776,7 +2776,7 @@
                                         <TableLayout
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight=".8"
+                                            android:layout_weight=".6"
                                             android:background="@drawable/apna_table_border_right">
 
                                             <TextView
@@ -2786,7 +2786,7 @@
                                                 android:paddingStart="@dimen/value_5dp"
                                                 android:paddingTop="@dimen/value_5dp"
                                                 android:paddingBottom="@dimen/value_5dp"
-                                                android:text="Organised"
+                                                android:text="ORG"
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/dimen10sp" />
                                         </TableLayout>
@@ -2794,7 +2794,7 @@
                                         <TableLayout
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight="1"
+                                            android:layout_weight="1.2"
                                             android:background="@drawable/apna_table_border_right">
 
                                             <TextView
@@ -2812,7 +2812,7 @@
                                         <TableLayout
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight="1"
+                                            android:layout_weight=".8"
                                             android:background="@drawable/apna_table_border_right">
 
                                             <TextView
@@ -2822,7 +2822,7 @@
                                                 android:paddingStart="@dimen/value_5dp"
                                                 android:paddingTop="@dimen/value_5dp"
                                                 android:paddingBottom="@dimen/value_5dp"
-                                                android:text="Un-Organised"
+                                                android:text="Un-ORG"
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/dimen10sp" />
                                         </TableLayout>
@@ -2830,7 +2830,7 @@
                                         <TableLayout
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight="1"
+                                            android:layout_weight="1.2"
                                             android:background="@drawable/apna_table_border_right">
 
                                             <TextView
@@ -2967,37 +2967,13 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/value_8dp"
-                                        android:orientation="horizontal"
-                                        android:visibility="visible"
-                                        android:weightSum="3">
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
 
                                         <LinearLayout
-                                            android:layout_width="0dp"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight=".8"
-                                            android:orientation="horizontal">
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:fontFamily="@font/roboto_medium"
-                                                android:text="Total: "
-                                                android:textSize="10sp" />
-
-                                            <TextView
-                                                android:id="@+id/total"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:fontFamily="@font/poppin_bold"
-                                                android:text="\u20B910.2"
-                                                android:textColor="@color/black"
-                                                android:textSize="10sp" />
-                                        </LinearLayout>
-
-                                        <LinearLayout
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="1.1"
                                             android:orientation="horizontal">
 
                                             <TextView
@@ -3018,9 +2994,8 @@
                                         </LinearLayout>
 
                                         <LinearLayout
-                                            android:layout_width="0dp"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight="1.1"
                                             android:orientation="horizontal">
 
                                             <TextView
@@ -3039,6 +3014,29 @@
                                                 android:textColor="@color/black"
                                                 android:textSize="10sp" />
                                         </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/roboto_medium"
+                                                android:text="Total: "
+                                                android:textSize="10sp" />
+
+                                            <TextView
+                                                android:id="@+id/total"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/poppin_bold"
+                                                android:text="\u20B910.2"
+                                                android:textColor="@color/black"
+                                                android:textSize="10sp" />
+                                        </LinearLayout>
+
                                     </LinearLayout>
 
                                     <!--<TextView
