@@ -36,9 +36,11 @@ object Preferences {
 
     private const val KEY_QC_SITE_ID = "KEY_QC_SITE_ID"
     private const val PREF_SITE_ID_FETCHED_CHAMPS = "PREF_SITE_ID_FETCHED_CHAMPS"
+    private const val PREF_SITE_ID_FETCHED_PLANOGRAM = "PREF_SITE_ID_FETCHED_PLANOGRAM"
 
     private const val KEY_SITE_DETAILS = "KEY_SITE_DETAILS"
     private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
+    private const val KEY_SITE_ID_LIST_PLANOGRAM = "KEY_SITE_ID_LIST_PLANOGRAM"
 
     //    private const val PREF_KEY_SITE_ID_LIST_CHAMPS = "PREF_KEY_SITE_ID_LIST_CHAMPS"
     private const val KEY_STORE_LIST_QCFAIL = "KEY_STORE_LIST_QCFAIL"
@@ -210,6 +212,8 @@ object Preferences {
     private const val KEY_RECTRO_SITENAME = "KEY_RECTRO_SITENAME"
 
     private const val KEY_APNA_SITEID = "KEY_APNA_SITEID"
+    private const val KEY_PLANOGRAM_SITEID = "KEY_PLANOGRAM_SITEID"
+    private const val KEY_PLANOGRAM_SITENAME = "KEY_PLANOGRAM_SITENAME"
     private const val KEY_CHAMPS_SITENAME = "KEY_CHAMPS_SITENAME"
     private const val KEY_CHAMPS_SITEID = "KEY_CHAMPS_SITEID"
     private const val KEY_APNA_SITENAME = "KEY_APNA_SITENAME"
@@ -425,6 +429,17 @@ object Preferences {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_CHAMPS, false)
     }
 
+    fun setSiteIdListFetchedPlanogram(isSiteIdListFetchedPlanogram: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED_PLANOGRAM, isSiteIdListFetchedPlanogram)
+            .apply()
+    }
+
+    fun isSiteIdListFetchedPlanogram(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_PLANOGRAM, false)
+    }
+
+
+
     fun setRegionIdListFetchedQcFail(isRegionIdListFetchedQcfail: Boolean) {
         sharedPreferences.edit()
             .putBoolean(PREF_REGION_ID_FETCHED_QC_FAIL, isRegionIdListFetchedQcfail).apply()
@@ -441,6 +456,15 @@ object Preferences {
     fun getSiteIdListJson(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
     }
+
+    fun setSiteIdListPlanogram(siteIdList: String) {
+        sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST, siteIdList).apply()
+    }
+
+    fun getSiteIdListJsonPlanogram(): String {
+        return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
+    }
+
 
     fun setItemTypeList(siteIdList: String) {
         sharedPreferences.edit().putString(PREF_ITEMTYPE_LIST_FETCHED, siteIdList).apply()
@@ -851,6 +875,25 @@ object Preferences {
     fun getApolloSensingStoreName(): String {
         return sharedPreferences.getString(KEY_APOLLO_SENSING_STORE_NAME, "")!!
     }
+
+    fun setPlanogramSiteId(planogramSiteId: String) {
+        sharedPreferences.edit().putString(KEY_PLANOGRAM_SITEID, planogramSiteId).apply()
+    }
+
+    fun getPlanogramSiteId(): String {
+        return sharedPreferences.getString(KEY_PLANOGRAM_SITEID, "")!!
+    }
+
+    fun setPlanogramSiteName(planogramSiteId: String) {
+        sharedPreferences.edit().putString(KEY_PLANOGRAM_SITENAME, planogramSiteId).apply()
+    }
+
+    fun getPlanogramSiteName(): String {
+        return sharedPreferences.getString(KEY_PLANOGRAM_SITENAME, "")!!
+    }
+
+
+
 
 //    fun setStoreListItem(storeListItem: String) {
 //        sharedPreferences.edit().putString(KEY_STORE_LIST_JSON, storeListItem).apply()

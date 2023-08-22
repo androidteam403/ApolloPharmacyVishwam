@@ -219,6 +219,7 @@
                                         android:textStyle="bold" />
 
                                     <TextView
+                                        android:id="@+id/site_id"
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="16001"
@@ -495,6 +496,7 @@
 
 
                                     <TextView
+                                        android:id="@+id/categoresToFocusOnText"
                                         android:onClick="@{()-> callback.onClickCategoriesToFocusOn()}"
                                         android:gravity="center"
                                         android:padding="@dimen/value_8dp"
@@ -505,7 +507,6 @@
                                         android:layout_marginTop="@dimen/value_10dp"
                                         android:layout_marginBottom="@dimen/value_7dp"
                                         android:background="@drawable/dark_blue_bg"
-                                        android:text="Categories to focus on(8)"
                                         android:textAlignment="center"
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/text_14sp"
@@ -513,6 +514,7 @@
                                         tools:ignore="RtlCompat" />
 
                                     <TextView
+                                        android:id="@+id/areasToFocusText"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/value_40dp"
                                         android:layout_marginStart="@dimen/value_10dp"
@@ -523,7 +525,6 @@
                                         android:gravity="center"
                                         android:onClick="@{()-> callback.onClickAreasToFocusOn()}"
                                         android:padding="@dimen/value_8dp"
-                                        android:text="Areas to focus on(3)"
                                         android:textAlignment="center"
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/text_14sp"

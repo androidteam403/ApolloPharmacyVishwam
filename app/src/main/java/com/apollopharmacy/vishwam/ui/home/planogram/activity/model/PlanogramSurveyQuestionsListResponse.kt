@@ -13,6 +13,8 @@ class PlanogramSurveyQuestionsListResponse {
     @SerializedName("data")
     var data: Data? = null
 
+    var overAllScore:Float=0f
+
     class Questions {
 
         @SerializedName("name")
@@ -20,6 +22,11 @@ class PlanogramSurveyQuestionsListResponse {
 
         @SerializedName("hintText")
         var hintText: String? = null
+
+        var value:String?=null
+
+        var categoryName:String?=null
+
 
     }
 
@@ -49,6 +56,8 @@ class PlanogramSurveyQuestionsListResponse {
 
         @SerializedName("name")
         var name: String? = null
+
+        var categoryScore : Float =0f
 
         var isExpanded: Boolean = false
 

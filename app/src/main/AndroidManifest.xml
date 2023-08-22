@@ -113,6 +113,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ui.home.planogram.siteid.SelectPlanogramSiteIDActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.apnarectro.approval.previewscreen.ApprovalPreviewActivity"
             android:exported="false"
             android:screenOrientation="portrait"
