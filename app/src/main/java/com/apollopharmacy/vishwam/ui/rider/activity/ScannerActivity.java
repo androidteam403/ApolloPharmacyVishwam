@@ -36,6 +36,9 @@ public class ScannerActivity extends BaseActivity implements DecoratedBarcodeVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
 
+
+
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
