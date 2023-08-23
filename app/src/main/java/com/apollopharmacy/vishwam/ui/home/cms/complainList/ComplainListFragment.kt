@@ -676,7 +676,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
                     if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp != null) {
                         val df =
-                            DecimalFormat("##,##,###.00").format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp)
+                            DecimalFormat("##,##,###.00").format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp.toDouble())
                         binding.oldMrp.text =
                             "₹ ${df}"
                     }
