@@ -25,6 +25,7 @@ class RetroQrScannerActivity : AppCompatActivity(), RetroQrScannerCallback {
     private lateinit var codeScanner: CodeScanner
     var imageBlob: String = ""
     var activity: String = ""
+    var navigationBack:Boolean=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +39,13 @@ class RetroQrScannerActivity : AppCompatActivity(), RetroQrScannerCallback {
     }
 
     private fun setUp() {
-        if (intent != null && !intent.getStringExtra("activity").isNullOrEmpty()) {
-            activity = intent.getStringExtra("activity")!!
+        if (intent != null ) {
+            navigationBack=intent.getBooleanExtra("navigateBack",false)
 
+            if (navigationBack){
 
+                finish()
+            }
         }
         val PERMISSION_ALL = 1
         val PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
@@ -71,6 +75,7 @@ class RetroQrScannerActivity : AppCompatActivity(), RetroQrScannerCallback {
                         // Show a loading dialog on the main UI thread
                         Utils.showLoadingDialog(this@RetroQrScannerActivity) // Assuming RetroQrScannerActivity is the current activity
                     }
+
                     viewModel.getImageUrlsFromRackId(imageBlob, this@RetroQrScannerActivity)
                 }
             }
@@ -84,7 +89,7 @@ class RetroQrScannerActivity : AppCompatActivity(), RetroQrScannerCallback {
             intent.putExtra("rackNo", imageBlob)
             intent.putExtra("SCANNER_RESPONSE", imageByRackResponse)
             hideLoading()
-            startActivityForResult(intent, 210)
+            startActivityForResult(intent,210)
         }
     }
 
@@ -92,6 +97,8 @@ class RetroQrScannerActivity : AppCompatActivity(), RetroQrScannerCallback {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 210) {
             if (resultCode == Activity.RESULT_OK) {
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
                 finish()
             }
         }

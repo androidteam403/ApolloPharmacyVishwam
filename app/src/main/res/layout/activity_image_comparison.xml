@@ -70,6 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_50dp"
                 android:background="#f5f5f5"
+                android:id="@+id/home_layout"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 

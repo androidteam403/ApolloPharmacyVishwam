@@ -72,8 +72,11 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback,
             if (activity.equals("upload")) {
                 activityImageComparisonBinding.submit.visibility = View.GONE
                 activityImageComparisonBinding.ok.visibility = View.VISIBLE
+                activityImageComparisonBinding.homeLayout.visibility=View.VISIBLE
+
 
             } else if (activity.equals("preview")) {
+                activityImageComparisonBinding.homeLayout.visibility=View.GONE
                 activityImageComparisonBinding.submit.visibility = View.VISIBLE
                 activityImageComparisonBinding.ok.visibility = View.GONE
 
@@ -205,9 +208,8 @@ class ImageComparisonActivity : AppCompatActivity(), ImageComparisonCallback,
 
     override fun onSuccessUploadImagesApiCall(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-
         Utlis.hideLoading()
-        val intent=Intent(this,RetroQrScannerActivity::class.java)
+        val intent = Intent()
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

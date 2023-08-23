@@ -25,6 +25,7 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityRetroImagePreviewBinding
 import com.apollopharmacy.vishwam.ui.home.model.GetImageByRackResponse
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagecomparison.ImageComparisonActivity
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.RetroQrScannerActivity
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.model.ScannerResponse
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
@@ -48,13 +49,17 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
     private var secondImage: String = ""
     private var matchingPercentage: String = ""
     private var rackNo: String = ""
+
+    var navigationBack:Boolean=false
     private var compressedImageFileName: String? = null
-   var imageByRackResponse= GetImageByRackResponse()
+    var imageByRackResponse = GetImageByRackResponse()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityRetroImagePreviewBinding =
-            DataBindingUtil.setContentView(this@RetroImagePreviewActivity,
-                R.layout.activity_retro_image_preview)
+            DataBindingUtil.setContentView(
+                this@RetroImagePreviewActivity,
+                R.layout.activity_retro_image_preview
+            )
         activityRetroImagePreviewBinding.callback = this@RetroImagePreviewActivity
         setUp()
     }
@@ -62,13 +67,15 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
     private fun setUp() {
         OpenCVLoader.initDebug()
 
-        if (intent != null&&intent.getStringExtra("activity").equals("comparision")) {
+        if (intent != null && intent.getStringExtra("activity").equals("comparision")) {
             firstImage = intent.getStringExtra("firstimage")!!
             secondImage = intent.getStringExtra("secondimage")!!
             rackNo = intent.getStringExtra("rackNo")!!
             matchingPercentage = intent.getStringExtra("matchingPercentage")!!
+            navigationBack=intent.getBooleanExtra("navigateBack",false)
 
-            activityRetroImagePreviewBinding.cameraIcon.visibility= View.GONE
+
+            activityRetroImagePreviewBinding.cameraIcon.visibility = View.GONE
 
 
             Glide.with(this).load(firstImage)
@@ -81,19 +88,21 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
         }
 
 
-        if (intent != null&&intent.getStringExtra("activity").equals("scanner")) {
+        if (intent != null && intent.getStringExtra("activity").equals("scanner")) {
             rackNo = intent.getStringExtra("rackNo")!!
 
-            imageByRackResponse= intent.getSerializableExtra("SCANNER_RESPONSE") as GetImageByRackResponse
+            imageByRackResponse =
+                intent.getSerializableExtra("SCANNER_RESPONSE") as GetImageByRackResponse
             Glide.with(this).load(imageByRackResponse.imageurl)
                 .placeholder(R.drawable.thumbnail_image)
                 .into(activityRetroImagePreviewBinding.image)
 
-            activityRetroImagePreviewBinding.cameraIcon.visibility= View.VISIBLE
+            activityRetroImagePreviewBinding.cameraIcon.visibility = View.VISIBLE
             activityRetroImagePreviewBinding.rack.setText("RACK3")
 
         }
     }
+
     private fun calculateMatchingPercentage(bitmap1: Bitmap?, bitmap2: Bitmap?): Double {
         val firstImage = Mat()
         val secondImage = Mat()
@@ -117,11 +126,11 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
         intent.putExtra("firstimage", imageByRackResponse.imageurl)
         intent.putExtra("secondimage", imageFile!!.absolutePath)
         intent.putExtra("rackNo", rackNo)
-        intent.putExtra("activity","preview")
+        intent.putExtra("activity", "preview")
         intent.putExtra("matchingPercentage", matchingPercentage.toInt().toString())
         Utlis.hideLoading()
 
-        startActivityForResult(intent, 210)
+        startActivityForResult(intent,210)
         return matchingPercentage
     }
 
@@ -135,6 +144,14 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
     }
 
     override fun onClickBack() {
+        val intent = Intent()
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent()
+        setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
@@ -149,6 +166,7 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
 //                Toast.LENGTH_SHORT).show()
 //        }
     }
+
     fun resizeBitmap(originalBitmap: Bitmap?, newWidth: Int, newHeight: Int): Bitmap? {
         return Bitmap.createScaledBitmap(originalBitmap!!, newWidth, newHeight, false)
     }
@@ -171,17 +189,21 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==210){
+            if (resultCode==Activity.RESULT_OK){
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        }
+
+
+
         if (requestCode == Config.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK && imageFile != null) {
 //            imageByRackResponse.imageurl = imageFile.toString()
 //            activityRetroImagePreviewBinding.image.setImageBitmap(
 //                rotateImage(BitmapFactory.decodeFile(imageFile!!.absolutePath), imageFile!!)
 //            )
-
-            if (resultCode==210){
-                if (resultCode == Activity.RESULT_OK) {
-                    finish()
-                }
-            }
 
 
             runOnUiThread {
@@ -192,7 +214,8 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
                 try {
                     if (imageFile!!.path.isNotEmpty()) {
                         val client = OkHttpClient()
-                        val request = Request.Builder().url(imageByRackResponse.imageurl.toString()).build()
+                        val request =
+                            Request.Builder().url(imageByRackResponse.imageurl.toString()).build()
                         val response = client.newCall(request).execute()
                         val inputStream = response.body!!.byteStream()
 
@@ -206,13 +229,9 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
                         val resizedBitmap2 = resizeBitmap(bitmap2, newWidth, newHeight)
                         val threshold = 21
 
-                      matchingPercentages =
+                        matchingPercentages =
                             calculateMatchingPercentage(resizedBitmap1!!, resizedBitmap2!!)
 //                        Toast.makeText(this,matchingPercentages.toString(),Toast.LENGTH_LONG).show()
-
-
-
-
 
 
                     }
@@ -221,7 +240,6 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
                 }
             }
             thread.start()
-
 
 
         }
