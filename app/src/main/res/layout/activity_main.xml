@@ -156,23 +156,42 @@
 
 
             <RelativeLayout
+                android:layout_marginBottom="@dimen/dimen20dp"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:id="@+id/plusIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
                 android:visibility="gone">
 
                 <ImageView
                     android:visibility="visible"
                     android:paddingTop="@dimen/value_6dp"
                     android:paddingBottom="@dimen/value_6dp"
-                    android:background="@drawable/green_backgroundplus"
-                    android:layout_width="@dimen/twenty_seven27_dp"
-                    android:layout_height="@dimen/twenty_seven27_dp"
+                    android:layout_width="@dimen/twenty_eight_dp"
+                    android:layout_height="@dimen/twenty_eight_dp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/plus" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/dimen20dp"
+                android:id="@+id/settings_champs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_centerInParent="true"
+                    android:visibility="visible"
+                    android:paddingTop="@dimen/value_6dp"
+                    android:paddingBottom="@dimen/value_6dp"
+                    android:layout_width="@dimen/value_35dp"
+                    android:layout_height="@dimen/value_35dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/settings_white_champs" />
             </RelativeLayout>
 
 

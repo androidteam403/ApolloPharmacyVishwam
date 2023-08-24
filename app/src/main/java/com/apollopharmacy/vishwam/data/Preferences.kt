@@ -67,6 +67,7 @@ object Preferences {
     private const val APP_LEVEL_DESIGNATION_SWACH = "APP_LEVEL_DESIGNATION_SWACH"
     private const val APP_LEVEL_DESIGNATION_QC_FAIL = "APP_LEVEL_DESIGNATION_QC_FAIL"
     private const val EMPLOYEE_ROLE_NEW_DRUG_REQUEST = "EMPLOYEE_ROLE_NEW_DRUG_REQUEST"
+    private const val EMPLOYEE_ROLE_CHAMPS_ADMIN = "EMPLOYEE_ROLE_CHAMPS_ADMIN"
     private const val FCM_KEY = "FCM_KEY"
     private const val PREF_SITE_RETRO_FETCHED = "PREF_SITE_RETRO_FETCHED"
     private const val APNA_RETRO_SITE = "APNA_RETRO_SITE"
@@ -892,6 +893,13 @@ object Preferences {
         return sharedPreferences.getString(KEY_PLANOGRAM_SITENAME, "")!!
     }
 
+    fun setEmployeeRoleUidChampsAdmin(uid: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_ROLE_CHAMPS_ADMIN, uid).apply()
+    }
+
+    fun getEmployeeRoleUidChampsAdmin(): String {
+        return sharedPreferences.getString(EMPLOYEE_ROLE_CHAMPS_ADMIN, "")!!
+    }
 
 
 

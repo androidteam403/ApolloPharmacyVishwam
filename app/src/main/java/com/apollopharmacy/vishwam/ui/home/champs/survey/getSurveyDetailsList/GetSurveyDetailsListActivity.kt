@@ -9,6 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
@@ -20,6 +23,7 @@ import com.apollopharmacy.vishwam.databinding.DialoFilterChampsBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.MainActivityPlusIconCallback
+import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.adapter.GetSurveyDetailsAdapter
@@ -29,8 +33,7 @@ import com.apollopharmacy.vishwam.ui.home.model.GetSurveyDetailsModelResponse
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 
 class GetSurveyDetailsListActivity :
     BaseFragment<GetSurveyDetailsListViewModel, ActivityGetSurveyDetailsBinding>(),
@@ -258,6 +261,11 @@ class GetSurveyDetailsListActivity :
         intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
         requireActivity().startActivityForResult(intent, 891)
 //        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+    }
+
+    override fun onClickSettings() {
+        val intent = Intent(ViswamApp.context, AdminModuleFragment::class.java)
+        startActivity(intent)
     }
 
     override fun onClickback() {

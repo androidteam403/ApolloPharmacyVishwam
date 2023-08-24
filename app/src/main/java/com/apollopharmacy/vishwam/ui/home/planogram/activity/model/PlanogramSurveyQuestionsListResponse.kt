@@ -59,6 +59,18 @@ class PlanogramSurveyQuestionsListResponse {
 
         var categoryScore : Float =0f
 
+        var diaperPodiumScore : Float =0f
+
+        var valueDealsBinScore : Float =0f
+
+        var postersScore : Float =0f
+
+        var peghooksDisplayScore : Float =0f
+
+        var offersGondolaScore : Float =0f
+
+        var chillerScore : Float =0f
+
         var isExpanded: Boolean = false
 
     }

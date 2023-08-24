@@ -29,4 +29,5 @@ interface PlanogramActivityCallback {
 
      fun onSuccessSaveUpdateApi(saveUpdateRequestJsonResponse: PlanogramSaveUpdateResponse?)
     abstract fun onFailureSaveUpdateApi(saveUpdateRequestJsonResponse: PlanogramSaveUpdateResponse?)
+    fun caluclateScore()
 }

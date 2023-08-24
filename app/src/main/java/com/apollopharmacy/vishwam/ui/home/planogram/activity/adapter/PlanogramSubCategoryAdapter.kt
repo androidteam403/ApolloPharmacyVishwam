@@ -104,6 +104,7 @@ class PlanogramSubCategoryAdapter(
             questionsList.get(position).value = "NA"
             planogramCateoryCallback.checkAreasToFocusOn(questionsList, categoryPosition)
             planogramCateoryCallback.checkCategoriesToFocusOn(questionsList, categoryPosition)
+            planogramCateoryCallback.caluclateScore()
         }
         holder.adapterPlanogramSubCategoryBinding.noLayout.setOnClickListener {
             holder.adapterPlanogramSubCategoryBinding.naLayout.background =
@@ -121,6 +122,7 @@ class PlanogramSubCategoryAdapter(
             questionsList.get(position).value = "NO"
             planogramCateoryCallback.checkAreasToFocusOn(questionsList, categoryPosition)
             planogramCateoryCallback.checkCategoriesToFocusOn(questionsList, categoryPosition)
+            planogramCateoryCallback.caluclateScore()
         }
         holder.adapterPlanogramSubCategoryBinding.yesLayout.setOnClickListener {
             holder.adapterPlanogramSubCategoryBinding.naLayout.background =
@@ -138,6 +140,7 @@ class PlanogramSubCategoryAdapter(
             questionsList.get(position).value = "YES"
             planogramCateoryCallback.checkAreasToFocusOn(questionsList, categoryPosition)
             planogramCateoryCallback.checkCategoriesToFocusOn(questionsList, categoryPosition)
+            planogramCateoryCallback.caluclateScore()
         }
     }
 

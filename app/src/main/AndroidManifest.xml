@@ -138,6 +138,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ui.home.champs.admin.adminmodule.AdminModuleFragment"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.apnarectro.prerectro.reviewingscreens.PreRetroPreviewActivity"
             android:exported="false"
             android:screenOrientation="portrait"
