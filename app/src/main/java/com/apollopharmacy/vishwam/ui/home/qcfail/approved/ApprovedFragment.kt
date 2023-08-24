@@ -245,7 +245,21 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             qcListsResponse = it
             approvedListMain=it.approvedlist!!
             approvedListList = it.approvedlist!!
-            setQcApprovedListResponse(it.approvedlist!!)
+            hideLoading()
+            if (typeString.isNullOrEmpty()){
+                setQcApprovedListResponse(it.approvedlist!!)
+
+            }
+            else{
+                if (typeString.equals("FORWARD RETURN")){
+                    setQcApprovedListResponse(it.approvedlist!!.filter { it.omsorderno!!.contains("FL") } as ArrayList<QcListsResponse.Approved>)
+
+                }
+                else if (typeString.equals("REVERSE RETURN")){
+                    setQcApprovedListResponse(it.approvedlist!!.filter { it.omsorderno!!.contains("RT") } as ArrayList<QcListsResponse.Approved>)
+
+                }
+            }
 
 
         }

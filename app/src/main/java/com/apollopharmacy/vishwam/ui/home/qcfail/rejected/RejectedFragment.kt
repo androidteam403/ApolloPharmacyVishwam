@@ -213,8 +213,22 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             qcListsResponse = it
             rejectedListMain = it.rejectedlist!!
             rejectedListList = it.rejectedlist!!
-            setQcRejectedListResponse(it.rejectedlist!!)
             hideLoading()
+
+            if (typeString.isNullOrEmpty()){
+                setQcRejectedListResponse(it.rejectedlist!!)
+
+            }
+            else{
+                if (typeString.equals("FORWARD RETURN")){
+                    setQcRejectedListResponse(it.rejectedlist!!.filter { it.omsorderno!!.contains("FL") } as ArrayList<QcListsResponse.Reject>)
+
+                }
+                else if (typeString.equals("REVERSE RETURN")){
+                    setQcRejectedListResponse(it.rejectedlist!!.filter { it.omsorderno!!.contains("RT") } as ArrayList<QcListsResponse.Reject>)
+
+                }
+            }
 
         }
 
