@@ -207,6 +207,7 @@ object Preferences {
     private const val UPLOADED_DATE_DAY_WISE = ""
     private const val EMPLOYEE_ROLE = ""
     private const val EMPLOYEE_ROLE_RETRO = "EMPLOYEE_ROLE_RETRO"
+    private const val EMPLOYEE_IS_APPROVAL_ENABLED = "EMPLOYEE_IS_APPROVAL_ENABLED"
 
     private const val KEY_SWACHH_SITEID = "KEY_SWACHH_SITEID"
     private const val KEY_RECTRO_SITEID = "KEY_RECTRO_SITEID"
@@ -586,6 +587,14 @@ object Preferences {
         return sharedPreferences.getString(EMPLOYEE_ROLE_RETRO, "")!!
     }
 
+
+    fun setRetroEmployeeIsApproval(role: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_IS_APPROVAL_ENABLED, role).apply()
+    }
+
+    fun getRetroEmployeeIsApproval(): String {
+        return sharedPreferences.getString(EMPLOYEE_IS_APPROVAL_ENABLED, "")!!
+    }
     fun setEmployeeRoleUidNewDrugRequest(role: String) {
         sharedPreferences.edit().putString(EMPLOYEE_ROLE_NEW_DRUG_REQUEST, role).apply()
     }

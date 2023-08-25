@@ -200,8 +200,25 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                         Preferences.setEmployeeRoleUid("")
                     }
 
+                    if (it.data != null && it.data?.retroApproval != null) {
+                        if (it.data?.retroApproval?.uid != null) {
+                            if (it.data?.retroApproval?.uid!!.equals(
+                                    "Yes", true
+                                )
+                            ) {
+                                Preferences.setRetroEmployeeIsApproval(it.data?.retroApproval?.uid!!)
+                            } else {
+                                Preferences.setRetroEmployeeIsApproval("")
+                            }
+                        } else {
+                            Preferences.setRetroEmployeeIsApproval("")
 
+                        }
 
+                    } else {
+                        Preferences.setRetroEmployeeIsApproval("")
+
+                    }
 
 
                     if (it.data != null && it.data?.uploadApnaRetro != null) {
@@ -235,7 +252,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                         if (it.data?.champs_admin?.uid != null) {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
-                            if (it.data?.champs_admin?.uid!=null && it.data?.champs_admin?.uid!!.equals(
+                            if (it.data?.champs_admin?.uid != null && it.data?.champs_admin?.uid!!.equals(
                                     "Yes", true
                                 )
                             ) {

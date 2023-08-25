@@ -761,20 +761,27 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                             MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
 
-                    }else if (rejectedListList.size == rejectedListMain.size) {
-                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
-                        setQcRejectedListResponse(rejectedListList)
-                        adapter!!.notifyDataSetChanged()
+                    }else if(rejectedListList.isNotEmpty()) {
 
-                    } else {
-                        rejectedListList.clear()
-                        rejectedListList = rejectedListMain
-                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
-                        setQcRejectedListResponse(rejectedListList)
-                        adapter!!.notifyDataSetChanged()
+
+                        if (rejectedListList.size == rejectedListMain.size) {
+                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                            setQcRejectedListResponse(rejectedListList)
+                            adapter!!.notifyDataSetChanged()
+
+                        } else {
+                            rejectedListList.clear()
+                            rejectedListList = rejectedListMain
+                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                            setQcRejectedListResponse(rejectedListList)
+                            adapter!!.notifyDataSetChanged()
+                        }
+
                     }
+                    else{
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
-
+                    }
                     if (data.getStringExtra("reset").toString().equals("reset")) {
                         showLoading()
                         Preferences.setQcFromDate("")
