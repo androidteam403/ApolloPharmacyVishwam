@@ -1386,7 +1386,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }else{
                     settingsWhite.setVisibility(View.GONE);
                 }
-                settingsWhite.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.VISIBLE);
                 siteIdIcon.setVisibility(View.GONE);

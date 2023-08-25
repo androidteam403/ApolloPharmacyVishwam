@@ -568,6 +568,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             ticketCountsByStatsuRoleResponse.setEmpId(empId)
 
         }
+
         statusRoleResponseList.add(ticketCountsByStatsuRoleResponse)
         for (i in statusRoleResponseList.indices) {
             if (empId.isNullOrEmpty() && statusRoleResponseList.size == 1) {

@@ -15,6 +15,9 @@ public class SaveUpdateRequest implements Serializable {
     @SerializedName("champs_id")
     @Expose
     private String champsId;
+    @SerializedName("employee_id")
+    @Expose
+    private String employee_id;
 
 
     @SerializedName("issue")
@@ -73,6 +76,14 @@ public class SaveUpdateRequest implements Serializable {
 
     public String getChampsId() {
         return champsId;
+    }
+
+    public String getEmployee_id() {
+        return employee_id;
+    }
+
+    public void setEmployee_id(String employee_id) {
+        this.employee_id = employee_id;
     }
 
     public void setChampsId(String champsId) {

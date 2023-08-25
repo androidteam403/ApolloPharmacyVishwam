@@ -37,19 +37,19 @@ class DashboardAdapter(
         holder.adapterDashboardCeoBinding.pending.setText(response.pending.toString())
         holder.adapterDashboardCeoBinding.totalQc.setText(response.total.toString())
         holder.adapterDashboardCeoBinding.threeToEight.setText(response.get3To8().toString())
-        if (response.employeeid.isNullOrEmpty()){
+        if (response.employeeid.isNullOrEmpty()) {
             holder.adapterDashboardCeoBinding.name.setTextColor(Color.parseColor("#000000"))
-        }else{
+        } else {
             holder.adapterDashboardCeoBinding.name.setTextColor(Color.parseColor("#005EFF"))
 
         }
 
         holder.adapterDashboardCeoBinding.name.setOnClickListener {
-            if (!response.employeeid.isNullOrEmpty()){
-                ceoDashboardCallback.onClickEmployee(response.employeeid,response.roleCode)
-
+            if (!response.employeeid.isNullOrEmpty()) {
+                if (!response.roleCode.isNullOrEmpty()) {
+                    ceoDashboardCallback.onClickEmployee(response.employeeid, response.roleCode)
+                }
             }
-
         }
 
         holder.adapterDashboardCeoBinding.rightArrowQc.setOnClickListener {
