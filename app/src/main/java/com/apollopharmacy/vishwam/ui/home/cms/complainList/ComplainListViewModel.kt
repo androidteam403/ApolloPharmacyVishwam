@@ -100,8 +100,19 @@ class ComplainListViewModel : ViewModel() {
             } catch (e: JsonParseException) {
                 e.printStackTrace()
             }
-            baseUrl =
-                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/subworkflow-tickets-for-mobile?"
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("CMS SUBWORK FLOW TICKET LIST FOR MOBILE")) {
+                    baseUrl = data.APIS[i].URL
+//                token = data.APIS[i].TOKEN
+                    break
+                }
+            }
+
+
+            /*baseUrl =
+                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/subworkflow-tickets-for-mobile?"*/
+
+
             // "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/subworkflow-tickets-for-mobile?"//employee_id=Akhil01
 //            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=${employeeDetailsResponse!!.data!!.role!!.uid}&emp_dept=${employeeDetailsResponse!!.data!!.department!!.uid}"
 
@@ -122,12 +133,12 @@ class ComplainListViewModel : ViewModel() {
         }
 
 
-        var baseUrL = ""
-        var token = ""
+        var proxyBaseUrL = ""
+        var proxyToken = ""
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                baseUrL = data.APIS[i].URL
-                token = data.APIS[i].TOKEN
+                proxyBaseUrL = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
                 break
             }
         }
@@ -191,7 +202,7 @@ class ComplainListViewModel : ViewModel() {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(
-                    baseUrL, token, GetDetailsRequest(baseUrl, "GET", "The", "", "")
+                    proxyBaseUrL, proxyToken, GetDetailsRequest(baseUrl, "GET", "The", "", "")
                 )
             }
             when (response) {
@@ -1544,18 +1555,16 @@ class ComplainListViewModel : ViewModel() {
             }
         }
         var baseUrl = ""
-//        for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("")) {
-//                baseUrl =
-//                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket_touch_point/list/?"
-////                    data.APIS[i].URL
-//                //val token = data.APIS[i].TOKEN
-//                break
-//            }
-//
-//        }
-        baseUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_subworkflow_config/list/subworkflow-config-details?"
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS ACTIONS LIST")) {
+                baseUrl = data.APIS[i].URL
+                //val token = data.APIS[i].TOKEN
+                break
+            }
+
+        }
+//        baseUrl =
+//            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_subworkflow_config/list/subworkflow-config-details?"
         // "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket_subworkflow_config/list/subworkflow-config-details?"
 
         var queryPath = "${
