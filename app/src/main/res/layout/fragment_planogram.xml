@@ -40,13 +40,14 @@
                     android:text="Site ID" />
 
                 <androidx.appcompat.widget.AppCompatEditText
+                    android:onClick="@{()-> callback.onClickSiteId()}"
                     android:background="@drawable/grey_border_bg"
-                    android:drawableEnd="@drawable/bottomarrow"
+                    android:drawableEnd="@drawable/ic_search_24"
                     android:drawableTint="@color/lightt_ash"
                     android:editable="false"
                     android:gravity="center"
                     android:hint="Select Site ID"
-                    android:id="@+id/regionSelect"
+                    android:id="@+id/siteIdSelect"
                     android:layout_below="@+id/region"
                     android:layout_height="@dimen/value_40dp"
                     android:layout_width="match_parent"
@@ -55,69 +56,69 @@
                     android:textSize="@dimen/text_14sp"
                     tools:ignore="RtlCompat" />
 
-                <TextView
-                    android:id="@+id/state"
-                    android:layout_below="@+id/regionSelect"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value_4dp"
-                    android:layout_marginTop="@dimen/value_10dp"
-                    android:layout_width="wrap_content"
-                    android:text="Branch Name" />
+<!--                <TextView-->
+<!--                    android:id="@+id/state"-->
+<!--                    android:layout_below="@+id/regionSelect"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="@dimen/value_4dp"-->
+<!--                    android:layout_marginTop="@dimen/value_10dp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:text="Branch Name" />-->
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:background="@drawable/grey_border_bg"
-                    android:drawableEnd="@drawable/bottomarrow"
-                    android:drawableTint="@color/lightt_ash"
-                    android:editable="false"
-                    android:gravity="center"
-                    android:hint="Select Branch Name"
-                    android:id="@+id/stateSelect"
-                    android:layout_below="@+id/state"
-                    android:layout_height="@dimen/value_40dp"
-                    android:layout_width="match_parent"
-                    android:paddingLeft="@dimen/value_15dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="@dimen/text_14sp"
-                    tools:ignore="RtlCompat" />
+<!--                <androidx.appcompat.widget.AppCompatEditText-->
+<!--                    android:background="@drawable/grey_border_bg"-->
+<!--                    android:drawableEnd="@drawable/bottomarrow"-->
+<!--                    android:drawableTint="@color/lightt_ash"-->
+<!--                    android:editable="false"-->
+<!--                    android:gravity="center"-->
+<!--                    android:hint="Select Branch Name"-->
+<!--                    android:id="@+id/stateSelect"-->
+<!--                    android:layout_below="@+id/state"-->
+<!--                    android:layout_height="@dimen/value_40dp"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:paddingLeft="@dimen/value_15dp"-->
+<!--                    android:textAlignment="viewStart"-->
+<!--                    android:textSize="@dimen/text_14sp"-->
+<!--                    tools:ignore="RtlCompat" />-->
 
-                <TextView
-                    android:id="@+id/parameter"
-                    android:layout_below="@+id/stateSelect"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value_4dp"
-                    android:layout_marginTop="@dimen/value_10dp"
-                    android:layout_width="wrap_content"
-                    android:text="Executive Name" />
+<!--                <TextView-->
+<!--                    android:id="@+id/parameter"-->
+<!--                    android:layout_below="@+id/stateSelect"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="@dimen/value_4dp"-->
+<!--                    android:layout_marginTop="@dimen/value_10dp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:text="Executive Name" />-->
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:background="@drawable/grey_border_bg"
-                    android:drawableEnd="@drawable/bottomarrow"
-                    android:drawableTint="@color/lightt_ash"
-                    android:editable="false"
-                    android:gravity="center"
-                    android:hint="Select Executive Name"
-                    android:id="@+id/parameterSelect"
-                    android:layout_below="@+id/parameter"
-                    android:layout_height="@dimen/value_40dp"
-                    android:layout_marginBottom="@dimen/value_10dp"
-                    android:layout_width="match_parent"
-                    android:paddingLeft="@dimen/value_15dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="@dimen/text_14sp"
-                    tools:ignore="RtlCompat" />
+<!--                <androidx.appcompat.widget.AppCompatEditText-->
+<!--                    android:background="@drawable/grey_border_bg"-->
+<!--                    android:drawableEnd="@drawable/bottomarrow"-->
+<!--                    android:drawableTint="@color/lightt_ash"-->
+<!--                    android:editable="false"-->
+<!--                    android:gravity="center"-->
+<!--                    android:hint="Select Executive Name"-->
+<!--                    android:id="@+id/parameterSelect"-->
+<!--                    android:layout_below="@+id/parameter"-->
+<!--                    android:layout_height="@dimen/value_40dp"-->
+<!--                    android:layout_marginBottom="@dimen/value_10dp"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:paddingLeft="@dimen/value_15dp"-->
+<!--                    android:textAlignment="viewStart"-->
+<!--                    android:textSize="@dimen/text_14sp"-->
+<!--                    tools:ignore="RtlCompat" />-->
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:background="@drawable/rounded_green_bg"
-                    android:gravity="center"
-                    android:hint="Search"
-                    android:layout_gravity="center"
-                    android:layout_height="@dimen/dimen36dp"
-                    android:layout_marginTop="@dimen/text_dimen_10"
-                    android:layout_width="@dimen/value_80dp"
-                    android:textAlignment="center"
-                    android:textColorHint="@color/colorWhite"
-                    android:textSize="@dimen/text_16sp"
-                    android:textStyle="bold" />
+<!--                <androidx.appcompat.widget.AppCompatButton-->
+<!--                    android:background="@drawable/rounded_green_bg"-->
+<!--                    android:gravity="center"-->
+<!--                    android:hint="Search"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_height="@dimen/dimen36dp"-->
+<!--                    android:layout_marginTop="@dimen/text_dimen_10"-->
+<!--                    android:layout_width="@dimen/value_80dp"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textColorHint="@color/colorWhite"-->
+<!--                    android:textSize="@dimen/text_16sp"-->
+<!--                    android:textStyle="bold" />-->
 
 
             </LinearLayout>
@@ -209,6 +210,7 @@
                                         </LinearLayout>
 
                                         <TextView
+                                            android:id="@+id/siteName"
                                             android:layout_height="wrap_content"
                                             android:layout_marginStart="@dimen/value_10dp"
                                             android:layout_width="wrap_content"
@@ -245,7 +247,7 @@
                                                     android:layout_height="wrap_content"
                                                     android:layout_marginTop="@dimen/value_5dp"
                                                     android:layout_width="wrap_content"
-                                                    android:text="Ramesh P"
+                                                    android:text="--"
                                                     android:textColor="@color/darkk_blue"
                                                     android:textSize="@dimen/text_12sp"
                                                     android:textStyle="bold" />

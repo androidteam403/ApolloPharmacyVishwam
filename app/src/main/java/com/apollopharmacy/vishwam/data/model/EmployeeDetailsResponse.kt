@@ -154,6 +154,9 @@ class EmployeeDetailsResponse : Serializable {
         @Expose
         var department: Department? = null
 
+        @SerializedName("champs_admin")
+        @Expose
+        var champs_admin: ChampsAdmin?=null
 
         class UploadSwach : Serializable {
             @SerializedName("uid")
@@ -269,6 +272,16 @@ class EmployeeDetailsResponse : Serializable {
             @SerializedName("site")
             @Expose
             var site: String? = null
+        }
+
+        class ChampsAdmin : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
         }
 
         class Department : Serializable {

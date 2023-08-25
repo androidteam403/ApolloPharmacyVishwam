@@ -228,6 +228,29 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                         Preferences.setRetroEmployeeRoleUid("")
                     }
 
+                    if (it.data != null && it.data?.champs_admin != null) {
+//                        it.data!!.role!!.code = "store_supervisor"
+//                        it.data!!.uploadSwach!!.uid = "Yes"
+//                        Preferences.storeEmployeeDetailsResponseJsonChampsAdmin(Gson().toJson(it))
+                        if (it.data?.champs_admin?.uid != null) {
+//                            it.data?.uploadSwach?.uid = "Yes"
+//                            it.data?.swacchDefaultSite?.site = ""
+                            if (it.data?.champs_admin?.uid!=null && it.data?.champs_admin?.uid!!.equals(
+                                    "Yes", true
+                                )
+                            ) {
+                                Preferences.setEmployeeRoleUidChampsAdmin(it.data?.champs_admin?.uid!!)
+                            } else {
+                                Preferences.setEmployeeRoleUidChampsAdmin("")
+                            }
+
+                        } else {
+                            Preferences.setEmployeeRoleUidChampsAdmin("")
+                        }
+                    } else {
+                        Preferences.setEmployeeRoleUidChampsAdmin("")
+                    }
+
 
 
 

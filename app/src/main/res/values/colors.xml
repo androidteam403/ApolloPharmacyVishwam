@@ -226,5 +226,7 @@
     <color name="liight_green">#e8f7f2</color>
     <color name="lightt_ash">#cacaca</color>
     <color name="greenY">#009244</color>
+<!--    <color name="ash_na_plano">#cccccc</color>-->
+    <color name="red_no_plano">#ef1c23</color>
 
 </resources>
