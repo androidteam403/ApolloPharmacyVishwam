@@ -113,7 +113,7 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIdCallback" />
+            type="com.apollopharmacy.vishwam.ui.home.planogram.siteid.SelectPlanogramSiteIdCallback" />
     </data>
 
 </layout>

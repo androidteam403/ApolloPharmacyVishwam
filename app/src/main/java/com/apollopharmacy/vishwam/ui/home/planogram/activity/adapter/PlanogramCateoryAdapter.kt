@@ -48,6 +48,8 @@ class PlanogramCateoryAdapter(
                     row.questions!!,
                     applicationContext,
                     planogramActivityCallback,
+                    row.name,
+                    position
                 )
             holder.adapterPlanogramCategoryBinding.subCategoryPlanogramRecyclerView.setLayoutManager(
                 LinearLayoutManager(applicationContext)
