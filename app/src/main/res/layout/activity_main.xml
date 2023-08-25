@@ -26,6 +26,16 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_baseline_menu_24" />
 
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/value_20dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
@@ -42,7 +52,6 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/value_20dp"
             android:orientation="horizontal">
-
 
 
             <LinearLayout
@@ -153,8 +162,6 @@
                 android:tint="@color/white" />
 
 
-
-
             <RelativeLayout
                 android:layout_marginBottom="@dimen/dimen20dp"
                 android:layout_gravity="center_horizontal"
@@ -193,8 +200,6 @@
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/settings_white_champs" />
             </RelativeLayout>
-
-
 
 
             <RelativeLayout

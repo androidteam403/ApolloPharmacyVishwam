@@ -6,8 +6,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Handler
+import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
@@ -38,7 +40,7 @@ import com.apollopharmacy.vishwam.dialog.model.SubmitticketDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.SubworkflowConfigDetailsAdapter
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.UsersListforSubworkflowSpinnerAdapter
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.UserListAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.*
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Department
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.ItemStatus
@@ -56,6 +58,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import com.hsalf.smilerating.SmileRating
+import java.text.DecimalFormat
 import java.util.*
 
 class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplaintsBinding>(),
@@ -70,12 +73,17 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     var resListMnger = ArrayList<ResponseNewTicketlist.Row>()
 
     lateinit var storeData: LoginDetails.StoreData
+    lateinit var userListAdapter: UserListAdapter
 
     var complaintListStatus: String = "new,inprogress,solved,rejected,reopened,closed,onHold"
 
     // var TicketHistorydata:ArrayList<NewTicketHistoryResponse.Row>()
     var isTicketListThereFirstTime: Boolean = true
 
+    lateinit var userListDialog: Dialog
+    var usersList: ArrayList<UserListForSubworkflowResponse.Rows>? = null
+
+    var userForsubworkflow = UserListForSubworkflowResponse.Rows()
     override fun onPause() {
         super.onPause()
         MainActivity.mInstance.filterIndicator.visibility = View.GONE
@@ -268,7 +276,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     adapter = ApproveRecyclerView(
                         it.data.listData.rows,
                         this,
-                        arguments?.getBoolean("isFromApprovalList") == true
+                        arguments?.getBoolean("isFromApprovalList") == true,
+                        arguments?.getBoolean("isComplainListFragment") == true
                     )
                     viewBinding.recyclerViewApproved.adapter = adapter
                 }
@@ -524,8 +533,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         var orderData: ArrayList<ResponseNewTicketlist.Row>,
         val imageClickListener: ImageClickListener,
         var isApprovalListFragment: Boolean,
-
-        ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        var isComplainListFragment: Boolean,
+    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         var orderItemsId = ArrayList<String>()
         var tickethistory = ArrayList<NewTicketHistoryResponse.Row>()
 
@@ -653,19 +662,46 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.expairyDate.text =
                     Utlis.convertCmsExparyDate(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].expiry_date)
 
-                binding.purchaseRate.text =
-                    "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].purchase_rate}"
+                if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].purchase_rate != null) {
+                    val df =
+                        DecimalFormat("##,##,###.00").format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].purchase_rate)
+                    binding.purchaseRate.text =
+                        "₹ ${df}"
+                }
+
+
+
                 if (items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req")) {
                     binding.oldMrpLabel.text = "MRP : "
-                    binding.oldMrp.text =
-                        "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp}"
+
+                    if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp != null) {
+                        val df =
+                            DecimalFormat("##,##,###.00").format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp.toDouble())
+                        binding.oldMrp.text =
+                            "₹ ${df}"
+                    }
+
+
                     binding.newMrp.visibility = View.GONE
                     binding.newMrpLabel.visibility = View.GONE
                 } else {
-                    binding.oldMrp.text =
-                        "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp}"
-                    binding.newMrp.text =
-                        "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp}"
+                    if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp != null) {
+                        val df =
+                            DecimalFormat("##,##,###.00").format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp)
+                        binding.oldMrp.text =
+                            "₹ ${df}"
+                    }
+//                    binding.oldMrp.text =
+//                        "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp}"
+
+                    if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp != null) {
+                        val df =
+                            DecimalFormat("##,##,###.00").format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp)
+                        binding.newMrp.text =
+                            "₹ ${df}"
+                    }
+//                    binding.newMrp.text =
+//                        "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp}"
                 }
 //                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name == null) {
 //                    binding.manager.text =
@@ -693,20 +729,29 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                             "forward"
                         ) && managerUid.equals(employeeDetailsResponse?.data!!.uid)
                     ) {
-                        binding.inventoryActionLayout.visibility = View.VISIBLE
-                        binding.inventoryRejectBtn.visibility = View.VISIBLE
-                        binding.inventoryForwardManagerBtn.visibility = View.GONE
-                        binding.inventoryChangeForwardBtn.visibility = View.VISIBLE
-                        binding.inventoryAcceptBtn.text = "Approve"
+                        if (items!!.have_subworkflow != null) {
+                            if (items!!.have_subworkflow == false && isComplainListFragment) {
+                                binding.inventoryActionLayout.visibility =
+                                    View.VISIBLE// ::::: inventory_action_layout_remove
+                                binding.inventoryRejectBtn.visibility = View.VISIBLE
+                                binding.inventoryForwardManagerBtn.visibility = View.GONE
+                                binding.inventoryChangeForwardBtn.visibility = View.VISIBLE
+                                binding.inventoryAcceptBtn.text = "Approve"
+                            }
+                        }
+
                     } else if (items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req") && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid == null && employeeDetailsResponse?.data!!.uid.equals(
                             items.ticketDetailsResponse?.data?.user!!.uid
                         )
                     ) {
-                        binding.inventoryActionLayout.visibility = View.VISIBLE
-                        binding.inventoryRejectBtn.visibility = View.VISIBLE
-                        binding.inventoryForwardManagerBtn.visibility = View.GONE
-                        binding.inventoryChangeForwardBtn.visibility = View.GONE
-                        binding.inventoryAcceptBtn.text = "Approve"
+                        if (isComplainListFragment) {
+                            binding.inventoryActionLayout.visibility =
+                                View.VISIBLE// ::::: inventory_action_layout_remove
+                            binding.inventoryRejectBtn.visibility = View.VISIBLE
+                            binding.inventoryForwardManagerBtn.visibility = View.GONE
+                            binding.inventoryChangeForwardBtn.visibility = View.GONE
+                            binding.inventoryAcceptBtn.text = "Approve"
+                        }
                     }
                     binding.inventoryAcceptBtn.setOnClickListener {
                         imageClickListener.onClickInventoryAccept(items, position, orderData)
@@ -721,7 +766,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         imageClickListener.onClickForwardChangeManager(items, position, orderData)
                     }
                 } else {
-                    binding.inventoryActionLayout.visibility = View.GONE
+                    binding.inventoryActionLayout.visibility =
+                        View.GONE// ::::: inventory_action_layout_remove
                 }
                 binding.inventoryImagesLayout.visibility = View.VISIBLE
                 if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.isNullOrEmpty()) {
@@ -768,7 +814,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             } else {
                 isDonthaveInventory = true
                 binding.inventoryDetailsLayout.visibility = View.GONE
-                binding.inventoryActionLayout.visibility = View.GONE
+//                binding.inventoryActionLayout.visibility = View.GONE// ::::: inventory_action_layout_remove
                 binding.inventoryImagesLayout.visibility = View.GONE
             }
             items.created_id?.first_name + (if (items.created_id?.middle_name != null) " " + items.created_id?.middle_name else "") + (if (items.created_id?.last_name != null) " " + items.created_id?.last_name else "") + " (" + items.created_id?.login_unique + ")"
@@ -967,8 +1013,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         if (items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == null
                             || items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == "Yes"
                         ) {
-                            binding.ticketCloseBtn.visibility = View.VISIBLE
-                        }else{
+
+                            if (isComplainListFragment) {
+                                binding.ticketCloseBtn.visibility = View.VISIBLE
+                            } else {
+                                binding.ticketCloseBtn.visibility = View.GONE
+                            }
+                        } else {
                             binding.ticketCloseBtn.visibility = View.GONE
                         }
                     }
@@ -1718,11 +1769,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     "Yes",
                     "manager"
                 )
-                responseList.get(position).isExpanded = false
-                responseList.get(position).status!!.code = "solved"
-                responseList.get(position).status!!.name = "Resolved"
-                responseList.get(position).status!!.background_color = "#047604"
-                responseList.get(position).status!!.text_color = "#FFFFFF"
+//                responseList.get(position).isExpanded = false
+//                responseList.get(position).status!!.code = "solved"
+//                responseList.get(position).status!!.name = "Resolved"
+//                responseList.get(position).status!!.background_color = "#047604"
+//                responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(
                     inventoryAcceptrejectModel, workFlowUpdateModel, 0
                 )
@@ -1807,11 +1858,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     "Yes",
                     "manager"
                 )
-                responseList.get(position).isExpanded = false
-                responseList.get(position).status!!.code = "rejected"
-                responseList.get(position).status!!.name = "Rejected"
-                responseList.get(position).status!!.background_color = "#ed001c"
-                responseList.get(position).status!!.text_color = "#FFFFFF"
+//                responseList.get(position).isExpanded = false
+//                responseList.get(position).status!!.code = "rejected"
+//                responseList.get(position).status!!.name = "Rejected"
+//                responseList.get(position).status!!.background_color = "#ed001c"
+//                responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(
                     inventoryAcceptrejectModel, workFlowUpdateModel, 0
                 )
@@ -2114,7 +2165,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         responseList: ArrayList<ResponseNewTicketlist.Row>,
         position: Int, row: SubworkflowConfigDetailsResponse.Rows,
     ) {
-        if (row.action!!.code.equals("forward") && row.assignToUser!!.uid!!.equals("Yes")) {
+        if ((row.action!!.code.equals("forward") || row.action!!.code.equals("change_forward_manager")) && row.assignToUser!!.uid!!.equals(
+                "Yes"
+            )
+        ) {
             if (NetworkUtil.isNetworkConnected(requireContext())) {
                 showLoading()
                 viewModel.userlistForSubworkflowApiCall(
@@ -2150,13 +2204,18 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         problemDesc.text = data.reason.name
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
+        val userSelect = dialog.findViewById(R.id.user_list_selected_item) as EditText
+
         yesBtn.text = row.action!!.name!!
         val noBtn = dialog.findViewById(R.id.reject) as Button
         val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
         var userDropdownLayout =
             dialog.findViewById(R.id.user_dropdown_layout) as LinearLayout
-        var userForsubworkflow = UserListForSubworkflowResponse.Rows()
-        if (row.action!!.code.equals("forward") && row.assignToUser!!.uid!!.equals("Yes")) {
+//        var userForsubworkflow = UserListForSubworkflowResponse.Rows()
+        if ((row.action!!.code.equals("forward") || row.action!!.code.equals("change_forward_manager")) && row.assignToUser!!.uid!!.equals(
+                "Yes"
+            )
+        ) {
             if (userListForSubworkflowResponse != null
                 && userListForSubworkflowResponse.success!!
                 && userListForSubworkflowResponse.data != null
@@ -2165,29 +2224,81 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 && userListForSubworkflowResponse.data!!.listData!!.rows!!.size > 0
             ) {
                 userDropdownLayout.visibility = View.VISIBLE
-                val spinner = dialog.findViewById(R.id.user_list_for_subworkflow_spinner) as Spinner
-                var usersListforSubworkflowSpinnerAdapter =
-                    UsersListforSubworkflowSpinnerAdapter(
-                        requireContext(),
-                        userListForSubworkflowResponse.data!!.listData!!.rows!!
-                    )
-                spinner.adapter = usersListforSubworkflowSpinnerAdapter
-                spinner.setSelection(0)
-                spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View,
-                        positionDropDown: Int,
-                        id: Long,
-                    ) {
-                        userForsubworkflow =
-                            userListForSubworkflowResponse.data!!.listData!!.rows!!.get(
-                                positionDropDown
-                            )
-                    }
+                usersList = userListForSubworkflowResponse.data!!.listData!!.rows!!
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
-                })
+                var userListSelectedItem =
+                    dialog.findViewById(R.id.user_list_selected_item) as EditText
+                userListSelectedItem.setOnClickListener {
+                    userListDialog = Dialog(requireContext())
+                    val dialogUserListBinding =
+                        DataBindingUtil.inflate<DialogUserListBinding>(
+                            LayoutInflater.from(requireContext()),
+                            R.layout.dialog_user_list,
+                            null,
+                            false
+                        )
+                    userListDialog.setContentView(dialogUserListBinding.root)
+                    userListDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    userListDialog.setCancelable(false)
+                    dialogUserListBinding.closeDialog.setOnClickListener {
+                        userListDialog.dismiss()
+                    }
+                    userListAdapter = UserListAdapter(
+                        this,
+                        requireContext(),
+                        usersList!!, userSelect
+                    )
+                    dialogUserListBinding.locationRcv.adapter = userListAdapter
+                    dialogUserListBinding.locationRcv.layoutManager =
+                        LinearLayoutManager(requireContext())
+
+                    dialogUserListBinding.searchLocationListText.addTextChangedListener(object :
+                        TextWatcher {
+                        override fun beforeTextChanged(
+                            s: CharSequence?,
+                            start: Int,
+                            count: Int,
+                            after: Int,
+                        ) {
+                        }
+
+                        override fun onTextChanged(
+                            s: CharSequence?,
+                            start: Int,
+                            before: Int,
+                            count: Int,
+                        ) {
+                        }
+
+                        override fun afterTextChanged(s: Editable?) {
+                            filterUserList(s.toString(), dialogUserListBinding)
+                        }
+                    })
+                    userListDialog.show()
+                }
+                /*  val spinner = dialog.findViewById(R.id.user_list_for_subworkflow_spinner) as Spinner
+                  var usersListforSubworkflowSpinnerAdapter =
+                      UsersListforSubworkflowSpinnerAdapter(
+                          requireContext(),
+                          userListForSubworkflowResponse.data!!.listData!!.rows!!
+                      )
+                  spinner.adapter = usersListforSubworkflowSpinnerAdapter
+                  spinner.setSelection(0)
+                  spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+                      override fun onItemSelected(
+                          parent: AdapterView<*>?,
+                          view: View,
+                          positionDropDown: Int,
+                          id: Long,
+                      ) {
+                          userForsubworkflow =
+                              userListForSubworkflowResponse.data!!.listData!!.rows!!.get(
+                                  positionDropDown
+                              )
+                      }
+
+                      override fun onNothingSelected(parent: AdapterView<*>?) {}
+                  })*/
             } else {
                 userDropdownLayout.visibility = View.GONE
             }
@@ -2200,6 +2311,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             if (remark.text.toString().isEmpty()) {
                 remark.error = "Please enter comment"
                 remark.requestFocus()
+            } else if ((row.action!!.code.equals("forward") || row.action!!.code.equals("change_forward_manager")) && row.assignToUser!!.uid!!.equals(
+                    "Yes"
+                ) && userSelect.text.toString().isEmpty()
+            ) {
+                Toast.makeText(requireContext(), "Please select user", Toast.LENGTH_SHORT).show()
             } else {
                 dialog.dismiss()
                 if (NetworkUtil.isNetworkConnected(requireContext())) {
@@ -2211,6 +2327,60 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     ticketSubworkflowActionUpdateRequest.employee_id =
                         "${Preferences.getValidatedEmpId()}"//"RH75774748" //"SE35674"
                     // "SE35674"//${Preferences.getValidatedEmpId()}
+                    ticketSubworkflowActionUpdateRequest.items_uid =
+                        data.ticket_inventory!!.ticket_inventory_item!!.get(0).uid
+                    if (row.action!!.code != null && row.action!!.code.equals("forward_to_manager")) {
+                        ticketSubworkflowActionUpdateRequest.items_uid =
+                            data.ticket_inventory!!.ticket_inventory_item!!.get(0).uid
+                        var manager = TicketSubworkflowActionUpdateRequest.Manager()
+                        manager.uid = data.manager!!.uid
+                        ticketSubworkflowActionUpdateRequest.manager = manager
+                        var ticket = TicketSubworkflowActionUpdateRequest.Ticket()
+                        ticket.uid = responseList.get(position).uid
+                        ticketSubworkflowActionUpdateRequest.ticket = ticket
+                    }
+
+                    if (row.action!!.code != null && row.action!!.code.equals("change_forward_manager") && row.assignToUser!!.uid!!.equals(
+                            "Yes"
+                        )
+                    ) {
+                        ticketSubworkflowActionUpdateRequest.items_uid =
+                            data.ticket_inventory!!.ticket_inventory_item!!.get(0).uid
+                        var manager = TicketSubworkflowActionUpdateRequest.Manager()
+                        manager.uid = userForsubworkflow!!.uid
+                        ticketSubworkflowActionUpdateRequest.manager = manager
+                        var ticket = TicketSubworkflowActionUpdateRequest.Ticket()
+                        ticket.uid = responseList.get(position).uid
+                        ticketSubworkflowActionUpdateRequest.ticket = ticket
+
+                        var oldManager = TicketSubworkflowActionUpdateRequest.OldManager()
+                        oldManager.uid = data.manager!!.uid
+                        ticketSubworkflowActionUpdateRequest.old_manager = oldManager
+
+                        var toUser = TicketSubworkflowActionUpdateRequest.ToUser()
+                        toUser.uid = userForsubworkflow.uid
+                        toUser.firstName = userForsubworkflow.firstName
+                        toUser.middleName = userForsubworkflow.middleName
+                        toUser.lastName = userForsubworkflow.lastName
+                        toUser.loginUnique = userForsubworkflow.loginUnique
+                        var role = TicketSubworkflowActionUpdateRequest.Role()
+                        role.uid = userForsubworkflow.role!!.uid
+                        role.code = userForsubworkflow.role!!.code
+                        role.name = userForsubworkflow.role!!.name
+                        toUser.role = role
+                        var level = TicketSubworkflowActionUpdateRequest.Level()
+                        level.uid = userForsubworkflow.level!!.uid
+                        level.name = userForsubworkflow.level!!.name
+                        toUser.level = level
+                        ticketSubworkflowActionUpdateRequest.toUser = toUser
+
+
+                        var site = TicketSubworkflowActionUpdateRequest.Site()
+                        site.uid = data.site.uid
+                        site.site = data.site.site
+                        ticketSubworkflowActionUpdateRequest.site = site
+                    }
+
                     var subworkflow = TicketSubworkflowActionUpdateRequest.Subworkflow()
                     subworkflow.uid = row.uid!!
                     ticketSubworkflowActionUpdateRequest.subworkflow = subworkflow
@@ -2247,6 +2417,45 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
+    }
+
+    private fun filterUserList(
+        searchText: String,
+        dialogUserListBinding: DialogUserListBinding?,
+    ) {
+        val filteredList = ArrayList<UserListForSubworkflowResponse.Rows>()
+        for (i in usersList!!.indices) {
+            if (searchText.isEmpty()) {
+                filteredList.clear()
+                filteredList.addAll(usersList!!)
+            } else {
+                var userName = ""
+                if (usersList!![i].firstName != null) {
+                    userName = "${usersList!![i].firstName}"
+                }
+                if (usersList!![i].middleName != null) {
+                    userName = "$userName ${usersList!![i].middleName}"
+                }
+                if (usersList!![i].lastName != null) {
+                    userName = "$userName ${usersList!![i].lastName}"
+                }
+                if (usersList!![i].loginUnique != null) {
+                    userName = "$userName (${usersList!![i].loginUnique})"
+                }
+
+                if (userName!!.contains(searchText, true)) {
+                    filteredList.add(usersList!![i])
+                }
+            }
+        }
+        if (filteredList.size < 1) {
+            dialogUserListBinding!!.locationRcv.visibility = View.GONE
+            dialogUserListBinding.locationAvailable.visibility = View.VISIBLE
+        } else {
+            dialogUserListBinding!!.locationRcv.visibility = View.VISIBLE
+            dialogUserListBinding.locationAvailable.visibility = View.GONE
+        }
+        userListAdapter.filter(filteredList)
     }
 
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
@@ -2422,7 +2631,6 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     }
 
 
-
     override fun onSelectedManager(data: Row) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -2569,6 +2777,29 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     ) {
         hideLoading()
         showActionPopup(data, responseList, position, row, userListForSubworkflowResponse)
+    }
+
+    override fun onSelectUserListItem(
+        row: UserListForSubworkflowResponse.Rows,
+        userSelect: EditText,
+    ) {
+        userForsubworkflow = row
+        var userName = ""
+        if (row.firstName != null) {
+            userName = "${row.firstName}"
+        }
+        if (row.middleName != null) {
+            userName = "$userName ${row.middleName}"
+        }
+        if (row.lastName != null) {
+            userName = "$userName ${row.lastName}"
+        }
+        if (row.loginUnique != null) {
+            userName = "$userName (${row.loginUnique})"
+        }
+        userSelect.setText(userName)
+        userListDialog.dismiss()
+
     }
 }
 

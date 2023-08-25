@@ -119,9 +119,22 @@ class DashboardFilterActivity : AppCompatActivity(), QcCalender.DateSelected,
 
 
         activityDashboardFilterBinding.siteIdSelect.setOnClickListener {
+            var uniqueStoreList = ArrayList<PendingOrder.PENDINGLISTItem>()
+            for (i in storeList) {
+                var isStoreAvailable = false
+                for (j in uniqueStoreList) {
+                    if (i.STORE.equals(j.STORE)) {
+                        isStoreAvailable = true
+                    }
+                }
+                if (!isStoreAvailable) {
+                    uniqueStoreList.add(i)
+                }
+            }
+            storeList = uniqueStoreList
             DiscountSiteDialog().apply {
                 arguments =
-                    DiscountSiteDialog().generateParsedData(storeList.distinctBy { it.STORE.isNotEmpty() } as ArrayList<PendingOrder.PENDINGLISTItem>)
+                    DiscountSiteDialog().generateParsedData(storeList)//storeList.distinctBy { it.STORE.isNotEmpty() } as ArrayList<PendingOrder.PENDINGLISTItem>
             }.show(supportFragmentManager, "")
 
         }
@@ -150,7 +163,8 @@ class DashboardFilterActivity : AppCompatActivity(), QcCalender.DateSelected,
             activityDashboardFilterBinding.fromDateText.setText(fromDate)
 
         } else {
-            Toast.makeText(context, "From Date should not be After To Date ", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "From Date should not be After To Date ", Toast.LENGTH_LONG)
+                .show()
 
         }
 

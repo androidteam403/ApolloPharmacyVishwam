@@ -56,6 +56,9 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         super.onCreate(savedInstanceState)
         activityQcFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_qc_filter)
         viewModel = ViewModelProvider(this)[QcSiteActivityViewModel::class.java]
+        Utlis.showLoading(this)
+        viewModel.getQcStoreist(this)
+        viewModel.getQcRegionList()
         if (intent != null) {
             storeStringList= intent.getStringArrayListExtra("storeList")!!
             regionStringList= intent.getStringArrayListExtra("regionList")!!
@@ -95,12 +98,6 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         }
         activityQcFilterBinding.filtertype.visibility=View.VISIBLE
 
-
-//        if(fragmentName.equals("pending")){
-//            activityQcFilterBinding.filtertype.visibility=View.VISIBLE
-//        }else{
-//            activityQcFilterBinding.filtertype.visibility=View.GONE
-//        }
 
         if (storeStringList.isNullOrEmpty()){
             Preferences.setQcSite("")
@@ -168,9 +165,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
 //        Utlis.showLoading(this)
 //       viewModel.getQcStoreist(this)
-//        Utlis.showLoading(this)
-//        viewModel.siteId()
-//        viewModel.regionId()
+
         if(Preferences.getQcToDate().isEmpty()){
             Preferences.setQcOrderType("")
         }
@@ -184,14 +179,6 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
                     Preferences.setSiteIdListQcFail(Gson().toJson(viewModel.getSiteData()))
                     Preferences.setSiteIdListFetchedQcFail(true)
 
-//                    QcSiteDialog().apply {
-//                        arguments =
-//                                //CustomDialog().generateParsedData(viewModel.getDepartmentData())
-//                            QcSiteDialog().generateParsedData(viewModel.getSiteData())
-//                    }.show(supportFragmentManager, "")
-////                        arguments =
-////                            SiteDialog().generateParsedData(viewModel.getSiteData())
-
                 }
 
                 is QcSiteActivityViewModel.CommandQcSiteId.ShowRegionInfo -> {
@@ -199,13 +186,9 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
                     Preferences.setRegionIdListQcFail(Gson().toJson(viewModel.getRegionData()))
                     Preferences.setRegionIdListFetchedQcFail(true)
 
-//                    QcSiteDialog().apply {
+
 //                        arguments =
-//                                //CustomDialog().generateParsedData(viewModel.getDepartmentData())
-//                            QcSiteDialog().generateParsedData(viewModel.getSiteData())
-//                    }.show(supportFragmentManager, "")
-////                        arguments =
-////                            SiteDialog().generateParsedData(viewModel.getSiteData())
+//                            SiteDialog().generateParsedData(viewModel.getSiteData())
 
                 }
 
@@ -319,6 +302,23 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
         }
 
+        activityQcFilterBinding.siteIdSelect.setOnClickListener {
+            QcSiteDialog().apply {
+                arguments = QcSiteDialog().generateParsedData(viewModel.getSiteData())
+            }.show(supportFragmentManager, "")
+
+
+//                        arguments =
+//                            SiteDialog().generateParsedData(viewModel.getSiteData())
+        }
+
+        activityQcFilterBinding.regionIdSelect.setOnClickListener {
+            QcRegionDialog().apply {
+                arguments =
+                        //CustomDialog().generateParsedData(viewModel.getDepartmentData())
+                    QcRegionDialog().generateParsedData(viewModel.getRegionData())
+            }.show(supportFragmentManager, "")
+        }
 
         activityQcFilterBinding.toDateText.setOnClickListener {
             QcCalenderToDate().apply {
@@ -337,19 +337,19 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         }
 
 
-        activityQcFilterBinding.regionIdSelect.setOnClickListener {
-
-            QcRegionDialog().apply {
-                arguments = QcRegionDialog().generateParsedData(uniqueRegionList)
-            }.show(supportFragmentManager, "")
-        }
-
-        activityQcFilterBinding.siteIdSelect.setOnClickListener {
-            QcSiteDialog().apply {
-                arguments = QcSiteDialog().generateParsedData(uniqueStoreList)
-            }.show(supportFragmentManager, "")
-
-        }
+//        activityQcFilterBinding.regionIdSelect.setOnClickListener {
+//
+//            QcRegionDialog().apply {
+//                arguments = QcRegionDialog().generateParsedData(uniqueRegionList)
+//            }.show(supportFragmentManager, "")
+//        }
+//
+//        activityQcFilterBinding.siteIdSelect.setOnClickListener {
+//            QcSiteDialog().apply {
+//                arguments = QcSiteDialog().generateParsedData(uniqueStoreList)
+//            }.show(supportFragmentManager, "")
+//
+//        }
     }
 
     override fun onselectMultipleSitesStore(list: ArrayList<String>, position: Int) {

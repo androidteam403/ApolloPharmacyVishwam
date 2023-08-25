@@ -82,7 +82,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var reason: String = "test"
     var qcreasonCode: String = ""
     private var filterPendingList = ArrayList<QcListsResponse.Pending>()
-    var subList: java.util.ArrayList<java.util.ArrayList<QcListsResponse.Pending>>? =
+    var subList: ArrayList<ArrayList<QcListsResponse.Pending>>? =
         java.util.ArrayList()
 
     //    var subListTempFilter: java.util.ArrayList<QcListsResponse.Pending>? =
@@ -175,28 +175,14 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             override fun afterTextChanged(s: Editable?) {
                 if (s!!.length > 2) {
                     viewBinding.closeArrow.visibility = View.VISIBLE
-
                     viewBinding.close.visibility = View.GONE
-//                    if (adapter != null) {
                     getFilter()!!.filter(s)
-//                    }
                 }
-//                else if (viewBinding.searchView.getText().toString().equals("")) {
-//                    viewBinding.close.visibility = View.VISIBLE
-//                    viewBinding.closeArrow.visibility = View.GONE
-//
-////                    if (adapter != null) {
-//
-//                       getFilter()!!.filter("")
-////                    }
-//               }
+
                 else {
                     viewBinding.close.visibility = View.VISIBLE
                     viewBinding.closeArrow.visibility = View.GONE
-
-//                    if (adapter != null) {
                     getFilter()!!.filter("")
-//                    }
                 }
             }
         })
@@ -216,40 +202,11 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                     "",
                     this
                 )
-//
-//                while (i < names.size) {
-//                    if (names[i].isItemChecked) {
-//                        names.removeAt(i)
-//                        i = 0
-//                    } else {
-//                        i++
-//                    }
-//                }
-//                var pos: Int = 0
-//                while (pos < subList!!.get(increment).size) {
-//                    if (subList!!.get(increment)[pos].isItemChecked) {
-//                        subList!!.get(increment).removeAt(pos)
-//                        pos = 0
-//                    } else {
-//                        pos++
-//                    }
-//                }
-//                adapter!!.notifyDataSetChanged()
             } else if (subList?.size!! > acceptOrRejectItemPos) {
-
-//                var na = ArrayList<QcListsResponse.Pending>()
-//                na.addAll(subList!!.get(increment))
-//
-//                na.removeAt(acceptOrRejectItemPos)
                 var subListTemp = ArrayList<ArrayList<QcListsResponse.Pending>>()
                 subListTemp.addAll(subList!!.toList()!!)
                 subListTemp!!.get(increment).removeAt(acceptOrRejectItemPos)
-
                 subList = subListTemp
-
-//                subList!!.get(increment).removeAt(acceptOrRejectItemPos)
-
-//                names.removeAt(acceptOrRejectItemPos)
                 adapter!!.notifyDataSetChanged()
             }
         }
@@ -304,7 +261,21 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             pendingListList = it.pendinglist!!
             pendingListMain = it.pendinglist!!
 
-            setQcPedningListResponse(it.pendinglist!!)
+            if (typeString.isNullOrEmpty()){
+                setQcPedningListResponse(it.pendinglist!!)
+            }else{
+                if (typeString.equals("FORWARD RETURN")){
+                    setQcPedningListResponse(it.pendinglist!!.filter { it.omsorderno!!.contains("FL") } as ArrayList<QcListsResponse.Pending>)
+
+                }
+                else if (typeString.equals("REVERSE RETURN")){
+                    setQcPedningListResponse(it.pendinglist!!.filter { it.omsorderno!!.contains("RT") } as ArrayList<QcListsResponse.Pending>)
+
+                }
+            }
+
+
+
 
 
         }
@@ -561,19 +532,29 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             viewBinding.emptyList.visibility = View.GONE
 
             viewBinding.recyclerViewPending.visibility = View.VISIBLE
-            if (subList?.size == 1) {
+            if (subList?.size == 1|| subList!!.size<1) {
                 viewBinding.continueBtn.visibility = View.GONE
             } else {
                 viewBinding.continueBtn.visibility = View.VISIBLE
 
             }
             viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+            if (subList!!.size>0){
+                adapter = context?.let { it1 ->
+                    QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
+                }
+                viewBinding.recyclerViewPending.adapter = adapter
+                viewBinding.emptyList.visibility = View.GONE
+                viewBinding.recyclerViewPending.visibility = View.VISIBLE
 
-            adapter = context?.let { it1 ->
-                QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
             }
+            else{
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.recyclerViewPending.visibility = View.GONE
+            }
+
+
         }
-        viewBinding.recyclerViewPending.adapter = adapter
     }
 
     @SuppressLint("SuspiciousIndentation")

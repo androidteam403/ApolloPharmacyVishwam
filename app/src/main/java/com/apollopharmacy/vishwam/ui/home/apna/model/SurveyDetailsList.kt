@@ -380,6 +380,11 @@ class SurveyDetailsList : Serializable {
         @Expose
         var extngOutletAge: Double? = null
 
+        @SerializedName("extng_outlet_age_in_month")
+        @Expose
+        var extng_outlet_age_in_month: Double? = null
+
+
         @SerializedName("site_image_mb")
         @Expose
         var siteImageMb: SiteImageMb? = null
@@ -905,7 +910,7 @@ class SurveyDetailsList : Serializable {
         var rent = 0
 
         @SerializedName("sales")
-        var sales: Float = 0.0F
+        var sales: Double? = null
 
         @SerializedName("sqft")
         var sqft = 0.0

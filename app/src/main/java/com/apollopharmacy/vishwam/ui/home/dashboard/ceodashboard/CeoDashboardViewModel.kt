@@ -25,6 +25,7 @@ class CeoDashboardViewModel : ViewModel() {
         startDate: String,
         endDate: String,
         id: String,
+        roleCode:String,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -35,11 +36,17 @@ class CeoDashboardViewModel : ViewModel() {
                 baseUrl = data.APIS[i].URL
                 token = data.APIS[i].TOKEN
                 break
-            }
+            }//https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/get-ticket-counts-by-status-role?
         }//https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/get-ticket-counts-by-status-role?
-        var getTicketListByCountUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/get-ticket-counts-by-status-role?"
-        getTicketListByCountUrl += "from_date=$startDate&to_date=$endDate&employee_id=$id"
+        var getTicketListByCountUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/get-ticket-counts-by-status-role?"
+         //   "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/get-ticket-counts-by-status-role?"
+        if (roleCode.isNullOrEmpty()){
+            getTicketListByCountUrl += "from_date=$startDate&to_date=$endDate&employee_id=$id"
+
+        }else{
+            getTicketListByCountUrl += "from_date=$startDate&to_date=$endDate&employee_id=$id&role_code=$roleCode"
+
+        }
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {

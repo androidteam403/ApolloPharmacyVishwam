@@ -54,6 +54,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.apollopharmacy.vishw.PendingFragment;
@@ -167,8 +168,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isSensingRequired = false;
 
     public static boolean isChampsRequired = false;
-
-    public static boolean isChampsAdminRequired = false;
     public static boolean isApnaSurveyRequired = false;
     public static boolean isApnaRetroRequired = false;
     //    private String mCurrentFrag;
@@ -205,8 +204,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     public String employeeRole = "";
     public String employeeRoleRetro = "";
+    public String activity = "";
 
     public String employeeRoleNewDrugRequest;
+
     public String isAdminRequired;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
@@ -222,6 +223,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public RelativeLayout settingsWhite;
     public LinearLayout scannerIcon;
     public ImageView refreshIconQc;
+    public ImageView backArrow;
+    public ImageView openDrawer;
 
     public RelativeLayout filterIcon;
     public RelativeLayout qcfilterIcon;
@@ -365,6 +368,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             IS_COMPLAINT_RESOLVED = getIntent().getBooleanExtra("COMPLAINT_RESOLVED", false);
             isLanchedByPushNotification = (Boolean) getIntent().getBooleanExtra("isPushNotfication", false);
             isFromNotificaionIcon = (Boolean) getIntent().getBooleanExtra("is_from_notification", false);
+            activity=getIntent().getStringExtra("activity");
+            if (activity!=null&&!activity.isEmpty()) {
+                if (activity.equals("comparision")) {
+                    fragment = new RetroQrFragment();
+
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_container, fragment);
+                    ft.commit();
+                }
+            }
         }
         LinearLayout locationDeniedLayout = (LinearLayout) findViewById(R.id.location_denied);
         locationDeniedLayout.setVisibility(View.GONE);
@@ -426,10 +439,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
-        if (empDetailsResponses != null
-                && empDetailsResponses.getData() != null
-                && empDetailsResponses.getData().getEnableMarketingDashboard() != null
-                && empDetailsResponses.getData().getEnableMarketingDashboard().getUid() != null) {
+        if (empDetailsResponses != null && empDetailsResponses.getData() != null && empDetailsResponses.getData().getEnableMarketingDashboard() != null && empDetailsResponses.getData().getEnableMarketingDashboard().getUid() != null) {
             ceoDashboardAccessFromEmployee = empDetailsResponses.getData().getEnableMarketingDashboard().getUid();
         }
 
@@ -438,6 +448,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else isStoreSuperVisour = false;
         qcfilterIcon = findViewById(R.id.qc_filter_icon);
         refreshIconQc = findViewById(R.id.refreshIconQc);
+        openDrawer = findViewById(R.id.openDrawer);
+        backArrow = findViewById(R.id.backButton);
 
 
         filterIconApna = findViewById(R.id.filtericonapna);
@@ -466,13 +478,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mainActivityPlusIconCallback.onClickPlusIcon();
             }
         });
-
         settingsWhite.setOnClickListener(v -> {
             if (mainActivityPlusIconCallback != null) {
                 mainActivityPlusIconCallback.onClickSettings();
             }
         });
-
         qcfilterIcon.setOnClickListener(v -> {
             if (mainActivityCallback != null) {
                 mainActivityCallback.onClickQcFilterIcon();
@@ -714,6 +724,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 
 
+
         if (!itemName.equalsIgnoreCase("Greetings to Chairman")) {
             currentItem = itemName;
             if (previousItem.equals(currentItem) && !currentItem.equals("Logout")) {
@@ -760,7 +771,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "Complaint List":
                 headerText.setText("Complaint List");
+                Bundle bundle14 = new Bundle();
+                bundle14.putBoolean("isComplainListFragment", true);
                 fragment = new ComplainListFragment();
+                fragment.setArguments(bundle14);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
                 settingsWhite.setVisibility(View.GONE);
@@ -821,10 +835,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                settingsWhite.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -930,11 +944,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new SwacchFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                settingsWhite.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
 
                 siteIdIcon.setVisibility(View.GONE);
@@ -951,8 +965,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                plusIconApna.setVisibility(View.GONE);
                 settingsWhite.setVisibility(View.GONE);
+                plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
 
@@ -989,9 +1003,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new Drug();
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                settingsWhite.setVisibility(View.GONE);
+
                 filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1016,10 +1031,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new CashCloserFragment();
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                settingsWhite.setVisibility(View.GONE);
+
                 filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1047,8 +1063,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                siteIdIcon.setVisibility(View.GONE);
                 settingsWhite.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -1061,10 +1077,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new ApolloSensingFragment();
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                settingsWhite.setVisibility(View.GONE);
+
                 qcfilterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.VISIBLE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1097,10 +1114,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new DrugListFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                settingsWhite.setVisibility(View.GONE);
+
                 filterIcon.setVisibility(View.GONE);
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isFromDrugList", true);
@@ -1120,10 +1138,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new QcDashboard();
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.VISIBLE);
                 onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
-                settingsWhite.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1176,9 +1194,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new PlanogramFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                settingsWhite.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1336,10 +1354,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new com.apollopharmacy.vishwam.ui.home.qcfail.rejected.RejectedFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
                 plusIconApna.setVisibility(View.GONE);
-                settingsWhite.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
 //                selectFilterType.setText("Rows: "+ String.valueOf(Preferences.INSTANCE.getQcRejectedPageSiz()));
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1368,6 +1386,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }else{
                     settingsWhite.setVisibility(View.GONE);
                 }
+                settingsWhite.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.VISIBLE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1404,8 +1423,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                filterIcon.setVisibility(View.GONE);
                 settingsWhite.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1423,9 +1442,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = fragPreRectro;
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
-                settingsWhite.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.VISIBLE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1539,8 +1558,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                plusIconApna.setVisibility(View.GONE);
                 settingsWhite.setVisibility(View.GONE);
+                plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1998,7 +2017,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (isSensingRequired) {
             listView.addHeaderModel(new HeaderModel("Apollo Sensing", Color.WHITE, false, R.drawable.ic_menu_champ));
         }
-//        listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));
+        listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
@@ -2076,7 +2095,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)));
 //            .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
         }
-        listView.addHeaderModel(new HeaderModel("Planogram", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Planogram Evaluation", R.drawable.ic_apollo_survey_68__1_)));
+//        listView.addHeaderModel(new HeaderModel("Planogram", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Planogram Evaluation", R.drawable.ic_apollo_survey_68__1_)));
 
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 

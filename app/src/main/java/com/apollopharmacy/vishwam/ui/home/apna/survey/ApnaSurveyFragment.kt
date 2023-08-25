@@ -2,13 +2,10 @@ package com.apollopharmacy.vishwam.ui.home.apna.survey
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.location.LocationManager
 import android.os.Handler
-import android.provider.Settings
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -18,7 +15,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
-import com.apollopharmacy.vishwam.databinding.DialogPermissionDeniedBinding
 import com.apollopharmacy.vishwam.databinding.DialogSurveyListFilterBinding
 import com.apollopharmacy.vishwam.databinding.FragmentApnaSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
@@ -208,11 +203,14 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 if (isLoading) {
                     isLastPage = false
                     isLoading = false
+                    val pos = surveyResponseList.size - 1
                     surveyResponseList.removeAt(surveyResponseList.size - 1)
                     surveyResponseList.addAll(getsurveyList!!)
                     pageNo++
-
+//                    adapter!!.notifyDataSetChanged()
+//                    viewBinding.recyclerViewApproved.smoothScrollToPosition(pos)
                     initAdapter()
+                    viewBinding.recyclerViewApproved.smoothScrollToPosition(pos)
 //                    addScrollerListener()
                 }
             }
@@ -228,8 +226,11 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 viewBinding.noListFound.visibility = View.VISIBLE
             } else {
+                val pos = surveyResponseList.size - 1
                 surveyResponseList.removeAt(surveyResponseList.size - 1)
                 initAdapter()
+                viewBinding.recyclerViewApproved.smoothScrollToPosition(pos)
+
             }
 
         }
@@ -266,7 +267,16 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     }
 
     private fun loadMore() {
-        handler.post(Runnable {
+        if (!isLoading) {
+            isLoading = true
+            val newdata = SurveyListResponse.Row()
+            newdata.isLoading = "YES"
+            surveyResponseList.add(newdata)
+//            adapter!!.getData().add(newdata)
+            adapter!!.notifyItemInserted(surveyResponseList.size - 1)
+            callAPI(pageNo, rowSize, false)
+        }
+        /*handler.post(Runnable {
             if (!isLoading) {
                 isLoading = true
                 val newdata = SurveyListResponse.Row()
@@ -276,7 +286,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 adapter!!.notifyItemInserted(surveyResponseList.size - 1)
                 callAPI(pageNo, rowSize, false)
             }
-        })
+        })*/
 
     }
 

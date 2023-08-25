@@ -121,6 +121,24 @@ class SubworkflowConfigDetailsResponse {
 
     }
 
+    class AssignToRole {
+
+        @SerializedName("uid")
+        var uid: String? = null
+
+        @SerializedName("name")
+        var name: String? = null
+
+        @SerializedName("other")
+        var other: Other? = null
+
+        @SerializedName("icon")
+        var icon: String? = null
+
+
+    }
+
+
     class TicketStatus {
 
         @SerializedName("uid")
@@ -196,6 +214,9 @@ class SubworkflowConfigDetailsResponse {
 
         @SerializedName("to_role")
         var toRole: ToRole? = null
+
+        @SerializedName("assign_to_role")
+        var assign_to_role: AssignToRole? = null
 
         @SerializedName("ticket_status")
         var ticketStatus: TicketStatus? = null

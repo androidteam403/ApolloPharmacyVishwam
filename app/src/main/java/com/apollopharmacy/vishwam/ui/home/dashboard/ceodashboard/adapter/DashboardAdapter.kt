@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.dashboard.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -36,12 +37,19 @@ class DashboardAdapter(
         holder.adapterDashboardCeoBinding.pending.setText(response.pending.toString())
         holder.adapterDashboardCeoBinding.totalQc.setText(response.total.toString())
         holder.adapterDashboardCeoBinding.threeToEight.setText(response.get3To8().toString())
+        if (response.employeeid.isNullOrEmpty()){
+            holder.adapterDashboardCeoBinding.name.setTextColor(Color.parseColor("#000000"))
+        }else{
+            holder.adapterDashboardCeoBinding.name.setTextColor(Color.parseColor("#005EFF"))
+
+        }
 
         holder.adapterDashboardCeoBinding.name.setOnClickListener {
             if (!response.employeeid.isNullOrEmpty()){
-                ceoDashboardCallback.onClickEmployee(response.employeeid)
+                ceoDashboardCallback.onClickEmployee(response.employeeid,response.roleCode)
 
             }
+
         }
 
         holder.adapterDashboardCeoBinding.rightArrowQc.setOnClickListener {
