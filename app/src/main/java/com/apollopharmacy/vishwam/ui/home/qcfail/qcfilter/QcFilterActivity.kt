@@ -30,8 +30,6 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     lateinit var viewModel: QcSiteActivityViewModel
     var storeList = ArrayList<QcStoreList.Store>()
     private var fromQcDate: String = ""
-
-
     private var toQcDate: String = ""
     private var toDate: String = ""
     private var siteId: String = ""
@@ -59,6 +57,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         Utlis.showLoading(this)
         viewModel.getQcStoreist(this)
         viewModel.getQcRegionList()
+
         if (intent != null) {
             storeStringList= intent.getStringArrayListExtra("storeList")!!
             regionStringList= intent.getStringArrayListExtra("regionList")!!
@@ -99,14 +98,14 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         activityQcFilterBinding.filtertype.visibility=View.VISIBLE
 
 
-        if (storeStringList.isNullOrEmpty()){
-            Preferences.setQcSite("")
-
-        }
-
-        if (regionStringList.isNullOrEmpty()){
-            Preferences.setQcRegion("")
-        }
+//        if (storeStringList.isNullOrEmpty()){
+//            Preferences.setQcSite("")
+//
+//        }
+//
+//        if (regionStringList.isNullOrEmpty()){
+//            Preferences.setQcRegion("")
+//        }
 
         if (storeStringList!=null){
             for (i in storeStringList.indices) {

@@ -66,11 +66,18 @@ class QcSiteDialog : DialogFragment() {
         viewBinding = QcDialogSiteListBinding.inflate(inflater, container, false)
         var viewModel = ViewModelProviders.of(requireActivity())[QcFailSiteViewModel::class.java]
         viewBinding.closeDialog.visibility = View.VISIBLE
+
+        regionDataArrayList =
+            (arguments?.getSerializable(SITE_DATA) as? ArrayList<QcStoreList.Store>)!!
+
+        viewBinding.searchSite.visibility = View.VISIBLE
+        viewModel.qcSiteArrayList(regionDataArrayList)
         var storeIdList: List<String>
 
         viewBinding.searchSiteText.setHint("Search Site Id or Site Name")
         storeIdList = Preferences.getQcSite().split(",")
         var uniqueStoreList = ArrayList<QcStoreList.Store>()
+
         if (storeIdList != null) {
             for (i in storeIdList.indices) {
                 if (storeIdList.get(i).isNullOrEmpty()) {
@@ -157,11 +164,7 @@ class QcSiteDialog : DialogFragment() {
         abstractDialogClick = activity as NewDialogSiteClickListner
 
 
-        regionDataArrayList =
-            (arguments?.getSerializable(SITE_DATA) as? ArrayList<QcStoreList.Store>)!!
 
-        viewBinding.searchSite.visibility = View.VISIBLE
-        viewModel.qcSiteArrayList(regionDataArrayList)
 
 
 
@@ -208,10 +211,14 @@ class QcSiteRecycleView(
     ) {
 
         binding.itemName.text = "${items.siteid}"+ " - "+items.sitename
-
         binding.genderParentLayout.setOnClickListener {
             onSelectedListner.onClick(departmentListDto, position,storeList)
 
+        }
+        if (items.isClick) {
+            binding.checkBox.setImageResource(R.drawable.qcright)
+        } else {
+            binding.checkBox.setImageResource(R.drawable.qc_checkbox)
         }
 
         if (!Preferences.getQcSite().isNullOrEmpty()) {
@@ -245,11 +252,6 @@ class QcSiteRecycleView(
 
         }
 
-        if (departmentListDto[position].isClick) {
-            binding.checkBox.setImageResource(R.drawable.qcright)
-        } else {
-            binding.checkBox.setImageResource(R.drawable.qc_checkbox)
-        }
 
 
 

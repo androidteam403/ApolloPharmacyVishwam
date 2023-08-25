@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.data.model
 
+import com.apollopharmacy.vishwam.ui.rider.neworder.model.OrderDetailsResponse.Other__5
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -43,6 +44,9 @@ class EmployeeDetailsResponse : Serializable {
         @Expose
         var uploadApnaRetro: UploadApnaRetro? = null
 
+        @SerializedName("retro_approval")
+        @Expose
+         var retroApproval: RetroApproval? = null
         @SerializedName("new_drug_request")
         @Expose
         var newDrugRequest: NewDrugRequest? = null
@@ -208,6 +212,27 @@ class EmployeeDetailsResponse : Serializable {
 
 
             }
+        }
+        class RetroApproval :Serializable{
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+
+            @SerializedName("name_1")
+            @Expose
+            var name1: String? = null
+
+            @SerializedName("other")
+            @Expose
+            var other: Other__5? = null
+
+            @SerializedName("icon")
+            @Expose
+            var icon: Any? = null
         }
 
 

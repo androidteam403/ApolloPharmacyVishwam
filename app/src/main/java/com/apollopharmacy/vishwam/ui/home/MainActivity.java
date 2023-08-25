@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public String employeeRole = "";
     public String employeeRoleRetro = "";
     public String activity = "";
+    public String isApnaretroApprovalModuleEnabled = "";
 
     public String employeeRoleNewDrugRequest;
 
@@ -368,8 +369,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             IS_COMPLAINT_RESOLVED = getIntent().getBooleanExtra("COMPLAINT_RESOLVED", false);
             isLanchedByPushNotification = (Boolean) getIntent().getBooleanExtra("isPushNotfication", false);
             isFromNotificaionIcon = (Boolean) getIntent().getBooleanExtra("is_from_notification", false);
-            activity=getIntent().getStringExtra("activity");
-            if (activity!=null&&!activity.isEmpty()) {
+            activity = getIntent().getStringExtra("activity");
+            if (activity != null && !activity.isEmpty()) {
                 if (activity.equals("comparision")) {
                     fragment = new RetroQrFragment();
 
@@ -577,7 +578,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
         employeeRoleRetro = Preferences.INSTANCE.getRetroEmployeeRoleUid();
-
+        isApnaretroApprovalModuleEnabled = Preferences.INSTANCE.getRetroEmployeeIsApproval();
         employeeRoleNewDrugRequest = Preferences.INSTANCE.getEmployeeRoleUidNewDrugRequest();
         isAdminRequired = Preferences.INSTANCE.getEmployeeRoleUidChampsAdmin();
         if (loginData != null) {
@@ -722,7 +723,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            showAlertDialog(itemName);
 //            return;
 //        }
-
 
 
         if (!itemName.equalsIgnoreCase("Greetings to Chairman")) {
@@ -1381,9 +1381,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.VISIBLE);
-                if(!isAdminRequired.isEmpty() && isAdminRequired.equals("Yes")){
+                if (!isAdminRequired.isEmpty() && isAdminRequired.equals("Yes")) {
                     settingsWhite.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     settingsWhite.setVisibility(View.GONE);
                 }
                 settingsWhite.setVisibility(View.GONE);
@@ -2099,15 +2099,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
-        if (isApnaRetroRequired) {
-            if ((employeeRoleRetro.equalsIgnoreCase("Yes")) && (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER"))) {
-                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
-            } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("NODATA")) {
-                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
-            } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER")) {
-                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
-            }
-        }
+//        if (isApnaRetroRequired) {
+//            if ((employeeRoleRetro.equalsIgnoreCase("Yes")) && (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER"))) {
+//                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+//            } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("NODATA")) {
+//                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
+//            } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER")) {
+//                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+//            }
+//        }
+          if (isApnaRetroRequired) {
+              if ((employeeRoleRetro.equalsIgnoreCase("Yes"))&&isApnaretroApprovalModuleEnabled.equalsIgnoreCase("Yes")){
+                  listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+              } else if (employeeRoleRetro.equalsIgnoreCase("Yes")) {
+                  listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
+              }
+              else if (isApnaretroApprovalModuleEnabled.equalsIgnoreCase("Yes")){
+                  listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+              }
+
+
+          }
+
+
+
 
 //        isApnaSurveyRequired = true;
         if (isApnaSurveyRequired) {
