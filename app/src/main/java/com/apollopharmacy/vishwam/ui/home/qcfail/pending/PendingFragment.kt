@@ -948,7 +948,12 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
 
-                    } else if (pendingListList.size == pendingListMain.size) {
+                    }
+                    else if (pendingListList.isNotEmpty()){
+
+
+
+                        if (pendingListList.size == pendingListMain.size) {
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
                         setQcPedningListResponse(pendingListList)
                         adapter!!.notifyDataSetChanged()
@@ -960,7 +965,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                         setQcPedningListResponse(pendingListList)
                         adapter!!.notifyDataSetChanged()
                     }
+                    }else{
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
+                    }
 
                     if (data.getStringExtra("reset").toString().equals("reset")) {
                         showLoading()

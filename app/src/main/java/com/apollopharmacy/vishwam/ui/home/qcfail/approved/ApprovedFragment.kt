@@ -580,21 +580,27 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
                     }
 
-                    else if (approvedListList.size == approvedListList.size){
-                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
-                        setQcApprovedListResponse(approvedListList)
-                        adapter!!.notifyDataSetChanged()
+                    else if (approvedListList.isNotEmpty()) {
+
+
+                        if (approvedListList.size == approvedListList.size) {
+                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                            setQcApprovedListResponse(approvedListList)
+                            adapter!!.notifyDataSetChanged()
+                        } else {
+                            approvedListList.clear()
+                            approvedListList = approvedListMain
+                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                            setQcApprovedListResponse(approvedListList)
+                            adapter!!.notifyDataSetChanged()
+                        }
+
+
                     }
-                    else {
-                        approvedListList.clear()
-                        approvedListList = approvedListMain
+                    else{
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
-                        setQcApprovedListResponse(approvedListList)
-                        adapter!!.notifyDataSetChanged()
+
                     }
-
-
-
                     if (data.getStringExtra("reset").toString().equals("reset")) {
                         showLoading()
                         Preferences.setQcFromDate("")

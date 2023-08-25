@@ -213,13 +213,12 @@ class QcSiteRecycleView(
             onSelectedListner.onClick(departmentListDto, position,storeList)
 
         }
-        var i: Int = 0
 
         if (!Preferences.getQcSite().isNullOrEmpty()) {
             if (Preferences.getQcSite().contains(",")){
                 for (j in departmentListDto.indices) {
 
-                    if (Preferences.getQcSite().split(",").filter { it.contains(departmentListDto.get(i).siteid!!) }.size>0) {
+                    if (Preferences.getQcSite().split(",").filter { it.contains(departmentListDto.get(j).siteid!!) }.size>0) {
 
                         departmentListDto[j].setisClick(true)
                     } else {
