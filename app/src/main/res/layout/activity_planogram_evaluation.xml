@@ -195,7 +195,7 @@
                                         android:textStyle="bold" />
 
                                     <TextView
-                                        android:id="@+id/issued_on"
+                                        android:id="@+id/store_name"
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="B.V Nagar, Nellore"
@@ -219,7 +219,7 @@
                                         android:textStyle="bold" />
 
                                     <TextView
-                                        android:id="@+id/site_id"
+                                        android:id="@+id/store_id"
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="16001"
@@ -244,7 +244,6 @@
                                         android:textStyle="bold" />
 
                                     <TextView
-                                        android:id="@+id/store_name"
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:textColor="@color/black"

@@ -18,9 +18,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.Preferences.getLoginJson
+import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.databinding.ActivityPlanogramEvaluationBinding
 import com.apollopharmacy.vishwam.databinding.AreasToFocusonDialogBinding
-import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
+import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.adapter.AreasToFocusOnAdapter
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.adapter.PlanogramCateoryAdapter
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramCatList
@@ -29,10 +32,11 @@ import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSave
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSurveyQuestionsListResponse
 import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
 import com.apollopharmacy.vishwam.util.Utlis
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
 import com.tomergoldst.tooltips.ToolTipsManager
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallback,
     ToolTipsManager.TipListener {
@@ -60,6 +64,26 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
         activityPlanogramEvaluationBinding.areasToFocusText.text = "Areas to focus on (" + 0 + ")"
         activityPlanogramEvaluationBinding.categoresToFocusOnText.text =
             "Categories to focus on (" + 0 + ")"
+        val loginJson = getLoginJson()
+        var loginData: LoginDetails? = null
+        try {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            loginData = gson.fromJson(loginJson, LoginDetails::class.java)
+        } catch (e: JsonParseException) {
+            e.printStackTrace()
+        }
+        if (loginData != null) {
+//            userNameText.setText("JaiKumar Loknathan Mudaliar");
+
+//            userNameText.setText("JaiKumar Loknathan Mudaliar");
+            activityPlanogramEvaluationBinding.employeeName.text=  loginData.EMPNAME
+            activityPlanogramEvaluationBinding.employeeId.text=  loginData.EMPID
+        }
+        activityPlanogramEvaluationBinding.storeName.text=Preferences.getPlanogramSiteName()
+        activityPlanogramEvaluationBinding.storeId.text=Preferences.getPlanogramSiteId()
+        activityPlanogramEvaluationBinding.storeCity.text=Preferences.getPlanogramSiteCity()
+        activityPlanogramEvaluationBinding.state.text=Preferences.getPlanogramSiteState()
+
         if (NetworkUtils.isNetworkConnected(this)) {
             Utlis.showLoading(this@PlanogramEvaluationActivity)
             planogramActivityViewModel.planogramSurveyQuestionsListApi(this)
@@ -105,7 +129,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
 
             planogramRequest.branchName =
                 activityPlanogramEvaluationBinding.storeName.text.toString()
-            planogramRequest.siteId = activityPlanogramEvaluationBinding.siteId.text.toString()
+            planogramRequest.siteId = activityPlanogramEvaluationBinding.storeId.text.toString()
             var commaSeparatorCategoriesToFocusOn = ""
             if (categoriesToFocusOnList != null && categoriesToFocusOnList!!.size > 0) {
                 for (i in categoriesToFocusOnList!!.indices) {
