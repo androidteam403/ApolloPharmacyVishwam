@@ -64,31 +64,39 @@ class ApprovalPreviewViewModel : ViewModel() {
                         imageUrlResponse.value = response.value
                     } else {
                         state.value = State.ERROR
-                        preRetroCallback.onFailureImageUrlList(response.value)
+                        preRetroCallback.onFailureImageUrlList(response.value.message!!)
                         imageUrlResponse.value = response.value
                     }
                 }
 
                 is ApiResult.GenericError -> {
+
                     command.postValue(response.error?.let {
                         Command.ShowToast(it)
+
                     })
                     state.value = State.ERROR
                 }
 
                 is ApiResult.NetworkError -> {
+                    preRetroCallback.onFailureImageUrlList("Network Error")
+
                     command.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
 
                 }
 
                 is ApiResult.UnknownError -> {
+                    preRetroCallback.onFailureImageUrlList("Something went wrong, please try again later")
+
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
 
                 }
 
                 else -> {
+                    preRetroCallback.onFailureImageUrlList("Something went wrong, please try again later")
+
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
 
                     state.value = State.ERROR

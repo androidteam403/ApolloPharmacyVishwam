@@ -89,6 +89,7 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         var imageUrlRequest = GetImageUrlRequest()
         imageUrlRequest.retroId = retroId
         imageUrlRequest.storeid = store.split("-").get(0)
+        Utlis.showLoading(this)
         viewModel.getRectroApprovalList(imageUrlRequest, this)
         val frmt = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
         val date = frmt.parse(uploadDate)
@@ -333,7 +334,7 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 
         }
 
-
+Utlis.hideLoading()
 
         if (imageUrlList != null) {
             adapter = ApprovalCategoryListAdapter(this, imageUrlList, stage, this)
@@ -343,7 +344,10 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 
     }
 
-    override fun onFailureImageUrlList(value: GetImageUrlResponse) {
+    override fun onFailureImageUrlList(value: String) {
+        Toast.makeText(this,value,Toast.LENGTH_LONG).show()
+        onBackPressed()
+        Utlis.hideLoading()
     }
 
     override fun onClickReview() {
