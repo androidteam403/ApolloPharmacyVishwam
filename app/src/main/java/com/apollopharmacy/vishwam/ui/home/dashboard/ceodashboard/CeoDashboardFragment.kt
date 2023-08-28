@@ -1,13 +1,11 @@
 package com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard
 
-import android.R.attr.x
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.util.TypedValue
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -145,47 +143,47 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
 
         MainActivity.mInstance.backArrow.setOnClickListener {
+            onBackPressed()
+            /* countApiCall--
+             if (countApiCall == 0) {
+                 for (i in statusRoleResponseList.indices) {
 
-            countApiCall--
-            if (countApiCall == 0) {
-                for (i in statusRoleResponseList.indices) {
+                     if (Preferences.getValidatedEmpId()
+                             .equals(statusRoleResponseList.get(i).empId)
+                     ) {
+                         ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                         callAdapter()
+                     }
 
-                    if (Preferences.getValidatedEmpId()
-                            .equals(statusRoleResponseList.get(i).empId)
-                    ) {
-                        ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
-                        callAdapter()
-                    }
+                 }
 
-                }
-
-            } else {
-                for (i in empIdList.indices) {
-                    if (empId.equals(empIdList.get(i))) {
-                        empIdList.removeAt(i)
-                    }
-
-
-                }
-            }
+             } else {
+                 for (i in empIdList.indices) {
+                     if (empId.equals(empIdList.get(i))) {
+                         empIdList.removeAt(i)
+                     }
 
 
+                 }
+             }
 
 
 
-            if (empIdList.size > 0 && countApiCall != 0) {
-//            showLoading()
-                val lastIndex = empIdList.size - 1
 
-                for (i in statusRoleResponseList.indices) {
-                    if (empIdList.get(lastIndex).equals(statusRoleResponseList.get(i).getEmpId())) {
-                        ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
-                        callAdapter()
-                    }
-                }
 
-                empIdList.removeAt(lastIndex)
-            }
+             if (empIdList.size > 0 && countApiCall != 0) {
+ //            showLoading()
+                 val lastIndex = empIdList.size - 1
+
+                 for (i in statusRoleResponseList.indices) {
+                     if (empIdList.get(lastIndex).equals(statusRoleResponseList.get(i).getEmpId())) {
+                         ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                         callAdapter()
+                     }
+                 }
+
+                 empIdList.removeAt(lastIndex)
+             }*/
         }
     }
 
@@ -367,37 +365,36 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     }
 
     override fun onClickEmployee(employee: String, roleCode: String) {
-
         empId = employee
 
-        if (countApiCall < 0) {
-            countApiCall = 0
+        /* if (countApiCall < 0) {
+             countApiCall = 0
 
-        }
+         }
 
-        if (empIdList.contains(employee)) {
+         if (empIdList.contains(employee)) {
 
-        } else {
-            countApiCall++
+         } else {
+             countApiCall++
 
-            empIdList.add(employee)
-        }
-        if (statusRoleResponseList.filter { it.empId.equals(employee) }.size > 0) {
+             empIdList.add(employee)
+         }*/
+        /*if (statusRoleResponseList.filter { it.empId.equals(employee) && !empId.equals(Preferences.getValidatedEmpId())}.size > 0) {
             for (i in statusRoleResponseList.indices) {
                 if (employee.equals(statusRoleResponseList.get(i).getEmpId())) {
                     ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
                     callAdapter()
                 }
             }
-        } else {
-            showLoading()
-            viewModel.getTicketListByCountApi(
-                this,
-                Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
-                Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-                employee, roleCode//"APL67949"
-            )
-        }
+        } else {*/
+        showLoading()
+        viewModel.getTicketListByCountApi(
+            this,
+            Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
+            Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
+            employee, roleCode//"APL67949"
+        )
+//        }
 
     }
 
@@ -421,7 +418,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
 
     fun callAdapter() {
-        if (countApiCall == 0) {
+        if (statusRoleResponseList.size == 1) {
             viewBinding.fromDate.isClickable = true
             viewBinding.toDate.isClickable = true
             viewBinding.fromDate.isEnabled = true
@@ -561,23 +558,23 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     override fun onSuccessgetTicketListByCountApi(ticketCountsByStatsuRoleResponse: TicketCountsByStatusRoleResponse) {
 
 //        resetChart()
-        if (empId.isNullOrEmpty()) {
-            ticketCountsByStatsuRoleResponse.setEmpId(Preferences.getValidatedEmpId())
+        /* if (empId.isNullOrEmpty()) {
+             ticketCountsByStatsuRoleResponse.setEmpId(Preferences.getValidatedEmpId())
 
-        } else {
-            ticketCountsByStatsuRoleResponse.setEmpId(empId)
+         } else {
+             ticketCountsByStatsuRoleResponse.setEmpId(empId)
 
-        }
-
+         }*/
+        ticketCountsByStatsuRoleResponses = ticketCountsByStatsuRoleResponse
         statusRoleResponseList.add(ticketCountsByStatsuRoleResponse)
-        for (i in statusRoleResponseList.indices) {
-            if (empId.isNullOrEmpty() && statusRoleResponseList.size == 1) {
-                ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
-            } else if (empId.equals(statusRoleResponseList.get(i).getEmpId())) {
-                ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+        /*  for (i in statusRoleResponseList.indices) {
+              if (empId.isNullOrEmpty() && statusRoleResponseList.size == 1) {
+                  ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+              } else if (empId.equals(statusRoleResponseList.get(i).getEmpId())) {
+                  ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
 
-            }
-        }
+              }
+          }*/
 
         callAdapter()
 
@@ -946,47 +943,60 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     }
 
     override fun onBackPressed(): Boolean {
-        countApiCall--
-        if (countApiCall == 0) {
-            for (i in statusRoleResponseList.indices) {
-
-                if (Preferences.getValidatedEmpId().equals(statusRoleResponseList.get(i).empId)) {
-                    ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
-                    callAdapter()
-                }
-
-            }
-        } else {
-            for (i in empIdList.indices) {
-                if (empId.equals(empIdList.get(i))) {
-                    empIdList.removeAt(i)
-                }
-
-
-            }
-        }
-
-
-
-
-
-        if (empIdList.size > 0 && countApiCall != 0) {
-//            showLoading()
-            val lastIndex = empIdList.size - 1
-
-            for (i in statusRoleResponseList.indices) {
-                if (empIdList.get(lastIndex).equals(statusRoleResponseList.get(i).getEmpId())) {
-                    ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
-                    callAdapter()
-                }
-            }
-
-            empIdList.removeAt(lastIndex)
+        if (statusRoleResponseList.size == 1) {
+            return false
+        } else if (statusRoleResponseList.size > 1) {
+            statusRoleResponseList.remove(statusRoleResponseList.get(statusRoleResponseList.size - 1))
+            ticketCountsByStatsuRoleResponses =
+                statusRoleResponseList.get(statusRoleResponseList.size - 1)
+            callAdapter()
             return true
-        } else if (countApiCall < 0) {
+        } else {
             return false
         }
-        return true
+
+
+        /*  countApiCall--
+          if (countApiCall == 0) {
+              for (i in statusRoleResponseList.indices) {
+
+                  if (Preferences.getValidatedEmpId().equals(statusRoleResponseList.get(i).empId)) {
+                      ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                      callAdapter()
+                  }
+
+              }
+          } else {
+              for (i in empIdList.indices) {
+                  if (empId.equals(empIdList.get(i))) {
+                      empIdList.removeAt(i)
+                  }
+
+
+              }
+          }
+
+
+
+
+
+          if (empIdList.size > 0 && countApiCall != 0) {
+  //            showLoading()
+              val lastIndex = empIdList.size - 1
+
+              for (i in statusRoleResponseList.indices) {
+                  if (empIdList.get(lastIndex).equals(statusRoleResponseList.get(i).getEmpId())) {
+                      ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                      callAdapter()
+                  }
+              }
+
+              empIdList.removeAt(lastIndex)
+              return true
+          } else if (countApiCall < 0) {
+              return false
+          }
+          return true*/
     }
 
     override fun onClickFilterIcon() {
