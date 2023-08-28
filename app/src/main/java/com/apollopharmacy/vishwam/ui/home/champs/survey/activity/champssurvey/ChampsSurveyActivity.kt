@@ -1767,6 +1767,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
 
             var saveUpdateRequest = SaveUpdateRequest()
+            saveUpdateRequest.employee_id = Preferences.getValidatedEmpId()
             val strDates = activityChampsSurveyBinding.issuedOn.text.toString()
             val dateFormats = SimpleDateFormat("dd MMM, yyyy - hh:mm a");
             val date = dateFormats.parse(strDates)

@@ -54,7 +54,6 @@ import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.apollopharmacy.vishw.PendingFragment;
@@ -74,7 +73,6 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroFragment;
 import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
 import com.apollopharmacy.vishwam.ui.home.apollosensing.ApolloSensingFragment;
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragment;
-import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
@@ -687,6 +685,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             if (isHomeScreen) {
                 finish();
+
             } else {
                 displaySelectedScreen("HOME");
                 drawer.closeDrawer(GravityCompat.START);
@@ -1386,7 +1385,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     settingsWhite.setVisibility(View.GONE);
                 }
-                settingsWhite.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.VISIBLE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -2108,20 +2106,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
 //            }
 //        }
-          if (isApnaRetroRequired) {
-              if ((employeeRoleRetro.equalsIgnoreCase("Yes"))&&isApnaretroApprovalModuleEnabled.equalsIgnoreCase("Yes")){
-                  listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
-              } else if (employeeRoleRetro.equalsIgnoreCase("Yes")) {
-                  listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
-              }
-              else if (isApnaretroApprovalModuleEnabled.equalsIgnoreCase("Yes")){
-                  listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
-              }
+        if (isApnaRetroRequired) {
+            if ((employeeRoleRetro.equalsIgnoreCase("Yes")) && isApnaretroApprovalModuleEnabled.equalsIgnoreCase("Yes")) {
+                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+            } else if (employeeRoleRetro.equalsIgnoreCase("Yes")) {
+                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
+            } else if (isApnaretroApprovalModuleEnabled.equalsIgnoreCase("Yes")) {
+                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+            }
 
 
-          }
-
-
+        }
 
 
 //        isApnaSurveyRequired = true;
