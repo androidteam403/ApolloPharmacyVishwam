@@ -586,6 +586,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             if (isHomeScreen) {
                 finish();
+
             } else {
                 displaySelectedScreen("HOME");
                 drawer.closeDrawer(GravityCompat.START);
@@ -1175,7 +1176,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     settingsWhite.setVisibility(View.GONE);
                 }
-                settingsWhite.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.VISIBLE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1886,20 +1886,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
 //            }
 //        }
-          if (isApnaRetroRequired) {
-              if ((employeeRoleRetro.equalsIgnoreCase("Yes"))&&isApnaretroApprovalModuleEnabled.equalsIgnoreCase("Yes")){
-                  listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
-              } else if (employeeRoleRetro.equalsIgnoreCase("Yes")) {
-                  listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
-              }
-              else if (isApnaretroApprovalModuleEnabled.equalsIgnoreCase("Yes")){
-                  listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
-              }
+        if (isApnaRetroRequired) {
+            if ((employeeRoleRetro.equalsIgnoreCase("Yes")) && isApnaretroApprovalModuleEnabled.equalsIgnoreCase("Yes")) {
+                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+            } else if (employeeRoleRetro.equalsIgnoreCase("Yes")) {
+                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
+            } else if (isApnaretroApprovalModuleEnabled.equalsIgnoreCase("Yes")) {
+                listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+            }
 
 
-          }
-
-
+        }
 
 
 //        isApnaSurveyRequired = true;
