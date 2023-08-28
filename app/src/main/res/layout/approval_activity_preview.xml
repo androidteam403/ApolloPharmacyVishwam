@@ -22,12 +22,12 @@
                 android:padding="@dimen/value_10dp">
 
                 <ImageView
+                    android:id="@+id/back_arrow"
                     android:layout_width="@dimen/value_40dp"
                     android:layout_height="@dimen/value_40dp"
-                    android:id="@+id/back_arrow"
-
                     android:layout_marginTop="@dimen/value_3dp"
                     android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickBackIcon()}"
                     android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
 
                 <LinearLayout
@@ -68,6 +68,7 @@
 
 
                     <LinearLayout
+                        android:id="@+id/close_white_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end"
@@ -77,6 +78,7 @@
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_gravity="center"
+                            android:onClick="@{()-> callback.onClickBackIcon()}"
                             android:src="@drawable/closee_whitee" />
                     </LinearLayout>
                 </LinearLayout>
@@ -245,23 +247,23 @@
                             tools:ignore="RtlCompat" />
 
                         <ImageView
+                            android:id="@+id/arrow"
                             android:layout_width="@dimen/text_19sp"
                             android:layout_height="19dp"
                             android:layout_marginTop="5dp"
-                            android:id="@+id/arrow"
                             android:src="@drawable/black_right_arroww"
                             android:tint="@color/white"
                             tools:ignore="UseAppTint" />
 
                         <ImageView
+                            android:id="@+id/downarrow"
                             android:layout_width="@dimen/text_19sp"
                             android:layout_height="19dp"
                             android:layout_marginTop="5dp"
-                            android:id="@+id/downarrow"
                             android:rotation="90"
-                            android:visibility="gone"
                             android:src="@drawable/black_right_arroww"
                             android:tint="@color/white"
+                            android:visibility="gone"
                             tools:ignore="UseAppTint" />
                     </LinearLayout>
 
@@ -437,6 +439,7 @@
                                 android:textSize="@dimen/text_14sp" />
                         </LinearLayout>
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -507,15 +510,16 @@
                             android:textSize="@dimen/text_15sp" />
 
                         <TextView
+                            android:id="@+id/status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="4dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Re-Shoot "
-                            android:id="@+id/status"
                             android:textColor="@color/color_red"
                             android:textSize="@dimen/text_15sp" />
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"

@@ -92,7 +92,6 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
 
         viewModel.pendingList.observe(viewLifecycleOwner) {
             if (it.isEmpty() || it.size == 0) {
-
                 hideLoading()
                 viewBinding.emptyList.visibility = View.VISIBLE
                 viewBinding.bulkAppRejLayout.visibility = View.GONE
@@ -108,12 +107,9 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
             }
         }
         viewBinding.filter.setOnClickListener {
-
             val i = Intent(context, DashboardFilterActivity::class.java)
-
             i.putExtra("storeList", pendinglistItem)
             startActivityForResult(i, 210)
-
 //            viewModel.filterClicked()
         }
         viewModel.acceptRequest.observe(viewLifecycleOwner) {
@@ -590,6 +586,22 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
     }
 
     override fun onClickQcFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
         TODO("Not yet implemented")
     }
 }

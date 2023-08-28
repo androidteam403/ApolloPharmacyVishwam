@@ -34,8 +34,8 @@
                 android:background="@color/app_center_color"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/value_10dp"
-                android:paddingEnd="@dimen/value_10dp"
                 android:paddingTop="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
                 android:visibility="visible"
                 android:weightSum="2">
 
@@ -99,9 +99,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/five5_sp"
-                android:paddingTop="@dimen/value_10dp"
                 android:background="@color/app_center_color"
                 android:orientation="horizontal"
+                android:paddingTop="@dimen/value_10dp"
                 android:weightSum="3">
 
                 <RelativeLayout

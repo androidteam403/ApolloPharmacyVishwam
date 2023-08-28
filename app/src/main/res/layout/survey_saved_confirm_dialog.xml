@@ -7,10 +7,7 @@
         android:layout_margin="@dimen/value_10dp"
         android:background="@drawable/dialog_background"
         android:orientation="vertical"
-        android:paddingStart="50dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="50dp"
-        android:paddingBottom="20dp">
+        android:padding="@dimen/dimen20dp">
 
         <TextView
             android:id="@+id/message"
@@ -18,7 +15,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:text=""
             android:textColor="@color/black"
             android:textSize="@dimen/text_18sp" />
 
@@ -26,7 +22,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/value_5dp"
-            android:layout_marginBottom="@dimen/value_25dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -35,9 +30,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
-                android:text="Survey Id : "
-                android:textColor="@color/grey"
+                android:text="Survey ID : "
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_14sp"
+                android:textStyle="bold"
                 android:visibility="visible" />
 
             <TextView
@@ -52,23 +48,19 @@
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/value_5dp">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/okButton"
-                android:layout_width="@dimen/value_200dp"
-                android:layout_height="@dimen/value_45dp"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:background="@drawable/yellow_drawable"
-                android:gravity="center"
-                android:text="Ok"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_16sp" />
-        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/okButton"
+            android:layout_width="@dimen/value_200dp"
+            android:layout_height="@dimen/value_45dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/value_15dp"
+            android:background="@drawable/yellow_drawable"
+            android:gravity="center"
+            android:text="Ok"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_16sp" />
     </LinearLayout>
 </layout>

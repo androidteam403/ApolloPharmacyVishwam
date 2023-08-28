@@ -32,7 +32,6 @@ import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBinding>(),
     MainActivityCallback,
@@ -48,12 +47,23 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     private lateinit var dialog: BottomSheetDialog
     var pageNo: Int = 1
     var lastIndex = 0
+    var storeIdList = ArrayList<String>()
+    var regionIdList = ArrayList<String>()
+
     var increment: Int = 0
+    var siteId: String = ""
+    var regionId: String = ""
     var pageSize: Int = 0
+    var typeString = ""
+    public var orderTypeList = ArrayList<String>()
+
+    var mainActivityCallback: MainActivityCallback? = null
     public var storeStringList = ArrayList<String>()
     public var regionStringList = ArrayList<String>()
     public var isBulkChecked: Boolean = false
     var charString: String? = ""
+    private var approvedListMain = ArrayList<QcListsResponse.Approved>()
+
     private var approvedListList = ArrayList<QcListsResponse.Approved>()
     private var approvedFilterList = ArrayList<QcListsResponse.Approved>()
     var getStatusList: List<ActionResponse>? = null
@@ -62,7 +72,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var storeList = ArrayList<QcStoreList.Store>()
     var regionList = ArrayList<QcRegionList.Store>()
     private var filterApproveList = ArrayList<QcListsResponse.Approved>()
-    var subList= ArrayList<ArrayList<QcListsResponse.Approved>>()
+    var subList = ArrayList<ArrayList<QcListsResponse.Approved>>()
     var stuff: List<List<String>> = ArrayList()
 
     var getitemList: List<QcItemListResponse>? = null
@@ -93,8 +103,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     override fun setup() {
         showLoading()
         pageSize = Preferences.getQcApprovedPageSiz()
+//        MainActivity.mInstance.updateQcListCount(Preferences.getQcApprovedPageSiz().toString())
         viewBinding.selectfiltertype.setText(
-            "Rows: " + Preferences.getQcApprovedPageSiz().toString()
+            "Per page: " + Preferences.getQcApprovedPageSiz().toString()
         )
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
@@ -232,8 +243,23 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         })
         viewModel.qcLists.observe(viewLifecycleOwner) { it ->
             qcListsResponse = it
+            approvedListMain=it.approvedlist!!
             approvedListList = it.approvedlist!!
-            setQcApprovedListResponse(it.approvedlist!!)
+            hideLoading()
+            if (typeString.isNullOrEmpty()){
+                setQcApprovedListResponse(it.approvedlist!!)
+
+            }
+            else{
+                if (typeString.equals("FORWARD RETURN")){
+                    setQcApprovedListResponse(it.approvedlist!!.filter { it.omsorderno!!.contains("FL") } as ArrayList<QcListsResponse.Approved>)
+
+                }
+                else if (typeString.equals("REVERSE RETURN")){
+                    setQcApprovedListResponse(it.approvedlist!!.filter { it.omsorderno!!.contains("RT") } as ArrayList<QcListsResponse.Approved>)
+
+                }
+            }
 
 
         }
@@ -271,7 +297,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             filterApproveList
                         )
                     }
-                if (viewBinding.recyclerViewApproved != null){
+                if (viewBinding.recyclerViewApproved != null) {
                     viewBinding.recyclerViewApproved.removeAllViews()
                 }
                 viewBinding.recyclerViewApproved.adapter = adapter
@@ -312,7 +338,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             filterApproveList
                         )
                     }
-                if (viewBinding.recyclerViewApproved != null){
+                if (viewBinding.recyclerViewApproved != null) {
                     viewBinding.recyclerViewApproved.removeAllViews()
                 }
                 viewBinding.recyclerViewApproved.adapter = adapter
@@ -363,9 +389,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         regionStringList.clear();
         hideLoading()
         if (approvedlist.isNullOrEmpty()) {
-           if (viewBinding.recyclerViewApproved != null){
-               viewBinding.recyclerViewApproved.removeAllViews()
-           }
+            if (viewBinding.recyclerViewApproved != null) {
+                viewBinding.recyclerViewApproved.removeAllViews()
+            }
             viewBinding.emptyList.visibility = View.VISIBLE
             viewBinding.recyclerViewApproved.visibility = View.GONE
             viewBinding.continueBtn.visibility = View.GONE
@@ -375,6 +401,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             filterApproveList = (approvedlist as ArrayList<QcListsResponse.Approved>?)!!
 
             for (i in filterApproveList.indices) {
+                orderTypeList.add(filterApproveList[i].omsorderno.toString())
+
                 storeStringList.add(filterApproveList[i].storeid.toString())
                 regionStringList.add(filterApproveList[i].dcCode.toString())
             }
@@ -390,9 +418,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             viewBinding.emptyList.visibility = View.GONE
             filterApproveList = (approvedlist as ArrayList<QcListsResponse.Approved>?)!!
 //            subList = ListUtils.partition(approvedlist, pageSize)
-            splitTheArrayList(approvedlist)
+
             pageNo = 1
             increment = 0
+
             if (pageNo == 1) {
                 viewBinding.prevPage.visibility = View.INVISIBLE
             } else {
@@ -406,10 +435,11 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
             }
 
+            filterbyOrderType(approvedlist)
+            splitTheArrayList(filterbyOrderType(approvedlist))
 
 
-
-            if (subList?.size == 1) {
+            if (subList?.size == 1 || increment == 0) {
                 viewBinding.continueBtn.visibility = View.GONE
             } else {
                 viewBinding.continueBtn.visibility = View.VISIBLE
@@ -439,13 +469,14 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             filterApproveList
                         )
                     }
-                if (viewBinding.recyclerViewApproved != null){
+                if (viewBinding.recyclerViewApproved != null) {
                     viewBinding.recyclerViewApproved.removeAllViews()
                 }
                 viewBinding.recyclerViewApproved.adapter = adapter
             }
         }
     }
+
     fun splitTheArrayList(approvedList: ArrayList<QcListsResponse.Approved>?) {
         subList?.clear()
         var approvedSubList: ArrayList<QcListsResponse.Approved>? = ArrayList()
@@ -497,13 +528,24 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
+        orderTypeList.clear()
+        siteId = ""
         Preferences.setQcRegion("")
+        Preferences.setQcOrderType("")
+        typeString = ""
+        approvedListList.clear()
+        approvedListMain.clear()
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        currentDate = simpleDateFormat.format(Date())
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        fromDate = simpleDateFormat.format(cal.time)
 //        if (!viewBinding.refreshSwipe.isRefreshing)
 //            Utlis.showLoading(requireContext())
+        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, siteId, regionId)
 
-        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
+//        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
 
 
     }
@@ -517,48 +559,70 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             if (resultCode == Activity.RESULT_OK) {
 
                 if (data != null) {
-                    showLoading()
-                    viewModel.getQcList(
-                        Preferences.getToken(),
-                        data.getStringExtra("fromQcDate").toString(),
-                        data.getStringExtra("toDate").toString(),
-                        data.getStringExtra("siteId").toString(),
-                        data.getStringExtra("regionId").toString()
-                    )
+                    fromDate = data.getStringExtra("fromQcDate").toString()
+                    currentDate = data.getStringExtra("toDate").toString()
+                    siteId = data.getStringExtra("siteId").toString()
+                    regionId = data.getStringExtra("regionId").toString()
+                    typeString = data.getStringExtra("orderType").toString()
 
-                    if (data.getStringExtra("fromQcDate").toString()
-                            .equals(fromDate) && data.getStringExtra(
-                            "toDate"
-                        ).toString()
-                            .equals(currentDate) && data.getStringExtra("regionId").toString()
-                            .isNullOrEmpty()
-                    ) {
-                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
-                    } else {
+
+                    if (currentDate.isNotEmpty() && fromDate.isNotEmpty()) {
+                        showLoading()
+                        viewModel.getQcList(
+                            Preferences.getToken(),
+                            data.getStringExtra("fromQcDate").toString(),
+                            data.getStringExtra("toDate").toString(),
+                            data.getStringExtra("siteId").toString(),
+                            data.getStringExtra("regionId").toString()
+                        )
+
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
                     }
 
+                    else if (approvedListList.isNotEmpty()) {
+
+
+                        if (approvedListList.size == approvedListList.size) {
+                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                            setQcApprovedListResponse(approvedListList)
+                            adapter!!.notifyDataSetChanged()
+                        } else {
+                            approvedListList.clear()
+                            approvedListList = approvedListMain
+                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                            setQcApprovedListResponse(approvedListList)
+                            adapter!!.notifyDataSetChanged()
+                        }
+
+
+                    }
+                    else{
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+
+                    }
                     if (data.getStringExtra("reset").toString().equals("reset")) {
                         showLoading()
+                        Preferences.setQcFromDate("")
+                        Preferences.setQcToDate("")
+                        Preferences.setQcSite("")
+                        orderTypeList.clear()
+
+                        siteId = ""
+                        Preferences.setQcRegion("")
+                        Preferences.setQcOrderType("")
+                        typeString = ""
+                        approvedListList.clear()
+                        approvedListMain.clear()
+                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                        currentDate = simpleDateFormat.format(Date())
+                        val cal = Calendar.getInstance()
+                        cal.add(Calendar.DATE, -7)
+                        fromDate = simpleDateFormat.format(cal.time)
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
                         viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
 
                     }
-
-
-//                    if (!list.isNullOrEmpty()) {
-//
-//
-//
-//                        viewModel.getQcList(Preferences.getToken(),
-//                            list!!.get(0),
-//                            list!![1],
-//                            list!![2],
-//                            list!![3])
-//
-//                    }
-
                 }
 
 
@@ -678,60 +742,346 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         i.putExtra("activity", "2")
         i.putStringArrayListExtra("storeList", storeStringList)
         i.putStringArrayListExtra("regionList", regionStringList)
+        i.putStringArrayListExtra("orderTypeList", orderTypeList)
+
         i.putExtra("fragmentName", "approve")
         startActivityForResult(i, 210)
     }
 
+    override fun onSelectApprovedFragment(listSize: String) {
+
+    }
+
+    override fun onSelectRejectedFragment() {
+
+    }
+
+    override fun onSelectPendingFragment() {
+
+    }
+
+    override fun onClickSpinnerLayout() {
+        QcListSizeDialog().apply {
+            arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+        }.show(childFragmentManager, "")
+    }
+
+
     override fun selectListSize(listSize: String) {
         Preferences.setQcApprovedPageSize(listSize.toInt());
-        viewBinding.selectfiltertype.setText("Rows: " + listSize)
+        viewBinding.selectfiltertype.setText("Per page: " + listSize)
+//        MainActivity.mInstance.mainActivityCallback.onSelectApprovedFragment(listSize)
+//        MainActivity.mInstance.updateQcListCount(listSize)
         pageSize = Preferences.getQcApprovedPageSiz()
         viewModel.setApprovedList(qcListsResponse!!)
 //        Toast.makeText(context, "selected", Toast.LENGTH_SHORT).show()
     }
 
-//    override fun getFilter(): Filter? {
-//        return object : Filter() {
-//            override fun performFiltering(charSequence: CharSequence): FilterResults {
-//                charString = charSequence.toString()
-//                if (charString!!.isEmpty()) {
-//                    qcListsResponse!!.approvedlist = approvedListList
-//                } else {
-//                    approvedFilterList.clear()
-//                    for (row in approvedListList) {
-//                        if (!approvedFilterList.contains(row) && row.omsorderno!!.toUpperCase()
-//                                .contains(
-//                                    charString!!.toUpperCase(
-//                                        Locale.getDefault()
-//                                    )
-//                                )
-//                        ) {
-//                            approvedFilterList.add(row)
-//                        }
-//                    }
-//                    qcListsResponse!!.approvedlist = approvedFilterList
-//                }
-//                val filterResults = FilterResults()
-//                filterResults.values = qcListsResponse!!.approvedlist
-//                return filterResults
-//            }
-//
-//            @SuppressLint("NotifyDataSetChanged")
-//            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-//                if (qcListsResponse!!.approvedlist != null && !qcListsResponse!!.approvedlist!!.isEmpty()) {
-//                    qcListsResponse!!.approvedlist =
-//                        filterResults.values as java.util.ArrayList<QcListsResponse.Approved>
-//                    try {
-//                        viewModel.setApprovedList(qcListsResponse!!)
-//                    } catch (e: Exception) {
-//                        Log.e("FullfilmentAdapter", e.message!!)
-//                    }
-//                } else {
-//                    viewModel.setApprovedList(qcListsResponse!!)
-//                }
-//            }
-//        }
-//    }
+    fun filterbyOrderType(approveList: ArrayList<QcListsResponse.Approved>): ArrayList<QcListsResponse.Approved> {
+        var orderTypeFilteredApprovelist = ArrayList<QcListsResponse.Approved>()
+        var storeList: List<String>
+        var regionList: List<String>
+        if (regionId.isNotEmpty()) {
+            regionList = regionId.split(",")
+            if (regionList.size > 1) {
+
+
+                regionIdList = regionList as ArrayList<String>
+
+            }
+        }
+        if (siteId.isNotEmpty()) {
+            storeList = siteId.split(",")
+            if (storeList.size > 1) {
+
+
+                storeIdList = storeList as ArrayList<String>
+
+            }
+        }
+
+
+
+
+
+
+
+        if (typeString.isNotEmpty()&&regionId.isEmpty()&&siteId.isEmpty()) {
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")) {
+                    orderTypeFilteredApprovelist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT")) {
+                    orderTypeFilteredApprovelist.add(i)
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (storeIdList.isEmpty()) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (site.contains(siteId)) {
+                    orderTypeFilteredApprovelist.add(i)
+
+                }
+
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (regionIdList.isEmpty()) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (region!!.contains(regionId)) {
+                    orderTypeFilteredApprovelist.add(i)
+
+                }
+
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (storeIdList.isEmpty() && regionIdList.isEmpty()&&typeString.isNotEmpty()) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site.contains(
+                        siteId
+                    ) && region!!.contains(regionId)
+                ) {
+                    orderTypeFilteredApprovelist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site.contains(
+                        siteId
+                    ) && region!!.contains(region)
+                ) {
+                    orderTypeFilteredApprovelist.add(i)
+
+                }
+
+            }
+            return orderTypeFilteredApprovelist
+        }
+        if (typeString.isNotEmpty() && storeIdList.size > 1 && regionIdList.size > 1) {
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+                for (j in storeIdList.indices) {
+
+                    for (k in regionIdList.indices) {
+
+
+                        if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site.contains(
+                                storeIdList.get(j)
+                            ) && region!!.contains(regionIdList.get(k))
+                        ) {
+                            orderTypeFilteredApprovelist.add(i)
+                        } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site.contains(
+                                storeIdList.get(j)
+                            ) && region!!.contains(regionIdList.get(k))
+                        ) {
+                            orderTypeFilteredApprovelist.add(i)
+
+                        }
+
+                    }
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (regionIdList.size > 1) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (j in regionIdList.indices) {
+
+
+                    if (region!!.contains(regionIdList.get(j))) {
+                        orderTypeFilteredApprovelist.add(i)
+
+                    }
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (storeIdList.size > 1) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (j in storeIdList.indices) {
+
+
+                    if (site.contains(storeIdList.get(j))) {
+                        orderTypeFilteredApprovelist.add(i)
+
+                    } else if (site.contains(storeIdList.get(j))) {
+                        orderTypeFilteredApprovelist.add(i)
+
+                    }
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (regionIdList.size > 1 && storeIdList.size > 1) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                for (k in storeIdList.indices) {
+
+                    for (j in regionIdList.indices) {
+
+
+                        if (region!!.contains(regionIdList.get(j)) && site.contains(
+                                storeIdList.get(
+                                    k
+                                )
+                            )
+                        ) {
+                            orderTypeFilteredApprovelist.add(i)
+
+                        }
+                    }
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (regionIdList.size > 1 && typeString.isNotEmpty()) {
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (k in regionIdList.indices) {
+
+
+                    if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && region!!.contains(regionIdList.get(k))
+                    ) {
+                        orderTypeFilteredApprovelist.add(i)
+                    } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && region!!.contains(regionIdList.get(k))
+                    ) {
+                        orderTypeFilteredApprovelist.add(i)
+
+                    }
+
+
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (storeIdList.size > 1 && typeString.isNotEmpty()) {
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (k in storeIdList.indices) {
+
+
+                    if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site!!.contains(storeIdList.get(k))
+                    ) {
+                        orderTypeFilteredApprovelist.add(i)
+                    } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site!!.contains(storeIdList.get(k))
+                    ) {
+                        orderTypeFilteredApprovelist.add(i)
+
+                    }
+
+
+                }
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (storeIdList.isEmpty() && regionIdList.isEmpty()) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+                if (site.contains(siteId) && region!!.contains(regionId)) {
+                    orderTypeFilteredApprovelist.add(i)
+                }
+
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (regionIdList.isEmpty()&&typeString.isNotEmpty()) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")  && region!!.contains(regionId)
+                ) {
+                    orderTypeFilteredApprovelist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && region!!.contains(regionId)
+                ) {
+                    orderTypeFilteredApprovelist.add(i)
+
+                }
+
+
+
+            }
+            return orderTypeFilteredApprovelist
+        }
+        else if (storeIdList.isEmpty()&&typeString.isNotEmpty()) {
+
+            for (i in approveList) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")  && site!!.contains(siteId)
+                ) {
+                    orderTypeFilteredApprovelist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site!!.contains(siteId)
+                ) {
+                    orderTypeFilteredApprovelist.add(i)
+
+                }
+
+
+
+            }
+            return orderTypeFilteredApprovelist
+        }
+
+
+
+
+
+
+
+
+
+        else {
+            return approveList
+        }
+    }
+
 
     override fun getFilter(): Filter? {
         return object : Filter() {

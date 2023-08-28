@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
@@ -18,24 +19,23 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivitySelectChampsSiteidBinding
-import com.apollopharmacy.vishwam.databinding.ActivitySelectSwachhSiteidBinding
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.adapter.SiteIdListChampsAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
-import com.apollopharmacy.vishwam.util.Utils
-import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
+import com.google.gson.Gson
 
 class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallback {
     lateinit var activitySelectChampsSiteidBinding: ActivitySelectChampsSiteidBinding
     lateinit var viewModel: SelectChampsSiteIdViewModel
     private var siteIDListAdapter: SiteIdListChampsAdapter? = null
-    var siteDataList = ArrayList<StoreDetailsModelResponse.StoreDetail>()
-    var isSiteIdEmpty:Boolean=false
+    var siteDataList = ArrayList<StoreDetailsModelResponse.Row>()
+    var isSiteIdEmpty: Boolean = false
     private lateinit var dialog: Dialog
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activitySelectChampsSiteidBinding = DataBindingUtil.setContentView(
@@ -44,21 +44,33 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         )
         viewModel = ViewModelProvider(this)[SelectChampsSiteIdViewModel::class.java]
         activitySelectChampsSiteidBinding.callback = this
-//        Utlis.showLoading(this)
-//        viewModel.getStoreDetailsChamps(this)
-        if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
-            viewModel.getStoreDetailsChampsApi(this)
+        showLoading(this)
+        viewModel.getProxySiteListResponse(this)
+        viewModel.fixedArrayList.observeForever {
+            siteDataList = it
+            siteIDListAdapter =
+                SiteIdListChampsAdapter(applicationContext, siteDataList, this)
+            activitySelectChampsSiteidBinding.fieldRecyclerView.adapter = siteIDListAdapter
+            hideLoading()
+
         }
-        else {
-            Toast.makeText(
-                applicationContext,
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
+
+        viewModel.commands.observeForever {
+            when (it) {
+                is SelectChampsSiteIdViewModel.Command.ShowToast -> {
+                    hideLoading()
+                    Preferences.setSiteIdListChamps(Gson().toJson(viewModel.getSiteData()))
+                    Preferences.setSiteIdListFetchedChamps(true)
+                }
+
+
+                else -> {}
+            }
+
         }
+        searchByFulfilmentId()
     }
+
 
     private fun searchByFulfilmentId() {
         activitySelectChampsSiteidBinding.searchSiteText.addTextChangedListener(object :
@@ -80,14 +92,14 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
     }
 
     override fun onClickCancel() {
-        if(!Preferences.getApnaSiteId().isEmpty()){
-            isSiteIdEmpty=false
+        if (!Preferences.getApnaSiteId().isEmpty()) {
+            isSiteIdEmpty = false
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
             setResult(Activity.RESULT_OK, intent)
             finish()
-        }else{
-            isSiteIdEmpty=true
+        } else {
+            isSiteIdEmpty = true
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
             setResult(Activity.RESULT_OK, intent)
@@ -100,14 +112,14 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
 //        setResult(Activity.RESULT_OK, intent)
 //        finish()
 
-        if(!Preferences.getApnaSiteId().isEmpty()){
-            isSiteIdEmpty=false
+        if (!Preferences.getApnaSiteId().isEmpty()) {
+            isSiteIdEmpty = false
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
             setResult(Activity.RESULT_OK, intent)
             finish()
-        }else{
-            isSiteIdEmpty=true
+        } else {
+            isSiteIdEmpty = true
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
             setResult(Activity.RESULT_OK, intent)
@@ -123,8 +135,11 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
             activitySelectChampsSiteidBinding.noOrderFoundText.setVisibility(View.VISIBLE)
         }
     }
-    var siteId:String?=""
-    override fun onItemClick(storeListItem: StoreDetailsModelResponse.StoreDetail) {
+
+    var siteId: String? = ""
+    var siteName: String? = ""
+
+    override fun onItemClick(site: String, siteName: String) {
 
 
         dialog = Dialog(this)
@@ -137,15 +152,16 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         ok.setOnClickListener {
             dialog.dismiss()
 //            Preferences.setSwachhSiteId(storeListItem.siteid!!)
-//            Preferences.setSwachSiteName(storeListItem.sitename!!)
-            siteId=storeListItem.siteid!!
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//            dialog.show()
+            siteId = site
+            this.siteName = siteName;
+            Preferences.setApnaSiteName(siteName)
+
+
             if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                 showLoading(this)
-                viewModel.getStoreWiseDetailsChampsApi(
+                viewModel.getProxyStoreWiseDetailResponse(
                     this,
-                    storeListItem.siteid!!
+                    site
                 )
             } else {
                 Toast.makeText(
@@ -155,6 +171,11 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
                 )
                     .show()
             }
+
+
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//            dialog.show()
+
 //            val intent = Intent()
 //            setResult(Activity.RESULT_OK, intent)
 //            finish()
@@ -164,36 +185,37 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
 
     }
 
-    override fun onSuccessgetStoreDetails(value: StoreDetailsModelResponse) {
-        siteIDListAdapter =
-            SiteIdListChampsAdapter(applicationContext, value.storeDetails, this)
-//            activitySelectSiteActivityBinding.fieldRecyclerView.layoutManager = LinearLayoutManager(ViswamApp.context)
-        activitySelectChampsSiteidBinding.fieldRecyclerView.adapter = siteIDListAdapter
-        Utlis.hideLoading()
+    override fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>) {
+//        siteIDListAdapter =
+//            SiteIdListChampsAdapter(applicationContext,
+//                value as ArrayList<StoreDetailsModelResponse.Row>, this)
+////            activitySelectSiteActivityBinding.fieldRecyclerView.layoutManager = LinearLayoutManager(ViswamApp.context)
+//        activitySelectChampsSiteidBinding.fieldRecyclerView.adapter = siteIDListAdapter
+        hideLoading()
 
-        searchByFulfilmentId()
     }
 
     override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
-    Toast.makeText(applicationContext,""+value.message, Toast.LENGTH_SHORT).show()
-        Utlis.hideLoading()
+//    Toast.makeText(applicationContext,""+value.message, Toast.LENGTH_SHORT).show()
+        hideLoading()
     }
 
     override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
-        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.status && getStoreWiseDetailsResponses.storeWiseDetails != null && getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail != null) {
+        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.success && getStoreWiseDetailsResponses.data.executive != null) {
 //            viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
             Preferences.setApnaSite(siteId!!)
+            Preferences.setChampsSiteName(siteName!!)
             val intent = Intent()
             setResult(Activity.RESULT_OK, intent)
             finish()
         } else {
-            Toast.makeText(applicationContext, "No data found" , Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "No data found", Toast.LENGTH_SHORT).show()
         }
         hideLoading()
     }
 
     override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
-        Toast.makeText(applicationContext, ""+value.message , Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, "" + value.message, Toast.LENGTH_SHORT).show()
         hideLoading()
     }
 }

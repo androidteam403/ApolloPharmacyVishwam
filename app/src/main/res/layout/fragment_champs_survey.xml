@@ -17,6 +17,70 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/text_color_blue"
+                android:orientation="horizontal"
+                android:padding="@dimen/value_10dp">
+
+                <ImageView
+                    android:layout_width="@dimen/value_40dp"
+                    android:layout_height="@dimen/value_40dp"
+                    android:layout_marginTop="@dimen/value_3dp"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickBack()}"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Survey"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_17sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="end"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:id="@+id/preview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:onClick="@{()-> callback.onClickSiteIdIcon()}"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen20dp"
+                            android:layout_height="@dimen/dimen20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/filtersnew" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -47,37 +111,37 @@
 
                 <RelativeLayout
                     android:id="@+id/storeIdEdittextLayout"
-                   android:elevation="@dimen/twenty20_dp"
-                    android:layout_marginTop="@dimen/twenty20_dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/twenty20_dp"
+                    android:layout_marginTop="@dimen/twenty20_dp"
                     android:layout_marginEnd="@dimen/twenty20_dp"
                     android:layout_marginBottom="@dimen/value_10dp"
-                    android:layout_width="wrap_content"
                     android:background="@drawable/edit_comment_bg"
-                    android:layout_height="wrap_content">
+                    android:elevation="@dimen/twenty20_dp">
 
-                        <TextView
+                    <TextView
 
-                            android:id="@+id/enter_store_edittext"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/value_50dp"
-                            android:background="@drawable/edit_comment_bg"
-                            android:textStyle="bold"
-                            android:textAlignment="center"
-                            android:gravity="center"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_20sp" />
+                        android:id="@+id/enter_store_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:background="@drawable/edit_comment_bg"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />
 
 
                     <ImageView
-                        android:onClick="@{()-> callback.onClickCloseIcon()}"
                         android:id="@+id/close_icon"
                         android:layout_width="@dimen/value_30dp"
                         android:layout_height="@dimen/value_30dp"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
                         android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/value_30dp"
+                        android:onClick="@{()-> callback.onClickCloseIcon()}"
                         android:src="@drawable/ash_close_icon"
                         android:visibility="gone" />
 
@@ -109,20 +173,20 @@
                 </LinearLayout>
 
                 <androidx.cardview.widget.CardView
-                    android:onClick="@{()-> callback.onClickCardView()}"
                     android:id="@+id/cardViewStore"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
                     android:layout_marginStart="@dimen/value_10dp"
                     android:layout_marginTop="@dimen/twenty20_dp"
                     android:layout_marginEnd="@dimen/value_10dp"
+                    android:onClick="@{()-> callback.onClickCardView()}"
                     android:visibility="visible"
                     app:cardElevation="@dimen/value_15dp">
 
                     <FrameLayout
-                        android:background="@drawable/background_for_store"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@drawable/background_for_store">
 
                         <LinearLayout
                             android:id="@+id/orderHead"
@@ -167,9 +231,9 @@
                                                 android:textSize="@dimen/text_12sp" />
 
                                             <TextView
+                                                android:id="@+id/storeId"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                               android:id="@+id/storeId"
                                                 android:textColor="@color/black"
                                                 android:textSize="@dimen/text_12sp"
                                                 android:textStyle="bold" />
@@ -181,14 +245,14 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
-                                           android:gravity="end">
+                                            android:gravity="end">
 
                                             <ImageView
-                                                android:layout_gravity="center"
-                                                android:layout_marginEnd="@dimen/value_5dp"
                                                 android:layout_width="@dimen/value_30dp"
                                                 android:layout_height="@dimen/value_30dp"
-                                                android:src="@drawable/ic_baseline_chevron_right_24"/>
+                                                android:layout_gravity="center"
+                                                android:layout_marginEnd="@dimen/value_5dp"
+                                                android:src="@drawable/ic_baseline_chevron_right_24" />
                                         </LinearLayout>
                                     </LinearLayout>
 
@@ -213,9 +277,9 @@
                                                 android:textSize="@dimen/text_12sp" />
 
                                             <TextView
+                                                android:id="@+id/region"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:id="@+id/region"
                                                 android:textColor="@color/black"
                                                 android:textSize="@dimen/text_12sp"
                                                 android:textStyle="bold" />
@@ -223,21 +287,20 @@
 
                                         </LinearLayout>
 
-<!--                                        <LinearLayout-->
-<!--                                            android:layout_width="match_parent"-->
-<!--                                            android:layout_height="wrap_content"-->
-<!--                                            android:layout_gravity="center"-->
-<!--                                            android:gravity="end">-->
+                                        <!--                                        <LinearLayout-->
+                                        <!--                                            android:layout_width="match_parent"-->
+                                        <!--                                            android:layout_height="wrap_content"-->
+                                        <!--                                            android:layout_gravity="center"-->
+                                        <!--                                            android:gravity="end">-->
 
-<!--                                            <ImageView-->
-<!--                                                android:layout_gravity="center"-->
-<!--                                                android:layout_marginEnd="@dimen/value_5dp"-->
-<!--                                                android:layout_width="@dimen/value_30dp"-->
-<!--                                                android:layout_height="@dimen/value_30dp"-->
-<!--                                                android:src="@drawable/ic_baseline_chevron_right_24"/>-->
-<!--                                        </LinearLayout>-->
+                                        <!--                                            <ImageView-->
+                                        <!--                                                android:layout_gravity="center"-->
+                                        <!--                                                android:layout_marginEnd="@dimen/value_5dp"-->
+                                        <!--                                                android:layout_width="@dimen/value_30dp"-->
+                                        <!--                                                android:layout_height="@dimen/value_30dp"-->
+                                        <!--                                                android:src="@drawable/ic_baseline_chevron_right_24"/>-->
+                                        <!--                                        </LinearLayout>-->
                                     </LinearLayout>
-
 
 
                                     <LinearLayout

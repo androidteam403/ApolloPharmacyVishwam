@@ -33,11 +33,11 @@ class QcRegionDialog : DialogFragment() {
 
     lateinit var viewBinding: QcDialogSiteListBinding
     lateinit var abstractDialogClick: NewDialogSiteClickListner
-    var regionDataArrayList = ArrayList<UniqueRegionList>()
+    var regionDataArrayList = ArrayList<QcRegionList.Store>()
     lateinit var sitereCyclerView: RegionRecyclerView
 
 
-    fun generateParsedData(data: ArrayList<UniqueRegionList>): Bundle {
+    fun generateParsedData(data: ArrayList<QcRegionList.Store>): Bundle {
         return Bundle().apply {
             putSerializable(REGION_DATA, data)
         }
@@ -67,7 +67,7 @@ class QcRegionDialog : DialogFragment() {
         viewBinding = QcDialogSiteListBinding.inflate(inflater, container, false)
         var viewModel = ViewModelProviders.of(requireActivity())[QcRegionViewModel::class.java]
         var regionIdList: List<String>
-        var uniqueRegionList = ArrayList<UniqueRegionList>()
+        var uniqueRegionList = ArrayList<QcRegionList.Store>()
 
         var regionList = ArrayList<String>()
         var string = String()
@@ -82,7 +82,7 @@ class QcRegionDialog : DialogFragment() {
                 if (regionIdList.get(i).isNullOrEmpty()) {
 
                 } else {
-                    val items = UniqueRegionList()
+                    val items = QcRegionList.Store()
                     items.siteid = regionIdList.get(i)
 
 
@@ -102,16 +102,16 @@ class QcRegionDialog : DialogFragment() {
                 viewBinding.siteNotAvailable.visibility = View.GONE
                 viewBinding.fieldRecyclerView.visibility = View.VISIBLE
                 sitereCyclerView = RegionRecyclerView(it, object : OnSelectListnerSite {
-                    override fun onSelected(data: UniqueRegionList) {
+                    override fun onSelected(data: QcRegionList.Store) {
 //                        abstractDialogClick.selectSite(data)
 //                        dismiss()
                     }
 
 
                     override fun onClick(
-                        list: ArrayList<UniqueRegionList>,
+                        list: ArrayList<QcRegionList.Store>,
                         position: Int,
-                        regionList: ArrayList<UniqueRegionList>,
+                        regionList: ArrayList<QcRegionList.Store>,
                     ) {
 
                         if (regionList.isNullOrEmpty()) {
@@ -122,15 +122,14 @@ class QcRegionDialog : DialogFragment() {
                                 list[position].setisClick(true)
 
                             }
-                        } else {
+                        }
+                        else {
                             Preferences.setQcRegion("")
-                            if (list[position].isClick || regionList[position].isClick) {
+                            if (list[position].isClick ) {
 
                                 list[position].setisClick(false)
-                                regionList[position].setisClick(false)
                             } else {
                                 list[position].setisClick(true)
-                                regionList[position].setisClick(true)
 
                             }
 
@@ -187,7 +186,7 @@ class QcRegionDialog : DialogFragment() {
 
 
         regionDataArrayList =
-            (arguments?.getSerializable(REGION_DATA) as? ArrayList<UniqueRegionList>)!!
+            (arguments?.getSerializable(REGION_DATA) as? ArrayList<QcRegionList.Store>)!!
 
         viewBinding.searchSite.visibility = View.VISIBLE
         viewModel.qcRegionArrayList(regionDataArrayList)
@@ -221,17 +220,17 @@ class QcRegionDialog : DialogFragment() {
 }
 
 class RegionRecyclerView(
-    var departmentListDto: ArrayList<UniqueRegionList>,
+    var departmentListDto: ArrayList<QcRegionList.Store>,
     var onSelectedListner: OnSelectListnerSite,
-    var regionList: ArrayList<UniqueRegionList>,
+    var regionList: ArrayList<QcRegionList.Store>,
 ) :
-    SimpleRecyclerView<QcViewItemRowBinding, UniqueRegionList>(
+    SimpleRecyclerView<QcViewItemRowBinding, QcRegionList.Store>(
         departmentListDto,
         R.layout.qc_view_item_row
     ) {
     override fun bindItems(
         binding: QcViewItemRowBinding,
-        items: UniqueRegionList,
+        items: QcRegionList.Store,
         position: Int,
     ) {
         binding.itemName.text = "${items.siteid}"
@@ -241,37 +240,39 @@ class RegionRecyclerView(
 
         }
         var i: Int = 0
-
         if (!Preferences.getQcRegion().isNullOrEmpty()) {
+            if (Preferences.getQcRegion().contains(",")){
+                for (j in departmentListDto.indices) {
 
-            while (i < regionList.size) {
-                if (regionList.get(i).siteid?.replace(" ", "")
-                        .equals(departmentListDto[i].siteid)
-                ) {
-                    departmentListDto[i].setisClick(true)
-                    i++
-                } else {
-                    departmentListDto[i].setisClick(false)
-                    i++
+                    if (Preferences.getQcRegion().split(",").filter { it.contains(departmentListDto.get(j).siteid!!) }.size>0) {
+
+                        departmentListDto[j].setisClick(true)
+                    } else {
+
+                        departmentListDto[j].setisClick(false)
+                    }
 
                 }
             }
-//                    if (names[i].isItemChecked) {
-//                        names.removeAt(i)
-//                        i = 0
-//                    } else {
-//                        i++
-//                    }
-//                }
 
-//            for (i in regionList.indices) {
-//                if (regionList.get(i).equals(departmentListDto[position].siteid)) {
-//                    departmentListDto[position].setisClick(true)
-//                } else {
-//                    departmentListDto[position].setisClick(false)
-//
-//                }
-//            }
+            else{
+                for (j in departmentListDto.indices) {
+
+                    if (Preferences.getQcRegion().contains(departmentListDto.get(j).siteid!!)
+                    ) {
+
+                        departmentListDto[j].setisClick(true)
+                    } else {
+
+                        departmentListDto[j].setisClick(false)
+                    }
+                }
+            }
+
+
+
+
+
         }
 
         if (departmentListDto[position].isClick) {
@@ -288,11 +289,11 @@ class RegionRecyclerView(
 }
 
 interface OnSelectListnerSite {
-    fun onSelected(data: UniqueRegionList)
+    fun onSelected(data: QcRegionList.Store)
     fun onClick(
-        list: ArrayList<UniqueRegionList>,
+        list: ArrayList<QcRegionList.Store>,
         position: Int,
-        regionList: ArrayList<UniqueRegionList>,
+        regionList: ArrayList<QcRegionList.Store>,
     )
 
 }

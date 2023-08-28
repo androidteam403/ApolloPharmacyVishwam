@@ -128,7 +128,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.doctorname.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
 
         viewBinding.batchNo.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
-        viewModel.commands.observe(viewLifecycleOwner, {
+        viewModel.commands.observe(viewLifecycleOwner) {
             when (it) {
                 is DrugFragmentViewModel.Commands.ShowSiteInfo -> {
                     hideLoading()
@@ -142,9 +142,10 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                     }.show(childFragmentManager, "")
 
                 }
+
                 else -> {}
             }
-        })
+        }
 
 
 

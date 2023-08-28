@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.apollopharmacy.vishwam">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -34,12 +38,37 @@
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".ui.home.planogram.activity.PlanogramEvaluationActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.retroqr.selectqrretrositeid.SelectRetroQrSiteIDActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.retroqr.activity.retroqrscanner.RetroQrScannerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.retroqr.activity.retroqrreview.RetroQrReviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.retroqr.activity.imagecomparison.ImageComparisonActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.home.retroqr.activity.RetroImagePreviewActivity"
+            android:name=".ui.home.dashboard.dashboarddetailsactivity.DashboardDetailsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.retroqr.activity.imagepreview.RetroImagePreviewActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -79,7 +108,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity"
+            android:name=".ui.home.champs.survey.fragment.NewSurveyFragment"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.planogram.siteid.SelectPlanogramSiteIDActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -94,7 +128,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ui.home.apnarectro.selectapnasite.SelectApnaSiteIDActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.apnarectro.approval.apnasiteIdselect.ApnaSelectSiteActivityy"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.champs.admin.adminmodule.AdminModuleFragment"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -159,11 +203,7 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.rider.login.LoginActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity"
             android:exported="true"
@@ -272,28 +312,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.rider.activity.SplashScreen"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/splash_theme" />
-        <activity
-            android:name=".ui.rider.orderdelivery.OrderDeliveryActivity"
-            android:label="New Order"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="apollo:orders:create-orders-form" /> -->
-            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
-            <!-- </intent-filter> -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.rider.activity.NewOrderActivity" />
-        </activity>
-        <activity
-            android:name=".ui.rider.activity.CaptureSignatureActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.otpview.OtpViewActivity"
             android:exported="true"
@@ -337,91 +357,18 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.rider.trackmap.TrackMapActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.rider.onlinepayment.OnlinePaymentActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.rider.activity.ScannerActivity"
-            android:exported="true"
-            android:label="Scan Barcode"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.home.MainActivity" />
-        </activity>
+
+
+
         <activity
             android:name=".ui.home.menu.notification.NotificationActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
-        <service android:name=".ui.rider.service.FloatingTouchService" />
-        <service
-            android:name=".ui.rider.service.BatteryLevelLocationService"
-            android:enabled="true" />
-
-        <activity
-            android:name=".ui.rider.activity.SearchProductActivity"
-            android:exported="true"
-            android:label="Products List"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.GuidelinesCompat.Light.DarkToolbar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.home.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.rider.activity.CartActivity"
-            android:exported="true"
-            android:label="CART"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.GuidelinesCompat.Light.DarkToolbar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.home.MainActivity" />
-        </activity>
-        <activity android:name=".ui.rider.activity.MapViewActivity" />
-        <activity
-            android:name=".ui.rider.activity.NewOrderActivity"
-            android:exported="true"
-            android:label="New Order"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.home.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.rider.reports.ReportsActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
 
-        </activity>
-        <activity
-            android:name=".ui.rider.activity.CancelOrderActivity"
-            android:exported="true"
-            android:label="Cancelling Order Items"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.home.MainActivity" />
-        </activity>
         <activity
             android:name=".ui.home.menu.notificationwebview.NotificationWebViewActivity"
             android:exported="true"

@@ -4,7 +4,6 @@ package com.apollopharmacy.vishw
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.os.Handler
 import android.text.Editable
 import android.text.InputFilter
@@ -12,7 +11,6 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -23,9 +21,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.DialogAcceptQcBinding
 import com.apollopharmacy.vishwam.databinding.DialogRejectQcBinding
 import com.apollopharmacy.vishwam.databinding.QcFragmentPendingBinding
-import com.apollopharmacy.vishwam.dialog.CustomDialog
 import com.apollopharmacy.vishwam.dialog.QcListSizeDialog
-import com.apollopharmacy.vishwam.dialog.ReasonsDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.RejectReasonsDialog
@@ -39,22 +35,30 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageAc
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.text.SimpleDateFormat
 import java.util.*
 
 
 class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBinding>(),
     MainActivityCallback, QcListsCallback, RejectReasonsDialog.ResaonDialogClickListner,
     QcFilterFragment.QcFilterClicked, PendingFragmentCallback,
-    QcListSizeDialog.GstDialogClickListners,
-    Filterable {
+    QcListSizeDialog.GstDialogClickListners, Filterable {
     var dialogBinding: DialogRejectQcBinding? = null
     var adapter: QcPendingListAdapter? = null
     public var isBulkChecked: Boolean = false
     public var isBulk: Boolean = false
+    public var orderTypeList = ArrayList<String>()
+
     public var storeList = ArrayList<String>()
     public var regionList = ArrayList<String>()
     var pageSize: Int = 0
     var charString: String? = ""
+    var siteId: String = ""
+    var regionId: String = ""
+    private var pendingListMain = ArrayList<QcListsResponse.Pending>()
+    var storeIdList = ArrayList<String>()
+    var regionIdList = ArrayList<String>()
+
     private var pendingListList = ArrayList<QcListsResponse.Pending>()
     private var pendingFilterList = ArrayList<QcListsResponse.Pending>()
     var qcListsResponse: QcListsResponse? = null
@@ -78,7 +82,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var reason: String = "test"
     var qcreasonCode: String = ""
     private var filterPendingList = ArrayList<QcListsResponse.Pending>()
-    var subList: java.util.ArrayList<java.util.ArrayList<QcListsResponse.Pending>>? =
+    var subList: ArrayList<ArrayList<QcListsResponse.Pending>>? =
         java.util.ArrayList()
 
     //    var subListTempFilter: java.util.ArrayList<QcListsResponse.Pending>? =
@@ -96,6 +100,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var names = ArrayList<QcListsResponse.Pending>();
     var selectedCount: Int = 0
     var typeString = ""
+    var currentDate = String()
+    var fromDate = String()
 
 
     override val layoutRes: Int
@@ -108,12 +114,14 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     @SuppressLint("ResourceType", "SetTextI18n")
     override fun setup() {
         pageSize = Preferences.getQcPendingPageSiz()
+//        MainActivity.mInstance.updateQcListCount(Preferences.getQcPendingPageSiz().toString())
         viewBinding.selectfiltertype.setText(
-            "Rows: " + Preferences.getQcPendingPageSiz().toString()
+            "Per page: " + Preferences.getQcPendingPageSiz().toString()
         )
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
+        Preferences.setQcOrderType("")
         Preferences.setQcRegion("")
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
         MainActivity.mInstance.qcfilterIcon.visibility = View.VISIBLE
@@ -123,46 +131,14 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         pageSizeList.add("5")
         pageSizeList.add("10")
         pageSizeList.add("15")
-
+//
         viewBinding.selectfiltertype.setOnClickListener {
             QcListSizeDialog().apply {
                 arguments = QcListSizeDialog().generateParsedData(pageSizeList)
             }.show(childFragmentManager, "")
         }
 
-//        var itemsPerPageCountList = arrayOf("5", "10", "15")
-//
-//        val arrayAdapter = object :
-//            ArrayAdapter<String>(requireContext(), R.layout.dropdown_item, itemsPerPageCountList) {
-//            override fun getDropDownView(
-//                position: Int,
-//                convertView: View?,
-//                parent: ViewGroup,
-//            ): View {
-//                val view: TextView =
-//                    super.getDropDownView(position, convertView, parent) as TextView
-//                return view
-//            }
-//        }
-//
-//        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        viewBinding.itemcountspinner.adapter = arrayAdapter
-//
-//        viewBinding.itemcountspinner.onItemSelectedListener =
-//            object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(
-//                    parent: AdapterView<*>?,
-//                    view: View?,
-//                    position: Int,
-//                    id: Long,
-//                ) {
-//                    selectedCount = itemsPerPageCountList[position].toInt()
-//                    showPendingList()
-//                }
-//
-//                override fun onNothingSelected(parent: AdapterView<*>?) {
-//                }
-//            }
+
 
 
         viewModel.getQcRejectionList()
@@ -170,14 +146,15 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 //        viewModel.getQcStoreist()
 //        Preferences.setQcToDate(Utlis.getCurrentDate("dd-MMM-yyy")!!)
 //        Preferences.setQcFromDate("1-Apr-2019")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        currentDate = simpleDateFormat.format(Date())
+
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        fromDate = simpleDateFormat.format(cal.time)
 
         viewModel.getQcPendingList(
-            Preferences.getToken(),
-            "1 - Apr - 2019",
-            Utlis.getCurrentDate("yyyy-MM-dd")!!,
-            "",
-            "",
-            this
+            Preferences.getToken(), "1-Apr-2019", currentDate, "", "", this
         )
 
 
@@ -198,28 +175,14 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             override fun afterTextChanged(s: Editable?) {
                 if (s!!.length > 2) {
                     viewBinding.closeArrow.visibility = View.VISIBLE
-
                     viewBinding.close.visibility = View.GONE
-//                    if (adapter != null) {
                     getFilter()!!.filter(s)
-//                    }
                 }
-//                else if (viewBinding.searchView.getText().toString().equals("")) {
-//                    viewBinding.close.visibility = View.VISIBLE
-//                    viewBinding.closeArrow.visibility = View.GONE
-//
-////                    if (adapter != null) {
-//
-//                       getFilter()!!.filter("")
-////                    }
-//               }
+
                 else {
                     viewBinding.close.visibility = View.VISIBLE
                     viewBinding.closeArrow.visibility = View.GONE
-
-//                    if (adapter != null) {
                     getFilter()!!.filter("")
-//                    }
                 }
             }
         })
@@ -239,40 +202,11 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                     "",
                     this
                 )
-//
-//                while (i < names.size) {
-//                    if (names[i].isItemChecked) {
-//                        names.removeAt(i)
-//                        i = 0
-//                    } else {
-//                        i++
-//                    }
-//                }
-//                var pos: Int = 0
-//                while (pos < subList!!.get(increment).size) {
-//                    if (subList!!.get(increment)[pos].isItemChecked) {
-//                        subList!!.get(increment).removeAt(pos)
-//                        pos = 0
-//                    } else {
-//                        pos++
-//                    }
-//                }
-//                adapter!!.notifyDataSetChanged()
             } else if (subList?.size!! > acceptOrRejectItemPos) {
-
-//                var na = ArrayList<QcListsResponse.Pending>()
-//                na.addAll(subList!!.get(increment))
-//
-//                na.removeAt(acceptOrRejectItemPos)
                 var subListTemp = ArrayList<ArrayList<QcListsResponse.Pending>>()
                 subListTemp.addAll(subList!!.toList()!!)
                 subListTemp!!.get(increment).removeAt(acceptOrRejectItemPos)
-
                 subList = subListTemp
-
-//                subList!!.get(increment).removeAt(acceptOrRejectItemPos)
-
-//                names.removeAt(acceptOrRejectItemPos)
                 adapter!!.notifyDataSetChanged()
             }
         }
@@ -303,15 +237,19 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             Preferences.setQcFromDate("")
             Preferences.setQcToDate("")
             Preferences.setQcSite("")
+            siteId = ""
+            regionId = ""
             Preferences.setQcRegion("")
+            Preferences.setQcOrderType("")
+            typeString = ""
+            pendingListList.clear()
+            pendingListMain.clear()
+            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+            currentDate = simpleDateFormat.format(Date())
+
             MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
             viewModel.getQcPendingList(
-                Preferences.getToken(),
-                "1 - Apr - 2019",
-                Utlis.getCurrentDate("yyyy-MM-dd")!!,
-                "",
-                "",
-                this
+                Preferences.getToken(), "1-Apr-2019", currentDate, "", "", this
             )
         }
 
@@ -321,8 +259,23 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         viewModel.qcPendingLists.observe(viewLifecycleOwner) { it ->
             qcListsResponse = it
             pendingListList = it.pendinglist!!
+            pendingListMain = it.pendinglist!!
 
-            setQcPedningListResponse(it.pendinglist!!)
+            if (typeString.isNullOrEmpty()){
+                setQcPedningListResponse(it.pendinglist!!)
+            }else{
+                if (typeString.equals("FORWARD RETURN")){
+                    setQcPedningListResponse(it.pendinglist!!.filter { it.omsorderno!!.contains("FL") } as ArrayList<QcListsResponse.Pending>)
+
+                }
+                else if (typeString.equals("REVERSE RETURN")){
+                    setQcPedningListResponse(it.pendinglist!!.filter { it.omsorderno!!.contains("RT") } as ArrayList<QcListsResponse.Pending>)
+
+                }
+            }
+
+
+
 
 
         }
@@ -446,13 +399,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }, TIME)
 
 
-            val dialogBinding: DialogAcceptQcBinding? =
-                DataBindingUtil.inflate(
-                    LayoutInflater.from(requireContext()),
-                    R.layout.dialog_accept_qc,
-                    null,
-                    false
-                )
+            val dialogBinding: DialogAcceptQcBinding? = DataBindingUtil.inflate(
+                LayoutInflater.from(requireContext()), R.layout.dialog_accept_qc, null, false
+            )
             val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
             customDialog.apply {
 
@@ -480,10 +429,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 showLoading()
                 viewModel.getAcceptRejectResult(
                     QcAcceptRejectRequest(
-                        "ACCEPT",
-                        "",
-                        "",
-                        qcBundleAccepttList
+                        "ACCEPT", "", "", qcBundleAccepttList
                     )
                 )
 
@@ -531,6 +477,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 //    pendingListList= qcListsResponse!!.pendinglist!!
         viewBinding.refreshSwipe.isRefreshing = false
         storeList.clear()
+        orderTypeList.clear()
         regionList.clear()
         hideLoading()
         if (qcPendingList.isNullOrEmpty()) {
@@ -542,7 +489,12 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         } else {
 
             filterPendingList = (qcPendingList as ArrayList<QcListsResponse.Pending>?)!!
+
             for (i in filterPendingList.indices) {
+
+
+                orderTypeList.add(filterPendingList[i].omsorderno.toString())
+
                 storeList.add(filterPendingList[i].storeid.toString())
                 regionList.add(filterPendingList[i].dcCode.toString())
             }
@@ -580,73 +532,58 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             viewBinding.emptyList.visibility = View.GONE
 
             viewBinding.recyclerViewPending.visibility = View.VISIBLE
-            if (subList?.size == 1) {
+            if (subList?.size == 1|| subList!!.size<1) {
                 viewBinding.continueBtn.visibility = View.GONE
             } else {
                 viewBinding.continueBtn.visibility = View.VISIBLE
 
             }
             viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+            if (subList!!.size>0){
+                adapter = context?.let { it1 ->
+                    QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
+                }
+                viewBinding.recyclerViewPending.adapter = adapter
+                viewBinding.emptyList.visibility = View.GONE
+                viewBinding.recyclerViewPending.visibility = View.VISIBLE
 
-            adapter = context?.let { it1 ->
-                QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
             }
-        }
-        viewBinding.recyclerViewPending.adapter = adapter
-    }
-    //    fun bulkDelete() {
-//        hideLoading()
-//
-//
-//
-//        isBulkChecked = false
-//        viewBinding.bulkAppRejLayout.visibility = View.GONE
-//
-//        var i: Int = 0
-//
-//        if (isBulk) {
-//
-//
-//            while (i < names.size) {
-//                if (names[i].isItemChecked) {
-//                    names.removeAt(i)
-//                    i = 0
-//                } else {
-//                    i++
-//                }
-//            }
-//            var pos: Int = 0
-//            while (pos < subList!!.get(increment).size) {
-//                if (subList!!.get(increment)[pos].isItemChecked) {
-//                    subList!!.get(increment).removeAt(pos)
-//                    pos = 0
-//                } else {
-//                    pos++
-//                }
-//            }
-//            adapter!!.notifyDataSetChanged()
-//        } else if (subList?.size!! > acceptOrRejectItemPos) {
-//
-////                var na = ArrayList<QcListsResponse.Pending>()
-////                na.addAll(subList!!.get(increment))
-////
-////                na.removeAt(acceptOrRejectItemPos)
-//            var subListTemp = ArrayList<ArrayList<QcListsResponse.Pending>>()
-//            subListTemp.addAll(subList!!.toList()!!)
-//            subListTemp!!.get(increment).removeAt(acceptOrRejectItemPos)
-//
-//            subList = subListTemp
-//
-////                subList!!.get(increment).removeAt(acceptOrRejectItemPos)
-//
-////                names.removeAt(acceptOrRejectItemPos)
-//            adapter!!.notifyDataSetChanged()
-//        }
-//    }
+            else{
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.recyclerViewPending.visibility = View.GONE
+            }
 
+
+        }
+    }
+
+    @SuppressLint("SuspiciousIndentation")
     fun filterbyOrderType(pendinglist: ArrayList<QcListsResponse.Pending>): ArrayList<QcListsResponse.Pending> {
         var orderTypeFilteredPendinglist = ArrayList<QcListsResponse.Pending>()
-        if (typeString.equals("FORWARD RETURN") || typeString.equals("REVERSE RETURN")) {
+        var storeList: List<String>
+        var regionList: List<String>
+        if (regionId.isNotEmpty()) {
+            regionList = regionId.split(",")
+            if (regionList.size > 1) {
+
+
+                regionIdList = regionList as ArrayList<String>
+
+            }
+        }
+        if (siteId.isNotEmpty()) {
+            storeList = siteId.split(",")
+            if (storeList.size > 1) {
+
+
+                storeIdList = storeList as ArrayList<String>
+
+            }
+        }
+
+
+
+        if (typeString.isNotEmpty()&&regionId.isEmpty()&&siteId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
                 if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")) {
@@ -656,7 +593,261 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 }
             }
             return orderTypeFilteredPendinglist
-        } else {
+        }
+        else if (storeIdList.isEmpty()&&siteId.isNotEmpty()&&regionId.isEmpty()&&typeString.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
+
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (site.contains(siteId)) {
+                    orderTypeFilteredPendinglist.add(i)
+
+                }
+
+            }
+            return orderTypeFilteredPendinglist
+        }
+        else if (regionIdList.isEmpty()&&regionId.isNotEmpty()&&siteId.isEmpty()&&typeString.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
+
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (region!!.contains(regionId)) {
+                    orderTypeFilteredPendinglist.add(i)
+
+                }
+
+            }
+            return orderTypeFilteredPendinglist
+        }
+        else if (storeIdList.isEmpty() && regionIdList.isEmpty()&&typeString.isNotEmpty()&&siteId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
+
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site.contains(
+                        siteId
+                    ) && region!!.contains(regionId)
+                ) {
+                    orderTypeFilteredPendinglist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site.contains(
+                        siteId
+                    ) && region!!.contains(region)
+                ) {
+                    orderTypeFilteredPendinglist.add(i)
+
+                }
+
+            }
+            return orderTypeFilteredPendinglist
+        }
+        else if (typeString.isNotEmpty() && storeIdList.size > 1 && regionIdList.size > 1&&fromDate.isEmpty()&&currentDate.isEmpty()) {
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+                for (j in storeIdList.indices) {
+
+                    for (k in regionIdList.indices) {
+
+
+                        if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site.contains(
+                                storeIdList.get(j)
+                            ) && region!!.contains(regionIdList.get(k))
+                        ) {
+                            orderTypeFilteredPendinglist.add(i)
+                        } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site.contains(
+                                storeIdList.get(j)
+                            ) && region!!.contains(regionIdList.get(k))
+                        ) {
+                            orderTypeFilteredPendinglist.add(i)
+
+                        }
+
+                    }
+                }
+            }
+            return orderTypeFilteredPendinglist
+        }
+        else if (regionIdList.size > 1&&typeString.isEmpty()&&siteId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
+
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (j in regionIdList.indices) {
+
+
+                    if (region!!.contains(regionIdList.get(j))) {
+                        orderTypeFilteredPendinglist.add(i)
+
+                    }
+                }
+            }
+            return orderTypeFilteredPendinglist
+        }
+        else if (storeIdList.size > 1&&typeString.isEmpty()&&regionId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
+
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (j in storeIdList.indices) {
+
+
+                    if (site.contains(storeIdList.get(j))) {
+                        orderTypeFilteredPendinglist.add(i)
+
+                    } else if (site.contains(storeIdList.get(j))) {
+                        orderTypeFilteredPendinglist.add(i)
+
+                    }
+                }
+            }
+            return orderTypeFilteredPendinglist
+        }
+        else if (regionIdList.size > 1 && storeIdList.size > 1&&typeString.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
+
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                for (k in storeIdList.indices) {
+
+                    for (j in regionIdList.indices) {
+
+
+                        if (region!!.contains(regionIdList.get(j)) && site.contains(
+                                storeIdList.get(
+                                    k
+                                )
+                            )
+                        ) {
+                            orderTypeFilteredPendinglist.add(i)
+
+                        }
+                    }
+                }
+            }
+            return orderTypeFilteredPendinglist
+        }
+        else if (regionIdList.size > 1 && typeString.isNotEmpty()&&siteId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (k in regionIdList.indices) {
+
+
+                    if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && region!!.contains(regionIdList.get(k))
+                    ) {
+                        orderTypeFilteredPendinglist.add(i)
+                    } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && region!!.contains(regionIdList.get(k))
+                    ) {
+                        orderTypeFilteredPendinglist.add(i)
+
+                    }
+
+
+                }
+            }
+            return orderTypeFilteredPendinglist
+        }
+        else if (storeIdList.size > 1 && typeString.isNotEmpty()&&regionId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+                for (k in storeIdList.indices) {
+
+
+                    if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site!!.contains(storeIdList.get(k))
+                    ) {
+                        orderTypeFilteredPendinglist.add(i)
+                    } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site!!.contains(storeIdList.get(k))
+                    ) {
+                        orderTypeFilteredPendinglist.add(i)
+
+                    }
+
+
+                }
+            }
+            return orderTypeFilteredPendinglist
+        }
+        else if (storeIdList.isEmpty() && regionIdList.isEmpty()&&fromDate.isEmpty()&&typeString.isEmpty()&&typeString.isEmpty()) {
+
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+                if (site.contains(siteId) && region!!.contains(regionId)) {
+                    orderTypeFilteredPendinglist.add(i)
+                }
+
+            }
+            return orderTypeFilteredPendinglist
+        }
+        else if (regionIdList.isEmpty()&&typeString.isNotEmpty()&&siteId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
+
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")  && region!!.contains(regionId)
+                ) {
+                    orderTypeFilteredPendinglist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && region!!.contains(regionId)
+                ) {
+                    orderTypeFilteredPendinglist.add(i)
+
+                }
+
+
+
+            }
+            return orderTypeFilteredPendinglist
+        }
+        else if (storeIdList.isEmpty()&&typeString.isNotEmpty()&&regionId.isEmpty()&&fromDate.isEmpty()&&currentDate.isEmpty()) {
+
+            for (i in pendinglist) {
+                var omsOrderno = i.omsorderno!!.toUpperCase()
+                var site = i.storeid!!.toUpperCase()
+                var region = i.dcCode
+
+
+                if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL")  && site!!.contains(siteId)
+                ) {
+                    orderTypeFilteredPendinglist.add(i)
+                } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site!!.contains(siteId)
+                ) {
+                    orderTypeFilteredPendinglist.add(i)
+
+                }
+
+
+
+            }
+            return orderTypeFilteredPendinglist
+        }
+
+
+        else {
             return pendinglist
         }
     }
@@ -665,6 +856,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         viewModel.qcPendingLists.observe(viewLifecycleOwner) { it ->
             viewBinding.refreshSwipe.isRefreshing = false
             storeList.clear()
+            orderTypeList.clear()
             regionList.clear()
             hideLoading()
             if (it.pendinglist.isNullOrEmpty()) {
@@ -679,6 +871,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 filterPendingList = (it.pendinglist as ArrayList<QcListsResponse.Pending>?)!!
                 for (i in filterPendingList.indices) {
                     storeList.add(filterPendingList[i].storeid.toString())
+                    orderTypeList.add(filterPendingList.get(i).omsorderno.toString())
                     regionList.add(filterPendingList[i].dcCode.toString())
                 }
                 val regionListSet: MutableSet<String> = LinkedHashSet()
@@ -735,42 +928,66 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             if (resultCode == Activity.RESULT_OK) {
 
                 if (data != null) {
+                    fromDate = data.getStringExtra("fromQcDate").toString()
+                    currentDate = data.getStringExtra("toDate").toString()
+                    siteId = data.getStringExtra("siteId").toString()
+                    regionId = data.getStringExtra("regionId").toString()
                     typeString = data.getStringExtra("orderType").toString()
-                    showLoading()
-                    viewModel.getQcPendingList(
-                        Preferences.getToken(),
-                        data.getStringExtra("fromQcDate").toString(),
-                        data.getStringExtra("toDate").toString(),
-                        data.getStringExtra("siteId").toString(),
-                        data.getStringExtra("regionId").toString(),
-                        this
-                    )
+
+                    if (currentDate.isNotEmpty() && fromDate.isNotEmpty()) {
+                        showLoading()
+                        viewModel.getQcPendingList(
+                            Preferences.getToken(),
+                            data.getStringExtra("fromQcDate").toString(),
+                            data.getStringExtra("toDate").toString(),
+                            data.getStringExtra("siteId").toString(),
+                            data.getStringExtra("regionId").toString(),
+                            this
+                        )
+
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
 
-                    if (data.getStringExtra("fromQcDate").toString()
-                            .equals(Utlis.getDateSevenDaysEarlier("dd-MMM-yyyy")) && data.getStringExtra(
-                            "toDate"
-                        ).toString()
-                            .equals(Utlis.getCurrentDate("dd-MMM-yyyy")) && data.getStringExtra("regionId")
-                            .toString().isNullOrEmpty()
-                    ) {
-                        MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+                    }
+                    else if (pendingListList.isNotEmpty()){
+
+
+
+                        if (pendingListList.size == pendingListMain.size) {
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        setQcPedningListResponse(pendingListList)
+                        adapter!!.notifyDataSetChanged()
+
                     } else {
+                        pendingListList.clear()
+                        pendingListList = pendingListMain
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        setQcPedningListResponse(pendingListList)
+                        adapter!!.notifyDataSetChanged()
+                    }
+                    }else{
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
                     }
 
                     if (data.getStringExtra("reset").toString().equals("reset")) {
                         showLoading()
+                        Preferences.setQcFromDate("")
+                        Preferences.setQcToDate("")
+                        Preferences.setQcSite("")
+                        siteId = ""
+                        regionId = ""
+                        Preferences.setQcRegion("")
+                        Preferences.setQcOrderType("")
+                        typeString = ""
+                        pendingListList.clear()
+                        pendingListMain.clear()
+                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                        currentDate = simpleDateFormat.format(Date())
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
 
                         viewModel.getQcPendingList(
-                            Preferences.getToken(),
-                            "01-Apr-2019",
-                            Utlis.getCurrentDate("yyyy-MM-dd")!!,
-                            "",
-                            "",
-                            this
+                            Preferences.getToken(), "1-Apr-2019", currentDate, "", "", this
                         )
                     }
 
@@ -802,22 +1019,18 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         for (i in pendingList!!) {
             pendingSubList!!.add(i)
             if (pendingList.indexOf(i) == (pendingList.size - 1)) {
-                val list: ArrayList<QcListsResponse.Pending> =
-                    ArrayList<QcListsResponse.Pending>(
-                        pendingList.subList(
-                            pageStartPos,
-                            pendingList.size
-                        )
+                val list: ArrayList<QcListsResponse.Pending> = ArrayList<QcListsResponse.Pending>(
+                    pendingList.subList(
+                        pageStartPos, pendingList.size
                     )
+                )
                 subList!!.add(list)
             } else if ((pendingList.indexOf(i) + 1) % pageSize == 0) {
-                val list: ArrayList<QcListsResponse.Pending> =
-                    ArrayList<QcListsResponse.Pending>(
-                        pendingList.subList(
-                            pageStartPos,
-                            pageEndPos
-                        )
+                val list: ArrayList<QcListsResponse.Pending> = ArrayList<QcListsResponse.Pending>(
+                    pendingList.subList(
+                        pageStartPos, pageEndPos
                     )
+                )
                 subList!!.add(list)
                 pageStartPos = pageStartPos + pageSize
                 pageEndPos = pageEndPos + pageSize
@@ -898,13 +1111,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         )
         qcAccepttList.add(qcreject)
 
-        val dialogBinding: DialogAcceptQcBinding? =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(requireContext()),
-                R.layout.dialog_accept_qc,
-                null,
-                false
-            )
+        val dialogBinding: DialogAcceptQcBinding? = DataBindingUtil.inflate(
+            LayoutInflater.from(requireContext()), R.layout.dialog_accept_qc, null, false
+        )
         val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
         customDialog.apply {
 
@@ -920,10 +1129,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 //            viewModel.getQcPendingItemsList(orderId)
             viewModel.getAcceptRejectResult(
                 QcAcceptRejectRequest(
-                    "ACCEPT",
-                    remarks,
-                    "",
-                    qcAccepttList
+                    "ACCEPT", remarks, "", qcAccepttList
                 )
             )
 
@@ -931,8 +1137,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         if (dialogBinding != null) {
             dialogBinding.message.setText(
-                "You are accepting the Order Id " +
-                        omsOrderno + " for QC Fail Do You Want to Proceed ?"
+                "You are accepting the Order Id " + omsOrderno + " for QC Fail Do You Want to Proceed ?"
             )
         }
 
@@ -973,10 +1178,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         if (isAllReasonsFound) {
             dialogBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(requireContext()),
-                R.layout.dialog_reject_qc,
-                null,
-                false
+                LayoutInflater.from(requireContext()), R.layout.dialog_reject_qc, null, false
             )
             val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
             customDialog.apply {
@@ -1017,8 +1219,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
             dialogBinding?.message?.setText(
-                "You are rejecting the Order Id " +
-                        omsOrderno + " for QC Fail Do You Want to Proceed ?"
+                "You are rejecting the Order Id " + omsOrderno + " for QC Fail Do You Want to Proceed ?"
             )
 
             dialogBinding?.yesBtn?.setOnClickListener {
@@ -1030,10 +1231,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 if (itemsList != null) {
                     viewModel.getAcceptRejectResult(
                         QcAcceptRejectRequest(
-                            "REJECT",
-                            reason,
-                            "REJ0001",
-                            qcRejectList
+                            "REJECT", reason, "REJ0001", qcRejectList
                         )
                     )
                 }
@@ -1166,6 +1364,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         val i = Intent(context, QcFilterActivity::class.java)
         i.putStringArrayListExtra("storeList", storeList)
+        i.putStringArrayListExtra("orderTypeList", orderTypeList)
+
         i.putStringArrayListExtra("regionList", regionList)
         i.putExtra("fragmentName", "pending")
         i.putExtra("activity", "1")
@@ -1174,10 +1374,29 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
     }
 
+    override fun onSelectApprovedFragment(listSize: String) {
+    }
+
+    override fun onSelectRejectedFragment() {
+
+    }
+
+    override fun onSelectPendingFragment() {
+
+    }
+
+    override fun onClickSpinnerLayout() {
+        QcListSizeDialog().apply {
+            arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+        }.show(childFragmentManager, "")
+    }
+
+
     override fun selectListSize(listSize: String) {
         Preferences.setQcPendingPageSize(listSize.toInt());
         pageSize = Preferences.getQcPendingPageSiz()
-        viewBinding.selectfiltertype.setText("Rows: " + listSize)
+//        MainActivity.mInstance.updateQcListCount(listSize)
+        viewBinding.selectfiltertype.setText("Per page: " + listSize)
         viewModel.setPendingList(qcListsResponse!!)
 //        adapter!!.notifyDataSetChanged()
 //        Toast.makeText(context, "selected", Toast.LENGTH_SHORT).show()

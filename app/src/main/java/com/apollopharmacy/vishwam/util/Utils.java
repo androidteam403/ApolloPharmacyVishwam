@@ -805,4 +805,65 @@ public class Utils {
         }
         return monthNum;
     }
+
+    public static String getFirstDateOfCurrentMonth() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//2023-06-30
+        System.out.println(sdf.format(cal.getTime()));
+        return sdf.format(cal.getTime());
+    }
+
+    public static String getCurrentDateCeoDashboard() {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//2023-06-30
+        System.out.println(sdf.format(cal.getTime()));
+        return sdf.format(cal.getTime());
+    }
+
+    public static String getConvertedDateFormatddmmmyyyy(String dateString) {
+        String dtStart = dateString;//"2010-10-15T09:27:37Z";
+        SimpleDateFormat formatBeforeConvert = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            //Before convert
+            Date dateBeforeConvert = formatBeforeConvert.parse(dtStart);
+            System.out.println(dateBeforeConvert);
+
+
+            //After covert
+            SimpleDateFormat formatAfterConvert = new SimpleDateFormat("dd-MMM-yyyy");
+            String dateTime = formatAfterConvert.format(dateBeforeConvert);
+            return dateTime;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+       /* Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");//2023-06-30
+        System.out.println(sdf.format(cal.getTime()));
+        return sdf.format(cal.getTime());*/
+    }
+
+    public static String getConvertedDateFormatyyyymmdd(String dateString) {
+        String dtStart = dateString;//"2010-10-15T09:27:37Z";
+        SimpleDateFormat formatBeforeConvert = new SimpleDateFormat("dd-MMM-yyyy");
+        try {
+            //Before convert
+            Date dateBeforeConvert = formatBeforeConvert.parse(dtStart);
+            System.out.println(dateBeforeConvert);
+
+
+            //After covert
+            SimpleDateFormat formatAfterConvert = new SimpleDateFormat("yyyy-MM-dd");
+            String dateTime = formatAfterConvert.format(dateBeforeConvert);
+            return dateTime;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

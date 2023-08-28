@@ -794,12 +794,160 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/send_otp_btn_upload_prescription"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/value_10dp"
+                                android:background="@drawable/blue_btn_bg"
+                                android:paddingStart="@dimen/value_15dp"
+                                android:paddingTop="@dimen/value_8dp"
+                                android:paddingEnd="@dimen/value_15dp"
+                                android:paddingBottom="@dimen/value_8dp"
+                                android:text="Send OTP for Consent"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold"
+                                android:visibility="visible" />
+
+
+                        </LinearLayout>
+                        <!-- Upload prescription OTP verification layout -->
+                        <LinearLayout
+                            android:id="@+id/otp_verification_layout_up"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_20dp"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="OTP Verification"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/white_rounded_bg"
+                                android:orientation="vertical"
+                                android:padding="@dimen/value_10dp">
+
+                                <com.chaos.view.PinView
+                                    android:id="@+id/otp_view_up"
+                                    style="@style/PinWidget.PinView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginBottom="@dimen/value_5dp"
+                                    android:cursorVisible="true"
+                                    android:gravity="center"
+                                    android:inputType="number"
+                                    android:itemBackground="@color/white"
+                                    app:hideLineWhenFilled="false"
+                                    app:itemCount="6"
+                                    app:itemHeight="@dimen/value_40dp"
+                                    app:itemRadius="@dimen/value_8dp"
+                                    app:itemSpacing="@dimen/value_10dp"
+                                    app:itemWidth="@dimen/value_40dp"
+                                    app:lineColor="#efefef"
+                                    app:lineWidth="@dimen/value_1dp" />
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="@dimen/value_8dp"
+                                    android:layout_marginTop="@dimen/value_5dp">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Time: "
+                                            android:textColor="@color/grey"
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/timer_up"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="00:30"
+                                            android:textColor="@color/color_red"
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:id="@+id/resend_otp_up"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:text="Resend OTP"
+                                        android:textColor="#36b0e4"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold"
+                                        android:visibility="gone" />
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/verified_successfully_layout_up"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_40dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent">
+
+                                <LinearLayout
+                                    android:layout_width="@dimen/value_50dp"
+                                    android:layout_height="@dimen/value_55dp"
+                                    android:layout_gravity="center"
+                                    android:gravity="center">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/value_100dp"
+                                        android:layout_height="@dimen/value_100dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ic_thumbs_up" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Verified Successfully"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:id="@+id/prescription_img_rcv_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/value_15dp"
-                            android:layout_marginBottom="@dimen/value_15dp"
+                            android:layout_marginBottom="@dimen/value_50dp"
                             android:orientation="vertical">
 
                             <!--                                android:gravity="center_horizontal|center_vertical"-->
@@ -904,7 +1052,7 @@
         <LinearLayout
             android:id="@+id/upload_prescription_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true"
             android:background="#efefef"
             android:gravity="center_horizontal"

@@ -32,7 +32,6 @@ object SplashRepo {
             val decryptData =
                 EncryptionManager.decryptData(response, VALIDATEVENDOR_ENCRIPTION_KEY)
             val actualResponse = Gson().fromJson(decryptData, ValidateResponse::class.java)
-            println(35)
             if (actualResponse.status)
                 ApiResult.Success(actualResponse)
 

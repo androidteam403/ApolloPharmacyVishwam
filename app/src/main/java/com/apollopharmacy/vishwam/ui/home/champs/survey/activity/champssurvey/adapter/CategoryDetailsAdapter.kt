@@ -11,6 +11,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterCategoryDetailsBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
+import kotlin.math.roundToInt
 
 class CategoryDetailsAdapter(
     private var categoryDetails: List<GetCategoryDetailsModelResponse.CategoryDetail>?,
@@ -39,10 +40,10 @@ class CategoryDetailsAdapter(
         val categoryDetailss = categoryDetails!!.get(position)
         holder.adapterCategoryDetailsBinding.categoryName.text = categoryDetailss.categoryName
         holder.adapterCategoryDetailsBinding.categoryNumber.text = categoryDetailss.id.toString()
-        holder.adapterCategoryDetailsBinding.progressBar.isEnabled=false
+        holder.adapterCategoryDetailsBinding.progressBar.isEnabled = false
 
 
-        if (categoryDetailss.sumOfSubCategoryRating != null && categoryDetailss.clickedSubmit!! ) {
+        if (categoryDetailss.sumOfSubCategoryRating != null && categoryDetailss.clickedSubmit!!) {
             holder.adapterCategoryDetailsBinding.ratingBarVisible.visibility = View.VISIBLE
             if (categoryDetailss.sumOfSubCategoryRating == 0.0f) {
                 holder.adapterCategoryDetailsBinding.tickMarkGreen.visibility = View.GONE
@@ -56,8 +57,14 @@ class CategoryDetailsAdapter(
                 holder.adapterCategoryDetailsBinding.categoryIdBg.setBackgroundResource(R.drawable.grey_backgroundup)
                 holder.adapterCategoryDetailsBinding.applyBackgroundLayout.setBackgroundResource(R.drawable.background_for_champs_names)
             } else {
+//                holder.adapterCategoryDetailsBinding.progressBar.setProgressDrawable(
+//                    applicationContext.resources.getDrawable(R.drawable.progress_drawable_green)
+//                )
+                holder.adapterCategoryDetailsBinding.progressBar.progress =
+                    (categoryDetailss.sumOfSubCategoryRating)!!.toInt()
                 holder.adapterCategoryDetailsBinding.progressBar.max =
-                    (categoryDetailss.rating)!!.toInt()
+                    (categoryDetailss.rating)!!.toDouble().toInt()
+
                 holder.adapterCategoryDetailsBinding.outOfRating.text =
                     ((categoryDetailss.sumOfSubCategoryRating)).toString() + "/" + categoryDetailss.rating
 
@@ -66,14 +73,14 @@ class CategoryDetailsAdapter(
                 holder.adapterCategoryDetailsBinding.tickMarkGreen.visibility = View.VISIBLE
                 holder.adapterCategoryDetailsBinding.applyBackgroundLayout.setBackgroundResource(R.drawable.background_for_champs_green)
                 holder.adapterCategoryDetailsBinding.categoryIdBg.setBackgroundResource(R.drawable.background_green)
-                holder.adapterCategoryDetailsBinding.progressBar.progress =
-                    (categoryDetailss.sumOfSubCategoryRating)!!.toInt()
-                holder.adapterCategoryDetailsBinding.progressBar.setProgressDrawable(applicationContext.resources.getDrawable(R.drawable.progress_drawable_green))
+
+
                 holder.adapterCategoryDetailsBinding.categoryName.setTextColor(
                     applicationContext.getColor(
                         R.color.white
                     )
                 )
+
             }
 
         } else {
@@ -90,7 +97,10 @@ class CategoryDetailsAdapter(
 
         }
         holder.adapterCategoryDetailsBinding.categoryLayout.setOnClickListener {
-            champsSurveyCallBack.onClickCategory(categoryDetailss.categoryName!!, position)
+            if(categoryDetails!!.get(position)!!.subCategoryDetails!!.size>0){
+                champsSurveyCallBack.onClickCategory(categoryDetailss.categoryName!!, position)
+            }
+
         }
 
     }

@@ -66,6 +66,11 @@ class SurveyListResponse : Serializable {
         @SerializedName("login_unique")
         @Expose
         var loginUnique: String? = null
+
+        @SerializedName("middle_name")
+        @Expose
+        var middleName: String? = null
+
         fun withUid(uid: String?): CreatedId {
             this.uid = uid
             return this
@@ -225,9 +230,14 @@ class SurveyListResponse : Serializable {
         @Expose
         var createdId: CreatedId? = null
 
-        @SerializedName("location")
+        @SerializedName("surveyed_on")
         @Expose
-        var location: Location? = null
+        var surveyed_on: String? = null
+
+
+//        @SerializedName("location")
+//        @Expose
+//        var location: Location? = null
 
 //        @SerializedName("city")
 //        @Expose
@@ -245,6 +255,14 @@ class SurveyListResponse : Serializable {
         @Expose
         var id: String? = null
 
+        @SerializedName("state")
+        @Expose
+        var state: String? = null
+
+        @SerializedName("city")
+        @Expose
+        var city: String? = null
+
         @SerializedName("created_time")
         @Expose
         var createdTime: String? = null
@@ -253,7 +271,15 @@ class SurveyListResponse : Serializable {
         @Expose
         var modifiedTime: String? = null
 
-        var isLoading : String? = null
+        @SerializedName("landmarks")
+        @Expose
+        var landmarks: String? = null
+
+        @SerializedName("pincode")
+        @Expose
+        var pincode: Int? = null
+
+        var isLoading: String? = null
         fun withUid(uid: String?): Row {
             this.uid = uid
             return this
@@ -274,10 +300,10 @@ class SurveyListResponse : Serializable {
             return this
         }
 
-        fun withLocation(location: Location?): Row {
-            this.location = location
-            return this
-        }
+//        fun withLocation(location: Location?): Row {
+//            this.location = location
+//            return this
+//        }
 
 //        fun withCity(city: City?): Row {
 //            this.city = city

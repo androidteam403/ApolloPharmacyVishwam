@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="ApolloPharmacy.app" target="11" />
+      <module name="ApolloPharmacy.core" target="11" />
+      <module name="ApolloPharmacy.cusotmloader" target="11" />
+      <module name="ApolloPharmacy.digitlib" target="11" />
+      <module name="ApolloPharmacy.drawroutemap" target="11" />
+      <module name="ApolloPharmacy.easywaylocation" target="11" />
+      <module name="ApolloPharmacy.navigationlistview" target="11" />
+      <module name="ApolloPharmacy.openCV" target="11" />
+      <module name="ApolloPharmacy.permissions" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

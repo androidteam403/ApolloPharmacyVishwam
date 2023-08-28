@@ -2,8 +2,14 @@ package com.apollopharmacy.vishwam.data.network
 
 import com.apollopharmacy.vishwam.data.Config.ENCRIPTION_KEY
 import com.apollopharmacy.vishwam.data.Preferences
-import com.apollopharmacy.vishwam.data.model.*
+import com.apollopharmacy.vishwam.data.model.CommonRequest
+import com.apollopharmacy.vishwam.data.model.LoginDetails
+import com.apollopharmacy.vishwam.data.model.LoginRequest
+import com.apollopharmacy.vishwam.data.model.MPinRequest
+import com.apollopharmacy.vishwam.data.model.MPinResponse
 import com.apollopharmacy.vishwam.data.model.cms.StoreData
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessRequest
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessResponse
 import com.apollopharmacy.vishwam.util.EncryptionManager
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
@@ -108,6 +114,46 @@ object LoginRepo {
             ApiResult.UnknownHostException(e.message)
         }
     }
+
+
+    suspend fun VISHWAM_ACCESS_API_CALL(
+        url: String,
+        token: String,
+        mobileAccessRequest: MobileAccessRequest,
+    ): ApiResult<MobileAccessResponse> {
+        return try {
+            val response =
+                Api.getClient().VISHWAM_ACCESS_API_CALL(url, token, mobileAccessRequest)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
 
     fun saveProfile(loginDetails: LoginDetails, password: String) {
         Preferences.saveProfile(Gson().toJson(loginDetails))

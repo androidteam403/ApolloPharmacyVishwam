@@ -19,10 +19,6 @@ import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
-import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
-import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
-import com.apollopharmacy.vishwam.ui.rider.orderdelivery.model.DeliveryFailreReasonsResponse
-import com.apollopharmacy.vishwam.ui.rider.profile.model.GetRiderProfileResponse
 import com.apollopharmacy.vishwam.util.*
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
 import com.github.omadahealth.lollipin.lib.managers.AppLock
@@ -60,22 +56,26 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //        onCheckBuildDetails()
         handleMPinService()
         viewModel.getApplevelDesignation(
-            Preferences.getValidatedEmpId(),
-            "SWACHH",
-            applicationContext
+            Preferences.getValidatedEmpId(), "SWACHH", applicationContext
         )
         viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
         Preferences.setSiteIdListFetchedQcFail(false)
         Preferences.setSiteIdListQcFail("")
+        Preferences.setSiteIdListChamps("")
+        Preferences.setSiteIdListFetchedChamps(false)
         Preferences.setRegionIdListFetchedQcFail(false)
         Preferences.setRegionIdListQcFail("")
+
         Preferences.setDoctorSpecialityListFetched(false)
         Preferences.setItemTypeListFetched(false)
         Preferences.setSiteIdListFetched(false)
+        Preferences.setQrSiteIdListFetched(false)
+        Preferences.setSiteIdListFetchedQrRetro(false)
+
         Preferences.setSiteRetroListFetched(false)
         Preferences.setReasonListFetched(false)
         viewModel.commands.observeForever { command ->
-           Utlis.hideLoading()
+            Utlis.hideLoading()
             when (command) {
                 is Command.NavigateTo -> {
                     val intent = Intent(this@ValidatePinActivity, ForgotPinActivity::class.java)
@@ -107,13 +107,13 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             } else {
                 Log.w("newToken", "token should not be null...")
             }
-        }).addOnFailureListener(OnFailureListener { e: Exception? -> }).addOnCanceledListener(
-            OnCanceledListener {}).addOnCompleteListener(OnCompleteListener { task: Task<String> ->
-            Log.v(
-                "newToken",
-                "This is the token : " + task.result
-            )
-        })
+        }).addOnFailureListener(OnFailureListener { e: Exception? -> })
+            .addOnCanceledListener(OnCanceledListener {})
+            .addOnCompleteListener(OnCompleteListener { task: Task<String> ->
+                Log.v(
+                    "newToken", "This is the token : " + task.result
+                )
+            })
 
 
 //        viewModel.employeeDetails.observeForever {
@@ -136,15 +136,12 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                handleNextIntent()
 
                 viewModel.getRole(Preferences.getValidatedEmpId())
-                viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
-                    "SWACHH",
-                    applicationContext
+                viewModel.getApplevelDesignation(
+                    Preferences.getValidatedEmpId(), "SWACHH", applicationContext
                 )
 
                 viewModel.getApplevelDesignationApnaRetro(
-                    Preferences.getValidatedEmpId(),
-                    "RETRO",
-                    applicationContext, this
+                    Preferences.getValidatedEmpId(), "RETRO", applicationContext, this
                 )
                 viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
 
@@ -172,14 +169,17 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                     if (it.data != null && it.data?.uploadSwach != null) {
 //                        it.data!!.role!!.code = "store_supervisor"
 //                        it.data!!.uploadSwach!!.uid = "Yes"
+
+//                        it.data!!.role!!.code="region_head"
                         Preferences.storeEmployeeDetailsResponseJson(Gson().toJson(it))
+                        Preferences.setRoleForCeoDashboard(it.data!!.role!!.code.toString())
+//                       Toast.makeText(applicationContext, ""+ Preferences.getRoleForCeoDashboard(), Toast.LENGTH_SHORT).show()
                         if (it.data?.uploadSwach?.uid != null) {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
                             Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
                             if (it.data?.uploadSwach?.uid!!.equals(
-                                    "Yes",
-                                    true
+                                    "Yes", true
                                 )
                             ) {
                                 if (it.data?.swacchDefaultSite != null && it.data?.swacchDefaultSite?.site != null) {
@@ -196,8 +196,25 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                         Preferences.setEmployeeRoleUid("")
                     }
 
+                    if (it.data != null && it.data?.retroApproval != null) {
+                        if (it.data?.retroApproval?.uid != null) {
+                            if (it.data?.retroApproval?.uid!!.equals(
+                                    "Yes", true
+                                )
+                            ) {
+                                Preferences.setRetroEmployeeIsApproval(it.data?.retroApproval?.uid!!)
+                            } else {
+                                Preferences.setRetroEmployeeIsApproval("")
+                            }
+                        } else {
+                            Preferences.setRetroEmployeeIsApproval("")
 
+                        }
 
+                    } else {
+                        Preferences.setRetroEmployeeIsApproval("")
+
+                    }
 
 
                     if (it.data != null && it.data?.uploadApnaRetro != null) {
@@ -209,8 +226,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                            it.data?.swacchDefaultSite?.site = ""
                             Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.uploadApnaRetro?.uid!!)
                             if (it.data?.uploadApnaRetro?.uid!!.equals(
-                                    "Yes",
-                                    true
+                                    "Yes", true
                                 )
                             ) {
                                 Preferences.setRetroEmployeeRoleUid(it.data?.uploadApnaRetro?.uid!!)
@@ -223,6 +239,29 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                         }
                     } else {
                         Preferences.setRetroEmployeeRoleUid("")
+                    }
+
+                    if (it.data != null && it.data?.champs_admin != null) {
+//                        it.data!!.role!!.code = "store_supervisor"
+//                        it.data!!.uploadSwach!!.uid = "Yes"
+//                        Preferences.storeEmployeeDetailsResponseJsonChampsAdmin(Gson().toJson(it))
+                        if (it.data?.champs_admin?.uid != null) {
+//                            it.data?.uploadSwach?.uid = "Yes"
+//                            it.data?.swacchDefaultSite?.site = ""
+                            if (it.data?.champs_admin?.uid != null && it.data?.champs_admin?.uid!!.equals(
+                                    "Yes", true
+                                )
+                            ) {
+                                Preferences.setEmployeeRoleUidChampsAdmin(it.data?.champs_admin?.uid!!)
+                            } else {
+                                Preferences.setEmployeeRoleUidChampsAdmin("")
+                            }
+
+                        } else {
+                            Preferences.setEmployeeRoleUidChampsAdmin("")
+                        }
+                    } else {
+                        Preferences.setEmployeeRoleUidChampsAdmin("")
                     }
 
 
@@ -249,8 +288,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                            it.data?.swacchDefaultSite?.site = ""
                             Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
                             if (it.data?.newDrugRequest?.uid!!.equals(
-                                    "Yes",
-                                    true
+                                    "Yes", true
                                 )
                             ) {
                                 Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
@@ -291,14 +329,12 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                }
 
             } else {
-                Toast.makeText(this, "Invalid Pin", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, "Invalid Pin", Toast.LENGTH_SHORT).show()
             }
         } else if (requestCode == REQUEST_CODE_CHANGE) {
             if (resultCode == RESULT_OK) {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
-                Toast.makeText(this, "PinCode Dialog : " + dialogStatus, Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, "PinCode Dialog : " + dialogStatus, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -334,8 +370,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     private fun handlePlayStoreIntent() {
         Utils.printMessage("ValidatePin", "Download URL : " + downloadUrl)
         val viewIntent = Intent(
-            "android.intent.action.VIEW",
-            Uri.parse(downloadUrl)
+            "android.intent.action.VIEW", Uri.parse(downloadUrl)
         )
         startActivity(viewIntent)
     }
@@ -346,11 +381,8 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             viewModel.checkMPinLogin(MPinRequest(userData.EMPID, "", "GETDETAILS"))
         } else {
             Toast.makeText(
-                this,
-                resources?.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
+                this, resources?.getString(R.string.label_network_error), Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -375,22 +407,6 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         }
     }
 
-    override fun onSuccessLoginApi(loginResponse: LoginResponse) {
-
-        if (loginResponse != null && loginResponse.data != null && loginResponse.success && loginResponse.data.token != null) {
-            try {
-                SessionManager(applicationContext).setLoginToken(loginResponse.data.token)
-                SessionManager(applicationContext).setRiderIconUrl(loginResponse.data.pic[0].dimenesions.get200200FullPath())
-                viewModel.getRiderProfileDetailsApi(SessionManager(applicationContext).getLoginToken(),
-                    applicationContext,
-                    this)
-            } catch (e: java.lang.Exception) {
-                println("onSuccessLoginApi ::::::::::::::::::::::::" + e.message)
-                ActivityUtils.hideDialog()
-                Toast.makeText(this, "Please try again later", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 
     override fun onFailureLoginApi(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -400,31 +416,8 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onSuccessGetProfileDetailsApi(riderProfileResponse: GetRiderProfileResponse?) {
-        if (riderProfileResponse != null) {
-            SessionManager(this).setRiderProfileDetails(riderProfileResponse)
-            viewModel.deliveryFailureReasonApiCall(applicationContext, this)
-            viewModel.getComplaintReasonsListApiCall(applicationContext, this)
-        }
-    }
 
-    override fun onFailureGetProfileDetailsApi(s: String) {
-        Toast.makeText(applicationContext, "" + s, Toast.LENGTH_SHORT).show()
-    }
 
-    override fun onSuccessDeliveryReasonApiCall(deliveryFailreReasonsResponse: DeliveryFailreReasonsResponse) {
-        if (deliveryFailreReasonsResponse != null) {
-            SessionManager(this).setDeliveryFailureReasonsList(deliveryFailreReasonsResponse)
-            //            MainActivity.mInstance.displaySelectedScreen("Dashboard");
-            Preferences.setIsPinCreated(true)
-            val i = Intent(this, MainActivity::class.java)
-            val True = true
-            i.putExtra("tag", true)
-            startActivity(i)
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-            finish()
-        }
-    }
 
     override fun onSuccessAppLevelDesignationApnaRetro(value: AppLevelDesignationModelResponse) {
         if (value.message != null && value.status.equals(true)) {

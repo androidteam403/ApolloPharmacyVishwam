@@ -30,7 +30,7 @@ class EmployeeDetailsResponse : Serializable {
     @Expose
     var zcServerHost: String? = null
 
-     class Data : Serializable {
+    class Data : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
@@ -39,20 +39,41 @@ class EmployeeDetailsResponse : Serializable {
         @Expose
         var uploadSwach: UploadSwach? = null
 
-         @SerializedName("upload_apna_retro")
-         @Expose
-         var uploadApnaRetro: UploadApnaRetro? = null
+        @SerializedName("upload_apna_retro")
+        @Expose
+        var uploadApnaRetro: UploadApnaRetro? = null
 
-         @SerializedName("new_drug_request")
-         @Expose
-         var newDrugRequest: NewDrugRequest? = null
+        @SerializedName("retro_approval")
+        @Expose
+         var retroApproval: RetroApproval? = null
+        @SerializedName("new_drug_request")
+        @Expose
+        var newDrugRequest: NewDrugRequest? = null
+
+        @SerializedName("enable_marketing_dashboard")
+        @Expose
+        var enableMarketingDashboard: EnableMarketingDashboard? = null
+
+
+        /* "enable_marketing_dashboard": {
+             "uid": "No",
+             "name": "No",
+             "other": {
+                 "color": null
+             },
+             "icon": null
+         }*/
+
+        @SerializedName("email")
+        @Expose
+        var email: String? = null
 
 
         @SerializedName("role")
         @Expose
         var role: Role? = null
 
-         class Role : Serializable {
+        class Role : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null
@@ -73,7 +94,7 @@ class EmployeeDetailsResponse : Serializable {
         var site: Site? = null
 
 
-         class Site : Serializable {
+        class Site : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null
@@ -90,7 +111,7 @@ class EmployeeDetailsResponse : Serializable {
             @Expose
             var dcCode: DcCode? = null
 
-             class DcCode : Serializable {
+            class DcCode : Serializable {
                 @SerializedName("uid")
                 @Expose
                 var uid: String? = null
@@ -110,7 +131,7 @@ class EmployeeDetailsResponse : Serializable {
             @Expose
             var state: State? = null
 
-             class State : Serializable {
+            class State : Serializable {
                 @SerializedName("uid")
                 @Expose
                 var uid: String? = null
@@ -132,13 +153,15 @@ class EmployeeDetailsResponse : Serializable {
         @Expose
         var swacchDefaultSite: SwacchDefaultSite? = null
 
-         @SerializedName("department")
+        @SerializedName("department")
         @Expose
         var department: Department? = null
 
+        @SerializedName("champs_admin")
+        @Expose
+        var champs_admin: ChampsAdmin?=null
 
-
-         class UploadSwach : Serializable {
+        class UploadSwach : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null
@@ -155,7 +178,7 @@ class EmployeeDetailsResponse : Serializable {
             @Expose
             var icon: Any? = null
 
-             class Other : Serializable {
+            class Other : Serializable {
                 @SerializedName("color")
                 @Expose
                 var color: Any? = null
@@ -164,60 +187,106 @@ class EmployeeDetailsResponse : Serializable {
             }
         }
 
-         class UploadApnaRetro : Serializable {
-             @SerializedName("uid")
-             @Expose
-             var uid: String? = null
+        class UploadApnaRetro : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
 
-             @SerializedName("name")
-             @Expose
-             var name: String? = null
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
 
-             @SerializedName("other")
-             @Expose
-             var other: Other? = null
+            @SerializedName("other")
+            @Expose
+            var other: Other? = null
 
-             @SerializedName("icon")
-             @Expose
-             var icon: Any? = null
+            @SerializedName("icon")
+            @Expose
+            var icon: Any? = null
 
-             class Other : Serializable {
-                 @SerializedName("color")
-                 @Expose
-                 var color: Any? = null
-
-
-             }
-         }
+            class Other : Serializable {
+                @SerializedName("color")
+                @Expose
+                var color: Any? = null
 
 
-         class NewDrugRequest : Serializable {
-             @SerializedName("uid")
-             @Expose
-             var uid: String? = null
+            }
+        }
+        class RetroApproval :Serializable{
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
 
-             @SerializedName("name")
-             @Expose
-             var name: String? = null
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
 
-             @SerializedName("other")
-             @Expose
-             var other: Other? = null
-
-             @SerializedName("icon")
-             @Expose
-             var icon: Any? = null
-
-             class Other : Serializable {
-                 @SerializedName("color")
-                 @Expose
-                 var color: Any? = null
+            @SerializedName("name_1")
+            @Expose
+            var name1: String? = null
 
 
-             }
-         }
 
-         class SwacchDefaultSite : Serializable {
+            @SerializedName("icon")
+            @Expose
+            var icon: Any? = null
+        }
+
+
+        class NewDrugRequest : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+
+            @SerializedName("other")
+            @Expose
+            var other: Other? = null
+
+            @SerializedName("icon")
+            @Expose
+            var icon: Any? = null
+
+            class Other : Serializable {
+                @SerializedName("color")
+                @Expose
+                var color: Any? = null
+
+
+            }
+        }
+
+
+        class EnableMarketingDashboard {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+
+            @SerializedName("other")
+            @Expose
+            var other: Other? = null
+
+            @SerializedName("icon")
+            @Expose
+            var icon: String? = null
+
+        }
+
+        class Other {
+            @SerializedName("color")
+            @Expose
+            var color: String? = null
+
+        }
+
+        class SwacchDefaultSite : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null
@@ -227,17 +296,28 @@ class EmployeeDetailsResponse : Serializable {
             var site: String? = null
         }
 
-         class Department : Serializable {
-             @SerializedName("uid")
-             @Expose
-             var uid: String? = null
+        class ChampsAdmin : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
 
-             @SerializedName("name")
-             @Expose
-             var name: String? = null
-             @SerializedName("code")
-             @Expose
-             var code: String? = null
-         }
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+        }
+
+        class Department : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+
+            @SerializedName("code")
+            @Expose
+            var code: String? = null
+        }
     }
 }

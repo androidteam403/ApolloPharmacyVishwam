@@ -30,7 +30,7 @@ class ApnaSurveylViewModel : ViewModel() {
         rows: String,
         searchQuary: String,
         status: String,
-        isSearch: Boolean
+        isSearch: Boolean,
     ) {
 
         val url = Preferences.getApi()
@@ -44,18 +44,32 @@ class ApnaSurveylViewModel : ViewModel() {
                 break
             }
         }
+        var dynamicUrl = ""
+        var dynamicToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("APNA SURVEY LIST")) {
+                dynamicUrl = data.APIS[i].URL
+                dynamicToken = data.APIS[i].TOKEN
+                break
+            }
+        }
 
         val new = if (status.contains("new")) "new" else ""
-        val inprogress = if (status.contains("inprogress")) "inprogress" else ""
+        val inprogress = if (status.contains("inprogress")) "in_progress" else ""
         val rejected = if (status.contains("rejected")) "rejected" else ""
         val approved = if (status.contains("approved")) "approved" else ""
         val cancelled = if (status.contains("cancelled")) "cancelled" else ""
 
-        var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=${Preferences.getValidatedEmpId()}&page=${pageNo}&rows=${rows}" +
+        //Dev base url : https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/
+
+        // https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/apna_project_survey/list/project-survey-list-for-mobile?
+        var baseUrl = dynamicUrl
+      //id
+        baseUrl =
+            baseUrl + "employee_id=${Preferences.getValidatedEmpId()}&page=${pageNo}&rows=${rows}" +
 
                     if (isSearch) {
-                        "&id=$searchQuary&"
+                        "&survey_search=$searchQuary&"
                     } else {
                         "&"
                     } + "${
@@ -72,25 +86,29 @@ class ApnaSurveylViewModel : ViewModel() {
 
 
 
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("")) {
-                baseUrl = data.APIS[i].URL
-                val token = data.APIS[i].TOKEN
-                break
-            }
-
-        }
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("")) {
+//                baseUrl = data.APIS[i].URL
+//                val token = data.APIS[i].TOKEN
+//                break
+//            }
+//
+//        }
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
 
-                RegistrationRepo.getDetails(proxyBaseUrl,
+                RegistrationRepo.getDetails(
+                    proxyBaseUrl,
                     proxyToken,
-                    GetDetailsRequest(baseUrl,
+                    GetDetailsRequest(
+                        baseUrl,
                         "GET",
                         "The",
                         "",
-                        ""))
+                        ""
+                    )
+                )
 
 
             }
@@ -103,7 +121,8 @@ class ApnaSurveylViewModel : ViewModel() {
                             val res = BackShlash.removeBackSlashes(resp)
                             val surveyListResponse = Gson().fromJson(
                                 BackShlash.removeSubString(res),
-                                SurveyListResponse::class.java)
+                                SurveyListResponse::class.java
+                            )
                             if (surveyListResponse.success == true) {
                                 apnaSurveyCallback.onSuccessgetSurveyDetails(surveyListResponse)
 //                                getSurveyListResponse.value =
@@ -118,15 +137,19 @@ class ApnaSurveylViewModel : ViewModel() {
                     } else {
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }

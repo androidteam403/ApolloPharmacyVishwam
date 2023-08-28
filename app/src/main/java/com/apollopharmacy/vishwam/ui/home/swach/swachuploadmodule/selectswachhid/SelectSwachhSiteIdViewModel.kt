@@ -116,4 +116,7 @@ class SelectSwachhSiteIdViewModel : ViewModel() {
     fun getSiteData(): ArrayList<StoreListItem> {
         return siteLiveData
     }
+
+
+
 }

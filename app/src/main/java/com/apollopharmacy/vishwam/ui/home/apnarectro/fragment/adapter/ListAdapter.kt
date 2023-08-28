@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -14,6 +13,8 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.util.Utlis
 import java.text.SimpleDateFormat
+import java.util.Collections
+
 
 class ListAdapter(
     private var fragmentList: List<List<GetStorePendingAndApprovedListRes.Get>>,
@@ -47,8 +48,8 @@ class ListAdapter(
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = fragmentList.get(position)
 
+        val item = fragmentList.get(position)
 
         for (i in item.indices) {
             if (item.get(i).stage.equals("PRE-RETRO")) {
@@ -380,7 +381,7 @@ class ListAdapter(
         }
 
         holder.adapterListApnaBinding.postRetroStageLayout.setOnClickListener {
-            if (holder.adapterListApnaBinding.firstStageStatus.text.toString() == "Approved" && holder.adapterListApnaBinding.secondstageStatus.text.toString()!!.contains("Pending")
+            if (holder.adapterListApnaBinding.firstStageStatus.text.toString() == "Approved" && holder.adapterListApnaBinding.secondstageStatus.text.toString().replace(" ","").toUpperCase()!!.equals("PENDINGATUSER")
             )//doubt about status name
             {
 
@@ -399,8 +400,8 @@ class ListAdapter(
                     reshootBy,
                     reshootDate, "POST-RETRO"
                 )
-            } else if (holder.adapterListApnaBinding.secondstageStatus.text.toString()
-                    .equals("Approved")
+            } else if (holder.adapterListApnaBinding.secondstageStatus.text.toString().replace(" ","").toUpperCase()
+                    .equals("PENDING")||holder.adapterListApnaBinding.secondstageStatus.text.toString().equals("Approved")
             ) {
 
 
@@ -441,7 +442,7 @@ class ListAdapter(
         }
 
         holder.adapterListApnaBinding.afterCompletionStageLayout.setOnClickListener {
-            if (holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Approved") && holder.adapterListApnaBinding.thirdstagestatus.text.toString()!!.contains("Pending"))//doubt about status name
+            if (holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Approved") && holder.adapterListApnaBinding.thirdstagestatus.text.toString().replace(" ","").toUpperCase()!!.equals("PENDINGATUSER"))//doubt about status name
             {
                 preRectroCallback.onClickPostRetroPending(
                     "isAfterCompletionStage",
@@ -458,8 +459,8 @@ class ListAdapter(
                     reshootBy,
                     reshootDate, "AFTER-COMPLETION"
                 )
-            } else if (holder.adapterListApnaBinding.thirdstagestatus.text.toString()
-                    .equals("Approved")
+            } else if (holder.adapterListApnaBinding.thirdstagestatus.text.toString().replace(" ","").toUpperCase()
+                    .equals("PENDING")||holder.adapterListApnaBinding.thirdstagestatus.text.toString().equals("Approved")
             ) {
                 preRectroCallback.onClickPostRetroPending(
                     "isAfterCompletionStage",
