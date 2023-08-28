@@ -339,6 +339,8 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
             adapter = ApprovalCategoryListAdapter(this, imageUrlList, stage, this)
             activityPreviewBinding.recyclerViewcategories.adapter = adapter
         }
+
+
     }
 
     override fun onFailureImageUrlList(value: GetImageUrlResponse) {
