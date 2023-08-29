@@ -39,7 +39,7 @@ class ApprovalPreviewViewModel : ViewModel() {
         var token = ""
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
-                baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls"
+                baseUrl = data.APIS[i].URL
                 token = data.APIS[i].TOKEN
                 break
             }
