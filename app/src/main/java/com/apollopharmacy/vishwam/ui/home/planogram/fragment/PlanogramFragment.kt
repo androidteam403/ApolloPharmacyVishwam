@@ -45,7 +45,7 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
             viewModel.getList(Preferences.getPlanogramSiteId(), this)
         }
 
-    }
+        }
 
 
 
@@ -108,6 +108,7 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
             hideLoading()
             viewBinding.noListFound.visibility=View.VISIBLE
             viewBinding.siteIdByListRecyclerView.visibility = View.GONE
+//            Toast.makeText(context, siteIdResponse!!.data!!.listData!!.records!!.length, Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -138,10 +139,21 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
 
                 }
             }
+            }
+
+//            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+//                showLoading()
+//                viewModel.getStoreDetailsChamps(this)
+//            }
+//            else {
+//                Toast.makeText(
+//                    activity,
+//                    resources.getString(R.string.label_network_error),
+//                    Toast.LENGTH_SHORT
+//                )
+//                    .show()
+//            }
+
+
         }
-
-
-
-
     }
-}

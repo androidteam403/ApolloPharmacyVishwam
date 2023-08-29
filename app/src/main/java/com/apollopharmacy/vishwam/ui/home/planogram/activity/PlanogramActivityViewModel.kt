@@ -29,7 +29,7 @@ import kotlinx.coroutines.withContext
 class PlanogramActivityViewModel : ViewModel() {
 
     val state = MutableLiveData<State>()
-    val commands = LiveEvent<PlanogramActivityViewModel.Command>()
+    val commands = LiveEvent<Command>()
 
 
 

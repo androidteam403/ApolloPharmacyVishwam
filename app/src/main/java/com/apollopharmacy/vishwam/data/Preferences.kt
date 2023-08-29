@@ -216,9 +216,11 @@ object Preferences {
     private const val KEY_APNA_SITEID = "KEY_APNA_SITEID"
     private const val KEY_PLANOGRAM_SITEID = "KEY_PLANOGRAM_SITEID"
     private const val KEY_PLANOGRAM_SITENAME = "KEY_PLANOGRAM_SITENAME"
+    private const val KEY_PLANOGRAM_SITESTATE = "KEY_PLANOGRAM_SITESTATE"
     private const val KEY_CHAMPS_SITENAME = "KEY_CHAMPS_SITENAME"
     private const val KEY_CHAMPS_SITEID = "KEY_CHAMPS_SITEID"
     private const val KEY_APNA_SITENAME = "KEY_APNA_SITENAME"
+    private const val KEY_PLANOGRAM_SITECITY = "KEY_PLANOGRAM_SITECITY"
 
     private const val KEY_SWACHH_SITENAME = "KEY_SWACHH_SITENAME"
 
@@ -902,6 +904,22 @@ object Preferences {
         return sharedPreferences.getString(KEY_PLANOGRAM_SITENAME, "")!!
     }
 
+    fun setPlanogramSiteState(planogramSiteId: String) {
+        sharedPreferences.edit().putString(KEY_PLANOGRAM_SITESTATE, planogramSiteId).apply()
+    }
+
+    fun getPlanogramSiteState(): String {
+        return sharedPreferences.getString(KEY_PLANOGRAM_SITESTATE, "")!!
+    }
+
+    fun setPlanogramSiteCity(planogramSiteId: String) {
+        sharedPreferences.edit().putString(KEY_PLANOGRAM_SITECITY, planogramSiteId).apply()
+    }
+
+    fun getPlanogramSiteCity(): String {
+        return sharedPreferences.getString(KEY_PLANOGRAM_SITECITY, "")!!
+    }
+
     fun setEmployeeRoleUidChampsAdmin(uid: String) {
         sharedPreferences.edit().putString(EMPLOYEE_ROLE_CHAMPS_ADMIN, uid).apply()
     }
@@ -909,6 +927,7 @@ object Preferences {
     fun getEmployeeRoleUidChampsAdmin(): String {
         return sharedPreferences.getString(EMPLOYEE_ROLE_CHAMPS_ADMIN, "")!!
     }
+
 
 
 

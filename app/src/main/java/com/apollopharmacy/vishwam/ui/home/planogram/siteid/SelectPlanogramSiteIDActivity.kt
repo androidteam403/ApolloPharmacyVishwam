@@ -153,6 +153,10 @@ class SelectPlanogramSiteIDActivity : AppCompatActivity(), SelectPlanogramSiteId
             this.siteName = site.storeName;
             Preferences.setPlanogramSiteId(siteId!!)
             Preferences.setPlanogramSiteName(siteName!!)
+            Preferences.setPlanogramSiteState(site.state!!.name!!.toString())
+            Preferences.setPlanogramSiteCity(site.city!!)
+
+
 //            Preferences.setExecutiveName(site.)
             val intent = Intent()
             setResult(Activity.RESULT_OK, intent)
