@@ -2,7 +2,10 @@ package com.apollopharmacy.vishwam.ui.home.planogram.fragment
 
 import android.app.Activity
 import android.content.Intent
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
@@ -10,12 +13,15 @@ import com.apollopharmacy.vishwam.databinding.FragmentPlanogramBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.PlanogramEvaluationActivity
+import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.ListBySiteIdResponse
+import com.apollopharmacy.vishwam.ui.home.planogram.fragment.adapter.ListBySiteIdAdapter
 import com.apollopharmacy.vishwam.ui.home.planogram.siteid.SelectPlanogramSiteIDActivity
 import com.apollopharmacy.vishwam.util.Utlis
 
 class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBinding>(),
     PlanogramCallback, MainActivityCallback {
     var isSiteIdEmpty: Boolean = false
+    var listBySiteIdAdapter: ListBySiteIdAdapter? = null
 
     override val layoutRes: Int
         get() = R.layout.fragment_planogram
@@ -32,12 +38,14 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
             i.putExtra("modulename", "PLANOGRAM")
             startActivityForResult(i, 781)
         } else {
-            viewBinding.storeId.setText(Preferences.getPlanogramSiteId())
-            viewBinding.siteName.setText(Preferences.getPlanogramSiteName())
+//            viewBinding.storeId.setText(Preferences.getPlanogramSiteId())
+//            viewBinding.siteName.setText(Preferences.getPlanogramSiteName())
             viewBinding!!.siteIdSelect.setText("${Preferences.getPlanogramSiteId()} - ${Preferences.getPlanogramSiteName()}")
+            showLoading()
+            viewModel.getList(Preferences.getPlanogramSiteId(), this)
         }
 
-        }
+    }
 
 
 
@@ -71,7 +79,6 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
 
     override fun onClickContinue() {
         val intent = Intent(context, PlanogramEvaluationActivity::class.java)
-        intent.putExtra("uid","uid")
         startActivity(intent)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
@@ -80,6 +87,34 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
         val i = Intent(requireContext(), SelectPlanogramSiteIDActivity::class.java)
         i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivityForResult(i, 781)
+    }
+
+    override fun onSuccessPlanogramSiteIdList(siteIdResponse: ListBySiteIdResponse?) {
+        if(siteIdResponse!=null && siteIdResponse!!.data!=null && siteIdResponse!!.data!!.listData!=null
+            && siteIdResponse!!.data!!.listData!!.rows!=null && siteIdResponse!!.data!!.listData!!.rows!!.size>0){
+            hideLoading()
+            viewBinding.siteIdByListRecyclerView.visibility = View.VISIBLE
+            viewBinding.noListFound.visibility=View.GONE
+            listBySiteIdAdapter =
+                ListBySiteIdAdapter(context,siteIdResponse!!.data!!.listData!!.rows, this)
+            val layoutManager = LinearLayoutManager(context)
+            viewBinding.siteIdByListRecyclerView.setLayoutManager(
+                layoutManager
+            )
+            viewBinding.siteIdByListRecyclerView.setAdapter(
+                listBySiteIdAdapter
+            )
+        }else{
+            hideLoading()
+            viewBinding.noListFound.visibility=View.VISIBLE
+            viewBinding.siteIdByListRecyclerView.visibility = View.GONE
+        }
+
+    }
+
+    override fun onFailurePlanogramSiteIdList(message: Any) {
+        hideLoading()
+        Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -94,29 +129,19 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
 //                    hideLoadingTemp()
                     Utlis.hideLoading()
                 } else {
-                    viewBinding.storeId.setText(Preferences.getPlanogramSiteId())
-                    viewBinding.siteName.setText(Preferences.getPlanogramSiteName())
+//                    viewBinding.storeId.setText(Preferences.getPlanogramSiteId())
+//                    viewBinding.siteName.setText(Preferences.getPlanogramSiteName())
                     viewBinding!!.siteIdSelect.setText("${Preferences.getPlanogramSiteId()} - ${Preferences.getPlanogramSiteName()}")
-
+                    showLoading()
+                    viewModel.getList(Preferences.getPlanogramSiteId(), this)
 
 
                 }
             }
-            }
-
-//            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-//                showLoading()
-//                viewModel.getStoreDetailsChamps(this)
-//            }
-//            else {
-//                Toast.makeText(
-//                    activity,
-//                    resources.getString(R.string.label_network_error),
-//                    Toast.LENGTH_SHORT
-//                )
-//                    .show()
-//            }
-
-
         }
+
+
+
+
     }
+}
