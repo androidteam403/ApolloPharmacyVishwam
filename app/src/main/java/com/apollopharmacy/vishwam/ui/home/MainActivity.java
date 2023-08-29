@@ -168,6 +168,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isChampsRequired = false;
     public static boolean isApnaSurveyRequired = false;
     public static boolean isApnaRetroRequired = false;
+
+    public static boolean isDashboardRequired = false;
+    public static boolean isRetroQrAppRequired = false;
+    public static boolean isPlanogramAppRequired = false;
     //    private String mCurrentFrag;
     private int selectedItemPos = -1;
 
@@ -606,11 +610,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             isChampsRequired = accessDetails.getISCHAMPAPP();
             isApnaSurveyRequired = accessDetails.getISAPNAAPP();
             isApnaRetroRequired = accessDetails.getISAPNARETROAPP();
+            isDashboardRequired = accessDetails.getISDASHBOARDAPP();
+            isRetroQrAppRequired = accessDetails.getISRETROQRAPP();
+            isPlanogramAppRequired = accessDetails.getISPLANAGRAMAPP();
         }
 
         TextView versionInfo = findViewById(R.id.versionInfo);
         versionInfo.setText("Version : " + BuildConfig.VERSION_NAME);
-        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired, isSensingRequired, isChampsRequired, isApnaSurveyRequired, isApnaRetroRequired);
+        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired, isSensingRequired, isChampsRequired, isApnaSurveyRequired, isApnaRetroRequired, isDashboardRequired, isRetroQrAppRequired, isPlanogramAppRequired);
 //        updateDynamicNavMenu(false, false, false, false, false, false, false, false, false, false);
 
 //        listView.expandGroup(2);
@@ -2000,7 +2007,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired, boolean isSensingRequired, boolean isChampsRequired, boolean isApnaSurveyRequired, boolean isApnaRetroRequired) {
+    private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired, boolean isSensingRequired, boolean isChampsRequired, boolean isApnaSurveyRequired, boolean isApnaRetroRequired, boolean isDashboardRequired, boolean isRetroQrAppRequired, boolean isPlanogramAppRequired) {
         listView.init(this).addHeaderModel(new HeaderModel("Home", R.drawable.ic_menu_home));
 
 //        listView = findViewById(R.id.expandable_navigation);
@@ -2015,8 +2022,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (isSensingRequired) {
             listView.addHeaderModel(new HeaderModel("Apollo Sensing", Color.WHITE, false, R.drawable.ic_menu_champ));
         }
-        listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));
 
+        if (isRetroQrAppRequired) {
+            listView.addHeaderModel(new HeaderModel("Retro QR", Color.WHITE, false, R.drawable.ic_menu_champ));
+        }
         if (isAttendanceRequired) {
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
         }
@@ -2047,11 +2056,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        if (ceoDashboardAccessFromEmployee.equalsIgnoreCase("Yes")) {
+        if (isDashboardRequired) {
+            if (ceoDashboardAccessFromEmployee.equalsIgnoreCase("Yes")) {
           /*  if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo") || Preferences.INSTANCE.getRoleForCeoDashboard().equals("region_head") || Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_manager") || Preferences.INSTANCE.getRoleForCeoDashboard().equals("store_executive")) {
                 listView.addHeaderModel(new HeaderModel("Monitoring", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard)));
             }*/
-            listView.addHeaderModel(new HeaderModel("Monitoring", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard)));
+                listView.addHeaderModel(new HeaderModel("Monitoring", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard)));
+            }
         }
 
         /*if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")) {
@@ -2093,8 +2104,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)));
 //            .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
         }
-//        listView.addHeaderModel(new HeaderModel("Planogram", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Planogram Evaluation", R.drawable.ic_apollo_survey_68__1_)));
-
+        if (isPlanogramAppRequired) {
+            listView.addHeaderModel(new HeaderModel("Planogram", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Planogram Evaluation", R.drawable.ic_apollo_survey_68__1_)));
+        }
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
 //        if (isApnaRetroRequired) {

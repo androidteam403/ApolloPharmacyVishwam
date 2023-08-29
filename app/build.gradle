@@ -12,7 +12,7 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file('D:\\workspace\\ApolloPharmacyVishwam\\app\\apollovishwam.jks')
+            storeFile file('D:\\workplacenew\\workspace\\Vishwam_29_06_2023\\app\\apollovishwam.jks')
             storePassword '123456'
             keyAlias 'apollovishwam'
             keyPassword '123456'
