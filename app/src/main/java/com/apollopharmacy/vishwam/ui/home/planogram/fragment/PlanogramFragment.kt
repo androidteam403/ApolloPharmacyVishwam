@@ -2,22 +2,15 @@ package com.apollopharmacy.vishwam.ui.home.planogram.fragment
 
 import android.app.Activity
 import android.content.Intent
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
-import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.FragmentPlanogramBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.PlanogramEvaluationActivity
 import com.apollopharmacy.vishwam.ui.home.planogram.siteid.SelectPlanogramSiteIDActivity
-import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.ApproveListActivity
-import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewImage.PreviewImageActivity
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
-import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 
 class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBinding>(),
@@ -78,6 +71,7 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
 
     override fun onClickContinue() {
         val intent = Intent(context, PlanogramEvaluationActivity::class.java)
+        intent.putExtra("uid","uid")
         startActivity(intent)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }

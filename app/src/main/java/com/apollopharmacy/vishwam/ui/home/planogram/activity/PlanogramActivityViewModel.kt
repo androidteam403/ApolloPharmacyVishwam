@@ -15,6 +15,7 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.Ch
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
+import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramDetailsListResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSurveyQuestionsListResponse
@@ -29,6 +30,89 @@ class PlanogramActivityViewModel : ViewModel() {
 
     val state = MutableLiveData<State>()
     val commands = LiveEvent<PlanogramActivityViewModel.Command>()
+
+
+
+
+
+    fun planogramDetailListApi(planogramActivityCallback: PlanogramActivityCallback,uid:String) {
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+        var baseUrL = ""
+        var token1 = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token1 = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+        var baseUrl = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/select/planogram-details-for-mobile?uid=116A5F975442B86BF7157CF6C3640D9B"
+        var token = ""
+        /* for (i in data.APIS.indices) {
+             if (data.APIS[i].NAME.equals("")) {
+                 baseUrl = data.APIS[i].URL
+                 token = data.APIS[i].TOKEN
+                 break
+             }
+         }*/
+
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                PlanogramRepo.planogramSurveyQuestionsListApiCAll(
+                    baseUrL,
+                    token1,
+                    GetDetailsRequest(baseUrl, "GET", "{}", "", "")
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val planogramDetailsListResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    PlanogramDetailsListResponse::class.java
+                                )
+                            if (planogramDetailsListResponse.success!!) {
+                                planogramActivityCallback.onSuccessPlanogramDetailListApiCall(
+                                    planogramDetailsListResponse
+                                )
+                            } else {
+                                planogramActivityCallback.onFailurePlanogramSurveyQuestionsListApiCall(
+                                    planogramDetailsListResponse.message!!.toString()
+                                )
+                            }
+                        }
+                    } else {
+                    }
+                }
+
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
 
     fun planogramSurveyQuestionsListApi(planogramActivityCallback: PlanogramActivityCallback) {
 
@@ -205,6 +289,14 @@ class PlanogramActivityViewModel : ViewModel() {
             }
         }
     }
+
+
+
+
+
+
+
+
     sealed class Command {
         data class ShowToast(val message: String) : Command()
     }

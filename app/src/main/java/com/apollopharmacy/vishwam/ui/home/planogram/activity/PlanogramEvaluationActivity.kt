@@ -24,6 +24,7 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.adapter.AreasToFocusOnAdapter
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.adapter.PlanogramCateoryAdapter
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramCatList
+import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramDetailsListResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSurveyQuestionsListResponse
@@ -43,6 +44,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
     var areasToFocusOnAdapter: AreasToFocusOnAdapter? = null
     var areasToFocusOnList: ArrayList<String>? = null
     var categoriesToFocusOnList: ArrayList<String>? = null
+    var uid:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +62,17 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
         activityPlanogramEvaluationBinding.areasToFocusText.text = "Areas to focus on (" + 0 + ")"
         activityPlanogramEvaluationBinding.categoresToFocusOnText.text =
             "Categories to focus on (" + 0 + ")"
+
+        if (intent!=null){
+            uid= intent.getStringExtra("uid")!!
+            if (NetworkUtils.isNetworkConnected(this)) {
+                Utlis.showLoading(this@PlanogramEvaluationActivity)
+                planogramActivityViewModel.planogramDetailListApi(this,uid)
+            } else {
+                Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         if (NetworkUtils.isNetworkConnected(this)) {
             Utlis.showLoading(this@PlanogramEvaluationActivity)
             planogramActivityViewModel.planogramSurveyQuestionsListApi(this)
@@ -459,6 +472,10 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
     }
 
     override fun showTillTop() {
+
+    }
+
+    override fun onSuccessPlanogramDetailListApiCall(planogramDetailsListResponse: PlanogramDetailsListResponse) {
 
     }
 
