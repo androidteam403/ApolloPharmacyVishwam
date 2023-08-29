@@ -5,7 +5,6 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.FragmentHomeBinding
-import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 
@@ -59,9 +58,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         RijndaelCipherEncryptDecrypt().encrypt(decryptUrl,key)
     }
 
-    fun getDataManager(): SessionManager {
-        return SessionManager(context);
-    }
+
 
     override fun onFialureMessage(message: String) {
 

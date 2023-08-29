@@ -4,17 +4,14 @@ import android.content.Context
 import android.widget.Toast
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
-import com.apollopharmacy.vishwam.network.ApiClient
+import com.apollopharmacy.vishwam.data.network.Api
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
-import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.fileupload.FileDownloadRequest
 import com.apollopharmacy.vishwam.util.fileupload.FileDownloadResponse
-import com.apollopharmacy.vishwam.util.fileupload.FileUploadCallback
-import com.apollopharmacy.vishwam.util.fileupload.FileUploadModel
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
+import com.apollopharmacy.vishwam.util.signaturepad.NetworkUtils
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -22,7 +19,6 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.ArrayList
 
 class FileUploadChamps {
     var context: Context? = null
@@ -48,7 +44,7 @@ class FileUploadChamps {
 
     fun uploadFile(fileUploadModel: FileUploadChampsModel) {
         if (NetworkUtils.isNetworkConnected(context)) {
-            val apiInterface = ApiClient.getApiServiceVishwam()
+            val apiInterface = Api.getClient()
 
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -147,7 +143,7 @@ class FileUploadChamps {
 
     fun downloadFile(fileUploadModel: FileUploadChampsModel) {
         if (NetworkUtils.isNetworkConnected(context)) {
-            val apiInterface = ApiClient.getApiServiceVishwam()
+            val apiInterface = Api.getClient()
 
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)

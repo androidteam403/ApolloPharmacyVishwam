@@ -4,17 +4,9 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.apollopharmacy.vishwam.data.State
-import com.apollopharmacy.vishwam.network.ApiClient
-import com.apollopharmacy.vishwam.ui.rider.dashboard.model.RiderActiveStatusRequest
-import com.apollopharmacy.vishwam.ui.rider.dashboard.model.RiderActiveStatusRequest.AvailableStatus
-import com.apollopharmacy.vishwam.ui.rider.dashboard.model.RiderActiveStatusResponse
-import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
-import com.apollopharmacy.vishwam.ui.rider.login.BackSlash
-import com.apollopharmacy.vishwam.ui.rider.login.model.GetDetailsRequest
-import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
-import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
 import com.apollopharmacy.vishwam.util.AppConstants
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
+import com.apollopharmacy.vishwam.util.signaturepad.NetworkUtils
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import okhttp3.ResponseBody
@@ -231,114 +223,6 @@ class HomeViewModel : ViewModel() {
     //            mListener.onFialureMessage("Something went wrong.");
     //        }
     //    }
-    fun riderUpdateStauts(
-        token: String,
-        activieStatus: String?,
-        context: Context,
-        homeFragmentCallback: HomeFragmentCallback,
-    ) {
-        if (NetworkUtils.isNetworkConnected(context)) {
-            if (!ActivityUtils.isLoadingShowing()) ActivityUtils.showDialog(context, "Please wait.")
-            val apiInterface = ApiClient.getApiService()
-            val riderActiveStatusRequest = RiderActiveStatusRequest()
-            if (SessionManager(context).riderProfileResponse != null && SessionManager(context).riderProfileResponse.data != null && SessionManager(
-                    context
-                ).riderProfileResponse.data.uid != null
-            ) {
-                riderActiveStatusRequest.uid = SessionManager(context).riderProfileResponse.data.uid
-            }
-            val userAddInfo = RiderActiveStatusRequest.UserAddInfo()
-            val availableStatus = AvailableStatus()
-            availableStatus.uid = activieStatus
-            userAddInfo.availableStatus = availableStatus
-            riderActiveStatusRequest.userAddInfo = userAddInfo
-            val gson = Gson()
-            val jsonLoginRequest = gson.toJson(riderActiveStatusRequest)
-            val getDetailsRequest = GetDetailsRequest()
-            getDetailsRequest.requesturl =
-                AppConstants.BASE_URL + "api/user/save-update/update-rider-available-status"
-            getDetailsRequest.requestjson = jsonLoginRequest
-            getDetailsRequest.headertokenkey = "authorization"
-            getDetailsRequest.headertokenvalue = "Bearer $token"
-            getDetailsRequest.requesttype = "POST"
-            val calls = apiInterface.getDetails(
-                AppConstants.PROXY_URL,
-                AppConstants.PROXY_TOKEN,
-                getDetailsRequest
-            )
-            calls.enqueue(object : Callback<ResponseBody?> {
-                override fun onResponse(
-                    call: Call<ResponseBody?>,
-                    response: Response<ResponseBody?>,
-                ) {
-                    ActivityUtils.hideDialog()
-                    if (response.body() != null) {
-                        var resp: String? = null
-                        try {
-                            resp = response.body()!!.string()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                        }
-                        if (resp != null) {
-                            val res = BackSlash.removeBackSlashes(resp)
-                            val gson = Gson()
-                            val riderActiveStatusResponse =
-                                gson.fromJson(
-                                    BackSlash.removeSubString(res),
-                                    RiderActiveStatusResponse::class.java
-                                )
-                            if (riderActiveStatusResponse != null && riderActiveStatusResponse.data != null && riderActiveStatusResponse.success) {
-                                SessionManager(context).riderActiveStatus =
-                                    activieStatus
-                            } else if (response.code() == 401) {
-                                ActivityUtils.showDialog(context, "Please wait.")
-                                val refreshTokenRequest = HashMap<String, Any>()
-                                refreshTokenRequest["token"] = SessionManager(context).loginToken
-                                val call1 = apiInterface.REFRESH_TOKEN(refreshTokenRequest)
-                                call1.enqueue(object : Callback<LoginResponse?> {
-                                    override fun onResponse(
-                                        call1: Call<LoginResponse?>,
-                                        response: Response<LoginResponse?>,
-                                    ) {
-                                        if (response.code() == 200 && response.body() != null && response.body()!!
-                                                .success
-                                        ) {
-                                            SessionManager(context).loginToken =
-                                                response.body()!!.data.token
-                                            riderUpdateStauts(
-                                                response.body()!!.data.token,
-                                                activieStatus, context, homeFragmentCallback
-                                            )
-                                        } else if (response.code() == 401) {
-//                                            logout()
-                                        } else {
-                                            homeFragmentCallback.onFialureMessage("Please try again")
-                                        }
-                                    }
-
-                                    override fun onFailure(
-                                        call1: Call<LoginResponse?>,
-                                        t: Throwable,
-                                    ) {
-                                        ActivityUtils.hideDialog()
-                                        homeFragmentCallback.onFialureMessage("Please try again")
-                                        println("REFRESH_TOKEN_DASHBOARD ==============" + t.message)
-                                    }
-                                })
-                            }
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                    ActivityUtils.hideDialog()
-                    println("RIDER ACTIVE STATUS ==============" + t.message)
-                }
-            })
-        } else {
-            homeFragmentCallback.onFialureMessage("Something went wrong.")
-        }
-    }
 
 }
 
