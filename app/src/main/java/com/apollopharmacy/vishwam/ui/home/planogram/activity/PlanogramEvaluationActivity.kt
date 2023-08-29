@@ -28,8 +28,8 @@ import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramDeta
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSurveyQuestionsListResponse
-import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.signaturepad.NetworkUtils
 import com.tomergoldst.tooltips.ToolTipsManager
 import java.text.SimpleDateFormat
 import java.util.*

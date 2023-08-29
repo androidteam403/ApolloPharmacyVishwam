@@ -19,10 +19,6 @@ import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
-import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
-import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
-import com.apollopharmacy.vishwam.ui.rider.orderdelivery.model.DeliveryFailreReasonsResponse
-import com.apollopharmacy.vishwam.ui.rider.profile.model.GetRiderProfileResponse
 import com.apollopharmacy.vishwam.util.*
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
 import com.github.omadahealth.lollipin.lib.managers.AppLock
@@ -411,22 +407,6 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         }
     }
 
-    override fun onSuccessLoginApi(loginResponse: LoginResponse) {
-
-        if (loginResponse != null && loginResponse.data != null && loginResponse.success && loginResponse.data.token != null) {
-            try {
-                SessionManager(applicationContext).setLoginToken(loginResponse.data.token)
-                SessionManager(applicationContext).setRiderIconUrl(loginResponse.data.pic[0].dimenesions.get200200FullPath())
-                viewModel.getRiderProfileDetailsApi(
-                    SessionManager(applicationContext).getLoginToken(), applicationContext, this
-                )
-            } catch (e: java.lang.Exception) {
-                println("onSuccessLoginApi ::::::::::::::::::::::::" + e.message)
-                ActivityUtils.hideDialog()
-                Toast.makeText(this, "Please try again later", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 
     override fun onFailureLoginApi(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -436,31 +416,8 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onSuccessGetProfileDetailsApi(riderProfileResponse: GetRiderProfileResponse?) {
-        if (riderProfileResponse != null) {
-            SessionManager(this).setRiderProfileDetails(riderProfileResponse)
-            viewModel.deliveryFailureReasonApiCall(applicationContext, this)
-            viewModel.getComplaintReasonsListApiCall(applicationContext, this)
-        }
-    }
 
-    override fun onFailureGetProfileDetailsApi(s: String) {
-        Toast.makeText(applicationContext, "" + s, Toast.LENGTH_SHORT).show()
-    }
 
-    override fun onSuccessDeliveryReasonApiCall(deliveryFailreReasonsResponse: DeliveryFailreReasonsResponse) {
-        if (deliveryFailreReasonsResponse != null) {
-            SessionManager(this).setDeliveryFailureReasonsList(deliveryFailreReasonsResponse)
-            //            MainActivity.mInstance.displaySelectedScreen("Dashboard");
-            Preferences.setIsPinCreated(true)
-            val i = Intent(this, MainActivity::class.java)
-            val True = true
-            i.putExtra("tag", true)
-            startActivity(i)
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-            finish()
-        }
-    }
 
     override fun onSuccessAppLevelDesignationApnaRetro(value: AppLevelDesignationModelResponse) {
         if (value.message != null && value.status.equals(true)) {

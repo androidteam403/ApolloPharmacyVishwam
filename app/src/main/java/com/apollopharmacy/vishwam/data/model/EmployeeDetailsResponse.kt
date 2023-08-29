@@ -1,6 +1,5 @@
 package com.apollopharmacy.vishwam.data.model
 
-import com.apollopharmacy.vishwam.ui.rider.neworder.model.OrderDetailsResponse.Other__5
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -226,9 +225,7 @@ class EmployeeDetailsResponse : Serializable {
             @Expose
             var name1: String? = null
 
-            @SerializedName("other")
-            @Expose
-            var other: Other__5? = null
+
 
             @SerializedName("icon")
             @Expose

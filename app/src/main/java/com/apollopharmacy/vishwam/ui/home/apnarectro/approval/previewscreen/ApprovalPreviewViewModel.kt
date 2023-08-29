@@ -39,7 +39,7 @@ class ApprovalPreviewViewModel : ViewModel() {
         var token = ""
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
-                baseUrl = data.APIS[i].URL
+                baseUrl =  data.APIS[i].URL
                 token = data.APIS[i].TOKEN
                 break
             }
@@ -70,34 +70,31 @@ class ApprovalPreviewViewModel : ViewModel() {
                 }
 
                 is ApiResult.GenericError -> {
-
                     command.postValue(response.error?.let {
                         Command.ShowToast(it)
-
                     })
+                    preRetroCallback.onFailureImageUrlList("Something went wrong, please try again later")
+
                     state.value = State.ERROR
                 }
 
                 is ApiResult.NetworkError -> {
-                    preRetroCallback.onFailureImageUrlList("Network Error")
-
                     command.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
+                    preRetroCallback.onFailureImageUrlList("Network Error")
 
                 }
 
                 is ApiResult.UnknownError -> {
-                    preRetroCallback.onFailureImageUrlList("Something went wrong, please try again later")
-
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
+                    preRetroCallback.onFailureImageUrlList("Something went wrong, please try again later")
 
                 }
 
                 else -> {
-                    preRetroCallback.onFailureImageUrlList("Something went wrong, please try again later")
-
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    preRetroCallback.onFailureImageUrlList("Something went wrong, please try again later")
 
                     state.value = State.ERROR
                 }

@@ -719,7 +719,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     } else if (oldmrpPrice.toDouble() < purchasePrice.toDouble() || newMrpPrice.toDouble() < purchasePrice.toDouble()) {
                         showErrorMsg(context?.resources?.getString(R.string.err_msg_purchace_price_old_new))
                         return false
-                    }else if (!newMrpPrice.isEmpty() && !oldmrpPrice.isEmpty() && newMrpPrice.toDouble() == oldmrpPrice.toDouble()){
+                    } else if (!newMrpPrice.isEmpty() && !oldmrpPrice.isEmpty() && newMrpPrice.toDouble() == oldmrpPrice.toDouble()) {
                         showErrorMsg(context?.resources?.getString(R.string.err_msg_old_new_price_should_not_same))
                         return false
                     }
@@ -1568,8 +1568,16 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             )
         } else {
             for (i in cmsFileUploadModelList!!.indices) {
-                imagesArrayListSend.add(SubmitNewV2Response.PrescriptionImagesItem(cmsFileUploadModelList.get(i).fileDownloadResponse!!.decryptedUrl))
-                NewimagesArrayListSend.add(RequestNewComplaintRegistration.Image(cmsFileUploadModelList.get(i).fileDownloadResponse!!.decryptedUrl))
+                imagesArrayListSend.add(
+                    SubmitNewV2Response.PrescriptionImagesItem(
+                        cmsFileUploadModelList.get(i).fileDownloadResponse!!.decryptedUrl
+                    )
+                )
+                NewimagesArrayListSend.add(
+                    RequestNewComplaintRegistration.Image(
+                        cmsFileUploadModelList.get(i).fileDownloadResponse!!.decryptedUrl
+                    )
+                )
             }
             val ticketIt: Ticket_it? =
                 if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
@@ -1735,7 +1743,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     override fun onFailureUpload(message: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun allFilesDownloaded(
@@ -1746,7 +1754,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     override fun allFilesUploaded(cmsfileUploadModelList: List<CmsFileUploadModel>?, tag: String) {
-        TODO("Not yet implemented")
+
     }
 }
 
