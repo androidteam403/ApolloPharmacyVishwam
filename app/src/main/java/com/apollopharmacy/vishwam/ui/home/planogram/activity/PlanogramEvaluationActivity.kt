@@ -23,20 +23,22 @@ import com.apollopharmacy.vishwam.data.Preferences.getLoginJson
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.databinding.ActivityPlanogramEvaluationBinding
 import com.apollopharmacy.vishwam.databinding.AreasToFocusonDialogBinding
-import com.apollopharmacy.vishwam.ui.home.MainActivity
+
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.adapter.AreasToFocusOnAdapter
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.adapter.PlanogramCateoryAdapter
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramCatList
+import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramDetailsListResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSurveyQuestionsListResponse
-import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.signaturepad.NetworkUtils
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import com.tomergoldst.tooltips.ToolTipsManager
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallback,
     ToolTipsManager.TipListener {
@@ -45,8 +47,10 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
     var planogramCategoryAdapter: PlanogramCateoryAdapter? = null
     private lateinit var dialogSubmit: Dialog
     var areasToFocusOnAdapter: AreasToFocusOnAdapter? = null
-    var areasToFocusOnList: ArrayList<String>? = null
-    var categoriesToFocusOnList: ArrayList<String>? = null
+    var detailsListResponse = PlanogramDetailsListResponse()
+    var categoriesToFocusOnList = ArrayList<String>()
+    var areasToFocusOnList = ArrayList<String>()
+    public var uid: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +64,13 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
 
     @SuppressLint("SetTextI18n")
     private fun setUp() {
+
+        if (intent != null) {
+            uid = intent.getStringExtra("uid")!!
+
+
+        }
+
         activityPlanogramEvaluationBinding.callback = this
         activityPlanogramEvaluationBinding.areasToFocusText.text = "Areas to focus on (" + 0 + ")"
         activityPlanogramEvaluationBinding.categoresToFocusOnText.text =
@@ -76,20 +87,38 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
 //            userNameText.setText("JaiKumar Loknathan Mudaliar");
 
 //            userNameText.setText("JaiKumar Loknathan Mudaliar");
-            activityPlanogramEvaluationBinding.employeeName.text=  loginData.EMPNAME
-            activityPlanogramEvaluationBinding.employeeId.text=  loginData.EMPID
+            activityPlanogramEvaluationBinding.employeeName.text = loginData.EMPNAME
+            activityPlanogramEvaluationBinding.employeeId.text = loginData.EMPID
         }
-        activityPlanogramEvaluationBinding.storeName.text=Preferences.getPlanogramSiteName()
-        activityPlanogramEvaluationBinding.storeId.text=Preferences.getPlanogramSiteId()
-        activityPlanogramEvaluationBinding.storeCity.text=Preferences.getPlanogramSiteCity()
-        activityPlanogramEvaluationBinding.state.text=Preferences.getPlanogramSiteState()
+        activityPlanogramEvaluationBinding.storeName.text = Preferences.getPlanogramSiteName()
+        activityPlanogramEvaluationBinding.storeId.text = Preferences.getPlanogramSiteId()
+        activityPlanogramEvaluationBinding.storeCity.text = Preferences.getPlanogramSiteCity()
+        activityPlanogramEvaluationBinding.state.text = Preferences.getPlanogramSiteState()
 
-        if (NetworkUtils.isNetworkConnected(this)) {
-            Utlis.showLoading(this@PlanogramEvaluationActivity)
-            planogramActivityViewModel.planogramSurveyQuestionsListApi(this)
+
+        if (uid.isNullOrEmpty()) {
+            activityPlanogramEvaluationBinding.startSurveyButton.visibility = View.VISIBLE
+            detailsListResponse.data = null
+
+            if (NetworkUtils.isNetworkConnected(this)) {
+                Utlis.showLoading(this@PlanogramEvaluationActivity)
+                planogramActivityViewModel.planogramSurveyQuestionsListApi(this)
+            } else {
+                Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT)
+                    .show()
+            }
         } else {
-            Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT).show()
+
+            activityPlanogramEvaluationBinding.startSurveyButton.visibility = View.GONE
+            if (NetworkUtils.isNetworkConnected(this)) {
+                Utlis.showLoading(this@PlanogramEvaluationActivity)
+                planogramActivityViewModel.planogramDetailListApi(this, uid)
+            } else {
+                Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
+
     }
 
     override fun onClickBack() {
@@ -107,7 +136,8 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
             }
         }
         if (allScoresHaving) {
-            activityPlanogramEvaluationBinding.startSurveyButton.background= resources.getDrawable(R.drawable.greenbackgrounf_forstartsurvey)
+            activityPlanogramEvaluationBinding.startSurveyButton.background =
+                resources.getDrawable(R.drawable.greenbackgrounf_forstartsurvey)
             var planogramRequest = PlanogramSaveUpdateRequest()
             var commaSeparatorAreasToFocusOn = ""
             if (areasToFocusOnList != null && areasToFocusOnList!!.size > 0) {
@@ -130,6 +160,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
             planogramRequest.branchName =
                 activityPlanogramEvaluationBinding.storeName.text.toString()
             planogramRequest.siteId = activityPlanogramEvaluationBinding.storeId.text.toString()
+            planogramRequest.employeeId = Preferences.getValidatedEmpId()
             var commaSeparatorCategoriesToFocusOn = ""
             if (categoriesToFocusOnList != null && categoriesToFocusOnList!!.size > 0) {
                 for (i in categoriesToFocusOnList!!.indices) {
@@ -390,7 +421,8 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
 
             planogramActivityViewModel.planogramSaveUpdateApi(this, planogramRequest)
         } else {
-            activityPlanogramEvaluationBinding.startSurveyButton.background= resources.getDrawable(R.drawable.ashbackground_for_submit_planogram)
+            activityPlanogramEvaluationBinding.startSurveyButton.background =
+                resources.getDrawable(R.drawable.ashbackground_for_submit_planogram)
             Toast.makeText(
                 applicationContext,
                 "Please submit all the sub category values",
@@ -486,22 +518,210 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
 
     }
 
+    override fun onSuccessPlanogramDetailListApiCall(planogramDetailsListResponse: PlanogramDetailsListResponse) {
+        Utlis.hideLoading()
+        detailsListResponse = planogramDetailsListResponse
+        var yesCount:Int=0
+        var noCount:Int=0
+        var naCount:Int=0
+
+        if (planogramDetailsListResponse.data != null) {
+            if (planogramDetailsListResponse.data!!.planogramSurvey != null) {
+
+
+
+                val planogramSurvey = planogramDetailsListResponse.data?.planogramSurvey
+
+
+                if (planogramSurvey != null) {
+                    yesCount += planogramSurvey.count { it.categoryType?.uid != null && it.shelfFacing?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.categoryType?.uid != null && it.shelfFacing?.uid == "N" }
+                    naCount += planogramSurvey.count { it.categoryType?.uid != null && it.shelfFacing?.uid == "NA" }
+
+                    yesCount += planogramSurvey.count { it.categoryType?.uid != null && it.cleanliness?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.categoryType?.uid != null && it.cleanliness?.uid == "N" }
+                    naCount += planogramSurvey.count { it.categoryType?.uid != null && it.cleanliness?.uid == "NA" }
+
+
+                    yesCount += planogramSurvey.count { it.categoryType?.uid != null && it.lftRightFrntBck?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.categoryType?.uid != null && it.lftRightFrntBck?.uid == "N" }
+                    naCount += planogramSurvey.count { it.categoryType?.uid != null && it.lftRightFrntBck?.uid == "NA" }
+
+                    yesCount += planogramSurvey.count { it.categoryType?.uid != null && it.fifo?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.categoryType?.uid != null && it.fifo?.uid == "N" }
+                    naCount += planogramSurvey.count { it.categoryType?.uid != null && it.fifo?.uid == "NA" }
+
+
+                    yesCount += planogramSurvey.count { it.categoryType?.uid != null && it.shelfStrips?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.categoryType?.uid != null && it.shelfStrips?.uid == "N" }
+                    naCount += planogramSurvey.count { it.categoryType?.uid != null && it.shelfStrips?.uid == "NA" }
+
+                    yesCount += planogramSurvey.count { it.categoryType?.uid != null && it.condTagOffTalkers?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.categoryType?.uid != null && it.condTagOffTalkers?.uid == "N" }
+                    naCount += planogramSurvey.count { it.categoryType?.uid != null && it.condTagOffTalkers?.uid == "NA" }
+
+
+                    yesCount += planogramSurvey.count { it.categoryType?.uid != null && it.emptyShelvesRefill?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.categoryType?.uid != null && it.emptyShelvesRefill?.uid == "N" }
+                    naCount += planogramSurvey.count { it.categoryType?.uid != null && it.emptyShelvesRefill?.uid == "NA" }
+
+                    yesCount += planogramSurvey.count { it.categoryType?.uid != null && it.subcatFlow?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.categoryType?.uid != null && it.subcatFlow?.uid == "N" }
+                    naCount += planogramSurvey.count { it.categoryType?.uid != null && it.subcatFlow?.uid == "NA" }
+
+
+
+
+                }
+
+
+
+            }
+
+            if (planogramDetailsListResponse.data!!.diaperPodium!=null){
+                val planogramSurvey = planogramDetailsListResponse.data?.diaperPodium
+                if (planogramSurvey != null) {
+                    yesCount += planogramSurvey.count { it.offerTentCard!!.uid!= null && it.offerTentCard?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.offerTentCard!!.uid!= null && it.offerTentCard?.uid == "N" }
+                    naCount += planogramSurvey.count { it.offerTentCard!!.uid!= null && it.offerTentCard?.uid == "NA" }
+
+
+                    yesCount += planogramSurvey.count {it.allBrandsDisplay!!.uid!= null&& it.allBrandsDisplay?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.allBrandsDisplay!!.uid!= null && it.allBrandsDisplay?.uid == "N" }
+                    naCount += planogramSurvey.count { it.allBrandsDisplay!!.uid!= null && it.allBrandsDisplay?.uid == "NA" }
+                }
+            }
+
+            if (planogramDetailsListResponse.data!!.valueDealsBin!=null){
+                val planogramSurvey = planogramDetailsListResponse.data?.valueDealsBin
+                if (planogramSurvey != null) {
+                    yesCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "N" }
+                    naCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "NA" }
+
+
+                    yesCount += planogramSurvey.count {it.fillUptoTop!!.uid!= null&& it.fillUptoTop?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.fillUptoTop!!.uid!= null && it.fillUptoTop?.uid == "N" }
+                    naCount += planogramSurvey.count { it.fillUptoTop!!.uid!= null && it.fillUptoTop?.uid == "NA" }
+                }
+            }
+
+            if (planogramDetailsListResponse.data!!.posters!=null){
+                val planogramSurvey = planogramDetailsListResponse.data?.posters
+                if (planogramSurvey != null) {
+                    yesCount += planogramSurvey.count { it.monthlyOffers!!.uid!= null && it.monthlyOffers?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.monthlyOffers!!.uid!= null && it.monthlyOffers?.uid == "N" }
+                    naCount += planogramSurvey.count { it.monthlyOffers!!.uid!= null && it.monthlyOffers?.uid == "NA" }
+
+                    yesCount += planogramSurvey.count {it.smartSaveOffer!!.uid!= null&& it.smartSaveOffer?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.smartSaveOffer!!.uid!= null && it.smartSaveOffer?.uid == "N" }
+                    naCount += planogramSurvey.count { it.smartSaveOffer!!.uid!= null && it.smartSaveOffer?.uid == "NA" }
+
+                    yesCount += planogramSurvey.count {it.noUnauthOldPosters!!.uid!= null&& it.noUnauthOldPosters?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.noUnauthOldPosters!!.uid!= null && it.noUnauthOldPosters?.uid == "N" }
+                    naCount += planogramSurvey.count { it.noUnauthOldPosters!!.uid!= null && it.noUnauthOldPosters?.uid == "NA" }
+                }
+            }
+
+            if (planogramDetailsListResponse.data!!.chiller!=null){
+                val planogramSurvey = planogramDetailsListResponse.data?.chiller
+                if (planogramSurvey != null) {
+                    yesCount += planogramSurvey.count { it.shelfFacing!!.uid!= null && it.shelfFacing?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.shelfFacing!!.uid!= null && it.shelfFacing?.uid == "N" }
+                    naCount += planogramSurvey.count { it.shelfFacing!!.uid!= null && it.shelfFacing?.uid == "NA" }
+
+
+                    yesCount += planogramSurvey.count {it.groupedProductWise!!.uid!= null&& it.groupedProductWise?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "N" }
+                    naCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "NA" }
+
+                    yesCount += planogramSurvey.count {it.noGaps!!.uid!= null&& it.noGaps?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.noGaps!!.uid!= null && it.noGaps?.uid == "N" }
+                    naCount += planogramSurvey.count { it.noGaps!!.uid!= null && it.noGaps?.uid == "NA" }
+                }
+            }
+
+            if (planogramDetailsListResponse.data!!.offersGondola!=null){
+                val planogramSurvey = planogramDetailsListResponse.data?.offersGondola
+                if (planogramSurvey != null) {
+                    yesCount += planogramSurvey.count { it.shelfFacing!!.uid!= null && it.shelfFacing?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.shelfFacing!!.uid!= null && it.shelfFacing?.uid == "N" }
+                    naCount += planogramSurvey.count { it.shelfFacing!!.uid!= null && it.shelfFacing?.uid == "NA" }
+
+
+                    yesCount += planogramSurvey.count {it.correctOfferTalkers!!.uid!= null&& it.correctOfferTalkers?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.correctOfferTalkers!!.uid!= null && it.correctOfferTalkers?.uid == "N" }
+                    naCount += planogramSurvey.count { it.correctOfferTalkers!!.uid!= null && it.correctOfferTalkers?.uid == "NA" }
+                }
+            }
+            if (planogramDetailsListResponse.data!!.peghooksDisplay!=null){
+                val planogramSurvey = planogramDetailsListResponse.data?.peghooksDisplay
+                if (planogramSurvey != null) {
+                    yesCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "N" }
+                    naCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "NA" }
+
+
+                    yesCount += planogramSurvey.count {it.customerFacing!!.uid!= null&& it.customerFacing?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.customerFacing!!.uid!= null && it.customerFacing?.uid == "N" }
+                    naCount += planogramSurvey.count { it.customerFacing!!.uid!= null && it.customerFacing?.uid == "NA" }
+                }
+            }
+
+
+
+            activityPlanogramEvaluationBinding.overAllPercentage.setText("OverAll Score"+" : "+
+                planogramDetailsListResponse.data!!.overallScore.toString())
+
+            activityPlanogramEvaluationBinding.noCount.setText(noCount.toString())
+            activityPlanogramEvaluationBinding.naCount.setText(naCount.toString())
+
+            activityPlanogramEvaluationBinding.yesCount.setText(yesCount.toString())
+
+        }
+
+
+
+        if (planogramDetailsListResponse.data!!.categoriesToFocusOn != null) {
+            categoriesToFocusOnList =
+                ArrayList(planogramDetailsListResponse.data!!.categoriesToFocusOn!!.split(","))
+        }
+
+        if (planogramDetailsListResponse.data!!.areasToFocusOn != null) {
+            areasToFocusOnList =
+                ArrayList((planogramDetailsListResponse.data!!.areasToFocusOn!!.split(",")))
+        }
+
+        activityPlanogramEvaluationBinding.categoresToFocusOnText.text =
+            "Categories to focus on (" + categoriesToFocusOnList.size + ")"
+
+        activityPlanogramEvaluationBinding.areasToFocusText.text =
+            "Areas to focus on (" + areasToFocusOnList.size + ")"
+
+
+
+        if (NetworkUtils.isNetworkConnected(this)) {
+            Utlis.showLoading(this@PlanogramEvaluationActivity)
+            planogramActivityViewModel.planogramSurveyQuestionsListApi(this)
+        } else {
+            Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     var planogramSurveyQuestionsListResponses: PlanogramSurveyQuestionsListResponse? = null
     override fun onSuccessPlanogramSurveyQuestionsListApiCall(planogramSurveyQuestionsListResponse: PlanogramSurveyQuestionsListResponse) {
         Utlis.hideLoading()
-        if (planogramSurveyQuestionsListResponse != null
-            && planogramSurveyQuestionsListResponse.data != null
+        if (planogramSurveyQuestionsListResponse?.data != null
             && planogramSurveyQuestionsListResponse.data!!.listData != null
             && planogramSurveyQuestionsListResponse.data!!.listData!!.rows != null
             && planogramSurveyQuestionsListResponse.data!!.listData!!.rows!!.size > 0
         ) {
             planogramSurveyQuestionsListResponses = planogramSurveyQuestionsListResponse
-            val data: MutableList<PlanogramCatList.CatList> = ArrayList()
             planogramCategoryAdapter =
                 PlanogramCateoryAdapter(
                     planogramSurveyQuestionsListResponse.data!!.listData!!.rows!!,
                     applicationContext,
-                    this,
+                    this, detailsListResponse
                 )
             activityPlanogramEvaluationBinding.planogramCategoryRecyclerview.setLayoutManager(
                 LinearLayoutManager(this)
@@ -550,9 +770,11 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
             }
         }
         if (allScoresHaving) {
-            activityPlanogramEvaluationBinding.startSurveyButton.background= resources.getDrawable(R.drawable.greenbackgrounf_forstartsurvey)
-        }else{
-            activityPlanogramEvaluationBinding.startSurveyButton.background= resources.getDrawable(R.drawable.ashbackground_for_submit_planogram)
+            activityPlanogramEvaluationBinding.startSurveyButton.background =
+                resources.getDrawable(R.drawable.greenbackgrounf_forstartsurvey)
+        } else {
+            activityPlanogramEvaluationBinding.startSurveyButton.background =
+                resources.getDrawable(R.drawable.ashbackground_for_submit_planogram)
         }
 //        caluclateCategoryScore()
 //        caluclateOverAllScore()
@@ -568,7 +790,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
         var havingAllCategoryScore = true
         for (i in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!) {
 //            if (i.categoryType!!.equals("Category")) {
-                totalCategories++
+            totalCategories++
 //            }
         }
         for (i in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!) {
@@ -583,7 +805,8 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                 planogramSurveyQuestionsListResponses!!.overAllScore = categoryScore.toFloat()
 
             }
-            var overAllScore =  ((planogramSurveyQuestionsListResponses!!.overAllScore + i.diaperPodiumScore + i.valueDealsBinScore + i.chillerScore + i.offersGondolaScore + i.peghooksDisplayScore + i.postersScore) / totalCategories)
+            var overAllScore =
+                ((planogramSurveyQuestionsListResponses!!.overAllScore + i.diaperPodiumScore + i.valueDealsBinScore + i.chillerScore + i.offersGondolaScore + i.peghooksDisplayScore + i.postersScore) / totalCategories)
 
             planogramSurveyQuestionsListResponses!!.overAllScore = overAllScore
         }
@@ -782,6 +1005,8 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
     }
 
     override fun onSuccessSaveUpdateApi(saveUpdateRequestJsonResponse: PlanogramSaveUpdateResponse?) {
+
+
         Toast.makeText(
             applicationContext,
             "" + saveUpdateRequestJsonResponse!!.message,
@@ -789,29 +1014,34 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
         ).show()
         Utlis.hideLoading()
         dialogSubmit = Dialog(this)
+        dialogSubmit.setContentView(R.layout.success_dialog_plano) // Set the content view first
+        dialogSubmit.setCancelable(true)
+        dialogSubmit.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         val close = dialogSubmit.findViewById<ImageView>(R.id.close_dialog_save_plano)
         val ok = dialogSubmit.findViewById<LinearLayout>(R.id.ok_button_plano)
-        dialogSubmit.setContentView(R.layout.success_dialog_plano)
-        dialogSubmit.setCancelable(true)
-        close.setOnClickListener {
+
+        close?.setOnClickListener {
             dialogSubmit.dismiss()
             val intent = Intent()
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
-        ok.setOnClickListener {
+
+        ok?.setOnClickListener {
             dialogSubmit.dismiss()
             val intent = Intent()
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
-        dialogSubmit.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         dialogSubmit.show()
+
+
     }
 
     override fun onFailureSaveUpdateApi(saveUpdateRequestJsonResponse: PlanogramSaveUpdateResponse?) {
         Utlis.hideLoading()
-
     }
 
     override fun caluclateScore() {

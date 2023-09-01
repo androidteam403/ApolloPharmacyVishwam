@@ -4,7 +4,7 @@ import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.ListBySiteIdR
 
 interface PlanogramCallback {
 
-    fun onClickContinue()
+    fun onClickContinue(uid:String)
 
     fun onClickSiteId()
     fun onSuccessPlanogramSiteIdList(siteIdResponse: ListBySiteIdResponse?)

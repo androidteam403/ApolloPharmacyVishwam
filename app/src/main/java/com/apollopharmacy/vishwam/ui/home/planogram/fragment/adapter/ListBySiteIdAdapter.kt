@@ -15,7 +15,7 @@ class ListBySiteIdAdapter(var context: Context?, var rows: List<ListBySiteIdResp
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): ListBySiteIdAdapter.ViewHolder {
+    ): ViewHolder {
         val adapterListBySiteIdPlanoBinding: AdapterListBySiteIdPlanoBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(context),
@@ -27,14 +27,14 @@ class ListBySiteIdAdapter(var context: Context?, var rows: List<ListBySiteIdResp
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: ListBySiteIdAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var rowsList = rows!!.get(position)
         holder.adapterListBySiteIdPlanoBinding.storeId.text = rowsList.site!!.site.toString()
         holder.adapterListBySiteIdPlanoBinding.siteName.text = rowsList.branchName.toString()
         holder.adapterListBySiteIdPlanoBinding.lastVisitedDate.text = rowsList.date.toString()
         holder.adapterListBySiteIdPlanoBinding.executiveId.text = rowsList.site!!.executive!!.firstName + rowsList.site!!.executive!!.lastName
         holder.adapterListBySiteIdPlanoBinding.cardViewStore.setOnClickListener {
-            planogramCallback.onClickContinue()
+            planogramCallback.onClickContinue(rowsList.uid!!)
         }
 
     }

@@ -37,21 +37,6 @@ class PlanogramViewModel :ViewModel() {
             }
         }
 
-//        for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("CMS TICKETLIST")) {
-//                val baseUrl = data.APIS[i].URL
-        // "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/reason/list/reason-list?page=1&rows=100"
-        //val token = data.APIS[i].TOKEN
-//
-//                val new = if (status.contains("new")) "new" else ""
-//                val inprogress = if (status.contains("inprogress")) "inprogress" else ""
-//                val solved = if (status.contains("solved")) "solved" else ""
-//                val rejected = if (status.contains("rejected")) "rejected" else ""
-//                val reopened = if (status.contains("reopened")) "reopened" else ""
-//                val closed = if (status.contains("closed")) "closed" else ""
-
-        //
-        //https://apis.v35.dev.zeroco.de
         var baseUrl = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/list/planogram-list-by-site-id"
         var token = ""
 //        for (i in data.APIS.indices) {
@@ -61,10 +46,7 @@ class PlanogramViewModel :ViewModel() {
 //                break
 //            }
 //        }
-//        val baseUrl: String =
-//            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/select/employee-details-mobile?emp_id=${validatedEmpId}"
 
-//"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&status=${status}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
@@ -93,12 +75,7 @@ class PlanogramViewModel :ViewModel() {
                                 )
                             }
                         }
-                        //  unComment it  newcomplainLiveData.value = response.value.data.listData.rows
-                        //  Ticketlistdata = response.value
-                        //  val reasonlitrows = response.value.data.listData.rows
-                        // for (row in reasonlitrows) {
-                        //  deartmentlist.add(row.department)
-                        // }
+
                     } else {
                         //  unComment it   command.value = CmsCommand.ShowToast(response.value.message.toString())
                     }
@@ -115,6 +92,8 @@ class PlanogramViewModel :ViewModel() {
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
+
+                else -> {}
             }
         }
 //            }

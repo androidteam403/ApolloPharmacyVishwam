@@ -57,10 +57,10 @@
                     tools:ignore="RtlCompat" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:onClick="@{()-> callback.onClickContinue()}"
                     android:layout_marginTop="@dimen/text_dimen_10"
                     android:background="@drawable/rounded_green_bg"
                     android:gravity="center"
+                    android:id="@+id/continue_btn"
                     android:paddingLeft="@dimen/text_dimen_10"
                     android:paddingRight="@dimen/text_dimen_10"
                     android:hint="Start Planogram survey"

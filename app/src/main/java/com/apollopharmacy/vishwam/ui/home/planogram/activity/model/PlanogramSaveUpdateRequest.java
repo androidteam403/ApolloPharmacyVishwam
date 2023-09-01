@@ -31,6 +31,10 @@ import java.util.List;
         @SerializedName("site_id")
         @Expose
         private String siteId;
+
+        @SerializedName("employee_id")
+        @Expose
+        private String employeeId;
         @SerializedName("chiller")
         @Expose
         private List<Chiller> chiller;
@@ -775,6 +779,14 @@ import java.util.List;
 
         public String getSiteId() {
             return siteId;
+        }
+
+        public String getEmployeeId() {
+            return employeeId;
+        }
+
+        public void setEmployeeId(String employeeId) {
+            this.employeeId = employeeId;
         }
 
         public void setSiteId(String siteId) {

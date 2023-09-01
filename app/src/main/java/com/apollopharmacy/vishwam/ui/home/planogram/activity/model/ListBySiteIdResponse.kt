@@ -82,7 +82,7 @@ class ListBySiteIdResponse : Serializable {
 
                 @SerializedName("overall_score")
                 @Expose
-                var overallScore: Int? = null
+                var overallScore: Any? = null
 
                 @SerializedName("created_time")
                 @Expose

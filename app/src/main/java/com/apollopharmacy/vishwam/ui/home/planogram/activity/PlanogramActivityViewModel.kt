@@ -50,7 +50,7 @@ class PlanogramActivityViewModel : ViewModel() {
             }
         }
 
-        var baseUrl = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/select/planogram-details-for-mobile?uid=116A5F975442B86BF7157CF6C3640D9B"
+        var baseUrl = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/select/planogram-details-for-mobile?"
         var token = ""
         /* for (i in data.APIS.indices) {
              if (data.APIS[i].NAME.equals("")) {
@@ -66,7 +66,7 @@ class PlanogramActivityViewModel : ViewModel() {
                 PlanogramRepo.planogramSurveyQuestionsListApiCAll(
                     baseUrL,
                     token1,
-                    GetDetailsRequest(baseUrl, "GET", "{}", "", "")
+                    GetDetailsRequest(baseUrl+"uid=${uid}", "GET", "{}", "", "")
                 )
             }
             when (response) {
@@ -110,6 +110,8 @@ class PlanogramActivityViewModel : ViewModel() {
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
+
+                else -> {}
             }
         }
     }
@@ -190,6 +192,8 @@ class PlanogramActivityViewModel : ViewModel() {
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
+
+                else -> {}
             }
         }
     }

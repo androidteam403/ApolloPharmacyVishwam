@@ -22,6 +22,7 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
     PlanogramCallback, MainActivityCallback {
     var isSiteIdEmpty: Boolean = false
     var listBySiteIdAdapter: ListBySiteIdAdapter? = null
+    var uid:String=""
 
     override val layoutRes: Int
         get() = R.layout.fragment_planogram
@@ -43,6 +44,14 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
             viewBinding!!.siteIdSelect.setText("${Preferences.getPlanogramSiteId()} - ${Preferences.getPlanogramSiteName()}")
             showLoading()
             viewModel.getList(Preferences.getPlanogramSiteId(), this)
+        }
+
+
+        viewBinding.continueBtn.setOnClickListener {
+            val intent = Intent(context, PlanogramEvaluationActivity::class.java)
+            intent.putExtra("uid","")
+            startActivity(intent)
+            activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
         }
 
         }
@@ -77,8 +86,10 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
         TODO("Not yet implemented")
     }
 
-    override fun onClickContinue() {
+    override fun onClickContinue(uid:String) {
+        this.uid =uid
         val intent = Intent(context, PlanogramEvaluationActivity::class.java)
+        intent.putExtra("uid",uid)
         startActivity(intent)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }

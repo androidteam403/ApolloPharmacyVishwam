@@ -95,6 +95,7 @@
                 android:layout_height="@dimen/dimen36dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/text_dimen_10"
+                android:id="@+id/save_continue_button"
                 android:layout_marginBottom="@dimen/value_5dp"
                 android:background="@drawable/rounded_dark_bluee"
                 android:gravity="center"

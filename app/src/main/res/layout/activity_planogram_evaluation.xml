@@ -369,7 +369,7 @@
                                         <TextView
                                             android:layout_marginStart="@dimen/value_5dp"
                                             android:textAlignment="viewStart"
-                                            android:text="134"
+                                            android:text="142"
                                             android:gravity="center"
                                             android:layout_width="wrap_content"
                                             android:layout_height="@dimen/value_40dp"
@@ -404,6 +404,7 @@
                                             android:textAlignment="viewStart"
                                             android:text="10"
                                             android:gravity="center"
+                                            android:id="@+id/na_count"
                                             android:layout_width="wrap_content"
                                             android:layout_height="@dimen/value_40dp"
                                             android:layout_gravity="center"
@@ -437,6 +438,7 @@
                                             android:textAlignment="viewStart"
                                             android:text="25"
                                             android:gravity="center"
+                                            android:id="@+id/no_count"
                                             android:layout_width="wrap_content"
                                             android:layout_height="@dimen/value_40dp"
                                             android:layout_gravity="center"
@@ -473,6 +475,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="@dimen/value_40dp"
                                             android:layout_gravity="center"
+                                            android:id="@+id/yes_count"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_17sp"
                                             android:textStyle="bold"
@@ -545,6 +548,8 @@
                                         android:gravity="center"
                                         android:layout_weight="0.5"
                                         android:layout_width="0dp"
+                                        android:id="@+id/overAllPercentage"
+
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_10dp"
@@ -563,16 +568,15 @@
                                         android:layout_weight="0.5">
 
                                         <TextView
-                                            android:id="@+id/overAllPercentage"
                                             android:layout_marginEnd="@dimen/text_dimen_10"
-                                            android:gravity="end"
+                                            android:gravity="start"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginStart="@dimen/value_10dp"
                                             android:layout_marginTop="@dimen/value_10dp"
                                             android:layout_marginBottom="@dimen/value_7dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_20sp"
+                                            android:textSize="14sp"
                                             android:textStyle="bold"
                                             tools:ignore="RtlCompat" />
                                     </LinearLayout>

@@ -126,7 +126,7 @@ class PlanogramDetailsListResponse : Serializable {
 
         @SerializedName("overall_score")
         @Expose
-        var overallScore: Int? = null
+        var overallScore: Any? = null
 
         @SerializedName("date")
         @Expose
@@ -420,7 +420,7 @@ class PlanogramDetailsListResponse : Serializable {
 
         @SerializedName("score")
         @Expose
-        var score: Int? = null
+        var score: Any? = null
     }
 
     public class Poster : Serializable {
