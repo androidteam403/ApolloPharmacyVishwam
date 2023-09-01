@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog_background"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/splash_start_color">
+
+                    <TextView
+                        android:id="@+id/textHead"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:gravity="center"
+                        android:text="Resolved Ticket"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/diloga_close"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:src="@drawable/closee_whitee"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:text="@string/label_complaint_ticket_number"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/ticket_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:text="@string/label_registered_date"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/reg_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp" />
+                </LinearLayout>
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/ok_btn"
+                    android:layout_width="@dimen/value_100dp"
+                    android:layout_height="@dimen/value_40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:layout_marginEnd="@dimen/value_5dp"
+                    android:layout_marginBottom="@dimen/value_5dp"
+                    android:background="@drawable/grey_rectangle1"
+                    android:backgroundTint="@color/splash_start_color"
+                    android:gravity="center"
+                    android:text="OK"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_15sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:cornerRadius="@dimen/value_10dp" />
+
+                <TextView
+                    android:id="@+id/message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:layout_marginBottom="@dimen/value_15dp"
+                    android:background="@color/status_progress"
+                    android:paddingStart="@dimen/value_4dp"
+                    android:paddingTop="@dimen/value_7dp"
+                    android:paddingEnd="@dimen/value_4dp"
+                    android:paddingBottom="@dimen/value_7dp"
+                    android:text="To this selected Department &amp; Store, this ticket has been resolved"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_16sp" />
+
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</layout>

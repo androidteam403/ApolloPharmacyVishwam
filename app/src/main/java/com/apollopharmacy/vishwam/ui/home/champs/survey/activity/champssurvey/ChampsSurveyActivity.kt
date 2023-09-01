@@ -1930,6 +1930,52 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             } else {
                 saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
             }
+
+            var ccEmails: String = ""
+            if (!surveyCCDetailsList.isNullOrEmpty()) {
+                for (i in surveyCCDetailsList) {
+                    if (ccEmails.isEmpty()) {
+                        ccEmails = i
+                    } else {
+                        ccEmails = "$ccEmails,$i"
+                    }
+                }
+            }
+            var recepientEmails: String = ""
+            if (!surveyRecDetailsList.isNullOrEmpty()) {
+                for (i in surveyRecDetailsList) {
+                    if (recepientEmails.isEmpty()) {
+                        recepientEmails = i
+                    } else {
+                        recepientEmails = "$recepientEmails,$i"
+                    }
+                }
+            }
+            if (champsRefernceId.isNullOrEmpty()) {
+                saveUpdateRequest.email = recepientEmails
+                saveUpdateRequest.cc_email = ccEmails
+            } else {
+                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients != null) {
+                        saveUpdateRequest.email =
+                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients
+                    } else {
+                        saveUpdateRequest.email = ""
+                    }
+                } else {
+                    saveUpdateRequest.email = ""
+                }
+                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfCc != null) {
+                        saveUpdateRequest.cc_email =
+                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfCc
+                    } else {
+                        saveUpdateRequest.cc_email = ""
+                    }
+                } else {
+                    saveUpdateRequest.cc_email = ""
+                }
+            }
             champsSurveyViewModel.saveUpdateApi(this, saveUpdateRequest)
         } else {
             Utlis.hideLoading()

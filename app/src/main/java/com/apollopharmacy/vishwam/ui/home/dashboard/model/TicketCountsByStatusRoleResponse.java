@@ -175,6 +175,11 @@ public class TicketCountsByStatusRoleResponse implements Serializable {
                 @SerializedName("name")
                 @Expose
                 private String name;
+
+                @SerializedName("store_id")
+                @Expose
+                private String storeId;
+
                 @SerializedName("employee_id")
                 @Expose
                 private String employeeid;
@@ -214,6 +219,14 @@ public class TicketCountsByStatusRoleResponse implements Serializable {
 
                 public void setName(String name) {
                     this.name = name;
+                }
+
+                public String getStoreId() {
+                    return storeId;
+                }
+
+                public void setStoreId(String storeId) {
+                    this.storeId = storeId;
                 }
 
                 public String getEmployeeid() {

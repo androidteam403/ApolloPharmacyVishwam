@@ -355,13 +355,14 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     }
 
     override fun onClickRightArrow(row: TicketCountsByStatusRoleResponse.Data.ListData.Row) {
-        if (!role.equals("store_executive")) {
-            val intent = Intent(ViswamApp.context, DashboardDetailsActivity::class.java)
-            intent.putExtra("SELECTED_ITEM", row)
-            intent.putExtra("FROM_DATE", viewBinding.fromDate.text.toString())
-            intent.putExtra("TO_DATE", viewBinding.toDate.text.toString())
-            startActivity(intent)
-        }
+        val intent = Intent(ViswamApp.context, DashboardDetailsActivity::class.java)
+        intent.putExtra("SELECTED_ITEM", row)
+        intent.putExtra("FROM_DATE", viewBinding.fromDate.text.toString())
+        intent.putExtra("TO_DATE", viewBinding.toDate.text.toString())
+        startActivity(intent)
+        /* if (!role.equals("store_executive")) {
+
+         }*/
     }
 
     override fun onClickEmployee(employee: String, roleCode: String) {
@@ -873,7 +874,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     override fun onClickApplyDate() {
         showLoading()
-
         if (empId.isNullOrEmpty() && statusRoleResponseList.size > 0) {
             if (Utils.getFirstDateOfCurrentMonth()
                     .equals(Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString())) && Utils.getCurrentDateCeoDashboard()
@@ -882,16 +882,11 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 hideLoading()
                 callAdapter()
             } else if (statusRoleResponseList.isNotEmpty()) {
-
                 for (i in statusRoleResponseList.indices) {
                     if (statusRoleResponseList[i].empId.equals(Preferences.getValidatedEmpId())) {
                         statusRoleResponseList.removeAt(i)
-
                     }
-
                 }
-
-
                 viewModel.getTicketListByCountApi(
                     this,
                     Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
@@ -899,7 +894,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                     Preferences.getValidatedEmpId(), ""//"APL67949"
                 )
             }
-
         } else {
             viewModel.getTicketListByCountApi(
                 this,
@@ -908,7 +902,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 empId, ""//"APL67949"
             )
         }
-
     }
 
     override fun selectedDateTo(

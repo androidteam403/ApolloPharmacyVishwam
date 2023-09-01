@@ -25,28 +25,40 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/value_15dp"
-            android:layout_marginBottom="@dimen/value_25dp"
             android:gravity="center_horizontal"
-            android:text=""
             android:maxLines="3"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="@dimen/text_18sp" />
+
+        <TextView
+            android:id="@+id/ticket_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/value_5dp"
+            android:layout_marginBottom="@dimen/value_25dp"
+            android:gravity="center_horizontal"
+            android:maxLines="3"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/text_18sp"
+            android:textStyle="bold" />
+
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/value_5dp"
-            >
+            android:layout_marginBottom="@dimen/value_5dp">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/ok_button"
                 android:layout_width="@dimen/value_200dp"
                 android:layout_height="@dimen/value_45dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:background="@drawable/yellow_drawable"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:text="Ok"
-                android:layout_centerInParent="true"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16sp" />

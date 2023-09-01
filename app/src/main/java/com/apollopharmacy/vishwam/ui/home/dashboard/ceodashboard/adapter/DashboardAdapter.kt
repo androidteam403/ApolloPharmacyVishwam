@@ -49,7 +49,7 @@ class DashboardAdapter(
         holder.adapterDashboardCeoBinding.totalQc.setText(total)
 //        holder.adapterDashboardCeoBinding.totalQc.setText(response.total.toString())
         holder.adapterDashboardCeoBinding.threeToEight.setText(response.get3To8().toString())
-        if (response.employeeid.isNullOrEmpty()) {
+        if (!response.storeId.isNullOrEmpty()) {
             holder.adapterDashboardCeoBinding.name.setTextColor(Color.parseColor("#000000"))
         } else {
             holder.adapterDashboardCeoBinding.name.setTextColor(Color.parseColor("#005EFF"))
@@ -59,15 +59,17 @@ class DashboardAdapter(
         holder.adapterDashboardCeoBinding.name.setOnClickListener {
             if (!response.employeeid.isNullOrEmpty()) {
                 if (!response.roleCode.isNullOrEmpty()) {
-                    ceoDashboardCallback.onClickEmployee(response.employeeid, response.roleCode)
+                    if (response.storeId.isNullOrEmpty()) {
+                        ceoDashboardCallback.onClickEmployee(response.employeeid, response.roleCode)
+                    }
                 }
             }
         }
 
         holder.adapterDashboardCeoBinding.rightArrowQc.setOnClickListener {
-            if (!response.roleCode.isNullOrEmpty()) {
-                ceoDashboardCallback.onClickRightArrow(response)
-            }
+//            if (!response.roleCode.isNullOrEmpty()) {
+            ceoDashboardCallback.onClickRightArrow(response)
+//            }
         }
     }
 

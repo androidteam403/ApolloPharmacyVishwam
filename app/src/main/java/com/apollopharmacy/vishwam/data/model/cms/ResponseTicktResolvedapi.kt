@@ -1,10 +1,10 @@
 package com.apollopharmacy.vishwam.data.model.cms
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-import com.google.gson.annotations.Expose
 
-data class ResponseTicktResolvedapi (
+data class ResponseTicktResolvedapi(
     @field:SerializedName("message")
     val message: String? = null,
 
@@ -22,8 +22,7 @@ data class ResponseTicktResolvedapi (
 
     @field:SerializedName("zcServerHost")
     val zcServerHost: String? = null
-    ):Serializable
-{
+) : Serializable {
     data class Data(
         @field:SerializedName("ticket_id")
         val ticket_id: String? = null,
@@ -61,6 +60,15 @@ data class ResponseTicktResolvedapi (
 
         @field:SerializedName("department_code")
         val department_code: String? = null,
+
+        @field:SerializedName("have_subworkflow")
+        val have_subworkflow: Boolean? = null,
+
+        @field:SerializedName("allow_manual_ticket_closure")
+        val allow_manual_ticket_closure: String? = null,
+
+        @field:SerializedName("override_ticket_creation")
+        val override_ticket_creation: String? = null,
 
         @field:SerializedName("errors")
         val errors: ArrayList<Error>,
@@ -105,7 +113,7 @@ data class ResponseTicktResolvedapi (
         @Expose
         @SerializedName("region_head")
         var region_head: Region_head
-    ):Serializable
+    ) : Serializable
 
     data class Region_head(
         @Expose
@@ -153,7 +161,6 @@ data class ResponseTicktResolvedapi (
     )
 
 
-
     data class Status(
         @Expose
         @SerializedName("uid")
@@ -183,7 +190,6 @@ data class ResponseTicktResolvedapi (
     )
 
 
-
     data class Region(
         @Expose
         @SerializedName("uid")
@@ -198,7 +204,6 @@ data class ResponseTicktResolvedapi (
         @SerializedName("status")
         var status: Status?
     )
-
 
 
     data class Ou(
@@ -273,7 +278,7 @@ data class ResponseTicktResolvedapi (
         var status: Status?
     )
 
-    data class  CreatedUser(
+    data class CreatedUser(
         @field:SerializedName("first_name")
         val first_name: String? = null,
 
@@ -289,13 +294,13 @@ data class ResponseTicktResolvedapi (
         @field:SerializedName("login_unique")
         val login_unique: String? = null,
 
-    ):Serializable
+        ) : Serializable
 
-    data class  Error(
+    data class Error(
         @field:SerializedName("msg")
         val msg: String? = null,
 
 
-    ):Serializable
+        ) : Serializable
 
 }

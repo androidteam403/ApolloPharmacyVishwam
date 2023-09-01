@@ -13,7 +13,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.data.model.cms.DataItem
+import com.apollopharmacy.vishwam.data.model.cms.RequestCMSLogin
+import com.apollopharmacy.vishwam.data.model.cms.ResponseCMSLogin
+import com.apollopharmacy.vishwam.data.model.cms.ResponseTicktResolvedapi
+import com.apollopharmacy.vishwam.data.model.cms.ResponseticketRatingApi
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.DialogAcknowledgementBinding
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Feedback
@@ -30,20 +34,21 @@ class AcknowledgementDialog : DialogFragment() {
     lateinit var viewModel: RegistrationViewModel
     val TAG = "AcknowledgementDialog"
 
-    var cmsloginresponse: ResponseCMSLogin.Data?=null
-    var ticketstatusapiresponse:ResponseTicktResolvedapi.Data?=null
-    var ticketratingapiresponse: ResponseticketRatingApi.Data?=null
+    var cmsloginresponse: ResponseCMSLogin.Data? = null
+    var ticketstatusapiresponse: ResponseTicktResolvedapi.Data? = null
+    var ticketratingapiresponse: ResponseticketRatingApi.Data? = null
 
-    var ratingvalue:String?=null
+    var ratingvalue: String? = null
 
-    var ratingduid:String?=null
+    var ratingduid: String? = null
 
-    var token:String?=null
+    var token: String? = null
 
-    var closingstatus:Boolean=false
+    var closingstatus: Boolean = false
     lateinit var datanew: ResponseTicktResolvedapi.Data
-    var ticketCloseApi:Boolean=false
+    var ticketCloseApi: Boolean = false
     protected var mProgressDialog: ProgressDialog? = null
+
     companion object {
         const val KEY_DATA_ACK = "acknowledgement"
     }
@@ -57,7 +62,7 @@ class AcknowledgementDialog : DialogFragment() {
         }
     }
 
-     fun generateParsedDataNew(data: ResponseTicktResolvedapi.Data, tag: String): Bundle {
+    fun generateParsedDataNew(data: ResponseTicktResolvedapi.Data, tag: String): Bundle {
         // ticketstatusapiresponse=data
         return Bundle().apply {
             putSerializable(SiteDialog.KEY_DATA, data)
@@ -75,23 +80,24 @@ class AcknowledgementDialog : DialogFragment() {
         );
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.setCanceledOnTouchOutside(false)
+        dialog?.setCancelable(false)
         viewBinding = DialogAcknowledgementBinding.inflate(inflater, container, false)
         viewModel = ViewModelProviders.of(requireActivity())[RegistrationViewModel::class.java]
         viewBinding.viewModel = viewModel
-       // val data = arguments?.getSerializable(SiteDialog.KEY_DATA) as ArrayList<DataItem>
+        // val data = arguments?.getSerializable(SiteDialog.KEY_DATA) as ArrayList<DataItem>
         datanew = arguments?.getSerializable(SiteDialog.KEY_DATA) as ResponseTicktResolvedapi.Data
         if (datanew.department_code.equals("IN") && (datanew.category_code.equals("mrp_cr") || datanew.category_code.equals(
-                "new_batch_req"))
+                "new_batch_req"
+            ))
         ) {
             viewBinding.reject.visibility = View.GONE
         }
         viewBinding.dilogaClose.setOnClickListener { dismiss() }
 
-          viewBinding.ticketNo.text = "${datanew.ticket_id}"
-        if(datanew.ticket_created_time != null)
-        {
-        viewBinding.regDate.text ="${convertCmsDate(datanew.ticket_created_time.toString())}"
-    }
+        viewBinding.ticketNo.text = "${datanew.ticket_id}"
+        if (datanew.ticket_created_time != null) {
+            viewBinding.regDate.text = "${convertCmsDate(datanew.ticket_created_time.toString())}"
+        }
         /*if (data[0].closeTime.toString().isEmpty()) {
             viewBinding.closeDate.visibility = View.GONE
         } else {
@@ -105,48 +111,47 @@ class AcknowledgementDialog : DialogFragment() {
 
 
         viewModel.cmsloginapiresponse.observe(viewLifecycleOwner, {
-            cmsloginresponse=it.data;
-            token=it.data.token
+            cmsloginresponse = it.data;
+            token = it.data.token
             if (ticketCloseApi)
                 ticketCloseAPI()
             else
                 ticketReOpenApi()
 //            viewModel.getTicketRatingApi()
-           // var cmsloginresponse: ResponseCMSLogin
-           // cmsloginresponse=it
+            // var cmsloginresponse: ResponseCMSLogin
+            // cmsloginresponse=it
 
 
         })
 
-        viewModel.cmsticketRatingresponse.observe(viewLifecycleOwner,{
+        viewModel.cmsticketRatingresponse.observe(viewLifecycleOwner, {
             //var cmsticketratingresponse:ResponseticketRatingApi
-          //  cmsticketratingresponse=it
-            ticketratingapiresponse=it.data;
+            //  cmsticketratingresponse=it
+            ticketratingapiresponse = it.data;
 
 
         })
 
-        viewModel.cmsticketclosingapiresponse.observe(viewLifecycleOwner,{
-            if(closingstatus) {
-                closingstatus=false
+        viewModel.cmsticketclosingapiresponse.observe(viewLifecycleOwner, {
+            if (closingstatus) {
+                closingstatus = false
                 hideLoading()
                 Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 dismiss()
             }
-           // viewModel.cmsticketclosingapiresponse.removeObserver(viewLifecycleOwner,{})
+            // viewModel.cmsticketclosingapiresponse.removeObserver(viewLifecycleOwner,{})
         })
 
 
-      /*  viewBinding.problemDesc.text =
-            context?.resources?.getString(R.string.label_prob_description) + "  ${data[0].problemDrescription}"*/
-          viewBinding.problemDesc.text = datanew.ticket_reason_name
+        /*  viewBinding.problemDesc.text =
+              context?.resources?.getString(R.string.label_prob_description) + "  ${data[0].problemDrescription}"*/
+        viewBinding.problemDesc.text = datanew.ticket_reason_name
         viewBinding.textHead.text = context?.resources?.getString(R.string.label_acknowledgement)
         viewBinding.accept.setOnClickListener {
-            closingstatus=true
-            for(rows in ticketratingapiresponse?.listData?.rows!!)
-            {
-                if(rows.value.equals(ratingvalue))
-                { ratingduid=rows.uid
+            closingstatus = true
+            for (rows in ticketratingapiresponse?.listData?.rows!!) {
+                if (rows.value.equals(ratingvalue)) {
+                    ratingduid = rows.uid
                     break
                 }
 
@@ -159,50 +164,49 @@ class AcknowledgementDialog : DialogFragment() {
 
                 var cmsLogin = RequestCMSLogin()
                 // cmsLogin.appUserName = "APL49365"
-                cmsLogin.appUserName =userData!!.EMPID
+                cmsLogin.appUserName = userData!!.EMPID
                 cmsLogin.appPassword = LoginRepo.getPassword()
 //                viewModel.getCMSLoginApi(cmsLogin)
                 ticketCloseAPI()
 
 
-               /* viewModel.submitRequestOfAcknowledgment(
-                    SubmitAcknowledge(
-                       // data[0].ticketNo,
-                         datanew.ticket_id,
-                        viewBinding.remark.text.toString().trim(),
-                        "ACCEPT",
-                        viewBinding.smileRating.rating.toString(), userData!!.EMPID
-                    )
-                )*/
+                /* viewModel.submitRequestOfAcknowledgment(
+                     SubmitAcknowledge(
+                        // data[0].ticketNo,
+                          datanew.ticket_id,
+                         viewBinding.remark.text.toString().trim(),
+                         "ACCEPT",
+                         viewBinding.smileRating.rating.toString(), userData!!.EMPID
+                     )
+                 )*/
             }
         }
         viewBinding.smileRating.setOnRatingSelectedListener { level, reselected ->
             Utils.printMessage(TAG, "Smile Rating :: " + level.toString())
-            ratingvalue=level.toString()
+            ratingvalue = level.toString()
 
         }
         viewBinding.reject.setOnClickListener {
-            closingstatus=true
-            for(rows in ticketratingapiresponse?.listData?.rows!!)
-            {
-                if(rows.value.equals(ratingvalue))
-                { ratingduid=rows.uid
+            closingstatus = true
+            for (rows in ticketratingapiresponse?.listData?.rows!!) {
+                if (rows.value.equals(ratingvalue)) {
+                    ratingduid = rows.uid
                     break
                 }
 
             }
 
             if (checkValidation(false)) {
-                ticketCloseApi =false
+                ticketCloseApi = false
                 showLoading()
                 val userData = LoginRepo.getProfile()
 
                 var cmsLogin = RequestCMSLogin()
                 // cmsLogin.appUserName = "APL49365"
-                cmsLogin.appUserName =userData!!.EMPID
+                cmsLogin.appUserName = userData!!.EMPID
                 cmsLogin.appPassword = LoginRepo.getPassword()
 //                viewModel.getCMSLoginApi(cmsLogin)
-                    ticketReOpenApi()
+                ticketReOpenApi()
                 /*viewModel.submitRequestOfAcknowledgment(
                     SubmitAcknowledge(
                       //  data[0].ticketNo,
@@ -225,10 +229,12 @@ class AcknowledgementDialog : DialogFragment() {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     hideLoading()
                 }
+
                 is CmsCommand.InVisibleLayout -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     dismiss()
                 }
+
                 else -> {}
             }
         })
@@ -256,7 +262,7 @@ class AcknowledgementDialog : DialogFragment() {
         return true
     }
 
-    fun ticketCloseAPI(){
+    fun ticketCloseAPI() {
 //        viewModel.getTicketclosingApi(
 //            token,
 //            RequestClosedticketApi(
@@ -287,8 +293,8 @@ class AcknowledgementDialog : DialogFragment() {
         viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
     }
 
-    fun ticketReOpenApi(){
-        if(viewBinding.remark.text.toString().trim().isNotEmpty()) {
+    fun ticketReOpenApi() {
+        if (viewBinding.remark.text.toString().trim().isNotEmpty()) {
 //            viewModel.getTicketclosingApi(
 //                token,
 //                RequestClosedticketApi(
