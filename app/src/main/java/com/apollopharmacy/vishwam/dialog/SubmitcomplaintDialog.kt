@@ -10,18 +10,13 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.cms.ResponseNewComplaintRegistration
-import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.DialogSubmitcomplaintBinding
 
-class SubmitcomplaintDialog: DialogFragment()
-{
-    private lateinit var viewBinding:DialogSubmitcomplaintBinding
+class SubmitcomplaintDialog : DialogFragment() {
+    private lateinit var viewBinding: DialogSubmitcomplaintBinding
 
-     lateinit var abstractDialogClick: AbstractDialogSubmitClickListner
+    lateinit var abstractDialogClick: AbstractDialogSubmitClickListner
 
     init {
         setCancelable(false)
@@ -32,7 +27,7 @@ class SubmitcomplaintDialog: DialogFragment()
         const val KEY_DATA = "submitcomplaint"
     }
 
-    fun generateParsedData(data:ResponseNewComplaintRegistration): Bundle {
+    fun generateParsedData(data: ResponseNewComplaintRegistration): Bundle {
         return Bundle().apply {
             putSerializable(KEY_DATA, data)
         }
@@ -57,19 +52,21 @@ class SubmitcomplaintDialog: DialogFragment()
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       // viewBinding.close.setOnClickListener { dismiss() }
+        // viewBinding.close.setOnClickListener { dismiss() }
         viewBinding.okButton.setOnClickListener {
             abstractDialogClick.confirmsavetheticket()
             dismiss()
 
         }
-       /* viewBinding.signOutButton.setOnClickListener {
-            LoginRepo.signOutUser()
-            requireActivity()!!.finishAndRemoveTask()
-        }*/
-       //datanew.message
+        /* viewBinding.signOutButton.setOnClickListener {
+             LoginRepo.signOutUser()
+             requireActivity()!!.finishAndRemoveTask()
+         }*/
+        //datanew.message
         val datanew = arguments?.getSerializable(KEY_DATA) as ResponseNewComplaintRegistration
-        viewBinding.messagetext.text="Successfully Ticket Created"+"\n"+"Your Ticket Id is"+"\n"+datanew.data.ticket_id
+        viewBinding.messagetext.text = "Ticket created successfully"
+        //"Successfully Ticket Created"+"\n"+"Your Ticket Id is"+"\n"+datanew.data.ticket_id
+        viewBinding.ticketId.text = "${datanew.data.ticket_id}"
     }
 
     interface AbstractDialogSubmitClickListner {

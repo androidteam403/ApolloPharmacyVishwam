@@ -108,7 +108,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
             this@DashboardDetailsActivity,
             Utils.getConvertedDateFormatyyyymmdd(fromDate),
             Utils.getConvertedDateFormatyyyymmdd(toDate),
-            row.employeeid, row.roleCode
+            row.employeeid, row.roleCode, if (!row.storeId.isNullOrEmpty()) row.storeId else ""
         )//Preferences.getValidatedEmpId()
 
         /* dashboardCategoryAdapter = DashboardCategoryAdapter(categoryList)

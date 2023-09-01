@@ -346,9 +346,15 @@ class SplashActivity : AppCompatActivity() {
             dialogView.setPositiveLabel(positiveBtn)
             dialogView.setPositiveListener(View.OnClickListener {
 //                dialogView.dismiss()
-                val viewIntent = Intent("android.intent.action.VIEW",
-                    Uri.parse(downloadUrl))
-                startActivity(viewIntent)
+                if (!downloadUrl.isNullOrEmpty()) {
+                    val viewIntent = Intent(
+                        "android.intent.action.VIEW",
+                        Uri.parse(downloadUrl)
+                    )
+                    startActivity(viewIntent)
+                }else{
+                    Toast.makeText(this@SplashActivity, "Download url is not available.", Toast.LENGTH_SHORT).show()
+                }
             })
         }
         if (!TextUtils.isEmpty(negativeBtn)) {
