@@ -269,8 +269,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             if (label.isNotEmpty()) {
                 if (label.equals(chartData.get(i).label) && value == chartData.get(i).y) {
 
-                    val desiredWidthInDp = 14
-                    val desiredHeightInDp = 14
+                    val desiredWidthInDp = 100 //14
+                    val desiredHeightInDp = 50 //14
 
                     val density = resources.displayMetrics.density
                     val desiredWidthInPx = (desiredWidthInDp * density).toInt()
@@ -280,6 +280,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                     layoutParams.width = desiredWidthInPx
                     layoutParams.height = desiredHeightInPx
                     view.legendBox.layoutParams = layoutParams
+                    view.legendBox.setText("123")
+                    view.legendBox.setTextColor(Color.WHITE)
                     val textColor = Color.BLACK // Use any color you prefer
 
                     view.legendTitle.setTextColor(textColor)
@@ -290,8 +292,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 } else {
                     view.legendTitle.textSize = 12F
                     view.legendTitle.setTextColor(view.legendTitle.currentTextColor)
-                    val desiredWidthInDp = 10
-                    val desiredHeightInDp = 10
+                    val desiredWidthInDp = 80 //10
+                    val desiredHeightInDp = 40 //10
 
                     val density = resources.displayMetrics.density
                     val desiredWidthInPx = (desiredWidthInDp * density).toInt()
@@ -301,6 +303,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                     layoutParams.width = desiredWidthInPx
                     layoutParams.height = desiredHeightInPx
                     view.legendBox.layoutParams = layoutParams
+                    view.legendBox.setText("123")
+                    view.legendBox.setTextColor(Color.WHITE)
                 }
             }
             view.legendTitle.text = chartData[i].label
@@ -315,8 +319,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
 
                             view.legendTitle.setTextColor(Color.parseColor("#808080"))
-                            val desiredWidthInDp = 10
-                            val desiredHeightInDp = 10
+                            val desiredWidthInDp = 80 //10
+                            val desiredHeightInDp = 30 //10
 
                             val density = resources.displayMetrics.density
                             val desiredWidthInPx = (desiredWidthInDp * density).toInt()
@@ -326,6 +330,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                             layoutParams.width = desiredWidthInPx
                             layoutParams.height = desiredHeightInPx
                             view.legendBox.layoutParams = layoutParams
+                            view.legendBox.setText("123")
+                            view.legendBox.setTextColor(Color.WHITE)
                         } else {
                             highlightedEntries.add(j)
                         }
@@ -342,6 +348,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
             }
 
+            view.legendBox.setText("123")
             view.legendBox.animate()
             viewBinding.chartLabels.addView(view.root)
         }
@@ -493,6 +500,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             viewBinding.dashboardCeoRecyclerview.layoutManager = layoutManager
             viewBinding.dashboardCeoRecyclerview.adapter = dashboardAdapter
 
+
+            viewBinding.monitoringReportLayout.visibility = View.VISIBLE
             viewBinding.recyclerView.visibility = View.VISIBLE
             viewBinding.noListFound.visibility = View.GONE
 
@@ -545,6 +554,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
 
         } else {
+            viewBinding.monitoringReportLayout.visibility = View.GONE
             viewBinding.recyclerView.visibility = View.GONE
             viewBinding.noListFound.visibility = View.VISIBLE
 
@@ -557,7 +567,37 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
 
     override fun onSuccessgetTicketListByCountApi(ticketCountsByStatsuRoleResponse: TicketCountsByStatusRoleResponse) {
-
+        var closed: Int = 0
+        var lessthanTwo: Int = 0
+        var threetoEight: Int = 0
+        var greaterthanEight: Int = 0
+        var rejected: Int = 0
+        var pending: Int = 0
+        var total: Int = 0
+        if (ticketCountsByStatsuRoleResponse != null
+            && ticketCountsByStatsuRoleResponse!!.data != null
+            && ticketCountsByStatsuRoleResponse!!.data!!.listData != null
+            && ticketCountsByStatsuRoleResponse!!.data!!.listData!!.rows != null
+            && ticketCountsByStatsuRoleResponse!!.data!!.listData!!.rows!!.size > 0
+        ) {
+            for (i in ticketCountsByStatsuRoleResponse!!.data!!.listData!!.rows!!) {
+                closed = closed + i.closed
+                lessthanTwo = lessthanTwo + i.lessThan2
+                threetoEight = threetoEight + i.get3To8()
+                greaterthanEight = greaterthanEight + i.greaterThan8
+                var pendingRow: Int = i.lessThan2 + i.get3To8() + i.greaterThan8
+                rejected = rejected + i.rejected
+                pending = pending + pendingRow
+                total = total + i.closed + i.rejected + pendingRow
+            }
+        }
+        viewBinding.closedCard.text = "$closed"
+        viewBinding.lessthanTwoCard.text = "$lessthanTwo"
+        viewBinding.threeEightCard.text = "$threetoEight"
+        viewBinding.greaterthanEightCard.text = "$greaterthanEight"
+        viewBinding.rejectedCard.text = "$rejected"
+        viewBinding.pendingCard.text = "$pending"
+        viewBinding.totalCard.text = "$total"
 //        resetChart()
         /* if (empId.isNullOrEmpty()) {
              ticketCountsByStatsuRoleResponse.setEmpId(Preferences.getValidatedEmpId())
@@ -578,7 +618,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
           }*/
 
         callAdapter()
-
         hideLoading()
     }
 
@@ -874,7 +913,25 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     override fun onClickApplyDate() {
         showLoading()
-        if (empId.isNullOrEmpty() && statusRoleResponseList.size > 0) {
+        if (statusRoleResponseList != null && statusRoleResponseList.size == 1){
+            for (i in statusRoleResponseList.indices) {
+                if (statusRoleResponseList[i].empId.equals(Preferences.getValidatedEmpId())) {
+                    statusRoleResponseList.removeAt(i)
+                }
+            }
+            viewModel.getTicketListByCountApi(
+                this,
+                Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
+                Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
+                Preferences.getValidatedEmpId(), ""//"APL67949"
+            )
+        }
+
+
+
+
+
+        /*if (empId.isNullOrEmpty() && statusRoleResponseList.size > 0) {
             if (Utils.getFirstDateOfCurrentMonth()
                     .equals(Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString())) && Utils.getCurrentDateCeoDashboard()
                     .equals(Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()))
@@ -899,9 +956,9 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 this,
                 Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
                 Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-                empId, ""//"APL67949"
+                Preferences.getValidatedEmpId(), ""//"APL67949"
             )
-        }
+        }*/
     }
 
     override fun selectedDateTo(
