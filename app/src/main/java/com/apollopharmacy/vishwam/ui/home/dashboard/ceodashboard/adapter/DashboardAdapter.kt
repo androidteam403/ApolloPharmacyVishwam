@@ -35,6 +35,7 @@ class DashboardAdapter(
         holder.adapterDashboardCeoBinding.lessThanTwo.setText(response.lessThan2.toString())
         holder.adapterDashboardCeoBinding.greaterThanEight.setText(response.greaterThan8.toString())
         holder.adapterDashboardCeoBinding.closed.setText(response.closed.toString())
+        holder.adapterDashboardCeoBinding.rejected.setText(response.rejected.toString())
         if (response.employeeid.isNullOrEmpty()) {
             holder.adapterDashboardCeoBinding.rightArrowQc.visibility = View.GONE
         } else {

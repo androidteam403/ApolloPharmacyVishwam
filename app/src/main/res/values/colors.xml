@@ -228,5 +228,14 @@
     <color name="greenY">#009244</color>
 <!--    <color name="ash_na_plano">#cccccc</color>-->
     <color name="red_no_plano">#ef1c23</color>
+    <color name="monitoring_closed_card_color">#4a98c9</color>
+    <color name="monitoring_lessthan_two_card_color">#f4b25e</color>
+    <color name="monitoring_threeto_eight_card_color">#f08968</color>
+    <color name="monitoring_pending_card_color">#65c1e6</color>
+    <color name="monitoring_total_card_color">#49586f</color>
+    <color name="monitoring_rejected_color">#4CAF50</color>
+    <color name="monitoring_greater_than_eight_color">#5a345e</color>
+
+
 
 </resources>

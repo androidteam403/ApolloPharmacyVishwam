@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listview_background_shape">
+    <solid android:color="@color/monitoring_greater_than_eight_color" />
+</shape>

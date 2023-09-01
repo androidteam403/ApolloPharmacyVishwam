@@ -1,30 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="25dp"
-    android:padding="2dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <View
-        android:id="@+id/legendBox"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:background="@color/color_red"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/legendTitle"
-        app:layout_constraintTop_toTopOf="@+id/legendTitle"/>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/legendTitle"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        tools:text="xxxxjdsfjsdfj"
-        android:layout_marginStart="3dp"
-        app:layout_constraintStart_toEndOf="@+id/legendBox"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/legendTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                tools:text="Close" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/legendBox"
+                android:layout_width="@dimen/value_50dp"
+                android:layout_height="@dimen/value_30dp"
+                android:background="@color/color_red"
+                android:gravity="end|center_vertical"
+                android:padding="@dimen/value_10dp"
+                android:text="123"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/value_5dp"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+    </LinearLayout>
 </layout>
