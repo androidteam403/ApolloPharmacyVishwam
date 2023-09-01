@@ -27,6 +27,9 @@ object Preferences {
     private const val KEY_DISC_FROM_DATE = "KEY_DISC_FROM_DATE"
     private const val KEY_DISC_TO_DATE = "KEY_DISC_TO_DATE"
     private const val KEY_QC_REGION_ID = "KEY_QC_REGION_ID"
+    private const val KEY_QC_REGION_ID_LIST = "KEY_QC_REGION_ID_LIST"
+    private const val KEY_QC_SITE_ID_LIST = "KEY_QC_SITE_ID_LIST"
+
     private const val KEY_QC_ORDER_TYPE = "KEY_QC_ORDER_TYPE"
     private const val KEY_DISC_SITE_ID = "KEY_DISC_SITE_ID"
     private const val KEY_DISC_REGION_ID = "KEY_DISC_REGION_ID"
@@ -809,6 +812,16 @@ object Preferences {
         return sharedPreferences.getString(KEY_QC_SITE_ID, "")!!
     }
 
+
+    fun setQcSiteList(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_QC_SITE_ID_LIST, siteIdList).apply()
+    }
+
+
+    fun getQcSiteList(): String {
+        return sharedPreferences.getString(KEY_QC_SITE_ID_LIST, "")!!
+    }
+
     fun setDiscountSite(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_DISC_SITE_ID, siteIdList).apply()
     }
@@ -835,6 +848,17 @@ object Preferences {
     fun getQcRegion(): String {
         return sharedPreferences.getString(KEY_QC_REGION_ID, "")!!
     }
+
+
+    fun setQcRegionList(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_QC_REGION_ID_LIST, siteIdList).apply()
+    }
+
+
+    fun getQcRegionList(): String {
+        return sharedPreferences.getString(KEY_QC_REGION_ID_LIST, "")!!
+    }
+
 
     fun setQcOrderType(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_QC_ORDER_TYPE, siteIdList).apply()

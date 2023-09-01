@@ -101,16 +101,26 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
     @SuppressLint("ResourceType")
     override fun setup() {
-        showLoading()
-        pageSize = Preferences.getQcApprovedPageSiz()
-//        MainActivity.mInstance.updateQcListCount(Preferences.getQcApprovedPageSiz().toString())
-        viewBinding.selectfiltertype.setText(
-            "Per page: " + Preferences.getQcApprovedPageSiz().toString()
-        )
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
         Preferences.setQcRegion("")
+        showLoading()
+        pageSize = Preferences.getQcApprovedPageSiz()
+
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        currentDate = simpleDateFormat.format(Date())
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        fromDate = simpleDateFormat.format(cal.time)
+        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
+
+
+//        MainActivity.mInstance.updateQcListCount(Preferences.getQcApprovedPageSiz().toString())
+        viewBinding.selectfiltertype.setText(
+            "Per page: " + Preferences.getQcApprovedPageSiz().toString()
+        )
+
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
         MainActivity.mInstance.qcfilterIcon.visibility = View.VISIBLE
         MainActivity.mInstance.mainActivityCallback = this
@@ -123,13 +133,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 arguments = QcListSizeDialog().generateParsedData(pageSizeList)
             }.show(childFragmentManager, "")
         }
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
-        currentDate = simpleDateFormat.format(Date())
 
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.DATE, -7)
-        fromDate = simpleDateFormat.format(cal.time)
-        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
         var intent = Intent()
         if (!list.isNullOrEmpty()) {
             val i = getIntent("")
@@ -245,21 +249,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             qcListsResponse = it
             approvedListMain=it.approvedlist!!
             approvedListList = it.approvedlist!!
-            hideLoading()
-            if (typeString.isNullOrEmpty()){
-                setQcApprovedListResponse(it.approvedlist!!)
-
-            }
-            else{
-                if (typeString.equals("FORWARD RETURN")){
-                    setQcApprovedListResponse(it.approvedlist!!.filter { it.omsorderno!!.contains("FL") } as ArrayList<QcListsResponse.Approved>)
-
-                }
-                else if (typeString.equals("REVERSE RETURN")){
-                    setQcApprovedListResponse(it.approvedlist!!.filter { it.omsorderno!!.contains("RT") } as ArrayList<QcListsResponse.Approved>)
-
-                }
-            }
+            setQcApprovedListResponse(it.approvedlist!!)
 
 
         }
@@ -580,27 +570,21 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
                     }
 
-                    else if (approvedListList.isNotEmpty()) {
-
-
-                        if (approvedListList.size == approvedListList.size) {
-                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
-                            setQcApprovedListResponse(approvedListList)
-                            adapter!!.notifyDataSetChanged()
-                        } else {
-                            approvedListList.clear()
-                            approvedListList = approvedListMain
-                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
-                            setQcApprovedListResponse(approvedListList)
-                            adapter!!.notifyDataSetChanged()
-                        }
-
-
-                    }
-                    else{
+                    else if (approvedListList.size == approvedListList.size){
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
-
+                        setQcApprovedListResponse(approvedListList)
+                        adapter!!.notifyDataSetChanged()
                     }
+                    else {
+                        approvedListList.clear()
+                        approvedListList = approvedListMain
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        setQcApprovedListResponse(approvedListList)
+                        adapter!!.notifyDataSetChanged()
+                    }
+
+
+
                     if (data.getStringExtra("reset").toString().equals("reset")) {
                         showLoading()
                         Preferences.setQcFromDate("")
@@ -765,7 +749,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
             arguments = QcListSizeDialog().generateParsedData(pageSizeList)
         }.show(childFragmentManager, "")
     }
-
 
     override fun selectListSize(listSize: String) {
         Preferences.setQcApprovedPageSize(listSize.toInt());

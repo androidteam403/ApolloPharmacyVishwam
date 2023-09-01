@@ -81,8 +81,9 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
     override fun setup() {
+        MainActivity.mInstance.mainActivityCallback = this
+
         pageSize = Preferences.getQcRejectedPageSiz()
-//        MainActivity.mInstance.updateQcListCount(Preferences.getQcRejectedPageSiz().toString())
         viewBinding.selectfiltertype.setText(
             "Per page: " + Preferences.getQcRejectedPageSiz().toString()
         )
@@ -92,22 +93,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         Preferences.setQcRegion("")
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
         MainActivity.mInstance.qcfilterIcon.visibility = View.VISIBLE
-//        MainActivity.mInstance.headerTitle.setText("Rejected List")
         showLoading()
-        MainActivity.mInstance.mainActivityCallback = this
-        pageSizeList.add("5")
-        pageSizeList.add("10")
-        pageSizeList.add("15")
-
-
-        viewBinding.selectfiltertype.setOnClickListener {
-            QcListSizeDialog().apply {
-                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
-            }.show(childFragmentManager, "")
-        }
-        viewBinding.closeArrow.setOnClickListener {
-            viewBinding.searchView.setText("")
-        }
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())
 
@@ -122,6 +108,20 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 //        viewModel.getQcRegionList()
 //        viewModel.getQcStoreist()
         viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "", "")
+        pageSizeList.add("5")
+        pageSizeList.add("10")
+        pageSizeList.add("15")
+
+
+        viewBinding.selectfiltertype.setOnClickListener {
+            QcListSizeDialog().apply {
+                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+            }.show(childFragmentManager, "")
+        }
+        viewBinding.closeArrow.setOnClickListener {
+            viewBinding.searchView.setText("")
+        }
+
 
 
         viewBinding.searchView.addTextChangedListener(object : TextWatcher {
@@ -213,22 +213,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             qcListsResponse = it
             rejectedListMain = it.rejectedlist!!
             rejectedListList = it.rejectedlist!!
+            setQcRejectedListResponse(it.rejectedlist!!)
             hideLoading()
-
-            if (typeString.isNullOrEmpty()){
-                setQcRejectedListResponse(it.rejectedlist!!)
-
-            }
-            else{
-                if (typeString.equals("FORWARD RETURN")){
-                    setQcRejectedListResponse(it.rejectedlist!!.filter { it.omsorderno!!.contains("FL") } as ArrayList<QcListsResponse.Reject>)
-
-                }
-                else if (typeString.equals("REVERSE RETURN")){
-                    setQcRejectedListResponse(it.rejectedlist!!.filter { it.omsorderno!!.contains("RT") } as ArrayList<QcListsResponse.Reject>)
-
-                }
-            }
 
         }
 
@@ -758,30 +744,23 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                         )
 
 
-                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
-
-
-                    }else if(rejectedListList.isNotEmpty()) {
-
-
-                        if (rejectedListList.size == rejectedListMain.size) {
-                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
-                            setQcRejectedListResponse(rejectedListList)
-                            adapter!!.notifyDataSetChanged()
-
-                        } else {
-                            rejectedListList.clear()
-                            rejectedListList = rejectedListMain
-                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
-                            setQcRejectedListResponse(rejectedListList)
-                            adapter!!.notifyDataSetChanged()
-                        }
-
-                    }
-                    else{
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
+
+                    }else if (rejectedListList.size == rejectedListMain.size) {
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        setQcRejectedListResponse(rejectedListList)
+                        adapter!!.notifyDataSetChanged()
+
+                    } else {
+                        rejectedListList.clear()
+                        rejectedListList = rejectedListMain
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        setQcRejectedListResponse(rejectedListList)
+                        adapter!!.notifyDataSetChanged()
                     }
+
+
                     if (data.getStringExtra("reset").toString().equals("reset")) {
                         showLoading()
                         Preferences.setQcFromDate("")
@@ -976,18 +955,29 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
 
 
+            if (subList.size>0){
+                viewBinding.emptyList.visibility = View.GONE
+                viewBinding.recyclerViewPending.visibility = View.VISIBLE
+                viewBinding.continueBtn.visibility = View.VISIBLE
+                adapter =
+                    context?.let { it1 ->
+                        QcRejectedListAdapter(
+                            it1, this,
+                            subList!!.get(increment),
 
-            adapter =
-                context?.let { it1 ->
-                    QcRejectedListAdapter(
-                        it1, this,
-                        subList!!.get(increment),
+                            itemsList,
+                            statusList
+                        )
+                    }
+                viewBinding.recyclerViewPending.adapter = adapter
+            }
+            else{
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.recyclerViewPending.visibility = View.GONE
+                viewBinding.continueBtn.visibility = View.GONE
+            }
 
-                        itemsList,
-                        statusList
-                    )
-                }
-            viewBinding.recyclerViewPending.adapter = adapter
+
 
         } else {
             viewBinding.emptyList.visibility = View.VISIBLE
