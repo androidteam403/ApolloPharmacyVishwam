@@ -188,28 +188,24 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
             planogramRequest.date = dateNewFormat
             planogramRequest.overallScore =
                 planogramSurveyQuestionsListResponses!!.overAllScore.toString()
+            val planogramSurveyList = java.util.ArrayList<PlanogramSaveUpdateRequest.PlanogramSurvey>()
+            val planogramChillerList = java.util.ArrayList<PlanogramSaveUpdateRequest.Chiller>()
+            val planogramDiaperPodiumList = java.util.ArrayList<PlanogramSaveUpdateRequest.DiaperPodium>()
+            val planogramOffersGondolaList = java.util.ArrayList<PlanogramSaveUpdateRequest.OffersGondola>()
+            val planogramPegHooksDisplayList = java.util.ArrayList<PlanogramSaveUpdateRequest.PeghooksDisplay>()
+            val planogramPostersList = java.util.ArrayList<PlanogramSaveUpdateRequest.Poster>()
+            val planogramValueBinList = java.util.ArrayList<PlanogramSaveUpdateRequest.ValueDealsBin>()
+            for (i in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.indices) {
 
-            for (i in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!) {
-                val planogramSurveyList =
-                    java.util.ArrayList<PlanogramSaveUpdateRequest.PlanogramSurvey>()
-                val planogramChillerList = java.util.ArrayList<PlanogramSaveUpdateRequest.Chiller>()
-                val planogramDiaperPodiumList =
-                    java.util.ArrayList<PlanogramSaveUpdateRequest.DiaperPodium>()
-                val planogramOffersGondolaList =
-                    java.util.ArrayList<PlanogramSaveUpdateRequest.OffersGondola>()
-                val planogramPegHooksDisplayList =
-                    java.util.ArrayList<PlanogramSaveUpdateRequest.PeghooksDisplay>()
-                val planogramPostersList = java.util.ArrayList<PlanogramSaveUpdateRequest.Poster>()
-                val planogramValueBinList =
-                    java.util.ArrayList<PlanogramSaveUpdateRequest.ValueDealsBin>()
-                if (i.type.equals("category")) {
+                if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("category")) {
                     var planogramSurvey = planogramRequest.PlanogramSurvey()
-                    planogramSurvey.score = i.categoryScore.toString()
-                    for (j in i.questions!!) {
-                        var categoryTypeUid = planogramSurvey.CategoryType()
-                        var uid = i.name
-                        categoryTypeUid.uid = uid
-                        planogramSurvey.categoryType = categoryTypeUid
+                    planogramSurvey.score = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryScore.toString()
+                    var categoryTypeUid = planogramSurvey.CategoryType()
+                    categoryTypeUid.uid = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
+                    planogramSurvey.name=planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    planogramSurvey.categoryType = categoryTypeUid
+                    for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
+
                         if (j.name.equals("Cleanliness")) {
                             var cleanliness = planogramSurvey.Cleanliness()
                             var uid = j.value
@@ -262,14 +258,14 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
 
                     }
                     planogramSurveyList.add(planogramSurvey)
-                    planogramRequest.planogramSurvey = planogramSurveyList
-                } else if (i.type.equals("chiller")) {
+                }
+                else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("chiller")) {
                     var planogramChiller = planogramRequest.Chiller()
-                    planogramChiller.name = i.name
+                    planogramChiller.name = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
 
-                    for (j in i.questions!!) {
+                    for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
                         var type = planogramChiller.Type__1()
-                        var uidType = i.categoryType!!.uid
+                        var uidType = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
                         type.uid = uidType
                         planogramChiller.type = type
 
@@ -293,12 +289,12 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                     }
                     planogramChillerList.add(planogramChiller)
                     planogramRequest.chiller = planogramChillerList
-                } else if (i.type.equals("diaper_podium")) {
+                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("diaper_podium")) {
                     var planogramDiaperPodium = planogramRequest.DiaperPodium()
-                    planogramDiaperPodium.name = i.name
-                    for (j in i.questions!!) {
+                    planogramDiaperPodium.name = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
                         var type = planogramDiaperPodium.Type__2()
-                        var uidType = i.categoryType!!.uid
+                        var uidType = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
                         type.uid = uidType
                         planogramDiaperPodium.type = type
                         if (j.name.equals("All brands displayed")) {
@@ -316,12 +312,12 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                     }
                     planogramDiaperPodiumList.add(planogramDiaperPodium)
                     planogramRequest.diaperPodium = planogramDiaperPodiumList
-                } else if (i.type.equals("offers_gondola")) {
+                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("offers_gondola")) {
                     var planogramOffersGandola = planogramRequest.OffersGondola()
-                    planogramOffersGandola.name = i.name
-                    for (j in i.questions!!) {
+                    planogramOffersGandola.name = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
                         var type = planogramOffersGandola.Type__3()
-                        var uidType = i.categoryType!!.uid
+                        var uidType = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
                         type.uid = uidType
                         planogramOffersGandola.type = type
                         if (j.name.equals("Correct offer talkers")) {
@@ -339,12 +335,12 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                     }
                     planogramOffersGondolaList.add(planogramOffersGandola)
                     planogramRequest.offersGondola = planogramOffersGondolaList
-                } else if (i.type.equals("peghooks_display")) {
+                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("peghooks_display")) {
                     var planogramPeghooksDisplay = planogramRequest.PeghooksDisplay()
-                    planogramPeghooksDisplay.name = i.name
-                    for (j in i.questions!!) {
+                    planogramPeghooksDisplay.name = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
                         var type = planogramPeghooksDisplay.Type__4()
-                        var uidType = i.categoryType!!.uid
+                        var uidType = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
                         type.uid = uidType
                         planogramPeghooksDisplay.type = type
                         if (j.name.equals("Customer facing")) {
@@ -363,12 +359,12 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                     }
                     planogramPegHooksDisplayList.add(planogramPeghooksDisplay)
                     planogramRequest.peghooksDisplay = planogramPegHooksDisplayList
-                } else if (i.type.equals("posters")) {
+                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("posters")) {
                     var planogramPosters = planogramRequest.Poster()
-                    planogramPosters.name = i.name
-                    for (j in i.questions!!) {
+                    planogramPosters.name = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
                         var type = planogramPosters.Type__5()
-                        var uidType = i.categoryType!!.uid
+                        var uidType = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
                         type.uid = uidType
                         planogramPosters.type = type
                         if (j.name.equals("Monthly offers")) {
@@ -391,12 +387,12 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                     }
                     planogramPostersList.add(planogramPosters)
                     planogramRequest.posters = planogramPostersList
-                } else if (i.type.equals("value_deals_bin")) {
+                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("value_deals_bin")) {
                     var planogramValueDealsBin = planogramRequest.ValueDealsBin()
-                    planogramValueDealsBin.name = i.name
-                    for (j in i.questions!!) {
+                    planogramValueDealsBin.name = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
                         var type = planogramValueDealsBin.Type__6()
-                        var uidType = i.categoryType!!.uid
+                        var uidType = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
                         type.uid = uidType
                         planogramValueDealsBin.type = type
                         if (j.name.equals("Filled up to top")) {
@@ -417,6 +413,8 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                 }
 
             }
+            planogramRequest.planogramSurvey = planogramSurveyList
+
             Utlis.showLoading(this)
 
             planogramActivityViewModel.planogramSaveUpdateApi(this, planogramRequest)
@@ -737,6 +735,23 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
         Utlis.hideLoading()
     }
 
+    override fun countValues(questionsList: ArrayList<PlanogramSurveyQuestionsListResponse.Questions>) {
+        var yesCount:Int=0
+        var noCount:Int=0
+        var naCount:Int=0
+
+        if (questionsList != null) {
+            yesCount += questionsList.count { it.value=="Y" }
+            noCount += questionsList.count { it.value == "N" }
+            naCount += questionsList.count { it.value == "NA" }
+        }
+        activityPlanogramEvaluationBinding.noCount.setText(noCount.toString())
+        activityPlanogramEvaluationBinding.naCount.setText(naCount.toString())
+        activityPlanogramEvaluationBinding.yesCount.setText(yesCount.toString())
+
+
+    }
+
     @SuppressLint("SetTextI18n")
     override fun checkAreasToFocusOn(
         questionsList: ArrayList<PlanogramSurveyQuestionsListResponse.Questions>,
@@ -748,7 +763,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
         for (i in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!) {
             if (i.type.equals("category")) {
                 for (j in i.questions!!) {
-                    if (j.value.equals("NO")) {
+                    if (j.value.equals("N")) {
                         if (areasList.size > 0) {
                             if (!areasList.contains(j.name))
                                 areasList.add(j.name!!)
@@ -984,7 +999,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
         val categoriesList = ArrayList<String>()
         for (i in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!) {
             for (j in i.questions!!) {
-                if (j.value.equals("NO")) {
+                if (j.value.equals("N")) {
                     if (j.categoryName != null) {
                         if (categoriesList.size > 0) {
                             if (!categoriesList.contains(j.categoryName))

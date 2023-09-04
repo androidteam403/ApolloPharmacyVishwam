@@ -614,12 +614,14 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         var orderTypeFilteredPendinglist = ArrayList<QcListsResponse.Pending>()
         var storeList: List<String>
         var regionList: List<String>
+        var storeIdLists = ArrayList<String>()
+        var regionIdLists = ArrayList<String>()
         if (regionId.isNotEmpty()) {
             regionList = regionId.split(",")
             if (regionList.size > 1) {
 
 
-                regionIdList = regionList as ArrayList<String>
+                regionIdLists = regionList as ArrayList<String>
 
             }
         }
@@ -628,7 +630,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             if (storeList.size > 1) {
 
 
-                storeIdList = storeList as ArrayList<String>
+                storeIdLists = storeList as ArrayList<String>
 
             }
         }
@@ -645,7 +647,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 }
             }
             return orderTypeFilteredPendinglist
-        } else if (storeIdList.isEmpty() && siteId.isNotEmpty() && regionId.isEmpty() && typeString.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
+        } else if (storeIdLists.isEmpty() && siteId.isNotEmpty() && regionId.isEmpty() && typeString.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -660,7 +662,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
             }
             return orderTypeFilteredPendinglist
-        } else if (regionIdList.isEmpty() && regionId.isNotEmpty() && siteId.isEmpty() && typeString.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
+        } else if (regionIdLists.isEmpty() && regionId.isNotEmpty() && siteId.isEmpty() && typeString.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -675,7 +677,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
             }
             return orderTypeFilteredPendinglist
-        } else if (storeIdList.isEmpty() && regionIdList.isEmpty() && typeString.isNotEmpty() && siteId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
+        } else if (storeIdLists.isEmpty() && regionIdLists.isEmpty() && typeString.isNotEmpty() && siteId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -696,24 +698,24 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
             }
             return orderTypeFilteredPendinglist
-        } else if (typeString.isNotEmpty() && storeIdList.size > 1 && regionIdList.size > 1 && fromDate.isEmpty() && currentDate.isEmpty()) {
+        } else if (typeString.isNotEmpty() && storeIdLists.size > 1 && regionIdLists.size > 1 && fromDate.isEmpty() && currentDate.isEmpty()) {
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
                 var site = i.storeid!!.toUpperCase()
                 var region = i.dcCode
-                for (j in storeIdList.indices) {
+                for (j in storeIdLists.indices) {
 
-                    for (k in regionIdList.indices) {
+                    for (k in regionIdLists.indices) {
 
 
                         if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site.contains(
-                                storeIdList.get(j)
-                            ) && region!!.contains(regionIdList.get(k))
+                                storeIdLists.get(j)
+                            ) && region!!.contains(regionIdLists.get(k))
                         ) {
                             orderTypeFilteredPendinglist.add(i)
                         } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site.contains(
-                                storeIdList.get(j)
-                            ) && region!!.contains(regionIdList.get(k))
+                                storeIdLists.get(j)
+                            ) && region!!.contains(regionIdLists.get(k))
                         ) {
                             orderTypeFilteredPendinglist.add(i)
 
@@ -723,44 +725,44 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 }
             }
             return orderTypeFilteredPendinglist
-        } else if (regionIdList.size > 1 && typeString.isEmpty() && siteId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
+        } else if (regionIdLists.size > 1 && typeString.isEmpty() && siteId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
                 var site = i.storeid!!.toUpperCase()
                 var region = i.dcCode
 
-                for (j in regionIdList.indices) {
+                for (j in regionIdLists.indices) {
 
 
-                    if (region!!.contains(regionIdList.get(j))) {
+                    if (region!!.contains(regionIdLists.get(j))) {
                         orderTypeFilteredPendinglist.add(i)
 
                     }
                 }
             }
             return orderTypeFilteredPendinglist
-        } else if (storeIdList.size > 1 && typeString.isEmpty() && regionId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
+        } else if (storeIdLists.size > 1 && typeString.isEmpty() && regionId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
                 var site = i.storeid!!.toUpperCase()
                 var region = i.dcCode
 
-                for (j in storeIdList.indices) {
+                for (j in storeIdLists.indices) {
 
 
-                    if (site.contains(storeIdList.get(j))) {
+                    if (site.contains(storeIdLists.get(j))) {
                         orderTypeFilteredPendinglist.add(i)
 
-                    } else if (site.contains(storeIdList.get(j))) {
+                    } else if (site.contains(storeIdLists.get(j))) {
                         orderTypeFilteredPendinglist.add(i)
 
                     }
                 }
             }
             return orderTypeFilteredPendinglist
-        } else if (regionIdList.size > 1 && storeIdList.size > 1 && typeString.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
+        } else if (regionIdLists.size > 1 && storeIdLists.size > 1 && typeString.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -768,13 +770,13 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 var region = i.dcCode
 
 
-                for (k in storeIdList.indices) {
+                for (k in storeIdLists.indices) {
 
-                    for (j in regionIdList.indices) {
+                    for (j in regionIdLists.indices) {
 
 
-                        if (region!!.contains(regionIdList.get(j)) && site.contains(
-                                storeIdList.get(
+                        if (region!!.contains(regionIdLists.get(j)) && site.contains(
+                                storeIdLists.get(
                                     k
                                 )
                             )
@@ -786,22 +788,22 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 }
             }
             return orderTypeFilteredPendinglist
-        } else if (regionIdList.size > 1 && typeString.isNotEmpty() && siteId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
+        } else if (regionIdLists.size > 1 && typeString.isNotEmpty() && siteId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
                 var site = i.storeid!!.toUpperCase()
                 var region = i.dcCode
 
-                for (k in regionIdList.indices) {
+                for (k in regionIdLists.indices) {
 
 
                     if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && region!!.contains(
-                            regionIdList.get(k)
+                            regionIdLists.get(k)
                         )
                     ) {
                         orderTypeFilteredPendinglist.add(i)
                     } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && region!!.contains(
-                            regionIdList.get(k)
+                            regionIdLists.get(k)
                         )
                     ) {
                         orderTypeFilteredPendinglist.add(i)
@@ -812,22 +814,22 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 }
             }
             return orderTypeFilteredPendinglist
-        } else if (storeIdList.size > 1 && typeString.isNotEmpty() && regionId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
+        } else if (storeIdLists.size > 1 && typeString.isNotEmpty() && regionId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
                 var site = i.storeid!!.toUpperCase()
                 var region = i.dcCode
 
-                for (k in storeIdList.indices) {
+                for (k in storeIdLists.indices) {
 
 
                     if (typeString.equals("FORWARD RETURN") && omsOrderno.contains("FL") && site!!.contains(
-                            storeIdList.get(k)
+                            storeIdLists.get(k)
                         )
                     ) {
                         orderTypeFilteredPendinglist.add(i)
                     } else if (typeString.equals("REVERSE RETURN") && omsOrderno.contains("RT") && site!!.contains(
-                            storeIdList.get(k)
+                            storeIdLists.get(k)
                         )
                     ) {
                         orderTypeFilteredPendinglist.add(i)
@@ -838,7 +840,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 }
             }
             return orderTypeFilteredPendinglist
-        } else if (storeIdList.isEmpty() && regionIdList.isEmpty() && fromDate.isEmpty() && typeString.isEmpty() && typeString.isEmpty()) {
+        } else if (storeIdLists.isEmpty() && regionIdLists.isEmpty() && fromDate.isEmpty() && typeString.isEmpty() && typeString.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -850,7 +852,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
             }
             return orderTypeFilteredPendinglist
-        } else if (regionIdList.isEmpty() && typeString.isNotEmpty() && siteId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
+        } else if (regionIdLists.isEmpty() && typeString.isNotEmpty() && siteId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()
@@ -874,7 +876,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
             }
             return orderTypeFilteredPendinglist
-        } else if (storeIdList.isEmpty() && typeString.isNotEmpty() && regionId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
+        } else if (storeIdLists.isEmpty() && typeString.isNotEmpty() && regionId.isEmpty() && fromDate.isEmpty() && currentDate.isEmpty()) {
 
             for (i in pendinglist) {
                 var omsOrderno = i.omsorderno!!.toUpperCase()

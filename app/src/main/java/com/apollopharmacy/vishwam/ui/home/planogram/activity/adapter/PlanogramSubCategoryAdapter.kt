@@ -376,6 +376,7 @@ class PlanogramSubCategoryAdapter(
             )
             questionsList.get(position).value = "NA"
             planogramCateoryCallback.checkAreasToFocusOn(questionsList, categoryPosition)
+            planogramCateoryCallback.countValues(questionsList)
             planogramCateoryCallback.checkCategoriesToFocusOn(questionsList, categoryPosition)
             planogramCateoryCallback.caluclateScore()
         }
@@ -394,6 +395,8 @@ class PlanogramSubCategoryAdapter(
             )
             questionsList.get(position).value = "N"
             planogramCateoryCallback.checkAreasToFocusOn(questionsList, categoryPosition)
+            planogramCateoryCallback.countValues(questionsList)
+
             planogramCateoryCallback.checkCategoriesToFocusOn(questionsList, categoryPosition)
             planogramCateoryCallback.caluclateScore()
         }
@@ -412,6 +415,8 @@ class PlanogramSubCategoryAdapter(
             )
             questionsList.get(position).value = "Y"
             planogramCateoryCallback.checkAreasToFocusOn(questionsList, categoryPosition)
+            planogramCateoryCallback.countValues(questionsList)
+
             planogramCateoryCallback.checkCategoriesToFocusOn(questionsList, categoryPosition)
             planogramCateoryCallback.caluclateScore()
         }

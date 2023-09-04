@@ -402,7 +402,7 @@
                                         <TextView
                                             android:layout_marginStart="@dimen/value_5dp"
                                             android:textAlignment="viewStart"
-                                            android:text="10"
+                                            android:text=""
                                             android:gravity="center"
                                             android:id="@+id/na_count"
                                             android:layout_width="wrap_content"
@@ -436,7 +436,7 @@
                                         <TextView
                                             android:layout_marginStart="@dimen/value_5dp"
                                             android:textAlignment="viewStart"
-                                            android:text="25"
+                                            android:text=""
                                             android:gravity="center"
                                             android:id="@+id/no_count"
                                             android:layout_width="wrap_content"
@@ -470,7 +470,7 @@
                                         <TextView
                                             android:layout_marginStart="@dimen/value_5dp"
                                             android:textAlignment="viewStart"
-                                            android:text="99"
+                                            android:text=""
                                             android:gravity="center"
                                             android:layout_width="wrap_content"
                                             android:layout_height="@dimen/value_40dp"
