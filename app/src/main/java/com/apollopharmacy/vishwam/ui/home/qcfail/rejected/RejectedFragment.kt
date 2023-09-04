@@ -25,6 +25,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.rejected.adapter.QcRejectedListAdapter
 import com.apollopharmacy.vishwam.ui.login.Command
+import com.apollopharmacy.vishwam.util.NetworkUtil
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -94,7 +95,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
         MainActivity.mInstance.qcfilterIcon.visibility = View.VISIBLE
         showLoading()
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         currentDate = simpleDateFormat.format(Date())
 
 
@@ -107,7 +108,22 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
 //        viewModel.getQcRegionList()
 //        viewModel.getQcStoreist()
-        viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "", "")
+
+
+        if (NetworkUtil.isNetworkConnected(requireContext())) {
+            showLoading()
+            viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "", "")
+
+
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+
         pageSizeList.add("5")
         pageSizeList.add("10")
         pageSizeList.add("15")
@@ -234,7 +250,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             rejectedListList.clear()
             rejectedListMain.clear()
             MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             currentDate = simpleDateFormat.format(Date())
             val cal = Calendar.getInstance()
             cal.add(Calendar.DATE, -7)

@@ -33,6 +33,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter.QcPendingListAd
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.login.Command
+import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.text.SimpleDateFormat
@@ -146,16 +147,28 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 //        viewModel.getQcStoreist()
 //        Preferences.setQcToDate(Utlis.getCurrentDate("dd-MMM-yyy")!!)
 //        Preferences.setQcFromDate("1-Apr-2019")
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         currentDate = simpleDateFormat.format(Date())
 
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         fromDate = simpleDateFormat.format(cal.time)
 
-        viewModel.getQcPendingList(
-            Preferences.getToken(), "1-Apr-2019", currentDate, "", "", this
-        )
+        if (NetworkUtil.isNetworkConnected(requireContext())) {
+            showLoading()
+            viewModel.getQcPendingList(
+                Preferences.getToken(), "1-Apr-2019", currentDate, "", "", this
+            )
+
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+
 
 
 
@@ -287,7 +300,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             typeString = ""
             pendingListList.clear()
             pendingListMain.clear()
-            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             currentDate = simpleDateFormat.format(Date())
 
             MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
@@ -304,20 +317,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             pendingListList = it.pendinglist!!
             pendingListMain = it.pendinglist!!
             setQcPedningListResponse(it.pendinglist!!)
-            filterPendingList = it.pendinglist!!
 
-            for (i in filterPendingList.indices) {
-
-
-                orderTypeList.add(filterPendingList[i].omsorderno.toString())
-
-
-                    storeList.add(filterPendingList[i].storeid.toString())
-                    regionList.add(filterPendingList[i].dcCode.toString())
-
-
-
-            }
 
         }
 
@@ -517,9 +517,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     fun setQcPedningListResponse(qcPendingList: ArrayList<QcListsResponse.Pending>) {
 //    pendingListList= qcListsResponse!!.pendinglist!!
         viewBinding.refreshSwipe.isRefreshing = false
-        storeList.clear()
         orderTypeList.clear()
-        regionList.clear()
         hideLoading()
         if (qcPendingList.isNullOrEmpty()) {
             viewBinding.emptyList.visibility = View.VISIBLE
@@ -528,15 +526,41 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 //                Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
         } else {
+            filterPendingList = (qcPendingList as ArrayList<QcListsResponse.Pending>?)!!
 
-            val regionListSet: MutableSet<String> = LinkedHashSet()
-            val stroreListSet: MutableSet<String> = LinkedHashSet()
-            stroreListSet.addAll(storeList)
-            regionListSet.addAll(regionList)
-            storeList.clear()
-            regionList.clear()
-            regionList.addAll(regionListSet)
-            storeList.addAll(stroreListSet)
+
+            if (storeList.size>0){
+
+
+            }else{
+                storeList.clear()
+                regionList.clear()
+                for (i in filterPendingList.indices) {
+
+
+                    orderTypeList.add(filterPendingList[i].omsorderno.toString())
+
+                    storeList.add(filterPendingList[i].storeid.toString())
+                    regionList.add(filterPendingList[i].dcCode.toString())
+                }
+
+                val regionListSet: MutableSet<String> = LinkedHashSet()
+                val stroreListSet: MutableSet<String> = LinkedHashSet()
+                stroreListSet.addAll(storeList)
+                regionListSet.addAll(regionList)
+                storeList.clear()
+                regionList.clear()
+                regionList.addAll(regionListSet)
+                storeList.addAll(stroreListSet)
+            }
+
+
+
+
+
+
+
+
 
 //            subList = ListUtils.partition(it.pendinglist, 3)
             filterbyOrderType(qcPendingList)
@@ -960,6 +984,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                     siteId = data.getStringExtra("siteId").toString()
                     regionId = data.getStringExtra("regionId").toString()
                     typeString = data.getStringExtra("orderType").toString()
+
+                    storeIdList= data.getStringArrayListExtra("storeList")!!
+                    regionIdList= data.getStringArrayListExtra("regionList")!!
 
                     if (currentDate.isNotEmpty() && fromDate.isNotEmpty()) {
                         showLoading()
