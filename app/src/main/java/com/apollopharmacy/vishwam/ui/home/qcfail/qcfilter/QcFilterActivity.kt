@@ -442,13 +442,13 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
             try {
                 val cal = Calendar.getInstance()
-                cal.time = sdf.parse(fromQcDate)
+                cal.time = sdf.parse(toQcDate)
 
                 // Add 30 days to the parsed date
                 cal.add(Calendar.DATE, -30)
 
                 val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
-                val qcDate = sdf1.format(cal.time)
+                 qcDate = sdf1.format(cal.time)
 
                 // Now, you can use qcDate for further comparisons or display
                 println("Parsed date: $qcDate")
@@ -498,7 +498,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
                 cal.add(Calendar.DATE, 30)
 
                 val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
-                val qcDate = sdf1.format(cal.time)
+                 qcDate = sdf1.format(cal.time)
 
                 // Now, you can use qcDate for further comparisons or display
                 println("Parsed date: $qcDate")
