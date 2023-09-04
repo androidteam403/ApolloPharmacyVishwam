@@ -170,14 +170,15 @@ class ApnaSurveyAdapter(
         holder.apnaSurveyLayoutBinding.landmark.text = "${approvedOrders.landmarks}"
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val outputDateFormat = SimpleDateFormat("dd MMM, yyyy hh:mm a")
-        holder.apnaSurveyLayoutBinding.surveystart.setText(
-            outputDateFormat.format(
-                inputDateFormat.parse(
-                    approvedOrders.surveyed_on!!
-                )!!
-            )
-        )//approvedOrders.createdTime!!
-
+        if (approvedOrders.surveyed_on != null) {
+            holder.apnaSurveyLayoutBinding.surveystart.setText(
+                outputDateFormat.format(
+                    inputDateFormat.parse(
+                        approvedOrders.surveyed_on!!
+                    )!!
+                )
+            )//approvedOrders.createdTime!!
+        }
         if (approvedOrders.status != null) {
             if (approvedOrders.status!!.name != null) {
                 if (approvedOrders.status!!.name.toString()
