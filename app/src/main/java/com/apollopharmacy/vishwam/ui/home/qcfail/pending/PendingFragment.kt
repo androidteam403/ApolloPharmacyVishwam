@@ -531,7 +531,13 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
             if (storeList.size>0){
 
+                for (i in filterPendingList.indices) {
 
+
+                    orderTypeList.add(filterPendingList[i].omsorderno.toString())
+
+
+                }
             }else{
                 storeList.clear()
                 regionList.clear()
