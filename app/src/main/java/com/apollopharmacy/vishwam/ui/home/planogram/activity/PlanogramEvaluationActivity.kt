@@ -188,21 +188,32 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
             planogramRequest.date = dateNewFormat
             planogramRequest.overallScore =
                 planogramSurveyQuestionsListResponses!!.overAllScore.toString()
-            val planogramSurveyList = java.util.ArrayList<PlanogramSaveUpdateRequest.PlanogramSurvey>()
+            val planogramSurveyList =
+                java.util.ArrayList<PlanogramSaveUpdateRequest.PlanogramSurvey>()
             val planogramChillerList = java.util.ArrayList<PlanogramSaveUpdateRequest.Chiller>()
-            val planogramDiaperPodiumList = java.util.ArrayList<PlanogramSaveUpdateRequest.DiaperPodium>()
-            val planogramOffersGondolaList = java.util.ArrayList<PlanogramSaveUpdateRequest.OffersGondola>()
-            val planogramPegHooksDisplayList = java.util.ArrayList<PlanogramSaveUpdateRequest.PeghooksDisplay>()
+            val planogramDiaperPodiumList =
+                java.util.ArrayList<PlanogramSaveUpdateRequest.DiaperPodium>()
+            val planogramOffersGondolaList =
+                java.util.ArrayList<PlanogramSaveUpdateRequest.OffersGondola>()
+            val planogramPegHooksDisplayList =
+                java.util.ArrayList<PlanogramSaveUpdateRequest.PeghooksDisplay>()
             val planogramPostersList = java.util.ArrayList<PlanogramSaveUpdateRequest.Poster>()
-            val planogramValueBinList = java.util.ArrayList<PlanogramSaveUpdateRequest.ValueDealsBin>()
+            val planogramValueBinList =
+                java.util.ArrayList<PlanogramSaveUpdateRequest.ValueDealsBin>()
             for (i in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.indices) {
 
-                if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("category")) {
+                if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals(
+                        "category"
+                    )
+                ) {
                     var planogramSurvey = planogramRequest.PlanogramSurvey()
-                    planogramSurvey.score = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryScore.toString()
+                    planogramSurvey.score =
+                        planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryScore.toString()
                     var categoryTypeUid = planogramSurvey.CategoryType()
-                    categoryTypeUid.uid = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
-                    planogramSurvey.name=planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    categoryTypeUid.uid =
+                        planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
+                    planogramSurvey.name =
+                        planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
                     planogramSurvey.categoryType = categoryTypeUid
                     for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
 
@@ -258,14 +269,18 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
 
                     }
                     planogramSurveyList.add(planogramSurvey)
-                }
-                else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("chiller")) {
+                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals(
+                        "chiller"
+                    )
+                ) {
                     var planogramChiller = planogramRequest.Chiller()
-                    planogramChiller.name = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    planogramChiller.name =
+                        planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
 
                     for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
                         var type = planogramChiller.Type__1()
-                        var uidType = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
+                        var uidType =
+                            planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
                         type.uid = uidType
                         planogramChiller.type = type
 
@@ -289,12 +304,17 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                     }
                     planogramChillerList.add(planogramChiller)
                     planogramRequest.chiller = planogramChillerList
-                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("diaper_podium")) {
+                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals(
+                        "diaper_podium"
+                    )
+                ) {
                     var planogramDiaperPodium = planogramRequest.DiaperPodium()
-                    planogramDiaperPodium.name = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    planogramDiaperPodium.name =
+                        planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
                     for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
                         var type = planogramDiaperPodium.Type__2()
-                        var uidType = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
+                        var uidType =
+                            planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
                         type.uid = uidType
                         planogramDiaperPodium.type = type
                         if (j.name.equals("All brands displayed")) {
@@ -312,12 +332,17 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                     }
                     planogramDiaperPodiumList.add(planogramDiaperPodium)
                     planogramRequest.diaperPodium = planogramDiaperPodiumList
-                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("offers_gondola")) {
+                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals(
+                        "offers_gondola"
+                    )
+                ) {
                     var planogramOffersGandola = planogramRequest.OffersGondola()
-                    planogramOffersGandola.name = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    planogramOffersGandola.name =
+                        planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
                     for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
                         var type = planogramOffersGandola.Type__3()
-                        var uidType = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
+                        var uidType =
+                            planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
                         type.uid = uidType
                         planogramOffersGandola.type = type
                         if (j.name.equals("Correct offer talkers")) {
@@ -335,12 +360,17 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                     }
                     planogramOffersGondolaList.add(planogramOffersGandola)
                     planogramRequest.offersGondola = planogramOffersGondolaList
-                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("peghooks_display")) {
+                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals(
+                        "peghooks_display"
+                    )
+                ) {
                     var planogramPeghooksDisplay = planogramRequest.PeghooksDisplay()
-                    planogramPeghooksDisplay.name = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    planogramPeghooksDisplay.name =
+                        planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
                     for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
                         var type = planogramPeghooksDisplay.Type__4()
-                        var uidType = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
+                        var uidType =
+                            planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
                         type.uid = uidType
                         planogramPeghooksDisplay.type = type
                         if (j.name.equals("Customer facing")) {
@@ -359,12 +389,17 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                     }
                     planogramPegHooksDisplayList.add(planogramPeghooksDisplay)
                     planogramRequest.peghooksDisplay = planogramPegHooksDisplayList
-                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("posters")) {
+                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals(
+                        "posters"
+                    )
+                ) {
                     var planogramPosters = planogramRequest.Poster()
-                    planogramPosters.name = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    planogramPosters.name =
+                        planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
                     for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
                         var type = planogramPosters.Type__5()
-                        var uidType = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
+                        var uidType =
+                            planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
                         type.uid = uidType
                         planogramPosters.type = type
                         if (j.name.equals("Monthly offers")) {
@@ -387,12 +422,17 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                     }
                     planogramPostersList.add(planogramPosters)
                     planogramRequest.posters = planogramPostersList
-                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals("value_deals_bin")) {
+                } else if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals(
+                        "value_deals_bin"
+                    )
+                ) {
                     var planogramValueDealsBin = planogramRequest.ValueDealsBin()
-                    planogramValueDealsBin.name = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
+                    planogramValueDealsBin.name =
+                        planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).name
                     for (j in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).questions!!) {
                         var type = planogramValueDealsBin.Type__6()
-                        var uidType = planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
+                        var uidType =
+                            planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
                         type.uid = uidType
                         planogramValueDealsBin.type = type
                         if (j.name.equals("Filled up to top")) {
@@ -519,13 +559,12 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
     override fun onSuccessPlanogramDetailListApiCall(planogramDetailsListResponse: PlanogramDetailsListResponse) {
         Utlis.hideLoading()
         detailsListResponse = planogramDetailsListResponse
-        var yesCount:Int=0
-        var noCount:Int=0
-        var naCount:Int=0
+        var yesCount: Int = 0
+        var noCount: Int = 0
+        var naCount: Int = 0
 
         if (planogramDetailsListResponse.data != null) {
             if (planogramDetailsListResponse.data!!.planogramSurvey != null) {
-
 
 
                 val planogramSurvey = planogramDetailsListResponse.data?.planogramSurvey
@@ -568,108 +607,107 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                     naCount += planogramSurvey.count { it.categoryType?.uid != null && it.subcatFlow?.uid == "NA" }
 
 
-
-
                 }
-
 
 
             }
 
-            if (planogramDetailsListResponse.data!!.diaperPodium!=null){
+            if (planogramDetailsListResponse.data!!.diaperPodium != null) {
                 val planogramSurvey = planogramDetailsListResponse.data?.diaperPodium
                 if (planogramSurvey != null) {
-                    yesCount += planogramSurvey.count { it.offerTentCard!!.uid!= null && it.offerTentCard?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.offerTentCard!!.uid!= null && it.offerTentCard?.uid == "N" }
-                    naCount += planogramSurvey.count { it.offerTentCard!!.uid!= null && it.offerTentCard?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.offerTentCard!!.uid != null && it.offerTentCard?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.offerTentCard!!.uid != null && it.offerTentCard?.uid == "N" }
+                    naCount += planogramSurvey.count { it.offerTentCard!!.uid != null && it.offerTentCard?.uid == "NA" }
 
 
-                    yesCount += planogramSurvey.count {it.allBrandsDisplay!!.uid!= null&& it.allBrandsDisplay?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.allBrandsDisplay!!.uid!= null && it.allBrandsDisplay?.uid == "N" }
-                    naCount += planogramSurvey.count { it.allBrandsDisplay!!.uid!= null && it.allBrandsDisplay?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.allBrandsDisplay!!.uid != null && it.allBrandsDisplay?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.allBrandsDisplay!!.uid != null && it.allBrandsDisplay?.uid == "N" }
+                    naCount += planogramSurvey.count { it.allBrandsDisplay!!.uid != null && it.allBrandsDisplay?.uid == "NA" }
                 }
             }
 
-            if (planogramDetailsListResponse.data!!.valueDealsBin!=null){
+            if (planogramDetailsListResponse.data!!.valueDealsBin != null) {
                 val planogramSurvey = planogramDetailsListResponse.data?.valueDealsBin
                 if (planogramSurvey != null) {
-                    yesCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "N" }
-                    naCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.groupedProductWise!!.uid != null && it.groupedProductWise?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.groupedProductWise!!.uid != null && it.groupedProductWise?.uid == "N" }
+                    naCount += planogramSurvey.count { it.groupedProductWise!!.uid != null && it.groupedProductWise?.uid == "NA" }
 
 
-                    yesCount += planogramSurvey.count {it.fillUptoTop!!.uid!= null&& it.fillUptoTop?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.fillUptoTop!!.uid!= null && it.fillUptoTop?.uid == "N" }
-                    naCount += planogramSurvey.count { it.fillUptoTop!!.uid!= null && it.fillUptoTop?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.fillUptoTop!!.uid != null && it.fillUptoTop?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.fillUptoTop!!.uid != null && it.fillUptoTop?.uid == "N" }
+                    naCount += planogramSurvey.count { it.fillUptoTop!!.uid != null && it.fillUptoTop?.uid == "NA" }
                 }
             }
 
-            if (planogramDetailsListResponse.data!!.posters!=null){
+            if (planogramDetailsListResponse.data!!.posters != null) {
                 val planogramSurvey = planogramDetailsListResponse.data?.posters
                 if (planogramSurvey != null) {
-                    yesCount += planogramSurvey.count { it.monthlyOffers!!.uid!= null && it.monthlyOffers?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.monthlyOffers!!.uid!= null && it.monthlyOffers?.uid == "N" }
-                    naCount += planogramSurvey.count { it.monthlyOffers!!.uid!= null && it.monthlyOffers?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.monthlyOffers!!.uid != null && it.monthlyOffers?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.monthlyOffers!!.uid != null && it.monthlyOffers?.uid == "N" }
+                    naCount += planogramSurvey.count { it.monthlyOffers!!.uid != null && it.monthlyOffers?.uid == "NA" }
 
-                    yesCount += planogramSurvey.count {it.smartSaveOffer!!.uid!= null&& it.smartSaveOffer?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.smartSaveOffer!!.uid!= null && it.smartSaveOffer?.uid == "N" }
-                    naCount += planogramSurvey.count { it.smartSaveOffer!!.uid!= null && it.smartSaveOffer?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.smartSaveOffer!!.uid != null && it.smartSaveOffer?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.smartSaveOffer!!.uid != null && it.smartSaveOffer?.uid == "N" }
+                    naCount += planogramSurvey.count { it.smartSaveOffer!!.uid != null && it.smartSaveOffer?.uid == "NA" }
 
-                    yesCount += planogramSurvey.count {it.noUnauthOldPosters!!.uid!= null&& it.noUnauthOldPosters?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.noUnauthOldPosters!!.uid!= null && it.noUnauthOldPosters?.uid == "N" }
-                    naCount += planogramSurvey.count { it.noUnauthOldPosters!!.uid!= null && it.noUnauthOldPosters?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.noUnauthOldPosters!!.uid != null && it.noUnauthOldPosters?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.noUnauthOldPosters!!.uid != null && it.noUnauthOldPosters?.uid == "N" }
+                    naCount += planogramSurvey.count { it.noUnauthOldPosters!!.uid != null && it.noUnauthOldPosters?.uid == "NA" }
                 }
             }
 
-            if (planogramDetailsListResponse.data!!.chiller!=null){
+            if (planogramDetailsListResponse.data!!.chiller != null) {
                 val planogramSurvey = planogramDetailsListResponse.data?.chiller
                 if (planogramSurvey != null) {
-                    yesCount += planogramSurvey.count { it.shelfFacing!!.uid!= null && it.shelfFacing?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.shelfFacing!!.uid!= null && it.shelfFacing?.uid == "N" }
-                    naCount += planogramSurvey.count { it.shelfFacing!!.uid!= null && it.shelfFacing?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.shelfFacing!!.uid != null && it.shelfFacing?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.shelfFacing!!.uid != null && it.shelfFacing?.uid == "N" }
+                    naCount += planogramSurvey.count { it.shelfFacing!!.uid != null && it.shelfFacing?.uid == "NA" }
 
 
-                    yesCount += planogramSurvey.count {it.groupedProductWise!!.uid!= null&& it.groupedProductWise?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "N" }
-                    naCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.groupedProductWise!!.uid != null && it.groupedProductWise?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.groupedProductWise!!.uid != null && it.groupedProductWise?.uid == "N" }
+                    naCount += planogramSurvey.count { it.groupedProductWise!!.uid != null && it.groupedProductWise?.uid == "NA" }
 
-                    yesCount += planogramSurvey.count {it.noGaps!!.uid!= null&& it.noGaps?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.noGaps!!.uid!= null && it.noGaps?.uid == "N" }
-                    naCount += planogramSurvey.count { it.noGaps!!.uid!= null && it.noGaps?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.noGaps!!.uid != null && it.noGaps?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.noGaps!!.uid != null && it.noGaps?.uid == "N" }
+                    naCount += planogramSurvey.count { it.noGaps!!.uid != null && it.noGaps?.uid == "NA" }
                 }
             }
 
-            if (planogramDetailsListResponse.data!!.offersGondola!=null){
+            if (planogramDetailsListResponse.data!!.offersGondola != null) {
                 val planogramSurvey = planogramDetailsListResponse.data?.offersGondola
                 if (planogramSurvey != null) {
-                    yesCount += planogramSurvey.count { it.shelfFacing!!.uid!= null && it.shelfFacing?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.shelfFacing!!.uid!= null && it.shelfFacing?.uid == "N" }
-                    naCount += planogramSurvey.count { it.shelfFacing!!.uid!= null && it.shelfFacing?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.shelfFacing!!.uid != null && it.shelfFacing?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.shelfFacing!!.uid != null && it.shelfFacing?.uid == "N" }
+                    naCount += planogramSurvey.count { it.shelfFacing!!.uid != null && it.shelfFacing?.uid == "NA" }
 
 
-                    yesCount += planogramSurvey.count {it.correctOfferTalkers!!.uid!= null&& it.correctOfferTalkers?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.correctOfferTalkers!!.uid!= null && it.correctOfferTalkers?.uid == "N" }
-                    naCount += planogramSurvey.count { it.correctOfferTalkers!!.uid!= null && it.correctOfferTalkers?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.correctOfferTalkers!!.uid != null && it.correctOfferTalkers?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.correctOfferTalkers!!.uid != null && it.correctOfferTalkers?.uid == "N" }
+                    naCount += planogramSurvey.count { it.correctOfferTalkers!!.uid != null && it.correctOfferTalkers?.uid == "NA" }
                 }
             }
-            if (planogramDetailsListResponse.data!!.peghooksDisplay!=null){
+            if (planogramDetailsListResponse.data!!.peghooksDisplay != null) {
                 val planogramSurvey = planogramDetailsListResponse.data?.peghooksDisplay
                 if (planogramSurvey != null) {
-                    yesCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "N" }
-                    naCount += planogramSurvey.count { it.groupedProductWise!!.uid!= null && it.groupedProductWise?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.groupedProductWise!!.uid != null && it.groupedProductWise?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.groupedProductWise!!.uid != null && it.groupedProductWise?.uid == "N" }
+                    naCount += planogramSurvey.count { it.groupedProductWise!!.uid != null && it.groupedProductWise?.uid == "NA" }
 
 
-                    yesCount += planogramSurvey.count {it.customerFacing!!.uid!= null&& it.customerFacing?.uid == "Y" }
-                    noCount += planogramSurvey.count { it.customerFacing!!.uid!= null && it.customerFacing?.uid == "N" }
-                    naCount += planogramSurvey.count { it.customerFacing!!.uid!= null && it.customerFacing?.uid == "NA" }
+                    yesCount += planogramSurvey.count { it.customerFacing!!.uid != null && it.customerFacing?.uid == "Y" }
+                    noCount += planogramSurvey.count { it.customerFacing!!.uid != null && it.customerFacing?.uid == "N" }
+                    naCount += planogramSurvey.count { it.customerFacing!!.uid != null && it.customerFacing?.uid == "NA" }
                 }
             }
 
 
 
-            activityPlanogramEvaluationBinding.overAllPercentage.setText("OverAll Score"+" : "+
-                planogramDetailsListResponse.data!!.overallScore.toString())
+            activityPlanogramEvaluationBinding.overAllPercentage.setText(
+                "OverAll Score" + " : " +
+                        planogramDetailsListResponse.data!!.overallScore.toString()
+            )
 
             activityPlanogramEvaluationBinding.noCount.setText(noCount.toString())
             activityPlanogramEvaluationBinding.naCount.setText(naCount.toString())
@@ -735,16 +773,24 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
         Utlis.hideLoading()
     }
 
-    override fun countValues(questionsList: ArrayList<PlanogramSurveyQuestionsListResponse.Questions>) {
-        var yesCount:Int=0
-        var noCount:Int=0
-        var naCount:Int=0
+    override fun countValues(
+        questionsList: ArrayList<PlanogramSurveyQuestionsListResponse.Questions>,
+        questionsListResponse: ArrayList<PlanogramSurveyQuestionsListResponse.Rows>
+    ) {
+        var yesCount: Int = 0
+        var noCount: Int = 0
+        var naCount: Int = 0
 
-        if (questionsList != null) {
-            yesCount += questionsList.count { it.value=="Y" }
-            noCount += questionsList.count { it.value == "N" }
-            naCount += questionsList.count { it.value == "NA" }
+        for (i in questionsListResponse.indices) {
+            if (questionsListResponse.get(i).questions!=null){
+                yesCount += questionsListResponse.get(i).questions!!.count { it.value=="Y" }
+                noCount += questionsListResponse.get(i).questions!!.count { it.value=="N" }
+                naCount += questionsListResponse.get(i).questions!!.count { it.value=="NA" }
+            }
+
+
         }
+
         activityPlanogramEvaluationBinding.noCount.setText(noCount.toString())
         activityPlanogramEvaluationBinding.naCount.setText(naCount.toString())
         activityPlanogramEvaluationBinding.yesCount.setText(yesCount.toString())
@@ -824,6 +870,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                 ((planogramSurveyQuestionsListResponses!!.overAllScore + i.diaperPodiumScore + i.valueDealsBinScore + i.chillerScore + i.offersGondolaScore + i.peghooksDisplayScore + i.postersScore) / totalCategories)
 
             planogramSurveyQuestionsListResponses!!.overAllScore = overAllScore
+            activityPlanogramEvaluationBinding.overAllPercentage.setText("OVERALL SCORE"+ " : "+ String.format(Locale.US, "%.2f", overAllScore))
         }
     }
 
@@ -844,7 +891,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         if (!j.value.equals("NA")) {
                             totalSubCategories++
                         }
-                        if (j.value.equals("YES")) {
+                        if (j.value.equals("Y")) {
                             totalYes++
                         }
                     }
@@ -866,7 +913,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         if (!j.value.equals("NA")) {
                             totalSubCategories++
                         }
-                        if (j.value.equals("YES")) {
+                        if (j.value.equals("Y")) {
                             totalYes++
                         }
                     }
@@ -888,7 +935,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         if (!j.value.equals("NA")) {
                             totalSubCategories++
                         }
-                        if (j.value.equals("YES")) {
+                        if (j.value.equals("Y")) {
                             totalYes++
                         }
                     }
@@ -910,7 +957,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         if (!j.value.equals("NA")) {
                             totalSubCategories++
                         }
-                        if (j.value.equals("YES")) {
+                        if (j.value.equals("Y")) {
                             totalYes++
                         }
                     }
@@ -932,7 +979,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         if (!j.value.equals("NA")) {
                             totalSubCategories++
                         }
-                        if (j.value.equals("YES")) {
+                        if (j.value.equals("Y")) {
                             totalYes++
                         }
                     }
@@ -954,7 +1001,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         if (!j.value.equals("NA")) {
                             totalSubCategories++
                         }
-                        if (j.value.equals("YES")) {
+                        if (j.value.equals("Y")) {
                             totalYes++
                         }
                     }
@@ -976,7 +1023,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         if (!j.value.equals("NA")) {
                             totalSubCategories++
                         }
-                        if (j.value.equals("YES")) {
+                        if (j.value.equals("Y")) {
                             totalYes++
                         }
                     }
