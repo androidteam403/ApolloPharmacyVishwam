@@ -58,6 +58,7 @@ class PlanogramCateoryAdapter(
             subCategoryPlanogramAdapter =
                 PlanogramSubCategoryAdapter(
                     row.questions!!,
+                   rowsList,
                     applicationContext,
                     planogramActivityCallback,
                     row.name, detailsListResponse,

@@ -18,6 +18,7 @@ import com.tooltip.Tooltip
 
 class PlanogramSubCategoryAdapter(
     var questionsList: ArrayList<PlanogramSurveyQuestionsListResponse.Questions>,
+    var questionsResponse:ArrayList<PlanogramSurveyQuestionsListResponse.Rows>,
     var applicationContext: Context,
     var planogramCateoryCallback: PlanogramActivityCallback,
     var categoryName: String?,
@@ -376,7 +377,7 @@ class PlanogramSubCategoryAdapter(
             )
             questionsList.get(position).value = "NA"
             planogramCateoryCallback.checkAreasToFocusOn(questionsList, categoryPosition)
-            planogramCateoryCallback.countValues(questionsList)
+            planogramCateoryCallback.countValues(questionsList,questionsResponse)
             planogramCateoryCallback.checkCategoriesToFocusOn(questionsList, categoryPosition)
             planogramCateoryCallback.caluclateScore()
         }
@@ -395,7 +396,7 @@ class PlanogramSubCategoryAdapter(
             )
             questionsList.get(position).value = "N"
             planogramCateoryCallback.checkAreasToFocusOn(questionsList, categoryPosition)
-            planogramCateoryCallback.countValues(questionsList)
+            planogramCateoryCallback.countValues(questionsList,questionsResponse)
 
             planogramCateoryCallback.checkCategoriesToFocusOn(questionsList, categoryPosition)
             planogramCateoryCallback.caluclateScore()
@@ -415,7 +416,7 @@ class PlanogramSubCategoryAdapter(
             )
             questionsList.get(position).value = "Y"
             planogramCateoryCallback.checkAreasToFocusOn(questionsList, categoryPosition)
-            planogramCateoryCallback.countValues(questionsList)
+            planogramCateoryCallback.countValues(questionsList,questionsResponse)
 
             planogramCateoryCallback.checkCategoriesToFocusOn(questionsList, categoryPosition)
             planogramCateoryCallback.caluclateScore()

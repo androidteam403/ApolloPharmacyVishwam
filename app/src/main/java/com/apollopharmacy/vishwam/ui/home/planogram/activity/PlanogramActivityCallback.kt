@@ -21,7 +21,7 @@ interface PlanogramActivityCallback {
 
     fun onFailurePlanogramSurveyQuestionsListApiCall(message: String)
 
-    fun countValues(questionsList: ArrayList<PlanogramSurveyQuestionsListResponse.Questions>)
+    fun countValues(questionsList: ArrayList<PlanogramSurveyQuestionsListResponse.Questions>,questionsListResponse: ArrayList<PlanogramSurveyQuestionsListResponse.Rows>)
      fun checkAreasToFocusOn(
          questionsList: ArrayList<PlanogramSurveyQuestionsListResponse.Questions>,
          categoryPosition: Int
