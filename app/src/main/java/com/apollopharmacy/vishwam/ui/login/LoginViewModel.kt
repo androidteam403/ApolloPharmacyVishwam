@@ -46,15 +46,14 @@ class LoginViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     Utlis.hideLoading()
-                    if (response.value.status) {
-                       /* for (i in response.value.APIS) {
-                            var url = i.URL
-                            url = url.replace(
-                                "https://172.16.103.116",
-                                "https://phrmaptestp.apollopharmacy.info"
-                            )
-                            i.URL = url
-                        }*/
+                    if (response.value.status) {/* for (i in response.value.APIS) {
+                             var url = i.URL
+                             url = url.replace(
+                                 "https://172.16.103.116",
+                                 "https://phrmaptestp.apollopharmacy.info"
+                             )
+                             i.URL = url
+                         }*/
                         validateResponseMutableList.value = response.value!!
                         Preferences.saveApi(Gson().toJson(response.value))
                         Preferences.saveGlobalResponse(Gson().toJson(response.value))
@@ -131,8 +130,7 @@ class LoginViewModel : ViewModel() {
                         when (result) {
                             is ApiResult.Success -> {
                                 if (result.value.STATUS) {
-                                    state.value = State.ERROR
-                                    /*commands.postValue(Command.ShowToast("Successfully login"))
+                                    state.value = State.ERROR/*commands.postValue(Command.ShowToast("Successfully login"))
                                     Preferences.saveAppDesignation(result.value.APPLEVELDESIGNATION)
                                     if (!result.value.STOREDETAILS.isNullOrEmpty()) {
                                         Preferences.saveSiteId(result.value.STOREDETAILS.get(0).SITEID)
@@ -267,6 +265,7 @@ class LoginViewModel : ViewModel() {
 
 
                     Preferences.setVishwamAccessResponse(result.value)
+                    Preferences.setVishwamModuleAccessAvailable(true)
                     commands.value = Command.VishwamAccessSuccesss(result.value)
                 }
 

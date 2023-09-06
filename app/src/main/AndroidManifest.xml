@@ -25,7 +25,7 @@
 
     <application
         android:name=".data.ViswamApp"
-        android:debuggable="true"
+        android:debuggable="false"
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
         android:icon="@drawable/logo"

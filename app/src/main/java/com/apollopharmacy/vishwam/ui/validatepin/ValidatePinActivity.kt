@@ -19,8 +19,9 @@ import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessRequest
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessResponse
 import com.apollopharmacy.vishwam.util.*
-import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
 import com.github.omadahealth.lollipin.lib.managers.AppLock
 import com.google.android.gms.tasks.*
 import com.google.firebase.messaging.FirebaseMessaging
@@ -346,11 +347,35 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //            this,
 //            this)
 //emp-102//Nagapavan
-        Preferences.setIsPinCreated(true)
-        val homeIntent = Intent(this, MainActivity::class.java)
-        startActivity(homeIntent)
-        finish()
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+
+//            Toast.makeText(getApplicationContext(), "" + userDesignation, Toast.LENGTH_SHORT).show();
+
+//            employeeRoleNewDrugRequest="Yes";
+//            employeeRole="Yes";
+//           userDesignation="EXECUTIVE";
+//           Toast.makeText(this, userDesignation, Toast.LENGTH_SHORT).show();
+        if (Preferences.isVishwamModuleAccessAvailable()) {
+            Preferences.setIsPinCreated(true)
+            val homeIntent = Intent(this, MainActivity::class.java)
+            startActivity(homeIntent)
+            finish()
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        } else {
+            if (NetworkUtil.isNetworkConnected(this)) {
+                Utlis.showLoading(this@ValidatePinActivity)
+                var mobileAccessRequest = MobileAccessRequest()
+                mobileAccessRequest.empid = Preferences.getValidatedEmpId()
+                mobileAccessRequest.company = Preferences.getCompany()
+
+                viewModel.forMobileAccess(
+                    mobileAccessRequest, this@ValidatePinActivity
+                )
+            } else {
+                Toast.makeText(
+                    this, resources?.getString(R.string.label_network_error), Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun handleCreatePinIntent() {
@@ -417,8 +442,6 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     }
 
 
-
-
     override fun onSuccessAppLevelDesignationApnaRetro(value: AppLevelDesignationModelResponse) {
         if (value.message != null && value.status.equals(true)) {
             Preferences.setAppLevelDesignationApnaRetro(value.message)
@@ -430,6 +453,17 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
     override fun onFailureAppLevelDesignationApnaRetro(value: AppLevelDesignationModelResponse) {
 
+    }
+
+    override fun onSuccessMobileAccessApiCall(value: MobileAccessResponse) {
+        Utlis.hideLoading()
+        if (value.status == true) {
+            Preferences.setIsPinCreated(true)
+            val homeIntent = Intent(this, MainActivity::class.java)
+            startActivity(homeIntent)
+            finish()
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        }
     }
 
 }

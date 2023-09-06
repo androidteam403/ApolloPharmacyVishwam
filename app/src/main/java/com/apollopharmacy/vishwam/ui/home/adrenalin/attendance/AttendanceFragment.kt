@@ -950,7 +950,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
     fun printDifferenceNav(endDate: String, startDate: String): String {
         if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
-            val format = SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa")
+            val format = SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa", Locale.ENGLISH)
             val date1 = format.parse(startDate)
             val date2 = format.parse(endDate)
 
@@ -1020,7 +1020,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
     private fun durationBetweenTwoDates(start: String, endDate: String) {
         try {
-            val format = SimpleDateFormat("dd MMM yyyy, hh:mm a")
+            val format = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.ENGLISH)
             val date1 = format.parse(endDate)
             val date2 = format.parse(start)
             val mills = date1.time - date2.time

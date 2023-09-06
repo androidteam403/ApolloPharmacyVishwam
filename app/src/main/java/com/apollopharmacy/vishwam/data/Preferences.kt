@@ -77,6 +77,7 @@ object Preferences {
     private const val APP_LEVEL_DESIGNATION_RETRO = "APP_LEVEL_DESIGNATION_RETRO"
 
     private const val PREF_KEY_VISHWAM_ACCESS = "PREF_KEY_VISHWAM_ACCESS"
+    private const val PREF_KEY_VISHWAM_ACCESS_AVAILABLE = "PREF_KEY_VISHWAM_ACCESS_AVAILABLE"
 
 
     fun savingToken(userId: String) {
@@ -133,8 +134,7 @@ object Preferences {
         try {
             val gson = GsonBuilder().setPrettyPrinting().create()
             mobileAccessResponse = gson.fromJson<MobileAccessResponse>(
-                mobileAccessResponseJson,
-                MobileAccessResponse::class.java
+                mobileAccessResponseJson, MobileAccessResponse::class.java
             )
         } catch (e: JsonParseException) {
             e.printStackTrace()
@@ -143,6 +143,14 @@ object Preferences {
         return mobileAccessResponse!!
     }
 
+    fun setVishwamModuleAccessAvailable(isVishwamModuleAccessAvailable: Boolean) {
+        sharedPreferences.edit()
+            .putBoolean(PREF_KEY_VISHWAM_ACCESS_AVAILABLE, isVishwamModuleAccessAvailable).apply()
+    }
+
+    fun isVishwamModuleAccessAvailable(): Boolean {
+        return sharedPreferences.getBoolean(PREF_KEY_VISHWAM_ACCESS_AVAILABLE, false)
+    }
     //------------------------ saving designation ------------------------------------
 
     private const val KEY_DESIGNATION = "KEY_DESIGNATION"
@@ -271,8 +279,7 @@ object Preferences {
 
     fun setSiteIdListFetchedQrRetro(isSiteIdListFetchedQcfail: Boolean) {
         sharedPreferences.edit()
-            .putBoolean(PREF_KEY_SITE_ID_LIST_QR_RETRO, isSiteIdListFetchedQcfail)
-            .apply()
+            .putBoolean(PREF_KEY_SITE_ID_LIST_QR_RETRO, isSiteIdListFetchedQcfail).apply()
     }
 
     fun setQrSiteIdList(siteIdListQcFail: String) {
@@ -437,14 +444,13 @@ object Preferences {
     }
 
     fun setSiteIdListFetchedPlanogram(isSiteIdListFetchedPlanogram: Boolean) {
-        sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED_PLANOGRAM, isSiteIdListFetchedPlanogram)
-            .apply()
+        sharedPreferences.edit()
+            .putBoolean(PREF_SITE_ID_FETCHED_PLANOGRAM, isSiteIdListFetchedPlanogram).apply()
     }
 
     fun isSiteIdListFetchedPlanogram(): Boolean {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_PLANOGRAM, false)
     }
-
 
 
     fun setRegionIdListFetchedQcFail(isRegionIdListFetchedQcfail: Boolean) {
@@ -521,15 +527,13 @@ object Preferences {
 
     fun setStoreIdListQcFail(storeId: List<UniqueStoreList?>?) {
         val storeIddListString = Gson().toJson(storeId)
-        sharedPreferences.edit().putString(KEY_STORE_LIST_QCFAIL, storeIddListString)
-            .apply()
+        sharedPreferences.edit().putString(KEY_STORE_LIST_QCFAIL, storeIddListString).apply()
     }
 
     fun getStoreIdListJsonQcFail(): List<UniqueStoreList?>? {
 
 
-        val storeIddList: String? =
-            sharedPreferences.getString(KEY_STORE_LIST_QCFAIL, null)
+        val storeIddList: String? = sharedPreferences.getString(KEY_STORE_LIST_QCFAIL, null)
         val type = object : TypeToken<List<UniqueStoreList?>?>() {}.type
         return Gson().fromJson(storeIddList, type)
     }
@@ -600,6 +604,7 @@ object Preferences {
     fun getRetroEmployeeIsApproval(): String {
         return sharedPreferences.getString(EMPLOYEE_IS_APPROVAL_ENABLED, "")!!
     }
+
     fun setEmployeeRoleUidNewDrugRequest(role: String) {
         sharedPreferences.edit().putString(EMPLOYEE_ROLE_NEW_DRUG_REQUEST, role).apply()
     }
@@ -683,7 +688,7 @@ object Preferences {
     }
 
 
-//KEY_CHAMPS_SITEID
+    //KEY_CHAMPS_SITEID
     fun setSwachSiteName(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_SWACHH_SITENAME, swachhSiteId).apply()
     }
@@ -951,8 +956,6 @@ object Preferences {
     fun getEmployeeRoleUidChampsAdmin(): String {
         return sharedPreferences.getString(EMPLOYEE_ROLE_CHAMPS_ADMIN, "")!!
     }
-
-
 
 
 //    fun setStoreListItem(storeListItem: String) {

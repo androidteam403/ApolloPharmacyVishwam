@@ -1,38 +1,29 @@
 package com.apollopharmacy.vishwam.ui.validatepin
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
-import com.apollopharmacy.vishwam.data.model.*
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
+import com.apollopharmacy.vishwam.data.model.MPinRequest
+import com.apollopharmacy.vishwam.data.model.MPinResponse
+import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
-
-import com.apollopharmacy.vishwam.util.AppConstants
-import com.apollopharmacy.vishwam.util.Utlis.getDeviceId
-import com.apollopharmacy.vishwam.util.Utlis.getDeviceName
-import com.apollopharmacy.vishwam.util.Utlis.hideLoading
-import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
-import com.apollopharmacy.vishwam.util.signaturepad.NetworkUtils
+import com.apollopharmacy.vishwam.ui.login.model.MobileAccessRequest
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.IOException
 
 class ValidatePinViewModel : ViewModel() {
 
@@ -74,20 +65,24 @@ class ValidatePinViewModel : ViewModel() {
                         commands.value = Command.ShowToast(result.value.Message)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -133,20 +128,24 @@ class ValidatePinViewModel : ViewModel() {
                         appLevelDesignationRespSwach.value = result.value!!
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -161,7 +160,7 @@ class ValidatePinViewModel : ViewModel() {
         applicationContext: Context,
         validatePinCallBack: ValidatePinCallBack
 
-        ) {
+    ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -192,20 +191,24 @@ class ValidatePinViewModel : ViewModel() {
                         validatePinCallBack.onFailureAppLevelDesignationApnaRetro(result.value)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -245,20 +248,24 @@ class ValidatePinViewModel : ViewModel() {
                         appLevelDesignationRespQCFail.value = result.value!!
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -314,8 +321,11 @@ class ValidatePinViewModel : ViewModel() {
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(proxyUrl,proxyToken,
-                    GetDetailsRequest(baseUrl+"?emp_id=${validatedEmpId}", "GET", "The", "", ""))
+                RegistrationRepo.getDetails(
+                    proxyUrl,
+                    proxyToken,
+                    GetDetailsRequest(baseUrl + "?emp_id=${validatedEmpId}", "GET", "The", "", "")
+                )
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -324,9 +334,9 @@ class ValidatePinViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlist =
-                                Gson().fromJson(BackShlash.removeSubString(res),
-                                    EmployeeDetailsResponse::class.java)
+                            val responseNewTicketlist = Gson().fromJson(
+                                BackShlash.removeSubString(res), EmployeeDetailsResponse::class.java
+                            )
                             if (responseNewTicketlist.success!!) {
                                 employeeDetails.value = responseNewTicketlist
 
@@ -349,15 +359,19 @@ class ValidatePinViewModel : ViewModel() {
                         //  unComment it   command.value = CmsCommand.ShowToast(response.value.message.toString())
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
@@ -368,9 +382,55 @@ class ValidatePinViewModel : ViewModel() {
     }
 
 
+    fun forMobileAccess(
+        mobileAccessRequest: MobileAccessRequest, validatePinCallBack: ValidatePinCallBack
+    ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VIS ACCESS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        state.postValue(State.LOADING)
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                LoginRepo.VISHWAM_ACCESS_API_CALL(baseUrl, token, mobileAccessRequest)
+            }
+            when (result) {
+                is ApiResult.Success -> {
+                    Preferences.setVishwamAccessResponse(result.value)
+                    Preferences.setVishwamModuleAccessAvailable(true)
+                    validatePinCallBack.onSuccessMobileAccessApiCall(result.value)
+                }
 
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
 
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
 
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+
+                else -> {
+                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
 
 
 }

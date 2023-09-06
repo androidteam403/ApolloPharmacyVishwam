@@ -142,7 +142,7 @@ class CeoDashboardCalenderDialog : DialogFragment() {
             val toDateTemp = Calendar.getInstance()
             val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             toDateTemp.time = sdf.parse(getDate)
-            var toDateTimeMills = toDateTemp.timeInMillis + 2592000000
+            var toDateTimeMills = toDateTemp.timeInMillis + 7776000000//2592000000
 
             var toDateFormatted = getToDateFormatted(toDateTimeMills, "dd-MMM-yyyy")
             dateSelectedListner!!.selectedDateTo(getDate, getDate, toDateFormatted!!)

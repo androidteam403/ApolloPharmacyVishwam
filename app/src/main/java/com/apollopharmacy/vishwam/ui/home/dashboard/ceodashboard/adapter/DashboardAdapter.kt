@@ -72,6 +72,11 @@ class DashboardAdapter(
             ceoDashboardCallback.onClickRightArrow(response)
 //            }
         }
+        holder.adapterDashboardCeoBinding.totalArrowLayout.setOnClickListener {
+//            if (!response.roleCode.isNullOrEmpty()) {
+            ceoDashboardCallback.onClickRightArrow(response)
+//            }
+        }
     }
 
     override fun getItemCount(): Int {
