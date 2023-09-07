@@ -147,10 +147,10 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             val currentTime: Date = Calendar.getInstance().getTime()
             activityChampsSurveyBinding.issuedOn.text = currentTime.toString()
             val strDate = currentTime.toString()
-            val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy");
+            val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
             val date = dateFormat.parse(strDate)
             val dateNewFormat =
-                SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH).format(date)
             activityChampsSurveyBinding.issuedOn.text = dateNewFormat
             activityChampsSurveyBinding.employeeId.text = Preferences.getValidatedEmpId()
 //        activityChampsSurveyBinding.siteId.text = storeId

@@ -10,10 +10,6 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.PlanogramRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyCallBack
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyViewModel
-import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
-import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramDetailsListResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSaveUpdateRequest
@@ -31,12 +27,7 @@ class PlanogramActivityViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     val commands = LiveEvent<Command>()
 
-
-
-
-
-    fun planogramDetailListApi(planogramActivityCallback: PlanogramActivityCallback,uid:String) {
-
+    fun planogramDetailListApi(planogramActivityCallback: PlanogramActivityCallback, uid: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
@@ -50,7 +41,8 @@ class PlanogramActivityViewModel : ViewModel() {
             }
         }
 
-        var baseUrl = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/select/planogram-details-for-mobile?"
+        var baseUrl =
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/select/planogram-details-for-mobile?"
         var token = ""
         /* for (i in data.APIS.indices) {
              if (data.APIS[i].NAME.equals("")) {
@@ -66,7 +58,7 @@ class PlanogramActivityViewModel : ViewModel() {
                 PlanogramRepo.planogramSurveyQuestionsListApiCAll(
                     baseUrL,
                     token1,
-                    GetDetailsRequest(baseUrl+"uid=${uid}", "GET", "{}", "", "")
+                    GetDetailsRequest(baseUrl + "uid=${uid}", "GET", "{}", "", "")
                 )
             }
             when (response) {
@@ -215,7 +207,8 @@ class PlanogramActivityViewModel : ViewModel() {
             }
         }
 
-        var baseUrl = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/save-update/planogram-save-update"
+        var baseUrl =
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/save-update/planogram-save-update"
         var token = ""
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("CMS SAVE UPDATE")) {
@@ -224,14 +217,6 @@ class PlanogramActivityViewModel : ViewModel() {
 //                break
 //            }
 //        }
-        /* for (i in data.APIS.indices) {
- //            if (data.APIS[i].NAME.equals("SW SAVE IMAGE URLS")) {
-             baseUrl =
-                 "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/cms_champs_survey/save-update"//"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/cms_champs_survey/save-update"
- //                token = data.APIS[i].TOKEN
-             break
- //            }
-         }*/
         val saveUpdateRequestJson = Gson().toJson(planogramSaveUpdateRequest)
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
@@ -293,13 +278,6 @@ class PlanogramActivityViewModel : ViewModel() {
             }
         }
     }
-
-
-
-
-
-
-
 
     sealed class Command {
         data class ShowToast(val message: String) : Command()

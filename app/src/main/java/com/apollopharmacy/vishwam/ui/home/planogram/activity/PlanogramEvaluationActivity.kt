@@ -23,10 +23,8 @@ import com.apollopharmacy.vishwam.data.Preferences.getLoginJson
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.databinding.ActivityPlanogramEvaluationBinding
 import com.apollopharmacy.vishwam.databinding.AreasToFocusonDialogBinding
-
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.adapter.AreasToFocusOnAdapter
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.adapter.PlanogramCateoryAdapter
-import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramCatList
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramDetailsListResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSaveUpdateResponse
@@ -38,7 +36,6 @@ import com.google.gson.JsonParseException
 import com.tomergoldst.tooltips.ToolTipsManager
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallback,
     ToolTipsManager.TipListener {
@@ -746,6 +743,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
 
     var planogramSurveyQuestionsListResponses: PlanogramSurveyQuestionsListResponse? = null
     override fun onSuccessPlanogramSurveyQuestionsListApiCall(planogramSurveyQuestionsListResponse: PlanogramSurveyQuestionsListResponse) {
+        activityPlanogramEvaluationBinding.parentLayout.visibility = View.VISIBLE
         Utlis.hideLoading()
         if (planogramSurveyQuestionsListResponse?.data != null
             && planogramSurveyQuestionsListResponse.data!!.listData != null
@@ -782,10 +780,10 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
         var naCount: Int = 0
 
         for (i in questionsListResponse.indices) {
-            if (questionsListResponse.get(i).questions!=null){
-                yesCount += questionsListResponse.get(i).questions!!.count { it.value=="Y" }
-                noCount += questionsListResponse.get(i).questions!!.count { it.value=="N" }
-                naCount += questionsListResponse.get(i).questions!!.count { it.value=="NA" }
+            if (questionsListResponse.get(i).questions != null) {
+                yesCount += questionsListResponse.get(i).questions!!.count { it.value == "Y" }
+                noCount += questionsListResponse.get(i).questions!!.count { it.value == "N" }
+                naCount += questionsListResponse.get(i).questions!!.count { it.value == "NA" }
             }
 
 
@@ -870,7 +868,13 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                 ((planogramSurveyQuestionsListResponses!!.overAllScore + i.diaperPodiumScore + i.valueDealsBinScore + i.chillerScore + i.offersGondolaScore + i.peghooksDisplayScore + i.postersScore) / totalCategories)
 
             planogramSurveyQuestionsListResponses!!.overAllScore = overAllScore
-            activityPlanogramEvaluationBinding.overAllPercentage.setText("OVERALL SCORE"+ " : "+ String.format(Locale.US, "%.2f", overAllScore))
+            activityPlanogramEvaluationBinding.overAllPercentage.setText(
+                "OVERALL SCORE" + " : " + String.format(
+                    Locale.US,
+                    "%.2f",
+                    overAllScore
+                )
+            )
         }
     }
 

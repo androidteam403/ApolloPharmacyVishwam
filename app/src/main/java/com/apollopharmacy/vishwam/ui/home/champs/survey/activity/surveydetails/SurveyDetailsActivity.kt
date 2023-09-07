@@ -28,8 +28,6 @@ import com.apollopharmacy.vishwam.databinding.DialogNoTrainerBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressCCAdapter
-import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment
-import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseEmpIdResponse
@@ -54,7 +52,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
     var siteName: String? = ""
     private var region: String = ""
     var isNewSurveyCreated = false
-    var status= ""
+    var status = ""
 
     //    private lateinit var seekbar : SeekBar
     private lateinit var dialog: Dialog
@@ -243,6 +241,36 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         activityStartSurvey2Binding.emailCCRecyclerView.setLayoutManager(LinearLayoutManager(this))
         activityStartSurvey2Binding.emailCCRecyclerView.setAdapter(adapterCC)
 
+        onClickAddRecipient()
+    }
+
+    var isRecipientsEmailAdded: Boolean = false
+    fun onClickAddRecipient() {
+        activityStartSurvey2Binding.addBtn.setOnClickListener {
+            var recipientEmail: String = activityStartSurvey2Binding.enterRecipient.text.toString()
+            if (recipientEmail.isEmpty()) {
+                activityStartSurvey2Binding.enterRecipient.requestFocus()
+                Toast.makeText(
+                    this@SurveyDetailsActivity,
+                    "Recipient email should not be empty",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(recipientEmail).matches()) {
+                activityStartSurvey2Binding.enterRecipient.requestFocus()
+                Toast.makeText(
+                    this@SurveyDetailsActivity,
+                    "Enter valid email",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                if (!surveyRecDetailsList.isNullOrEmpty()) {
+                    isRecipientsEmailAdded = true
+                    activityStartSurvey2Binding.enterRecipient.text!!.clear()
+                    surveyRecDetailsList.set(0, "${surveyRecDetailsList.get(0)},$recipientEmail")
+                    adapterRec!!.notifyDataSetChanged()
+                }
+            }
+        }
     }
 
     override fun onClickBack() {
@@ -253,7 +281,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 891 && resultCode == RESULT_OK) {
             isNewSurveyCreated = data!!.getBooleanExtra("isNewSurveyCreated", false)
-            status= data!!.getStringExtra("status")!!
+            status = data!!.getStringExtra("status")!!
             if (isNewSurveyCreated && status.equals("NEW")) {
                 val intent = Intent()
                 intent.putExtra("isNewSurveyCreated", isNewSurveyCreated)
@@ -266,21 +294,22 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
 
     override fun onClickStartChampsSurvey() {
-        val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
-        intent.putExtra("getStoreWiseEmpIdResponse", getStoreWiseEmpIdResponse)
-        intent.putExtra("address", address)
-        intent.putExtra("storeId", storeId)
-        intent.putExtra("siteName", siteName)
-        intent.putExtra("storeCity", storeCity)
-        intent.putExtra("region", region)
-        intent.putExtra("status", "NEW")
-        intent.putExtra("visitDate", "")
-        intent.putExtra("champsRefernceId", "")
-        intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
-        intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
-        startActivityForResult(intent, 891)
+        if (isRecipientsEmailAdded) {
+            val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
+            intent.putExtra("getStoreWiseEmpIdResponse", getStoreWiseEmpIdResponse)
+            intent.putExtra("address", address)
+            intent.putExtra("storeId", storeId)
+            intent.putExtra("siteName", siteName)
+            intent.putExtra("storeCity", storeCity)
+            intent.putExtra("region", region)
+            intent.putExtra("status", "NEW")
+            intent.putExtra("visitDate", "")
+            intent.putExtra("champsRefernceId", "")
+            intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
+            intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
+            startActivityForResult(intent, 891)
 //        val intent = Intent(context, GetSurveyDetailsListActivity::class.java)
 //        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 //        intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
@@ -293,7 +322,11 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 //        intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
 //        intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
 //        startActivity(intent)
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        }else{
+            activityStartSurvey2Binding.enterRecipient.requestFocus()
+            Toast.makeText(this@SurveyDetailsActivity, "Add Recipient Email", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun isValidEmail(target: CharSequence?): Boolean {

@@ -1,46 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
+                android:id="@+id/parent_layout"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/value_10dp"
-                android:layout_width="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
-                    android:background="@color/text_color_blue"
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/text_color_blue"
                     android:orientation="horizontal"
                     android:padding="@dimen/value_10dp">
 
                     <ImageView
-                        android:contentDescription="@string/app_name"
+                        android:layout_width="@dimen/value_40dp"
                         android:layout_height="@dimen/value_40dp"
                         android:layout_marginTop="@dimen/value_3dp"
-                        android:layout_width="@dimen/value_40dp"
+                        android:contentDescription="@string/app_name"
                         android:onClick="@{()-> callback.onClickBack()}"
                         android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
 
                     <LinearLayout
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:orientation="vertical">
 
 
                         <TextView
-                            android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="PLANOGRAM EVALUATION"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_17sp"
@@ -50,131 +52,110 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:gravity="end"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="end"
                         android:orientation="vertical">
-
-
-                        <LinearLayout
-                            android:gravity="end"
-                            android:id="@+id/preview"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:onClick="@{()-> callback.onClickBack()}"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_gravity="center"
-                                android:layout_height="@dimen/value_30dp"
-                                android:layout_width="30dp"
-                                android:src="@drawable/close_ashh"
-                                app:tint="@color/white" />
-
-
-                        </LinearLayout>
-
 
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_height="match_parent"
                         android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_height="wrap_content"
-
-                            android:layout_marginTop="@dimen/value_10dp"
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_10dp"
                             android:orientation="vertical"
                             android:visibility="visible">
 
                             <LinearLayout
-                                android:layout_marginEnd="@dimen/value_10dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_15dp"
-                                android:layout_width="match_parent"
+                                android:layout_marginEnd="@dimen/value_10dp"
                                 android:orientation="vertical">
 
                                 <LinearLayout
-                                    android:layout_height="wrap_content"
                                     android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:orientation="horizontal"
                                     android:weightSum="1">
 
 
                                     <LinearLayout
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="0.6"
-                                        android:layout_width="0dp"
                                         android:orientation="vertical">
 
                                         <TextView
-                                            android:layout_height="wrap_content"
                                             android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:text="Name: "
                                             android:textColor="@color/very_light_greyy"
                                             android:textStyle="bold" />
 
                                         <TextView
                                             android:id="@+id/employee_name"
-                                            android:layout_height="wrap_content"
                                             android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:text="Test"
                                             android:textColor="@color/black"
                                             android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="0.4"
-                                        android:layout_width="0dp"
                                         android:orientation="vertical">
 
                                         <TextView
 
-                                            android:layout_height="wrap_content"
                                             android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:text="Executive ID: "
                                             android:textColor="@color/very_light_greyy"
                                             android:textStyle="bold" />
 
                                         <TextView
                                             android:id="@+id/employee_id"
-                                            android:layout_height="wrap_content"
                                             android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:text="testnov18"
                                             android:textColor="@color/black"
                                             android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="0.33"
-                                        android:layout_width="0dp"
                                         android:orientation="vertical"
                                         android:visibility="gone">
 
                                         <TextView
-                                            android:layout_height="wrap_content"
                                             android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:text="Issued on: "
                                             android:textColor="@color/very_light_greyy"
                                             android:textStyle="bold" />
 
                                         <TextView
 
-                                            android:layout_height="wrap_content"
                                             android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:textColor="@color/black"
                                             android:textStyle="bold" />
                                     </LinearLayout>
@@ -182,22 +163,22 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_10dp"
-                                    android:layout_width="match_parent"
                                     android:orientation="vertical">
 
                                     <TextView
-                                        android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:text="Store Name: "
                                         android:textColor="@color/very_light_greyy"
                                         android:textStyle="bold" />
 
                                     <TextView
                                         android:id="@+id/store_name"
-                                        android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:text="B.V Nagar, Nellore"
                                         android:textColor="@color/black"
                                         android:textStyle="bold" />
@@ -206,22 +187,22 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_10dp"
-                                    android:layout_width="match_parent"
                                     android:orientation="vertical">
 
                                     <TextView
-                                        android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:text="Site: "
                                         android:textColor="@color/very_light_greyy"
                                         android:textStyle="bold" />
 
                                     <TextView
                                         android:id="@+id/store_id"
-                                        android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:text="16001"
                                         android:textColor="@color/black"
                                         android:textStyle="bold" />
@@ -230,22 +211,22 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_10dp"
-                                    android:layout_width="match_parent"
                                     android:orientation="vertical"
                                     android:visibility="gone">
 
                                     <TextView
-                                        android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:text="Store Name: "
                                         android:textColor="@color/very_light_greyy"
                                         android:textStyle="bold" />
 
                                     <TextView
-                                        android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:textColor="@color/black"
                                         android:textStyle="bold" />
 
@@ -253,29 +234,29 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_10dp"
-                                    android:layout_width="match_parent"
                                     android:orientation="horizontal"
                                     android:weightSum="1">
 
                                     <LinearLayout
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="0.6"
-                                        android:layout_width="0dp"
                                         android:orientation="vertical">
 
                                         <TextView
-                                            android:layout_height="wrap_content"
                                             android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:text="Store City: "
                                             android:textColor="@color/very_light_greyy"
                                             android:textStyle="bold" />
 
                                         <TextView
                                             android:id="@+id/storeCity"
-                                            android:layout_height="wrap_content"
                                             android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:text="Nellore"
                                             android:textColor="@color/black"
                                             android:textStyle="bold" />
@@ -285,23 +266,23 @@
 
 
                                     <LinearLayout
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="0.4"
-                                        android:layout_width="0dp"
                                         android:orientation="vertical"
                                         android:visibility="visible">
 
                                         <TextView
-                                            android:layout_height="wrap_content"
                                             android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:text="State: "
                                             android:textColor="@color/very_light_greyy"
                                             android:textStyle="bold" />
 
                                         <TextView
                                             android:id="@+id/state"
-                                            android:layout_height="wrap_content"
                                             android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:text="Andhra pradesh"
                                             android:textColor="@color/black"
                                             android:textStyle="bold" />
@@ -316,22 +297,23 @@
                             </LinearLayout>
 
                             <androidx.recyclerview.widget.RecyclerView
-                                android:layout_marginTop="@dimen/text_dimen_10"
                                 android:id="@+id/planogram_category_recyclerview"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_width="match_parent" />
+                                android:layout_marginTop="@dimen/text_dimen_10"
+                                android:nestedScrollingEnabled="false" />
 
                             <LinearLayout
-                                android:orientation="vertical"
-                                android:background="#f2f2f2"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:background="#f2f2f2"
+                                android:orientation="vertical">
 
                                 <TextView
-                                    android:layout_marginTop="@dimen/text_dimen_10"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_10dp"
-                                    android:layout_width="wrap_content"
+                                    android:layout_marginTop="@dimen/text_dimen_10"
                                     android:text="Report"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/twenty20_dp"
@@ -339,41 +321,42 @@
 
 
                                 <LinearLayout
-                                    android:layout_marginTop="@dimen/value_5dp"
-                                    android:orientation="horizontal"
-                                    android:layout_weight="1"
-                                    android:layout_marginEnd="@dimen/text_dimen_10"
-                                    android:layout_marginStart="@dimen/value_10dp"
                                     android:layout_width="match_parent"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:layout_marginEnd="@dimen/text_dimen_10"
+                                    android:layout_weight="1"
                                     android:background="@drawable/whiteresult_bg"
-                                    android:layout_height="@dimen/value_40dp">
+                                    android:orientation="horizontal">
 
                                     <LinearLayout
-                                        android:gravity="center"
-                                        android:layout_weight="0.25"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.25"
+                                        android:gravity="center">
+
                                         <TextView
-                                            android:layout_marginStart="@dimen/value_5dp"
-                                            android:textAlignment="viewStart"
-                                            android:text="Total: "
-                                            android:gravity="center"
                                             android:layout_width="wrap_content"
                                             android:layout_height="@dimen/value_40dp"
                                             android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/value_5dp"
+                                            android:gravity="center"
+                                            android:text="Total: "
+                                            android:textAlignment="viewStart"
                                             android:textColorHint="@color/black"
                                             android:textSize="@dimen/text_15sp"
                                             android:textStyle="bold"
                                             tools:ignore="RtlCompat" />
 
                                         <TextView
-                                            android:layout_marginStart="@dimen/value_5dp"
-                                            android:textAlignment="viewStart"
-                                            android:text="142"
-                                            android:gravity="center"
                                             android:layout_width="wrap_content"
                                             android:layout_height="@dimen/value_40dp"
                                             android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/value_5dp"
+                                            android:gravity="center"
+                                            android:text="142"
+                                            android:textAlignment="viewStart"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_17sp"
                                             android:textStyle="bold"
@@ -382,32 +365,33 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:gravity="center"
-                                        android:layout_weight="0.25"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.25"
+                                        android:gravity="center">
+
                                         <TextView
-                                            android:layout_marginStart="@dimen/value_5dp"
-                                            android:textAlignment="viewStart"
-                                            android:background="@drawable/round_ash_bg_plano"
-                                            android:gravity="center"
                                             android:layout_width="@dimen/value_25dp"
                                             android:layout_height="@dimen/value_25dp"
                                             android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/value_5dp"
+                                            android:background="@drawable/round_ash_bg_plano"
+                                            android:gravity="center"
+                                            android:textAlignment="viewStart"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_15sp"
                                             android:textStyle="bold"
                                             tools:ignore="RtlCompat" />
 
                                         <TextView
-                                            android:layout_marginStart="@dimen/value_5dp"
-                                            android:textAlignment="viewStart"
-                                            android:text=""
-                                            android:gravity="center"
                                             android:id="@+id/na_count"
                                             android:layout_width="wrap_content"
                                             android:layout_height="@dimen/value_40dp"
                                             android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/value_5dp"
+                                            android:gravity="center"
+                                            android:text=""
+                                            android:textAlignment="viewStart"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_17sp"
                                             android:textStyle="bold"
@@ -416,32 +400,33 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:gravity="center"
-                                        android:layout_weight="0.25"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.25"
+                                        android:gravity="center">
+
                                         <TextView
-                                            android:layout_marginStart="@dimen/value_5dp"
-                                            android:textAlignment="viewStart"
-                                            android:background="@drawable/round_red_bg_planogram"
-                                            android:gravity="center"
                                             android:layout_width="@dimen/value_25dp"
                                             android:layout_height="@dimen/value_25dp"
                                             android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/value_5dp"
+                                            android:background="@drawable/round_red_bg_planogram"
+                                            android:gravity="center"
+                                            android:textAlignment="viewStart"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_15sp"
                                             android:textStyle="bold"
                                             tools:ignore="RtlCompat" />
 
                                         <TextView
-                                            android:layout_marginStart="@dimen/value_5dp"
-                                            android:textAlignment="viewStart"
-                                            android:text=""
-                                            android:gravity="center"
                                             android:id="@+id/no_count"
                                             android:layout_width="wrap_content"
                                             android:layout_height="@dimen/value_40dp"
                                             android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/value_5dp"
+                                            android:gravity="center"
+                                            android:text=""
+                                            android:textAlignment="viewStart"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_17sp"
                                             android:textStyle="bold"
@@ -450,68 +435,65 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:gravity="center"
-                                        android:layout_weight="0.25"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.25"
+                                        android:gravity="center">
+
                                         <TextView
-                                            android:layout_marginStart="@dimen/value_5dp"
-                                            android:textAlignment="viewStart"
-                                            android:background="@drawable/round_green_planogram"
-                                            android:gravity="center"
                                             android:layout_width="@dimen/value_25dp"
                                             android:layout_height="@dimen/value_25dp"
                                             android:layout_gravity="center"
+                                            android:layout_marginStart="@dimen/value_5dp"
+                                            android:background="@drawable/round_green_planogram"
+                                            android:gravity="center"
+                                            android:textAlignment="viewStart"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_15sp"
                                             android:textStyle="bold"
                                             tools:ignore="RtlCompat" />
 
                                         <TextView
-                                            android:layout_marginStart="@dimen/value_5dp"
-                                            android:textAlignment="viewStart"
-                                            android:text=""
-                                            android:gravity="center"
+                                            android:id="@+id/yes_count"
                                             android:layout_width="wrap_content"
                                             android:layout_height="@dimen/value_40dp"
                                             android:layout_gravity="center"
-                                            android:id="@+id/yes_count"
+                                            android:layout_marginStart="@dimen/value_5dp"
+                                            android:gravity="center"
+                                            android:text=""
+                                            android:textAlignment="viewStart"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_17sp"
                                             android:textStyle="bold"
                                             tools:ignore="RtlCompat" />
 
                                     </LinearLayout>
-
-
 
 
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:layout_marginTop="@dimen/value_5dp"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginEnd="@dimen/text_dimen_10"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_10dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:weightSum="1">
 
 
                                     <TextView
                                         android:id="@+id/categoresToFocusOnText"
-                                        android:onClick="@{()-> callback.onClickCategoriesToFocusOn()}"
-                                        android:gravity="center"
-                                        android:padding="@dimen/value_8dp"
-                                        android:layout_weight="0.5"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/value_40dp"
-                                        android:layout_marginStart="@dimen/value_10dp"
-                                        android:layout_marginTop="@dimen/value_10dp"
-                                        android:layout_marginBottom="@dimen/value_7dp"
+                                        android:layout_marginEnd="@dimen/value_2dp"
+                                        android:layout_weight="0.5"
                                         android:background="@drawable/dark_blue_bg"
+                                        android:gravity="center"
+                                        android:onClick="@{()-> callback.onClickCategoriesToFocusOn()}"
+                                        android:padding="@dimen/value_8dp"
                                         android:textAlignment="center"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_14sp"
+                                        android:textSize="@dimen/text_12sp"
                                         android:textStyle="bold"
                                         tools:ignore="RtlCompat" />
 
@@ -519,9 +501,7 @@
                                         android:id="@+id/areasToFocusText"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/value_40dp"
-                                        android:layout_marginStart="@dimen/value_10dp"
-                                        android:layout_marginTop="@dimen/value_10dp"
-                                        android:layout_marginBottom="@dimen/value_7dp"
+                                        android:layout_marginStart="@dimen/value_2dp"
                                         android:layout_weight="0.5"
                                         android:background="@drawable/purple_bg"
                                         android:gravity="center"
@@ -529,31 +509,31 @@
                                         android:padding="@dimen/value_8dp"
                                         android:textAlignment="center"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_14sp"
+                                        android:textSize="@dimen/text_12sp"
                                         android:textStyle="bold"
                                         tools:ignore="RtlCompat" />
 
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:layout_marginTop="@dimen/value_5dp"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginEnd="@dimen/text_dimen_10"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/text_dimen_10"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:layout_marginEnd="@dimen/text_dimen_10"
                                     android:weightSum="1">
 
 
                                     <TextView
-                                        android:gravity="center"
-                                        android:layout_weight="0.5"
-                                        android:layout_width="0dp"
                                         android:id="@+id/overAllPercentage"
-
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/value_10dp"
+
                                         android:layout_marginTop="@dimen/value_10dp"
                                         android:layout_marginBottom="@dimen/value_7dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="center"
                                         android:text="OVERALL SCORE"
                                         android:textAlignment="viewStart"
                                         android:textColor="@color/black"
@@ -562,19 +542,19 @@
                                         tools:ignore="RtlCompat" />
 
                                     <LinearLayout
-                                        android:gravity="end"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="0.5">
+                                        android:layout_weight="0.5"
+                                        android:gravity="end">
 
                                         <TextView
-                                            android:layout_marginEnd="@dimen/text_dimen_10"
-                                            android:gravity="start"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginStart="@dimen/value_10dp"
                                             android:layout_marginTop="@dimen/value_10dp"
+                                            android:layout_marginEnd="@dimen/text_dimen_10"
                                             android:layout_marginBottom="@dimen/value_7dp"
+                                            android:gravity="start"
                                             android:textColor="@color/black"
                                             android:textSize="14sp"
                                             android:textStyle="bold"
@@ -582,21 +562,20 @@
                                     </LinearLayout>
 
 
-
                                 </LinearLayout>
 
                                 <RelativeLayout
-                                    android:onClick="@{()-> callback.onClickSubmit()}"
-                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:id="@+id/startSurveyButton"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
                                     android:layout_marginStart="@dimen/value_15dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:layout_marginBottom="@dimen/value_5dp"
                                     android:background="@drawable/ashbackground_for_submit_planogram"
                                     android:gravity="center"
+                                    android:onClick="@{()-> callback.onClickSubmit()}"
                                     android:padding="@dimen/value_12dp">
 
                                     <TextView
@@ -614,11 +593,6 @@
                             </LinearLayout>
 
 
-
-
-
-
-
                         </LinearLayout>
 
                     </LinearLayout>
@@ -627,8 +601,7 @@
             </LinearLayout>
 
 
-        </ScrollView>
-
+        </androidx.core.widget.NestedScrollView>
 
 
     </RelativeLayout>

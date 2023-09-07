@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.apollopharmacy.vishwam">
+    package="com.apollopharmacy.vishwam"
+    tools:ignore="LockedOrientationActivity">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -39,12 +40,12 @@
         tools:ignore="HardcodedDebugMode">
         <activity
             android:name=".ui.home.planogram.activity.PlanogramEvaluationActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.retroqr.selectqrretrositeid.SelectRetroQrSiteIDActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -164,28 +165,28 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.apnarectro.postrectro.reviewscreen.PostRectroReviewScreen"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.apna.activity.VideoPreviewActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.apna.activity.ApnaNewSurveyActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.home.apna.survey.videopreview.ApnaVideoPreview"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.apna.apnapreviewactivity.ApnaPreviewActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -195,89 +196,83 @@
             android:theme="@style/AppTheme" /> <!-- <activity android:name=".ui.home.greeting.GreetingActivity" /> -->
         <activity
             android:name=".ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" /> <!-- <activity android:name=".ui.home.greeting.GreetingActivity" /> -->
         <activity
             android:name=".ui.home.greeting.GreetingActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.qcfail.qcfilter.QcFilterActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.home.apna.survey.ApnaSurveyActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            tools:ignore="MissingClass" />
-        <activity
             android:name=".ui.home.swach.swachuploadmodule.reviewratingactivity.RatingReviewActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachlistmodule.previewImage.PreviewImageActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachlistmodule.previewlastimage.PreviewLastImageActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.apnarectro.prerectro.filter.SelectPreRectroSiteActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachlistmodule.approvelist.ApproveListActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.champs.reports.activity.champsregionwiseanalysisreport.ChampsRegionWiseAnalysisReportActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.champs.reports.activity.champssurveyreports.ChampsSurveyReportsActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.champs.reports.activity.champssummaryreports.ChampsSummaryReportsActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -287,17 +282,17 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.champs.survey.activity.surveydetails.SurveyDetailsActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.champs.survey.activity.surveylist.SurveyListActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachuploadmodule.reshootactivity.ReShootActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -359,14 +354,11 @@
             android:theme="@style/AppTheme" />
 
 
-
         <activity
             android:name=".ui.home.menu.notification.NotificationActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
-
 
 
         <activity
