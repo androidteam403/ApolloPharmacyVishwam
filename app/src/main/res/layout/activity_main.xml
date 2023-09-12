@@ -13,7 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#045a71">
+        android:background="@drawable/home_actionbar_bg">
 
         <ImageView
             android:id="@+id/backArrow"
@@ -836,6 +836,7 @@
         android:layout_height="@dimen/value_60dp"
         android:layout_alignParentBottom="true"
         android:background="#045a71"
+        android:visibility="gone"
         app:itemActiveIndicatorStyle="@color/black"
         app:itemIconSize="@dimen/value_25dp"
         app:itemIconTint="#83acb8"

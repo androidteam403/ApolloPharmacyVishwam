@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -37,9 +38,21 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
         return new ViewHolder(menuItemBinding);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.menuItemBinding.name.setText(menuModel.get(position).getMenuName());
+        if (menuModel.get(position).getMenuName().equalsIgnoreCase("QcDashboard")) {
+            holder.menuItemBinding.name.setText("Dashboard");
+        } else if (menuModel.get(position).getMenuName().equalsIgnoreCase("QcApproved")) {
+            holder.menuItemBinding.name.setText("Approved");
+        } else if (menuModel.get(position).getMenuName().equalsIgnoreCase("QcRejected")) {
+            holder.menuItemBinding.name.setText("Rejected");
+        } else if (menuModel.get(position).getMenuName().equalsIgnoreCase("Approval List")) {
+            holder.menuItemBinding.name.setText("Approval\nList");
+        }
+        else {
+            holder.menuItemBinding.name.setText(menuModel.get(position).getMenuName());
+        }
         holder.menuItemBinding.icon.setImageResource(menuModel.get(position).getMenuIcon());
 
         holder.menuItemBinding.menuLayout.setOnClickListener(v -> {

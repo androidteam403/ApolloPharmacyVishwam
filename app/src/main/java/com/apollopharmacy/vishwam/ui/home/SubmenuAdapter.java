@@ -34,7 +34,15 @@ public class SubmenuAdapter extends RecyclerView.Adapter<SubmenuAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.submenuItemRowBinding.menuName.setText(submenus.get(position).getMenuName());
+        if (submenus.get(position).getMenuName().equalsIgnoreCase("QcDashboard")) {
+            holder.submenuItemRowBinding.menuName.setText("Dashboard");
+        } else if (submenus.get(position).getMenuName().equalsIgnoreCase("QcApproved")) {
+            holder.submenuItemRowBinding.menuName.setText("Approved");
+        } else if (submenus.get(position).getMenuName().equalsIgnoreCase("QcRejected")) {
+            holder.submenuItemRowBinding.menuName.setText("Rejected");
+        } else {
+            holder.submenuItemRowBinding.menuName.setText(submenus.get(position).getMenuName());
+        }
         holder.submenuItemRowBinding.menuIcon.setImageResource(submenus.get(position).getMenuIcon());
         holder.submenuItemRowBinding.menu.setOnClickListener(v -> {
             callback.onClickSubmenuItem(submenus.get(position).getMenuName(), submenus, position);
