@@ -196,7 +196,7 @@ class QcListsResponse : Serializable {
         }
     }
 
-    class Pending {
+    class Pending :Serializable{
         @SerializedName("CUSTNAME")
         @Expose
         var custname: String? = null

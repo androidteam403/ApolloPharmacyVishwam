@@ -24,10 +24,11 @@ import com.apollopharmacy.vishwam.databinding.QcFragmentPendingBinding
 import com.apollopharmacy.vishwam.dialog.QcListSizeDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.RejectReasonsDialog
-import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragmentCallback
+import com.apollopharmacy.vishwam.ui.home.qcfail.pending.QcPendingActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.QcPendingViewModel
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter.QcPendingListAdapter
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
@@ -41,7 +42,7 @@ import java.util.*
 
 class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBinding>(),
     MainActivityCallback, QcListsCallback, RejectReasonsDialog.ResaonDialogClickListner,
-    QcFilterFragment.QcFilterClicked, PendingFragmentCallback,
+    PendingFragmentCallback,
     QcListSizeDialog.GstDialogClickListners, Filterable {
     var dialogBinding: DialogRejectQcBinding? = null
     var adapter: QcPendingListAdapter? = null
@@ -272,7 +273,15 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             if (!isItemAdded) {
                 itemsList.add(it)
             }
-            adapter?.notifyDataSetChanged()
+            val intent= Intent(context, QcPendingActivity::class.java)
+            intent.putExtra("itemsList", itemsList)
+            intent.putExtra("orderNo",orderId)
+            intent.putExtra("pendingList",pendingListMain)
+            intent.putExtra("fragment","pending")
+
+            startActivity(intent)
+
+//            adapter?.notifyDataSetChanged()
 
 
         })
@@ -1012,6 +1021,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
     override fun orderno(position: Int, orderno: String) {
+
         showLoading()
         orderId = orderno
         viewModel.getQcPendingItemsList(orderno)
@@ -1331,16 +1341,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     }
 
 
-    override fun clickedApply(
-        selectedData: String,
-        data: ArrayList<QcStoreList.Store>,
-        regiondata: ArrayList<QcRegionList.Store>,
-        tag: Int,
-        toDate: String,
-    ) {
-
-//        viewModel.getQcPendingList("APL48627", selectedData, toDate, data[0].siteid.toString(), "")
-    }
 
     override fun onClickReason(headerPos: Int, itemPos: Int, orderId: String?) {
         this.headerPos = headerPos
@@ -1402,6 +1402,12 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         }.show(childFragmentManager, "")
     }
 
+    override fun onClickSubmenuItem(
+        menuName: String?,
+        submenus: ArrayList<MenuModel>?,
+        position: Int
+    ) {
+    }
 
     override fun selectListSize(listSize: String) {
         Preferences.setQcPendingPageSize(listSize.toInt());

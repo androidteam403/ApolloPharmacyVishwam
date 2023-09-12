@@ -22,7 +22,7 @@
                 android:layout_marginStart="@dimen/five5_sp"
                 android:layout_marginTop="@dimen/value_5dp"
                 android:layout_marginEnd="@dimen/five5_sp"
-                android:background="@drawable/search_view_pendency"
+                android:background="@drawable/search_view_approved"
                 android:orientation="horizontal"
                 android:weightSum="2"
                 app:layout_constraintTop_toTopOf="parent">
@@ -71,7 +71,7 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_marginEnd="@dimen/value_3dp"
-                android:background="@drawable/search_view_pendency"
+                android:background="@drawable/search_view_approved"
                 android:layout_marginTop="@dimen/value_5dp"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/value_45dp"
@@ -127,10 +127,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/parentLayout"
-            android:layout_marginTop="@dimen/value_2dp"
             android:layout_below="@id/search_layout"
             android:layout_width="match_parent"
             android:layout_marginBottom="50dp"
+            android:layout_marginTop="8dp"
 
             android:layout_height="match_parent">
 
@@ -215,7 +215,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/splash_color"
+            android:background="#8FBC8F"
             android:gravity="center_vertical"
             android:visibility="visible">
 

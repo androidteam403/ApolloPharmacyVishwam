@@ -6,9 +6,9 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.databinding.FragmentPlanogramBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.PlanogramEvaluationActivity
-import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.ApproveListActivity
-import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewImage.PreviewImageActivity
+import java.util.ArrayList
 
 class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBinding>(),
     PlanogramCallback, MainActivityCallback {
@@ -50,6 +50,13 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
 
     override fun onClickSpinnerLayout() {
         TODO("Not yet implemented")
+    }
+
+    override fun onClickSubmenuItem(
+        menuName: String?,
+        submenus: ArrayList<MenuModel>?,
+        position: Int
+    ) {
     }
 
     override fun onClickContinue() {

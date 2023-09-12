@@ -20,6 +20,7 @@ import com.apollopharmacy.vishwam.databinding.DialoFilterChampsBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.MainActivityPlusIconCallback
+import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.adapter.GetSurveyDetailsAdapter
@@ -464,6 +465,13 @@ class GetSurveyDetailsListActivity :
 
     override fun onClickSpinnerLayout() {
         TODO("Not yet implemented")
+    }
+
+    override fun onClickSubmenuItem(
+        menuName: String?,
+        submenus: java.util.ArrayList<MenuModel>?,
+        position: Int
+    ) {
     }
 
     fun submitButtonEnable(dialogFilterUploadBinding: DialoFilterChampsBinding) {

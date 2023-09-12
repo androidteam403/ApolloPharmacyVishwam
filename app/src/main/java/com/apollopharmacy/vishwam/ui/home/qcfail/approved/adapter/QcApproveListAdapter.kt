@@ -48,12 +48,12 @@ class QcApproveListAdapter(
 
 
 
-        if (approvedOrders.dcCode == null) {
-            holder.adapterApproveListBinding.locationText.setText("-")
-
-        } else {
-            holder.adapterApproveListBinding.locationText.setText("-" + approvedOrders.dcCode)
-        }
+//        if (approvedOrders.dcCode == null) {
+//            holder.adapterApproveListBinding.locationText.setText("-")
+//
+//        } else {
+//            holder.adapterApproveListBinding.locationText.setText("-" + approvedOrders.dcCode)
+//        }
         if (approvedOrders.storeid == null) {
             holder.adapterApproveListBinding.storeId.setText("-")
 
@@ -73,20 +73,20 @@ class QcApproveListAdapter(
 //                Math.min(approvedOrders.requesteddate.toString()!!.length, 10)))
         }
 
-        if (approvedOrders.approveddate == null) {
-            holder.adapterApproveListBinding.approveDateText.setText("-")
-
-        } else {
-            var approveddate = approvedOrders.approveddate.toString()!!
-                .substring(0,
-                    Math.min(approvedOrders.approveddate.toString()!!.length, 10))
-            holder.adapterApproveListBinding.approveDateText.text = Utlis.formatdate(approveddate)
-
-
-//            holder.adapterApproveListBinding.approveDateText.setText(approvedOrders.approveddate.toString()!!
+//        if (approvedOrders.approveddate == null) {
+//            holder.adapterApproveListBinding.approveDateText.setText("-")
+//
+//        } else {
+//            var approveddate = approvedOrders.approveddate.toString()!!
 //                .substring(0,
-//                    Math.min(approvedOrders.approveddate.toString()!!.length, 10)))
-        }
+//                    Math.min(approvedOrders.approveddate.toString()!!.length, 10))
+//            holder.adapterApproveListBinding.approveDateText.text = Utlis.formatdate(approveddate)
+//
+//
+////            holder.adapterApproveListBinding.approveDateText.setText(approvedOrders.approveddate.toString()!!
+////                .substring(0,
+////                    Math.min(approvedOrders.approveddate.toString()!!.length, 10)))
+//        }
         if (approvedOrders.custname == null) {
             holder.adapterApproveListBinding.custName.setText("-")
 
@@ -120,19 +120,19 @@ class QcApproveListAdapter(
                 }
             }
 
-
-            holder.adapterApproveListBinding.recyclerView.adapter =
-                item.itemlist?.let {
-                    QcApprovedOrderDetailsAdapter(
-                        mContext,
-                        it,
-                        position,
-                        approveList,
-                        imageClicklistner,
-                        approvedOrders.omsorderno.toString()
-                    )
-                }
-            holder.adapterApproveListBinding.recyclerView.scrollToPosition(position)
+//
+//            holder.adapterApproveListBinding.recyclerView.adapter =
+//                item.itemlist?.let {
+//                    QcApprovedOrderDetailsAdapter(
+//                        mContext,
+//                        it,
+//                        position,
+//                        approveList,
+//                        imageClicklistner,
+//                        approvedOrders.omsorderno.toString()
+//                    )
+//                }
+//            holder.adapterApproveListBinding.recyclerView.scrollToPosition(position)
 
 
 
@@ -212,22 +212,22 @@ class QcApproveListAdapter(
 
 
 
-        holder.itemView.setOnClickListener {
-            if (approvedOrders.isClick) {
-                approvedOrders.setisClick(false)
-                approvedOrders.orderno?.let { it1 ->
-                    imageClicklistner.notify(position, it1)
-                }
-            } else {
-                newPos = position
-                orderId = approvedOrders.orderno.toString()
-
-                approvedOrders.setisClick(true)
-                approvedOrders.orderno?.let { it1 ->
-                    imageClicklistner.orderno(position, it1)
-                }
-            }
-        }
+//        holder.itemView.setOnClickListener {
+//            if (approvedOrders.isClick) {
+//                approvedOrders.setisClick(false)
+//                approvedOrders.orderno?.let { it1 ->
+//                    imageClicklistner.notify(position, it1)
+//                }
+//            } else {
+//                newPos = position
+//                orderId = approvedOrders.orderno.toString()
+//
+//                approvedOrders.setisClick(true)
+//                approvedOrders.orderno?.let { it1 ->
+//                    imageClicklistner.orderno(position, it1)
+//                }
+//            }
+//        }
         holder.adapterApproveListBinding.arrow.setOnClickListener {
             newPos = position
             orderId = approvedOrders.orderno.toString()
@@ -240,19 +240,20 @@ class QcApproveListAdapter(
             approvedOrders.orderno?.let { it1 -> imageClicklistner.notify(position, it1) }
 
         }
-        if (approveList[position].isClick == true) {
-            holder.adapterApproveListBinding.approvedbylayout.visibility = View.VISIBLE
-            holder.adapterApproveListBinding.arrowClose.visibility = View.VISIBLE
-            holder.adapterApproveListBinding.arrow.visibility = View.GONE
-            holder.adapterApproveListBinding.extraData.visibility = View.VISIBLE
-            holder.adapterApproveListBinding.totalCostlayout.visibility = View.VISIBLE
-        } else {
-            holder.adapterApproveListBinding.arrowClose.visibility = View.GONE
-            holder.adapterApproveListBinding.arrow.visibility = View.VISIBLE
-            holder.adapterApproveListBinding.extraData.visibility = View.GONE
-            holder.adapterApproveListBinding.totalCostlayout.visibility = View.GONE
-            holder.adapterApproveListBinding.approvedbylayout.visibility = View.GONE
-        }
+//        if (approveList[position].isClick == true) {
+//            holder.adapterApproveListBinding.approvedbylayout.visibility = View.VISIBLE
+//            holder.adapterApproveListBinding.arrowClose.visibility = View.VISIBLE
+//            holder.adapterApproveListBinding.arrow.visibility = View.GONE
+//            holder.adapterApproveListBinding.extraData.visibility = View.VISIBLE
+//            holder.adapterApproveListBinding.totalCostlayout.visibility = View.VISIBLE
+//        }
+//        else {
+//            holder.adapterApproveListBinding.arrowClose.visibility = View.GONE
+//            holder.adapterApproveListBinding.arrow.visibility = View.VISIBLE
+//            holder.adapterApproveListBinding.extraData.visibility = View.GONE
+//            holder.adapterApproveListBinding.totalCostlayout.visibility = View.GONE
+//            holder.adapterApproveListBinding.approvedbylayout.visibility = View.GONE
+//        }
     }
 
     override fun getItemCount(): Int {

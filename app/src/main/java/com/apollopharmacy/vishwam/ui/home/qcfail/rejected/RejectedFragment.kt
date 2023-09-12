@@ -19,7 +19,7 @@ import com.apollopharmacy.vishwam.databinding.FragmentRejectedQcBinding
 import com.apollopharmacy.vishwam.dialog.QcListSizeDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
-import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
+import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
@@ -30,8 +30,7 @@ import java.util.*
 
 class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBinding>(),
     MainActivityCallback,
-    QcListsCallback,
-    QcFilterFragment.QcFilterClicked, QcListSizeDialog.GstDialogClickListners, Filterable {
+    QcListsCallback, QcListSizeDialog.GstDialogClickListners, Filterable {
     var qcListsResponse: QcListsResponse? = null
     var adapter: QcRejectedListAdapter? = null
     public var isBulkChecked: Boolean = false
@@ -796,15 +795,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
 
-    override fun clickedApply(
-        selectedData: String,
-        data: ArrayList<QcStoreList.Store>,
-        regiondata: ArrayList<QcRegionList.Store>,
-        tag: Int,
-        toDate: String,
-    ) {
 
-    }
 
     override fun onClickFilterIcon() {
         TODO("Not yet implemented")
@@ -843,6 +834,12 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         }.show(childFragmentManager, "")
     }
 
+    override fun onClickSubmenuItem(
+        menuName: String?,
+        submenus: ArrayList<MenuModel>?,
+        position: Int
+    ) {
+    }
     override fun selectListSize(listSize: String) {
         Preferences.setQcRejectedPageSize(listSize.toInt());
 //        MainActivity.mInstance.updateQcListCount(listSize)

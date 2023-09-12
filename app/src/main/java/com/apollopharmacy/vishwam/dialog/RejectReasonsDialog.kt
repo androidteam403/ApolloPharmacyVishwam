@@ -70,7 +70,7 @@ class RejectReasonsDialog: DialogFragment() {
             viewBinding.fieldRecyclerView.adapter =
                 ReasonRecyclerViews(data, object : OnSelectionListner {
                     override fun onSelected(data: String) {
-                        abstractDialogClick = parentFragment as ResaonDialogClickListner
+                        abstractDialogClick = activity as ResaonDialogClickListner
 
                         abstractDialogClick.selectReason(data)
                         dismiss()

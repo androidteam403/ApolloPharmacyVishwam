@@ -37,6 +37,7 @@ import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivity.userDesignation
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.discount.filter.FilterFragment
 import com.apollopharmacy.vishwam.ui.home.discount.pending.dashboardfilter.DashboardFilterActivity
 import com.apollopharmacy.vishwam.ui.login.Command
@@ -607,6 +608,13 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
 
     override fun onClickSpinnerLayout() {
         TODO("Not yet implemented")
+    }
+
+    override fun onClickSubmenuItem(
+        menuName: String?,
+        submenus: java.util.ArrayList<MenuModel>?,
+        position: Int
+    ) {
     }
 }
 

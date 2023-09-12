@@ -26,6 +26,7 @@ import com.apollopharmacy.vishwam.dialog.DeleteSiteDialog
 import com.apollopharmacy.vishwam.dialog.model.Dialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.ApproveListActivity
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.adapter.PendingApprovedListAdapter
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.adapter.PendingListAdapter
@@ -1196,6 +1197,12 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         TODO("Not yet implemented")
     }
 
+    override fun onClickSubmenuItem(
+        menuName: String?,
+        submenus: java.util.ArrayList<MenuModel>?,
+        position: Int
+    ) {
+    }
 
 
 //    override fun deleteSite(siteDataItem: StoreListItem) {

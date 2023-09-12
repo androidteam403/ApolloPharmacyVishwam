@@ -45,17 +45,6 @@ class QcRejectedListAdapter(
         val approvedOrders = rejectList.get(position)
         var orderId: String = ""
 
-
-
-
-
-
-        if (approvedOrders.dcCode == null) {
-            holder.rejectListBinding.locationText.setText("-")
-
-        } else {
-            holder.rejectListBinding.locationText.setText("-" + approvedOrders.dcCode)
-        }
         if (approvedOrders.storeid == null) {
             holder.rejectListBinding.storeId.setText("-")
 
@@ -74,18 +63,6 @@ class QcRejectedListAdapter(
 
         }
 
-        if (approvedOrders.approveddate == null) {
-            holder.rejectListBinding.rejectDate.setText("-")
-
-        } else {
-            var rejDate = approvedOrders.rejecteddate.toString()!!
-                .substring(0,
-                    Math.min(approvedOrders.rejecteddate.toString()!!.length, 10))
-
-            holder.rejectListBinding.rejectDate.text = Utlis.formatdate(rejDate)
-
-
-        }
         if (approvedOrders.custname == null) {
             holder.rejectListBinding.custName.setText("-")
 
@@ -180,28 +157,28 @@ class QcRejectedListAdapter(
                 holder.rejectListBinding.remainingPayment.setText("-")
             }
 
-            holder.rejectListBinding.recyclerView.adapter =
-                item.itemlist?.let {
-                    QcRejectedOrderDetailsAdapter(mContext,
-                        it,
-                        position,
-                        rejectList,
-                        imageClicklistner,
-                        approvedOrders.omsorderno.toString())
-                }
-            holder.rejectListBinding.recyclerView.scrollToPosition(position)
+//            holder.rejectListBinding.recyclerView.adapter =
+//                item.itemlist?.let {
+//                    QcRejectedOrderDetailsAdapter(mContext,
+//                        it,
+//                        position,
+//                        rejectList,
+//                        imageClicklistner,
+//                        approvedOrders.omsorderno.toString())
+//                }
+//            holder.rejectListBinding.recyclerView.scrollToPosition(position)
         }
 
-
-        holder.itemView.setOnClickListener {
-            if (approvedOrders.isClick) {
-                approvedOrders.setisClick(false)
-                approvedOrders.orderno?.let { it1 -> imageClicklistner.notify(position, it1) }
-            } else {
-                approvedOrders.setisClick(true)
-                approvedOrders.orderno?.let { it1 -> imageClicklistner.orderno(position, it1) }
-            }
-        }
+//
+//        holder.itemView.setOnClickListener {
+//            if (approvedOrders.isClick) {
+//                approvedOrders.setisClick(false)
+//                approvedOrders.orderno?.let { it1 -> imageClicklistner.notify(position, it1) }
+//            } else {
+//                approvedOrders.setisClick(true)
+//                approvedOrders.orderno?.let { it1 -> imageClicklistner.orderno(position, it1) }
+//            }
+//        }
 
         holder.rejectListBinding.arrow.setOnClickListener {
             approvedOrders.setisClick(true)

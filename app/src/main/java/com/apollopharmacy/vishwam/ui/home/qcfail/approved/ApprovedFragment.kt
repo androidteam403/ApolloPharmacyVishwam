@@ -23,9 +23,10 @@ import com.apollopharmacy.vishwam.databinding.FragmentApprovedQcBinding
 import com.apollopharmacy.vishwam.dialog.QcListSizeDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.QcApproveListAdapter
-import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.qcfail.pending.QcPendingActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.login.Command
@@ -36,7 +37,7 @@ import java.util.*
 class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBinding>(),
     MainActivityCallback,
     QcSiteDialog.NewDialogSiteClickListner,
-    QcListsCallback, QcFilterFragment.QcFilterClicked, QcFilterListCallBacks,
+    QcListsCallback,  QcFilterListCallBacks,
     QcListSizeDialog.GstDialogClickListners,
     Filterable {
     var adapter: QcApproveListAdapter? = null
@@ -215,8 +216,22 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
 
                 statusList.add(items)
-                adapter?.notifyDataSetChanged()
+//                adapter?.notifyDataSetChanged()
             }
+
+            if (itemsList!=null&&statusList!=null){
+                val intent= Intent(context, QcPendingActivity::class.java)
+                intent.putExtra("itemsList", itemsList)
+                intent.putExtra("statusList", statusList)
+
+
+                intent.putExtra("orderNo",orderId)
+                intent.putExtra("fragment","approved")
+
+                startActivity(intent)
+            }
+
+
         })
         viewModel.qcItemsLists.observe(viewLifecycleOwner, Observer {
             hideLoading()
@@ -230,14 +245,14 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 items.setorderno(orderId)
                 items.status = i.status
                 itemsList.add(items)
-                adapter?.notifyDataSetChanged()
+//                adapter?.notifyDataSetChanged()
             }
 
 
 
 
 
-            adapter?.notifyDataSetChanged()
+//            adapter?.notifyDataSetChanged()
 
 
         })
@@ -505,7 +520,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 //        viewModel.getQcItemsList("RV000053")
         viewModel.getQcItemsList(orderno)
         viewModel.getQcStatusList(orderno)
-        adapter?.notifyDataSetChanged()
+//        adapter?.notifyDataSetChanged()
 
 
     }
@@ -665,15 +680,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     }
 
 
-    override fun clickedApply(
-        selectedData: String,
-        data: ArrayList<QcStoreList.Store>,
-        regiondata: ArrayList<QcRegionList.Store>,
-        tag: Int,
-        toDate: String,
-    ) {
 
-    }
 
 
     override fun clickMenu(clickedMenu: Int, name: ArrayList<MainMenuList>) {
@@ -746,6 +753,12 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         }.show(childFragmentManager, "")
     }
 
+    override fun onClickSubmenuItem(
+        menuName: String?,
+        submenus: ArrayList<MenuModel>?,
+        position: Int
+    ) {
+    }
 
     override fun selectListSize(listSize: String) {
         Preferences.setQcApprovedPageSize(listSize.toInt());

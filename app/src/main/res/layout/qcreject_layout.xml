@@ -26,7 +26,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:weightSum="1"
-                    android:background="#F2F2F2"
+                    android:paddingTop="@dimen/value_7dp"
+                    android:background="#ffe9e9"
                     android:orientation="horizontal">
                     <LinearLayout
                         android:layout_width="0dp"
@@ -41,6 +42,34 @@
                             android:contentDescription="@string/app_name" />
 
                     </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:gravity="start">
+
+                        <TextView
+                            android:id="@+id/store"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Store Id"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/store_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/store"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="16001"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -96,33 +125,6 @@
                             android:textStyle="bold" />
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.22"
-                        android:gravity="start">
-
-
-                        <TextView
-                            android:id="@+id/reject"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Rejected. Date"
-                            android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/reject_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/reject"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="30.29"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -145,8 +147,10 @@
                             android:layout_width="@dimen/text_22sp"
                             android:layout_height="@dimen/text_22sp"
                             android:layout_centerInParent="true"
-                            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                            android:visibility="visible" />
+                            android:tint="#f14f4e"
+                            android:src="@drawable/baseline_add_circle_outline_qc"
+                            android:visibility="visible"
+                            tools:ignore="UseAppTint" />
 
                     </RelativeLayout>
 
@@ -154,7 +158,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#F2F2F2"
+                    android:background="#ffe9e9"
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/value_5dp"
                     android:weightSum="1">
@@ -164,32 +168,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight=".12" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".88"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/store_id"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="16001 - "
-                            android:layout_marginBottom="@dimen/value_5dp"
-
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp" />
-
-                        <TextView
-                            android:id="@+id/location_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Apollo Pharmacy-Hyderabad"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp" />
-                    </LinearLayout>
 
                 </LinearLayout>
 

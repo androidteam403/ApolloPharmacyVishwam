@@ -11,7 +11,6 @@ import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.QcApiRepo
-import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -382,23 +381,6 @@ class QcPendingViewModel : ViewModel() {
 
     }
 
-    fun filterClicked() {
-
-//        listarrayList.add("16001")
-        regionList = qcRegionIdList
-
-//        QcFilterFragment().apply {
-//           arguments=QcFilterFragment().generateParsedData(regionList as ArrayList<QcRegionList.Store>)
-//        }
-
-        arrayList = qcStoreIdList
-        command.value = Command.ShowQcButtonSheet(
-            BottomSheetDialog::class.java,
-            bundleOf(Pair(QcFilterFragment.KEY_PENDING_DATA_QC, arrayList))
-        )
-
-
-    }
 
 
 }

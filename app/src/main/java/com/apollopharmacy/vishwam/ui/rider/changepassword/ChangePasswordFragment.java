@@ -18,11 +18,13 @@ import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.databinding.FragmentChangePasswordBinding;
 import com.apollopharmacy.vishwam.ui.home.MainActivity;
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback;
+import com.apollopharmacy.vishwam.ui.home.MenuModel;
 import com.apollopharmacy.vishwam.ui.rider.base.BaseFragment;
 import com.apollopharmacy.vishwam.ui.rider.changepassword.model.ChangePasswordResponse;
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager;
 import com.apollopharmacy.vishwam.ui.rider.login.LoginActivity;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ChangePasswordFragment extends BaseFragment implements ChangePasswordFragmentCallback, MainActivityCallback {
@@ -166,4 +168,7 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
 
     }
 
+    @Override
+    public void onClickSubmenuItem(String menuName, ArrayList<MenuModel> submenus, int position) {
+    }
 }

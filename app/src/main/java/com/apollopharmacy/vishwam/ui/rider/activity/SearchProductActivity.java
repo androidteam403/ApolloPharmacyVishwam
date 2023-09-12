@@ -193,7 +193,7 @@ public class SearchProductActivity extends BaseActivity implements OnItemClickLi
 
         final MenuItem menuNotificationItem = menu.findItem(R.id.action_cart_icon);
         View actionCartView = MenuItemCompat.getActionView(menuNotificationItem);
-        TextView notificationText = actionCartView.findViewById(R.id.notification_text);
+//        TextView notificationText = actionCartView.findViewById(R.id.notification_text);
         ImageView notifyImage = actionCartView.findViewById(R.id.notify_image);
         cartCount = actionCartView.findViewById(R.id.cart_count_text);
         actionCartView.setOnClickListener(new View.OnClickListener() {

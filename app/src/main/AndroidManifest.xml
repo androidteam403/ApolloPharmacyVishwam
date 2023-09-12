@@ -38,6 +38,11 @@
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".ui.home.qcfail.pending.QcPendingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.planogram.activity.PlanogramEvaluationActivity"
             android:exported="true"
             android:screenOrientation="portrait"

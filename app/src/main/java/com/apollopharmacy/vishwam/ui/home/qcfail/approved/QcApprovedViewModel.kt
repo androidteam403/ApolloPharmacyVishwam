@@ -9,7 +9,6 @@ import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.QcApiRepo
-import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -20,17 +19,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class QcApprovedViewModel : ViewModel() {
-
     val qcLists = MutableLiveData<QcListsResponse>()
     val qcItemsLists = MutableLiveData<QcItemListResponse>()
     val qcStatusLists = MutableLiveData<ActionResponse>()
-
     val state = MutableLiveData<State>()
     val command = LiveEvent<Command>()
-
     private var arrayList: List<QcStoreList.Store>? = null
     private var regionarrayList: List<QcRegionList.Store>? = null
-
     private var listarrayList = ArrayList<String>()
     val qcRegionLists = MutableLiveData<QcRegionList>()
     val qcStoreList = MutableLiveData<QcStoreList>()
@@ -276,7 +271,7 @@ class QcApprovedViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcStatusLists.value = result.value
+                        qcStatusLists.value = result.value!!
 
                     } else {
                         state.value = State.ERROR
@@ -305,19 +300,7 @@ class QcApprovedViewModel : ViewModel() {
     }
 
 
-    fun filterClicked() {
-        regionarrayList = qcregionIdList
-        arrayList = qcStoreIdList
 
-//        QcFilterFragment().apply {
-//            arguments=QcFilterFragment().generateParsedData(qcregionIdList as ArrayList<QcRegionList.Store>)
-//        }
-//
-        command.value = Command.ShowQcButtonSheet(BottomSheetDialog::class.java,
-            bundleOf(Pair(QcFilterFragment.KEY_PENDING_DATA_QC, arrayList),
-                Pair(QcFilterFragment.KEY_REGION_DATA_QC, regionarrayList)))
-
-    }
 
 
 }

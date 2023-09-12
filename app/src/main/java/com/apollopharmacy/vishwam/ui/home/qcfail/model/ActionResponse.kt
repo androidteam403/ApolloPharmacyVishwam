@@ -35,7 +35,7 @@ class ActionResponse : Serializable {
         return this
     }
 
-     class Hsitorydetail {
+     class Hsitorydetail :Serializable{
         @SerializedName("ACTIONBY")
         @Expose
         var actionby: String? = null

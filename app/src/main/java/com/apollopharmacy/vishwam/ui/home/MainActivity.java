@@ -9,8 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -46,15 +46,14 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.apollopharmacy.vishw.PendingFragment;
 import com.apollopharmacy.vishwam.BuildConfig;
@@ -64,6 +63,7 @@ import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse;
 import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
 import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
+import com.apollopharmacy.vishwam.databinding.DialogSubmenusBinding;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
@@ -129,10 +129,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
@@ -148,6 +146,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -199,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private LocationCallback mLocationCallback = null;
     private Location mCurrentLocation = null;
     private Boolean mRequestingLocationUpdates = false;
-    private Toolbar toolbar;
+    private RelativeLayout toolbar;
     private DrawerLayout drawer;
     public String employeeRole = "";
     public String employeeRoleRetro = "";
@@ -241,13 +240,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean isStoreSuperVisour;
 
-//    private TextView selectFilterType;
+    private TextView selectFilterType;
 
     private RelativeLayout riderNotificationLayout;
     private ImageView notifyImage;
     private static TextView notificationTextCustom;
-    private String ceoDashboardAccessFromEmployee = "";
+    public String ceoDashboardAccessFromEmployee = "";
 
+//    private MenuItemAdapter attendanceManagementAdapter, cmsAdapter, discountAdapter, newDrugRequestAdapter, omsQcAdapter, swachhAdapter, monitoringAdapter, champsAdapter, planogramAdapter, apnaRetroAdapter, apnaAdapter;
+    private ImageView backArrow;
+    private ImageView logoutBtn;
+    private ImageView logo;
+    private LinearLayout customerDetails;
+    public Dialog submenuDialog;
+    public ArrayList<MenuModel> menuModels;
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -346,14 +352,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mInstance = this;
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mainActivityCallback = this;
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         onClickRiderNotification();
 
         if (getIntent() != null) {
@@ -399,8 +406,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         filterIndicator = (View) findViewById(R.id.filter_indication);
         qcfilterIndicator = (View) findViewById(R.id.qc_filter_indication);
 //        selectFilterType=findViewById(R.id.selectfiltertype);
-        logout = findViewById(R.id.logout_menu);
-        logout.setOnClickListener(new View.OnClickListener() {
+//        logout = findViewById(R.id.logout_menu);
+        logoutBtn = findViewById(R.id.logoutBtn);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialogExit();
@@ -431,6 +439,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (empDetailsResponses != null && empDetailsResponses.getData() != null && empDetailsResponses.getData().getRole() != null && empDetailsResponses.getData().getRole().getCode().equals("store_supervisor"))
             isStoreSuperVisour = true;
         else isStoreSuperVisour = false;
+        backArrow = findViewById(R.id.backArrow);
+        logo = findViewById(R.id.apolloLogo);
+        customerDetails = findViewById(R.id.customerDetailsLayout);
         qcfilterIcon = findViewById(R.id.qc_filter_icon);
         refreshIconQc = findViewById(R.id.refreshIconQc);
 
@@ -502,26 +513,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                mainActivityCallback.onClickSpinnerLayout();
 //            }
 //        });
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if (!task.isSuccessful()) {
-                    Utils.printMessage(TAG, "Fetching FCM registration token failed" + task.getException());
-                    return;
-                }
+//        listView = findViewById(R.id.expandable_navigation);
 
-                // Get new FCM registration token
-                String token = task.getResult();
-                // Log and toast
-                Utils.printMessage(TAG, "Firebase Token" + token);
-//                        Toast.makeText(MainActivity.this, "Firebase Token : " + token, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        listView = findViewById(R.id.expandable_navigation);
-
-
-        drawer = findViewById(R.id.drawer_layout);
+//        drawer = findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 //        drawer.setDrawerListener(toggle);
@@ -532,13 +526,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
 //        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
-        navigationView = findViewById(R.id.nav_view);
-        int colorInt = getResources().getColor(R.color.white);
-        ColorStateList csl = ColorStateList.valueOf(colorInt);
-        navigationView.setItemTextColor(csl);
-        TextView userNameText = navigationView.getHeaderView(0).findViewById(R.id.userName);
-        TextView idText = navigationView.getHeaderView(0).findViewById(R.id.id_for_menu);
-        navigationView.setNavigationItemSelectedListener(this);
+//        navigationView = findViewById(R.id.nav_view);
+//        int colorInt = getResources().getColor(R.color.white);
+//        ColorStateList csl = ColorStateList.valueOf(colorInt);
+//        navigationView.setItemTextColor(csl);
+//        TextView userNameText = navigationView.getHeaderView(0).findViewById(R.id.userName);
+//        TextView idText = navigationView.getHeaderView(0).findViewById(R.id.id_for_menu);
+//        navigationView.setNavigationItemSelectedListener(this);
 
         String loginJson = Preferences.INSTANCE.getLoginJson();
         LoginDetails loginData = null;
@@ -558,9 +552,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         employeeRoleNewDrugRequest = Preferences.INSTANCE.getEmployeeRoleUidNewDrugRequest();
         if (loginData != null) {
 //            userNameText.setText("JaiKumar Loknathan Mudaliar");
-            idText.setText("ID: " + loginData.getEMPID());
+//            idText.setText("ID: " + loginData.getEMPID());
             isSuperAdmin = loginData.getIS_SUPERADMIN();
-            userNameText.setText(loginData.getEMPNAME());
+//            userNameText.setText(loginData.getEMPNAME());
+            TextView username = findViewById(R.id.userName);
+            username.setText(loginData.getEMPNAME());
+            TextView userId = findViewById(R.id.userId);
+            userId.setText("ID: " + loginData.getEMPID());
 
 //            Toast.makeText(getApplicationContext(), "" + userDesignation, Toast.LENGTH_SHORT).show();
 
@@ -585,17 +583,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             isApnaRetroRequired = accessDetails.getISAPNARETROAPP();
         }
 
-        TextView versionInfo = findViewById(R.id.versionInfo);
-        versionInfo.setText("Version : " + BuildConfig.VERSION_NAME);
-        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired, isSensingRequired, isChampsRequired, isApnaSurveyRequired, isApnaRetroRequired);
+        TextView version = findViewById(R.id.version);
+        version.setText("Version: " + BuildConfig.VERSION_NAME);
+//        TextView versionInfo = findViewById(R.id.versionInfo);
+//        versionInfo.setText("Version : " + BuildConfig.VERSION_NAME);
+//        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired, isSensingRequired, isChampsRequired, isApnaSurveyRequired, isApnaRetroRequired);
 //        updateDynamicNavMenu(false, false, false, false, false, false, false, false, false, false);
 
-//        listView.expandGroup(2);
+//        updateNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired, isSensingRequired, isChampsRequired, isApnaSurveyRequired, isApnaRetroRequired);
 
-        ImageView openDrawer = findViewById(R.id.openDrawer);
+//        listView.expandGroup(2);
+//
+//        ImageView openDrawer = findViewById(R.id.openDrawer);
         headerText = findViewById(R.id.headerTitle);
         displaySelectedScreen("HOME");
-        listView.setSelected(0);
+//        listView.setSelected(0);
 
 
         FrameLayout notificationLayout = findViewById(R.id.notificationLayout);
@@ -607,13 +609,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         });
 
-        openDrawer.setOnClickListener(v -> {
+        /*openDrawer.setOnClickListener(v -> {
             if (drawer.isDrawerOpen(Gravity.LEFT)) {
                 drawer.closeDrawer(Gravity.RIGHT);
             } else {
                 drawer.openDrawer(Gravity.LEFT);
             }
-        });
+        });*/
 
         gpsLoaderLayout = findViewById(R.id.gpsLoaderLayout);
 
@@ -621,7 +623,234 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             initPermission();
             checkExternalPermission();
         }
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavBar);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.home:
+                    displaySelectedScreen("HOME");
+                    break;
+                case R.id.help:
+                    break;
+                case R.id.notification:
+                    break;
+                case R.id.menu:
+                    if (menuModels != null && menuModels.size() > 1) {
+                        updateSubmenu();
+                    }
+                    break;
+            }
+            return true;
+        });
+        backArrow.setOnClickListener(v -> {
+            onBackPressed();
+        });
     }
+
+    private void updateSubmenu() {
+        submenuDialog = new Dialog(MainActivity.this);
+        submenuDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        DialogSubmenusBinding dialogSubmenusBinding = DataBindingUtil.inflate(LayoutInflater.from(MainActivity.this), R.layout.dialog_submenus, null, false);
+        submenuDialog.setContentView(dialogSubmenusBinding.getRoot());
+        submenuDialog.getWindow().setBackgroundDrawable(new ColorDrawable(R.color.transparent));
+        SubmenuAdapter submenuAdapter = new SubmenuAdapter(MainActivity.this, menuModels, this);
+        dialogSubmenusBinding.submenuRcv.setAdapter(submenuAdapter);
+        dialogSubmenusBinding.submenuRcv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        submenuDialog.show();
+        submenuDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        submenuDialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
+
+    /*private void updateNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired, boolean isSensingRequired, boolean isChampsRequired, boolean isApnaSurveyRequired, boolean isApnaRetroRequired) {
+        ArrayList<MenuModel> attendanceMenuModel = new ArrayList<MenuModel>();
+        attendanceMenuModel.add(new MenuModel("Attendance", R.drawable.attendance));
+        attendanceMenuModel.add(new MenuModel("History", R.drawable.history));
+
+        ArrayList<MenuModel> cmsMenuModel = new ArrayList<MenuModel>();
+        cmsMenuModel.add(new MenuModel("Complaint Register", R.drawable.cms_complaint_register));
+        cmsMenuModel.add(new MenuModel("Complaint List", R.drawable.cms_complaint_list));
+        cmsMenuModel.add(new MenuModel("Approval List", R.drawable.cms_approval_list));
+
+        ArrayList<MenuModel> discountMenuModel = new ArrayList<MenuModel>();
+        discountMenuModel.add(new MenuModel("Pending", R.drawable.discount_pending));
+        discountMenuModel.add(new MenuModel("Approved", R.drawable.discount_approved));
+        discountMenuModel.add(new MenuModel("Rejected", R.drawable.discount_rejected));
+        discountMenuModel.add(new MenuModel("Bill", R.drawable.discount_bill));
+
+        ArrayList<MenuModel> drugRequestMenuModel = new ArrayList<MenuModel>();
+        drugRequestMenuModel.add(new MenuModel("New Drug Request", R.drawable.new_drug_request));
+        drugRequestMenuModel.add(new MenuModel("New Drug List", R.drawable.new_drug_list));
+
+        ArrayList<MenuModel> omsQcMenuModel = new ArrayList<MenuModel>();
+        omsQcMenuModel.add(new MenuModel("Dashboard", R.drawable.qc_dashboard));
+        omsQcMenuModel.add(new MenuModel("Outstanding", R.drawable.qc_outstanding));
+        omsQcMenuModel.add(new MenuModel("Approved", R.drawable.qc_approved));
+        omsQcMenuModel.add(new MenuModel("Rejected", R.drawable.qc_rejected));
+
+        ArrayList<MenuModel> swachhMenuModel = new ArrayList<MenuModel>();
+        if (isSwachhRequired) {
+            if ((employeeRole.equalsIgnoreCase("Yes")) && userDesignation != null && (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))) {
+                swachhMenuModel.add(new MenuModel("Upload", R.drawable.swachh_upload));
+                swachhMenuModel.add(new MenuModel("List", R.drawable.swachh_list));
+            } else if (employeeRole.equalsIgnoreCase("Yes")) {
+                swachhMenuModel.add(new MenuModel("Upload", R.drawable.swachh_upload));
+            } else if (userDesignation != null && userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
+                swachhMenuModel.add(new MenuModel("List", R.drawable.swachh_list));
+            }
+        }
+
+        ArrayList<MenuModel> monitoringMenuModel = new ArrayList<MenuModel>();
+        monitoringMenuModel.add(new MenuModel("Dashboard", R.drawable.monitoring_dashboard));
+
+        ArrayList<MenuModel> champsMenuModel = new ArrayList<MenuModel>();
+        champsMenuModel.add(new MenuModel("Champs Survey", R.drawable.champs_survey));
+        champsMenuModel.add(new MenuModel("Champs Reports", R.drawable.champs_reports));
+        champsMenuModel.add(new MenuModel("Champs Admin", R.drawable.champs_admin));
+
+        ArrayList<MenuModel> planogramMenuModel = new ArrayList<MenuModel>();
+        planogramMenuModel.add(new MenuModel("", R.drawable.planogram));
+
+        ArrayList<MenuModel> apnaRetroMenuModel = new ArrayList<MenuModel>();
+        if (isApnaRetroRequired) {
+            if ((employeeRoleRetro.equalsIgnoreCase("Yes")) && (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER"))) {
+                apnaRetroMenuModel.add(new MenuModel("Creation", R.drawable.retro_creation));
+                apnaRetroMenuModel.add(new MenuModel("Approval", R.drawable.retro_approval));
+            } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("NODATA")) {
+                apnaRetroMenuModel.add(new MenuModel("Creation", R.drawable.retro_creation));
+            } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().contains("CEO") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER")) {
+                apnaRetroMenuModel.add(new MenuModel("Approval", R.drawable.retro_approval));
+            }
+        }
+
+        ArrayList<MenuModel> apnaMenuModel = new ArrayList<MenuModel>();
+        apnaMenuModel.add(new MenuModel("Apna Survey", R.drawable.apna_survey));
+
+        LinearLayout sensingMenu = findViewById(R.id.apolloSensingMenu);
+        if (isSensingRequired) {
+            sensingMenu.setVisibility(View.VISIBLE);
+        } else {
+            sensingMenu.setVisibility(View.GONE);
+        }
+
+        LinearLayout attendanceMenu = findViewById(R.id.attendanceManagementMenu);
+        if (isAttendanceRequired) {
+            attendanceMenu.setVisibility(View.VISIBLE);
+        } else {
+            attendanceMenu.setVisibility(View.GONE);
+        }
+
+        LinearLayout cmsMenu = findViewById(R.id.cmsMenu);
+        if (isCMSRequired) {
+            cmsMenu.setVisibility(View.VISIBLE);
+        } else {
+            cmsMenu.setVisibility(View.GONE);
+        }
+
+        LinearLayout discountMenu = findViewById(R.id.discountMenu);
+        if (isDiscountRequired) {
+            discountMenu.setVisibility(View.VISIBLE);
+        } else {
+            discountMenu.setVisibility(View.GONE);
+        }
+
+        LinearLayout drugRequestMenu = findViewById(R.id.drugRequestMenu);
+        if (isDrugRequired) {
+            if (employeeRoleNewDrugRequest.equalsIgnoreCase("Yes")) {
+                drugRequestMenu.setVisibility(View.VISIBLE);
+            } else {
+                drugRequestMenu.setVisibility(View.GONE);
+            }
+        } else {
+            drugRequestMenu.setVisibility(View.GONE);
+        }
+
+        LinearLayout qcFailMenu = findViewById(R.id.omsQcMenu);
+        if (isQcFailRequired) {
+            qcFailMenu.setVisibility(View.VISIBLE);
+        } else {
+            qcFailMenu.setVisibility(View.GONE);
+        }
+
+        LinearLayout monitoringMenu = findViewById(R.id.monitoringMenu);
+        if (ceoDashboardAccessFromEmployee.equalsIgnoreCase("Yes")) {
+            monitoringMenu.setVisibility(View.VISIBLE);
+        } else {
+            monitoringMenu.setVisibility(View.GONE);
+        }
+
+        LinearLayout champsMenu = findViewById(R.id.champsMenu);
+        if (isChampsRequired) {
+            champsMenu.setVisibility(View.VISIBLE);
+        } else {
+            champsMenu.setVisibility(View.GONE);
+        }
+
+        LinearLayout apnaSurveyMenu = findViewById(R.id.apnaMenu);
+        if (isApnaSurveyRequired) {
+            apnaSurveyMenu.setVisibility(View.VISIBLE);
+        } else {
+            apnaSurveyMenu.setVisibility(View.GONE);
+        }
+
+        RecyclerView attendanceRcv = findViewById(R.id.attendanceManagementRcv);
+        attendanceManagementAdapter = new MenuItemAdapter(this, this, attendanceMenuModel);
+        attendanceRcv.setAdapter(attendanceManagementAdapter);
+        attendanceRcv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        RecyclerView cmsRcv = findViewById(R.id.cmsRcv);
+        cmsAdapter = new MenuItemAdapter(this, this, cmsMenuModel);
+        cmsRcv.setAdapter(cmsAdapter);
+        cmsRcv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        RecyclerView discountRcv = findViewById(R.id.discountRcv);
+        discountAdapter = new MenuItemAdapter(this, this, discountMenuModel);
+        discountRcv.setAdapter(discountAdapter);
+        discountRcv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        RecyclerView drugRequestRcv = findViewById(R.id.newDrugRequestRcv);
+        newDrugRequestAdapter = new MenuItemAdapter(this, this, drugRequestMenuModel);
+        drugRequestRcv.setAdapter(newDrugRequestAdapter);
+        drugRequestRcv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        RecyclerView qcRcv = findViewById(R.id.omsQcRcv);
+        omsQcAdapter = new MenuItemAdapter(this, this, omsQcMenuModel);
+        qcRcv.setAdapter(omsQcAdapter);
+        qcRcv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        RecyclerView swachhRcv = findViewById(R.id.swachhRcv);
+        swachhAdapter = new MenuItemAdapter(this, this, swachhMenuModel);
+        swachhRcv.setAdapter(swachhAdapter);
+        swachhRcv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        RecyclerView monitoringRcv = findViewById(R.id.monitoringRcv);
+        monitoringAdapter = new MenuItemAdapter(this, this, monitoringMenuModel);
+        monitoringRcv.setAdapter(monitoringAdapter);
+        monitoringRcv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        RecyclerView champsRcv = findViewById(R.id.champsRcv);
+        champsAdapter = new MenuItemAdapter(this, this, champsMenuModel);
+        champsRcv.setAdapter(champsAdapter);
+        champsRcv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        RecyclerView planogramRcv = findViewById(R.id.planogramRcv);
+        planogramAdapter = new MenuItemAdapter(this, this, planogramMenuModel);
+        planogramRcv.setAdapter(planogramAdapter);
+        planogramRcv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        RecyclerView apnaRetroRcv = findViewById(R.id.apnaRetroRcv);
+        apnaRetroAdapter = new MenuItemAdapter(this, this, apnaRetroMenuModel);
+        apnaRetroRcv.setAdapter(apnaRetroAdapter);
+        apnaRetroRcv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        RecyclerView apnaRcv = findViewById(R.id.apnaRcv);
+        apnaAdapter = new MenuItemAdapter(this, this, apnaMenuModel);
+        apnaRcv.setAdapter(apnaAdapter);
+        apnaRcv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        sensingMenu.setOnClickListener(v -> {
+            displaySelectedScreen("Apollo Sensing");
+        });
+    }*/
 
     public void setMyOrdersFragmentCallback(MyOrdersFragmentCallback myOrdersFragmentCallback) {
         this.myOrdersFragmentCallback = myOrdersFragmentCallback;
@@ -657,14 +886,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             } else {
                 displaySelectedScreen("HOME");
-                drawer.closeDrawer(GravityCompat.START);
+//                drawer.closeDrawer(GravityCompat.START);
             }
         } else {
             if (isHomeScreen) {
                 finish();
             } else {
                 displaySelectedScreen("HOME");
-                drawer.closeDrawer(GravityCompat.START);
+//                drawer.closeDrawer(GravityCompat.START);
             }
         }
 
@@ -700,11 +929,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 
 
-        if (!itemName.equalsIgnoreCase("Greetings to Chairman")) {
-            currentItem = itemName;
-            if (previousItem.equals(currentItem) && !currentItem.equals("Logout")) {
-                return;
+//        if (!itemName.equalsIgnoreCase("Greetings to Chairman")) {
+//            currentItem = itemName;
+//            if (previousItem.equals(currentItem) && !currentItem.equals("Logout")) {
+//                return;
+//            }
+//        }
+        if (itemName.equalsIgnoreCase("HOME")) {
+            if (menuModels != null && !menuModels.isEmpty()) {
+                menuModels.clear();
             }
+        }
+        if (submenuDialog != null && submenuDialog.isShowing()) {
+            submenuDialog.dismiss();
         }
         //initializing the fragment object which is selected
         switch (itemName) {
@@ -722,6 +959,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = true;
                 riderNotificationLayout.setVisibility(View.GONE);
+                logo.setVisibility(View.VISIBLE);
+                customerDetails.setVisibility(View.VISIBLE);
+                backArrow.setVisibility(View.GONE);
+                headerText.setVisibility(View.GONE);
+                logoutBtn.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Complaint Register":
@@ -740,6 +982,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
 //                toolbar.setBackground(getResources().getDrawable(R.color.splash_start_color));
                 break;
             case "Complaint List":
@@ -757,6 +1004,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Approval List":
                 headerText.setText("Approval List");
@@ -778,6 +1030,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Attendance":
                 headerText.setText("Attendance");
@@ -794,6 +1051,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "History":
                 headerText.setText("History");
@@ -811,6 +1073,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Pending":
                 headerText.setText("Pending List");
@@ -829,6 +1096,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Approved":
                 headerText.setText("Approved List");
@@ -846,6 +1118,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Rejected":
                 headerText.setText("Rejected List");
@@ -864,6 +1141,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Bill":
                 headerText.setText("Bill List");
@@ -881,6 +1163,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Swachh Images Upload":
                 headerText.setText("Swachh Images");
@@ -898,6 +1185,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "Swachh List":
@@ -917,6 +1209,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "Upload":
@@ -936,6 +1233,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isUploadScreen = true;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "List":
                 headerText.setText("SWACHH LIST");
@@ -955,6 +1257,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isListScreen = true;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "New Drug Request":  //"Drug Request":
                 headerText.setText("New Drug Request");
@@ -963,7 +1270,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -998,6 +1309,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Apna Form":
 //                headerText.setText("Apna Form");
@@ -1025,6 +1341,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.apna_project_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "Apollo Sensing":
@@ -1035,7 +1356,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.VISIBLE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1060,6 +1385,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.retro_qr_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "New Drug List":  //"Drug List":
@@ -1084,6 +1414,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "QcDashboard":
                 headerText.setText("Dashboard");
@@ -1100,6 +1435,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "OutStanding":
                 headerText.setText("Pending List");
@@ -1117,6 +1457,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Login":
                 Intent j = new Intent(this, SplashScreen.class);
@@ -1136,6 +1481,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "Planogram Evaluation":
@@ -1152,6 +1502,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Profile":
                 headerText.setText("Profile");
@@ -1168,6 +1523,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "My Orders":
                 headerText.setText("My Orders");
@@ -1184,6 +1544,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Cash Deposits":
                 headerText.setText("Cash Deposits");
@@ -1200,6 +1565,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Summary":
                 headerText.setText("Summary");
@@ -1216,6 +1586,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Complaints":
                 headerText.setText("Complaints");
@@ -1232,6 +1607,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Change Password":
                 headerText.setText("Dashboard");
@@ -1248,6 +1628,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Help":
                 headerText.setText("Help");
@@ -1264,6 +1649,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "LogOut":
                 getSessionManager().clearAllSharedPreferences();
@@ -1287,6 +1677,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "QcRejected":
@@ -1305,6 +1700,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
 //            case "Select Site":
@@ -1328,6 +1728,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Champs Reports":
                 headerText.setText("CHAMPS Analysis Reports");
@@ -1344,6 +1749,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "Champs Admin":
@@ -1362,6 +1772,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "Creation":
@@ -1380,6 +1795,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "Post Rectro":
@@ -1398,6 +1818,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "After Completion":
@@ -1438,6 +1863,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 riderNotificationLayout.setVisibility(View.GONE);
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "Post Rectro Approval":
@@ -1456,6 +1886,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "After Completion Approval":
@@ -1474,6 +1909,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
 
@@ -1492,6 +1932,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "DashboardCeo":
                 if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")) {
@@ -1524,6 +1969,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Dashboard Regional Head":
                 headerText.setText("Regional head Dashboard");
@@ -1539,6 +1989,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Dashboard Store Manager":
                 headerText.setText("Store Manager Dashboard");
@@ -1554,6 +2009,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Dashboard Store Executive":
                 headerText.setText("Store Executive Dashboard");
@@ -1569,6 +2029,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "Dashboard Store Supervisor":
                 headerText.setText("Store Supervisor Dashboard");
@@ -1584,6 +2049,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
             case "DashboardManager":
                 headerText.setText("Manager Dashboard");
@@ -1599,19 +2069,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
                 break;
 
             case "Logout":
                 dialogExit();
                 break;
         }
-        previousItem = itemName;
+//        previousItem = itemName;
         //replacing the fragment
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container, fragment);
             ft.commit();
-            drawer.closeDrawer(GravityCompat.START);
+//            drawer.closeDrawer(GravityCompat.START);
         }
     }
 
@@ -1762,7 +2237,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final MenuItem menuNotificationItem = menu.findItem(R.id.action_setting_icon);
         View actionNotificationView = MenuItemCompat.getActionView(menuNotificationItem);
 
-        notificationText = actionNotificationView.findViewById(R.id.notification_text);
+//        notificationText = actionNotificationView.findViewById(R.id.notification_text);
         if (!getSessionManager().getNotificationStatus()) {
             notificationText.setVisibility(View.GONE);
             notificationText.clearAnimation();
@@ -2035,25 +2510,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (listHeader.get(groupPosition).getTitle().equals("Home")) {
                 listView.setSelected(groupPosition);
                 displaySelectedScreen("HOME");
-                drawer.closeDrawer(GravityCompat.START);
+//                drawer.closeDrawer(GravityCompat.START);
             } else if (listHeader.get(groupPosition).getTitle().equals("Logout")) {
                 displaySelectedScreen("Logout");
-                drawer.closeDrawer(GravityCompat.START);
+//                drawer.closeDrawer(GravityCompat.START);
             } else if (listHeader.get(groupPosition).getTitle().equals("Greetings to Chairman")) {
                 displaySelectedScreen("Greetings to Chairman");
-                drawer.closeDrawer(GravityCompat.START);
+//                drawer.closeDrawer(GravityCompat.START);
             } else if (listHeader.get(groupPosition).getTitle().equals("Cash Deposit")) {
                 displaySelectedScreen("Cash Deposit");
-                drawer.closeDrawer(GravityCompat.START);
+//                drawer.closeDrawer(GravityCompat.START);
             } else if (listHeader.get(groupPosition).getTitle().equals("Assets")) {
                 displaySelectedScreen("Assets");
-                drawer.closeDrawer(GravityCompat.START);
+//                drawer.closeDrawer(GravityCompat.START);
             } else if (listHeader.get(groupPosition).getTitle().equals("Apollo Sensing")) {
                 displaySelectedScreen("Apollo Sensing");
-                drawer.closeDrawer(GravityCompat.START);
+//                drawer.closeDrawer(GravityCompat.START);
             } else if (listHeader.get(groupPosition).getTitle().equals("Retro QR")) {
                 displaySelectedScreen("Retro QR");
-                drawer.closeDrawer(GravityCompat.START);
+//                drawer.closeDrawer(GravityCompat.START);
             }
             return false;
 
@@ -2225,7 +2700,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            } else if (groupPosition == 1 && childPosition == 3) {
 //                displaySelectedScreen("Bill");
 //            }
-            drawer.closeDrawer(GravityCompat.START);
+//            drawer.closeDrawer(GravityCompat.START);
             return false;
         });
 
@@ -2785,6 +3260,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    public void onClickSubmenuItem(String menuName, ArrayList<MenuModel> submenus, int position) {
+        displaySelectedScreen(menuName);
+    }
     public void startService() {
         startService(new Intent(this, BatteryLevelLocationService.class));
     }
@@ -2856,7 +3335,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             isAllowFragmentChange = false;
             dialog.dismiss();
             displaySelectedScreen(itemName);
-            listView.setSelected(0);
+//            listView.setSelected(0);
         });
         noBtn.setOnClickListener(view -> dialog.dismiss());
         dialog.show();
@@ -2919,6 +3398,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onClickPlusIcon() {
 
+    }
+
+    public void setSubmenu(ArrayList<MenuModel> menuModels) {
+        this.menuModels = menuModels;
     }
 }
 

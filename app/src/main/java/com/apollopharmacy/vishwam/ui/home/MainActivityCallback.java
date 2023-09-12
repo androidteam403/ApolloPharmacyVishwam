@@ -1,5 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home;
 
+import java.util.ArrayList;
+
 public interface MainActivityCallback {
     void onClickFilterIcon();
     void onClickSiteIdIcon();
@@ -11,4 +13,5 @@ public interface MainActivityCallback {
 
     void onSelectPendingFragment();
     void onClickSpinnerLayout();
+    void onClickSubmenuItem(String menuName, ArrayList<MenuModel> submenus, int position);
 }

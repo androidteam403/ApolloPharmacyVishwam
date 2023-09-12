@@ -37,6 +37,7 @@ import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.dialog.model.SubmitticketDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.SubworkflowConfigDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.UsersListforSubworkflowSpinnerAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.*
@@ -2421,6 +2422,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         TODO("Not yet implemented")
     }
 
+    override fun onClickSubmenuItem(
+        menuName: String?,
+        submenus: ArrayList<MenuModel>?,
+        position: Int
+    ) {
+    }
 
 
     override fun onSelectedManager(data: Row) {

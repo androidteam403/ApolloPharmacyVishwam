@@ -1,13 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -17,7 +13,6 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragmentCallback
 import com.apollopharmacy.vishwam.util.Utlis
-import java.util.Locale
 
 class QcPendingListAdapter(
     var mContext: Context,
@@ -45,10 +40,7 @@ class QcPendingListAdapter(
     }
 
     fun setQcItemLists(orderId: String, pendingLayoutBinding: QcPendingLayoutBinding) {
-//        for (i in qcItemList){
-//            if (i.orderno.equals(itemsList))
-//        }
-//        this.qcItemList = qcItemLists
+
         var item = QcItemListResponse()
         for (i in qcItemList) {
             if (i.orderno!!.equals(orderId)) {
@@ -96,21 +88,6 @@ class QcPendingListAdapter(
         } else {
             holder.pendingLayoutBinding.storeId.setText(pendingOrders.storeid)
         }
-        if (pendingOrders.qcfaildate == null || pendingOrders.qcfaildate!!.isEmpty()) {
-            holder.pendingLayoutBinding.reqDate.setText("-")
-
-        } else {
-
-
-            var qcFailDate = pendingOrders.qcfaildate.toString()!!.substring(
-                    0, Math.min(pendingOrders.qcfaildate.toString()!!.length, 10)
-                )
-            holder.pendingLayoutBinding.reqDate.text = Utlis.formatdate(qcFailDate)
-
-//            holder.pendingLayoutBinding.reqDate.setText(pendingOrders.qcfaildate.toString()!!
-//                .substring(0,
-//                    Math.min(pendingOrders.qcfaildate.toString()!!.length, 10)))
-        }
 
         if (pendingOrders.requesteddate == null || pendingOrders.requesteddate!!.isEmpty()) {
             holder.pendingLayoutBinding.postedDate.setText("-")
@@ -120,9 +97,7 @@ class QcPendingListAdapter(
                     0, Math.min(pendingOrders.requesteddate.toString()!!.length, 10)
                 )
             holder.pendingLayoutBinding.postedDate.text = Utlis.formatdate(reqDate)
-//            holder.pendingLayoutBinding.postedDate.setText(pendingOrders.requesteddate.toString()!!
-//                .substring(0,
-//                    Math.min(pendingOrders.requesteddate.toString()!!.length, 10)))
+
         }
         if (pendingOrders.custname == null) {
             holder.pendingLayoutBinding.custName.setText("-")
@@ -232,20 +207,19 @@ class QcPendingListAdapter(
             }
             var qcPendingListAdapter: QcPendingListAdapter
 
-            holder.pendingLayoutBinding.recyclerView.adapter = item.itemlist?.let {
-                QcPendingOrderDetailsAdapter(
-                    mContext,
-                    imageClicklistner,
-                    it,
-                    position,
-                    pendingList,
-                    pendingFragmentCallback,
-                    this,
-                    pendingOrders.omsorderno.toString(),
-                    holder.pendingLayoutBinding
-                )
-            }
-            holder.pendingLayoutBinding.recyclerView.scrollToPosition(position)
+//            holder.pendingLayoutBinding.recyclerView.adapter = item.itemlist?.let {
+//                QcPendingOrderDetailsAdapter(
+//                    mContext,
+//                    imageClicklistner,
+//                    it,
+//                    position,
+//                    pendingFragmentCallback,
+//                    this,
+//                    pendingOrders.omsorderno.toString(),
+//                    holder.pendingLayoutBinding
+//                )
+//            }
+//            holder.pendingLayoutBinding.recyclerView.scrollToPosition(position)
         }
         holder.pendingLayoutBinding.acceptClick.setOnClickListener {
             imageClicklistner.accept(
@@ -304,19 +278,19 @@ class QcPendingListAdapter(
             }
         }
         holder.pendingLayoutBinding.arrow.setOnClickListener {
-            pendingOrders.isOrderExpanded = true
+//            pendingOrders.isOrderExpanded = true
             pendingOrders.orderno?.let { imageClicklistner.orderno(position, it) }
 //            holder.pendingLayoutBinding.arrowClose.visibility = View.VISIBLE
 //            holder.pendingLayoutBinding.arrow.visibility = View.GONE
 //            holder.pendingLayoutBinding.extraData.visibility = View.VISIBLE
         }
-        holder.pendingLayoutBinding.arrowClose.setOnClickListener {
-//            holder.pendingLayoutBinding.arrowClose.visibility = View.GONE
-//            holder.pendingLayoutBinding.arrow.visibility = View.VISIBLE
-//            holder.pendingLayoutBinding.extraData.visibility = View.GONE
-            pendingOrders.isOrderExpanded = false
-            notifyDataSetChanged()
-        }
+//        holder.pendingLayoutBinding.arrowClose.setOnClickListener {
+////            holder.pendingLayoutBinding.arrowClose.visibility = View.GONE
+////            holder.pendingLayoutBinding.arrow.visibility = View.VISIBLE
+////            holder.pendingLayoutBinding.extraData.visibility = View.GONE
+//            pendingOrders.isOrderExpanded = false
+//            notifyDataSetChanged()
+//        }
 
     }
 

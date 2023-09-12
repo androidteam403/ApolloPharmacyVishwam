@@ -5,38 +5,29 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
-import com.apollopharmacy.vishwam.databinding.DialogAcceptQcBinding
 import com.apollopharmacy.vishwam.databinding.DialogResetBinding
 import com.apollopharmacy.vishwam.databinding.QcOrderLayoutBinding
-import com.apollopharmacy.vishwam.databinding.QcPendingLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
-import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragmentCallback
 
 class QcPendingOrderDetailsAdapter(
     val mContext: Context,
     val imageClicklistner: QcListsCallback,
 
-    var itemsList: List<QcItemListResponse.Item>,
+    var itemsList: List<QcItemListResponse.Item>?,
     var pos: Int,
-    var qcPendingList: List<QcListsResponse.Pending>,
     var pendingFragmentCallback: PendingFragmentCallback,
-    var qcPendingListAdapter: QcPendingListAdapter,
     var orderId: String,
 
-    val pendingLayoutBinding: QcPendingLayoutBinding,
-) :
+    ) :
     RecyclerView.Adapter<QcPendingOrderDetailsAdapter.ViewHolder>() {
 
 
@@ -61,7 +52,7 @@ class QcPendingOrderDetailsAdapter(
         var aprqty: Int = 0
         var qcaprqty: Int = 0
 
-        val items = itemsList.get(position)
+        val items = itemsList!!.get(position)
 //        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.color.grey)
         holder.orderdetailsBinding.reason.setText("Select")
         holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
@@ -133,7 +124,7 @@ class QcPendingOrderDetailsAdapter(
 
 
 
-        if (items.approvedqty == 0) {
+        if (items.approvedqty == 0||holder.orderdetailsBinding.approveQtyText.text.toString().toInt()==0) {
 
 
             holder.orderdetailsBinding.selectResonItem.isEnabled = true
@@ -192,20 +183,6 @@ class QcPendingOrderDetailsAdapter(
                                 customDialog.dismiss()
                             }
                         }
-//                        Toast.makeText(mContext,"Approve Qty Should be less than or equal to Req qty ",Toast.LENGTH_LONG).show()
-//                        if (Preferences.getAppLevelDesignationQCFail().replace(" ","").equals("EXECUTIVE",true)){
-//                            holder.orderdetailsBinding.approveQtyText.setText(items.qty.toString())
-//
-//                        }
-//                        else if (Preferences.getAppLevelDesignationQCFail().replace(" ","").equals("MANAGER",true)){
-//                            holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
-//
-//                        }
-//
-//                        else if (Preferences.getAppLevelDesignationQCFail().replace(" ","").equals("GENERAL MANAGER",true)){
-//                            holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
-//
-//                        }
                     }
                 }
 
@@ -233,7 +210,7 @@ class QcPendingOrderDetailsAdapter(
 //                        holder.orderdetailsBinding.reasonValueLayout.visibility = View.GONE
                     }
 
-                    qcPendingListAdapter.setQcItemLists(items.orderno!!, pendingLayoutBinding)
+//                    qcPendingListAdapter.setQcItemLists(items.orderno!!, pendingLayoutBinding)
                 }
             }
 
@@ -311,7 +288,7 @@ class QcPendingOrderDetailsAdapter(
     }
 
     override fun getItemCount(): Int {
-        return itemsList.size
+        return itemsList!!.size
     }
 
     class ViewHolder(val orderdetailsBinding: QcOrderLayoutBinding) :
