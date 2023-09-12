@@ -21,6 +21,7 @@ import com.apollopharmacy.vishwam.databinding.ApnaPreviewQuickGoDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.adapter.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
 import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.XYMarkerView
+import com.apollopharmacy.vishwam.util.Utils
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
@@ -43,6 +44,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
+import java.util.Locale
 import java.util.stream.Collectors
 
 class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback,
@@ -295,26 +297,26 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             var length = ""
             if (surveyCreateRequest.length!!.contains(".")) {
                 length =
-                    DecimalFormat("##,##,###.0##").format(surveyCreateRequest.length!!.toDouble())
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(surveyCreateRequest.length!!.toDouble())
             } else {
-                length = DecimalFormat("##,##,###").format(surveyCreateRequest.length!!.toDouble())
+                length = DecimalFormat("##,##,###", Utils.symbols).format(surveyCreateRequest.length!!.toDouble())
             }
 
             var width = ""
             if (surveyCreateRequest.width!!.contains(".")) {
                 width =
-                    DecimalFormat("##,##,###.0##").format(surveyCreateRequest.width!!.toDouble())
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(surveyCreateRequest.width!!.toDouble())
             } else {
-                width = DecimalFormat("##,##,###").format(surveyCreateRequest.width!!.toDouble())
+                width = DecimalFormat("##,##,###", Utils.symbols).format(surveyCreateRequest.width!!.toDouble())
             }
 
             var ceilingHeight = ""
             if (surveyCreateRequest.ceilingHeight!!.contains(".")) {
                 ceilingHeight =
-                    DecimalFormat("##,##,###.0##").format(surveyCreateRequest.ceilingHeight!!.toDouble())
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(surveyCreateRequest.ceilingHeight!!.toDouble())
             } else {
                 ceilingHeight =
-                    DecimalFormat("##,##,###").format(surveyCreateRequest.ceilingHeight!!.toDouble())
+                    DecimalFormat("##,##,###", Utils.symbols).format(surveyCreateRequest.ceilingHeight!!.toDouble())
             }
 
 
@@ -342,7 +344,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
          }*/
         if (surveyCreateRequest.totalArea != null) {
             var totalAreaFromResponse =
-                DecimalFormat("###.0##").format(surveyCreateRequest.totalArea)
+                DecimalFormat("###.0##", Utils.symbols).format(surveyCreateRequest.totalArea)
             var totalArea = ""
             var totalAreaSplit =
                 "${totalAreaFromResponse}".split(
@@ -350,10 +352,10 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 )
             if (totalAreaSplit[1].toInt() > 0) {
                 totalArea =
-                    DecimalFormat("##,##,###.0##").format(totalAreaFromResponse.toDouble())
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(totalAreaFromResponse.toDouble())
             } else {
                 totalArea =
-                    DecimalFormat("##,##,###").format(totalAreaFromResponse.toDouble())
+                    DecimalFormat("##,##,###", Utils.symbols).format(totalAreaFromResponse.toDouble())
             }
 
             activityApnaSurveyPreviewBinding.totalArea.setText(totalArea)
@@ -386,7 +388,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
 
         if (surveyCreateRequest.expectedRent != null) {
-            val decimalFormat = DecimalFormat("##,##,##0")
+            val decimalFormat = DecimalFormat("##,##,##0", Utils.symbols)
             val formattedNumber =
                 decimalFormat.format(surveyCreateRequest.expectedRent.toString().toLong())
             activityApnaSurveyPreviewBinding.expectedRent.setText(formattedNumber)
@@ -396,7 +398,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         }
 
         if (surveyCreateRequest.securityDeposit != null) {
-            val decimalFormat = DecimalFormat("##,##,##0")
+            val decimalFormat = DecimalFormat("##,##,##0", Utils.symbols)
             val formattedNumber =
                 decimalFormat.format(surveyCreateRequest.securityDeposit.toString().toLong())
             activityApnaSurveyPreviewBinding.securityDeposit.setText(formattedNumber)
@@ -487,8 +489,8 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 //            activityApnaSurveyPreviewBinding.trafficStreetType.setText("-")
         }
 
-        val inputDateFormat = SimpleDateFormat("HH:mm:ss")
-        val outputDateFormat = SimpleDateFormat("HH:mm")
+        val inputDateFormat = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
+        val outputDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
 
         if (surveyCreateRequest.morningFrom != null) {
             activityApnaSurveyPreviewBinding.morningFrom.setText(
@@ -670,7 +672,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         }
 
         if (surveyCreateRequest.serviceClass != null) {
-            val decimalFormat = DecimalFormat("##,##,##0")
+            val decimalFormat = DecimalFormat("##,##,##0", Utils.symbols)
             val formattedNumber = decimalFormat.format(surveyCreateRequest.serviceClass!!.toLong())
             activityApnaSurveyPreviewBinding.serviceClass.setText(formattedNumber)
         } else {
@@ -678,7 +680,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         }
 
         if (surveyCreateRequest.businessClass != null) {
-            val decimalFormat = DecimalFormat("##,##,##0")
+            val decimalFormat = DecimalFormat("##,##,##0", Utils.symbols)
             val formattedNumber = decimalFormat.format(surveyCreateRequest.businessClass!!.toLong())
             activityApnaSurveyPreviewBinding.businessClass.setText(formattedNumber)
         } else {
@@ -734,13 +736,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 val total = totalOrgAvgSale + totalUnorgAvgSale
 
                 activityApnaSurveyPreviewBinding.totalOrganized.setText(
-                    DecimalFormat("##,##,##0").format(totalOrgAvgSale.toLong())
+                    DecimalFormat("##,##,##0", Utils.symbols).format(totalOrgAvgSale.toLong())
                 )
                 activityApnaSurveyPreviewBinding.totalUnorganized.setText(
-                    DecimalFormat("##,##,##0").format(totalUnorgAvgSale.toLong())
+                    DecimalFormat("##,##,##0", Utils.symbols).format(totalUnorgAvgSale.toLong())
                 )
                 activityApnaSurveyPreviewBinding.total.setText(
-                    DecimalFormat("##,##,##0").format(total.toLong())
+                    DecimalFormat("##,##,##0", Utils.symbols).format(total.toLong())
                 )
 
                 avgSales = chemist.map { it.orgAvgSale!!.toFloat() } as ArrayList<Float>

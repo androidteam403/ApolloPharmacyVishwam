@@ -902,12 +902,12 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             getAttendanceCurrentDate()
 //        Log.e("vaseem", timeCoversion12to24(lastLogDateTime.split(" ").get(1)).split(":").get(0))
 
-//        val simpleDateFormat = SimpleDateFormat("dd MMM yyyy, hh:mm a")
+//        val simpleDateFormat = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.ENGLISH)
 //
 //        try {
 //            val date1 = simpleDateFormat.parse(getLastLoginDate(
 //                lastLogDateTime
-//            ))
+//            ), Locale.ENGLISH)
 //            val date2 = simpleDateFormat.parse(getAttendanceCurrentDate())
 //            printDifference(date1, date2)
 //        } catch (e: ParseException) {

@@ -47,6 +47,7 @@ import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecry
 import me.echodev.resizer.Resizer
 import java.io.File
 import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackInterface,
@@ -90,9 +91,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             if (uploadedDate != null && uploadedDate != "") {
 
                 val strDate = uploadedDate
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH).format(date)
                 activityreShootBinding.uploadedDate.text = dateNewFormat
             } else {
                 activityreShootBinding.uploadedDate.text = "--"
@@ -118,9 +119,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             if (uploadedDate != null && uploadedDate != "") {
 
                 val strDate = uploadedDate
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH).format(date)
                 activityreShootBinding.uploadedDate.text = dateNewFormat
             } else {
                 activityreShootBinding.uploadedDate.text = "--"
@@ -146,7 +147,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             if (uploadedDate != null && uploadedDate != "") {
 
                 val strDate = uploadedDate
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
                 val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
                 activityreShootBinding.uploadedDate.text = dateNewFormat

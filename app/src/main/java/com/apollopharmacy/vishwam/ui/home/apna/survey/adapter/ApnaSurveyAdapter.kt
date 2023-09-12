@@ -17,6 +17,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyCallback
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 
 class ApnaSurveyAdapter(
@@ -168,8 +169,8 @@ class ApnaSurveyAdapter(
 
         holder.apnaSurveyLayoutBinding.location.text = "$city, $state, $pincode"
         holder.apnaSurveyLayoutBinding.landmark.text = "${approvedOrders.landmarks}"
-        val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val outputDateFormat = SimpleDateFormat("dd MMM, yyyy hh:mm a")
+        val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+        val outputDateFormat = SimpleDateFormat("dd MMM, yyyy hh:mm a", Locale.ENGLISH)
         if (approvedOrders.surveyed_on != null) {
             holder.apnaSurveyLayoutBinding.surveystart.setText(
                 outputDateFormat.format(
@@ -206,7 +207,7 @@ class ApnaSurveyAdapter(
 //        holder.apnaSurveyLayoutBinding.surveyended.setText(approvedOrders.modifiedTime)
 
 
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
 
         try {
             val date1 = simpleDateFormat.parse(approvedOrders.createdTime)

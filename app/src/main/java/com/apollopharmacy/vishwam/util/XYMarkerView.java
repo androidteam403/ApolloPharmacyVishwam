@@ -40,7 +40,7 @@ public class XYMarkerView extends MarkerView {
         ButterKnife.bind(this);
         this.xAxisValueFormatter = xAxisValueFormatter;
         tvContent = (TextView) findViewById(R.id.tvContent);
-        format = new DecimalFormat("###.0");
+        format = new DecimalFormat("###.0", Utils.symbols);
     }
 
     // callbacks everytime the MarkerView is redrawn, can be used to update the

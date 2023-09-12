@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.NeighbourStoreAdapterLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
+import com.apollopharmacy.vishwam.util.Utils
 import java.text.DecimalFormat
 
 class PreviewNeighbouringStoreAdapter(
@@ -31,7 +32,7 @@ class PreviewNeighbouringStoreAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = listData.get(position)
         holder.neighbourStoreAdapterLayoutBinding.rent.setText(
-            "\u20B9" + DecimalFormat("##,##,##0").format(
+            "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
                 items.rent.toLong()
             )
         )
@@ -39,7 +40,7 @@ class PreviewNeighbouringStoreAdapter(
         holder.neighbourStoreAdapterLayoutBinding.neighborLocation.setText(items.location!!.name)
 
         if (items.sqft != null) {
-            var sqftFromResponse = DecimalFormat("###.0##").format(items.sqft)
+            var sqftFromResponse = DecimalFormat("###.0##", Utils.symbols).format(items.sqft)
             var sqft = ""
             var sqftSplit =
                 "${sqftFromResponse}".split(
@@ -47,10 +48,10 @@ class PreviewNeighbouringStoreAdapter(
                 )
             if (sqftSplit[1].toInt() > 0) {
                 sqft =
-                    DecimalFormat("##,##,###.0##").format(sqftFromResponse.toDouble())
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(sqftFromResponse.toDouble())
             } else {
                 sqft =
-                    DecimalFormat("##,##,###").format(sqftFromResponse.toDouble())
+                    DecimalFormat("##,##,###", Utils.symbols).format(sqftFromResponse.toDouble())
             }
             holder.neighbourStoreAdapterLayoutBinding.sqft.setText(sqft)
 
@@ -65,7 +66,7 @@ class PreviewNeighbouringStoreAdapter(
         if (items.sales != null) {
 
 
-            var salesFromResponse = DecimalFormat("###.0##").format(items.sales)
+            var salesFromResponse = DecimalFormat("###.0##", Utils.symbols).format(items.sales)
             var sales = ""
             var salesSplit =
                 "${salesFromResponse}".split(
@@ -73,10 +74,10 @@ class PreviewNeighbouringStoreAdapter(
                 )
             if (salesSplit[1].toInt() > 0) {
                 sales =
-                    DecimalFormat("##,##,###.0##").format(salesFromResponse.toDouble())
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(salesFromResponse.toDouble())
             } else {
                 sales =
-                    DecimalFormat("##,##,###").format(salesFromResponse.toDouble())
+                    DecimalFormat("##,##,###", Utils.symbols).format(salesFromResponse.toDouble())
             }
             holder.neighbourStoreAdapterLayoutBinding.sales.setText(sales)
             /* val df = DecimalFormat("##,##,##0").format(items.sales!!)

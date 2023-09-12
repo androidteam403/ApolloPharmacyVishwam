@@ -664,7 +664,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
                 if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].purchase_rate != null) {
                     val df =
-                        DecimalFormat("##,##,###.00").format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].purchase_rate)
+                        DecimalFormat("##,##,###.00", Utils.symbols).format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].purchase_rate)
                     binding.purchaseRate.text =
                         "₹ ${df}"
                 }
@@ -676,7 +676,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
                     if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp != null) {
                         val df =
-                            DecimalFormat("##,##,###.00").format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp.toDouble())
+                            DecimalFormat("##,##,###.00", Utils.symbols).format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp.toDouble())
                         binding.oldMrp.text =
                             "₹ ${df}"
                     }
@@ -687,7 +687,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 } else {
                     if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp != null) {
                         val df =
-                            DecimalFormat("##,##,###.00").format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp)
+                            DecimalFormat("##,##,###.00", Utils.symbols).format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp)
                         binding.oldMrp.text =
                             "₹ ${df}"
                     }
@@ -696,7 +696,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
                     if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp != null) {
                         val df =
-                            DecimalFormat("##,##,###.00").format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp)
+                            DecimalFormat("##,##,###.00", Utils.symbols).format(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp)
                         binding.newMrp.text =
                             "₹ ${df}"
                     }

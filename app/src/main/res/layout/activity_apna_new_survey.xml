@@ -939,7 +939,6 @@
                                             android:id="@+id/shop_number"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_50dp"
-                                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                                             android:hint="@string/label_shop_number"
                                             android:inputType="text|textNoSuggestions"
                                             android:paddingStart="@dimen/value_10dp"

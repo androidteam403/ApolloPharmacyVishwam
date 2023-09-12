@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.LayoutNeighbouringStorePreviewBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
+import com.apollopharmacy.vishwam.util.Utils
 import java.text.DecimalFormat
 
 class NeighbouringStorePreviewAdapter(
@@ -43,7 +44,7 @@ class NeighbouringStorePreviewAdapter(
         }
         if (data[position].rent != null) {
             holder.layoutNeighbouringStorePreviewBinding.rent.setText(
-                "\u20B9" + DecimalFormat("##,##,##0").format(
+                "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
                     data[position].rent!!.toLong()
                 )
             )
@@ -51,7 +52,7 @@ class NeighbouringStorePreviewAdapter(
             holder.layoutNeighbouringStorePreviewBinding.rent.setText("-")
         }
         if (data[position].sales != null) {
-            var salesFromResponse = DecimalFormat("###.0##").format(data[position].sales)
+            var salesFromResponse = DecimalFormat("###.0##", Utils.symbols).format(data[position].sales)
             var sales = ""
             var salesSplit =
                 "${salesFromResponse}".split(
@@ -59,10 +60,10 @@ class NeighbouringStorePreviewAdapter(
                 )
             if (salesSplit[1].toInt() > 0) {
                 sales =
-                    DecimalFormat("##,##,###.0##").format(salesFromResponse.toDouble())
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(salesFromResponse.toDouble())
             } else {
                 sales =
-                    DecimalFormat("##,##,###").format(salesFromResponse.toDouble())
+                    DecimalFormat("##,##,###", Utils.symbols).format(salesFromResponse.toDouble())
             }
             holder.layoutNeighbouringStorePreviewBinding.sales.setText(sales)//data.get(position).sales!!.toString()
 
@@ -77,7 +78,7 @@ class NeighbouringStorePreviewAdapter(
         }
         if (data[position].sqft != null) {
 
-            var sqftFromResponse = DecimalFormat("###.0##").format(data[position].sqft)
+            var sqftFromResponse = DecimalFormat("###.0##", Utils.symbols).format(data[position].sqft)
             var sqft = ""
             var sqftSplit =
                 "${sqftFromResponse}".split(
@@ -85,10 +86,10 @@ class NeighbouringStorePreviewAdapter(
                 )
             if (sqftSplit[1].toInt() > 0) {
                 sqft =
-                    DecimalFormat("##,##,###.0##").format(sqftFromResponse.toDouble())
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(sqftFromResponse.toDouble())
             } else {
                 sqft =
-                    DecimalFormat("##,##,###").format(sqftFromResponse.toDouble())
+                    DecimalFormat("##,##,###", Utils.symbols).format(sqftFromResponse.toDouble())
             }
             holder.layoutNeighbouringStorePreviewBinding.sqft.setText(sqft)
 

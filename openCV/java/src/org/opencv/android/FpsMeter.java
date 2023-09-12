@@ -1,6 +1,8 @@
 package org.opencv.android;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import org.opencv.core.Core;
 
@@ -12,7 +14,7 @@ import android.util.Log;
 public class FpsMeter {
     private static final String TAG               = "FpsMeter";
     private static final int    STEP              = 20;
-    private static final DecimalFormat FPS_FORMAT = new DecimalFormat("0.00");
+    private static final DecimalFormat FPS_FORMAT = new DecimalFormat("0.00", new DecimalFormatSymbols(Locale.ENGLISH));
 
     private int                 mFramesCounter;
     private double              mFrequency;

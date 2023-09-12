@@ -596,27 +596,27 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
             if (!status.equals("COMPLETED")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
-                val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.getDefault());
+                val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy kk:mm:ss a").format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             } else if (status.equals("PENDING")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
-                val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.getDefault());
+                val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy kk:mm:ss a").format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             } else {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
-                val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.getDefault());
+                val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
 //            023-01-23 17:32:16
                 val dateNewFormat =
-                    SimpleDateFormat("dd-MM-yy kk:mm:ss a").format(date)
+                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
                 headerDetails.dateOfVisit = dateNewFormat
             }
 
@@ -1716,14 +1716,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         }
         val currentTime: Date = Calendar.getInstance().getTime()
         val strDate = currentTime.toString()
-        val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy");
+        val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
         val endDate = dateFormat.parse(strDate)
         val dateNewFormat =
-            SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(endDate)
+            SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH).format(endDate)
         endTime.setText(dateNewFormat)
 
         val dtStart = activityChampsSurveyBinding.issuedOn.text.toString()
-        val format = SimpleDateFormat("dd MMM, yyyy - hh:mm a")
+        val format = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH)
 //        try {
         val startDate = format.parse(dtStart)
 //            System.out.println(date)
@@ -1769,11 +1769,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             var saveUpdateRequest = SaveUpdateRequest()
             saveUpdateRequest.employee_id = Preferences.getValidatedEmpId()
             val strDates = activityChampsSurveyBinding.issuedOn.text.toString()
-            val dateFormats = SimpleDateFormat("dd MMM, yyyy - hh:mm a");
+            val dateFormats = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
             val date = dateFormats.parse(strDates)
 //            023-01-23 17:32:16
             val dateNewFormats =
-                SimpleDateFormat("yyyy-MM-dd").format(date)
+                SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(date)
 
             saveUpdateRequest.date = dateNewFormats
             saveUpdateRequest.issue =

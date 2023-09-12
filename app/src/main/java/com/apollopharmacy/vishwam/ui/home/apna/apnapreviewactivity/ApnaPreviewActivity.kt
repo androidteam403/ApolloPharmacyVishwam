@@ -27,6 +27,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment
 import com.apollopharmacy.vishwam.ui.home.apna.survey.videopreview.ApnaVideoPreview
+import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
@@ -239,8 +240,8 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                 state = "-"
             }
             apnaPreviewActivityBinding.location.setText("$city, $state")
-            val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            val outputDateFormat = SimpleDateFormat("dd MMM, yyyy hh:mm a")
+            val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+            val outputDateFormat = SimpleDateFormat("dd MMM, yyyy hh:mm a", Locale.ENGLISH)
             apnaPreviewActivityBinding.surveystart.setText(
                 outputDateFormat.format(
                     inputDateFormat.parse(
@@ -280,7 +281,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                 }
             }
 
-            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
 
             try {
                 val date1 = simpleDateFormat.parse(approvedOrders.createdTime)
@@ -896,17 +897,17 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
             val total = totalOrg + totalUnorg
 
             apnaPreviewActivityBinding.organized.setText(
-                "\u20B9" + DecimalFormat("##,##,##0").format(
+                "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
                     totalOrg.toLong()
                 )
             )
             apnaPreviewActivityBinding.unorganized.setText(
-                "\u20B9" + DecimalFormat("##,##,##0").format(
+                "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
                     totalUnorg.toLong()
                 )
             )
             apnaPreviewActivityBinding.total.setText(
-                "\u20B9" + DecimalFormat("##,##,##0").format(
+                "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
                     total.toLong()
                 )
             )
@@ -1229,25 +1230,25 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         var length = ""
         var lengthSplit = "${value.data!!.length}".split(".")
         if (lengthSplit[1].toInt() > 0) {
-            length = DecimalFormat("##,##,###.0##").format(value.data!!.length)
+            length = DecimalFormat("##,##,###.0##", Utils.symbols).format(value.data!!.length)
         } else {
-            length = DecimalFormat("##,##,###").format(value.data!!.length)
+            length = DecimalFormat("##,##,###", Utils.symbols).format(value.data!!.length)
         }
 
         var width = ""
         var widthSplit = "${value.data!!.width}".split(".")
         if (widthSplit[1].toInt() > 0) {
-            width = DecimalFormat("##,##,###.0##").format(value.data!!.width)
+            width = DecimalFormat("##,##,###.0##", Utils.symbols).format(value.data!!.width)
         } else {
-            width = DecimalFormat("##,##,###").format(value.data!!.width)
+            width = DecimalFormat("##,##,###", Utils.symbols).format(value.data!!.width)
         }
 
         var ceilingHeight = ""
         var ceilingHeightSplit = "${value.data!!.ceilingHeight}".split(".")
         if (ceilingHeightSplit[1].toInt() > 0) {
-            ceilingHeight = DecimalFormat("##,##,###.0##").format(value.data!!.ceilingHeight)
+            ceilingHeight = DecimalFormat("##,##,###.0##", Utils.symbols).format(value.data!!.ceilingHeight)
         } else {
-            ceilingHeight = DecimalFormat("##,##,###").format(value.data!!.ceilingHeight)
+            ceilingHeight = DecimalFormat("##,##,###", Utils.symbols).format(value.data!!.ceilingHeight)
         }
 
         //DecimalFormat("##,##,###.0##")
@@ -1267,13 +1268,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
          }*/
 
 
-        var totalAreaFromResponse = DecimalFormat("###.0##").format(value.data!!.totalArea)
+        var totalAreaFromResponse = DecimalFormat("###.0##", Utils.symbols).format(value.data!!.totalArea)
         var totalArea = ""
         var totalAreaSplit = "${totalAreaFromResponse}".split(".")
         if (totalAreaSplit[1].toInt() > 0) {
-            totalArea = DecimalFormat("##,##,###.0##").format(totalAreaFromResponse.toDouble())
+            totalArea = DecimalFormat("##,##,###.0##", Utils.symbols).format(totalAreaFromResponse.toDouble())
         } else {
-            totalArea = DecimalFormat("##,##,###").format(totalAreaFromResponse.toDouble())
+            totalArea = DecimalFormat("##,##,###", Utils.symbols).format(totalAreaFromResponse.toDouble())
         }
 
         if (value.data!!.totalArea != null) {
@@ -1298,7 +1299,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         if (value.data!!.expectedRent != null) {
             apnaPreviewActivityBinding.expectedrentsrft.setText(
-                DecimalFormat("##,##,##0").format(value.data!!.expectedRent!!.toLong())
+                DecimalFormat("##,##,##0", Utils.symbols).format(value.data!!.expectedRent!!.toLong())
             )
         } else {
             apnaPreviewActivityBinding.expectedrentsrft.setText("-")
@@ -1306,7 +1307,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         if (value.data!!.securityDeposit != null) {
             apnaPreviewActivityBinding.securitydeposit.setText(
-                DecimalFormat("##,##,##0").format(value.data!!.securityDeposit!!.toLong())
+                DecimalFormat("##,##,##0", Utils.symbols).format(value.data!!.securityDeposit!!.toLong())
             )
         } else {
             apnaPreviewActivityBinding.securitydeposit.setText("-")
@@ -1510,21 +1511,21 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         }
         if (value.data!!.serviceClass != null) {
             apnaPreviewActivityBinding.serviceClass.setText(
-                DecimalFormat("##,##,##0").format(value.data!!.serviceClass!!.toLong())
+                DecimalFormat("##,##,##0", Utils.symbols).format(value.data!!.serviceClass!!.toLong())
             )
         } else {
             apnaPreviewActivityBinding.serviceClass.setText("-")
         }
         if (value.data!!.businessClass != null) {
             apnaPreviewActivityBinding.businessClass.setText(
-                DecimalFormat("##,##,##0").format(value.data!!.businessClass!!.toLong())
+                DecimalFormat("##,##,##0", Utils.symbols).format(value.data!!.businessClass!!.toLong())
             )
         } else {
             apnaPreviewActivityBinding.businessClass.setText("-")
         }
 
-        val inputDateFormat = SimpleDateFormat("HH:mm:ss")
-        val outputDateFormat = SimpleDateFormat("HH:mm")
+        val inputDateFormat = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
+        val outputDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
         if (value.data!!.morningFrom != null) {
             apnaPreviewActivityBinding.morningFrom.setText(
                 outputDateFormat.format(

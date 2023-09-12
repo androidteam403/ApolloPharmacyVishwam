@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apollopharmacy.vishwam.R;
+import com.apollopharmacy.vishwam.util.Utils;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
@@ -29,7 +30,7 @@ public class XYMarkerView extends MarkerView {
         this.xAxisValueFormatter = xAxisValueFormatter;
         tvContent = findViewById(R.id.tvContent_apna);
         linearLayout = findViewById(R.id.layout_marker);
-        format = new DecimalFormat("###");
+        format = new DecimalFormat("###", Utils.symbols);
     }
 
     // runs every time the MarkerView is redrawn, can be used to update the

@@ -64,7 +64,7 @@ class QcCalender : DialogFragment() {
 
         selectedDate = arguments?.getString(KEY_DATA).toString()
         dataPickerBinding.cancel.setOnClickListener { dismiss() }
-        val checkVal: NumberFormat = DecimalFormat("00")
+        val checkVal: NumberFormat = DecimalFormat("00", Utils.symbols)
         val c = Calendar.getInstance()
         val year: Int
         var month: Int

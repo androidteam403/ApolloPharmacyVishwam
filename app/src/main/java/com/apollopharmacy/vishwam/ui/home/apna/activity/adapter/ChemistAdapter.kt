@@ -15,6 +15,7 @@ import com.apollopharmacy.vishwam.databinding.AdapterChemistListBinding
 import com.apollopharmacy.vishwam.databinding.ImageDeleteConfirmDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ChemistData
+import com.apollopharmacy.vishwam.util.Utils
 import java.text.DecimalFormat
 
 class ChemistAdapter(
@@ -52,7 +53,7 @@ class ChemistAdapter(
 
         if (chemistList[position].organisedAvgSale.isNotEmpty()) {
             holder.adapterChemistListBinding.organisedAvgSaleText.setText(
-                "\u20B9" + DecimalFormat("##,##,##0").format(chemistList[position].organisedAvgSale.toLong())
+                "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(chemistList[position].organisedAvgSale.toLong())
             )
         } else {
             holder.adapterChemistListBinding.organisedAvgSaleText.setText("-")
@@ -66,7 +67,7 @@ class ChemistAdapter(
 
         if (chemistList[position].unorganisedAvgSale.isNotEmpty()) {
             holder.adapterChemistListBinding.unorganisedAvgSaleText.setText(
-                "\u20B9" + DecimalFormat("##,##,##0").format(chemistList[position].unorganisedAvgSale.toLong())
+                "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(chemistList[position].unorganisedAvgSale.toLong())
             )
         } else {
             holder.adapterChemistListBinding.unorganisedAvgSaleText.setText("-")

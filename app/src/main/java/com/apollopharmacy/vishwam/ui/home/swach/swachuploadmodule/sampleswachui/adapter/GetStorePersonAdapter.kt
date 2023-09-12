@@ -9,6 +9,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterGetstorepersonhistoryBinding
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
 import java.text.SimpleDateFormat
+import java.util.Locale
 import kotlin.collections.ArrayList
 
 class GetStorePersonAdapter(
@@ -177,9 +178,9 @@ class GetStorePersonAdapter(
 
 
                 val strDate = getStorePerson?.uploadedDate
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH).format(date)
                 binding.dateDetails.text = dateNewFormat.toString()
 
 
@@ -205,9 +206,9 @@ class GetStorePersonAdapter(
             } else {
 
                 val strDate = getStorePerson?.uploadedDate
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH).format(date)
                 binding.dateDetails.text = dateNewFormat.toString()
             }
 
@@ -230,9 +231,9 @@ class GetStorePersonAdapter(
             } else {
 
                 val strDate =  getStorePerson?.uploadedDate
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH).format(date)
                 binding.dateDetails.text = dateNewFormat.toString()
             }
 
@@ -256,9 +257,9 @@ class GetStorePersonAdapter(
                 binding.dateDetails.text = "--"
             } else {
                 val strDate =  getStorePerson?.uploadedDate
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH).format(date)
                 binding.dateDetails.text = dateNewFormat.toString()
             }
 

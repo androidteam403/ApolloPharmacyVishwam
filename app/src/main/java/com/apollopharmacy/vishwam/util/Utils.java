@@ -33,6 +33,7 @@ import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.model.cms.NewTicketHistoryResponse;
 
 import java.io.IOException;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -865,5 +866,6 @@ public class Utils {
             return null;
         }
     }
+    public static DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.ENGLISH);
 
 }

@@ -1632,7 +1632,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                     if (totalOrganisedAvgSale > 0) {
                         activityApnaNewSurveyBinding.totalOrganisedText.setText(
-                            "\u20B9" + DecimalFormat("##,##,##0").format(totalOrganisedAvgSale.toLong())
+                            "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
+                                totalOrganisedAvgSale.toLong()
+                            )
                         )
                     } else {
                         activityApnaNewSurveyBinding.totalOrganisedText.setText("-")
@@ -1644,7 +1646,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                     if (totalUnorganisedAvgSale > 0) {
                         activityApnaNewSurveyBinding.totalUnorganisedText.setText(
-                            "\u20B9" + DecimalFormat("##,##,##0").format(totalUnorganisedAvgSale.toLong())
+                            "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
+                                totalUnorganisedAvgSale.toLong()
+                            )
                         )
                     } else {
                         activityApnaNewSurveyBinding.totalUnorganisedText.setText("-")
@@ -1653,7 +1657,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     val total = totalOrganisedAvgSale + totalUnorganisedAvgSale
                     if (total > 0) {
                         activityApnaNewSurveyBinding.total.setText(
-                            "\u20B9" + DecimalFormat("##,##,##0").format(
+                            "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
                                 total.toLong()
                             )
                         )
@@ -1837,7 +1841,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             morningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
 
                             if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningToSelect.text.toString()
@@ -1963,7 +1967,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             morningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
 
                             if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningToSelect.text.toString()
@@ -2101,7 +2105,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             morningToMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningFromSelect.text.toString()
                                     .isEmpty()
@@ -2232,7 +2236,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             morningToMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningFromSelect.text.toString()
                                     .isEmpty()
@@ -2365,7 +2369,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             eveningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.eveningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.eveningToSelect.text.toString()
                                     .isEmpty()
@@ -2463,7 +2467,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             eveningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.eveningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.eveningToSelect.text.toString()
                                     .isEmpty()
@@ -2565,7 +2569,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             eveningToMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
                                     .isEmpty()
@@ -2659,7 +2663,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             eveningToMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
                                     .isEmpty()
@@ -3383,7 +3387,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         }
         mapMoveIssue()
         onClickAgeoftheBuildingMonths()
-        onClickExistingOutletinmonths ()
+        onClickExistingOutletinmonths()
     }
 
     private fun validateHospitals(): Boolean {
@@ -3785,7 +3789,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     }
 
     private fun updateTotalArea(length: Double, width: Double) {
-        activityApnaNewSurveyBinding.totalAreaText.setText(String.format("%.2f", (length * width)))
+        var totalArea = (length * width)
+        var totalAreaText = DecimalFormat("###.0##", Utils.symbols).format(totalArea)
+        activityApnaNewSurveyBinding.totalAreaText.setText(totalAreaText)
+
+//        activityApnaNewSurveyBinding.totalAreaText.setText(String.format("%.2f", (length * width)))
     }
 
     private fun unorganisedFilter(
@@ -4191,6 +4199,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 surveyCreateRequest.ceilingHeight =
                     activityApnaNewSurveyBinding.ceilingHeightText.text.toString().trim()
 
+
                 if (activityApnaNewSurveyBinding.totalAreaText.text.toString().isNotEmpty()) {
                     surveyCreateRequest.totalArea =
                         activityApnaNewSurveyBinding.totalAreaText.text.toString().trim().toDouble()
@@ -4387,9 +4396,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     surveyCreateRequest.extngOutletAge = 0f
                 }
 
-                if (activityApnaNewSurveyBinding.existingOutletAgeInmonths.text.toString().isNotEmpty()) {
+                if (activityApnaNewSurveyBinding.existingOutletAgeInmonths.text.toString()
+                        .isNotEmpty()
+                ) {
                     surveyCreateRequest.extng_outlet_age_in_month =
-                        activityApnaNewSurveyBinding.existingOutletAgeInmonths.text.toString().trim().toFloat()
+                        activityApnaNewSurveyBinding.existingOutletAgeInmonths.text.toString()
+                            .trim().toFloat()
                 } else {
                     surveyCreateRequest.extng_outlet_age_in_month = 0f
                 }
