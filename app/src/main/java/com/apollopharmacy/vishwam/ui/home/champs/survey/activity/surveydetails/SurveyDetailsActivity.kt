@@ -318,7 +318,9 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                 if (recipientEmails.isEmpty()) recipientEmails = "$i" else recipientEmails =
                     "$recipientEmails, $i"
             }
-            surveyRecDetailsList.set(0, "${surveyRecDetailsListTemp.get(0)},$recipientEmails")
+            surveyRecDetailsList.set(0, "$recipientEmails")
+
+//            surveyRecDetailsList.set(0, "${surveyRecDetailsListTemp.get(0)},$recipientEmails")
 
             val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -332,6 +334,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
             intent.putExtra("status", "NEW")
             intent.putExtra("visitDate", "")
             intent.putExtra("champsRefernceId", "")
+            intent.putExtra("RECIPIENTS_NEWLY_ADDED", recipientEmails)
             intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
             intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
             startActivityForResult(intent, 891)

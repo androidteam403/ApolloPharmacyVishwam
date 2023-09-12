@@ -63,6 +63,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     private var storeId: String = ""
     private var address: String = ""
     private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
+//    var recipientEmails: String? = ""
     var surveyRecDetailsList = ArrayList<String>()
     private var isPending: Boolean = false
     var surveyCCDetailsList = ArrayList<String>()
@@ -124,6 +125,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             intent.getSerializableExtra("getStoreWiseEmpIdResponse") as GetStoreWiseEmpIdResponse?
         getStoreWiseDetails =
             intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
+
+//        recipientEmails = intent.getStringExtra("RECIPIENTS_NEWLY_ADDED")!!
         surveyRecDetailsList =
             intent.getStringArrayListExtra("surveyRecDetailsList")!!
         surveyCCDetailsList = intent.getStringArrayListExtra("surveyCCDetailsList")!!
@@ -1976,6 +1979,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     saveUpdateRequest.cc_email = ""
                 }
             }
+           /* if (!recipientEmails.isNullOrEmpty()) {
+                saveUpdateRequest.add_recp_email = recipientEmails
+            }else{
+
+            }*/
             champsSurveyViewModel.saveUpdateApi(this, saveUpdateRequest)
         } else {
             Utlis.hideLoading()

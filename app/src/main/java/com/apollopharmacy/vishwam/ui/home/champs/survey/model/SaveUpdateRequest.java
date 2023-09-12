@@ -27,6 +27,10 @@ public class SaveUpdateRequest implements Serializable {
     @Expose
     private String email;
 
+    @SerializedName("add_recp_email")
+    @Expose
+    private String add_recp_email;
+
     @SerializedName("cc_email")
     @Expose
     private String cc_email;
@@ -109,6 +113,14 @@ public class SaveUpdateRequest implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAdd_recp_email() {
+        return add_recp_email;
+    }
+
+    public void setAdd_recp_email(String add_recp_email) {
+        this.add_recp_email = add_recp_email;
     }
 
     public String getCc_email() {
