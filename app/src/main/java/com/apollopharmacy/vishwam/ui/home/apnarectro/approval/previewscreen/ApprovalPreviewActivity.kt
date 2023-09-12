@@ -43,9 +43,9 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
     var isApiHit: Boolean = false
     var isRatingApiHit: Boolean = false
     var stagePosition: String = ""
-    public var imageList = ArrayList<String>()
-    public var pendingList = ArrayList<String>()
-    public var reshootList = ArrayList<String>()
+    var imageList = ArrayList<String>()
+    var pendingList = ArrayList<String>()
+    var reshootList = ArrayList<String>()
     public var approveList = ArrayList<String>()
     public var imageUrlsList = ArrayList<GetImageUrlResponse.ImageUrl>()
     var saveRequestImageslist = ArrayList<SaveAcceptRequest.Imageurl>()
@@ -76,20 +76,30 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
     private fun setUp() {
 
         activityPreviewBinding.callback = this
-        stage = intent.getStringExtra("stage")!!
-        retroId = intent.getStringExtra("retroId")!!
-        status = intent.getStringExtra("status")!!
-        store = intent.getStringExtra("site")!!
 
-        uploadBy = intent.getStringExtra("uploadBy")!!
-        uploadDate = intent.getStringExtra("uploadOn")!!
-        approveResponseList =
-            intent.getSerializableExtra("approvePendingList") as ArrayList<GetRetroPendingAndApproveResponse.Retro>
-        var imageUrlRequest = GetImageUrlRequest()
-        imageUrlRequest.retroId = retroId
-        imageUrlRequest.storeid = store.split("-").get(0)
-        Utlis.showLoading(this)
-        viewModel.getRectroApprovalList(imageUrlRequest, this)
+
+
+
+        if(intent!=null){
+            stage = intent.getStringExtra("stage")!!
+            retroId = intent.getStringExtra("retroId")!!
+            status = intent.getStringExtra("status")!!
+            store = intent.getStringExtra("site")!!
+            uploadBy = intent.getStringExtra("uploadBy")!!
+            uploadDate = intent.getStringExtra("uploadOn")!!
+            approveResponseList = intent.getSerializableExtra("approvePendingList") as ArrayList<GetRetroPendingAndApproveResponse.Retro>
+        }
+
+        if (store.isNullOrEmpty()){
+
+        }else{
+            var imageUrlRequest = GetImageUrlRequest()
+            imageUrlRequest.retroId = retroId
+            imageUrlRequest.storeid = store.split("-").get(0)
+            Utlis.showLoading(this)
+            viewModel.getRectroApprovalList(imageUrlRequest, this)
+        }
+
         val frmt = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
         val date = frmt.parse(uploadDate)
         val newFrmt = SimpleDateFormat("dd MMM, yyy - hh:mm a").format(date)
@@ -221,6 +231,8 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         value: GetImageUrlResponse,
         categoryList: List<GetImageUrlResponse.Category>, retroId: String,
     ) {
+
+        Utlis.hideLoading()
         getImageUrlsResponses = value
         value.setretroId(retroId)
         imageUrlList = categoryList as ArrayList<GetImageUrlResponse.Category>

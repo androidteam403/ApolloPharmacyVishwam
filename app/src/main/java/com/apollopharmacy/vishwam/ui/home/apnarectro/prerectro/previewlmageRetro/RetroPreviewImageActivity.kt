@@ -482,6 +482,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     override fun onSuccessRatingResponse(value: SaveAcceptResponse) {
+        Utlis.hideLoading()
         val imagesStatusAlertDialog = Dialog(this)
         val dialogLastimagePreviewAlertBinding: DialogOkAlertBinding =
             DataBindingUtil.inflate(
@@ -527,8 +528,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         dialogLastimagePreviewAlertBinding.messege.setText(retroId + "\n" + "Reviewed Sucessfully")
 
         dialogLastimagePreviewAlertBinding.alertTitle.setText("Apna " + WordUtils.capitalizeFully(
-            stage.replace("-",
-                " ")) + " Review")
+            stage.replace("-", " ")) + " Review")
 
         dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
 
@@ -626,13 +626,13 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
             dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
 
                 isRatingApiHit = true
+                imagesStatusAlertDialog.dismiss()
 
                 val intent = Intent()
                 intent.putExtra("mainImagesList", imageUrlsList)
                 intent.putExtra("isApiHit", isApiHit)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
-                imagesStatusAlertDialog.dismiss()
             }
 
             imagesStatusAlertDialog.show()

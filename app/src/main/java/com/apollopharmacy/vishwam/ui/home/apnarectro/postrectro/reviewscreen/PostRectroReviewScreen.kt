@@ -893,14 +893,12 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
             dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
 
                 isRatingApiHit = true
-
                 val intent = Intent()
                 intent.putExtra("imageUrlList", imageUrlMainList)
                 intent.putExtra("isApiHit", isApiHit)
                 intent.putExtra("ratingApi", isRatingApiHit)
                 intent.putExtra("imagesList", imageUrlsList)
                 intent.putExtra("stagePosition", stagePosition)
-
                 setResult(Activity.RESULT_OK, intent)
                 finish()
                 imagesStatusAlertDialog.dismiss()
