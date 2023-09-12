@@ -70,8 +70,8 @@ import org.apache.commons.lang3.text.WordUtils
             }
 
             if(approvedOrders.managerApprovedBy==null){
-                holder.timelineLayoutBinding.executiveApproveByLayout.visibility=android.view.View.GONE
-                holder.timelineLayoutBinding.executiveApproveDateLayout.visibility=android.view.View.GONE
+                holder.timelineLayoutBinding.managerApproveLayout.visibility=android.view.View.GONE
+                holder.timelineLayoutBinding.managerApproveDateLayout.visibility=android.view.View.GONE
 
             }
             else{
@@ -95,8 +95,8 @@ import org.apache.commons.lang3.text.WordUtils
             }
 
             if(approvedOrders.gmApprovedBy==null){
-                holder.timelineLayoutBinding.executiveApproveByLayout.visibility=android.view.View.GONE
-                holder.timelineLayoutBinding.executiveApproveDateLayout.visibility=android.view.View.GONE
+                holder.timelineLayoutBinding.gmApproveDateLayout.visibility=android.view.View.GONE
+                holder.timelineLayoutBinding.gmApproveLayout.visibility=android.view.View.GONE
 
             }
             else{
