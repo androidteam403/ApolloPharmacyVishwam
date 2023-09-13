@@ -194,6 +194,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ImageView siteIdIcon;
     public RelativeLayout filterIcon;
     public RelativeLayout qcfilterIcon;
+    public ImageView refreshIconQc;
+
     public LinearLayout logout;
     public static Boolean isAtdLogout = false;
     private Context context;
@@ -392,6 +394,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ) isStoreSuperVisour = true;
         else isStoreSuperVisour = false;
         qcfilterIcon = findViewById(R.id.qc_filter_icon);
+        refreshIconQc = findViewById(R.id.refreshIconQc);
+
 
 
         filterIcon = findViewById(R.id.filterIcon);
@@ -407,11 +411,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        refreshIconQc.setOnClickListener(v -> {
+            if (mainActivityCallback != null) {
+                mainActivityCallback.onClickQcFilterIcon();
+            }
+        });
+
         qcfilterIcon.setOnClickListener(v -> {
             if (mainActivityCallback != null) {
                 mainActivityCallback.onClickQcFilterIcon();
             }
         });
+
+
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -610,6 +622,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("HOME");
                 fragment = new HomeFragment();
                 filterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+
                 qcfilterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = true;
@@ -620,6 +634,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 isAllowFragmentChange = true;
+                refreshIconQc.setVisibility(View.GONE);
+
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
@@ -628,6 +644,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new ComplainListFragment();
                 filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -638,6 +655,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 Bundle bundle1 = new Bundle();
+                refreshIconQc.setVisibility(View.GONE);
+
                 bundle1.putBoolean("isFromApprovalList", true);
                 ComplainListFragment fragInfo1 = new ComplainListFragment();
                 fragInfo1.setArguments(bundle1);
@@ -650,6 +669,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new AttendanceFragment();
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -658,6 +678,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("History");
                 fragment = new HistoryFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -668,12 +689,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new PendingOrderFragment();
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Approved":
                 headerText.setText("Approved List");
+                refreshIconQc.setVisibility(View.GONE);
 
                 fragment = new ApprovedFragment();
                 filterIcon.setVisibility(View.GONE);
@@ -686,6 +709,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Rejected List");
                 fragment = new RejectedFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -696,6 +720,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new BillCompletedFragment();
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -705,6 +730,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new SwacchImagesUploadFragment();
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -714,6 +740,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("SWACHH LIST");
                 fragment = new SwacchFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -725,6 +752,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new SampleSwachUi();
                 filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
@@ -734,6 +762,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.VISIBLE);
@@ -746,6 +775,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 isAllowFragmentChange = true;
+                refreshIconQc.setVisibility(View.GONE);
+
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
@@ -759,6 +790,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new CashCloserFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
@@ -767,6 +800,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("New Drug List");
                 fragment = new DrugListFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 Bundle bundle = new Bundle();
@@ -783,14 +817,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new QcDashboard();
                 qcfilterIcon.setVisibility(View.GONE);
 
+                refreshIconQc.setVisibility(View.VISIBLE);
+
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
+
                 isHomeScreen = false;
                 break;
             case "OutStanding":
                 headerText.setText("Pending List");
                 fragment = new PendingFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -805,6 +843,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Dashboard");
                 fragment = new DashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -816,6 +855,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Profile");
                 fragment = new ProfileFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -826,6 +866,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("My Orders");
                 fragment = new MyOrdersFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -833,6 +874,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "Cash Deposits":
                 mCurrentFrag = "Cash Deposits";
+                refreshIconQc.setVisibility(View.GONE);
 
                 headerText.setText("Cash Deposits");
                 fragment = new ReportsFragment();
@@ -848,6 +890,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Summary");
                 fragment = new SummaryFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -859,6 +902,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Complaints");
                 fragment = new ComplaintsFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -870,6 +914,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Dashboard");
                 fragment = new ChangePasswordFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -881,6 +926,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Help");
                 fragment = new HelpFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -898,6 +944,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Approved List");
                 fragment = new com.apollopharmacy.vishwam.ui.home.qcfail.approved.ApprovedFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -908,6 +955,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Rejected List");
                 fragment = new com.apollopharmacy.vishwam.ui.home.qcfail.rejected.RejectedFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
+                refreshIconQc.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -924,6 +972,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new NewSurveyFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
@@ -931,6 +981,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("CHAMPS Analysis Reports");
                 fragment = new ChampsReportsFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -940,6 +992,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Admin Module");
                 fragment = new AdminModuleFragment();
                 qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -950,6 +1004,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new AssetsFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
@@ -2068,6 +2124,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onClickQcFilterIcon() {
+
+    }
+
+    @Override
+    public void onClickSpinnerLayout() {
 
     }
 

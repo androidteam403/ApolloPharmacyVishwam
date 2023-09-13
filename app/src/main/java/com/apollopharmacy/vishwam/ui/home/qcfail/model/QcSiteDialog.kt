@@ -112,13 +112,11 @@ class QcSiteDialog : DialogFragment() {
                             }
                         } else {
                             Preferences.setQcSite("")
-                            if (list[position].isClick || storeList[position].isClick) {
+                            if (list[position].isClick ) {
 
                                 list[position].setisClick(false)
-                                storeList[position].setisClick(false)
                             } else {
                                 list[position].setisClick(true)
-                                storeList[position].setisClick(true)
 
                             }
 
@@ -209,6 +207,7 @@ class QcSiteRecycleView(
         items: UniqueStoreList,
         position: Int,
     ) {
+
         binding.itemName.text = "${items.siteid}"
 
         binding.genderParentLayout.setOnClickListener {
@@ -218,19 +217,34 @@ class QcSiteRecycleView(
         var i: Int = 0
 
         if (!Preferences.getQcSite().isNullOrEmpty()) {
+            if (Preferences.getQcSite().contains(",")){
+                for (j in departmentListDto.indices) {
 
-            while (i < storeList.size) {
-                if (storeList.get(i).siteid?.replace(" ", "")
-                        .equals(departmentListDto[i].siteid)
-                ) {
-                    departmentListDto[i].setisClick(true)
-                    i++
-                } else {
-                    departmentListDto[i].setisClick(false)
-                    i++
+                    if (Preferences.getQcSite().split(",").filter { it.contains(departmentListDto.get(i).siteid!!) }.size>0) {
+
+                        departmentListDto[j].setisClick(true)
+                    } else {
+
+                        departmentListDto[j].setisClick(false)
+                    }
 
                 }
             }
+
+            else{
+                for (j in departmentListDto.indices) {
+
+                    if (Preferences.getQcSite().contains(departmentListDto.get(j).siteid!!)
+                    ) {
+
+                        departmentListDto[j].setisClick(true)
+                    } else {
+
+                        departmentListDto[j].setisClick(false)
+                    }
+                }
+            }
+
         }
 
         if (departmentListDto[position].isClick) {
@@ -238,6 +252,8 @@ class QcSiteRecycleView(
         } else {
             binding.checkBox.setImageResource(R.drawable.qc_checkbox)
         }
+
+
 
 //        binding.root.setOnClickListener {
 //            items.setisClick(true)

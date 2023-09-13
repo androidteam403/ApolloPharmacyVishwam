@@ -63,10 +63,10 @@ class QcRejectedViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcRejectLists.value = result.value
+                        qcRejectLists.value = result.value!!
                     } else {
                         state.value = State.ERROR
-                        qcRejectLists.value = result.value
+                        qcRejectLists.value = result.value!!
                     }
                 }
                 is ApiResult.GenericError -> {
@@ -292,7 +292,9 @@ class QcRejectedViewModel : ViewModel() {
         }
     }
 
-
+    fun setRejectedList(qcListsResponse: QcListsResponse) {
+        qcRejectLists.value = qcListsResponse
+    }
     fun filterClicked() {
 
         listarrayList.add("16001")

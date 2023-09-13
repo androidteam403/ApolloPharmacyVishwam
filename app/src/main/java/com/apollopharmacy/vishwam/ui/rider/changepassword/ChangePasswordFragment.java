@@ -145,4 +145,9 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
     public void onClickQcFilterIcon() {
 
     }
+
+    @Override
+    public void onClickSpinnerLayout() {
+
+    }
 }

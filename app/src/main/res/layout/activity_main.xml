@@ -51,6 +51,14 @@
                 android:src="@drawable/siteid_icon"
                 android:visibility="visible" />
 
+            <ImageView
+                android:id="@+id/refreshIconQc"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_refresh_black"
+                android:tint="@color/white" />
+
             <RelativeLayout
                 android:id="@+id/filterIcon"
                 android:layout_width="@dimen/value_20dp"

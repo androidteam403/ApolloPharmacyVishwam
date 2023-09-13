@@ -11,16 +11,12 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
-import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
-import com.apollopharmacy.vishwam.databinding.DialogSiteListBinding
 import com.apollopharmacy.vishwam.databinding.QcDialogSiteListBinding
 import com.apollopharmacy.vishwam.databinding.QcViewItemRowBinding
-import com.apollopharmacy.vishwam.databinding.ViewListItemBinding
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.util.Utils
 
@@ -126,15 +122,14 @@ class QcRegionDialog : DialogFragment() {
                                 list[position].setisClick(true)
 
                             }
-                        } else {
+                        }
+                        else {
                             Preferences.setQcRegion("")
-                            if (list[position].isClick || regionList[position].isClick) {
+                            if (list[position].isClick ) {
 
                                 list[position].setisClick(false)
-                                regionList[position].setisClick(false)
                             } else {
                                 list[position].setisClick(true)
-                                regionList[position].setisClick(true)
 
                             }
 
@@ -245,37 +240,39 @@ class RegionRecyclerView(
 
         }
         var i: Int = 0
-
         if (!Preferences.getQcRegion().isNullOrEmpty()) {
+            if (Preferences.getQcRegion().contains(",")){
+                for (j in departmentListDto.indices) {
 
-            while (i < regionList.size) {
-                if (regionList.get(i).siteid?.replace(" ", "")
-                        .equals(departmentListDto[i].siteid)
-                ) {
-                    departmentListDto[i].setisClick(true)
-                    i++
-                } else {
-                    departmentListDto[i].setisClick(false)
-                    i++
+                    if (Preferences.getQcRegion().split(",").filter { it.contains(departmentListDto.get(i).siteid!!) }.size>0) {
+
+                        departmentListDto[j].setisClick(true)
+                    } else {
+
+                        departmentListDto[j].setisClick(false)
+                    }
 
                 }
             }
-//                    if (names[i].isItemChecked) {
-//                        names.removeAt(i)
-//                        i = 0
-//                    } else {
-//                        i++
-//                    }
-//                }
 
-//            for (i in regionList.indices) {
-//                if (regionList.get(i).equals(departmentListDto[position].siteid)) {
-//                    departmentListDto[position].setisClick(true)
-//                } else {
-//                    departmentListDto[position].setisClick(false)
-//
-//                }
-//            }
+            else{
+                for (j in departmentListDto.indices) {
+
+                    if (Preferences.getQcRegion().contains(departmentListDto.get(j).siteid!!)
+                    ) {
+
+                        departmentListDto[j].setisClick(true)
+                    } else {
+
+                        departmentListDto[j].setisClick(false)
+                    }
+                }
+            }
+
+
+
+
+
         }
 
         if (departmentListDto[position].isClick) {

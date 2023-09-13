@@ -13,7 +13,9 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.PendingCountResponse
 class DashboardSitesAdapter(
     val mContext: Context,
     var pendingCountResponseList: ArrayList<PendingCountResponse.Pendingcount>,
-) :
+    var distintPendingCountResponseList: ArrayList<PendingCountResponse.Pendingcount>,
+
+    ) :
     RecyclerView.Adapter<DashboardSitesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,19 +33,36 @@ class DashboardSitesAdapter(
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val items = pendingCountResponseList.get(position)
-        holder.dashboardSitesBinding.pendingCount.setText(items.pendingcount.toString())
+
+        val items = distintPendingCountResponseList.get(position)
         holder.dashboardSitesBinding.storeid.setText(items.siteid)
         holder.dashboardSitesBinding.empid.setText(items.empid)
+
+
+        for (m in pendingCountResponseList.indices) {
+            if (items.siteid.equals(pendingCountResponseList.get(m).siteid)) {
+
+                if (pendingCountResponseList.get(m).ordertype.equals("REVERSE RETURN")) {
+                    holder.dashboardSitesBinding.rtcount.setText(pendingCountResponseList[m].pendingcount.toString())
+
+                } else if (pendingCountResponseList[m].ordertype.equals("FORWARD RETURN")) {
+                    holder.dashboardSitesBinding.frcount.setText(pendingCountResponseList[m].pendingcount.toString())
+
+                }
+            }
+
+            }
+
+
+        }
+
+
+        override fun getItemCount(): Int {
+            return distintPendingCountResponseList.size
+        }
+
+        class ViewHolder(val dashboardSitesBinding: DashboardSitesBinding) :
+            RecyclerView.ViewHolder(dashboardSitesBinding.root)
     }
-
-
-    override fun getItemCount(): Int {
-        return pendingCountResponseList.size
-    }
-
-    class ViewHolder(val dashboardSitesBinding: DashboardSitesBinding) :
-        RecyclerView.ViewHolder(dashboardSitesBinding.root)
-}
 
 

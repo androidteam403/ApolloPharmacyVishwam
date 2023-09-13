@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
 
@@ -27,15 +27,15 @@
                 <TableLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/dashquarebox_right"
+                    android:layout_weight="1.0185"
+                    android:background="@drawable/site_dashquarebox_right"
 
                     android:orientation="vertical">
 
 
                     <TextView
                         android:id="@+id/empid"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_5dp"
                         android:fontFamily="@font/roboto_medium"
@@ -52,9 +52,9 @@
                 <TableLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3.015"
+                    android:layout_weight="2.4876"
 
-                    android:background="@drawable/site_dashquarebox_right"
+                    android:background="@drawable/dashquarebox_right"
 
 
                     android:orientation="vertical">
@@ -62,7 +62,7 @@
 
                     <TextView
                         android:id="@+id/storeid"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_5dp"
                         android:fontFamily="@font/roboto_medium"
@@ -76,27 +76,51 @@
                         android:textSize="@dimen/dimen11sp" />
 
                 </TableLayout>
-
-
                 <TableLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/dashquarebox_right"
+                    android:layout_weight=".81"
+                    android:background="@drawable/site_dashquarebox_right"
 
                     android:orientation="vertical">
 
 
                     <TextView
-                        android:id="@+id/pending_count"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/frcount"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_5dp"
                         android:fontFamily="@font/roboto_medium"
                         android:paddingStart="4sp"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:text="120"
+                        android:text="-"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen11sp" />
+
+                </TableLayout>
+
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:background="@drawable/dashquarebox_right"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/rtcount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="4sp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="-"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_10sp" />

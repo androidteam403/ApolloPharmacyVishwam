@@ -214,10 +214,22 @@ object Utlis {
     }
 
     fun filterDateFormate(dateForFilter: String): Date {
-        val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
-        val destinationFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
-        val convertedDate: Date = sourceFormat.parse(dateForFilter)
-        return convertedDate
+        val sourceFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val destinationFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+
+//        val dtStart = "2010-10-15T09:27:37Z"
+        val format = SimpleDateFormat("dd-MMM-yyyy")
+        try {
+            val date = format.parse(dateForFilter)
+            System.out.println(date)
+            return date
+        } catch (e: ParseException) {
+            e.printStackTrace()
+            return Date()
+        }
+
+        /*val convertedDate: Date = sourceFormat.parse(dateForFilter)
+        return convertedDate*/
     }
 
     @SuppressLint("SimpleDateFormat")

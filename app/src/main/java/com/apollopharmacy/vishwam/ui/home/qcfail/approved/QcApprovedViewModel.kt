@@ -9,7 +9,6 @@ import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.QcApiRepo
-import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -57,7 +56,7 @@ class QcApprovedViewModel : ViewModel() {
             }
         }
 
-
+//        https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
 
@@ -68,10 +67,10 @@ class QcApprovedViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcLists.value = result.value
+                        qcLists.value = result.value!!
                     } else {
                         state.value = State.ERROR
-                        qcLists.value = result.value
+                        qcLists.value = result.value!!
                     }
                 }
                 is ApiResult.GenericError -> {
@@ -94,6 +93,10 @@ class QcApprovedViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun setApprovedList(qcListsResponse: QcListsResponse) {
+        qcLists.value = qcListsResponse
     }
 
     fun getQcRegionList() {
@@ -301,19 +304,6 @@ class QcApprovedViewModel : ViewModel() {
     }
 
 
-    fun filterClicked() {
-        regionarrayList = qcregionIdList
-        arrayList = qcStoreIdList
-
-//        QcFilterFragment().apply {
-//            arguments=QcFilterFragment().generateParsedData(qcregionIdList as ArrayList<QcRegionList.Store>)
-//        }
-//
-        command.value = Command.ShowQcButtonSheet(BottomSheetDialog::class.java,
-            bundleOf(Pair(QcFilterFragment.KEY_PENDING_DATA_QC, arrayList),
-                Pair(QcFilterFragment.KEY_REGION_DATA_QC, regionarrayList)))
-
-    }
 
 
 }

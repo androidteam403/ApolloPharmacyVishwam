@@ -15,7 +15,6 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryfo
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcDashBoardCallback
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
-import kotlinx.android.synthetic.main.manager_layout.view.*
 import java.text.DecimalFormat
 import java.util.function.Predicate
 import java.util.stream.Collectors

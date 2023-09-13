@@ -3,6 +3,11 @@ package com.apollopharmacy.vishwam.data
 import android.content.Context
 import android.content.SharedPreferences
 import com.apollopharmacy.vishwam.data.Config.VISWAM_PREFERENCE
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.UniqueStoreList
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
+import com.google.gson.reflect.TypeToken
 
 object Preferences {
 
@@ -12,16 +17,37 @@ object Preferences {
     private const val KEY_SAVING_TOKEN = "KEY_USER_ID"
     private const val PREF_KEY_LOGIN_JSON = "PREF_KEY_LOGIN_JSON"
     private const val KEY_APP_LEVEL_DESIGNATION = "KEY_APP_LEVEL_DESIGNATION"
+    private const val KEY_APP_CEO_DASHBOARD_ROLE = "KEY_APP_CEO_DASHBOARD_ROLE"
     private const val KEY_FROM_DATE = "KEY_FROM_DATE"
+    private const val PENDING_PAGE_SIZE_QC = "PENDING_PAGE_SIZE_QC"
+    private const val APPROVED_PAGE_SIZE_QC = "APPROVED_PAGE_SIZE_QC"
+    private const val REJECTED_PAGE_SIZE_QC = "REJECTED_PAGE_SIZE_QC"
     private const val KEY_TO_DATE = "KEY_TO_DATE"
-
+    private const val KEY_DISC_FROM_DATE = "KEY_DISC_FROM_DATE"
+    private const val KEY_DISC_TO_DATE = "KEY_DISC_TO_DATE"
     private const val KEY_QC_REGION_ID = "KEY_QC_REGION_ID"
+    private const val KEY_QC_REGION_ID_LIST = "KEY_QC_REGION_ID_LIST"
+    private const val KEY_QC_SITE_ID_LIST = "KEY_QC_SITE_ID_LIST"
+
+    private const val KEY_QC_ORDER_TYPE = "KEY_QC_ORDER_TYPE"
+    private const val KEY_DISC_SITE_ID = "KEY_DISC_SITE_ID"
+    private const val KEY_DISC_REGION_ID = "KEY_DISC_REGION_ID"
+    private const val PREF_KEY_SITE_ID_LIST_CHAMPS = "PREF_KEY_SITE_ID_LIST_CHAMPS"
+    private const val KEY_QR_SITEID = "KEY_QR_SITEID"
 
 
     private const val KEY_QC_SITE_ID = "KEY_QC_SITE_ID"
+    private const val PREF_SITE_ID_FETCHED_CHAMPS = "PREF_SITE_ID_FETCHED_CHAMPS"
+    private const val PREF_SITE_ID_FETCHED_PLANOGRAM = "PREF_SITE_ID_FETCHED_PLANOGRAM"
 
     private const val KEY_SITE_DETAILS = "KEY_SITE_DETAILS"
     private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
+    private const val KEY_SITE_ID_LIST_PLANOGRAM = "KEY_SITE_ID_LIST_PLANOGRAM"
+
+    //    private const val PREF_KEY_SITE_ID_LIST_CHAMPS = "PREF_KEY_SITE_ID_LIST_CHAMPS"
+    private const val KEY_STORE_LIST_QCFAIL = "KEY_STORE_LIST_QCFAIL"
+
+
     private const val PREF_KEY_SITE_ID_LIST_QCFAIL = "PREF_KEY_SITE_ID_LIST_QCFAIL"
     private const val PREF_KEY_REGION_ID_LIST_QCFAIL = "PREF_KEY_REGION_ID_LIST_QCFAIL"
     private const val PREF_SITE_ID_FETCHED = "PREF_SITE_ID_FETCHED"
@@ -33,6 +59,7 @@ object Preferences {
     private const val PREF_REASON_LIST = "PREF_REASON_LIST"
     private const val PREF_REASON_DEPTARTMENT_LIST = "PREF_REASON_DEPTARTMENT_LIST"
     private const val PREF_REASON_OBJECT = "PREF_REASON_OBJECT"
+//    private const val PREF_SITE_ID_FETCHED_CHAMPS = "PREF_SITE_ID_FETCHED_CHAMPS"
 
     private const val PREF_SITE_ID_FETCHED_QC_FAIL = "PREF_SITE_ID_FETCHED_QC_FAIL"
     private const val PREF_REGION_ID_FETCHED_QC_FAIL = "PREF_REGION_ID_FETCHED_QC_FAIL"
@@ -42,6 +69,14 @@ object Preferences {
     private const val APP_LEVEL_DESIGNATION_SWACH = "APP_LEVEL_DESIGNATION_SWACH"
     private const val APP_LEVEL_DESIGNATION_QC_FAIL = "APP_LEVEL_DESIGNATION_QC_FAIL"
     private const val EMPLOYEE_ROLE_NEW_DRUG_REQUEST = "EMPLOYEE_ROLE_NEW_DRUG_REQUEST"
+    private const val EMPLOYEE_ROLE_CHAMPS_ADMIN = "EMPLOYEE_ROLE_CHAMPS_ADMIN"
+    private const val FCM_KEY = "FCM_KEY"
+    private const val PREF_SITE_RETRO_FETCHED = "PREF_SITE_RETRO_FETCHED"
+    private const val APNA_RETRO_SITE = "APNA_RETRO_SITE"
+    private const val APP_LEVEL_DESIGNATION_RETRO = "APP_LEVEL_DESIGNATION_RETRO"
+
+    private const val PREF_KEY_VISHWAM_ACCESS = "PREF_KEY_VISHWAM_ACCESS"
+    private const val PREF_KEY_VISHWAM_ACCESS_AVAILABLE = "PREF_KEY_VISHWAM_ACCESS_AVAILABLE"
 
 
     fun savingToken(userId: String) {
@@ -52,6 +87,13 @@ object Preferences {
         return sharedPreferences.getString(KEY_SAVING_TOKEN, "")!!
     }
 
+    /* fun setSiteIdListChamps(siteIdListQcFail: String) {
+         sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_CHAMPS, siteIdListQcFail).apply()
+     }
+
+     fun getSiteIdListJsonChamps(): String {
+         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_CHAMPS, "")!!
+     }*/
     fun savingStoreData(storedata: String) {
         sharedPreferences.edit().putString(KEY_SITE_DETAILS, storedata).apply()
     }
@@ -79,6 +121,15 @@ object Preferences {
 //        }
     }
 
+
+    fun setVishwamModuleAccessAvailable(isVishwamModuleAccessAvailable: Boolean) {
+        sharedPreferences.edit()
+            .putBoolean(PREF_KEY_VISHWAM_ACCESS_AVAILABLE, isVishwamModuleAccessAvailable).apply()
+    }
+
+    fun isVishwamModuleAccessAvailable(): Boolean {
+        return sharedPreferences.getBoolean(PREF_KEY_VISHWAM_ACCESS_AVAILABLE, false)
+    }
     //------------------------ saving designation ------------------------------------
 
     private const val KEY_DESIGNATION = "KEY_DESIGNATION"
@@ -119,10 +170,19 @@ object Preferences {
         return sharedPreferences.getString(KEY_USER_PASSWORD, "")!!
     }
 
+    fun getFcmKey(): String {
+        return sharedPreferences.getString(FCM_KEY, "")!!
+    }
+
+    fun setFcmKey(fcmKey: String) {
+        sharedPreferences.edit().putString(FCM_KEY, fcmKey).apply()
+    }
+
     //-------------------- get Api details -----------------------
 
     private const val KEY_API = "KEY_API"
     private const val SWACH_API = "SWACH_API"
+    private const val PREF_KEY_SITE_ID_LIST_QR_RETRO = "PREF_KEY_SITE_ID_LIST_QR_RETRO"
 
     private const val KEY_SITE_ID = "site_id"
     private const val KEY_SITE_INFORMATION = "site_information"
@@ -136,14 +196,35 @@ object Preferences {
     private const val KEY_USER_PASSWORD = "KEY_PASSWORD"
     private const val UPLOADED_DATE_DAY_WISE = ""
     private const val EMPLOYEE_ROLE = ""
+    private const val EMPLOYEE_ROLE_RETRO = "EMPLOYEE_ROLE_RETRO"
+    private const val EMPLOYEE_IS_APPROVAL_ENABLED = "EMPLOYEE_IS_APPROVAL_ENABLED"
 
     private const val KEY_SWACHH_SITEID = "KEY_SWACHH_SITEID"
+    private const val KEY_RECTRO_SITEID = "KEY_RECTRO_SITEID"
+    private const val KEY_RECTRO_SITENAME = "KEY_RECTRO_SITENAME"
+
+    private const val KEY_APNA_SITEID = "KEY_APNA_SITEID"
+    private const val KEY_PLANOGRAM_SITEID = "KEY_PLANOGRAM_SITEID"
+    private const val KEY_PLANOGRAM_SITENAME = "KEY_PLANOGRAM_SITENAME"
+    private const val KEY_PLANOGRAM_SITESTATE = "KEY_PLANOGRAM_SITESTATE"
+    private const val KEY_CHAMPS_SITENAME = "KEY_CHAMPS_SITENAME"
+    private const val KEY_CHAMPS_SITEID = "KEY_CHAMPS_SITEID"
+    private const val KEY_APNA_SITENAME = "KEY_APNA_SITENAME"
+    private const val KEY_PLANOGRAM_SITECITY = "KEY_PLANOGRAM_SITECITY"
+
+    private const val KEY_SWACHH_SITENAME = "KEY_SWACHH_SITENAME"
 
     private const val KEY_REGISTRATION_SITE_ID = "KEY_REGISTRATION_SITE_ID"
 
     private const val KEY_EMP_MOBILE_NUMBER = "KEY_EMP_MOBILE_NUMBER"
     private const val PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON =
         "PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON"
+    private const val KEY_APOLLO_SENSING_STORE_ID = "KEY_APOLLO_SENSING_STORE_ID"
+    private const val KEY_APOLLO_SENSING_STORE_NAME = "KEY_APOLLO_SENSING_STORE_NAME"
+
+    private const val KEY_STORE_LIST_JSON = "KEY_STORE_LIST_ITEM"
+
+    private const val SET_IMAGE_UPLOADED_COUNT_CHAMPS = "SET_IMAGE_UPLOADED_COUNT_CHAMPS"
 
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
@@ -170,6 +251,36 @@ object Preferences {
     fun getSiteId(): String {
         return sharedPreferences.getString(KEY_SITE_ID, "")!!
     }
+
+    fun setQrSiteIdListFetched(isSiteIdListFetched: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED, isSiteIdListFetched).apply()
+    }
+
+    fun setSiteIdListFetchedQrRetro(isSiteIdListFetchedQcfail: Boolean) {
+        sharedPreferences.edit()
+            .putBoolean(PREF_KEY_SITE_ID_LIST_QR_RETRO, isSiteIdListFetchedQcfail).apply()
+    }
+
+    fun setQrSiteIdList(siteIdListQcFail: String) {
+        sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_CHAMPS, siteIdListQcFail).apply()
+    }
+
+    fun setQrSiteId(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_QR_SITEID, swachhSiteId).apply()
+    }
+
+    fun getQrSiteId(): String {
+        return sharedPreferences.getString(KEY_QR_SITEID, "")!!
+    }
+
+    fun getQrSiteIdListJson(): String {
+        return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_CHAMPS, "")!!
+    }
+
+    fun isSiteIdListFetchedQrRetro(): Boolean {
+        return sharedPreferences.getBoolean(PREF_KEY_SITE_ID_LIST_QR_RETRO, false)
+    }
+
 
     fun saveSiteInformation(siteInformation: String) {
         sharedPreferences.edit().putString(KEY_SITE_INFORMATION, siteInformation).apply()
@@ -247,10 +358,26 @@ object Preferences {
         sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED, isSiteIdListFetched).apply()
     }
 
+    /*fun setSiteIdListFetchedChamps(isSiteIdListFetchedQcfail: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED_CHAMPS, isSiteIdListFetchedQcfail)
+            .apply()
+    }
+
+    fun isSiteIdListFetchedChamps(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_CHAMPS, false)
+    }*/
+
     fun isSiteIdListFetched(): Boolean {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED, false)
     }
 
+    fun setSiteRetroListFetched(isSiteIdListFetched: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_RETRO_FETCHED, isSiteIdListFetched).apply()
+    }
+
+    fun isSiteRetroListFetched(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_RETRO_FETCHED, false)
+    }
 
     fun setItemTypeListFetched(isItemTypeListFetched: Boolean) {
         sharedPreferences.edit().putBoolean(PREF_ITEMTYPE_FETCHED, isItemTypeListFetched).apply()
@@ -286,6 +413,24 @@ object Preferences {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_QC_FAIL, false)
     }
 
+    fun setSiteIdListFetchedChamps(isSiteIdListFetchedQcfail: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED_CHAMPS, isSiteIdListFetchedQcfail)
+            .apply()
+    }
+
+    fun isSiteIdListFetchedChamps(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_CHAMPS, false)
+    }
+
+    fun setSiteIdListFetchedPlanogram(isSiteIdListFetchedPlanogram: Boolean) {
+        sharedPreferences.edit()
+            .putBoolean(PREF_SITE_ID_FETCHED_PLANOGRAM, isSiteIdListFetchedPlanogram).apply()
+    }
+
+    fun isSiteIdListFetchedPlanogram(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_PLANOGRAM, false)
+    }
+
 
     fun setRegionIdListFetchedQcFail(isRegionIdListFetchedQcfail: Boolean) {
         sharedPreferences.edit()
@@ -303,6 +448,15 @@ object Preferences {
     fun getSiteIdListJson(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
     }
+
+    fun setSiteIdListPlanogram(siteIdList: String) {
+        sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST, siteIdList).apply()
+    }
+
+    fun getSiteIdListJsonPlanogram(): String {
+        return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
+    }
+
 
     fun setItemTypeList(siteIdList: String) {
         sharedPreferences.edit().putString(PREF_ITEMTYPE_LIST_FETCHED, siteIdList).apply()
@@ -350,6 +504,26 @@ object Preferences {
             .apply()
     }
 
+    fun setStoreIdListQcFail(storeId: List<UniqueStoreList?>?) {
+        val storeIddListString = Gson().toJson(storeId)
+        sharedPreferences.edit().putString(KEY_STORE_LIST_QCFAIL, storeIddListString).apply()
+    }
+
+    fun getStoreIdListJsonQcFail(): List<UniqueStoreList?>? {
+
+
+        val storeIddList: String? = sharedPreferences.getString(KEY_STORE_LIST_QCFAIL, null)
+        val type = object : TypeToken<List<UniqueStoreList?>?>() {}.type
+        return Gson().fromJson(storeIddList, type)
+    }
+
+//    fun setStoreIdListQcFail(siteIdListQcFail: String) {
+//        sharedPreferences.edit().putString(KEY_STORE_LIST_QCFAIL, siteIdListQcFail).apply()
+//    }
+
+    //    fun getStoreIdListJsonQcFail(): String {
+//        return sharedPreferences.getString(KEY_STORE_LIST_QCFAIL, "")!!
+//    }
     fun setSiteIdListQcFail(siteIdListQcFail: String) {
         sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_QCFAIL, siteIdListQcFail).apply()
     }
@@ -357,6 +531,23 @@ object Preferences {
     fun getSiteIdListJsonQcFail(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_QCFAIL, "")!!
     }
+
+    fun setQrSiteName(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_SWACHH_SITENAME, swachhSiteId).apply()
+    }
+
+    fun getQrSiteName(): String {
+        return sharedPreferences.getString(KEY_SWACHH_SITENAME, "")!!
+    }
+
+    fun setSiteIdListChamps(siteIdListQcFail: String) {
+        sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_CHAMPS, siteIdListQcFail).apply()
+    }
+
+    fun getSiteIdListJsonChamps(): String {
+        return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_CHAMPS, "")!!
+    }
+
 
     fun setRegionIdListQcFail(regionIdListQcFail: String) {
         sharedPreferences.edit().putString(PREF_KEY_REGION_ID_LIST_QCFAIL, regionIdListQcFail)
@@ -376,6 +567,23 @@ object Preferences {
         return sharedPreferences.getString(EMPLOYEE_ROLE, "")!!
     }
 
+    fun setRetroEmployeeRoleUid(role: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_ROLE_RETRO, role).apply()
+    }
+
+    fun getRetroEmployeeRoleUid(): String {
+        return sharedPreferences.getString(EMPLOYEE_ROLE_RETRO, "")!!
+    }
+
+
+    fun setRetroEmployeeIsApproval(role: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_IS_APPROVAL_ENABLED, role).apply()
+    }
+
+    fun getRetroEmployeeIsApproval(): String {
+        return sharedPreferences.getString(EMPLOYEE_IS_APPROVAL_ENABLED, "")!!
+    }
+
     fun setEmployeeRoleUidNewDrugRequest(role: String) {
         sharedPreferences.edit().putString(EMPLOYEE_ROLE_NEW_DRUG_REQUEST, role).apply()
     }
@@ -392,6 +600,14 @@ object Preferences {
         return sharedPreferences.getString(APP_LEVEL_DESIGNATION_SWACH, "")!!
     }
 
+    fun setAppLevelDesignationApnaRetro(role: String) {
+        sharedPreferences.edit().putString(APP_LEVEL_DESIGNATION_RETRO, role).apply()
+    }
+
+    fun getAppLevelDesignationApnaRetro(): String {
+        return sharedPreferences.getString(APP_LEVEL_DESIGNATION_RETRO, "")!!
+    }
+
     fun setAppLevelDesignationQCFail(role: String) {
         sharedPreferences.edit().putString(APP_LEVEL_DESIGNATION_QC_FAIL, role).apply()
     }
@@ -401,12 +617,71 @@ object Preferences {
     }
 
 
+    fun setApnaRetroSite(role: String) {
+        sharedPreferences.edit().putString(APNA_RETRO_SITE, role).apply()
+    }
+
+    fun getApnaRetroSite(): String {
+        return sharedPreferences.getString(APNA_RETRO_SITE, "")!!
+    }
+
+
+    fun setRectroSiteId(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_RECTRO_SITEID, swachhSiteId).apply()
+    }
+
+    fun getRectroSiteId(): String {
+        return sharedPreferences.getString(KEY_RECTRO_SITEID, "")!!
+    }
+
+    fun setRectroSiteName(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_RECTRO_SITENAME, swachhSiteId).apply()
+    }
+
+    fun getRectroSiteName(): String {
+        return sharedPreferences.getString(KEY_RECTRO_SITENAME, "")!!
+    }
+
     fun setSwachhSiteId(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_SWACHH_SITEID, swachhSiteId).apply()
     }
 
     fun getSwachhSiteId(): String {
         return sharedPreferences.getString(KEY_SWACHH_SITEID, "")!!
+    }
+
+    fun setApnaSite(apnaSiteId: String) {
+        sharedPreferences.edit().putString(KEY_APNA_SITEID, apnaSiteId).apply()
+    }
+
+    fun getApnaSiteId(): String {
+        return sharedPreferences.getString(KEY_APNA_SITEID, "")!!
+    }
+
+    fun setChampsSiteName(champsSiteId: String) {
+        sharedPreferences.edit().putString(KEY_CHAMPS_SITENAME, champsSiteId).apply()
+    }
+
+    fun getChampsSiteName(): String {
+        return sharedPreferences.getString(KEY_CHAMPS_SITENAME, "")!!
+    }
+
+
+    //KEY_CHAMPS_SITEID
+    fun setSwachSiteName(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_SWACHH_SITENAME, swachhSiteId).apply()
+    }
+
+    fun getSwachSiteName(): String {
+        return sharedPreferences.getString(KEY_SWACHH_SITENAME, "")!!
+    }
+
+    fun setApnaSiteName(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_APNA_SITENAME, swachhSiteId).apply()
+    }
+
+    fun getApnaSiteName(): String {
+        return sharedPreferences.getString(KEY_APNA_SITENAME, "")!!
     }
 
     fun storeEmployeeDetailsResponseJson(employeeDetailsResponse: String) {
@@ -430,7 +705,6 @@ object Preferences {
 
     }
 
-
     fun setAppLevelDesignation(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_APP_LEVEL_DESIGNATION, siteIdList).apply()
     }
@@ -438,6 +712,15 @@ object Preferences {
 
     fun getAppLevelDesignation(): String {
         return sharedPreferences.getString(KEY_APP_LEVEL_DESIGNATION, "")!!
+    }
+
+    fun setRoleForCeoDashboard(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_APP_CEO_DASHBOARD_ROLE, siteIdList).apply()
+    }
+
+
+    fun getRoleForCeoDashboard(): String {
+        return sharedPreferences.getString(KEY_APP_CEO_DASHBOARD_ROLE, "")!!
     }
 //        val storeString = sharedPreferences.getString(PREF_KEY_LOGIN_JSON, "")
 //        return try {
@@ -447,14 +730,52 @@ object Preferences {
 //            return null
 //        }
 
+    fun setDiscountFromDate(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_DISC_FROM_DATE, siteIdList).apply()
+    }
+
+    fun getDiscountFromDate(): String {
+        return sharedPreferences.getString(KEY_DISC_FROM_DATE, "")!!
+    }
 
     fun setQcFromDate(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_FROM_DATE, siteIdList).apply()
     }
 
-
     fun getQcFromDate(): String {
         return sharedPreferences.getString(KEY_FROM_DATE, "")!!
+    }
+
+    fun setQcPendingPageSize(pageSize: Int) {
+        sharedPreferences.edit().putInt(PENDING_PAGE_SIZE_QC, pageSize).apply()
+    }
+
+    fun getQcPendingPageSiz(): Int {
+        return sharedPreferences.getInt(PENDING_PAGE_SIZE_QC, 5)!!
+    }
+
+    fun setQcApprovedPageSize(pageSize: Int) {
+        sharedPreferences.edit().putInt(APPROVED_PAGE_SIZE_QC, pageSize).apply()
+    }
+
+    fun getQcApprovedPageSiz(): Int {
+        return sharedPreferences.getInt(APPROVED_PAGE_SIZE_QC, 5)!!
+    }
+
+    fun setQcRejectedPageSize(pageSize: Int) {
+        sharedPreferences.edit().putInt(REJECTED_PAGE_SIZE_QC, pageSize).apply()
+    }
+
+    fun getQcRejectedPageSiz(): Int {
+        return sharedPreferences.getInt(REJECTED_PAGE_SIZE_QC, 5)!!
+    }
+
+    fun setDiscountToDate(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_DISC_TO_DATE, siteIdList).apply()
+    }
+
+    fun getDiscountToDate(): String {
+        return sharedPreferences.getString(KEY_DISC_TO_DATE, "")!!
     }
 
     fun setQcToDate(siteIdList: String) {
@@ -476,6 +797,33 @@ object Preferences {
     }
 
 
+    fun setQcSiteList(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_QC_SITE_ID_LIST, siteIdList).apply()
+    }
+
+
+    fun getQcSiteList(): String {
+        return sharedPreferences.getString(KEY_QC_SITE_ID_LIST, "")!!
+    }
+
+    fun setDiscountSite(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_DISC_SITE_ID, siteIdList).apply()
+    }
+
+
+    fun getDiscountSite(): String {
+        return sharedPreferences.getString(KEY_DISC_SITE_ID, "")!!
+    }
+
+    fun setDiscountRegion(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_DISC_REGION_ID, siteIdList).apply()
+    }
+
+
+    fun getDiscountRegion(): String {
+        return sharedPreferences.getString(KEY_DISC_REGION_ID, "")!!
+    }
+
     fun setQcRegion(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_QC_REGION_ID, siteIdList).apply()
     }
@@ -483,6 +831,26 @@ object Preferences {
 
     fun getQcRegion(): String {
         return sharedPreferences.getString(KEY_QC_REGION_ID, "")!!
+    }
+
+
+    fun setQcRegionList(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_QC_REGION_ID_LIST, siteIdList).apply()
+    }
+
+
+    fun getQcRegionList(): String {
+        return sharedPreferences.getString(KEY_QC_REGION_ID_LIST, "")!!
+    }
+
+
+    fun setQcOrderType(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_QC_ORDER_TYPE, siteIdList).apply()
+    }
+
+
+    fun getQcOrderType(): String {
+        return sharedPreferences.getString(KEY_QC_ORDER_TYPE, "")!!
     }
 
 
@@ -510,4 +878,70 @@ object Preferences {
     fun getResponseNewTicketlist(): String {
         return sharedPreferences.getString(PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON, "")!!
     }
+
+    fun setApolloSensingStoreId(apolloSensingSiteId: String) {
+        sharedPreferences.edit().putString(KEY_APOLLO_SENSING_STORE_ID, apolloSensingSiteId).apply()
+    }
+
+    fun getApolloSensingStoreId(): String {
+        return sharedPreferences.getString(KEY_APOLLO_SENSING_STORE_ID, "")!!
+    }
+
+    fun setApolloSensingStoreName(apolloSensingSiteName: String) {
+        sharedPreferences.edit().putString(KEY_APOLLO_SENSING_STORE_NAME, apolloSensingSiteName)
+            .apply()
+    }
+
+    fun getApolloSensingStoreName(): String {
+        return sharedPreferences.getString(KEY_APOLLO_SENSING_STORE_NAME, "")!!
+    }
+
+    fun setPlanogramSiteId(planogramSiteId: String) {
+        sharedPreferences.edit().putString(KEY_PLANOGRAM_SITEID, planogramSiteId).apply()
+    }
+
+    fun getPlanogramSiteId(): String {
+        return sharedPreferences.getString(KEY_PLANOGRAM_SITEID, "")!!
+    }
+
+    fun setPlanogramSiteName(planogramSiteId: String) {
+        sharedPreferences.edit().putString(KEY_PLANOGRAM_SITENAME, planogramSiteId).apply()
+    }
+
+    fun getPlanogramSiteName(): String {
+        return sharedPreferences.getString(KEY_PLANOGRAM_SITENAME, "")!!
+    }
+
+    fun setPlanogramSiteState(planogramSiteId: String) {
+        sharedPreferences.edit().putString(KEY_PLANOGRAM_SITESTATE, planogramSiteId).apply()
+    }
+
+    fun getPlanogramSiteState(): String {
+        return sharedPreferences.getString(KEY_PLANOGRAM_SITESTATE, "")!!
+    }
+
+    fun setPlanogramSiteCity(planogramSiteId: String) {
+        sharedPreferences.edit().putString(KEY_PLANOGRAM_SITECITY, planogramSiteId).apply()
+    }
+
+    fun getPlanogramSiteCity(): String {
+        return sharedPreferences.getString(KEY_PLANOGRAM_SITECITY, "")!!
+    }
+
+    fun setEmployeeRoleUidChampsAdmin(uid: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_ROLE_CHAMPS_ADMIN, uid).apply()
+    }
+
+    fun getEmployeeRoleUidChampsAdmin(): String {
+        return sharedPreferences.getString(EMPLOYEE_ROLE_CHAMPS_ADMIN, "")!!
+    }
+
+
+//    fun setStoreListItem(storeListItem: String) {
+//        sharedPreferences.edit().putString(KEY_STORE_LIST_JSON, storeListItem).apply()
+//    }
+//
+//    fun getStoreListItem(): String {
+//        return sharedPreferences.getString(KEY_STORE_LIST_JSON, "")!!
+//    }
 }
