@@ -7,11 +7,11 @@ import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorLi
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
-import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
-import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
@@ -50,6 +50,8 @@ interface ViswamAppApi {
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
 
+    /*@POST("https://phrmaptestp.apollopharmacy.info:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR") //https://172.16.103.116
+    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String*/
     @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
@@ -218,12 +220,14 @@ interface ViswamAppApi {
         @Url url: String,
         @Query("EMPID") id: String,
     ): ArrayList<GetTaskListResponse>
+
     @POST
     suspend fun getSiteList(
         @Header("token") token: String,
         @Url url: String,
         @Body siteId: SiteListRequest,
     ): SiteListResponse
+
     @POST
     suspend fun getDoctorList(
         @Header("token") token: String,

@@ -370,12 +370,12 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         activityQcFilterBinding.fromDateText.setText(fromDate)
         fromQcDate = fromDate
 //        qcDate=fromQcDate+30*1000*60*60*24
-        val sdf = SimpleDateFormat("dd-MMM-yyyy")
+        val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         val cal = Calendar.getInstance()
         cal.time = sdf.parse(fromQcDate)
 
         cal.add(Calendar.DATE, +30)
-        val sdf1 = SimpleDateFormat("yyyy-MMM-dd", Locale.getDefault())
+        val sdf1 = SimpleDateFormat("yyyy-MMM-dd", Locale.ENGLISH)
         qcDate = sdf1.format(cal.time)
         var date1 = cal.time
         val cal1 = Calendar.getInstance()
@@ -412,12 +412,12 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         activityQcFilterBinding.toDateText.setText(dateSelected)
         toDate = dateSelected
 //        qcDate=fromQcDate+30*1000*60*60*24
-        val sdf = SimpleDateFormat("dd-MMM-yyyy")
+        val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         val cal = Calendar.getInstance()
         cal.time = sdf.parse(toDate)
 
         cal.add(Calendar.DATE, -30)
-        var sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
+        var sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         qcfDate = sdf1.format(cal.time)
 //        var date1 = cal.time
 //        val cal1 = Calendar.getInstance()
@@ -452,7 +452,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     }
 
     fun getDatethirtyDays(pattern: String?): String? {
-        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
 
 //        Date date = new Date();
 //        String todate = sdf.format(date);

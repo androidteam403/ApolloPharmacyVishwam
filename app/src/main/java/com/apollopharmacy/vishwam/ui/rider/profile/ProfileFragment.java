@@ -160,7 +160,7 @@ public class ProfileFragment extends BaseFragment implements ProfileFragmentCall
                 profileBinding.riderName.setText(getRiderProfileResponse.getData().getFirstName() + " " + getRiderProfileResponse.getData().getLastName());
                 profileBinding.riderPhoneNumber.setText("+91 " + getRiderProfileResponse.getData().getPhone());
 
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
                 String orderDate = getRiderProfileResponse.getData().getDob();
                 Date orderDates = formatter.parse(orderDate);
                 long orderDateMills = orderDates.getTime();

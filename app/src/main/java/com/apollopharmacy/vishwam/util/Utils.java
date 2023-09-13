@@ -89,7 +89,7 @@ public class Utils {
     }
 
     public static String getCurrentTimeDate() {
-        return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+        return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(new Date());
     }
 
     public static ProgressDialog showLoadingDialog(Context context) {
@@ -116,13 +116,13 @@ public class Utils {
     public static String getCurrentDate() {
         String currDate = "";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
+            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(new Date());
         }
         return currDate;
     }
 
     public static String getTodayDate() {
-        return new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        return new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(new Date());
     }
 
     public static String getOneWeekBackDate() {
@@ -130,7 +130,7 @@ public class Utils {
         cal.add(Calendar.DATE, -7);
         String currDate = "";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(cal.getTime());
+            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(cal.getTime());
         }
         return currDate;
     }
@@ -140,7 +140,7 @@ public class Utils {
         cal.add(Calendar.DATE, -14);
         String currDate = "";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(cal.getTime());
+            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(cal.getTime());
         }
         return currDate;
     }
@@ -161,7 +161,7 @@ public class Utils {
         cal.add(Calendar.DATE, 14);
         String currDate = "";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(cal.getTime());
+            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(cal.getTime());
         }
         return currDate;
     }
@@ -514,7 +514,7 @@ public class Utils {
 
 
     public static int getDateDifference(String fromDate, String toDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         Calendar calendar1 = Calendar.getInstance();
         Calendar calendar2 = Calendar.getInstance();
 

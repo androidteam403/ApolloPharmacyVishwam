@@ -949,7 +949,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
 
     fun printDifferenceNav(endDate: String, startDate: String): String {
-        val format = SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa")
+        val format = SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa", Locale.ENGLISH)
         val date1 = format.parse(startDate)
         val date2 = format.parse(endDate)
 

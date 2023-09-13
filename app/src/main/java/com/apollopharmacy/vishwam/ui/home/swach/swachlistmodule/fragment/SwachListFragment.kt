@@ -122,7 +122,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 //        val i = getIntent()
 //        list = i.getSerializableExtra("selectsiteIdList") as List<String>
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         val currentDate: String = simpleDateFormat.format(Date())
@@ -133,16 +133,16 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
         val strDate = fromDate
-        val dateFormat = SimpleDateFormat("dd-MMM-yyyy");
+        val dateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         val date = dateFormat.parse(strDate)
-        val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+        val dateNewFormat = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH).format(date)
         viewBinding.fromDate.text = dateNewFormat
 
 
         val strDateToDate = toDate
-        val dateFormatToDate = SimpleDateFormat("dd-MMM-yyyy");
+        val dateFormatToDate = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         val dateToDate = dateFormatToDate.parse(strDateToDate)
-        val dateNewFormatToDate = SimpleDateFormat("dd MMM, yyyy").format(dateToDate)
+        val dateNewFormatToDate = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH).format(dateToDate)
         viewBinding.toDate.text = dateNewFormatToDate
 
 
@@ -355,10 +355,10 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                                             i).uploadedDate != null
                                     ) {
                                         val strDate = pendingAndApprovedList.get(i).uploadedDate
-                                        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                                        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH);
                                         val date = dateFormat.parse(strDate)
                                         val dateNewFormat =
-                                            SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                                            SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH).format(date)
                                         pendingAndApprovedList.get(i).uploadedDate =
                                             dateNewFormat.toString()
                                         pendingAndApprovedList.get(i).isDateformat = true
@@ -470,10 +470,10 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                                 if (pendingList.get(i).isDateformat == false) {
                                     if (pendingList.get(i).uploadedDate != "" && pendingList.get(i).uploadedDate != null) {
                                         val strDate = pendingList.get(i).uploadedDate
-                                        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                                        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH);
                                         val date = dateFormat.parse(strDate)
                                         val dateNewFormat =
-                                            SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                                            SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH).format(date)
                                         pendingList.get(i).uploadedDate = dateNewFormat.toString()
                                         pendingList.get(i).isDateformat = true
 
@@ -808,15 +808,15 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                 }
 
                 val strFromDate = fromDate
-                val dateFormatFromDate = SimpleDateFormat("dd-MMM-yyyy");
+                val dateFormatFromDate = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
                 val dateFromDate = dateFormatFromDate.parse(strFromDate)
-                val dateNewFormatFromDate = SimpleDateFormat("yyyy-MM-dd").format(dateFromDate)
+                val dateNewFormatFromDate = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(dateFromDate)
                 val fromDateNew=dateNewFormatFromDate
 
                 val strToDate = toDate
-                val dateFormatToDate = SimpleDateFormat("dd-MMM-yyyy");
+                val dateFormatToDate = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
                 val dateToDate = dateFormatToDate.parse(strToDate)
-                val dateNewToFormat = SimpleDateFormat("yyyy-MM-dd").format(dateToDate)
+                val dateNewToFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(dateToDate)
                 val toDateNew=dateNewToFormat
                 viewModel.getPendingAndApprovedListApiCall(
                     Preferences.getValidatedEmpId(),
@@ -830,15 +830,15 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
                 }
                 val strFromDate = fromDate
-                val dateFormatFromDate = SimpleDateFormat("dd-MMM-yyyy");
+                val dateFormatFromDate = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
                 val dateFromDate = dateFormatFromDate.parse(strFromDate)
-                val dateNewFormatFromDate = SimpleDateFormat("yyyy-MM-dd").format(dateFromDate)
+                val dateNewFormatFromDate = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(dateFromDate)
                 val fromDateNew=dateNewFormatFromDate
 
                 val strToDate = toDate
-                val dateFormatToDate = SimpleDateFormat("dd-MMM-yyyy");
+                val dateFormatToDate = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
                 val dateToDate = dateFormatToDate.parse(strToDate)
-                val dateNewToFormat = SimpleDateFormat("yyyy-MM-dd").format(dateToDate)
+                val dateNewToFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(dateToDate)
                 val toDateNew=dateNewToFormat
                 viewModel.getPendingAndApprovedListApiCall(
                     Preferences.getValidatedEmpId(),
@@ -920,9 +920,9 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
             if (Utils.getDateDifference(showingDate, toDate) > 0) {
 
                 val strDate = showingDate
-                val dateFormat = SimpleDateFormat("dd-MMM-yyyy");
+                val dateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH).format(date)
                 viewBinding.fromDate.text = dateNewFormat
 //                viewBinding.fromDate.setText(showingDate)
                 this.fromDate = showingDate
@@ -937,9 +937,9 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
             if (Utils.getDateDifference(fromDate, showingDate) > 0) {
 
                 val strDate = showingDate
-                val dateFormat = SimpleDateFormat("dd-MMM-yyyy");
+                val dateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH).format(date)
                 viewBinding.toDate.text = dateNewFormat
 
 //                viewBinding.toDate.setText(showingDate)

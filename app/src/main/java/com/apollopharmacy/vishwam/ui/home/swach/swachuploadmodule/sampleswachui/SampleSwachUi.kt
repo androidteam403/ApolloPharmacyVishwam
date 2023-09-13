@@ -127,7 +127,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
             onSuccessLastUpdatedDate()
 
-            val sdf = SimpleDateFormat("dd MMM, yyyy, EEEE")
+            val sdf = SimpleDateFormat("dd MMM, yyyy, EEEE", Locale.ENGLISH)
             val todaysUpdate = sdf.format(Date())
 
 //            viewBinding.todaysDate.text = todaysUpdate
@@ -136,7 +136,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             showLoading()
             viewModel.checkDayWiseAccess(this)
 
-            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             val cal = Calendar.getInstance()
             cal.add(Calendar.DATE, -7)
             val currentDate: String = simpleDateFormat.format(Date())
@@ -601,7 +601,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             isFirstTime = false
 
-            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
             val cal = Calendar.getInstance()
             cal.add(Calendar.DATE, -7)
             val currentDate: String = simpleDateFormat.format(Date())

@@ -76,7 +76,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
         activityUploadNowButtonBinding.storeId.text = Preferences.getSwachhSiteId()
         activityUploadNowButtonBinding.userId.text = Preferences.getToken()
-        val sdf = SimpleDateFormat("dd MMM, yyyy")
+        val sdf = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
         val currentDate = sdf.format(Date())
 
         activityUploadNowButtonBinding.todaysDate.text = currentDate

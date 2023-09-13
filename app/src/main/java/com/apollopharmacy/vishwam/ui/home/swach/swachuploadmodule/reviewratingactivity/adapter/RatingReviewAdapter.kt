@@ -11,6 +11,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterRatingReviewBinding
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse
 import java.text.SimpleDateFormat
+import java.util.Locale
 
 class RatingReviewAdapter(
     val context: Context,
@@ -61,10 +62,10 @@ class RatingReviewAdapter(
 
         if (imageUrls?.createdDate != "") {
             val strDate = imageUrls?.createdDate
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH);
             val date = dateFormat.parse(strDate)
             val dateNewFormat =
-                SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH).format(date)
 
             holder.adapterRatingReviewBinding.createdOn.text= dateNewFormat.toString()
 

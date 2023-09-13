@@ -214,7 +214,7 @@ public class MyOrdersListAdapter extends RecyclerView.Adapter<MyOrdersListAdapte
         holder.cancelledReasonLayout.setVisibility(View.GONE);
         holder.dividerViewFour.setBackgroundColor(activity.getColor(R.color.order_item_divider_color));
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
             String currentDate = Utils.getCurrentTimeDate();
             Date currentDates = formatter.parse(currentDate);
             Date orderDates = formatter.parse(orderDate);

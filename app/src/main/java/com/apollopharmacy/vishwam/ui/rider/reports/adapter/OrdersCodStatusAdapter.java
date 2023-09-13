@@ -80,7 +80,7 @@ public class OrdersCodStatusAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 holder.ordersCodStatusBinding.depositedAmount.setText(context.getResources().getString(R.string.label_rupee_symbol) + " " + String.valueOf(orderCodStatus.getOrderPayment().getAmount()));
             }
             if (orderCodStatus.getOrderRider().getDeliveredOn() != null && !orderCodStatus.getOrderRider().getDeliveredOn().isEmpty()) {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                 String orderDate = orderCodStatus.getOrderRider().getDeliveredOn();
                 Date orderDates = formatter.parse(orderDate);
                 long orderDateMills = orderDates.getTime();

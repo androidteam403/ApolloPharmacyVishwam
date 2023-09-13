@@ -48,7 +48,7 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
         holder.myordersListBinding.orderStatus.setText(" " + item.getOrderStatus().getName());
         holder.myordersListBinding.orderStatus.setTextColor(Color.parseColor(item.getOrderStatus().getOther().getColor()));
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
             Date orderDates = formatter.parse(item.getCreatedTime());
             long orderDateMills = orderDates.getTime();
             holder.myordersListBinding.createdDate.setText(Utlis.INSTANCE.getTimeFormatter(orderDateMills));
@@ -164,7 +164,7 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
 //        holder.summaryBinding.cancelledReasonLayout.setVisibility(View.GONE);
 //        holder.summaryBinding.dividerViewFour.setBackgroundColor(context.getColor(R.color.order_item_divider_color));
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
             String currentDate = Utlis.INSTANCE.getCurrentTimeDate();
             Date currentDates = formatter.parse(currentDate);
             Date orderDates = formatter.parse(orderDate);

@@ -1164,7 +1164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 anim.setRepeatCount(Animation.INFINITE);
                 notificationText.startAnimation(anim);
 
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                 String orderDate = Utlis.INSTANCE.getCurrentTimeDate();
                 Date orderDates = formatter.parse(orderDate);
                 long orderDateMills = orderDates.getTime();
@@ -1291,7 +1291,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
 
 //        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
-
+//        isAttendanceRequired = true;
         if (isAttendanceRequired) {
             listView.addHeaderModel(
                     new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms)

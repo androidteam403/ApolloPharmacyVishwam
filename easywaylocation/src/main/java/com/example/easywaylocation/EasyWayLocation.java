@@ -682,7 +682,7 @@ public class EasyWayLocation {
 
     public static String getAddress(Context context, Double latitude, Double longitude, boolean country, boolean fullAddress) {
         String add = "";
-        Geocoder geoCoder = new Geocoder(((Activity) context).getBaseContext(), Locale.getDefault());
+        Geocoder geoCoder = new Geocoder(((Activity) context).getBaseContext(), Locale.ENGLISH);
         try {
             List<Address> addresses = geoCoder.getFromLocation(latitude, longitude, 1);
 

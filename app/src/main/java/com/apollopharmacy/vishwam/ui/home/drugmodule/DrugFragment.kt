@@ -1339,7 +1339,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     @SuppressLint("ResourceType")
     override fun selectSite(departmentDto: StoreListItem) {
         store = departmentDto
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-YYYY")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-YYYY", Locale.ENGLISH)
         val currentDate: String = simpleDateFormat.format(Date())
 
 

@@ -109,7 +109,7 @@ class DrugFragmentViewModel : ViewModel() {
                             drugRequest.doctorName,
                             drugRequest.requiredQty))
                         val currentTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
-                            Locale.getDefault()).format(Date())
+                            Locale.ENGLISH).format(Date())
                         submitTicketInventorySaveUpdate(RequestSaveUpdateComplaintRegistration(
                             LoginRepo.getProfile()!!.EMPID,
                             currentTime,

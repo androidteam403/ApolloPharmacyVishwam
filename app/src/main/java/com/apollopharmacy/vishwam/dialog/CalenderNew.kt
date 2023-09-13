@@ -91,7 +91,7 @@ class CalenderNew : DialogFragment() {
 
         // dataPickerBinding.datePicker.maxDate = (Date().time * (500 * 60 * 60 * 24 * 7))
         if (arguments?.getBoolean(KEY_IS_TO) == true) {
-            val date = SimpleDateFormat("yyyy-MMM-dd").parse(arguments?.getString(KEY_FROM_DATE))
+            val date = SimpleDateFormat("yyyy-MMM-dd", Locale.ENGLISH).parse(arguments?.getString(KEY_FROM_DATE))
             dataPickerBinding.datePicker.minDate =date.time
             // dataPickerBinding.datePicker.minDate = c.timeInMillis
         }
