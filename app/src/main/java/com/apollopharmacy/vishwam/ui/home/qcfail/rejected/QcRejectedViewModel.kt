@@ -114,7 +114,7 @@ class QcRejectedViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcRejectItemsLists.value = result.value
+                        qcRejectItemsLists.value = result.value!!
                     } else {
                         state.value = State.ERROR
                     }
@@ -264,7 +264,7 @@ class QcRejectedViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcStatusLists.value = result.value
+                        qcStatusLists.value = result.value!!
 
                     } else {
                         state.value = State.ERROR

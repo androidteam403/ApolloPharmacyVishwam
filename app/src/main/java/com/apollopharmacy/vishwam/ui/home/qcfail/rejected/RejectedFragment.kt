@@ -21,6 +21,7 @@ import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.qcfail.pending.QcPendingActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.rejected.adapter.QcRejectedListAdapter
@@ -156,6 +157,40 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                 }
             }
         })
+        viewModel.qcRejectItemsLists.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            getitemList = listOf(it)
+            val getQcItemListResponse: QcItemListResponse
+            getQcItemListResponse = it
+            getitemList = listOf(getQcItemListResponse)
+            for (i in getitemList!!) {
+                val items = QcItemListResponse()
+                items.itemlist = i.itemlist
+                items.setorderno(orderId)
+                items.status = i.status
+                itemsList.add(items)
+//                adapter?.notifyDataSetChanged()
+            }
+
+
+
+//            val itemsList: QcItemListResponse.Item
+            getRejectitemList = it.itemlist
+            for (i in getRejectitemList!!) {
+                val rejItems = QcAcceptRejectRequest.Item()
+                rejItems.itemid = i.itemid
+                rejItems.qty = 1
+                rejItems.remarks = "Qty Mismatch"
+                qcRejectItemsList.add(rejItems)
+
+            }
+
+
+//            adapter?.notifyDataSetChanged()
+
+
+        })
+
         viewModel.qcStatusLists.observe(viewLifecycleOwner, Observer {
             hideLoading()
             getStatusList = listOf(it)
@@ -169,44 +204,22 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
 
                 statusList.add(items)
-                adapter?.notifyDataSetChanged()
+//                adapter?.notifyDataSetChanged()
             }
+            if (itemsList!=null&&statusList!=null){
+                val intent= Intent(context, QcPendingActivity::class.java)
+                intent.putExtra("itemsList", itemsList)
+                intent.putExtra("statusList", statusList)
+                intent.putExtra("orderNo",orderId)
+                intent.putExtra("fragment","reject")
+                startActivity(intent)
+            }
+
+
         })
 
 
 
-        viewModel.qcRejectItemsLists.observe(viewLifecycleOwner, Observer {
-            hideLoading()
-            getitemList = listOf(it)
-            val getQcItemListResponse: QcItemListResponse
-            getQcItemListResponse = it
-            getitemList = listOf(getQcItemListResponse)
-            for (i in getitemList!!) {
-                val items = QcItemListResponse()
-                items.itemlist = i.itemlist
-                items.setorderno(orderId)
-                items.status = i.status
-                itemsList.add(items)
-                adapter?.notifyDataSetChanged()
-            }
-
-
-            val itemsList: QcItemListResponse.Item
-            getRejectitemList = it.itemlist
-            for (i in getRejectitemList!!) {
-                val rejItems = QcAcceptRejectRequest.Item()
-                rejItems.itemid = i.itemid
-                rejItems.qty = 1
-                rejItems.remarks = "Qty Mismatch"
-                qcRejectItemsList.add(rejItems)
-
-            }
-
-
-            adapter?.notifyDataSetChanged()
-
-
-        })
 
         viewModel.qcRejectLists.observe(viewLifecycleOwner) { it ->
             qcListsResponse = it
@@ -364,10 +377,9 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         showLoading()
         orderId = orderno
         viewModel.getQcRejectItemsList(orderno)
-
         viewModel.getQcStatusList(orderno)
 
-        adapter?.notifyDataSetChanged()
+//        adapter?.notifyDataSetChanged()
 
     }
 

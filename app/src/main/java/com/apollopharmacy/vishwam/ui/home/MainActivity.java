@@ -981,7 +981,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1434,7 +1434,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1456,7 +1456,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                selectFilterType.setText("Rows: " +String.valueOf(Preferences.INSTANCE.getQcPendingPageSiz()));
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1661,7 +1661,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
                 startActivity(intent);
                 break;
-            case "QcApproved":
+            case "Qc Approved":
                 headerText.setText("Approved List");
                 fragment = new com.apollopharmacy.vishwam.ui.home.qcfail.approved.ApprovedFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
@@ -1676,7 +1676,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1684,7 +1684,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 break;
 
-            case "QcRejected":
+            case "Qc Rejected":
                 headerText.setText("Rejected List");
                 fragment = new com.apollopharmacy.vishwam.ui.home.qcfail.rejected.RejectedFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
@@ -1699,7 +1699,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);

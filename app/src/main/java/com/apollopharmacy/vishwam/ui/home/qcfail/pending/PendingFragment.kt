@@ -279,7 +279,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             intent.putExtra("pendingList",pendingListMain)
             intent.putExtra("fragment","pending")
 
-            startActivity(intent)
+            startActivityForResult(intent,111)
 
 //            adapter?.notifyDataSetChanged()
 
@@ -952,6 +952,28 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 111) {
+            if (resultCode == Activity.RESULT_OK) {
+                showLoading()
+                Preferences.setQcFromDate("")
+                Preferences.setQcToDate("")
+                Preferences.setQcSite("")
+                siteId = ""
+                regionId = ""
+                Preferences.setQcRegion("")
+                Preferences.setQcOrderType("")
+                typeString = ""
+                pendingListList.clear()
+                pendingListMain.clear()
+                val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+                currentDate = simpleDateFormat.format(Date())
+                MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+
+                viewModel.getQcPendingList(
+                    Preferences.getToken(), "1-Apr-2019", currentDate, "", "", this
+                )
+            }
+        }
         if (requestCode == 210) {
             if (resultCode == Activity.RESULT_OK) {
 
@@ -1352,6 +1374,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                     //CustomDialog().generateParsedData(viewModel.getDepartmentData())
                 RejectReasonsDialog().generateParsedData(viewModel.getReasons())
         }.show(childFragmentManager, "")
+    }
+
+    override fun onNotify() {
     }
 
     override fun onFailureGetPendingAndAcceptAndRejectList(message: String) {

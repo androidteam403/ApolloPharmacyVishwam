@@ -147,8 +147,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         val omsQcMenuModel = ArrayList<MenuModel>()
         omsQcMenuModel.add(MenuModel("QcDashboard", R.drawable.qc_dashboard))
         omsQcMenuModel.add(MenuModel("OutStanding", R.drawable.qc_outstanding))
-        omsQcMenuModel.add(MenuModel("QcApproved", R.drawable.qc_approved))
-        omsQcMenuModel.add(MenuModel("QcRejected", R.drawable.qc_rejected))
+        omsQcMenuModel.add(MenuModel("Qc Approved", R.drawable.qc_approved))
+        omsQcMenuModel.add(MenuModel("Qc Rejected", R.drawable.qc_rejected))
 
         val swachhMenuModel = ArrayList<MenuModel>()
         if (isSwachhRequired) {
@@ -259,6 +259,13 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             viewBinding.champsMenu.visibility = View.VISIBLE
         } else {
             viewBinding.champsMenu.visibility = View.GONE
+        }
+
+
+        if (isApnaRetroRequired) {
+            viewBinding.apnaRetroMenu.visibility = View.VISIBLE
+        } else {
+            viewBinding.apnaRetroMenu.visibility = View.GONE
         }
 
         if (isApnaSurveyRequired) {

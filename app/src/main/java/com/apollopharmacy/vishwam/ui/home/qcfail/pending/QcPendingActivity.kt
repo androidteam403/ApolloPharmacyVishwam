@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.pending
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -20,34 +21,39 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.QcApprovedOrde
 import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.StatusAdapter
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.ActionResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcAcceptRejectRequest
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcAcceptRejectResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter.QcPendingOrderDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
+import com.apollopharmacy.vishwam.ui.home.qcfail.rejected.adapter.QcRejectedOrderDetailsAdapter
 import com.apollopharmacy.vishwam.util.Utlis
 import java.util.ArrayList
 
-class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsCallback,PendingFragmentCallback,RejectReasonsDialog.ResaonDialogClickListner {
+class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsCallback,
+    PendingFragmentCallback, RejectReasonsDialog.ResaonDialogClickListner {
     lateinit var activityQcPendingBinding: ActivityQcPendingBinding
-    lateinit var viewModel: QcPendingViewModel
+    lateinit var viewModel: QcPendingActivityViewModel
     var itemsList = ArrayList<QcItemListResponse>()
     var statusList = ArrayList<ActionResponse>()
     var pendingList = ArrayList<QcListsResponse.Pending>()
     var qcAcceptItemsList = ArrayList<QcAcceptRejectRequest.Item>()
     var TIME = (1 * 6000).toLong()
     var qcAccepttList = ArrayList<QcAcceptRejectRequest.Order>()
-    var isAllReasonsFound = true
+    var isReasonsFound = true
 
     var qcRejectItemsList = ArrayList<QcAcceptRejectRequest.Item>()
-    var orderId:String=""
-    var omsOrderno:String=""
-    var status:String=""
-    var reason:String=""
+    var orderId: String = ""
+    var omsOrderno: String = ""
+    var status: String = ""
+    var reason: String = ""
 
     var qcRejectList = ArrayList<QcAcceptRejectRequest.Order>()
 
-    var fragment:String=""
+    var fragment: String = ""
+    var rejectAdapter: QcRejectedOrderDetailsAdapter? = null
+
     var approvedAdapter: QcApprovedOrderDetailsAdapter? = null
     var statusAdapter: StatusAdapter? = null
 
@@ -66,119 +72,67 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
 
     private fun setUp() {
         activityQcPendingBinding.callback = this
-        viewModel = ViewModelProvider(this)[QcPendingViewModel::class.java]
-        if (intent!=null){
+        viewModel = ViewModelProvider(this)[QcPendingActivityViewModel::class.java]
+        if (intent != null) {
             viewModel.getQcRejectionList()
-            itemsList= intent.getSerializableExtra("itemsList") as ArrayList<QcItemListResponse>
-            orderId= intent.getStringExtra("orderNo").toString()
-            fragment=intent.getStringExtra("fragment").toString()
+            itemsList = intent.getSerializableExtra("itemsList") as ArrayList<QcItemListResponse>
+            orderId = intent.getStringExtra("orderNo").toString()
+            fragment = intent.getStringExtra("fragment").toString()
             activityQcPendingBinding.orderid.setText(orderId)
-            if (fragment.equals("approved")){
-                activityQcPendingBinding.actionLayout.visibility=View.GONE
-                activityQcPendingBinding.recyclerViewPending.visibility=View.GONE
-                activityQcPendingBinding.recyclerViewApproved.visibility=View.VISIBLE
-                activityQcPendingBinding.statusRecyleview.visibility=View.VISIBLE
-                activityQcPendingBinding.heaader.setBackgroundColor(Color.parseColor("#8FBC8F"))
 
-                statusList= intent.getSerializableExtra("statusList") as ArrayList<ActionResponse>
-                activityQcPendingBinding.listName.setText("Approved List")
-
-                if (statusList!=null){
-                    for (i in statusList.indices){
-                        if (statusList.get(i).order.equals(orderId)){
-                            statusAdapter = StatusAdapter(this,
-                                statusList.get(i).hsitorydetails as ArrayList<ActionResponse.Hsitorydetail>)
-                            activityQcPendingBinding.statusRecyleview.adapter = statusAdapter
-
-                        }
-                    }
-
-                }
-
-
-                if (itemsList!=null){
-                    for (i in itemsList.indices){
-                        if (itemsList[i].orderno.equals(orderId)){
-                            approvedAdapter = QcApprovedOrderDetailsAdapter(this,
-                                itemsList[i].itemlist!!,0,this,orderId)
-                            activityQcPendingBinding.recyclerViewApproved.adapter = approvedAdapter
-
-                        }
-                    }
-
-                }
-
-
-            }else if (fragment.equals("pending")){
-                pendingList= intent.getSerializableExtra("pendingList") as ArrayList<QcListsResponse.Pending>
-
-
+            if (itemsList!=null){
                 for (k in itemsList) {
-                    if (k.orderno.equals(orderId)){
-                        for (i in k.itemlist!!.indices){
+                    if (k.orderno.equals(orderId)) {
+                        for (i in k.itemlist!!.indices) {
                             if (k.itemlist!!.get(i).remarks.isNullOrEmpty()) {
-                                isAllReasonsFound = false
+                                isReasonsFound = false
                             }
                         }
                     }
 
                 }
+            }
+            if (fragment.equals("approved")) {
+                activityQcPendingBinding.actionLayout.visibility = View.GONE
+                activityQcPendingBinding.recyclerViewPending.visibility = View.GONE
+                activityQcPendingBinding.recyclerViewApproved.visibility = View.VISIBLE
+                activityQcPendingBinding.statusRecyleview.visibility = View.VISIBLE
+                activityQcPendingBinding.recyclerViewReject.visibility = View.GONE
 
-                if (isAllReasonsFound){
-                    activityQcPendingBinding.acceptClick.alpha=1F
-                    activityQcPendingBinding.rejectClick.alpha=0.5F
-                    activityQcPendingBinding.acceptClick.isEnabled = true
-                    activityQcPendingBinding.rejectClick.isEnabled = false
+                activityQcPendingBinding.heaader.setBackgroundColor(Color.parseColor("#EFFFE8"))
 
+                statusList = intent.getSerializableExtra("statusList") as ArrayList<ActionResponse>
+                activityQcPendingBinding.listName.setText("Approved List")
 
-                }else{
-                    activityQcPendingBinding.acceptClick.alpha=0.5F
-                    activityQcPendingBinding.rejectClick.alpha=1F
-                    activityQcPendingBinding.acceptClick.isEnabled = false
-                    activityQcPendingBinding.rejectClick.isEnabled = true
-
-                }
-
-                if (pendingList!=null){
-                    for (i in pendingList.indices){
-                        if (orderId.equals(pendingList.get(i).orderno)){
-                            omsOrderno= pendingList.get(i).omsorderno.toString()
-                            status=pendingList.get(i).status.toString()
-                            activityQcPendingBinding.storeId.setText(pendingList.get(i).storeid)
-                            activityQcPendingBinding.custmerName.setText(pendingList.get(i).custname)
-                            activityQcPendingBinding.phoneNumber.setText(pendingList.get(i).mobileno)
-                            activityQcPendingBinding.dcName.setText(pendingList.get(i).dcCode)
-
-                            var reqDate = pendingList.get(i).requesteddate.toString()!!.substring(
-                                0, Math.min(pendingList.get(i).requesteddate.toString()!!.length, 10)
-                            )
-                            activityQcPendingBinding.postedDate.setText( Utlis.formatdate(reqDate))
-                        }
-                    }
-                }
-                if (itemsList!=null){
-                    for (i in itemsList.indices){
-                        if (itemsList[i].orderno.equals(orderId)){
-
+                if (itemsList != null) {
+                    for (i in itemsList.indices) {
+                        if (itemsList[i].orderno.equals(orderId)) {
 
 
                             var totalPrices = 0.0
                             var discounts = 0.0
 
 
-                                for (k in itemsList.get(i).itemlist!!.indices) {
-                                    if (itemsList.get(i).itemlist!!.get(k).qty != null && itemsList.get(i).itemlist!!.get(k).price != null) {
-                                        totalPrices = totalPrices + ((itemsList.get(i).itemlist!!.get(k).qty.toString()).toDouble() * itemsList.get(i).itemlist!!.get(k).price!!)
-                                        discounts = discounts + itemsList.get(i).itemlist!!.get(k).discamount!!
+                            for (k in itemsList.get(i).itemlist!!.indices) {
+                                if (itemsList.get(i).itemlist!!.get(k).qty != null && itemsList.get(
+                                        i
+                                    ).itemlist!!.get(k).price != null
+                                ) {
+                                    totalPrices =
+                                        totalPrices + ((itemsList.get(i).itemlist!!.get(k).qty.toString()).toDouble() * itemsList.get(
+                                            i
+                                        ).itemlist!!.get(k).price!!)
+                                    discounts =
+                                        discounts + itemsList.get(i).itemlist!!.get(k).discamount!!
 
 //                        discounts = discounts + ((k.qty.toString()).toDouble() * k.discamount!!)
-                                    }
-
                                 }
+
+                            }
 
 
                             if (totalPrices.toString().isNotEmpty()) {
-                               activityQcPendingBinding.total.setText(
+                                activityQcPendingBinding.total.setText(
                                     " " + String.format(
                                         "%.2f", totalPrices
                                     )
@@ -207,15 +161,222 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
                                     )
                                 )
                             } else {
-                               activityQcPendingBinding.payment.setText("-")
+                                activityQcPendingBinding.payment.setText("-")
+                            }
+
+
+
+
+                            approvedAdapter = QcApprovedOrderDetailsAdapter(
+                                this,
+                                itemsList[i].itemlist!!, 0, this, orderId
+                            )
+                            activityQcPendingBinding.recyclerViewApproved.adapter = approvedAdapter
+
+
+                        }
+                    }
+
+                }
+
+
+                if (statusList != null) {
+                    for (i in statusList.indices) {
+                        if (statusList.get(i).order.equals(orderId)) {
+                            statusAdapter = StatusAdapter(
+                                this,
+                                statusList.get(i).hsitorydetails as ArrayList<ActionResponse.Hsitorydetail>
+                            )
+                            activityQcPendingBinding.statusRecyleview.adapter = statusAdapter
+
+                        }
+                    }
+
+                }
+
+
+            } else if (fragment.equals("reject")) {
+                activityQcPendingBinding.actionLayout.visibility = View.GONE
+                activityQcPendingBinding.recyclerViewPending.visibility = View.GONE
+                activityQcPendingBinding.recyclerViewApproved.visibility = View.GONE
+                activityQcPendingBinding.recyclerViewReject.visibility = View.VISIBLE
+
+                activityQcPendingBinding.statusRecyleview.visibility = View.VISIBLE
+                activityQcPendingBinding.heaader.setBackgroundColor(Color.parseColor("#ffe9e9"))
+
+                statusList = intent.getSerializableExtra("statusList") as ArrayList<ActionResponse>
+                activityQcPendingBinding.listName.setText("Rejected List")
+                if (itemsList != null) {
+                    for (i in itemsList.indices) {
+                        if (itemsList[i].orderno.equals(orderId)) {
+                            var totalPrices = 0.0
+                            var discounts = 0.0
+                            for (k in itemsList.get(i).itemlist!!.indices) {
+                                if (itemsList.get(i).itemlist!!.get(k).qty != null && itemsList.get(
+                                        i
+                                    ).itemlist!!.get(k).price != null
+                                ) {
+                                    totalPrices =
+                                        totalPrices + ((itemsList.get(i).itemlist!!.get(k).qty.toString()).toDouble() * itemsList.get(
+                                            i
+                                        ).itemlist!!.get(k).price!!)
+                                    discounts =
+                                        discounts + itemsList.get(i).itemlist!!.get(k).discamount!!
+
+//                        discounts = discounts + ((k.qty.toString()).toDouble() * k.discamount!!)
+                                }
+
+                            }
+                            if (totalPrices.toString().isNotEmpty()) {
+                                activityQcPendingBinding.total.setText(
+                                    " " + String.format(
+                                        "%.2f", totalPrices
+                                    )
+                                )
+                            } else {
+                                activityQcPendingBinding.total.setText("-")
+                            }
+
+                            if (discounts.toString().isNotEmpty()) {
+                                activityQcPendingBinding.discount.setText(
+                                    " " + String.format(
+                                        "%.2f", discounts
+                                    )
+                                )
+                            } else {
+                                activityQcPendingBinding.discount.setText("-")
+
+                            }
+
+                            var netPayment = totalPrices - discounts
+                            if (netPayment.toString().isNotEmpty()) {
+
+                                activityQcPendingBinding.payment.setText(
+                                    " " + String.format(
+                                        "%.2f", netPayment
+                                    )
+                                )
+                                rejectAdapter = QcRejectedOrderDetailsAdapter(
+                                    this,
+                                    itemsList[i].itemlist!!, 0, this, orderId
+                                )
+                                activityQcPendingBinding.recyclerViewReject.adapter = rejectAdapter
+
+                            } else {
+                                activityQcPendingBinding.payment.setText("-")
+
+                            }
+                        }
+
+                    }
+
+                }
+
+
+                if (statusList != null) {
+                    for (i in statusList.indices) {
+                        if (statusList.get(i).order.equals(orderId)) {
+                            statusAdapter = StatusAdapter(
+                                this,
+                                statusList.get(i).hsitorydetails as ArrayList<ActionResponse.Hsitorydetail>
+                            )
+                            activityQcPendingBinding.statusRecyleview.adapter = statusAdapter
+
+                        }
+                    }
+
+                }
+
+
+            } else if (fragment.equals("pending")) {
+                pendingList =
+                    intent.getSerializableExtra("pendingList") as ArrayList<QcListsResponse.Pending>
+                if (pendingList != null) {
+                    for (i in pendingList.indices) {
+                        if (orderId.equals(pendingList.get(i).orderno)) {
+                            omsOrderno = pendingList.get(i).omsorderno.toString()
+                            status = pendingList.get(i).status.toString()
+                            activityQcPendingBinding.storeId.setText(pendingList.get(i).storeid)
+                            activityQcPendingBinding.custmerName.setText(pendingList.get(i).custname)
+                            activityQcPendingBinding.phoneNumber.setText(pendingList.get(i).mobileno)
+                            activityQcPendingBinding.dcName.setText(pendingList.get(i).dcCode)
+
+                            var reqDate = pendingList.get(i).requesteddate.toString()!!.substring(
+                                0,
+                                Math.min(pendingList.get(i).requesteddate.toString()!!.length, 10)
+                            )
+                            activityQcPendingBinding.postedDate.setText(Utlis.formatdate(reqDate))
+                        }
+                    }
+                }
+                if (itemsList != null) {
+                    for (i in itemsList.indices) {
+                        if (itemsList[i].orderno.equals(orderId)) {
+
+
+                            var totalPrices = 0.0
+                            var discounts = 0.0
+
+
+                            for (k in itemsList.get(i).itemlist!!.indices) {
+                                if (itemsList.get(i).itemlist!!.get(k).qty != null && itemsList.get(
+                                        i
+                                    ).itemlist!!.get(k).price != null
+                                ) {
+                                    totalPrices =
+                                        totalPrices + ((itemsList.get(i).itemlist!!.get(k).qty.toString()).toDouble() * itemsList.get(
+                                            i
+                                        ).itemlist!!.get(k).price!!)
+                                    discounts =
+                                        discounts + itemsList.get(i).itemlist!!.get(k).discamount!!
+
+//                        discounts = discounts + ((k.qty.toString()).toDouble() * k.discamount!!)
+                                }
+
+                            }
+
+
+                            if (totalPrices.toString().isNotEmpty()) {
+                                activityQcPendingBinding.total.setText(
+                                    " " + String.format(
+                                        "%.2f", totalPrices
+                                    )
+                                )
+                            } else {
+                                activityQcPendingBinding.total.setText("-")
+                            }
+
+                            if (discounts.toString().isNotEmpty()) {
+                                activityQcPendingBinding.discount.setText(
+                                    " " + String.format(
+                                        "%.2f", discounts
+                                    )
+                                )
+                            } else {
+                                activityQcPendingBinding.discount.setText("-")
+
+                            }
+
+                            var netPayment = totalPrices - discounts
+                            if (netPayment.toString().isNotEmpty()) {
+
+                                activityQcPendingBinding.payment.setText(
+                                    " " + String.format(
+                                        "%.2f", netPayment
+                                    )
+                                )
+                            } else {
+                                activityQcPendingBinding.payment.setText("-")
                             }
 
 
 
 
 
-                            adapter = QcPendingOrderDetailsAdapter(this,this,
-                                itemsList[i].itemlist,0,this,orderId,)
+                            adapter = QcPendingOrderDetailsAdapter(
+                                this, this,
+                                itemsList[i].itemlist, 0, this, orderId,
+                            )
                             activityQcPendingBinding.recyclerViewPending.adapter = adapter
 
                         }
@@ -225,18 +386,31 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
 
 
 
-                activityQcPendingBinding.actionLayout.visibility=View.VISIBLE
+                activityQcPendingBinding.actionLayout.visibility = View.VISIBLE
+                activityQcPendingBinding.recyclerViewReject.visibility = View.GONE
 
                 activityQcPendingBinding.listName.setText("Pending List")
                 activityQcPendingBinding.heaader.setBackgroundColor(Color.parseColor("#fcf6e4"))
-                activityQcPendingBinding.recyclerViewPending.visibility=View.VISIBLE
-                activityQcPendingBinding.recyclerViewApproved.visibility=View.GONE
-                activityQcPendingBinding.statusRecyleview.visibility=View.GONE
+                activityQcPendingBinding.recyclerViewPending.visibility = View.VISIBLE
+                activityQcPendingBinding.recyclerViewApproved.visibility = View.GONE
+                activityQcPendingBinding.statusRecyleview.visibility = View.GONE
 
 
             }
 
         }
+        if (isReasonsFound){
+            activityQcPendingBinding.rejectClick.alpha = 1F
+            activityQcPendingBinding.rejectClick.setEnabled(true)
+            activityQcPendingBinding.acceptClick.alpha = 0.5F
+            activityQcPendingBinding.acceptClick.setEnabled(false)
+        }else{
+            activityQcPendingBinding.acceptClick.alpha = 1F
+            activityQcPendingBinding.acceptClick.setEnabled(true)
+            activityQcPendingBinding.rejectClick.alpha = 0.5F
+            activityQcPendingBinding.rejectClick.setEnabled(false)
+        }
+
 
 
     }
@@ -246,17 +420,8 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
     }
 
     override fun accept() {
-//        activityQcPendingBinding.acceptClick.alpha = 0.5F
-//
-//        activityQcPendingBinding.acceptClick.setEnabled(false)
-//
-//        Handler().postDelayed({
-//            activityQcPendingBinding.acceptClick.setEnabled(true)
-//            activityQcPendingBinding.acceptClick.alpha = 1F
-//
-//        }, TIME)
         qcRejectItemsList.clear()
-        for (j in itemsList.indices){
+        for (j in itemsList.indices) {
             for (i in itemsList.get(j).itemlist!!) {
 
                 val rejItems = QcAcceptRejectRequest.Item()
@@ -301,9 +466,8 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
             customDialog.dismiss()
 //            viewModel.getQcPendingItemsList(orderId)
             viewModel.getAcceptRejectResult(
-                QcAcceptRejectRequest(
-                    "ACCEPT", "", "", qcAccepttList
-                )
+                QcAcceptRejectRequest("ACCEPT", "", "", qcAccepttList),
+                this
             )
 
         }
@@ -316,19 +480,21 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
 
         dialogBinding?.cancelButton?.setOnClickListener {
             customDialog.dismiss()
-        }    }
+        }
+    }
 
     override fun reject() {
+        var isAllReasonsFound = true
+        for (k in itemsList) {
+            if (k.orderno.equals(orderId)) {
+                for (i in k.itemlist!!.indices) {
+                    if (k.itemlist!!.get(i).remarks.isNullOrEmpty()) {
+                        isAllReasonsFound = false
+                    }
+                }
+            }
 
-//        activityQcPendingBinding.rejectClick.alpha = 0.5F
-//        activityQcPendingBinding.rejectClick.isEnabled = false
-//
-//        Handler().postDelayed({
-//            activityQcPendingBinding.rejectClick.alpha = 1F
-//
-//            activityQcPendingBinding.rejectClick.isEnabled = true
-//        }, TIME)
-
+        }
 
 
         if (isAllReasonsFound) {
@@ -348,24 +514,24 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
             qcRejectItemsList.clear()
 //        getRejectitemList = it.itemlist
             for (k in itemsList) {
-                if (k.orderno.equals(orderId)){
+                if (k.orderno.equals(orderId)) {
                     for (i in k.itemlist!!.indices) {
                         val rejItems = QcAcceptRejectRequest.Item()
-                        rejItems.itemid =  k.itemlist!!.get(i).itemid
-                        if ( k.itemlist!!.get(i).approvedqty != null) {
-                            rejItems.qty =  k.itemlist!!.get(i).approvedqty
+                        rejItems.itemid = k.itemlist!!.get(i).itemid
+                        if (k.itemlist!!.get(i).approvedqty != null) {
+                            rejItems.qty = k.itemlist!!.get(i).approvedqty
                         } else {
-                            rejItems.qty =  k.itemlist!!.get(i).qty
+                            rejItems.qty = k.itemlist!!.get(i).qty
                         }
-                        rejItems.remarks =  k.itemlist!!.get(i).remarks
-                        rejItems.recId =  k.itemlist!!.get(i).recid
+                        rejItems.remarks = k.itemlist!!.get(i).remarks
+                        rejItems.recId = k.itemlist!!.get(i).recid
                         qcRejectItemsList.add(rejItems)
 
                     }
 
                 }
 
-                }
+            }
 
 
             qcRejectList.clear()
@@ -393,8 +559,11 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
                 if (itemsList != null) {
                     viewModel.getAcceptRejectResult(
                         QcAcceptRejectRequest(
-                            "REJECT", reason, "REJ0001", qcRejectList
-                        )
+                            "REJECT",
+                            reason,
+                            "REJ0001",
+                            qcRejectList
+                        ), this
                     )
                 }
 //            viewModel.getAcceptRejectResult(QcAcceptRejectRequest("REJECT", remarks, qcRejectList))
@@ -409,7 +578,16 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
         } else {
             Toast.makeText(this, "Please select reasons for all items", Toast.LENGTH_SHORT)
                 .show()
-        }    }
+        }
+    }
+
+    override fun onSuccessSaveAccept(acceptRejectList: QcAcceptRejectResponse) {
+        Utlis.hideLoading()
+        val intent = Intent()
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
 
     override fun orderno(position: Int, orderno: String) {
     }
@@ -464,13 +642,43 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
     }
 
     override fun onClickReason(headerPos: Int, itemPos: Int, orderId: String?) {
+
+
         this.headerPos = headerPos
         this.itemPos = itemPos
         RejectReasonsDialog().apply {
             arguments =
                     //CustomDialog().generateParsedData(viewModel.getDepartmentData())
                 RejectReasonsDialog().generateParsedData(viewModel.getReasons())
-        }.show(supportFragmentManager, "")    }
+        }.show(supportFragmentManager, "")
+    }
+
+    override fun onNotify() {
+        var isReasonsFound = true
+
+        if (itemsList!=null){
+            for (k in itemsList) {
+                if (k.orderno.equals(orderId)) {
+                    for (i in k.itemlist!!.indices) {
+                        if (k.itemlist!!.get(i).remarks.isNullOrEmpty()) {
+                            isReasonsFound = false
+                        }
+                    }
+                }
+
+            }
+        }
+        if (isReasonsFound){
+            activityQcPendingBinding.rejectClick.alpha = 1F
+            activityQcPendingBinding.rejectClick.setEnabled(true)
+            activityQcPendingBinding.acceptClick.alpha = 0.5F
+            activityQcPendingBinding.acceptClick.setEnabled(false)
+        }else{
+            activityQcPendingBinding.acceptClick.alpha = 1F
+            activityQcPendingBinding.acceptClick.setEnabled(true)
+            activityQcPendingBinding.rejectClick.alpha = 0.5F
+            activityQcPendingBinding.rejectClick.setEnabled(false)
+        }    }
 
     override fun onFailureGetPendingAndAcceptAndRejectList(message: String) {
         TODO("Not yet implemented")
@@ -490,7 +698,9 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
     }
 
     override fun reasonCode(reasonCode: String) {
-        reason=reasonCode
+        reason = reasonCode
+
+
     }
 }
 

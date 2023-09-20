@@ -189,19 +189,19 @@ class QcRejectedListAdapter(
             approvedOrders.orderno?.let { it1 -> imageClicklistner.notify(position, it1) }
 
         }
-        if (rejectList[position].isClick == true) {
-            holder.rejectListBinding.approvedbylayout.visibility = View.VISIBLE
-            holder.rejectListBinding.arrowClose.visibility = View.VISIBLE
-            holder.rejectListBinding.arrow.visibility = View.GONE
-            holder.rejectListBinding.extraData.visibility = View.VISIBLE
-            holder.rejectListBinding.totalCostlayout.visibility = View.VISIBLE
-        } else {
-            holder.rejectListBinding.arrowClose.visibility = View.GONE
-            holder.rejectListBinding.arrow.visibility = View.VISIBLE
-            holder.rejectListBinding.extraData.visibility = View.GONE
-            holder.rejectListBinding.totalCostlayout.visibility = View.GONE
-            holder.rejectListBinding.approvedbylayout.visibility = View.GONE
-        }
+//        if (rejectList[position].isClick == true) {
+//            holder.rejectListBinding.approvedbylayout.visibility = View.VISIBLE
+//            holder.rejectListBinding.arrowClose.visibility = View.VISIBLE
+//            holder.rejectListBinding.arrow.visibility = View.GONE
+//            holder.rejectListBinding.extraData.visibility = View.VISIBLE
+//            holder.rejectListBinding.totalCostlayout.visibility = View.VISIBLE
+//        } else {
+//            holder.rejectListBinding.arrowClose.visibility = View.GONE
+//            holder.rejectListBinding.arrow.visibility = View.VISIBLE
+//            holder.rejectListBinding.extraData.visibility = View.GONE
+//            holder.rejectListBinding.totalCostlayout.visibility = View.GONE
+//            holder.rejectListBinding.approvedbylayout.visibility = View.GONE
+//        }
     }
 
     override fun getItemCount(): Int {

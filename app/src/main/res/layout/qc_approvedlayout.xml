@@ -25,7 +25,7 @@
                     android:id="@+id/pendingLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#8FBC8F"
+                    android:background="#EFFFE8"
                     android:paddingTop="7dp"
                     android:orientation="horizontal"
                     android:weightSum="1">
@@ -149,7 +149,7 @@
                             android:layout_height="@dimen/text_22sp"
                             android:layout_centerInParent="true"
                             android:src="@drawable/baseline_add_circle_outline_qc"
-                            android:tint="#f5fbfc"
+                            android:tint="#8FBC8F"
                             android:visibility="visible"
                             tools:ignore="UseAppTint" />
 
@@ -160,7 +160,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#8FBC8F"
+                    android:background="#EFFFE8"
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/value_5dp"
                     android:weightSum="1">
