@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/value_10dp"
+            android:fontFamily="@font/poppin_bold"
             android:layout_toRightOf="@+id/backArrow"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_18sp"
@@ -297,11 +298,12 @@
 
             <ImageView
                 android:id="@+id/logoutBtn"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginStart="@dimen/value_5dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginEnd="5dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/logout_icon"
+                android:tint="#FDB813"
                 android:visibility="visible"
                 tools:ignore="UseAppTint" />
         </LinearLayout>

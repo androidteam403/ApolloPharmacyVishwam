@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_70dp"
 
-                android:background="@color/splash_start_color"
+                android:background="#045a71"
                 android:orientation="horizontal"
                 android:padding="@dimen/four4_dp">
 
@@ -155,6 +155,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_weight="0.5"
+                        android:visibility="gone"
                         android:gravity="start">
 
                         <TextView
@@ -168,6 +169,33 @@
 
                         <TextView
                             android:id="@+id/store_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/value_1dp"
+                            android:paddingStart="@dimen/five5_sp"
+                            android:text="Apollo"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="0.5"
+                        android:gravity="start">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Customer Name : "
+                            android:textColor="#3b6967"
+
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/custmer_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/value_1dp"
@@ -217,45 +245,19 @@
                     android:paddingTop="@dimen/value_5dp"
                     android:weightSum="1">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_weight="0.5"
-                        android:gravity="start">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Customer Name : "
-                            android:textColor="#3b6967"
-
-                            android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/custmer_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/value_1dp"
-                            android:paddingStart="@dimen/five5_sp"
-                            android:text="Apollo"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
 
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:layout_marginStart="@dimen/value_10dp"
                         android:gravity="start">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dc Name : "
+                            android:text="Dc Code : "
                             android:textColor="#3b6967"
 
                             android:textSize="@dimen/text_12sp"
@@ -278,6 +280,14 @@
 
 
             </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_reject"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="1"
+                android:visibility="visible"
+                tools:listitem="@layout/qcrejectorderdetails" />
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -296,12 +306,14 @@
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="1"
+                android:visibility="gone"
+
                 tools:listitem="@layout/qc_approvedorderdetails" />
             <LinearLayout
                 android:id="@+id/approvedbylayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#8FBC8F"
+                android:background="#045a71"
                 android:visibility="visible">
 
 

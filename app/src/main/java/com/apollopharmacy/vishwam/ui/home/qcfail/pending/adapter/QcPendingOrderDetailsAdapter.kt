@@ -113,6 +113,7 @@ class QcPendingOrderDetailsAdapter(
             }
         if (items.remarks != null) {
             holder.orderdetailsBinding.reason.setText(items.remarks.toString())
+            pendingFragmentCallback.onNotify()
         } else {
             Toast.makeText(ViswamApp.context, "Reject Reasons not available", Toast.LENGTH_LONG)
 

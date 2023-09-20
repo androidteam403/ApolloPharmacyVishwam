@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.rejected.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,7 +17,6 @@ class QcRejectedOrderDetailsAdapter(
     val mContext: Context,
     var itemsList: List<QcItemListResponse.Item>,
     var pos: Int,
-    var qcApproveList: List<QcListsResponse.Reject>,
     val imageClicklistner: QcListsCallback,
     var orderId:String,
 
@@ -37,6 +37,7 @@ class QcRejectedOrderDetailsAdapter(
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = itemsList.get(position)
         if (items != null)
