@@ -50,7 +50,7 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
         viewBinding.continueBtn.setOnClickListener {
             val intent = Intent(context, PlanogramEvaluationActivity::class.java)
             intent.putExtra("uid","")
-            startActivity(intent)
+            startActivityForResult(intent, 911)
             activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
         }
 
@@ -149,6 +149,10 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
 
 
                 }
+            }else{
+                viewBinding!!.siteIdSelect.setText("${Preferences.getPlanogramSiteId()} - ${Preferences.getPlanogramSiteName()}")
+                showLoading()
+                viewModel.getList(Preferences.getPlanogramSiteId(), this)
             }
             }
 
