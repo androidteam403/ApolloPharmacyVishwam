@@ -284,14 +284,11 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
             }
 
-            else if (fromQcDate.isNotEmpty()&&toQcDate.isNullOrEmpty()){
+            else if (fromQcDate.isNullOrEmpty()||toQcDate.isNullOrEmpty()){
                 Toast.makeText(context, "Date Fields Should not be  Empty", Toast.LENGTH_LONG).show()
 
             }
-            else if (fromQcDate.isNullOrEmpty()&&toQcDate.isNotEmpty()){
-                Toast.makeText(context, "Date Fields Should not be  Empty", Toast.LENGTH_LONG).show()
 
-            }
             else if (fragmentName.equals("pending")){
                 val intent = Intent()
                 Preferences.setQcFromDate(fromQcDate)
@@ -466,6 +463,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
                 activityQcFilterBinding.fromDateText.setText(fromDate)
 
             } else {
+                fromQcDate=""
                 activityQcFilterBinding.fromDateText.setText("")
 
                 Toast.makeText(
@@ -516,6 +514,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
             } else {
                 activityQcFilterBinding.toDateText.setText("")
+                toQcDate=""
 
                 Toast.makeText(
                     context,
