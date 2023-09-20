@@ -91,7 +91,7 @@ public class Utils {
     }
 
     public static String getCurrentTimeDate() {
-        return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+        return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(new Date());
     }
 
     public static ProgressDialog showLoadingDialog(Context context) {
@@ -121,13 +121,13 @@ public class Utils {
     public static String getCurrentDate() {
         String currDate = "";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
+            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(new Date());
         }
         return currDate;
     }
 
     public static String getTodayDate() {
-        return new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        return new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(new Date());
     }
 
     public static String getOneWeekBackDate() {
@@ -135,7 +135,7 @@ public class Utils {
         cal.add(Calendar.DATE, -7);
         String currDate = "";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(cal.getTime());
+            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(cal.getTime());
         }
         return currDate;
     }
@@ -145,7 +145,7 @@ public class Utils {
         cal.add(Calendar.DATE, -14);
         String currDate = "";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(cal.getTime());
+            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(cal.getTime());
         }
         return currDate;
     }
@@ -166,7 +166,7 @@ public class Utils {
         cal.add(Calendar.DATE, 14);
         String currDate = "";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(cal.getTime());
+            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(cal.getTime());
         }
         return currDate;
     }
@@ -468,10 +468,10 @@ public class Utils {
     public static String dateCoversiontoTime(String twelveHoursTime) throws ParseException {
 
         //Date/time pattern of input date (12 Hours format - hh used for 12 hours)
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd, HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd, HH:mm:ss", Locale.ENGLISH);
 
         //Date/time pattern of desired output date (24 Hours format HH - Used for 24 hours)
-        DateFormat outputformat = new SimpleDateFormat("HH:mm:ss");
+        DateFormat outputformat = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
         Date date = null;
         String output = null;
 
@@ -524,7 +524,7 @@ public class Utils {
 
 
     public static int getDateDifference(String fromDate, String toDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         Calendar calendar1 = Calendar.getInstance();
         Calendar calendar2 = Calendar.getInstance();
 
@@ -566,7 +566,7 @@ public class Utils {
     }
 
     public static String getCurrentAddress(Context context, double latitude, double longitude) {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(context, Locale.ENGLISH);
         String add = "";
         try {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
@@ -589,7 +589,7 @@ public class Utils {
 
 //        Geocoder geocoder;
 //        List<Address> addresses;
-//        geocoder = new Geocoder(context, Locale.getDefault());
+//        geocoder = new Geocoder(context, Locale.ENGLISH);
 //        String address = ""; // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 //        String city = "";
 //        String state = "";
@@ -611,7 +611,7 @@ public class Utils {
     }
 
     public static String getCityName(Context context, double latitude, double longitude) {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(context, Locale.ENGLISH);
         String add = "";
         try {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
@@ -626,7 +626,7 @@ public class Utils {
     }
 
     public static String getStateName(Context context, double latitude, double longitude) {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(context, Locale.ENGLISH);
         String add = "";
         try {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
@@ -710,7 +710,7 @@ public class Utils {
     }
 
     public static String getAttendanceLocation(Context context, Double latitude, Double longitude) {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(context, Locale.ENGLISH);
         List<Address> addresses = null;
         try {
             addresses = geocoder.getFromLocation(
@@ -730,7 +730,7 @@ public class Utils {
     }
 
     public static String getAttendanceCity(Context context, Double latitude, Double longitude) {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(context, Locale.ENGLISH);
         List<Address> addresses = null;
         try {
             addresses = geocoder.getFromLocation(
@@ -753,7 +753,7 @@ public class Utils {
     }
 
     public static String getAttendanceState(Context context, Double latitude, Double longitude) {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(context, Locale.ENGLISH);
         List<Address> addresses = null;
         try {
             addresses = geocoder.getFromLocation(
