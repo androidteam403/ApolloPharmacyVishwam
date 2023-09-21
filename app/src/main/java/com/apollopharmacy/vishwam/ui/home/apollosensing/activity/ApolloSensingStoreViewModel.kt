@@ -172,4 +172,8 @@ class ApolloSensingStoreViewModel : ViewModel() {
             }
         }
     }
+
+    fun getSiteData(): java.util.ArrayList<StoreListItem> {
+        return siteLiveData
+    }
 }

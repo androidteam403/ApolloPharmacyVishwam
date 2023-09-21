@@ -1837,7 +1837,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)));
 //            .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
         }
-        isPlanogramAppRequired = true;
+//        isPlanogramAppRequired = true;
         if (isPlanogramAppRequired) {
             listView.addHeaderModel(new HeaderModel("Planogram", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Planogram Evaluation", R.drawable.ic_apollo_survey_68__1_)));
         }
