@@ -21,7 +21,9 @@ import com.apollopharmacy.vishwam.databinding.ActivityApolloSensingStoreBinding
 import com.apollopharmacy.vishwam.ui.home.apollosensing.activity.adapter.SiteIdAdapter
 import com.apollopharmacy.vishwam.ui.home.apollosensing.activity.adapter.SiteListAdapter
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SiteListResponse
+import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityViewModel
 import com.apollopharmacy.vishwam.util.Utlis
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 
@@ -82,7 +84,8 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
                  viewModel.siteId()
                 onSuccessSiteIdLIst()
             }
-        } else {
+        }
+        else {
             Utlis.showLoading(this)
             /*viewModel.siteList(
                 Preferences.getToken(),
@@ -105,6 +108,20 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
             )
             activityApolloSensingStoreBinding.siteRecyclerView.adapter = siteIdAdapter
             Utlis.hideLoading()
+        }
+
+        viewModel.command.observeForever {
+            when (it) {
+                is SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowSiteInfo -> {
+                    Utlis.hideLoading()
+                    Preferences.setSiteIdList(Gson().toJson(viewModel.getSiteData()))
+                    Preferences.setSiteIdListFetched(true)
+//                        arguments =
+//                            SiteDialog().generateParsedData(viewModel.getSiteData())
+
+                }
+                else -> {}
+            }
         }
         searchBySiteId()
     }
