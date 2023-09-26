@@ -19,6 +19,7 @@ import com.apollopharmacy.vishwam.util.Utlis
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 import java.util.stream.Collectors
 
 
@@ -50,7 +51,7 @@ class PreRectroApprovalFragment() :
         })
 
         var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         currentDate = simpleDateFormat.format(Date())
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
@@ -92,7 +93,7 @@ class PreRectroApprovalFragment() :
             Utlis.showLoading(requireContext())
 
         var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         currentDate = simpleDateFormat.format(Date())
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
@@ -115,7 +116,7 @@ class PreRectroApprovalFragment() :
             if (isApiHit||isRatingApiHit) {
                 showLoading()
                 var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
-                val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
                 currentDate = simpleDateFormat.format(Date())
 
                 val cal = Calendar.getInstance()
@@ -136,7 +137,7 @@ class PreRectroApprovalFragment() :
             if (selectsiteIdList!=null){
                 showLoading()
                 var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
-                val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
                 currentDate = simpleDateFormat.format(Date())
 
                 val cal = Calendar.getInstance()

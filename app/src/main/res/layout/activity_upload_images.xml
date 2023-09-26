@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Create New Pre Rectro"
+                android:text="Create New Pre Retro"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_17sp"
                 android:textStyle="bold" />
