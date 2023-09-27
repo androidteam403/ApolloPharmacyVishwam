@@ -7,12 +7,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TextView
@@ -30,6 +32,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityRetroQrUploadBinding
+import com.apollopharmacy.vishwam.databinding.DialogConnectPrinterBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.ReviewRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.UploadRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagecomparison.ImageComparisonActivity
@@ -43,7 +46,16 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUpload
 import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
+import com.apollopharmacy.vishwam.util.bluetooth.BarcodeEncoder
+import com.apollopharmacy.vishwam.util.bluetooth.BluetoothActivity
+import com.apollopharmacy.vishwam.util.bluetooth.manager.BluetoothManager
+import com.apollopharmacy.vishwam.util.bluetooth.manager.PrintfTSPLManager
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.WriterException
+import com.google.zxing.qrcode.QRCodeWriter
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import me.echodev.resizer.Resizer
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -80,6 +92,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     var updatedCount: Int = 0
 
     var position: Int = 0
+
+    private val ACTIVITY_BARCODESCANNER_DETAILS_CODE = 151
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityRetroQrUploadBinding = DataBindingUtil.setContentView(
@@ -326,7 +340,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         intent.putExtra("firstimage", firstImage)
         intent.putExtra("secondimage", secondImage)
         intent.putExtra("rackNo", rackNo)
-        intent.putExtra("activity","upload")
+        intent.putExtra("activity", "upload")
 
         intent.putExtra("matchingPercentage", matchingPercentage)
         startActivity(intent)
@@ -481,6 +495,108 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         )
 
 
+    }
+
+    override fun onClickQrCodePrint() {
+        if (!reviewImagesList.isNullOrEmpty()) {
+            if (!BluetoothManager.getInstance(this@RetroQrUploadActivity).isConnect()) {
+                val dialogView =
+                    Dialog(this@RetroQrUploadActivity) // R.style.Theme_AppCompat_DayNight_NoActionBar
+                val connectPrinterBinding: DialogConnectPrinterBinding = DataBindingUtil.inflate(
+                    LayoutInflater.from(this@RetroQrUploadActivity),
+                    R.layout.dialog_connect_printer,
+                    null,
+                    false
+                )
+                dialogView.setContentView(connectPrinterBinding.getRoot())
+                dialogView.setCancelable(false)
+                dialogView.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                connectPrinterBinding.dialogButtonOK.setOnClickListener { view ->
+                    dialogView.dismiss()
+                    var intent = Intent(this@RetroQrUploadActivity, BluetoothActivity::class.java)
+                    startActivityForResult(
+                        intent,
+                        ACTIVITY_BARCODESCANNER_DETAILS_CODE
+                    )
+                }
+                connectPrinterBinding.dialogButtonNO.setOnClickListener { view -> dialogView.dismiss() }
+                //            connectPrinterBinding.dialogButtonNot.setOnClickListener(view -> dialogView.dismiss());
+                dialogView.show()
+
+                //Toast.makeText(getContext(), "Please connect Bluetooth first", Toast.LENGTH_SHORT).show();
+                // startActivityForResult(BluetoothActivity.getStartIntent(getContext()), ACTIVITY_BARCODESCANNER_DETAILS_CODE);
+                // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                // return;
+            } else {
+                generatebarcode()
+            }
+        }
+    }
+    fun generatebarcode() {
+        if (!BluetoothManager.getInstance(this@RetroQrUploadActivity).isConnect) {
+            Toast.makeText(
+                this@RetroQrUploadActivity,
+                "Your printer is disconnected. Please connect to Printer by clicking on Reprint Barcode",
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+            val instance: PrintfTSPLManager = PrintfTSPLManager.getInstance(this@RetroQrUploadActivity)
+            instance.clearCanvas()
+            instance.initCanvas(90, 23)
+            instance.setDirection(0)
+            //打印条形码
+            //Print barcode
+//            instance.printBarCode(20, 10, "128", 130, 2, 2, 0, refnumber);
+            //Print QR code
+//            instance.printQrCode(20, 10, "M", 7, 0, contentttt);
+            for (i in reviewImagesList) {
+                instance.printQrCode(350, 20, "M", 7, 0, "${i.rackno}\n${Preferences.getQrSiteId()}")
+//                instance.printBitmap(20, 10, qrCode("${i.rackno}\n${Preferences.getQrSiteId()}"))
+                instance.beginPrintf(1)
+            }
+        }
+    }
+    private fun qrCode(content: String): Bitmap? {
+//        val qrCodeImageView = findViewById<ImageView>(R.id.qrCodeImageView)
+//        val logoImageView = findViewById<ImageView>(R.id.logoImageView)
+//        val content = "Rack 1\n16001"
+        try {
+            val hints: MutableMap<EncodeHintType, Any?> = HashMap()
+            hints[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.H
+            val qrCodeWriter = QRCodeWriter()
+            val bitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, 170, 170, hints)
+            val barcodeEncoder = BarcodeEncoder()
+            val qrCodeBitmap: Bitmap = barcodeEncoder.createBitmap(bitMatrix)
+
+            // Overlay the QR code with the logo
+            val logoBitmap = BitmapFactory.decodeResource(
+                resources, R.drawable.fifteen_ppp
+            )
+            return overlayBitmap(qrCodeBitmap, logoBitmap)!!
+//            qrCodeImageView.setImageBitmap(combinedBitmap)
+        } catch (e: WriterException) {
+            e.printStackTrace()
+            return null
+        }
+    }
+    private fun overlayBitmap(qrCodeBitmap: Bitmap, logoBitmap: Bitmap): Bitmap? {
+        val qrCodeWidth = qrCodeBitmap.width
+        val qrCodeHeight = qrCodeBitmap.height
+        val logoWidth = logoBitmap.width
+        val logoHeight = logoBitmap.height
+
+        // Calculate the position to center the logo on the QR code
+        val xPos = (qrCodeWidth - logoWidth) / 2
+        val yPos = (qrCodeHeight - logoHeight) / 2
+
+        // Create a new bitmap with the QR code
+        val combinedBitmap = Bitmap.createBitmap(qrCodeWidth, qrCodeHeight, qrCodeBitmap.config)
+
+        // Create a canvas for drawing
+        val canvas = Canvas(combinedBitmap)
+        canvas.drawBitmap(qrCodeBitmap, 0f, 0f, null)
+        canvas.drawBitmap(logoBitmap, xPos.toFloat(), yPos.toFloat(), null)
+        return combinedBitmap
     }
 
     private fun openCamera() {

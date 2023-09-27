@@ -34,4 +34,5 @@ interface RetroQrUploadCallback {
 
     fun onUpload(position: Int, rackNo: String)
 
+    fun onClickQrCodePrint()
 }
