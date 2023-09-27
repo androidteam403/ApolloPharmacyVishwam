@@ -168,8 +168,9 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                             indiviualCat + "," + commaSeparatorCategoriesToFocusOn
                     } else {
                         commaSeparatorCategoriesToFocusOn = indiviualCat
-                        planogramRequest.categoriesToFocusOn = commaSeparatorCategoriesToFocusOn
+
                     }
+                    planogramRequest.categoriesToFocusOn = commaSeparatorCategoriesToFocusOn
                 }
             } else {
                 planogramRequest.categoriesToFocusOn = ""
@@ -197,7 +198,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
             val planogramPostersList = java.util.ArrayList<PlanogramSaveUpdateRequest.Poster>()
             val planogramValueBinList =
                 java.util.ArrayList<PlanogramSaveUpdateRequest.ValueDealsBin>()
-            for (i in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.indices) {
+            for (i in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.indices.reversed()) {
 
                 if (planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).type.equals(
                         "category"
@@ -205,7 +206,7 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                 ) {
                     var planogramSurvey = planogramRequest.PlanogramSurvey()
                     planogramSurvey.score =
-                        planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryScore.toString()
+                        planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).cattScore.toString()
                     var categoryTypeUid = planogramSurvey.CategoryType()
                     categoryTypeUid.uid =
                         planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!.get(i).categoryType!!.uid
@@ -852,34 +853,36 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
             totalCategories++
 //            }
         }
-        for (i in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!) {
-            var valueOfTotalCategories: Float = 0f
-            if (i.categoryScore == 0f) {
-                havingAllCategoryScore = false
-                break
-            }
-            if (havingAllCategoryScore) {
-                valueOfTotalCategories = valueOfTotalCategories + i.categoryScore
-                var categoryScore = (valueOfTotalCategories / totalCategories)
-                planogramSurveyQuestionsListResponses!!.overAllScore = categoryScore.toFloat()
+//        for (i in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!) {
+        var valueOfTotalCategories: Float = 0f
+//            if (i.categoryScore == 0f) {
+//                havingAllCategoryScore = false
+//                break
+//            }
+//            if (havingAllCategoryScore) {
+//                valueOfTotalCategories = valueOfTotalCategories + i.categoryScore
+//                var categoryScore = (valueOfTotalCategories / totalCategories)
+//                planogramSurveyQuestionsListResponses!!.overAllScore = categoryScore.toFloat()
+//
+//            }
+        var overAllScore =
+            ((planogramSurveyQuestionsListResponses!!.data!!.listData!!.categoryScore + planogramSurveyQuestionsListResponses!!.data!!.listData!!.diaperPodiumScore + planogramSurveyQuestionsListResponses!!.data!!.listData!!.valueDealsBinScore + planogramSurveyQuestionsListResponses!!.data!!.listData!!.chillerScore + planogramSurveyQuestionsListResponses!!.data!!.listData!!.offersGondolaScore + planogramSurveyQuestionsListResponses!!.data!!.listData!!.peghooksDisplayScore + planogramSurveyQuestionsListResponses!!.data!!.listData!!.postersScore) / totalCategories)
 
-            }
-            var overAllScore =
-                ((planogramSurveyQuestionsListResponses!!.overAllScore + i.diaperPodiumScore + i.valueDealsBinScore + i.chillerScore + i.offersGondolaScore + i.peghooksDisplayScore + i.postersScore) / totalCategories)
-
-            planogramSurveyQuestionsListResponses!!.overAllScore = overAllScore
-            activityPlanogramEvaluationBinding.overAllPercentage.setText(
-                "OVERALL SCORE" + " : " + String.format(
-                    Locale.US,
-                    "%.2f",
-                    overAllScore
-                )
+        planogramSurveyQuestionsListResponses!!.overAllScore = overAllScore
+        activityPlanogramEvaluationBinding.overAllPercentage.setText(
+            "OVERALL SCORE" + " : " + String.format(
+                Locale.US,
+                "%.2f",
+                overAllScore
             )
-        }
+        )
+//        }
     }
 
     fun caluclateCategoryScore() {
+        var overAllCategoryScore = 0f
         for (i in planogramSurveyQuestionsListResponses!!.data!!.listData!!.rows!!) {
+
             if (i.type.equals("category")) {
                 var totalSubCategories: Float = 0f
                 var totalYes: Float = 0f
@@ -891,7 +894,9 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                     }
                 }
                 if (allValuesUpdated) {
+                    var name: String = ""
                     for (j in i.questions!!) {
+                        name = j.categoryName.toString()
                         if (!j.value.equals("NA")) {
                             totalSubCategories++
                         }
@@ -900,8 +905,12 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         }
                     }
                     var categoryPercentage = (totalYes / totalSubCategories) * 100
-                    i.categoryScore = categoryPercentage.toFloat()
+                    i.cattScore = categoryPercentage
+                    overAllCategoryScore = overAllCategoryScore + categoryPercentage
+
                 }
+                planogramSurveyQuestionsListResponses!!.data!!.listData!!.categoryScore =
+                    overAllCategoryScore.toFloat()
             } else if (i.type.equals("diaper_podium")) {
                 var totalSubCategories: Float = 0f
                 var totalYes: Float = 0f
@@ -922,7 +931,8 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         }
                     }
                     var categoryPercentage = (totalYes / totalSubCategories) * 100
-                    i.diaperPodiumScore = categoryPercentage.toFloat()
+                    planogramSurveyQuestionsListResponses!!.data!!.listData!!.diaperPodiumScore =
+                        categoryPercentage.toFloat()
                 }
             } else if (i.type.equals("value_deals_bin")) {
                 var totalSubCategories: Float = 0f
@@ -944,7 +954,8 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         }
                     }
                     var categoryPercentage = (totalYes / totalSubCategories) * 100
-                    i.valueDealsBinScore = categoryPercentage.toFloat()
+                    planogramSurveyQuestionsListResponses!!.data!!.listData!!.valueDealsBinScore =
+                        categoryPercentage.toFloat()
                 }
             } else if (i.type.equals("posters")) {
                 var totalSubCategories: Float = 0f
@@ -966,7 +977,8 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         }
                     }
                     var categoryPercentage = (totalYes / totalSubCategories) * 100
-                    i.postersScore = categoryPercentage.toFloat()
+                    planogramSurveyQuestionsListResponses!!.data!!.listData!!.postersScore =
+                        categoryPercentage.toFloat()
                 }
             } else if (i.type.equals("peghooks_display")) {
                 var totalSubCategories: Float = 0f
@@ -988,7 +1000,8 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         }
                     }
                     var categoryPercentage = (totalYes / totalSubCategories) * 100
-                    i.peghooksDisplayScore = categoryPercentage.toFloat()
+                    planogramSurveyQuestionsListResponses!!.data!!.listData!!.peghooksDisplayScore =
+                        categoryPercentage.toFloat()
                 }
             } else if (i.type.equals("offers_gondola")) {
                 var totalSubCategories: Float = 0f
@@ -1010,7 +1023,8 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         }
                     }
                     var categoryPercentage = (totalYes / totalSubCategories) * 100
-                    i.offersGondolaScore = categoryPercentage.toFloat()
+                    planogramSurveyQuestionsListResponses!!.data!!.listData!!.offersGondolaScore =
+                        categoryPercentage.toFloat()
                 }
             } else if (i.type.equals("chiller")) {
                 var totalSubCategories: Float = 0f
@@ -1032,7 +1046,8 @@ class PlanogramEvaluationActivity : AppCompatActivity(), PlanogramActivityCallba
                         }
                     }
                     var categoryPercentage = (totalYes / totalSubCategories) * 100
-                    i.chillerScore = categoryPercentage.toFloat()
+                    planogramSurveyQuestionsListResponses!!.data!!.listData!!.chillerScore =
+                        categoryPercentage.toFloat()
                 }
             }
 
