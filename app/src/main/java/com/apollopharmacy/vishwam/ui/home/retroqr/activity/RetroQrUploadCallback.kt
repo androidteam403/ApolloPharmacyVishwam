@@ -33,5 +33,6 @@ interface RetroQrUploadCallback {
     fun deleteImage(position: Int)
 
     fun onUpload(position: Int, rackNo: String)
+    fun onClickPrintIcon()
 
 }

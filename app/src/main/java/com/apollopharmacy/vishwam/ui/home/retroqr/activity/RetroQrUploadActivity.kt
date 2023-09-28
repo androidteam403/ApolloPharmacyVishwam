@@ -13,7 +13,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
@@ -30,6 +32,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityRetroQrUploadBinding
+import com.apollopharmacy.vishwam.databinding.DialogRackQrCodePrintBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.ReviewRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.UploadRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagecomparison.ImageComparisonActivity
@@ -63,6 +66,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     private lateinit var viewModel: RetroQrUploadViewModel
     private lateinit var uploadRackAdapter: UploadRackAdapter
     private lateinit var reviewRackAdapter: ReviewRackAdapter
+    private lateinit var printRackAdapter: PrintRackAdapter
     private var activity: String = ""
     var updated: Int = 0
     private lateinit var cameraDialog: Dialog
@@ -481,6 +485,27 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         )
 
 
+    }
+
+    override fun onClickPrintIcon() {
+        val dialog = Dialog(this@RetroQrUploadActivity)
+        val dialogRackQrCodePrintBinding = DataBindingUtil.inflate<DialogRackQrCodePrintBinding>(
+            LayoutInflater.from(this@RetroQrUploadActivity),
+            R.layout.dialog_rack_qr_code_print,
+            null,
+            false
+        )
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(dialogRackQrCodePrintBinding.root)
+        dialog.setCancelable(false)
+        dialogRackQrCodePrintBinding.close.setOnClickListener {
+            dialog.dismiss()
+        }
+        printRackAdapter = PrintRackAdapter(this@RetroQrUploadActivity)
+        dialogRackQrCodePrintBinding.printRackRecycler.adapter = printRackAdapter
+        dialogRackQrCodePrintBinding.printRackRecycler.layoutManager = LinearLayoutManager(this@RetroQrUploadActivity)
+        dialog.show()
     }
 
     private fun openCamera() {
