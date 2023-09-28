@@ -48,7 +48,6 @@
                     android:background="@drawable/retro_qr_print_icon_bg"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()-> callback.onClickQrCodePrint()}"
-                    android:padding="@dimen/value_5dp"
                     android:src="@drawable/ic_print_qr" />
 
                 <LinearLayout

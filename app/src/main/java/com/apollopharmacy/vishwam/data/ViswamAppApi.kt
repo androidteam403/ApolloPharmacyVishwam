@@ -713,7 +713,10 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Url url: String,
     ): GetCategoryDetailsResponse
-
+    @GET
+    suspend fun TEST(
+        @Url url: String,
+    ): ResponseBody
     @GET //("https://172.16.103.116/Apollo/Champs/getServeyDetails")
     suspend fun GET_CATEGORY_DETAILS_API_CALL_(
         @Url url: String,

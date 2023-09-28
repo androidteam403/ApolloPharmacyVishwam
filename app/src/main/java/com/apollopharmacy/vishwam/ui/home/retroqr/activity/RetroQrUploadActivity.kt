@@ -550,7 +550,8 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             //Print QR code
 //            instance.printQrCode(20, 10, "M", 7, 0, contentttt);
             for (i in reviewImagesList) {
-                instance.printQrCode(350, 20, "M", 7, 0, "${i.rackno}\n${Preferences.getQrSiteId()}")
+                instance.printQrCode(20, 10, "M", 7, 0, "${i.rackno}-${Preferences.getQrSiteId()}")
+//                instance.printQrCode(350, 20, "M", 7, 0, "${i.rackno}\n${Preferences.getQrSiteId()}")
 //                instance.printBitmap(20, 10, qrCode("${i.rackno}\n${Preferences.getQrSiteId()}"))
                 instance.beginPrintf(1)
             }
