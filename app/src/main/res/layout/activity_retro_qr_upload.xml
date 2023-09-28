@@ -97,13 +97,17 @@
             android:layout_marginBottom="@dimen/value_50dp"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/value_45dp"
+                android:layout_marginTop="@dimen/value_3dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/value_45dp"
+                    android:layout_weight=".8"
                     android:background="#f4f5f4"
                     android:orientation="horizontal">
 
@@ -231,7 +235,22 @@
                     </LinearLayout>
                 </LinearLayout>
 
-            </RelativeLayout>
+                <LinearLayout
+                    android:id="@+id/print"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/value_3dp"
+                    android:layout_weight=".2"
+                    android:background="#00bff3"
+                    android:gravity="center"
+                    android:onClick="@{()->callback.onClickPrintIcon()}">
+
+                    <ImageView
+                        android:layout_width="@dimen/value_30dp"
+                        android:layout_height="@dimen/value_30dp"
+                        android:src="@drawable/print_label" />
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
