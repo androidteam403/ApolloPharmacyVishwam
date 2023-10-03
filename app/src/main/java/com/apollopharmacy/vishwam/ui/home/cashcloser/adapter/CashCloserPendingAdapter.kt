@@ -60,9 +60,11 @@ class CashCloserPendingAdapter(
         val formattedDate = date.format(formatter)
         holder.cashCloserLayoutBinding.closingDate.text = formattedDate
 
-        holder.cashCloserLayoutBinding.amount.text =
-            DecimalFormat("#,###.00").format(cashDeposit[position].amount!!.toDouble())
-                .toString()
+        if (cashDeposit[position].amount!!.isNotEmpty()) {
+            holder.cashCloserLayoutBinding.amount.text =
+                DecimalFormat("#,###.00").format(cashDeposit[position].amount!!.toDouble())
+                    .toString()
+        }
         holder.cashCloserLayoutBinding.remarks.text = cashDeposit[position].remarks
 
         holder.cashCloserLayoutBinding.amountDeposit.setText(cashDeposit[position].amount!!.toString())

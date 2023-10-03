@@ -176,8 +176,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isDiscountRequired = false;
     public static String userDesignation;
     private TextView headerText;
-    private TextView headerLocationText;
-
     public Boolean isListScreen = false;
     public Boolean isUploadScreen = false;
     private LinearLayout gpsLoaderLayout;
@@ -213,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public RelativeLayout spinnerLayout;
     public ImageView plusIconApna;
-    public ImageView plusIconAttendence;
     public ImageView filterIconApna;
 
     public RelativeLayout onClickPlusIcon;
@@ -250,13 +247,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static TextView notificationTextCustom;
     public String ceoDashboardAccessFromEmployee = "";
 
-//    private MenuItemAdapter attendanceManagementAdapter, cmsAdapter, discountAdapter, newDrugRequestAdapter, omsQcAdapter, swachhAdapter, monitoringAdapter, champsAdapter, planogramAdapter, apnaRetroAdapter, apnaAdapter;
+    //    private MenuItemAdapter attendanceManagementAdapter, cmsAdapter, discountAdapter, newDrugRequestAdapter, omsQcAdapter, swachhAdapter, monitoringAdapter, champsAdapter, planogramAdapter, apnaRetroAdapter, apnaAdapter;
     private ImageView backArrow;
     private ImageView logoutBtn;
     private ImageView logo;
     private LinearLayout customerDetails;
     public Dialog submenuDialog;
     public ArrayList<MenuModel> menuModels;
+    public BottomNavigationView bottomNavigationView;
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -451,8 +449,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         filterIconApna = findViewById(R.id.filtericonapna);
         plusIconApna = findViewById(R.id.plusIconapna);
-        plusIconAttendence = findViewById(R.id.plusIconattendence);
-
         filterIcon = findViewById(R.id.filterIcon);
         siteIdIcon = findViewById(R.id.siteId_icon);
         onClickPlusIcon = findViewById(R.id.plusIcon);
@@ -601,9 +597,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //        ImageView openDrawer = findViewById(R.id.openDrawer);
         headerText = findViewById(R.id.headerTitle);
-        headerLocationText = findViewById(R.id.locationtext);
-
-
+        bottomNavigationView = findViewById(R.id.bottomNavBar);
         displaySelectedScreen("HOME");
 //        listView.setSelected(0);
 
@@ -632,7 +626,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             checkExternalPermission();
         }
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavBar);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.home:
@@ -660,7 +653,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         submenuDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         DialogSubmenusBinding dialogSubmenusBinding = DataBindingUtil.inflate(LayoutInflater.from(MainActivity.this), R.layout.dialog_submenus, null, false);
         submenuDialog.setContentView(dialogSubmenusBinding.getRoot());
-        submenuDialog.getWindow().setBackgroundDrawable(new ColorDrawable(R.color.transparent));
+        submenuDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         SubmenuAdapter submenuAdapter = new SubmenuAdapter(MainActivity.this, menuModels, this);
         dialogSubmenusBinding.submenuRcv.setAdapter(submenuAdapter);
         dialogSubmenusBinding.submenuRcv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
@@ -957,9 +950,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("HOME");
                 fragment = new HomeFragment();
                 filterIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -976,15 +966,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setVisibility(View.GONE);
                 logoutBtn.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                bottomNavigationView.setVisibility(View.GONE);
                 break;
             case "Complaint Register":
                 headerText.setText("Complaint Registration");
                 fragment = new RegistrationFragment();
                 filterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
@@ -1002,6 +990,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
 //                toolbar.setBackground(getResources().getDrawable(R.color.splash_start_color));
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Complaint List":
                 headerText.setText("Complaint List");
@@ -1010,9 +1000,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1026,15 +1013,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Approval List":
                 headerText.setText("Approval List");
 //                fragment = new ComplainListFragment();
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
@@ -1055,6 +1041,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Attendance":
                 headerText.setText("Attendance");
@@ -1063,9 +1051,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.VISIBLE);
-                headerLocationText.setVisibility(View.GONE);
-
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1073,21 +1058,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "History":
                 headerText.setText("History");
                 fragment = new HistoryFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
@@ -1104,13 +1088,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Pending":
                 headerText.setText("Pending List");
                 fragment = new PendingOrderFragment();
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
@@ -1129,6 +1113,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Approved":
                 headerText.setText("Approved List");
@@ -1139,8 +1125,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 onClickPlusIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1153,6 +1137,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Rejected":
                 headerText.setText("Rejected List");
@@ -1164,8 +1150,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1178,6 +1162,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Bill":
                 headerText.setText("Bill List");
@@ -1192,8 +1178,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
 
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
@@ -1202,6 +1186,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Swachh Images Upload":
                 headerText.setText("Swachh Images");
@@ -1212,8 +1198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1226,6 +1210,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
             case "Swachh List":
@@ -1238,8 +1224,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1252,6 +1236,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
             case "Upload":
@@ -1263,8 +1249,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
 
                 siteIdIcon.setVisibility(View.VISIBLE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1278,6 +1262,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "List":
                 headerText.setText("SWACHH LIST");
@@ -1287,8 +1273,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1304,6 +1288,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "New Drug Request":  //"Drug Request":
                 headerText.setText("New Drug Request");
@@ -1325,11 +1311,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Greetings to Chairman":
                 Intent i = new Intent(this, GreetingActivity.class);
@@ -1344,8 +1329,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new CashCloserFragment();
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
 
                 filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
@@ -1361,6 +1344,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
                 break;
             case "Apna Form":
 //                headerText.setText("Apna Form");
@@ -1381,9 +1366,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 onClickPlusIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1396,6 +1378,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
             case "Apollo Sensing":
@@ -1403,9 +1387,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new ApolloSensingFragment();
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
@@ -1421,6 +1402,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
                 break;
 
             case "Retro QR":
@@ -1428,9 +1411,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new RetroQrFragment();
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1446,6 +1426,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
                 break;
 
             case "New Drug List":  //"Drug List":
@@ -1456,8 +1438,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 Bundle bundle = new Bundle();
@@ -1477,6 +1457,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "QcDashboard":
                 headerText.setText("Dashboard");
@@ -1488,9 +1470,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -1501,6 +1480,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "OutStanding":
                 headerText.setText("Pending List");
@@ -1511,9 +1492,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
@@ -1526,6 +1504,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Login":
                 Intent j = new Intent(this, SplashScreen.class);
@@ -1538,9 +1518,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1553,6 +1530,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(true);
                 break;
 
             case "Planogram Evaluation":
@@ -1561,9 +1540,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
@@ -1577,14 +1553,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Profile":
                 headerText.setText("Profile");
                 fragment = new ProfileFragment();
                 qcfilterIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1601,6 +1576,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
                 break;
             case "My Orders":
                 headerText.setText("My Orders");
@@ -1609,9 +1586,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1625,6 +1599,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
                 break;
             case "Cash Deposits":
                 headerText.setText("Cash Deposits");
@@ -1635,9 +1611,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1649,6 +1622,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(true);
                 break;
             case "Summary":
                 headerText.setText("Summary");
@@ -1660,9 +1635,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -1673,6 +1645,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(true);
                 break;
             case "Complaints":
                 headerText.setText("Complaints");
@@ -1681,9 +1655,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1697,6 +1668,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(true);
                 break;
             case "Change Password":
                 headerText.setText("Dashboard");
@@ -1705,9 +1678,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1721,6 +1691,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
                 break;
             case "Help":
                 headerText.setText("Help");
@@ -1731,9 +1703,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1745,6 +1714,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
                 break;
             case "LogOut":
                 getSessionManager().clearAllSharedPreferences();
@@ -1757,9 +1728,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new com.apollopharmacy.vishwam.ui.home.qcfail.approved.ApprovedFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
                 plusIconApna.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1776,6 +1744,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
             case "Qc Rejected":
@@ -1786,9 +1756,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
 //                selectFilterType.setText("Rows: "+ String.valueOf(Preferences.INSTANCE.getQcRejectedPageSiz()));
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1802,6 +1769,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
 //            case "Select Site":
@@ -1817,8 +1786,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.VISIBLE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.VISIBLE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1832,6 +1799,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Champs Reports":
                 headerText.setText("CHAMPS Analysis Reports");
@@ -1844,9 +1813,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 onClickPlusIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
@@ -1856,6 +1822,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
             case "Champs Admin":
@@ -1871,9 +1839,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
@@ -1882,6 +1847,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
             case "Creation":
@@ -1895,9 +1862,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 onClickPlusIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 siteIdIcon.setVisibility(View.VISIBLE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1908,6 +1872,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
             case "Post Rectro":
@@ -1919,9 +1885,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = fragPostRectro;
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 onClickPlusIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1934,6 +1897,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
             case "After Completion":
@@ -1946,9 +1911,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 onClickPlusIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1967,9 +1929,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 onClickPlusIcon.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
@@ -1985,6 +1944,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
             case "Post Rectro Approval":
@@ -1998,9 +1959,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -2011,6 +1969,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
             case "After Completion Approval":
@@ -2023,9 +1983,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 qcfilterIcon.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -2037,6 +1994,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
 
@@ -2050,9 +2009,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -2063,6 +2019,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
                 break;
             case "DashboardCeo":
                 if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")) {
@@ -2082,8 +2040,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     headerText.setText("Dashboard");
                 }
 
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
 
                 fragment = new CeoDashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -2102,6 +2058,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Dashboard Regional Head":
                 headerText.setText("Regional head Dashboard");
@@ -2112,9 +2070,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -2125,6 +2080,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Dashboard Store Manager":
                 headerText.setText("Store Manager Dashboard");
@@ -2138,9 +2095,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
@@ -2148,6 +2102,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Dashboard Store Executive":
                 headerText.setText("Store Executive Dashboard");
@@ -2156,9 +2112,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -2171,6 +2124,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Dashboard Store Supervisor":
                 headerText.setText("Store Supervisor Dashboard");
@@ -2183,9 +2138,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
@@ -2194,6 +2146,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "DashboardManager":
                 headerText.setText("Manager Dashboard");
@@ -2204,9 +2158,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
-                plusIconAttendence.setVisibility(View.GONE);
-                headerLocationText.setVisibility(View.GONE);
-
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -2217,6 +2168,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
                 logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
             case "Logout":
@@ -3407,6 +3360,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClickSubmenuItem(String menuName, ArrayList<MenuModel> submenus, int position) {
         displaySelectedScreen(menuName);
     }
+
     public void startService() {
         startService(new Intent(this, BatteryLevelLocationService.class));
     }
