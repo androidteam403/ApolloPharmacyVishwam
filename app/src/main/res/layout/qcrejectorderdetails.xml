@@ -26,7 +26,7 @@
                 android:layout_marginRight="24dp"
                 android:lines="1"
                 android:text="Cirizen"
-                android:textColor="#48b184"
+                android:textColor="#135A6E"
 
                 android:textSize="@dimen/text_12sp"
                 android:textStyle="bold"
@@ -42,6 +42,7 @@
                 android:layout_marginRight="24dp"
                 android:layout_toRightOf="@id/medicineName"
                 android:lines="1"
+                android:textColor="#135A6E"
 
                 android:text="Pharma"
                 android:textSize="@dimen/text_12sp"

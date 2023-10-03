@@ -38,7 +38,7 @@
             android:id="@+id/signInOutParentLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <RelativeLayout
                 android:id="@+id/image_layout"
@@ -234,13 +234,13 @@
             android:id="@+id/taskInfoLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <RelativeLayout
                 android:id="@+id/headerLayout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/value_55dp"
-                android:background="#01bfc0"
+                android:layout_height="60dp"
+                android:background="#fff7e3"
 
                 android:padding="@dimen/value_7dp">
 
@@ -254,7 +254,7 @@
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:layout_marginTop="3dp"
-
+                        android:tint="#f8b43f"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_date_and_time" />
 
@@ -270,7 +270,6 @@
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/label_last_login"
-                            android:textColor="@color/white"
                             android:textSize="12sp" />
 
                         <TextView
@@ -279,7 +278,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppin_bold"
 
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -293,7 +292,7 @@
                     android:layout_alignParentEnd="true"
 
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_button_yellow"
+                    android:background="@drawable/bg_button_blue"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -305,7 +304,7 @@
                         android:layout_marginEnd="@dimen/value_5dp"
                         android:fontFamily="@font/price_bold"
                         android:text="Sign-Out"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="11sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -346,6 +345,7 @@
                 android:id="@+id/add_task_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="@dimen/value_20dp"

@@ -51,6 +51,8 @@
     <color name="status_reopen_for_process">#CC0066</color>
     <color name="complaint_bg">#ecf5f8</color>
     <color name="newtask_bg">#dbf2f8</color>
+    <color name="newtask_bgs">#f4f4f4</color>
+
     <color name="task_card_bg">#b2e2f2</color>
     <color name="dialog_corner_color">#d4d4d4</color>
     <color name="header_bg">#d5d6d8</color>
@@ -121,6 +123,8 @@
     <color name="faded_click">#7BBFD1</color>
     <color name="bill_colour">#85bb65</color>
     <color name="qc_color">#D1F2E7</color>
+
+    <color name="active_task_color_new">#dbf2f8</color>
 
     <color name="active_task_color">#c5e5c9</color>
     <color name="green">#33cc33</color>

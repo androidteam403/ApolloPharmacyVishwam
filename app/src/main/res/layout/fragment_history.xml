@@ -32,7 +32,8 @@
                 android:visibility="visible"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="2"
-                tools:listitem="@layout/view_history_item" />
+                tools:listitem="@layout/view_history_item"
+                tools:ignore="UnknownIdInLayout" />
             <TableLayout
                 android:id="@+id/tableLayout"
                 android:layout_width="match_parent"

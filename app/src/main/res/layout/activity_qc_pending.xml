@@ -93,7 +93,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Store Id : "
-                            android:textColor="#3b6967"
+                            android:textColor="#548389"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
 
@@ -122,7 +122,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Req. Date : "
-                            android:textColor="#3b6967"
+                            android:textColor="#548389"
 
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -162,7 +162,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Store Name : "
-                            android:textColor="#3b6967"
+                            android:textColor="#548389"
 
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -189,7 +189,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Customer Name : "
-                            android:textColor="#3b6967"
+                            android:textColor="#548389"
 
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -217,7 +217,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Phone No : "
-                            android:textColor="#3b6967"
+                            android:textColor="#548389"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
 
@@ -258,7 +258,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Dc Code : "
-                            android:textColor="#3b6967"
+                            android:textColor="#548389"
 
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -346,7 +346,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Total : "
-                    android:textColor="#3b6967"
+                    android:textColor="#548389"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -377,7 +377,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Discount : "
-                    android:textColor="#3b6967"
+                    android:textColor="#548389"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -409,7 +409,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Net Payment : "
-                    android:textColor="#3b6967"
+                    android:textColor="#548389"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 

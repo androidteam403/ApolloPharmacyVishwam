@@ -41,7 +41,7 @@ class QcApprovedOrderDetailsAdapter(
         if (items != null)
             holder.approvedorderdetailsBinding.quantityText.setText(items.qty.toString())
         holder.approvedorderdetailsBinding.medicineName.setText(items.itemname)
-        holder.approvedorderdetailsBinding.categoryName.setText("- " + items.category)
+        holder.approvedorderdetailsBinding.categoryName.setText("( " + items.category+" )")
         holder.approvedorderdetailsBinding.price.setText(items.price.toString())
 
 

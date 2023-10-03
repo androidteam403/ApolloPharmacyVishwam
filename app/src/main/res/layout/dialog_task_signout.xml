@@ -1,60 +1,352 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="330dp"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/custom_dialog_background"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#01bfc0"
-        android:gravity="center"
-        android:paddingTop="@dimen/value_10dp"
-        android:paddingBottom="@dimen/value_10dp"
-        android:text="@string/label_task_information"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_16sp"
-        android:textStyle="bold" />
+        android:background="#045a71"
+        android:orientation="horizontal"
+
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppin_bold"
+            android:gravity="start"
+            android:paddingStart="10dp"
+            android:paddingTop="@dimen/value_10dp"
+            android:paddingBottom="@dimen/value_10dp"
+            android:text="@string/label_task_information"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16sp" />
+
+        <ImageView
+            android:id="@+id/closedialog"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentEnd="true"
+
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/closee_black"
+            android:tint="@color/white" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/value_15dp"
+        android:fontFamily="@font/poppin_bold"
+        android:paddingTop="@dimen/value_8dp"
+        android:text="Task :"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/taskName"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/value_15dp"
-        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginTop="1dp"
         android:layout_marginEnd="@dimen/value_15dp"
-        android:layout_marginBottom="5dp"
-        android:textColor="@color/black" />
+        android:paddingBottom="@dimen/value_10dp"
+        android:fontFamily="@font/poppin_bold"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/signInTimeText"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginStart="@dimen/value_15dp"
-        android:layout_marginEnd="@dimen/value_15dp"
-        android:textColor="@color/black" />
+        android:layout_height="1dp"
+        android:background="#CCCCCC">
 
-    <TextView
-        android:id="@+id/currentTime"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginStart="@dimen/value_15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="@dimen/value_15dp"
-        android:textColor="@color/black" />
+    </View>
 
-    <TextView
-        android:id="@+id/durationValue"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginStart="@dimen/value_15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="@dimen/value_15dp"
-        android:textColor="@color/black" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="6dp"
+                    android:src="@drawable/baseline_history_20"
+
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="In Time"
+                        android:textColor="#889a9c"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/signInTimeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:fontFamily="@font/poppin_bold"
+
+                        android:text="09 March"
+                        android:textColor="@color/black"
+
+                        android:textSize="11sp" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#CCCCCC">
+
+        </View>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="6dp"
+                    android:rotation="180"
+                    android:src="@drawable/baseline_hourglass_top_24"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Current Time"
+
+                        android:textColor="#889a9c"
+
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/currentTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:fontFamily="@font/poppin_bold"
+
+                        android:text="09 March"
+                        android:textColor="@color/black"
+
+                        android:textSize="11sp" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC">
+
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingTop="@dimen/text_dimen_8"
+            android:paddingEnd="28dp"
+            android:paddingBottom="5dp"
+            android:text="Duration"
+            android:textAlignment="center"
+            android:textColor="#889a9c"
+
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+
+                android:layout_marginStart="@dimen/value_15dp"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_grey_dialog"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/durationhrs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppin_bold"
+                        android:paddingTop="@dimen/text_dimen_10"
+                        android:text="22"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Hrs"
+
+                        android:textAlignment="center"
+                        android:textColor="#889a9c"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_grey_dialog"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/durationminutes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppin_bold"
+                        android:paddingTop="10dp"
+                        android:text="05"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="2dp"
+                        android:text="Min"
+                        android:textAlignment="center"
+                        android:textColor="#889a9c"
+                        android:textSize="12sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_grey_dialog"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/durationsecs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppin_bold"
+                        android:paddingTop="10dp"
+                        android:text="22"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Sec"
+
+                        android:textAlignment="center"
+                        android:textColor="#889a9c"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/description"
@@ -62,7 +354,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="10dp"
+
         android:layout_marginEnd="10dp"
         android:textColorHint="@color/black"
         app:counterEnabled="true"
@@ -74,7 +367,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:gravity="top|start"
-            android:hint="Remarks *"
+            android:hint="Write Remarks *"
             android:maxLength="150"
             android:paddingStart="@dimen/value_10dp"
             android:paddingEnd="@dimen/value_10dp"
@@ -87,28 +380,22 @@
 
     <LinearLayout
         android:id="@+id/singOutLayout"
-        android:layout_width="@dimen/value_200dp"
-        android:layout_height="@dimen/value_45dp"
+        android:layout_width="110dp"
+        android:layout_height="35dp"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/value_30dp"
-        android:layout_marginBottom="@dimen/value_30dp"
-        android:background="@drawable/bg_button"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="#045a71"
         android:gravity="center"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="@dimen/value_30dp"
-            android:layout_height="@dimen/value_25dp"
-            android:layout_marginStart="@dimen/value_10dp"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_sign_out" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/value_15dp"
+            android:fontFamily="@font/poppin_bold"
             android:text="@string/label_task_sign_out"
-            android:textColor="@color/black" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_14sp" />
     </LinearLayout>
 </LinearLayout>

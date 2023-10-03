@@ -11,7 +11,7 @@
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#01bfc0"
+            android:background="#045a71"
             android:paddingTop="@dimen/value_15dp"
             android:paddingBottom="@dimen/value_15dp">
 
@@ -19,7 +19,8 @@
                 android:id="@+id/textHead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="start"
+                android:paddingStart="25dp"
                 android:text="Select Site Id"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_18sp"
@@ -43,29 +44,48 @@
             android:layout_below="@+id/header_layout"
             android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/searchSite"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/value_10dp"
-                android:layout_marginEnd="@dimen/value_10dp"
-                android:textColorHint="@color/black">
+            <LinearLayout
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/searchSiteText"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_45dp"
+
+                android:background="@drawable/search_view_attendence"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/close"
+                    android:layout_width="34dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="7dp"
+                    android:tint="#045a71"
+                    android:layout_marginTop="7dp"
+
+
+
+                    android:src="@drawable/ic_search_24" />
+
+                <EditText
+                    android:id="@+id/search_view"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_50dp"
-                    android:hint="@string/label_search_site_id"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:gravity="left|center"
+                    android:hint="Search by Site ID / Site Name"
+                    android:imeOptions="actionSearch"
                     android:inputType="text"
-                    android:paddingStart="@dimen/value_10dp"
-                    android:paddingEnd="@dimen/value_10dp"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="12sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:maxLines="1"
+                    android:paddingStart="5sp"
+                    android:fontFamily="@font/poppin_bold"
+
+                    android:textSize="13sp" />
+
+
+
+
+
+            </LinearLayout>
+
+
 
             <TextView
                 android:id="@+id/siteNotAvailable"

@@ -35,6 +35,8 @@ import com.apollopharmacy.vishwam.databinding.ViewTaskItemBinding
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivity.isAtdLogout
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragmentCallback
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
@@ -53,7 +55,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanceBinding>(),
-    SiteDialogAttendence.NewDialogSiteClickListner, DoctorListDialog.NewDialogSiteClickListner,
+    SiteDialogAttendence.NewDialogSiteClickListner, DoctorListDialog.NewDialogSiteClickListner,MainActivityCallback,
     ImageClickListener, AttendanceFragmentCallback {
 
     val TAG = "AttendanceFragment"
@@ -117,9 +119,232 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
     override fun setup() {
         viewBinding.attendanceViewModel = viewModel
+        MainActivity.mInstance.mainActivityCallback = this
+
 
         userData = LoginRepo.getProfile()!!
         employeeID = userData.EMPID
+
+        MainActivity.mInstance.plusIconAttendence.setOnClickListener {
+                if (taskAlreadyAvailable) {
+                    Toast.makeText(
+                        requireContext(),
+                        context?.resources?.getString(R.string.label_close_task),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    val dialog = Dialog(requireContext())
+                    dialog.setContentView(R.layout.dialog_task_signin)
+                    if (dialog.window != null) dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    dialog.show()
+                    isDepartmentSelected = false
+                    isDepartmentTaskSelected = false
+                    enteredTaskName = ""
+//                val createTaskEditText = dialog.findViewById<TextView>(R.id.createTaskText)
+                    val signInLayout = dialog.findViewById<LinearLayout>(R.id.singInLayout)
+                    val deptSpinner = dialog.findViewById<Spinner>(R.id.dept_spinner)
+                    deptTaskSpinner = dialog.findViewById<Spinner>(R.id.task_spinner)
+                    siteId = dialog.findViewById<TextInputLayout>(R.id.siteIdAttendence)
+                    doctorId = dialog.findViewById<TextInputLayout>(R.id.doctornameAttendence)
+                    doctorSpecialist = dialog.findViewById<EditText>(R.id.doctorspecialityinattendence)
+                    siteIdText = dialog.findViewById<EditText>(R.id.siteIdSelectAttendence)
+                    doctorText = dialog.findViewById<EditText>(R.id.doctorNameSelectAttendence)
+
+                    siteIdText.setOnClickListener {
+                        SiteDialogAttendence().apply {
+                            arguments =
+                                SiteDialogAttendence().generateParsedData(siteIdList)
+                        }.show(childFragmentManager, "")
+                    }
+
+                    doctorText.setOnClickListener {
+                        DoctorListDialog().apply {
+                            arguments = DoctorListDialog().generateParsedData(doctorList)
+                        }.show(childFragmentManager, "")
+                    }
+
+
+                    DEPT_LIST.clear()
+
+
+
+                    DEPT_LIST.add("Select Department")
+                    for (item in departmentList) {
+                        dept_List_Map.put(Integer.parseInt(item.ID), item.DEPARTMENT)
+                        DEPT_LIST.add(item.DEPARTMENT)
+                    }
+                    if (deptSpinner != null) {
+                        val adapter = ArrayAdapter(
+                            requireContext(),
+                            R.layout.view_spinner_item, R.id.spinner_text, DEPT_LIST
+                        )
+                        deptSpinner.adapter = adapter
+
+                        deptSpinner.onItemSelectedListener = object :
+                            AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>,
+                                view: View, position: Int, id: Long,
+                            ) {
+                                if (getKeyFromValue(dept_List_Map, DEPT_LIST[position]) != 0) {
+                                    isDepartmentSelected = true
+                                    isDepartmentTaskSelected = false
+                                    enteredTaskName = DEPT_LIST[position]
+                                    if (DEPT_LIST[position].equals("DR CONNECT")) {
+                                        siteIdText.setText("")
+                                        taskName = true
+                                    } else {
+                                        branchName = ""
+                                        siteIdText.setText("")
+                                        doctorText.setText("")
+                                        siteId.visibility = View.GONE
+                                        doctorId.visibility = View.GONE
+
+                                        doctorSpecialist.visibility = View.GONE
+                                        taskName = false
+                                    }
+
+                                    viewModel.getDepartmentTaskList(
+                                        getKeyFromValue(
+                                            dept_List_Map,
+                                            DEPT_LIST[position]
+                                        ) as Int
+                                    )
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>) {
+                                isDepartmentSelected = false
+                                // write code to perform some action
+
+                            }
+                        }
+                    }
+
+
+
+
+
+
+                    deptTaskSpinner.onItemSelectedListener = object :
+                        AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            parent: AdapterView<*>,
+                            view: View, position: Int, id: Long,
+                        ) {
+                            if (position != 0) {
+                                if (taskName && DEPT_TASK_LIST.get(position).equals("BRANCH VISIT")) {
+                                    branchName = "BRANCH VISIT"
+                                    showLoading()
+                                    siteIdText.setText("")
+                                    doctorText.setText("")
+                                    doctorSpecialist.setText("")
+
+                                    doctorSpecialist.visibility = View.GONE
+
+                                    doctorId.visibility = View.GONE
+
+                                    siteId.visibility = View.VISIBLE
+                                    val siteListRequest = SiteListRequest("SITELIST", "")
+                                    viewModel.siteListResponse(siteListRequest)
+                                } else if (taskName && DEPT_TASK_LIST.get(position)
+                                        .equals("DOCTOR VISIT")
+                                ) {
+                                    branchName = "DOCTOR VISIT"
+                                    showLoading()
+                                    siteIdText.setText("")
+
+                                    siteId.visibility = View.VISIBLE
+                                    val siteListRequest = SiteListRequest("SITELIST", "")
+                                    viewModel.siteListResponse(siteListRequest)
+                                } else {
+                                    branchName = ""
+                                    siteIdText.setText("")
+                                    doctorText.setText("")
+                                    siteId.visibility = View.GONE
+                                    doctorId.visibility = View.GONE
+
+                                    doctorSpecialist.visibility = View.GONE
+                                }
+
+                                if (enteredTaskName.contains("-")) {
+                                    enteredTaskName = enteredTaskName.substring(0,
+                                        enteredTaskName.indexOf("-") - 1) + " - " + DEPT_TASK_LIST[position]
+
+                                } else {
+                                    enteredTaskName = enteredTaskName + " - " + DEPT_TASK_LIST[position]
+
+                                }
+                                isDepartmentTaskSelected = true
+                            }
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>) {
+                            isDepartmentTaskSelected = false
+                            // write code to perform some action
+                        }
+                    }
+
+
+                    signInLayout.setOnClickListener { v1: View? ->
+
+
+                        if (!isDepartmentSelected) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Please select any department",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@setOnClickListener
+                        } else if (DEPT_TASK_LIST.size > 0 && !isDepartmentTaskSelected) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Please select any Task name",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@setOnClickListener
+                        } else if (validationCheck()) {
+
+                            Utils.printMessage("TAG", "Entered Task :: " + enteredTaskName)
+                            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                if (locationLatitude.isNotEmpty() && locationLongitude.isNotEmpty()
+                                ) {
+                                    if (NetworkUtil.isNetworkConnected(requireContext())) {
+                                        showLoading()
+                                        viewModel.taskInsertUpdateService(TaskInfoReq(
+                                            enteredTaskName,
+                                            employeeID,
+                                            "",
+                                            locationLatitude,
+                                            locationLongitude,
+                                            "SIGNIN",
+                                            getAttendanceCity(requireContext(),
+                                                locationLatitude.toDouble(),
+                                                locationLongitude.toDouble()), "", siteIds, doctorNAme))
+                                        dialog.dismiss()
+                                    } else {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            context?.resources?.getString(R.string.label_network_error),
+                                            Toast.LENGTH_SHORT
+                                        )
+                                            .show()
+                                    }
+                                } else {
+                                    (activity as MainActivity).initPermission()
+                                    (activity as MainActivity).startLocationUpdates()
+                                }
+                            } else {
+                                (activity as MainActivity).initPermission()
+                                (activity as MainActivity).startLocationUpdates()
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
 
         locationManager =
             (requireContext().getSystemService(LOCATION_SERVICE) as LocationManager?)!!
@@ -387,223 +612,6 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             }
         })
 
-        viewBinding.addTaskFab.setOnClickListener {
-            if (taskAlreadyAvailable) {
-                Toast.makeText(
-                    requireContext(),
-                    context?.resources?.getString(R.string.label_close_task),
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                val dialog = Dialog(requireContext())
-                dialog.setContentView(R.layout.dialog_task_signin)
-                if (dialog.window != null) dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                dialog.show()
-                isDepartmentSelected = false
-                isDepartmentTaskSelected = false
-                enteredTaskName = ""
-//                val createTaskEditText = dialog.findViewById<TextView>(R.id.createTaskText)
-                val signInLayout = dialog.findViewById<LinearLayout>(R.id.singInLayout)
-                val deptSpinner = dialog.findViewById<Spinner>(R.id.dept_spinner)
-                deptTaskSpinner = dialog.findViewById<Spinner>(R.id.task_spinner)
-                siteId = dialog.findViewById<TextInputLayout>(R.id.siteIdAttendence)
-                doctorId = dialog.findViewById<TextInputLayout>(R.id.doctornameAttendence)
-                doctorSpecialist = dialog.findViewById<EditText>(R.id.doctorspecialityinattendence)
-                siteIdText = dialog.findViewById<EditText>(R.id.siteIdSelectAttendence)
-                doctorText = dialog.findViewById<EditText>(R.id.doctorNameSelectAttendence)
-
-                siteIdText.setOnClickListener {
-                    SiteDialogAttendence().apply {
-                        arguments =
-                            SiteDialogAttendence().generateParsedData(siteIdList)
-                    }.show(childFragmentManager, "")
-                }
-
-                doctorText.setOnClickListener {
-                    DoctorListDialog().apply {
-                        arguments = DoctorListDialog().generateParsedData(doctorList)
-                    }.show(childFragmentManager, "")
-                }
-
-
-                DEPT_LIST.clear()
-
-
-
-                DEPT_LIST.add("Select Department")
-                for (item in departmentList) {
-                    dept_List_Map.put(Integer.parseInt(item.ID), item.DEPARTMENT)
-                    DEPT_LIST.add(item.DEPARTMENT)
-                }
-                if (deptSpinner != null) {
-                    val adapter = ArrayAdapter(
-                        requireContext(),
-                        R.layout.view_spinner_item, R.id.spinner_text, DEPT_LIST
-                    )
-                    deptSpinner.adapter = adapter
-
-                    deptSpinner.onItemSelectedListener = object :
-                        AdapterView.OnItemSelectedListener {
-                        override fun onItemSelected(
-                            parent: AdapterView<*>,
-                            view: View, position: Int, id: Long,
-                        ) {
-                            if (getKeyFromValue(dept_List_Map, DEPT_LIST[position]) != 0) {
-                                isDepartmentSelected = true
-                                isDepartmentTaskSelected = false
-                                enteredTaskName = DEPT_LIST[position]
-                                if (DEPT_LIST[position].equals("DR CONNECT")) {
-                                    siteIdText.setText("")
-                                    taskName = true
-                                } else {
-                                    branchName = ""
-                                    siteIdText.setText("")
-                                    doctorText.setText("")
-                                    siteId.visibility = View.GONE
-                                    doctorId.visibility = View.GONE
-
-                                    doctorSpecialist.visibility = View.GONE
-                                    taskName = false
-                                }
-
-                                viewModel.getDepartmentTaskList(
-                                    getKeyFromValue(
-                                        dept_List_Map,
-                                        DEPT_LIST[position]
-                                    ) as Int
-                                )
-                            }
-                        }
-
-                        override fun onNothingSelected(parent: AdapterView<*>) {
-                            isDepartmentSelected = false
-                            // write code to perform some action
-
-                        }
-                    }
-                }
-
-
-
-
-
-
-                deptTaskSpinner.onItemSelectedListener = object :
-                    AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>,
-                        view: View, position: Int, id: Long,
-                    ) {
-                        if (position != 0) {
-                            if (taskName && DEPT_TASK_LIST.get(position).equals("BRANCH VISIT")) {
-                                branchName = "BRANCH VISIT"
-                                showLoading()
-                                siteIdText.setText("")
-                                doctorText.setText("")
-                                doctorSpecialist.setText("")
-
-                                doctorSpecialist.visibility = View.GONE
-
-                                doctorId.visibility = View.GONE
-
-                                siteId.visibility = View.VISIBLE
-                                val siteListRequest = SiteListRequest("SITELIST", "")
-                                viewModel.siteListResponse(siteListRequest)
-                            } else if (taskName && DEPT_TASK_LIST.get(position)
-                                    .equals("DOCTOR VISIT")
-                            ) {
-                                branchName = "DOCTOR VISIT"
-                                showLoading()
-                                siteIdText.setText("")
-
-                                siteId.visibility = View.VISIBLE
-                                val siteListRequest = SiteListRequest("SITELIST", "")
-                                viewModel.siteListResponse(siteListRequest)
-                            } else {
-                                branchName = ""
-                                siteIdText.setText("")
-                                doctorText.setText("")
-                                siteId.visibility = View.GONE
-                                doctorId.visibility = View.GONE
-
-                                doctorSpecialist.visibility = View.GONE
-                            }
-
-                            if (enteredTaskName.contains("-")) {
-                                enteredTaskName = enteredTaskName.substring(0,
-                                    enteredTaskName.indexOf("-") - 1) + " - " + DEPT_TASK_LIST[position]
-
-                            } else {
-                                enteredTaskName = enteredTaskName + " - " + DEPT_TASK_LIST[position]
-
-                            }
-                            isDepartmentTaskSelected = true
-                        }
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>) {
-                        isDepartmentTaskSelected = false
-                        // write code to perform some action
-                    }
-                }
-
-
-                signInLayout.setOnClickListener { v1: View? ->
-
-
-                    if (!isDepartmentSelected) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Please select any department",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@setOnClickListener
-                    } else if (DEPT_TASK_LIST.size > 0 && !isDepartmentTaskSelected) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Please select any Task name",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@setOnClickListener
-                    } else if (validationCheck()) {
-
-                        Utils.printMessage("TAG", "Entered Task :: " + enteredTaskName)
-                        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                            if (locationLatitude.isNotEmpty() && locationLongitude.isNotEmpty()
-                            ) {
-                                if (NetworkUtil.isNetworkConnected(requireContext())) {
-                                    showLoading()
-                                    viewModel.taskInsertUpdateService(TaskInfoReq(
-                                        enteredTaskName,
-                                        employeeID,
-                                        "",
-                                        locationLatitude,
-                                        locationLongitude,
-                                        "SIGNIN",
-                                        getAttendanceCity(requireContext(),
-                                            locationLatitude.toDouble(),
-                                            locationLongitude.toDouble()), "", siteIds, doctorNAme))
-                                    dialog.dismiss()
-                                } else {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        context?.resources?.getString(R.string.label_network_error),
-                                        Toast.LENGTH_SHORT
-                                    )
-                                        .show()
-                                }
-                            } else {
-                                (activity as MainActivity).initPermission()
-                                (activity as MainActivity).startLocationUpdates()
-                            }
-                        } else {
-                            (activity as MainActivity).initPermission()
-                            (activity as MainActivity).startLocationUpdates()
-                        }
-                    }
-                }
-            }
-        }
 
 
         viewBinding.signOutParentLayout.setOnClickListener {
@@ -647,27 +655,23 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             position: Int,
         ) {
             if (items.signOutDate.isNullOrEmpty()) {
-                binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color))
+
+                binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
                 binding.taskCompletedLayout.visibility = View.GONE
                 binding.taskPendingLayout.visibility = View.VISIBLE
             } else {
-                binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.newtask_bg))
+
+                binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.newtask_bgs))
                 binding.taskCompletedLayout.visibility = View.VISIBLE
                 binding.taskPendingLayout.visibility = View.GONE
                 binding.signOutTime.text =
                     getAttendanceCustomDate(
                         items.signOutDate
                     )
-                Log.e("vas", items.duration)
+
                 binding.durationTexthrs.text = items.duration.split(":").get(0)
                 binding.durationTextminutes.text = items.duration.split(":").get(1)
                 binding.durationTextsecs.text = items.duration.split(":").get(2)
-
-
-//                binding.durationText.text = items.duration.trimSubstring(0,
-//                    2) + "     " + "       " + items.duration.trimSubstring(
-//                    3,
-//                    5) + "     " + "       " + items.duration.trimSubstring(6, 8)
 
             }
             binding.viewTaskLayout.setOnClickListener {
@@ -676,16 +680,24 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             if (items.isExpanded) {
                 binding.viewExpand.visibility = View.VISIBLE
                 binding.viewCollapse.visibility = View.GONE
+//                binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
+
                 if (items.signOutDate.isNullOrEmpty()) {
                     binding.taskCompletedLayout.visibility = View.GONE
                     binding.taskPendingLayout.visibility = View.VISIBLE
+                    binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
+
                 } else {
+                    binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
+
                     binding.taskCompletedLayout.visibility = View.VISIBLE
                     binding.taskPendingLayout.visibility = View.GONE
                 }
             } else {
                 binding.viewExpand.visibility = View.GONE
                 binding.viewCollapse.visibility = View.VISIBLE
+//                binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.newtask_bgs))
+
                 binding.taskCompletedLayout.visibility = View.GONE
                 binding.taskPendingLayout.visibility = View.GONE
             }
@@ -721,28 +733,28 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
                 val taskName = dialog.findViewById<TextView>(R.id.taskName)
                 val signInTimeText = dialog.findViewById<TextView>(R.id.signInTimeText)
+                val close = dialog.findViewById<ImageView>(R.id.closedialog)
+
                 val currentTime = dialog.findViewById<TextView>(R.id.currentTime)
-                val durationValue = dialog.findViewById<TextView>(R.id.durationValue)
+                val durationValuehrs = dialog.findViewById<TextView>(R.id.durationhrs)
+                val durationValuemins = dialog.findViewById<TextView>(R.id.durationminutes)
+                val durationValuesecs = dialog.findViewById<TextView>(R.id.durationsecs)
+
                 remarsText = dialog.findViewById<EditText>(R.id.descriptionTextattendence)
+                close.setOnClickListener {
+                    dialog.dismiss()
+                }
 
 
-                taskName.text =
-                    context.resources.getString(R.string.label_task) + " " + items.taskName
-                signInTimeText.text = "Task In Time : ${
-                    getAttendanceCustomDate(
-                        items.signInDate
-                    )
-                }"
-//                    context.resources.getString(R.string.label_task_sign_in_time_colon) + " " + getAttendanceCustomDate(
-//                        items.signInDate
-//                    )
-                currentTime.text =
-                    context.resources.getString(R.string.label_current_time) + " " + getAttendanceCurrentDate()
-                durationValue.text =
-                    context.resources.getString(R.string.label_duration) + " " + getDurationTime(
-                        getAttendanceCurrentDate(),
-                        getAttendanceCustomDate(items.signInDate)
-                    )
+                taskName.text = items.taskName
+                signInTimeText.text = getAttendanceCustomDateFormat(items.signInDate) +"\n"+ getAttendanceCustomTimeFormat(items.signInDate)
+
+                currentTime.text =  getAttendanceCurrentDateNewFormat() +"\n"+ getAttendanceCurrentDateNewFormatTime()
+                durationValuehrs.text =  getDurationTime(getAttendanceCurrentDate(), getAttendanceCustomDate(items.signInDate))
+
+                durationValuemins.text =  getDurationTimMin(getAttendanceCurrentDate(), getAttendanceCustomDate(items.signInDate))
+
+                durationValuesecs.text =  getDurationTimeSec(getAttendanceCurrentDate(), getAttendanceCustomDate(items.signInDate))
                 val singOutLayout = dialog.findViewById<LinearLayout>(R.id.singOutLayout)
                 singOutLayout.setOnClickListener { v1: View? ->
                     if (validationCheckTaskOut()) {
@@ -894,12 +906,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         val dialogTitleText = dialog.findViewById<TextView>(R.id.dialog_info)
         val okButton = dialog.findViewById<Button>(R.id.dialog_ok)
         val declineButton = dialog.findViewById<ImageView>(R.id.closedialog)
-        dialogLastLogTime.text =
-            getLastLoginDateNew(
-                lastLogDateTime
-            )
-        dialogCurrentTime.text =
-            getAttendanceCurrentDate()
+        dialogLastLogTime.text = getLastLoginDateNewFormat(lastLogDateTime)+"\n"+ getLastLoginDateNewFormatTime(lastLogDateTime)
+        dialogCurrentTime.text = getAttendanceCurrentDateNewFormat()+"\n"+ getAttendanceCurrentDateNewFormatTime()
 //        Log.e("vaseem", timeCoversion12to24(lastLogDateTime.split(" ").get(1)).split(":").get(0))
 
 //        val simpleDateFormat = SimpleDateFormat("dd MMM yyyy, hh:mm a")
@@ -1365,6 +1373,42 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
 
     override fun onSuccessAttendanceSignedIn(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSiteIdIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickQcFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSubmenuItem(
+        menuName: String?,
+        submenus: ArrayList<MenuModel>?,
+        position: Int,
+    ) {
         TODO("Not yet implemented")
     }
 }

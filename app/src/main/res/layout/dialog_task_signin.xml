@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#01bfc0"
+        android:background="#045a71"
         android:gravity="center"
         android:paddingTop="@dimen/value_10dp"
         android:paddingBottom="@dimen/value_10dp"

@@ -120,7 +120,7 @@ class QcPendingOrderDetailsAdapter(
             holder.orderdetailsBinding.reason.setText("Select")
         }
         holder.orderdetailsBinding.medicineName.setText(items.itemname)
-        holder.orderdetailsBinding.categoryName.setText("- " + items.category)
+        holder.orderdetailsBinding.categoryName.setText("( " + items.category+" )")
         holder.orderdetailsBinding.price.setText(items.price.toString())
 
 
