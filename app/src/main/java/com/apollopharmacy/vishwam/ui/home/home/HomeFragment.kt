@@ -353,7 +353,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     }
 
     override fun onClickMenuItem(itemName: String?, menuModels: ArrayList<MenuModel>) {
-        MainActivity.mInstance.displaySelectedScreen(itemName)
         MainActivity.mInstance.setSubmenu(menuModels)
+        if (itemName.equals("Dashboard", true)) {
+            MainActivity.mInstance.displaySelectedScreen("DashboardCeo")
+        } else {
+            MainActivity.mInstance.displaySelectedScreen(itemName)
+        }
     }
 }
