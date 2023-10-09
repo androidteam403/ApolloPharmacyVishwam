@@ -1290,7 +1290,10 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        dialog.dismiss()
+        if(dialog!=null){
+            dialog.dismiss()
+        }
+
         if (requestCode == 1 || requestCode == 2 || requestCode == 3 || requestCode == Config.REQUEST_CODE_GALLERY) {
             if (requestCode == Config.REQUEST_CODE_GALLERY) {
                 dialog.dismiss()
