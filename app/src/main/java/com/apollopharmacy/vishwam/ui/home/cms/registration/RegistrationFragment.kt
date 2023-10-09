@@ -465,14 +465,17 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
         viewBinding.productImageView.productOtherImagePreview.setOnClickListener {
             showOption(3)
+            notFrontView=false
 //            openCameraForFrontImage(3)
         }
         viewBinding.productImageView.productBackImagePreview.setOnClickListener {
             showOption(2)
+            notFrontView=false
 //            openCameraForFrontImage(2)
         }
         viewBinding.productImageView.productFrontImagePreview.setOnClickListener {
             showOption(1)
+            notFrontView=false
 //            openCameraForFrontImage(1)
         }
         viewBinding.productImageView.frontImageDelete.setOnClickListener {
@@ -483,6 +486,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     R.drawable.ic_capture_image
                 )
             )
+
             imagesFilledCount--
         }
         viewBinding.productImageView.backImageDelete.setOnClickListener {
@@ -493,6 +497,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     R.drawable.ic_capture_image
                 )
             )
+            notFrontView=false
             imagesFilledCount--
         }
         viewBinding.productImageView.otherImageDelete.setOnClickListener {
@@ -1290,7 +1295,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         if (requestCode == 1 || requestCode == 2 || requestCode == 3 || requestCode == Config.REQUEST_CODE_GALLERY) {
             if (requestCode == Config.REQUEST_CODE_GALLERY) {
                 dialog.dismiss()
-                if (data!!.clipData != null) {
+                if (data!=null && data!!.clipData != null) {
                     val images = data!!.clipData
                     if (images != null) {
                         if (images!!.itemCount <= 3) {
@@ -1417,7 +1422,10 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     }
                 } else {
                     dialog.dismiss()
-                    val uri = data.data
+                    if(data!=null){
+
+
+                    val uri = data!!.data
                     var imagePath = getRealPathFromURI(requireContext(), uri!!)
                     var imageFileGallery: File? = File(imagePath)
                     val resizedImage =
@@ -1475,6 +1483,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
 
                 }
+                }
 
             } else if (resultCode == Activity.RESULT_OK) {
                 when (requestCode) {
@@ -1527,7 +1536,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     }
                 }
             }
-        } else if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
+        }
+        else if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
             fileArrayList.add(ImageDataDto(compresImageSize(imageFromCameraFile!!), ""))
 //           imagesFilledCount++
             adapter.notifyAdapter(fileArrayList)
