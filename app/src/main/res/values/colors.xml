@@ -235,7 +235,7 @@
     <color name="monitoring_total_card_color">#49586f</color>
     <color name="monitoring_rejected_color">#4CAF50</color>
     <color name="monitoring_greater_than_eight_color">#5a345e</color>
-
+    <color name="retroqr_rack_selected_color">#e6e6e6</color>
 
 
 </resources>

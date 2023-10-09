@@ -969,6 +969,7 @@
                             </RelativeLayout>
 
                             <RelativeLayout
+                                android:layout_marginBottom="40dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal">
@@ -1057,7 +1058,7 @@
         <LinearLayout
             android:id="@+id/upload_prescription_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:background="#efefef"
             android:gravity="center_horizontal"

@@ -79,11 +79,11 @@ interface ViswamAppApi {
     ): DeviceDeRegResponse
 
 
-     /*@POST("https://phrmaptestp.apollopharmacy.info:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR") //https://172.16.103.116
-     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String*/
-
-    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    @POST("https://phrmaptestp.apollopharmacy.info:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR") //https://172.16.103.116
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
+    /*@POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String*/
 
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
@@ -713,7 +713,10 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Url url: String,
     ): GetCategoryDetailsResponse
-
+    @GET
+    suspend fun TEST(
+        @Url url: String,
+    ): ResponseBody
     @GET //("https://172.16.103.116/Apollo/Champs/getServeyDetails")
     suspend fun GET_CATEGORY_DETAILS_API_CALL_(
         @Url url: String,

@@ -33,6 +33,7 @@ class ListBySiteIdAdapter(var context: Context?, var rows: List<ListBySiteIdResp
         holder.adapterListBySiteIdPlanoBinding.siteName.text = rowsList.branchName.toString()
         holder.adapterListBySiteIdPlanoBinding.lastVisitedDate.text = rowsList.date.toString()
         holder.adapterListBySiteIdPlanoBinding.executiveId.text = rowsList.site!!.executive!!.firstName + rowsList.site!!.executive!!.lastName
+        holder.adapterListBySiteIdPlanoBinding.overAllScore.text = rowsList.overallScore.toString() + " %"
         holder.adapterListBySiteIdPlanoBinding.cardViewStore.setOnClickListener {
             planogramCallback.onClickContinue(rowsList.uid!!)
         }

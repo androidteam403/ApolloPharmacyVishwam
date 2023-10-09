@@ -922,7 +922,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     override fun onSuccessDayWiseAccesss(checkDayWiseAccessResponse: CheckDayWiseAccessResponse) {
         var isAlreadyUpload: Boolean = false
         if (checkDayWiseAccessResponse != null) {
-            val sdf = SimpleDateFormat("EEEE")
+            val sdf = SimpleDateFormat("EEEE", Locale.ENGLISH)
             val d = Date()
             charArray.clear()
             positionofftheDayNewForWeek.clear()
@@ -930,17 +930,17 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             dayOfCharArrayList.clear()
             dayOfCharArrayListNew.clear()
             val dayOfTheWeek: String = sdf.format(d)
-            val sdfc = SimpleDateFormat("dd MMM, yyyy")
+            val sdfc = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
             val todaysDate = sdfc.format(Date())
 
 
             var lastUploadedDate = ""
             if (checkDayWiseAccessResponse.lastUploadedDate != null && !checkDayWiseAccessResponse.lastUploadedDate!!.isEmpty()) {
                 val strDate = checkDayWiseAccessResponse.lastUploadedDate
-                val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+                val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
                 lastUploadedDate =
-                    SimpleDateFormat("dd MMM, yyyy").format(date) + " - " + SimpleDateFormat("hh:mm:ss a").format(
+                    SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH).format(date) + " - " + SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH).format(
                         date
                     )
                 viewBinding.uploadedOn.text = lastUploadedDate
@@ -1092,9 +1092,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     viewBinding.uploadNowLayout.visibility = View.GONE
                     viewBinding.uploadOnLayout.visibility = View.VISIBLE
                     val strDate = calcNextFriday(dt, positionofday!!).toString()
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
                     val date = dateFormat.parse(strDate.toString())
-                    val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
+                    val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE", Locale.ENGLISH).format(date)
                     viewBinding.dayoftheweekLayout.text = dateNewFormat
                 } else {
                     viewBinding.todaysDateLayout.visibility = View.GONE
@@ -1111,9 +1111,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 viewBinding.uploadNowLayout.visibility = View.GONE
                 viewBinding.uploadOnLayout.visibility = View.VISIBLE
                 val strDate = calcNextFriday(dt, positionofday!!).toString()
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE", Locale.ENGLISH).format(date)
                 viewBinding.dayoftheweekLayout.text = dateNewFormat
             }
 

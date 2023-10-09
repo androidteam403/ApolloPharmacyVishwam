@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.home
 
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
@@ -30,6 +31,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         }
         Utlis.hideLoading()
         hideLoading()
+        /*viewModel.test(this@HomeFragment)*/
 
 //        if (getDataManager().getRiderActiveStatus() == "Offline") {
 //            viewModel.riderUpdateStauts(
@@ -62,5 +64,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
     override fun onFialureMessage(message: String) {
 
+    }
+
+    override fun onsuccessTest() {
+        Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
     }
 }
