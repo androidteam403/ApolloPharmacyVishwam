@@ -1759,7 +1759,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 //        isAttendanceRequired = true;
-        if (isAttendanceRequired) {
+        if (true) {
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
         }
         if (isCMSRequired) {
