@@ -497,7 +497,6 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     R.drawable.ic_capture_image
                 )
             )
-            notFrontView=false
             imagesFilledCount--
         }
         viewBinding.productImageView.otherImageDelete.setOnClickListener {
