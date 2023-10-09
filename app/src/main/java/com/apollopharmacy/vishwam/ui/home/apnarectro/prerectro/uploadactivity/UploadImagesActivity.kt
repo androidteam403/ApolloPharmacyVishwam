@@ -95,7 +95,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback,
 
 
         if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
+            showLoading(this)
             uploadImagesViewModel.getStoreWiseDetailsApna(this)
 
         } else {
@@ -116,7 +116,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback,
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onClickUpload() {
 
-        Utlis.showLoading(this)
+        showLoading(this)
         updateButtonValidation()
 
     }
