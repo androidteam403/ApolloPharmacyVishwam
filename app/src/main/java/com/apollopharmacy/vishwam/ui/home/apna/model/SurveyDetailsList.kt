@@ -100,11 +100,11 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("unorg_avg_sale")
         @Expose
-        var unorgAvgSale: Int? = null
+        var unorgAvgSale: Int? = 0
 
         @SerializedName("org_avg_sale")
         @Expose
-        var orgAvgSale: Int? = null
+        var orgAvgSale: Int? = 0
         fun withUid(uid: String?): Chemist {
             this.uid = uid
             return this
