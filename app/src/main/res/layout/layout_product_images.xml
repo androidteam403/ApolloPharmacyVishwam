@@ -146,7 +146,6 @@
             android:layout_width="@dimen/value_60dp"
             android:layout_height="@dimen/value_60dp"
             android:layout_marginLeft="7dp"
-
             android:layout_marginTop="@dimen/value_15dp"
             android:orientation="horizontal"
             android:src="@drawable/ic_capture_image"
