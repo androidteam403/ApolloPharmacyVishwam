@@ -30,7 +30,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <application
         android:name=".data.ViswamApp"
-        android:debuggable="false"
+        android:debuggable="true"
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
         android:icon="@drawable/logo"
@@ -380,6 +380,12 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.retroqr.activity.printpreview.PrintPreviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

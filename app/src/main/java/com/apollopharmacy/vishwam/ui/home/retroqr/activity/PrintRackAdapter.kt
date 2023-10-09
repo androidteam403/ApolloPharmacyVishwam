@@ -7,8 +7,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.LayoutPrintRackBinding
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
 
-class PrintRackAdapter(var mContext: Context) :
+class PrintRackAdapter(
+    var mContext: Context,
+    var reviewImagesList: ArrayList<StoreWiseRackDetails.StoreDetail>
+) :
     RecyclerView.Adapter<PrintRackAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,12 +26,22 @@ class PrintRackAdapter(var mContext: Context) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val storeDetails = reviewImagesList.get(position)
+        holder.layoutPrintRackBinding.model = storeDetails
+        if (storeDetails.isRackSelected)
+            holder.layoutPrintRackBinding.checkUncheckImage.setImageResource(R.drawable.retroqr_green_check_mark_icon)
+        else
+            holder.layoutPrintRackBinding.checkUncheckImage.setImageResource(R.drawable.qc_checkbox)
+        holder.itemView.setOnClickListener {
+            storeDetails.isRackSelected = !storeDetails.isRackSelected
+            notifyItemChanged(position)
+        }
     }
 
     override fun getItemCount(): Int {
-        return 15
+        return reviewImagesList.size
     }
 
-    class ViewHolder(layoutPrintRackBinding: LayoutPrintRackBinding) :
+    class ViewHolder(var layoutPrintRackBinding: LayoutPrintRackBinding) :
         RecyclerView.ViewHolder(layoutPrintRackBinding.root)
 }

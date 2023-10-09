@@ -153,7 +153,7 @@ class CeoDashboardCalenderDialog : DialogFragment() {
 
     fun getToDateFormatted(milliSeconds: Long, dateFormat: String?): String? {
         // Create a DateFormatter object for displaying date in specified format.
-        val formatter = SimpleDateFormat(dateFormat)
+        val formatter = SimpleDateFormat(dateFormat, Locale.ENGLISH)
 
         // Create a calendar object that will convert the date and time value in milliseconds to date.
         val calendar = Calendar.getInstance()

@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +34,6 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityRetroQrUploadBinding
-import com.apollopharmacy.vishwam.databinding.DialogConnectPrinterBinding
 import com.apollopharmacy.vishwam.databinding.DialogRackQrCodePrintBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.ReviewRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.UploadRackAdapter
@@ -42,6 +42,7 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.RackDialog
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.printpreview.PrintPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUpload
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadCallback
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadModel
@@ -49,7 +50,6 @@ import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.apollopharmacy.vishwam.util.bluetooth.BarcodeEncoder
-import com.apollopharmacy.vishwam.util.bluetooth.BluetoothActivity
 import com.apollopharmacy.vishwam.util.bluetooth.manager.BluetoothManager
 import com.apollopharmacy.vishwam.util.bluetooth.manager.PrintfTSPLManager
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
@@ -66,10 +66,12 @@ import org.opencv.android.Utils
 import org.opencv.core.Core
 import org.opencv.core.Mat
 import org.opencv.imgproc.Imgproc
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.lang.Math.abs
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+
 
 class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     RackDialog.GstDialogClickListner, RetroQrFileUploadCallback {
@@ -502,6 +504,9 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
     override fun onClickQrCodePrint() {
         if (!reviewImagesList.isNullOrEmpty()) {
+            selectRackPrint()
+        }
+        /*if (!reviewImagesList.isNullOrEmpty()) {
             if (!BluetoothManager.getInstance(this@RetroQrUploadActivity).isConnect()) {
                 val dialogView =
                     Dialog(this@RetroQrUploadActivity) // R.style.Theme_AppCompat_DayNight_NoActionBar
@@ -533,8 +538,9 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             } else {
                 generatebarcode()
             }
-        }
+        }*/
     }
+
     fun generatebarcode() {
         if (!BluetoothManager.getInstance(this@RetroQrUploadActivity).isConnect) {
             Toast.makeText(
@@ -543,23 +549,10 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                 Toast.LENGTH_LONG
             ).show()
         } else {
-            val instance: PrintfTSPLManager = PrintfTSPLManager.getInstance(this@RetroQrUploadActivity)
-            instance.clearCanvas()
-            instance.initCanvas(90, 23)
-            instance.setDirection(0)
-            //打印条形码
-            //Print barcode
-//            instance.printBarCode(20, 10, "128", 130, 2, 2, 0, refnumber);
-            //Print QR code
-//            instance.printQrCode(20, 10, "M", 7, 0, contentttt);
-            for (i in reviewImagesList) {
-                instance.printQrCode(20, 10, "M", 7, 0, "${i.rackno}-${Preferences.getQrSiteId()}")
-//                instance.printQrCode(350, 20, "M", 7, 0, "${i.rackno}\n${Preferences.getQrSiteId()}")
-//                instance.printBitmap(20, 10, qrCode("${i.rackno}\n${Preferences.getQrSiteId()}"))
-                instance.beginPrintf(1)
-            }
+            selectRackPrint()
         }
     }
+
     private fun qrCode(content: String): Bitmap? {
 //        val qrCodeImageView = findViewById<ImageView>(R.id.qrCodeImageView)
 //        val logoImageView = findViewById<ImageView>(R.id.logoImageView)
@@ -571,18 +564,19 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             val bitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, 170, 170, hints)
             val barcodeEncoder = BarcodeEncoder()
             val qrCodeBitmap: Bitmap = barcodeEncoder.createBitmap(bitMatrix)
-
+            return qrCodeBitmap
             // Overlay the QR code with the logo
-            val logoBitmap = BitmapFactory.decodeResource(
-                resources, R.drawable.fifteen_ppp
-            )
-            return overlayBitmap(qrCodeBitmap, logoBitmap)!!
+            /* val logoBitmap = BitmapFactory.decodeResource(
+                 resources, R.drawable.fifteen_ppp
+             )
+             return overlayBitmap(qrCodeBitmap, logoBitmap)!!*/
 //            qrCodeImageView.setImageBitmap(combinedBitmap)
         } catch (e: WriterException) {
             e.printStackTrace()
             return null
         }
     }
+
     private fun overlayBitmap(qrCodeBitmap: Bitmap, logoBitmap: Bitmap): Bitmap? {
         val qrCodeWidth = qrCodeBitmap.width
         val qrCodeHeight = qrCodeBitmap.height
@@ -603,9 +597,11 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         return combinedBitmap
     }
 
-    override fun onClickPrintIcon() {
+    var isAllChecked = false
+    var dialogRackQrCodePrintBinding: DialogRackQrCodePrintBinding? = null
+    fun selectRackPrint() {
         val dialog = Dialog(this@RetroQrUploadActivity)
-        val dialogRackQrCodePrintBinding = DataBindingUtil.inflate<DialogRackQrCodePrintBinding>(
+        dialogRackQrCodePrintBinding = DataBindingUtil.inflate<DialogRackQrCodePrintBinding>(
             LayoutInflater.from(this@RetroQrUploadActivity),
             R.layout.dialog_rack_qr_code_print,
             null,
@@ -613,15 +609,149 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         )
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(dialogRackQrCodePrintBinding!!.root)
+
+//        isBluetoothConned(dialogRackQrCodePrintBinding!!)
+        dialog.setCancelable(false)
+        dialogRackQrCodePrintBinding!!.close.setOnClickListener {
+            dialog.dismiss()
+        }
+        if (isAllChecked) {
+            dialogRackQrCodePrintBinding!!.allCheckedIcon.setImageResource(R.drawable.retroqr_green_check_mark_icon)
+        } else {
+            dialogRackQrCodePrintBinding!!.allCheckedIcon.setImageResource(R.drawable.qc_checkbox)
+        }
+
+
+        printRackAdapter = PrintRackAdapter(this@RetroQrUploadActivity, reviewImagesList)
+        dialogRackQrCodePrintBinding!!.printRackRecycler.adapter = printRackAdapter
+        dialogRackQrCodePrintBinding!!.printRackRecycler.layoutManager =
+            LinearLayoutManager(this@RetroQrUploadActivity)
+        dialogRackQrCodePrintBinding!!.checkUncheckAllRacks.setOnClickListener {
+            isAllChecked = !isAllChecked
+            if (isAllChecked) {
+                dialogRackQrCodePrintBinding!!.allCheckedIcon.setImageResource(R.drawable.retroqr_green_check_mark_icon)
+            } else {
+                dialogRackQrCodePrintBinding!!.allCheckedIcon.setImageResource(R.drawable.qc_checkbox)
+            }
+            for (i in reviewImagesList) {
+                i.isRackSelected = isAllChecked
+            }
+            printRackAdapter.notifyDataSetChanged()
+        }
+        dialogRackQrCodePrintBinding!!.preview.setOnClickListener {
+            dialog.dismiss()
+            generateQrCodewithText(
+                20,
+                10,
+                "M",
+                7,
+                0
+            )
+
+            /* val intent = Intent(this@RetroQrUploadActivity, PrintPreviewActivity::class.java)
+             val bundle = Bundle()
+             bundle.putSerializable("STORE_WISE_RACK_DETAILS", reviewImagesList)
+             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+             intent.putExtras(bundle)
+             startActivity(intent)
+
+
+             val instance: PrintfTSPLManager =
+                 PrintfTSPLManager.getInstance(this@RetroQrUploadActivity)
+             instance.clearCanvas()
+             instance.initCanvas(90, 23)
+             instance.setDirection(0)
+             for (i in reviewImagesList) {
+                 if (i.isRackSelected) {
+                     //Print barcode
+ //            instance.printBarCode(20, 10, "128", 130, 2, 2, 0, refnumber);
+                     //Print QR code
+ //            instance.printQrCode(20, 10, "M", 7, 0, contentttt);
+                     instance.printQrCode(
+                         20,
+                         10,
+                         "M",
+                         7,
+                         0,
+                         "${i.rackno}-${Preferences.getQrSiteId()}"
+                     )
+                     instance.beginPrintf(1)
+                 }
+             }*/
+        }
+        dialog.show()
+    }
+
+    fun generateQrCodewithText(x: Int, y: Int, level: String, width: Int, rotation: Int) {
+        var selectedRackList = ArrayList<StoreWiseRackDetails.StoreDetail>()
+
+        for (i in reviewImagesList) {
+            if (i.isRackSelected) {
+                val content = "${i.rackno}-${Preferences.getQrSiteId()}"
+                val bStream = ByteArrayOutputStream()
+                qrCode(content)!!.compress(Bitmap.CompressFormat.PNG, 100, bStream)
+                val byteArray = bStream.toByteArray()
+                i.byteArray = byteArray
+                selectedRackList.add(i)
+            }
+        }
+        if (selectedRackList.size > 0) {
+            val intent = Intent(this@RetroQrUploadActivity, PrintPreviewActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable("STORE_WISE_RACK_DETAILS", selectedRackList)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }else{
+            Toast.makeText(this@RetroQrUploadActivity, "Please select racks to print", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onClickPrintIcon() {
+        val dialog = Dialog(this@RetroQrUploadActivity)
+        val dialogRackQrCodePrintBinding =
+            DataBindingUtil.inflate<DialogRackQrCodePrintBinding>(
+                LayoutInflater.from(this@RetroQrUploadActivity),
+                R.layout.dialog_rack_qr_code_print,
+                null,
+                false
+            )
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(dialogRackQrCodePrintBinding.root)
         dialog.setCancelable(false)
         dialogRackQrCodePrintBinding.close.setOnClickListener {
             dialog.dismiss()
         }
-        printRackAdapter = PrintRackAdapter(this@RetroQrUploadActivity)
+        printRackAdapter = PrintRackAdapter(this@RetroQrUploadActivity, reviewImagesList)
         dialogRackQrCodePrintBinding.printRackRecycler.adapter = printRackAdapter
-        dialogRackQrCodePrintBinding.printRackRecycler.layoutManager = LinearLayoutManager(this@RetroQrUploadActivity)
+        dialogRackQrCodePrintBinding.printRackRecycler.layoutManager =
+            LinearLayoutManager(this@RetroQrUploadActivity)
+
+
+        dialogRackQrCodePrintBinding.preview.setOnClickListener {
+            val instance: PrintfTSPLManager =
+                PrintfTSPLManager.getInstance(this@RetroQrUploadActivity)
+            instance.clearCanvas()
+            instance.initCanvas(90, 23)
+            instance.setDirection(0)
+            for (i in reviewImagesList) {
+                if (i.isRackSelected) {
+                    instance.printQrCode(
+                        20,
+                        10,
+                        "M",
+                        7,
+                        0,
+                        "${i.rackno}-${Preferences.getQrSiteId()}"
+                    )
+                    instance.beginPrintf(1)
+                }
+            }
+        }
         dialog.show()
+
     }
 
     private fun openCamera() {
@@ -702,10 +832,18 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
 
         if (reviewImagesList.filter { it.reviewimageurl!!.isEmpty() }.size == 0) {
-            activityRetroQrUploadBinding.submitButtonReview.setBackgroundColor(Color.parseColor("#209804"))
+            activityRetroQrUploadBinding.submitButtonReview.setBackgroundColor(
+                Color.parseColor(
+                    "#209804"
+                )
+            )
 
         } else {
-            activityRetroQrUploadBinding.submitButtonReview.setBackgroundColor(Color.parseColor("#a1a1a1"))
+            activityRetroQrUploadBinding.submitButtonReview.setBackgroundColor(
+                Color.parseColor(
+                    "#a1a1a1"
+                )
+            )
 
         }
         activityRetroQrUploadBinding.updatedCount.setText(updatedCount.toString())
@@ -746,7 +884,11 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         return alphaDifference + abs(r1 - r2) + abs(g1 - g2) + abs(b1 - b2)
     }
 
-    fun calculateSimilarityPercentage(bitmap1: Bitmap, bitmap2: Bitmap, threshold: Int): Double {
+    fun calculateSimilarityPercentage(
+        bitmap1: Bitmap,
+        bitmap2: Bitmap,
+        threshold: Int
+    ): Double {
         // Ensure both bitmaps have the same dimensions
         if (bitmap1.width != bitmap2.width || bitmap1.height != bitmap2.height) {
             return 0.0
@@ -904,6 +1046,58 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             uploadRackAdapter.getFilter().filter(gst)
             reviewRackAdapter.getFilter().filter(gst)
         }
+
+    }
+
+    var handlerBluetoothConnection = Handler()
+    var runnableBluetoothConnection = Runnable {
+        if (dialogRackQrCodePrintBinding != null) {
+            if (BluetoothManager.getInstance(this).isConnect) {
+                dialogRackQrCodePrintBinding!!.bluetoothIndicator.setBackgroundResource(R.drawable.green_background)
+                dialogRackQrCodePrintBinding!!.connectedPrinterStatus.text =
+                    "Connected to the printer"
+//                dialogRackQrCodePrintBinding!!.reconnect.visibility = View.GONE
+            } else {
+                dialogRackQrCodePrintBinding!!.bluetoothIndicator.setBackgroundResource(R.drawable.red_background)
+                dialogRackQrCodePrintBinding!!.connectedPrinterStatus.text =
+                    "Disconnected to the printer"
+//                dialogRackQrCodePrintBinding!!.reconnect.visibility = View.VISIBLE
+            }
+        }
+        startPostDelay()
+    }
+
+    fun startPostDelay() {
+        handlerBluetoothConnection.removeCallbacks(runnableBluetoothConnection)
+        handlerBluetoothConnection.postDelayed(runnableBluetoothConnection, 500)
+    }
+
+    override fun onResume() {
+        handlerBluetoothConnection.removeCallbacks(runnableBluetoothConnection)
+        handlerBluetoothConnection.postDelayed(runnableBluetoothConnection, 500)
+        super.onResume()
+    }
+
+    override fun onPause() {
+        handlerBluetoothConnection.removeCallbacks(runnableBluetoothConnection)
+        super.onPause()
+    }
+    fun isBluetoothConned(dialogRackQrCodePrintBinding: DialogRackQrCodePrintBinding) {
+        if (dialogRackQrCodePrintBinding != null) {
+            if (BluetoothManager.getInstance(this).isConnect) {
+                dialogRackQrCodePrintBinding.bluetoothIndicator.setBackgroundResource(R.drawable.green_background)
+                dialogRackQrCodePrintBinding.connectedPrinterStatus.text =
+                    "Connected to the printer"
+//                dialogRackQrCodePrintBinding.reconnect.visibility = View.GONE
+            } else {
+                dialogRackQrCodePrintBinding.bluetoothIndicator.setBackgroundResource(R.drawable.red_background)
+                dialogRackQrCodePrintBinding.connectedPrinterStatus.text =
+                    "Disconnected to the printer"
+//                dialogRackQrCodePrintBinding.reconnect.visibility = View.VISIBLE
+            }
+        }
+        handlerBluetoothConnection.removeCallbacks(runnableBluetoothConnection)
+        handlerBluetoothConnection.postDelayed(runnableBluetoothConnection, 500)
 
     }
 }

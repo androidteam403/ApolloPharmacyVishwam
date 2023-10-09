@@ -810,21 +810,21 @@ public class Utils {
     public static String getFirstDateOfCurrentMonth() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, 1);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//2023-06-30
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);//2023-06-30
         System.out.println(sdf.format(cal.getTime()));
         return sdf.format(cal.getTime());
     }
 
     public static String getCurrentDateCeoDashboard() {
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//2023-06-30
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);//2023-06-30
         System.out.println(sdf.format(cal.getTime()));
         return sdf.format(cal.getTime());
     }
 
     public static String getConvertedDateFormatddmmmyyyy(String dateString) {
         String dtStart = dateString;//"2010-10-15T09:27:37Z";
-        SimpleDateFormat formatBeforeConvert = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatBeforeConvert = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         try {
             //Before convert
             Date dateBeforeConvert = formatBeforeConvert.parse(dtStart);
@@ -832,7 +832,7 @@ public class Utils {
 
 
             //After covert
-            SimpleDateFormat formatAfterConvert = new SimpleDateFormat("dd-MMM-yyyy");
+            SimpleDateFormat formatAfterConvert = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
             String dateTime = formatAfterConvert.format(dateBeforeConvert);
             return dateTime;
         } catch (ParseException e) {
@@ -850,7 +850,7 @@ public class Utils {
 
     public static String getConvertedDateFormatyyyymmdd(String dateString) {
         String dtStart = dateString;//"2010-10-15T09:27:37Z";
-        SimpleDateFormat formatBeforeConvert = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat formatBeforeConvert = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         try {
             //Before convert
             Date dateBeforeConvert = formatBeforeConvert.parse(dtStart);
@@ -858,7 +858,7 @@ public class Utils {
 
 
             //After covert
-            SimpleDateFormat formatAfterConvert = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatAfterConvert = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             String dateTime = formatAfterConvert.format(dateBeforeConvert);
             return dateTime;
         } catch (ParseException e) {

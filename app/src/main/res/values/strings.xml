@@ -491,5 +491,8 @@
     <string name="label_reconnect">Reconnect</string>
     <string name="label_select_all_racks">Select All Racks</string>
     <string name="retro_qr_label_preview">Preview</string>
+    <string name="label_print_preview">print preview</string>
+    <string name="label_print">print</string>
+    <string name="label_total_racks">Total Racks</string>
 
 </resources>

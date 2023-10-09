@@ -31,7 +31,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         }
         Utlis.hideLoading()
         hideLoading()
-//        viewModel.test(this@HomeFragment)
+        /*viewModel.test(this@HomeFragment)*/
 
 //        if (getDataManager().getRiderActiveStatus() == "Offline") {
 //            viewModel.riderUpdateStauts(

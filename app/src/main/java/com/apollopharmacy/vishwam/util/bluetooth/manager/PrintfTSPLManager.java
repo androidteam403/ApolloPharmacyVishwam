@@ -290,6 +290,10 @@ public class PrintfTSPLManager {
         sendBytes(bytes);
     }
 
+    public void printQrCodeTestBitmapDelete(byte[] bytes) {
+        sendBytes(bytes);
+    }
+
     public void printQrCodeTest(int x, int y, String level, int width, int rotation, byte[] content) {
         byte[] bytes = new byte[0];
         try {

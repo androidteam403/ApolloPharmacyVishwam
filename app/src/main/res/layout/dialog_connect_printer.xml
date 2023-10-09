@@ -28,6 +28,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
+            android:src="@drawable/ic_retroqr_printer_icon_black"
             android:contentDescription="@string/app_name"/>
 
         <TextView
