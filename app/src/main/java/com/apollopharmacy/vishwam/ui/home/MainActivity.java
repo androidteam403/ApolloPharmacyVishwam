@@ -1246,7 +1246,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case "Approval":
-                headerText.setText("Pre Rectro Approval");
+                headerText.setText("Pre Retro Approval");
                 Bundle preRetroApprovalbundle = new Bundle();
                 preRetroApprovalbundle.putBoolean("fromPreRectroApproval", true);
                 PreRectroApprovalFragment fragPreRectroApproval = new PreRectroApprovalFragment();
@@ -1268,7 +1268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case "Post Rectro Approval":
-                headerText.setText("Post Rectro Approval");
+                headerText.setText("Post Retro Approval");
                 Bundle postRetroApprovalbundle = new Bundle();
                 postRetroApprovalbundle.putBoolean("fromPostRectroApproval", true);
                 PreRectroApprovalFragment fragPostRectroApproval = new PreRectroApprovalFragment();

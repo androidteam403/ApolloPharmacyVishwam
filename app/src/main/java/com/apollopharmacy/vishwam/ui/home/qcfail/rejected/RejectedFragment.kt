@@ -243,6 +243,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             Preferences.setQcFromDate("")
             Preferences.setQcToDate("")
             Preferences.setQcSite("")
+            storeStringList.clear()
+            regionStringList.clear()
             siteId = ""
             Preferences.setQcRegion("")
             Preferences.setQcOrderType("")
@@ -749,6 +751,9 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                     siteId = data.getStringExtra("siteId").toString()
                     regionId = data.getStringExtra("regionId").toString()
                     typeString = data.getStringExtra("orderType").toString()
+                    storeStringList= data.getStringArrayListExtra("storeList")!!
+                    regionStringList= data.getStringArrayListExtra("regionList")!!
+
                     if (currentDate.isNotEmpty() && fromDate.isNotEmpty()) {
                         showLoading()
                         viewModel.getQcRejectList(
@@ -782,6 +787,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                         Preferences.setQcFromDate("")
                         Preferences.setQcToDate("")
                         Preferences.setQcSite("")
+                        storeStringList.clear()
+                        regionStringList.clear()
                         siteId = ""
                         Preferences.setQcRegion("")
                         Preferences.setQcOrderType("")
@@ -915,9 +922,9 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
     private fun setQcRejectedListResponse(rejectedlist: List<QcListsResponse.Reject>) {
         viewBinding.refreshSwipe.isRefreshing = false
-        storeStringList.clear()
+//        storeStringList.clear()
         orderTypeList.clear()
-        regionStringList.clear()
+//        regionStringList.clear()
         if (rejectedlist != null && rejectedlist!!.size > 0) {
 
             viewBinding.recyclerViewPending.visibility = View.VISIBLE

@@ -212,6 +212,8 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback,
             hideLoading()
             dialog = Dialog(this)
             dialog.setContentView(R.layout.dialog_onsuccessupload_apna)
+            dialog.setCancelable(false)
+            dialog.setCanceledOnTouchOutside(false)
             val close = dialog.findViewById<LinearLayout>(R.id.close_apna)
             val textMessage = dialog.findViewById<TextView>(R.id.transaction_id_apna)
             textMessage.text =
