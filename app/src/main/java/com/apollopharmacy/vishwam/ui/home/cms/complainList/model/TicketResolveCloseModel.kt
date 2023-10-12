@@ -8,10 +8,10 @@ data class TicketResolveCloseModel(
     val ticket_id: String,
     val feedback : Feedback?
 
-)
+):java.io.Serializable
 data class Feedback(
     val rating: Rating?
-)
+):java.io.Serializable
 data class Rating(
     val uid: String
-)
+):java.io.Serializable

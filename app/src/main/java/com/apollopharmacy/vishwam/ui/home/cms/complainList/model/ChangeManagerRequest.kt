@@ -8,20 +8,20 @@ data class ChangeManagerRequest(
     val uid: String,
     val employee_id: String,
     val ticket: CCTicket
-)
+):java.io.Serializable
 
 data class  CCTicket(
     val uid: String
-)
+):java.io.Serializable
 data class ChangeManager(
     val uid: String
-)
+):java.io.Serializable
 
 data class OldManager(
     val uid: String
-)
+):java.io.Serializable
 
 data class ChangeSite(
     val site: String,
     val uid: String
-)
+):java.io.Serializable

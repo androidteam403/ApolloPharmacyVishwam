@@ -1841,6 +1841,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
 
             saveUpdateRequest.trainerId = Preferences.getValidatedEmpId()
+            saveUpdateRequest.employeeId = Preferences.getValidatedEmpId()
             val userData = LoginRepo.getProfile()
             if (userData != null) {
                 saveUpdateRequest.trainerName = userData.EMPNAME
@@ -1913,12 +1914,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             }
             saveUpdateRequest.cmsChampsSurveyQa = cmsChampsSurveQaList
 
-
-            if (champsRefernceId != null) {
-                saveUpdateRequest.champsId = champsRefernceId
-            } else {
-                saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
-            }
+            saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
+//            if (champsRefernceId != null) {
+//                saveUpdateRequest.champsId = champsRefernceId
+//            } else {
+//                saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
+//            }
             champsSurveyViewModel.saveUpdateApi(this, saveUpdateRequest)
         } else {
             Utlis.hideLoading()

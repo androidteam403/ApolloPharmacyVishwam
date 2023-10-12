@@ -10,12 +10,12 @@ data class InventoryAcceptrejectModel(
     val status: String,
     val ticket_id: String,
     val action: String?,
-)
+):java.io.Serializable
 
 data class ItemStatus(
     val uid: String
-)
+):java.io.Serializable
 
 data class Ticket(
     val uid: String
-)
+):java.io.Serializable

@@ -2,7 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.cms.complainList.model
 
 import com.google.gson.annotations.SerializedName
 
-class SubworkflowConfigDetailsResponse {
+class SubworkflowConfigDetailsResponse : java.io.Serializable{
     @SerializedName("message")
     var message: String? = null
 
@@ -12,12 +12,12 @@ class SubworkflowConfigDetailsResponse {
     @SerializedName("data")
     var data: Data? = null
 
-    class Other {
+    class Other:java.io.Serializable {
         @SerializedName("color")
         var color: String? = null
     }
 
-    class AssignToUser {
+    class AssignToUser :java.io.Serializable{
 
         @SerializedName("uid")
         var uid: String? = null
@@ -32,7 +32,7 @@ class SubworkflowConfigDetailsResponse {
         var icon: String? = null
     }
 
-    class ExtrnlDependency {
+    class ExtrnlDependency:java.io.Serializable {
 
         @SerializedName("uid")
         var uid: String? = null
@@ -47,7 +47,7 @@ class SubworkflowConfigDetailsResponse {
         var icon: String? = null
     }
 
-    class ShowTicketActions {
+    class ShowTicketActions :java.io.Serializable{
 
         @SerializedName("uid")
         var uid: String? = null
@@ -62,7 +62,7 @@ class SubworkflowConfigDetailsResponse {
         var icon: String? = null
     }
 
-    class TicketEscalation {
+    class TicketEscalation:java.io.Serializable {
 
         @SerializedName("uid")
         var uid: String? = null
@@ -77,7 +77,7 @@ class SubworkflowConfigDetailsResponse {
         var icon: String? = null
     }
 
-    class FromDept {
+    class FromDept :java.io.Serializable{
 
         @SerializedName("uid")
         var uid: String? = null
@@ -86,7 +86,7 @@ class SubworkflowConfigDetailsResponse {
         var code: String? = null
     }
 
-    class Action {
+    class Action:java.io.Serializable {
 
         @SerializedName("uid")
         var uid: String? = null
@@ -110,7 +110,7 @@ class SubworkflowConfigDetailsResponse {
         var textColor: String? = null
     }
 
-    class ToRole {
+    class ToRole :java.io.Serializable{
 
         @SerializedName("uid")
         var uid: String? = null
@@ -121,7 +121,7 @@ class SubworkflowConfigDetailsResponse {
 
     }
 
-    class TicketStatus {
+    class TicketStatus:java.io.Serializable {
 
         @SerializedName("uid")
         var uid: String? = null
@@ -131,7 +131,7 @@ class SubworkflowConfigDetailsResponse {
 
     }
 
-    class Reason {
+    class Reason:java.io.Serializable {
 
         @SerializedName("uid")
         var uid: String? = null
@@ -141,7 +141,7 @@ class SubworkflowConfigDetailsResponse {
 
     }
 
-    class FromRole {
+    class FromRole:java.io.Serializable {
 
         @SerializedName("uid")
         var uid: String? = null
@@ -150,7 +150,7 @@ class SubworkflowConfigDetailsResponse {
         var code: String? = null
     }
 
-    class ToDept {
+    class ToDept:java.io.Serializable {
 
         @SerializedName("uid")
         var uid: String? = null
@@ -159,7 +159,7 @@ class SubworkflowConfigDetailsResponse {
         var code: String? = null
     }
 
-    class Rows {
+    class Rows :java.io.Serializable {
 
         @SerializedName("uid")
         var uid: String? = null
@@ -210,7 +210,7 @@ class SubworkflowConfigDetailsResponse {
         var toDept: ToDept? = null
     }
 
-    class ListData {
+    class ListData:java.io.Serializable {
         @SerializedName("records")
         var records: String? = null
 
@@ -239,7 +239,7 @@ class SubworkflowConfigDetailsResponse {
         var size: Int? = null
     }
 
-    class Data {
+    class Data :java.io.Serializable{
         @SerializedName("listData")
         var listData: ListData? = ListData()
     }

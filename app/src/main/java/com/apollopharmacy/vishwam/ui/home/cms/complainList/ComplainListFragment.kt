@@ -1,13 +1,17 @@
 package com.apollopharmacy.vishwam.ui.home.cms.complainList
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Handler
+import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
@@ -38,8 +42,8 @@ import com.apollopharmacy.vishwam.dialog.model.SubmitticketDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.MenuModel
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.SubworkflowConfigDetailsAdapter
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.UsersListforSubworkflowSpinnerAdapter
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.ComplaintsListDetailsActivity
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.UserListAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.*
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Department
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.ItemStatus
@@ -69,10 +73,14 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     var pos: Int = 0
     var frwdMngrPos: Int = 0
     var resListMnger = ArrayList<ResponseNewTicketlist.Row>()
+    var usersList: java.util.ArrayList<UserListForSubworkflowResponse.Rows>? = null
+    lateinit var userListAdapter: UserListAdapter
+    var userForsubworkflow = UserListForSubworkflowResponse.Rows()
+    lateinit var userListDialog: Dialog
 
     lateinit var storeData: LoginDetails.StoreData
 
-    var complaintListStatus: String = "new,inprogress,solved,rejected,reopened,closed,onHold"
+    var complaintListStatus: String = "new,inprogress,solved,rejected,reopened,closed,onHold,selectAll"
 
     // var TicketHistorydata:ArrayList<NewTicketHistoryResponse.Row>()
     var isTicketListThereFirstTime: Boolean = true
@@ -122,8 +130,15 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         MainActivity.mInstance.mainActivityCallback = this
         viewBinding.viewmodel = viewModel
         if (arguments?.getBoolean("isFromApprovalList") == true) {
-//            viewBinding.dateSelectionLayout.visibility = View.GONE
             viewBinding.dateFilterLayout.visibility = View.GONE
+//            viewBinding.dateSelectionLayout.visibility = View.GONE
+            val layoutParams: LinearLayout.LayoutParams =
+                LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 110)
+            viewBinding.overAllDateFilter.setLayoutParams(layoutParams)
+
+
+        } else {
+
         }
         setFilterIndication()
         val siteId = Preferences.getSiteId()
@@ -321,6 +336,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             } else {
                 Utlis.hideLoading()
                 adapter.notifyItemChanged(it.position)
+                val i = Intent(requireActivity(), ComplaintsListDetailsActivity::class.java)
+                i.putExtra("orderDataWp", adapter.orderData[posForTicketRes])
+                i.putExtra("orderData", adapter.orderData)
+                i.putExtra("isFromApprovalList", arguments?.getBoolean("isFromApprovalList"))
+                i.putExtra("position", posForTicketRes)
+                startActivityForResult(i, 979)
 
             }
 
@@ -366,12 +387,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             }
         })
 
-        viewBinding.fromDateText.setOnClickListener {
+        viewBinding.fromDate.setOnClickListener {
             isFromDateSelected = true
             openDateDialog()
         }
 
-        viewBinding.toDateText.setOnClickListener {
+        viewBinding.toDate.setOnClickListener {
             isFromDateSelected = false
             openDateDialog()
         }
@@ -969,7 +990,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                             || items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == "Yes"
                         ) {
                             binding.ticketCloseBtn.visibility = View.VISIBLE
-                        }else{
+                        } else {
                             binding.ticketCloseBtn.visibility = View.GONE
                         }
                     }
@@ -1154,22 +1175,22 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         position
                     ).subworkflowConfigDetailsResponse!!.data!!.listData!!.rows!!.size > 0
                 ) {
-                    var subworkflowConfigDetailsAdapter = SubworkflowConfigDetailsAdapter(
-                        context,
-                        imageClickListener,
-                        orderData!!.get(position).subworkflowConfigDetailsResponse!!.data!!.listData!!.rows!!,
-                        items.ticketDetailsResponse!!.data,
-                        orderData,
-                        position
-                    )
+//                    var subworkflowConfigDetailsAdapter = SubworkflowConfigDetailsAdapter(
+//                        context,
+//                        imageClickListener,
+//                        orderData!!.get(position).subworkflowConfigDetailsResponse!!.data!!.listData!!.rows!!,
+//                        items.ticketDetailsResponse!!.data,
+//                        orderData,
+//                        position
+//                    )
                     binding.subworkflowConfigDetailsListLayout.visibility = View.VISIBLE
 
                     var layoutManager =
                         LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     //attaches LinearLayoutManager with RecyclerView
                     binding.subworkflowConfigDetailsListRecyclerview.layoutManager = layoutManager
-                    binding.subworkflowConfigDetailsListRecyclerview.adapter =
-                        subworkflowConfigDetailsAdapter
+//                    binding.subworkflowConfigDetailsListRecyclerview.adapter =
+//                        subworkflowConfigDetailsAdapter
                 } else {
                     binding.subworkflowConfigDetailsListLayout.visibility = View.GONE
                 }
@@ -1203,7 +1224,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                   }*/
             }
             binding.pendingLayout.setOnClickListener {
-                imageClickListener.onComplaintItemClick(position, orderData)
+                imageClickListener.onComplaintItemClick(
+                    position,
+                    orderData,
+                    orderData.get(position)
+                )
 
             }
             if (orderData.get(position).isExpanded) {
@@ -1483,6 +1508,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             binding.image.setOnClickListener {
                 items.url?.let { it1 -> imageClickListener.onItemClick(position, it1) }
             }
+            binding.eyePreviewIcon.setOnClickListener {
+                imageClickListener.onClickPreviewIconBackOther(items.url, it)
+            }
         }
     }
 
@@ -1502,23 +1530,29 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         viewModel.getNewticketHistory(RequestTicketHistory(1, 50, uid))
     }
 
+    private lateinit var orderDataForTicketResponse: ArrayList<ResponseNewTicketlist.Row>
+    private var posForTicketRes = 0
     override fun onComplaintItemClick(
         position: Int,
         orderData: ArrayList<ResponseNewTicketlist.Row>,
+        orderDataWp: ResponseNewTicketlist.Row,
     ) {
 
-        // orderData[position].uid?.let { calltickethistory(it) }
-        var curStatus: Boolean = orderData.get(position).isExpanded
-        orderData.forEach {
-            it.isExpanded = false
-        }
 
-        orderData.get(position).isExpanded = !curStatus
-        // orderData[position].uid?.let { gettickethistory(it)}
         orderData[position].uid?.let { calltickethistory(it) }
+//        var curStatus: Boolean = orderData.get(position).isExpanded
+//        orderData.forEach {
+//            it.isExpanded = false
+//        }
+
+//        orderData.get(position).isExpanded = !curStatus
+        // orderData[position].uid?.let { gettickethistory(it)}
+//        orderData[position].uid?.let { calltickethistory(it) }
+        orderDataForTicketResponse = orderData
+        posForTicketRes = position
 
 
-        // adapter.notifyAdapter(orderData)
+//        adapter.notifyAdapter(orderData)
 
 
     }
@@ -2128,6 +2162,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         }
     }
 
+    override fun onClickPreviewIconBackOther(url: String?, view: View) {
+        if(!url.isNullOrEmpty()){
+            PhotoPopupWindow(context, R.layout.layout_image_fullview, view, url, null)
+        }
+
+    }
 
     fun showActionPopup(
         data: TicketData,
@@ -2151,13 +2191,18 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         problemDesc.text = data.reason.name
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
+        val userSelect = dialog.findViewById(R.id.user_list_selected_item) as EditText
+
         yesBtn.text = row.action!!.name!!
         val noBtn = dialog.findViewById(R.id.reject) as Button
         val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
         var userDropdownLayout =
             dialog.findViewById(R.id.user_dropdown_layout) as LinearLayout
-        var userForsubworkflow = UserListForSubworkflowResponse.Rows()
-        if (row.action!!.code.equals("forward") && row.assignToUser!!.uid!!.equals("Yes")) {
+//        var userForsubworkflow = UserListForSubworkflowResponse.Rows()
+        if ((row.action!!.code.equals("forward") || row.action!!.code.equals("change_forward_manager")) && row.assignToUser!!.uid!!.equals(
+                "Yes"
+            )
+        ) {
             if (userListForSubworkflowResponse != null
                 && userListForSubworkflowResponse.success!!
                 && userListForSubworkflowResponse.data != null
@@ -2166,29 +2211,81 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 && userListForSubworkflowResponse.data!!.listData!!.rows!!.size > 0
             ) {
                 userDropdownLayout.visibility = View.VISIBLE
-                val spinner = dialog.findViewById(R.id.user_list_for_subworkflow_spinner) as Spinner
-                var usersListforSubworkflowSpinnerAdapter =
-                    UsersListforSubworkflowSpinnerAdapter(
-                        requireContext(),
-                        userListForSubworkflowResponse.data!!.listData!!.rows!!
-                    )
-                spinner.adapter = usersListforSubworkflowSpinnerAdapter
-                spinner.setSelection(0)
-                spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View,
-                        positionDropDown: Int,
-                        id: Long,
-                    ) {
-                        userForsubworkflow =
-                            userListForSubworkflowResponse.data!!.listData!!.rows!!.get(
-                                positionDropDown
-                            )
-                    }
+                usersList = userListForSubworkflowResponse.data!!.listData!!.rows!!
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
-                })
+                var userListSelectedItem =
+                    dialog.findViewById(R.id.user_list_selected_item) as EditText
+                userListSelectedItem.setOnClickListener {
+                    userListDialog = Dialog(requireContext())
+                    val dialogUserListBinding =
+                        DataBindingUtil.inflate<DialogUserListBinding>(
+                            LayoutInflater.from(requireContext()),
+                            R.layout.dialog_user_list,
+                            null,
+                            false
+                        )
+                    userListDialog.setContentView(dialogUserListBinding.root)
+                    userListDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    userListDialog.setCancelable(false)
+                    dialogUserListBinding.closeDialog.setOnClickListener {
+                        userListDialog.dismiss()
+                    }
+//                    userListAdapter = UserListAdapter(
+//                        this,
+//                        requireContext(),
+//                        usersList!!, userSelect
+//                    )
+//                    dialogUserListBinding.locationRcv.adapter = userListAdapter
+//                    dialogUserListBinding.locationRcv.layoutManager =
+//                        LinearLayoutManager(requireContext())
+
+                    dialogUserListBinding.searchLocationListText.addTextChangedListener(object :
+                        TextWatcher {
+                        override fun beforeTextChanged(
+                            s: CharSequence?,
+                            start: Int,
+                            count: Int,
+                            after: Int,
+                        ) {
+                        }
+
+                        override fun onTextChanged(
+                            s: CharSequence?,
+                            start: Int,
+                            before: Int,
+                            count: Int,
+                        ) {
+                        }
+
+                        override fun afterTextChanged(s: Editable?) {
+                            filterUserList(s.toString(), dialogUserListBinding)
+                        }
+                    })
+                    userListDialog.show()
+                }
+                /*  val spinner = dialog.findViewById(R.id.user_list_for_subworkflow_spinner) as Spinner
+                  var usersListforSubworkflowSpinnerAdapter =
+                      UsersListforSubworkflowSpinnerAdapter(
+                          requireContext(),
+                          userListForSubworkflowResponse.data!!.listData!!.rows!!
+                      )
+                  spinner.adapter = usersListforSubworkflowSpinnerAdapter
+                  spinner.setSelection(0)
+                  spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+                      override fun onItemSelected(
+                          parent: AdapterView<*>?,
+                          view: View,
+                          positionDropDown: Int,
+                          id: Long,
+                      ) {
+                          userForsubworkflow =
+                              userListForSubworkflowResponse.data!!.listData!!.rows!!.get(
+                                  positionDropDown
+                              )
+                      }
+
+                      override fun onNothingSelected(parent: AdapterView<*>?) {}
+                  })*/
             } else {
                 userDropdownLayout.visibility = View.GONE
             }
@@ -2201,10 +2298,15 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             if (remark.text.toString().isEmpty()) {
                 remark.error = "Please enter comment"
                 remark.requestFocus()
+            } else if ((row.action!!.code.equals("forward") || row.action!!.code.equals("change_forward_manager")) && row.assignToUser!!.uid!!.equals(
+                    "Yes"
+                ) && userSelect.text.toString().isEmpty()
+            ) {
+                Toast.makeText(requireContext(), "Please select user", Toast.LENGTH_SHORT).show()
             } else {
                 dialog.dismiss()
                 if (NetworkUtil.isNetworkConnected(requireContext())) {
-                    showLoading()
+                    Utlis.showLoading(requireContext())
                     var ticketSubworkflowActionUpdateRequest =
                         TicketSubworkflowActionUpdateRequest()
                     ticketSubworkflowActionUpdateRequest.uid = responseList.get(position).uid
@@ -2212,6 +2314,60 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     ticketSubworkflowActionUpdateRequest.employee_id =
                         "${Preferences.getValidatedEmpId()}"//"RH75774748" //"SE35674"
                     // "SE35674"//${Preferences.getValidatedEmpId()}
+                    ticketSubworkflowActionUpdateRequest.items_uid =
+                        data.ticket_inventory!!.ticket_inventory_item!!.get(0).uid
+                    if (row.action!!.code != null && row.action!!.code.equals("forward_to_manager")) {
+                        ticketSubworkflowActionUpdateRequest.items_uid =
+                            data.ticket_inventory!!.ticket_inventory_item!!.get(0).uid
+                        var manager = TicketSubworkflowActionUpdateRequest.Manager()
+                        manager.uid = data.manager!!.uid
+                        ticketSubworkflowActionUpdateRequest.manager = manager
+                        var ticket = TicketSubworkflowActionUpdateRequest.Ticket()
+                        ticket.uid = responseList.get(position).uid
+                        ticketSubworkflowActionUpdateRequest.ticket = ticket
+                    }
+
+                    if (row.action!!.code != null && row.action!!.code.equals("change_forward_manager") && row.assignToUser!!.uid!!.equals(
+                            "Yes"
+                        )
+                    ) {
+                        ticketSubworkflowActionUpdateRequest.items_uid =
+                            data.ticket_inventory!!.ticket_inventory_item!!.get(0).uid
+                        var manager = TicketSubworkflowActionUpdateRequest.Manager()
+                        manager.uid = userForsubworkflow!!.uid
+                        ticketSubworkflowActionUpdateRequest.manager = manager
+                        var ticket = TicketSubworkflowActionUpdateRequest.Ticket()
+                        ticket.uid = responseList.get(position).uid
+                        ticketSubworkflowActionUpdateRequest.ticket = ticket
+
+                        var oldManager = TicketSubworkflowActionUpdateRequest.OldManager()
+                        oldManager.uid = data.manager!!.uid
+                        ticketSubworkflowActionUpdateRequest.old_manager = oldManager
+
+                        var toUser = TicketSubworkflowActionUpdateRequest.ToUser()
+                        toUser.uid = userForsubworkflow.uid
+                        toUser.firstName = userForsubworkflow.firstName
+                        toUser.middleName = userForsubworkflow.middleName
+                        toUser.lastName = userForsubworkflow.lastName
+                        toUser.loginUnique = userForsubworkflow.loginUnique
+                        var role = TicketSubworkflowActionUpdateRequest.Role()
+                        role.uid = userForsubworkflow.role!!.uid
+                        role.code = userForsubworkflow.role!!.code
+                        role.name = userForsubworkflow.role!!.name
+                        toUser.role = role
+                        var level = TicketSubworkflowActionUpdateRequest.Level()
+                        level.uid = userForsubworkflow.level!!.uid
+                        level.name = userForsubworkflow.level!!.name
+                        toUser.level = level
+                        ticketSubworkflowActionUpdateRequest.toUser = toUser
+
+
+                        var site = TicketSubworkflowActionUpdateRequest.Site()
+                        site.uid = data.site.uid
+                        site.site = data.site.site
+                        ticketSubworkflowActionUpdateRequest.site = site
+                    }
+
                     var subworkflow = TicketSubworkflowActionUpdateRequest.Subworkflow()
                     subworkflow.uid = row.uid!!
                     ticketSubworkflowActionUpdateRequest.subworkflow = subworkflow
@@ -2236,7 +2392,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     }
 
                     viewModel.actionUpdateApiCall(
-                        this@ComplainListFragment,
+                        this,
                         ticketSubworkflowActionUpdateRequest,
                         row, remark.text.toString(),
                         data,
@@ -2249,6 +2405,166 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
+
+    private fun filterUserList(
+        searchText: String,
+        dialogUserListBinding: DialogUserListBinding?,
+    ) {
+        val filteredList = java.util.ArrayList<UserListForSubworkflowResponse.Rows>()
+        for (i in usersList!!.indices) {
+            if (searchText.isEmpty()) {
+                filteredList.clear()
+                filteredList.addAll(usersList!!)
+            } else {
+                var userName = ""
+                if (usersList!![i].firstName != null) {
+                    userName = "${usersList!![i].firstName}"
+                }
+                if (usersList!![i].middleName != null) {
+                    userName = "$userName ${usersList!![i].middleName}"
+                }
+                if (usersList!![i].lastName != null) {
+                    userName = "$userName ${usersList!![i].lastName}"
+                }
+                if (usersList!![i].loginUnique != null) {
+                    userName = "$userName (${usersList!![i].loginUnique})"
+                }
+
+                if (userName!!.contains(searchText, true)) {
+                    filteredList.add(usersList!![i])
+                }
+            }
+        }
+        if (filteredList.size < 1) {
+            dialogUserListBinding!!.locationRcv.visibility = View.GONE
+            dialogUserListBinding.locationAvailable.visibility = View.VISIBLE
+        } else {
+            dialogUserListBinding!!.locationRcv.visibility = View.VISIBLE
+            dialogUserListBinding.locationAvailable.visibility = View.GONE
+        }
+        userListAdapter.filter(filteredList)
+    }
+
+//    fun showActionPopup(
+//        data: TicketData,
+//        responseList: ArrayList<ResponseNewTicketlist.Row>,
+//        position: Int,
+//        row: SubworkflowConfigDetailsResponse.Rows,
+//        userListForSubworkflowResponse: UserListForSubworkflowResponse?,
+//    ) {
+//
+//        val dialog = Dialog(requireContext())
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        dialog.setCancelable(false)
+//        dialog.setContentView(R.layout.dialog_comment)
+//        val body = dialog.findViewById(R.id.textHead) as TextView
+//        body.text = "Ticket Details"
+//        val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
+//        ticketNo.text = data.ticket_id
+//        val regDate = dialog.findViewById(R.id.regDate) as TextView
+//        regDate.text = Utlis.convertCmsDate(data.created_time)
+//        val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
+//        problemDesc.text = data.reason.name
+//        val remark = dialog.findViewById(R.id.remark) as EditText
+//        val yesBtn = dialog.findViewById(R.id.submit) as Button
+//        yesBtn.text = row.action!!.name!!
+//        val noBtn = dialog.findViewById(R.id.reject) as Button
+//        val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
+//        var userDropdownLayout =
+//            dialog.findViewById(R.id.user_dropdown_layout) as LinearLayout
+//        var userForsubworkflow = UserListForSubworkflowResponse.Rows()
+//        if (row.action!!.code.equals("forward") && row.assignToUser!!.uid!!.equals("Yes")) {
+//            if (userListForSubworkflowResponse != null
+//                && userListForSubworkflowResponse.success!!
+//                && userListForSubworkflowResponse.data != null
+//                && userListForSubworkflowResponse.data!!.listData != null
+//                && userListForSubworkflowResponse.data!!.listData!!.rows != null
+//                && userListForSubworkflowResponse.data!!.listData!!.rows!!.size > 0
+//            ) {
+//                userDropdownLayout.visibility = View.VISIBLE
+//                val spinner = dialog.findViewById(R.id.user_list_for_subworkflow_spinner) as Spinner
+//                var usersListforSubworkflowSpinnerAdapter =
+//                    UsersListforSubworkflowSpinnerAdapter(
+//                        requireContext(),
+//                        userListForSubworkflowResponse.data!!.listData!!.rows!!
+//                    )
+//                spinner.adapter = usersListforSubworkflowSpinnerAdapter
+//                spinner.setSelection(0)
+//                spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+//                    override fun onItemSelected(
+//                        parent: AdapterView<*>?,
+//                        view: View,
+//                        positionDropDown: Int,
+//                        id: Long,
+//                    ) {
+//                        userForsubworkflow =
+//                            userListForSubworkflowResponse.data!!.listData!!.rows!!.get(
+//                                positionDropDown
+//                            )
+//                    }
+//
+//                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+//                })
+//            } else {
+//                userDropdownLayout.visibility = View.GONE
+//            }
+//        } else {
+//            userDropdownLayout.visibility = View.GONE
+//        }
+//
+//        dialogClose.setOnClickListener { dialog.dismiss() }
+//        yesBtn.setOnClickListener {
+//            if (remark.text.toString().isEmpty()) {
+//                remark.error = "Please enter comment"
+//                remark.requestFocus()
+//            } else {
+//                dialog.dismiss()
+//                if (NetworkUtil.isNetworkConnected(requireContext())) {
+//                    showLoading()
+//                    var ticketSubworkflowActionUpdateRequest =
+//                        TicketSubworkflowActionUpdateRequest()
+//                    ticketSubworkflowActionUpdateRequest.uid = responseList.get(position).uid
+//                    ticketSubworkflowActionUpdateRequest.comment = "${remark.text.toString()}"
+//                    ticketSubworkflowActionUpdateRequest.employee_id =
+//                        "${Preferences.getValidatedEmpId()}"//"RH75774748" //"SE35674"
+//                    // "SE35674"//${Preferences.getValidatedEmpId()}
+//                    var subworkflow = TicketSubworkflowActionUpdateRequest.Subworkflow()
+//                    subworkflow.uid = row.uid!!
+//                    ticketSubworkflowActionUpdateRequest.subworkflow = subworkflow
+//
+//                    if (row.action!!.code.equals("forward") && row.assignToUser!!.uid!!.equals("Yes")) {
+//                        var toUser = TicketSubworkflowActionUpdateRequest.ToUser()
+//                        toUser.uid = userForsubworkflow.uid
+//                        toUser.firstName = userForsubworkflow.firstName
+//                        toUser.middleName = userForsubworkflow.middleName
+//                        toUser.lastName = userForsubworkflow.lastName
+//                        toUser.loginUnique = userForsubworkflow.loginUnique
+//                        var role = TicketSubworkflowActionUpdateRequest.Role()
+//                        role.uid = userForsubworkflow.role!!.uid
+//                        role.code = userForsubworkflow.role!!.code
+//                        role.name = userForsubworkflow.role!!.name
+//                        toUser.role = role
+//                        var level = TicketSubworkflowActionUpdateRequest.Level()
+//                        level.uid = userForsubworkflow.level!!.uid
+//                        level.name = userForsubworkflow.level!!.name
+//                        toUser.level = level
+//                        ticketSubworkflowActionUpdateRequest.toUser = toUser
+//                    }
+//
+//                    viewModel.actionUpdateApiCall(
+//                        this@ComplainListFragment,
+//                        ticketSubworkflowActionUpdateRequest,
+//                        row, remark.text.toString(),
+//                        data,
+//                        responseList,
+//                        position,
+//                    )
+//                }
+//            }
+//        }
+//        noBtn.setOnClickListener { dialog.dismiss() }
+//        dialog.show()
+//    }
 
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
         if (isFromDateSelected) {
@@ -2266,7 +2582,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     override fun selectedDatefrom(dateSelected: String, showingDate: String) {
     }
-
+    var isNewStatusClicked=false
     override fun onClickFilterIcon() {
         val complaintListStatusFilterDialog = context?.let { Dialog(it) }
         val dialogComplaintListFilterBinding: DialogComplaintListFilterBinding =
@@ -2278,6 +2594,17 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
         dialogComplaintListFilterBinding.closeDialog.setOnClickListener {
             complaintListStatusFilterDialog.dismiss()
+        }
+        if(dialogComplaintListFilterBinding.newStatus.isChecked &&
+            dialogComplaintListFilterBinding.inProgressStatus.isChecked &&
+        dialogComplaintListFilterBinding.rejectedStatus.isChecked &&
+        dialogComplaintListFilterBinding.reopenStatus.isChecked &&
+        dialogComplaintListFilterBinding.closedStatus.isChecked &&
+        dialogComplaintListFilterBinding.resolvedStatus.isChecked &&
+        dialogComplaintListFilterBinding.onholdStatus.isChecked){
+            dialogComplaintListFilterBinding.selectAll.isChecked=true
+        }else{
+            dialogComplaintListFilterBinding.selectAll.isChecked=false
         }
         dialogComplaintListFilterBinding.isNewChecked = this.complaintListStatus.contains("new")
         dialogComplaintListFilterBinding.isInProgressChecked =
@@ -2292,6 +2619,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             this.complaintListStatus.contains("closed")
         dialogComplaintListFilterBinding.isOnHoldChecked =
             this.complaintListStatus.contains("onHold")
+        dialogComplaintListFilterBinding.isSelectAllChecked=
+            this.complaintListStatus.contains("new,inprogress,solved,rejected,reopened,closed,onHold")
+
 
 
         submitButtonEnable(dialogComplaintListFilterBinding)
@@ -2318,6 +2648,65 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialogComplaintListFilterBinding.onholdStatus.setOnCheckedChangeListener { compoundButton, b ->
             submitButtonEnable(dialogComplaintListFilterBinding)
         }
+        dialogComplaintListFilterBinding.selectAllCheckboxLayout.setOnClickListener {
+            dialogComplaintListFilterBinding.selectAll.isChecked = !dialogComplaintListFilterBinding.selectAll.isChecked
+
+            if(dialogComplaintListFilterBinding.selectAll.isChecked){
+
+                dialogComplaintListFilterBinding.newStatus.isChecked=true
+                dialogComplaintListFilterBinding.inProgressStatus.isChecked=true
+                dialogComplaintListFilterBinding.rejectedStatus.isChecked=true
+                dialogComplaintListFilterBinding.reopenStatus.isChecked=true
+                dialogComplaintListFilterBinding.closedStatus.isChecked=true
+                dialogComplaintListFilterBinding.resolvedStatus.isChecked=true
+                dialogComplaintListFilterBinding.onholdStatus.isChecked=true
+                dialogComplaintListFilterBinding.selectAll.isChecked=true
+            }
+//            else{
+//                dialogComplaintListFilterBinding.selectAll.isChecked=false
+////            }
+            else{
+//                /                if(isNewStatusClicked)
+                dialogComplaintListFilterBinding.newStatus.isChecked=false
+                dialogComplaintListFilterBinding.inProgressStatus.isChecked=false
+                dialogComplaintListFilterBinding.rejectedStatus.isChecked=false
+                dialogComplaintListFilterBinding.reopenStatus.isChecked=false
+                dialogComplaintListFilterBinding.closedStatus.isChecked=false
+                dialogComplaintListFilterBinding.resolvedStatus.isChecked=false
+                dialogComplaintListFilterBinding.onholdStatus.isChecked=false
+                dialogComplaintListFilterBinding.selectAll.isChecked=false
+            }
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+
+
+       /* dialogComplaintListFilterBinding.selectAll.setOnCheckedChangeListener { compoundButton, b ->
+            if(dialogComplaintListFilterBinding.selectAll.isChecked){
+                dialogComplaintListFilterBinding.newStatus.isChecked=true
+                dialogComplaintListFilterBinding.inProgressStatus.isChecked=true
+                dialogComplaintListFilterBinding.rejectedStatus.isChecked=true
+                dialogComplaintListFilterBinding.reopenStatus.isChecked=true
+                dialogComplaintListFilterBinding.closedStatus.isChecked=true
+                dialogComplaintListFilterBinding.resolvedStatus.isChecked=true
+                dialogComplaintListFilterBinding.onholdStatus.isChecked=true
+                dialogComplaintListFilterBinding.selectAll.isChecked=true
+            }
+//            else{
+//                dialogComplaintListFilterBinding.selectAll.isChecked=false
+////            }
+            else{
+//                /                if(isNewStatusClicked)
+                dialogComplaintListFilterBinding.newStatus.isChecked=false
+                dialogComplaintListFilterBinding.inProgressStatus.isChecked=false
+                dialogComplaintListFilterBinding.rejectedStatus.isChecked=false
+                dialogComplaintListFilterBinding.reopenStatus.isChecked=false
+                dialogComplaintListFilterBinding.closedStatus.isChecked=false
+                dialogComplaintListFilterBinding.resolvedStatus.isChecked=false
+                dialogComplaintListFilterBinding.onholdStatus.isChecked=false
+                dialogComplaintListFilterBinding.selectAll.isChecked=false
+            }
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }*/
 
 //        var complaintListStatusTemp = this.complaintListStatus
 //        dialogComplaintListFilterBinding.status = complaintListStatusTemp
@@ -2386,6 +2775,15 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 }
             }
 
+                if (dialogComplaintListFilterBinding.selectAll.isChecked) {
+                    this.complaintListStatus = "new,inprogress,solved,rejected,reopened,closed,onHold"
+//                    if (this.complaintListStatus.isEmpty()) {
+//                        this.complaintListStatus = "new,inprogress,solved,rejected,reopened,closed,onHold"
+//                    } else {
+//                        this.complaintListStatus = "new,inprogress,solved,rejected,reopened,closed,onHold"
+//                    }
+            }
+
 
             if (complaintListStatusFilterDialog != null && complaintListStatusFilterDialog.isShowing) {
                 complaintListStatusFilterDialog.dismiss()
@@ -2425,7 +2823,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     override fun onClickSubmenuItem(
         menuName: String?,
         submenus: ArrayList<MenuModel>?,
-        position: Int
+        position: Int,
     ) {
     }
 
@@ -2524,11 +2922,24 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //        orderData.get(position).subworkflowConfigDetailsResponse
 //        adapter.setData()
         adapter.notifyItemChanged(position)
+        val i = Intent(requireActivity(), ComplaintsListDetailsActivity::class.java)
+        i.putExtra("orderDataWp", adapter.orderData[posForTicketRes])
+        i.putExtra("orderData", adapter.orderData)
+        i.putExtra("position", posForTicketRes)
+        i.putExtra("isFromApprovalList", arguments?.getBoolean("isFromApprovalList"))
+        startActivityForResult(i, 979)
     }
 
     override fun onFailureSubworkflowConfigDetailsApi(message: String) {
         Utlis.hideLoading()
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==979 && resultCode == Activity.RESULT_OK) {
+            callAPI(1)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -2593,12 +3004,23 @@ fun checkResonDepot(
 
 
 fun submitButtonEnable(dialogComplaintListFilterBinding: DialogComplaintListFilterBinding) {
+
+
+
     if (!dialogComplaintListFilterBinding.newStatus.isChecked && !dialogComplaintListFilterBinding.inProgressStatus.isChecked && !dialogComplaintListFilterBinding.resolvedStatus.isChecked && !dialogComplaintListFilterBinding.rejectedStatus.isChecked && !dialogComplaintListFilterBinding.reopenStatus.isChecked && !dialogComplaintListFilterBinding.closedStatus.isChecked && !dialogComplaintListFilterBinding.onholdStatus.isChecked) {
         dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
         dialogComplaintListFilterBinding.isSubmitEnable = false
-    } else {
-        dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.yellow_drawable)
+        dialogComplaintListFilterBinding.selectAll.isChecked=false
+    }
+    else if (dialogComplaintListFilterBinding.newStatus.isChecked && dialogComplaintListFilterBinding.inProgressStatus.isChecked && dialogComplaintListFilterBinding.resolvedStatus.isChecked && dialogComplaintListFilterBinding.rejectedStatus.isChecked && dialogComplaintListFilterBinding.reopenStatus.isChecked && dialogComplaintListFilterBinding.closedStatus.isChecked && dialogComplaintListFilterBinding.onholdStatus.isChecked) {
+        dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.dark_blue_bg_for_btn)
         dialogComplaintListFilterBinding.isSubmitEnable = true
+        dialogComplaintListFilterBinding.selectAll.isChecked=true
+    }
+    else {
+        dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.dark_blue_bg_for_btn)
+        dialogComplaintListFilterBinding.isSubmitEnable = true
+        dialogComplaintListFilterBinding.selectAll.isChecked=false
     }
 }
 
@@ -2606,7 +3028,12 @@ fun submitButtonEnable(dialogComplaintListFilterBinding: DialogComplaintListFilt
 interface ImageClickListener {
     fun onItemClick(position: Int, imagePath: String)
 
-    fun onComplaintItemClick(position: Int, orderData: ArrayList<ResponseNewTicketlist.Row>)
+    fun onComplaintItemClick(
+        position: Int,
+        orderData: ArrayList<ResponseNewTicketlist.Row>,
+        get: ResponseNewTicketlist.Row,
+    )
+
     fun onClickForwardToFinance(
         data: CmsTicketRequest, responseList: ArrayList<ResponseNewTicketlist.Row>,
         position: Int,
@@ -2674,4 +3101,6 @@ interface ImageClickListener {
         data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>,
         position: Int, row: SubworkflowConfigDetailsResponse.Rows,
     )
+
+    fun onClickPreviewIconBackOther(url: String?, view: View)
 }

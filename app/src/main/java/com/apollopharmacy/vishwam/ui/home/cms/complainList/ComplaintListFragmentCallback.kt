@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.cms.complainList
 
+import android.widget.EditText
 import com.apollopharmacy.vishwam.data.model.cms.ResponseNewTicketlist
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubworkflowConfigDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketData
@@ -31,4 +32,6 @@ interface ComplaintListFragmentCallback {
         position: Int, row: SubworkflowConfigDetailsResponse.Rows,
         userListForSubworkflowResponse: UserListForSubworkflowResponse?,
     )
+
+//    fun onSelectUserListItem(row: UserListForSubworkflowResponse.Rows, userSelect: EditText)
 }

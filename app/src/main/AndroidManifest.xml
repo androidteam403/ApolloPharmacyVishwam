@@ -63,6 +63,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ui.home.cms.complainList.activity.ComplaintsListDetailsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.retroqr.activity.imagecomparison.ImageComparisonActivity"
             android:exported="false"
             android:screenOrientation="portrait"

@@ -485,5 +485,6 @@
     <string name="label_to">To</string>
     <string name="label_shop_number">Shop Number</string>
     <string name="label_shop_address">Shop Address</string>
+    <string name="search_by_storeid_ticket_id">Search by storeID / Ticket ID</string>
 
 </resources>
