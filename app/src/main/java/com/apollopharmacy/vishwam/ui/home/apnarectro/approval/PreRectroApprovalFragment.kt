@@ -196,7 +196,13 @@ class PreRectroApprovalFragment() :
         list1 =
             list!!.distinctBy { it.retroid } as java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>
 
-        adapter = context?.let { RectroApproveListAdapter(it, list, list1,retroIdsGroupedList, getStorePendingApprovedList.groupByRetrodList,this) }
+        val sortedList = getStorePendingApprovedList.groupByRetrodList.orEmpty()
+            .sortedByDescending { it.firstOrNull()?.uploadedDate }
+
+        adapter = context?.let {
+            RectroApproveListAdapter(it, list, list1, retroIdsGroupedList, sortedList, this)
+        }
+
         viewBinding.recyclerViewapproval.adapter = adapter
 
     }

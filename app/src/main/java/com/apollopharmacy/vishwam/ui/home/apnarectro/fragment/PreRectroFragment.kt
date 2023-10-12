@@ -83,7 +83,8 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 viewBinding.recordsUploaded.visibility = View.GONE
             }
             viewBinding.incharge.text = Preferences.getToken()
-            viewBinding.storeName.text = Preferences.getApnaSiteId() + " - " + Preferences.getApnaSiteName()
+            viewBinding.storeName.text =
+                Preferences.getApnaSiteId() + " - " + Preferences.getApnaSiteName()
             if (NetworkUtil.isNetworkConnected(requireContext())) {
                 val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                 val cal = Calendar.getInstance()
@@ -97,7 +98,10 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 getStorePendingApprovedRequest.empid = Preferences.getToken()
                 getStorePendingApprovedRequest.fromdate = fromdate
                 getStorePendingApprovedRequest.todate = toDate
-                viewModel.getStorePendingApprovedListApiCallApnaRetro(getStorePendingApprovedRequest, this)
+                viewModel.getStorePendingApprovedListApiCallApnaRetro(
+                    getStorePendingApprovedRequest,
+                    this
+                )
 
             } else {
                 Toast.makeText(
@@ -221,6 +225,8 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         uploadedOn: String,
         uploadedBy: String,
         storeId: String,
+
+
         uploadStage: String,
         approvedby: String?,
         approvedDate: String?,
@@ -236,8 +242,8 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         intent.putExtra("uploadedOn", uploadedOn)
         intent.putExtra("uploadedBy", uploadedBy)
         intent.putExtra("storeId", storeId)
-        intent.putExtra("storeList",storeList)
-        intent.putExtra("retroStage",retroStage)
+        intent.putExtra("storeList", storeList)
+        intent.putExtra("retroStage", retroStage)
 
         intent.putExtra("uploadStage", uploadStage)
         intent.putExtra("approvedby", approvedby)
@@ -280,10 +286,11 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         intent.putExtra("stage", stage)
         intent.putExtra("retroid", retroid)
         intent.putExtra("uploadedOn", uploadedOn)
-        intent.putExtra("storeList",storeList)
+        intent.putExtra("storeList", storeList)
         intent.putExtra("uploadedBy", uploadedBy)
         intent.putExtra("storeId", storeId)
-        intent.putExtra("retroStage",retroStage)
+
+        intent.putExtra("retroStage", retroStage)
         intent.putExtra("uploadStage", uploadStage)
         intent.putExtra("approvedby", approvedby)
         intent.putExtra("status", status)
@@ -300,9 +307,6 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     override fun onSuccessgetStorePendingApprovedApiCall(getStorePendingApprovedList: GetStorePendingAndApprovedListRes) {
 
 
-
-
-
         if (getStorePendingApprovedList.status.equals(true) && getStorePendingApprovedList.getList.size > 0) {
             hideLoading()
             viewBinding.listRecyclerView.visibility = View.VISIBLE
@@ -312,11 +316,13 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 //            Toast.makeText(context, "Refresh", Toast.LENGTH_LONG).show()
                 viewBinding.pullToRefreshApproved.isRefreshing = false
             }
-            storeList= getStorePendingApprovedList.getList as ArrayList<GetStorePendingAndApprovedListRes.Get>?
+            storeList =
+                getStorePendingApprovedList.getList as ArrayList<GetStorePendingAndApprovedListRes.Get>?
 
 
             val retroIdsGroupedList: Map<String, List<GetStorePendingAndApprovedListRes.Get>> =
-                getStorePendingApprovedList.getList.stream().collect(Collectors.groupingBy { w -> w.retroid })
+                getStorePendingApprovedList.getList.stream()
+                    .collect(Collectors.groupingBy { w -> w.retroid })
 //            Toast.makeText(context, "" + retroIdsGroupedList.size, Toast.LENGTH_SHORT).show()
 
             var getStorePendingApprovedListDummys =
@@ -332,15 +338,17 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 //                })
 
             listAdapter =
-                ListAdapter(getStorePendingApprovedList.groupByRetrodList.sortedByDescending { it.get(0).uploadedDate }, requireContext(), this)
+                ListAdapter(getStorePendingApprovedList.groupByRetrodList.sortedByDescending {
+                    it.get(
+                        0
+                    ).uploadedDate
+                }, requireContext(), this)
             val layoutManager = LinearLayoutManager(ViswamApp.context)
             viewBinding.listRecyclerView.layoutManager = layoutManager
             viewBinding.listRecyclerView.itemAnimator = DefaultItemAnimator()
             viewBinding.listRecyclerView.adapter = listAdapter
 
-        }
-
-        else {
+        } else {
             hideLoading()
             viewBinding.recordsUploaded.visibility = View.GONE
             viewBinding.listRecyclerView.visibility = View.GONE
