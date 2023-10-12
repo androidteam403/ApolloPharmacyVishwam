@@ -6,12 +6,12 @@ data class ForwardToManagerModel(
     val ticket: FMTicket,
     val uid: String,
     val employee_id: String
-)
+):java.io.Serializable
 
 data class Manager(
     val uid: String
-)
+):java.io.Serializable
 
 data class FMTicket(
     val uid: String
-)
+):java.io.Serializable

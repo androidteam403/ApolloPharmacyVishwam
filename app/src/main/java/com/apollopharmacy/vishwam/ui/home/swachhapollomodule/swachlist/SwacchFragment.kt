@@ -177,7 +177,8 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
 
     override fun onComplaintItemClick(
         position: Int,
-        orderData: ArrayList<ResponseNewTicketlist.Row>
+        orderData: ArrayList<ResponseNewTicketlist.Row>,
+        get: ResponseNewTicketlist.Row
     ) {
 
     }
@@ -273,6 +274,10 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         row: SubworkflowConfigDetailsResponse.Rows,
     ) {
         TODO("Not yet implemented")
+    }
+
+    override fun onClickPreviewIconBackOther(url: String?, view: View) {
+
     }
 
     fun setSupportActionBar(toolbarswachh: Toolbar) {

@@ -599,7 +599,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!, resizedImage))
                 viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
                 dialog.dismiss()
-            } else if (requestCode == Config.REQUEST_CODE_GALLERY) {
+            }
+            else if (requestCode == Config.REQUEST_CODE_GALLERY) {
                 dialog.dismiss()
                 val images = data!!.clipData
                 if (images != null) {
@@ -636,7 +637,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                } else {
+                }
+                else {
                     val uri = data.data
                     var imagePath = getRealPathFromURI(requireContext(), uri!!)
                     var imageFileGallery: File? = File(imagePath)

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.cms.complainList.activity.fragments.AttachmentsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:id="@+id/overAllLayoutImages"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/text_dimen_10"
+                android:id="@+id/inventory_images_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <RelativeLayout
+                        android:layout_marginTop="@dimen/text_dimen_10"
+                        android:id="@+id/front_img_bg"
+                        android:layout_width="180dp"
+                        android:layout_height="170dp"
+                        android:orientation="horizontal"
+                        android:background="@drawable/bg_stroke_image">
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:gravity="center"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:id="@+id/front_img_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Front"
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/front_img_view"
+                            android:layout_width="@dimen/value_100dp"
+                            android:layout_height="@dimen/value_100dp"
+
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="@dimen/value_30dp"
+                            android:layout_marginTop="@dimen/value_30dp"
+                            android:layout_marginEnd="@dimen/value_30dp"
+                            android:layout_marginBottom="@dimen/value_30dp"
+                            android:contentDescription="@string/app_name"
+                            android:scaleType="center" />
+
+                        <LinearLayout
+                            android:gravity="bottom"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:onClick="@{()-> callback.onClickPreviewIconFront()}"
+                                android:id="@+id/onClickPreviewIcon"
+                                android:layout_gravity="bottom"
+                                android:layout_marginEnd="@dimen/value_5dp"
+                                android:layout_width="@dimen/text_dimen_20"
+                                android:layout_height="@dimen/text_dimen_20"
+                                android:src="@drawable/eye_image_cms_ui"/>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginStart="@dimen/text_dimen_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+
+                    <RelativeLayout
+                        android:layout_marginTop="@dimen/text_dimen_10"
+                        android:id="@+id/back_img_bg"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="180dp"
+                        android:layout_height="170dp"
+                        android:orientation="horizontal"
+                        android:background="@drawable/bg_stroke_image">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:id="@+id/back_img_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:text="Back"
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold"
+                            />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/back_img_view"
+                            android:layout_width="@dimen/value_100dp"
+                            android:layout_height="@dimen/value_100dp"
+                            android:layout_margin="@dimen/value_30dp"
+                            android:contentDescription="@string/app_name"
+                            android:scaleType="center" />
+
+                        <LinearLayout
+                            android:gravity="bottom"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:onClick="@{()-> callback.onClickPreviewIconBack()}"
+                                android:layout_gravity="bottom"
+                                android:layout_marginEnd="@dimen/value_5dp"
+                                android:layout_width="@dimen/text_dimen_20"
+                                android:layout_height="@dimen/text_dimen_20"
+                                android:src="@drawable/eye_image_cms_ui"/>
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+
+
+
+
+
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/text_dimen_10"
+                android:id="@+id/other_img_bg"
+                android:layout_width="180dp"
+                android:layout_height="170dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_stroke_image">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:gravity="center"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:id="@+id/other_img_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Other"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/other_img_view"
+                    android:layout_width="@dimen/value_100dp"
+                    android:layout_height="@dimen/value_100dp"
+
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="@dimen/value_30dp"
+                    android:layout_marginTop="@dimen/value_30dp"
+                    android:layout_marginEnd="@dimen/value_30dp"
+                    android:layout_marginBottom="@dimen/value_30dp"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="center" />
+
+                <LinearLayout
+                    android:gravity="bottom"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:onClick="@{()-> callback.onClickPreviewIconOther()}"
+                        android:id="@+id/onClickPreviewIconOther"
+                        android:layout_gravity="bottom"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:layout_width="@dimen/text_dimen_20"
+                        android:layout_height="@dimen/text_dimen_20"
+                        android:src="@drawable/eye_image_cms_ui"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+<!--                <androidx.appcompat.widget.AppCompatTextView-->
+<!--                    android:layout_marginTop="@dimen/text_dimen_10"-->
+<!--                    android:id="@+id/other_img_label"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Other Image"-->
+<!--                    android:textColor="@color/fadedTextColor"-->
+<!--                    android:textSize="@dimen/text_13sp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:gravity="center"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:visibility="gone"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/back_img_view"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                <androidx.appcompat.widget.AppCompatImageView-->
+<!--                    android:layout_marginTop="@dimen/text_dimen_10"-->
+<!--                    android:id="@+id/other_img_view"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_width="@dimen/value_100dp"-->
+<!--                    android:layout_height="@dimen/value_100dp"-->
+<!--                    android:contentDescription="@string/app_name"-->
+<!--                    android:scaleType="center"-->
+<!--                    android:visibility="gone"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/other_img_label"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/other_img_label" />-->
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/attacheImages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_5dp"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:orientation="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_gravity="center"
+                    android:id="@+id/addedImagesRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/view_image_show" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/emptyList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:gravity="center"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No attachments available"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_18sp" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/emptyListProblemImages"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:gravity="center"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No attachments available"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_18sp" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.callback.AttachmentsCallback" />
+    </data>
+</layout>

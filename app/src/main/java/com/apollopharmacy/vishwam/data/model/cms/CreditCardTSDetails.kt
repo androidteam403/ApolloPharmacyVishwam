@@ -8,7 +8,7 @@ data class CreditCardTSDetails(
     val zcServerHost: String,
     val zcServerIp: String,
     var position: Int
-)
+):java.io.Serializable
 
 data class CCData(
     val category: CCCategory,
@@ -33,7 +33,7 @@ data class CCData(
     val ticket_type: CCTicketTypeX,
     val uid: String,
     val manager: Manager
-)
+):java.io.Serializable
 
 
 data class Manager(
@@ -45,23 +45,23 @@ data class Manager(
     val phone: String,
     val role: Role,
     val uid: String
-)
+):java.io.Serializable
 
 data class Role(
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 data class CCCategory(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCCluster(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCCreatedId(
     val email: String,
@@ -71,13 +71,13 @@ data class CCCreatedId(
     val middle_name: String,
     val phone: Any,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCDepartment(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCExecutive(
     val email: String,
@@ -86,26 +86,26 @@ data class CCExecutive(
     val login_unique: String,
     val phone: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCLevel(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCOu(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCPlatform(
     val icon: Any,
     val name: String,
     val other: Other,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCReason(
     val code: String,
@@ -113,24 +113,24 @@ data class CCReason(
     val uid: String,
     val sub_workflow: SubWorkflow,
     val reason_dept: List<ReasonDept>
-)
+):java.io.Serializable
 
 data class ReasonDept(
     val uid: String,
     val department: Department
-)
+):java.io.Serializable
 
 data class SubWorkflow(
     val code: String,
     val name: String,
     val uid: String,
-)
+):java.io.Serializable
 
 data class CCRegion(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCSite(
     val phone_no: String,
@@ -138,7 +138,7 @@ data class CCSite(
     val site_type: CCSiteType,
     val store_name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCStatus(
     val background_color: String,
@@ -146,13 +146,13 @@ data class CCStatus(
     val name: String,
     val text_color: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCSubcategory(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCTicketIt(
     val acted_by: CCActedBy,
@@ -167,24 +167,24 @@ data class CCTicketIt(
     val tid: CCTid,
     val transaction_id: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCTicketTypeX(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCOther(
     val color: Any
-)
+):java.io.Serializable
 
 data class CCSiteType(
     val icon: Any,
     val name: String,
     val other: Other,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCActedBy(
     val email: String,
@@ -194,23 +194,23 @@ data class CCActedBy(
     val middle_name: String,
     val phone: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCStatusX(
     val icon: Any,
     val name: Any,
     val other: CCOther,
     val uid: String
-)
+):java.io.Serializable
 
 data class CCTicketType(
     val icon: Any,
     val name: Any,
     val other: CCOther,
     val uid: Any
-)
+):java.io.Serializable
 
 data class CCTid(
     val tid: String,
     val uid: String
-)
+):java.io.Serializable
