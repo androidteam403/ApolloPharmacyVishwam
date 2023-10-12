@@ -42,11 +42,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/value_10dp"
             android:layout_below="@+id/headerTitle"
-            android:fontFamily="@font/poppin_bold"
+            android:fontFamily="@font/poppins_medium"
             android:layout_toRightOf="@+id/backArrow"
             android:text="Location Details"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_18sp"
+            android:textSize="17sp"
             android:visibility="gone" />
 
         <ImageView

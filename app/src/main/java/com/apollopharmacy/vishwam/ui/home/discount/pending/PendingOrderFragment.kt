@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
@@ -68,6 +69,9 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
     }
 
     override fun setup() {
+
+        //apl25054  Jul@1981
+        //apl49391 Jaikumar@123
         viewBinding.pendingViewModel = viewModel
         viewModel.getDiscountColorDetails(this)
         MainActivity.mInstance.mainActivityCallback = this
@@ -78,6 +82,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
             Preferences.setDiscountToDate("")
             Preferences.setDiscountSite("")
             Preferences.setDiscountRegion("")
+            viewModel.getPendingList(false)
             viewModel.getPendingList(false)
         } else {
             Toast.makeText(
@@ -198,13 +203,13 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                 for (item in pendingRecyclerView.pendingOrderList) {
                     item.isItemChecked = false
                 }
-                viewBinding.bulkSelectCheck.setImageResource(R.drawable.icon_item_unchecked)
+                viewBinding.bulkSelectCheck.setImageResource(R.drawable.qc_checkbox)
             } else {
                 isBulkChecked = true
                 for (item in pendingRecyclerView.pendingOrderList) {
                     item.isItemChecked = true
                 }
-                viewBinding.bulkSelectCheck.setImageResource(R.drawable.icon_item_checked)
+                viewBinding.bulkSelectCheck.setImageResource(R.drawable.qcright)
             }
             pendingRecyclerView.notifyDataSetChanged()
             checkSelectedList("")
@@ -215,9 +220,27 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
         sendRequestForAcceptAndReject(orderdetails, TYPE_ACCEPT)
     }
 
+    override fun onClick(orderdetails: java.util.ArrayList<PendingOrder.PENDINGLISTItem>, position: Int,isMarginRequired: Boolean) {
+        val i = Intent(context, DiscountPendingActivity::class.java)
+        i.putExtra("pendingList",orderdetails)
+        i.putExtra("isMarginRequired",isMarginRequired)
+        i.putExtra("position",position)
+
+        startActivityForResult(i, 221)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 210) {
+        if (requestCode == 221) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                    viewModel.getPendingList(false)
+                }
+
+
+        }
+
+         else   if (requestCode == 210) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data!!.getStringExtra("reset").toString().isNullOrEmpty()) {
                     MainActivity.mInstance.filterIndicator.visibility = View.VISIBLE
@@ -613,13 +636,13 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
     override fun onClickSubmenuItem(
         menuName: String?,
         submenus: java.util.ArrayList<MenuModel>?,
-        position: Int
+        position: Int,
     ) {
     }
 }
 
 class PendingRecyclerView(
-    val pendingOrderList: ArrayList<PendingOrder.PENDINGLISTItem>,
+    val pendingOrderList: java.util.ArrayList<PendingOrder.PENDINGLISTItem>,
     private val listener: ClickListener,
     val colorList: ArrayList<GetDiscountColorResponse.TrainingDetail>,
 
@@ -635,13 +658,23 @@ class PendingRecyclerView(
         position: Int,
     ) {
 
-        binding.pendingLayout.setBackgroundColor(Color.parseColor("#FDB813"))
+        binding.pendingLayout.setBackgroundColor(Color.parseColor("#ffeac5"))
+        binding.arrow.setColorFilter(Color.parseColor("#fcb42b"), PorterDuff.Mode.SRC_IN)
+
+//        binding.pendingLayout.setBackgroundColor(Color.parseColor("#FDB813"))
         for (i in colorList.indices) {
             for (j in items.ITEMS.indices) {
                 if (colorList.get(i).length!!.toInt() <= items.ITEMS[j].APPROVED_DISC!!.toInt() && colorList[i].type!!.toUpperCase()
                         .equals("VISDISC")
                 ) {
-                    binding.pendingLayout.setBackgroundColor(Color.parseColor(colorList.get(i).name))
+                    binding.pendingLayout.setBackgroundColor(Color.parseColor("#fee8e8"))
+                    binding.arrow.setColorFilter(
+                        Color.parseColor("#f70505"),
+                        PorterDuff.Mode.SRC_IN
+                    )
+
+
+//                    binding.pendingLayout.setBackgroundColor(Color.parseColor(colorList.get(i).name))
                 }
             }
         }
@@ -681,9 +714,9 @@ class PendingRecyclerView(
         }
 
         if (items.isItemChecked) {
-            binding.checkBox.setImageResource(R.drawable.icon_item_checked)
+            binding.checkBox.setImageResource(R.drawable.qcright)
         } else {
-            binding.checkBox.setImageResource(R.drawable.icon_item_unchecked)
+            binding.checkBox.setImageResource(R.drawable.qc_checkbox)
         }
 
         val isMarginRequired: Boolean
@@ -695,7 +728,6 @@ class PendingRecyclerView(
             OrderAdapter(items = pendingOrderList[position].ITEMS,
                 items,
                 isMarginRequired,
-                binding,
                 object : OrderAdapter.SubItemClick {
                     override fun clickedSubItem(
                         position: Int,
@@ -821,36 +853,44 @@ class PendingRecyclerView(
 //        }
         binding.statusRecycleView.adapter = StatusAdapter(pendingOrderList[position].STATUSLIST)
 
-        binding.extraData.visibility =
-            if (orderItemsId.contains(items.INDENTNO)) View.VISIBLE else View.GONE
+//        binding.extraData.visibility = if (orderItemsId.contains(items.INDENTNO)) View.VISIBLE else View.GONE
+//         if (orderItemsId.contains(items.INDENTNO)) {
+//             listener.onClick(pendingOrderList, position,isMarginRequired)
+//
+//
+//         }
 
         if (userDesignation.isEmpty()) {
             binding.pendingLayout.setOnClickListener {
                 if (orderItemsId.contains(items.INDENTNO)) {
-                    binding.extraData.visibility = View.GONE
+//                    binding.extraData.visibility = View.GONE
                     orderItemsId.remove(items.INDENTNO)
-                    binding.arrowClose.visibility = View.GONE
-                    binding.arrow.visibility = View.VISIBLE
+//                    binding.arrowClose.visibility = View.GONE
+//                    binding.arrow.visibility = View.VISIBLE
                 } else {
-                    binding.extraData.visibility = View.VISIBLE
+//                    binding.extraData.visibility = View.VISIBLE
                     orderItemsId.add(items.INDENTNO)
-                    binding.arrowClose.visibility = View.VISIBLE
-                    binding.arrow.visibility = View.GONE
+                    listener.onClick(pendingOrderList, position,isMarginRequired)
+
+//                    binding.arrowClose.visibility = View.VISIBLE
+//                    binding.arrow.visibility = View.GONE
                 }
             }
         } else {
             if (userDesignation.equals("CEO") || userDesignation.equals("GENERAL MANAGER")) {
                 binding.itemHeaderLayout.setOnClickListener {
                     if (orderItemsId.contains(items.INDENTNO)) {
-                        binding.extraData.visibility = View.GONE
+//                        binding.extraData.visibility = View.GONE
                         orderItemsId.remove(items.INDENTNO)
-                        binding.arrowClose.visibility = View.GONE
-                        binding.arrow.visibility = View.VISIBLE
+//                        binding.arrowClose.visibility = View.GONE
+//                        binding.arrow.visibility = View.VISIBLE
                     } else {
-                        binding.extraData.visibility = View.VISIBLE
+                        listener.onClick(pendingOrderList, position,isMarginRequired)
+
+//                        binding.extraData.visibility = View.VISIBLE
                         orderItemsId.add(items.INDENTNO)
-                        binding.arrowClose.visibility = View.VISIBLE
-                        binding.arrow.visibility = View.GONE
+//                        binding.arrowClose.visibility = View.VISIBLE
+//                        binding.arrow.visibility = View.GONE
                     }
                 }
                 binding.checkBoxLayout.setOnClickListener {
@@ -858,16 +898,20 @@ class PendingRecyclerView(
                 }
             } else {
                 binding.pendingLayout.setOnClickListener {
+//
+
                     if (orderItemsId.contains(items.INDENTNO)) {
-                        binding.extraData.visibility = View.GONE
+//                        binding.extraData.visibility = View.GONE
                         orderItemsId.remove(items.INDENTNO)
-                        binding.arrowClose.visibility = View.GONE
-                        binding.arrow.visibility = View.VISIBLE
+//                        binding.arrowClose.visibility = View.GONE
+//                        binding.arrow.visibility = View.VISIBLE
                     } else {
-                        binding.extraData.visibility = View.VISIBLE
+                        listener.onClick(pendingOrderList, position,isMarginRequired)
+
+//                        binding.extraData.visibility = View.VISIBLE
                         orderItemsId.add(items.INDENTNO)
-                        binding.arrowClose.visibility = View.VISIBLE
-                        binding.arrow.visibility = View.GONE
+//                        binding.arrowClose.visibility = View.VISIBLE
+//                        binding.arrow.visibility = View.GONE
                     }
                 }
             }
@@ -1258,6 +1302,9 @@ class PendingRecyclerView(
 
     interface ClickListener {
         fun orderAccepted(orderdetails: PendingOrder.PENDINGLISTItem, position: Int)
+
+        fun onClick(orderdetails: java.util.ArrayList<PendingOrder.PENDINGLISTItem>, position: Int,isMarginRequired: Boolean)
+
         fun orderReject(orderdetails: PendingOrder.PENDINGLISTItem)
         fun openDialogBoxTOEditDiscount(position: Int, pendingOrder: PendingOrder.ITEMSItem)
         fun showMessageToast(message: String)
@@ -1314,7 +1361,6 @@ class OrderAdapter(
     val items: List<PendingOrder.ITEMSItem>,
     var pendingOrderMain: PendingOrder.PENDINGLISTItem,
     val isMarginRequired: Boolean,
-    val itemBinding: PendingOrderAdapterBinding,
     val listener: SubItemClick,
 ) :
     RecyclerView.Adapter<OrderAdapter.ViewHolder>() {

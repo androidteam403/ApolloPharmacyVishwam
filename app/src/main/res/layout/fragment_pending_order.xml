@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/empty_list" />
+                    android:src="@drawable/qca" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -115,13 +115,13 @@
 
                 <ImageView
                     android:id="@+id/bulkSelectCheck"
-                    android:layout_width="@dimen/value_30dp"
-                    android:layout_height="@dimen/value_30dp"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_10dp"
                     android:contentDescription="@string/app_name"
                     android:padding="@dimen/value_3dp"
-                    android:src="@drawable/icon_item_unchecked" />
+                    android:src="@drawable/qc_checkbox" />
 
                 <TextView
                     android:layout_width="wrap_content"

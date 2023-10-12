@@ -26,8 +26,7 @@
                 android:textColor="#135A6E"
 
                 android:textSize="@dimen/text_12sp"
-                android:textStyle="bold"
-                app:fontFamily="@font/roboto_medium" />
+                app:fontFamily="@font/poppins_semi_bold" />
 
             <TextView
                 android:id="@+id/category_name"
@@ -43,8 +42,8 @@
 
                 android:text="Pharma"
                 android:textSize="@dimen/text_12sp"
-                android:textStyle="bold"
-                app:fontFamily="@font/roboto_medium" />
+                app:fontFamily="@font/poppins_semi_bold" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,8 +69,8 @@
                         android:text="Req Qty."
                         android:textSize="@dimen/text_12sp"
 
-                        android:textStyle="bold"
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
+
 
                     <TextView
                         android:id="@+id/quantityText"
@@ -83,8 +82,8 @@
                         android:textColor="@color/black"
 
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold"
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
+
 
                 </RelativeLayout>
 
@@ -101,8 +100,7 @@
                         android:text="Approve Qty."
                         android:textSize="@dimen/text_12sp"
 
-                        android:textStyle="bold"
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/approve_qty_text"
@@ -115,8 +113,8 @@
                         android:textColor="@color/black"
 
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold"
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
+
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -133,8 +131,8 @@
                         android:text="Price "
                         android:textSize="@dimen/text_12sp"
 
-                        android:textStyle="bold"
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
+
 
                     <TextView
                         android:id="@+id/price"
@@ -148,9 +146,7 @@
                         android:text="100"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold"
-
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
 
                 </RelativeLayout>
 
@@ -167,8 +163,8 @@
                         android:layout_centerHorizontal="true"
                         android:text="Images "
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold"
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
+
 
                     <ImageView
                         android:layout_width="@dimen/value_25dp"

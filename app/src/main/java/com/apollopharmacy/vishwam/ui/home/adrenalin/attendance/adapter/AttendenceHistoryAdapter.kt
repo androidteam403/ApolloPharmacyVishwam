@@ -44,36 +44,15 @@ class AttendenceHistoryAdapter(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = attendenceHistoryList.get(position)
-        holder.viewHistoryItemBinding.signInTime.text= Utils.getHistoryCustomDateNew(item.signInDate)+"\n"+Utils.getHistoryTimeFormat(item.signInDate)
-//        holder.viewHistoryItemBinding.sno.text=(position+1).toString()
+        holder.viewHistoryItemBinding.signInTime.text= Utils.getHistoryCustomDateNew(item.signInDate)+" - "+Utils.getHistoryTimeFormat(item.signInDate)
+        holder.viewHistoryItemBinding.sno.text=(position+1).toString()
         if (item.signOutDate.isNullOrEmpty()) {
             holder.viewHistoryItemBinding.signOutTime.text= "-"
         } else {
-            holder.viewHistoryItemBinding.signOutTime.text= Utils.getHistoryCustomDateNew(item.signOutDate)+"\n"+Utils.getHistoryTimeFormat(item.signOutDate)
+            holder.viewHistoryItemBinding.signOutTime.text= Utils.getHistoryCustomDateNew(item.signOutDate)+" - "+Utils.getHistoryTimeFormat(item.signOutDate)
         }
 
-        holder.viewHistoryItemBinding.viewExpand.setOnClickListener {
-            imageClickListener.onItemClick(position,attendenceHistoryList)
 
-        }
-        holder.viewHistoryItemBinding.viewCollapse.setOnClickListener {
-            imageClickListener.onItemClick(position,attendenceHistoryList)
-
-        }
-
-        if (attendenceHistoryList.get(position).isExpanded) {
-
-            holder.viewHistoryItemBinding.viewExpand.visibility = View.GONE
-            holder.viewHistoryItemBinding.viewCollapse.visibility = View.VISIBLE
-            holder.viewHistoryItemBinding.taskCompletedLayout.visibility=View.VISIBLE
-
-
-        } else {
-            holder.viewHistoryItemBinding.viewExpand.visibility = View.VISIBLE
-            holder.viewHistoryItemBinding.viewCollapse.visibility = View.GONE
-            holder.viewHistoryItemBinding.taskCompletedLayout.visibility=View.GONE
-
-        }
 
         if (item.duration.isNullOrEmpty()) {
             holder.viewHistoryItemBinding.durationTexthrs.text = "  -"

@@ -14,19 +14,21 @@
                 android:id="@+id/medicineNameOrg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="5dp"
+                android:text="Paracetamol"
+                android:layout_marginRight="24dp"
                 android:lines="1"
                 android:textColor="@color/backgroundColor"
-                android:textSize="@dimen/text_15sp"
-                app:fontFamily="@font/droidsans" />
+                android:textSize="12sp"
+                app:fontFamily="@font/poppins_semi_bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/medicineNameOrg"
-                android:layout_marginLeft="10dp"
                 android:orientation="horizontal"
                 android:weightSum="4">
 
@@ -37,24 +39,25 @@
 
                     <TextView
                         android:id="@+id/medicineNameHeader"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="Item Name"
+                        android:text="Category"
+                        android:textAlignment="center"
                         android:textColor="@color/fadedTextColor"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/medicineName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/medicineNameHeader"
-                        android:layout_centerHorizontal="true"
                         android:lines="2"
+                        android:textAlignment="center"
+                        android:text="Pharma"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                 </RelativeLayout>
 
@@ -65,24 +68,25 @@
 
                     <TextView
                         android:id="@+id/quantityHeader"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="Qty."
+                        android:textAlignment="center"
                         android:textColor="@color/fadedTextColor"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/quantityText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/quantityHeader"
                         android:layout_centerHorizontal="true"
                         android:text="100"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                 </RelativeLayout>
 
@@ -93,13 +97,14 @@
 
                     <TextView
                         android:id="@+id/priceHeader"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="Price"
+                        android:textAlignment="center"
                         android:textColor="@color/fadedTextColor"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
+
 
                     <TextView
                         android:id="@+id/priceText"
@@ -111,7 +116,7 @@
                         android:text="100"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -121,27 +126,28 @@
 
                     <TextView
                         android:id="@+id/bulkDiscText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:text="Bulk Disc.%"
+                        android:textAlignment="center"
                         android:textColor="@color/fadedTextColor"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
-
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/bulkDisc"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/bulkDiscText"
                         android:layout_centerHorizontal="true"
-                        android:gravity="center"
-                        android:inputType="number"
                         android:text="0"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
+
+
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -151,29 +157,31 @@
                     android:layout_weight="0.7"
                     android:visibility="gone">
 
+
                     <TextView
                         android:id="@+id/marginDiscHeader"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="Margin"
+                        android:textAlignment="center"
                         android:textColor="@color/fadedTextColor"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
+
+
 
 
                     <TextView
                         android:id="@+id/marginDiscText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/marginDiscHeader"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"
                         android:inputType="number"
                         android:text="10%"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
 
                 </RelativeLayout>

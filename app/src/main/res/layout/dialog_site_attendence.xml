@@ -75,7 +75,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingStart="5sp"
-                    android:fontFamily="@font/poppin_bold"
+                    android:fontFamily="@font/poppins_medium"
 
                     android:textSize="13sp" />
 

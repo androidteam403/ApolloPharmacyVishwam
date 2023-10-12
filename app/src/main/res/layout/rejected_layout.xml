@@ -20,7 +20,7 @@
                 android:id="@+id/pendingLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/rejected"
+                android:background="#ffe9e9"
                 android:orientation="horizontal"
                 android:weightSum="4">
 
@@ -28,91 +28,94 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.1"
-                    android:paddingTop="@dimen/value_10dp">
+                    android:paddingTop="5dp">
 
                     <TextView
                         android:id="@+id/storeId"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="Store Id"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/storeText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/storeId"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:layout_marginBottom="@dimen/value_10dp"
+                        android:textAlignment="center"
+
+                        android:layout_marginBottom="5dp"
                         android:text="50001400"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_14sp"
-                        app:fontFamily="@font/droidsans" />
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:fontFamily="@font/poppins_medium" />
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.1"
-                    android:paddingTop="@dimen/value_10dp">
-
-                    <TextView
-                        android:id="@+id/postedDateText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="Req. Date"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
-
-                    <TextView
-                        android:id="@+id/postedDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/postedDateText"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:layout_marginBottom="@dimen/value_10dp"
-                        android:text="25-sep-2020"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_14sp"
-                        app:fontFamily="@font/droidsans" />
-                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingTop="@dimen/value_10dp">
+                    android:paddingTop="5dp">
 
                     <TextView
                         android:id="@+id/orderid"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
+                        android:textAlignment="center"
                         android:text="Order Id"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        android:textSize="@dimen/text_12sp"
+                        android:textColor="@color/black"
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/order_id_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/orderid"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:layout_marginBottom="@dimen/value_10dp"
+                        android:textAlignment="center"
+
+                        android:layout_marginBottom="5dp"
                         android:text="56474"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_14sp"
-                        app:fontFamily="@font/droidsans" />
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/poppins_medium" />
                 </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.1"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:id="@+id/postedDateText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="Req. Date"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_12sp"
+                        app:fontFamily="@font/poppins_medium" />
+
+                    <TextView
+                        android:id="@+id/postedDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/postedDateText"
+                        android:textAlignment="center"
+
+                        android:layout_marginBottom="5dp"
+                        android:text="25-sep-2020"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:fontFamily="@font/poppins_medium" />
+                </RelativeLayout>
+
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -129,7 +132,7 @@
                         android:text="Location"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/location"
@@ -142,7 +145,7 @@
                         android:text="hyderbad"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_14sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -166,7 +169,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_baseline_add_24"
+                        android:src="@drawable/baseline_add_circle_outline_qc"
+                        android:tint="@color/red"
                         android:visibility="visible" />
                 </RelativeLayout>
             </LinearLayout>

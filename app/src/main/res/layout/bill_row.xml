@@ -21,85 +21,83 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="4.5"
-                android:background="@color/bill_colour"
+                android:background="#d3e9da"
                 android:orientation="horizontal">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/storeId"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
+                        android:textAlignment="center"
                         android:text="Store Id"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/storeText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/storeId"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="5dp"
                         android:text="50001400"
-                        android:textColor="@color/white"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_14sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/postedDateText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
+                        android:textAlignment="center"
                         android:text="Approv. Date"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/postedDate"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/postedDateText"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:textAlignment="center"
                         android:text="25-sep-2020"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_14sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
                     android:layout_weight="1">
 
 
                     <TextView
                         android:id="@+id/bulkDiscText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
                         android:text="Approv. Value"
-                        android:textColor="@color/white"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/approvedValueText"
@@ -107,14 +105,13 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/bulkDiscText"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="5dp"
                         android:text="30.29"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_14sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
                 </RelativeLayout>
-
+c
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -135,8 +132,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/ic_baseline_add_24"
-                        android:visibility="visible" />
+                        android:src="@drawable/baseline_add_circle_outline_qc"
+                        android:tint="#69BD77"/>                        android:visibility="visible" />
 
                 </RelativeLayout>
 

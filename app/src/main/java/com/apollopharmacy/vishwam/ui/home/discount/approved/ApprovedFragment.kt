@@ -1,7 +1,10 @@
 package com.apollopharmacy.vishwam.ui.home.discount.approved
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -25,6 +28,8 @@ import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.CustomFilterDialog
 import com.apollopharmacy.vishwam.dialog.DiscountCalendarDialog
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
+import com.apollopharmacy.vishwam.ui.home.discount.pending.DiscountPendingActivity
+import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingRecyclerView
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.CalculateDiscountAndTotalQuantity
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -54,8 +59,8 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
     override fun setup() {
         viewBinding.viewModel = viewModel
         viewModel.getDiscountColorDetails(this)
-        viewBinding.fromDateText.setText(Utils.getCurrentDate())
-        viewBinding.toDateText.setText(Utils.getCurrentDate())
+        viewBinding.fromDate.setText(Utils.getCurrentDate())
+        viewBinding.toDate.setText(Utils.getCurrentDate())
         userData = LoginRepo.getProfile()!!
 
         handleApprovedList()
@@ -68,7 +73,7 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
                 tempRecyclerViewApproved.clear()
                 Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
             } else {
-                recyclerViewApproved = ApproveRecyclerView(it, colorResponseList)
+                recyclerViewApproved = ApproveRecyclerView(it, colorResponseList,this)
                 tempRecyclerViewApproved.addAll(recyclerViewApproved.orderData)
                 viewBinding.recyclerViewApproved.adapter = recyclerViewApproved
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
@@ -117,14 +122,14 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (viewBinding.filterByList.text.toString().isEmpty()) {
+                if (viewBinding.selectSearchList.text.toString().isEmpty()) {
                     showCustomToast("Please select any Search Type")
                 } else {
                     if (tempRecyclerViewApproved.size > 0) {
                         if (p0.toString().length > 3) {
                             filterApprovedData(
                                 recyclerViewApproved.orderData,
-                                viewBinding.filterByList.text.toString(),
+                                viewBinding.selectSearchList.text.toString(),
                                 p0.toString()
                             )
                         } else {
@@ -157,13 +162,13 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
     fun openDateDialog() {
         if (isFromDateSelected) {
             DiscountCalendarDialog().apply {
-                arguments = generateParsedData(viewBinding.fromDateText.text.toString(), "")
+                arguments = generateParsedData(viewBinding.fromDate.text.toString(), "")
             }.show(childFragmentManager, "")
         } else {
             DiscountCalendarDialog().apply {
                 arguments = generateParsedData(
-                    viewBinding.toDateText.text.toString(),
-                    viewBinding.fromDateText.text.toString()
+                    viewBinding.toDate.text.toString(),
+                    viewBinding.fromDate.text.toString()
                 )
             }.show(childFragmentManager, "")
         }
@@ -172,38 +177,36 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
         if (isFromDateSelected) {
             isFromDateSelected = false
-            viewBinding.fromDateText.setText(showingDate)
+            viewBinding.fromDate.setText(showingDate)
             var finalDate = ""
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 val datePattern = android.icu.text.SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
                 val dateDifference =
                     Utils.getDateDiff(
                         datePattern,
-                        viewBinding.fromDateText.text.toString(),
+                        viewBinding.fromDate.text.toString(),
                         Utils.getCurrentDate()
                     )
                         .toInt()
                 if (dateDifference <= 14) {
                     //Nothing to do
-                    finalDate =
-                        Utils.getCurrentDate()
-                    viewBinding.toDateText.setText(finalDate)
+                    finalDate = Utils.getCurrentDate()
+                    viewBinding.toDate.setText(finalDate)
                 } else {
-                    finalDate =
-                        Utils.getCustomHalfMonthDate(viewBinding.fromDateText.text.toString())
-                    viewBinding.toDateText.setText(finalDate)
+                    finalDate = Utils.getCustomHalfMonthDate(viewBinding.fromDate.text.toString())
+                    viewBinding.toDate.setText(finalDate)
                 }
             }
         } else {
-            viewBinding.toDateText.setText(showingDate)
+            viewBinding.toDate.setText(showingDate)
         }
     }
 
     override fun selectedItem(selectedItemVal: FilterData) {
-        if (viewBinding.filterByList.text.toString().isNotEmpty()) {
+        if (viewBinding.selectSearchList.text.toString().isNotEmpty()) {
             viewBinding.filterInputText.setText("")
         }
-        viewBinding.filterByList.setText(selectedItemVal.MenuTitle)
+        viewBinding.selectSearchList.setText(selectedItemVal.MenuTitle)
     }
 
     fun filterApprovedData(
@@ -300,15 +303,15 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
     @SuppressLint("NewApi")
     private fun handleApprovedList() {
         if (NetworkUtil.isNetworkConnected(requireContext())) {
-            val fromDate = viewBinding.fromDateText.text.toString()
-            val toDate = viewBinding.toDateText.text.toString()
+            val fromDate = viewBinding.fromDate.text.toString()
+            val toDate = viewBinding.toDate.text.toString()
             if (Utils.getDateDifference(fromDate, toDate) > 0) {
                 showLoading()
                 viewModel.getFilterApprovedList(
                     FilterDiscountRequest(
                         userData.EMPID,
-                        Utils.getFilterDate(viewBinding.fromDateText.text.toString()),
-                        Utils.getFilterDate(viewBinding.toDateText.text.toString()),
+                        Utils.getFilterDate(viewBinding.fromDate.text.toString()),
+                        Utils.getFilterDate(viewBinding.toDate.text.toString()),
                         "APPROVED"
                     )
                 )
@@ -328,14 +331,35 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
                 .show()
         }
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 210) {
+            if (resultCode == Activity.RESULT_OK) {
+
+            }
+
+
+        }
+    }
 
     override fun onSuccessgetColorList(value: GetDiscountColorResponse) {
         colorResponseList =
             value.trainingDetails as ArrayList<GetDiscountColorResponse.TrainingDetail>
     }
-}
 
-class ApproveRecyclerView(val orderData: ArrayList<ApprovalOrderRequest.APPROVEDLISTItem>, val colorList: ArrayList<GetDiscountColorResponse.TrainingDetail>) :
+    override fun onClick(orderdetails: ArrayList<ApprovalOrderRequest.APPROVEDLISTItem>, position: Int,isMarginRequired: Boolean) {
+        val i = Intent(context, DiscountApprovedActivity::class.java)
+        i.putExtra("approveList",orderdetails)
+        i.putExtra("isMarginRequired",isMarginRequired)
+        i.putExtra("position",position)
+
+        startActivityForResult(i, 210)
+    }
+
+
+}
+class ApproveRecyclerView(val orderData: ArrayList<ApprovalOrderRequest.APPROVEDLISTItem>, val colorList: ArrayList<GetDiscountColorResponse.TrainingDetail>, private val listener: ApprovedFragmentCallback,
+) :
     SimpleRecyclerView<ApprovedOrderBinding, ApprovalOrderRequest.APPROVEDLISTItem>(
         orderData,
         R.layout.approved_order
@@ -347,13 +371,18 @@ class ApproveRecyclerView(val orderData: ArrayList<ApprovalOrderRequest.APPROVED
         items: ApprovalOrderRequest.APPROVEDLISTItem,
         position: Int,
     ) {
-        binding.pendingLayout.setBackgroundColor(Color.parseColor("#69BD77"))
+        binding.pendingLayout.setBackgroundColor(Color.parseColor("#d3e9da"))
         for (i in colorList.indices) {
             for (j in items.ITEMS.indices) {
                 if (colorList.get(i).length!!.toInt() <= items.ITEMS[j].APPROVED_DISC!! && colorList[i].type!!.toUpperCase()
                         .equals("VISDISC")
                 ) {
-                    binding.pendingLayout.setBackgroundColor(Color.parseColor(colorList.get(i).name))
+                    binding.pendingLayout.setBackgroundColor(Color.parseColor("#fee8e8"))
+                    binding.arrow.setColorFilter(
+                        Color.parseColor("#f70505"),
+                        PorterDuff.Mode.SRC_IN
+                    )
+//                    binding.pendingLayout.setBackgroundColor(Color.parseColor(colorList.get(i).name))
                 }
             }
         }
@@ -387,25 +416,30 @@ class ApproveRecyclerView(val orderData: ArrayList<ApprovalOrderRequest.APPROVED
             CalculateDiscountAndTotalQuantity.CalculateNetPaymentForApproval(orderData[position].ITEMS)
         )
 
-        binding.orderHead.setOnClickListener {
-            if (orderItemsId.contains(items.INDENTNO)) {
-                binding.extraData.visibility = View.GONE
-                orderItemsId.remove(items.INDENTNO)
-                binding.arrowClose.visibility = View.GONE
-                binding.arrow.visibility = View.VISIBLE
-            } else {
-                binding.extraData.visibility = View.VISIBLE
-                orderItemsId.add(items.INDENTNO)
-                binding.arrowClose.visibility = View.VISIBLE
-                binding.arrow.visibility = View.GONE
-            }
-        }
         var isMarginRequired = false;
         if (orderData[position].ISMARGIN == 1) {
             isMarginRequired = true
         } else {
             isMarginRequired = false
         }
+
+        binding.orderHead.setOnClickListener {
+            listener.onClick(orderData,position,isMarginRequired)
+
+
+//            if (orderItemsId.contains(items.INDENTNO)) {
+//                binding.extraData.visibility = View.GONE
+//                orderItemsId.remove(items.INDENTNO)
+//                binding.arrowClose.visibility = View.GONE
+//                binding.arrow.visibility = View.VISIBLE
+//            } else {
+//                binding.extraData.visibility = View.VISIBLE
+//                orderItemsId.add(items.INDENTNO)
+//                binding.arrowClose.visibility = View.VISIBLE
+//                binding.arrow.visibility = View.GONE
+//            }
+        }
+
         binding.recyclerView.adapter =
             OrderAdapter(items = orderData[position].ITEMS, isMarginRequired)
 

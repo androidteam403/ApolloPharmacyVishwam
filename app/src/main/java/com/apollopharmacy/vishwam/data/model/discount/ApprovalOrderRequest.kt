@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.data.model.discount
 
+import android.os.Parcelable
+import kotlinx.serialization.Serializable
+
 data class ApprovalOrderRequest(
     val MESSAGE: String? = null,
     val STATUS: Boolean,
@@ -13,7 +16,7 @@ data class ApprovalOrderRequest(
         val CREATEDDATE: String,
         val REMARKS: String? = null,
         val EMPNAME: String? = null,
-    )
+    ):java.io.Serializable
 
     data class ITEMSItem(
         val APPROVED_DISC: Double,
@@ -24,7 +27,7 @@ data class ApprovalOrderRequest(
         val REQUEST_DISC: Double,
         val MARGIN: Double,
         val ITEMNAME: String? = null,
-    )
+    ):java.io.Serializable
 
     data class APPROVEDLISTItem(
         val TRACKINGREFNAME: String? = null,
@@ -45,7 +48,7 @@ data class ApprovalOrderRequest(
         val DCNAME: String?,
         val STATUSLIST: ArrayList<PendingOrder.STATUSItem>,
         val TELNO: String? = null,
-    )
+    ):java.io.Serializable
 
     data class PENDINGLISTItem(
         val tRACKINGREFNAME: String? = null,
