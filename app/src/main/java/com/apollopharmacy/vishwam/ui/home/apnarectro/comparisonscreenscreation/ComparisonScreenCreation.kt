@@ -22,35 +22,44 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager.widget.ViewPager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityComparisonScreenBinding
+import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewlmageRetro.adapter.ComparisionPreviewImage
+import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewlmageRetro.adapter.RetroPreviewImage
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
 import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.bumptech.glide.Glide
 import me.echodev.resizer.Resizer
 import okhttp3.internal.notify
 import java.io.File
+import java.util.ArrayList
 
 
-class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCallBack {
+class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCallBack,
+    ViewPager.OnPageChangeListener {
     var stage: String = ""
     var retroid: String = ""
     var categoryName: String = ""
     var categoryid: String = ""
-    var storeIdFromRemarks: String = ""
+    var storeId: String = ""
     var checkBoxClickedCount: Int = 0
     private var uploadStage: String = ""
     private var fileNameForCompressedImage: String? = null
     var imageFromCameraFile: File? = null
     var imageClickedPos: Int? = null
     private lateinit var cameraDialog: Dialog
+    var categoryGroupResponse: GetImageUrlsModelApnaResponse.Category? = null
     var imageUploaded = false
+    private var previewImageAdapter: ComparisionPreviewImage? = null
+    private var mainImageUrlList =
+        ArrayList<GetImageUrlsModelApnaResponse.Category>()
     var status: String = ""
     private var posImageUrlList =
-        java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>()
+        ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>()
     var pos: Int = 0
 
     lateinit var activityPostRectroReviewScreenBinding: ActivityComparisonScreenBinding
@@ -106,34 +115,54 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         if (intent != null) {
             stage = intent.getStringExtra("stage")!!
             status = intent.getStringExtra("status")!!
-
+            storeId = intent.getStringExtra("store")!!
             retroid = intent.getStringExtra("retroid")!!
+            mainImageUrlList =
+                intent.getSerializableExtra("mainList") as ArrayList<GetImageUrlsModelApnaResponse.Category>
             posImageUrlList =
                 intent.getSerializableExtra("posImageUrlList") as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
             categoryName = intent.getStringExtra("categoryName")!!
             categoryid = intent.getStringExtra("categoryid")!!
+            categoryGroupResponse =
+                intent.getSerializableExtra("categoryResponse") as GetImageUrlsModelApnaResponse.Category?
             uploadStage = intent.getStringExtra("uploadStage")!!
             imageClickedPos = intent.getIntExtra("imageClickedPos", 0)!!
+            activityPostRectroReviewScreenBinding.storeId.setText(
+                storeId.split("-").get(0) + "-" + storeId.split("-").get(1)
+            )
         }
 
 
         activityPostRectroReviewScreenBinding.imageStatus.setText(status)
 
 
-        if (status.contains("Approved")){
+        if (status.contains("Approved")) {
             activityPostRectroReviewScreenBinding.imageStatus.setTextColor(context.getColor(R.color.greenn))
 
-        }else  if (status.contains("Pending")){
+        } else if (status.contains("Pending")) {
             activityPostRectroReviewScreenBinding.imageStatus.setTextColor(context.getColor(R.color.pending_color_for_apna))
 
-        }else
-        {
+        } else {
             activityPostRectroReviewScreenBinding.imageStatus.setTextColor(context.getColor(R.color.color_red))
 
         }
+        previewImageAdapter =
+            ComparisionPreviewImage(
+                this,
+                posImageUrlList,
+                this,
+                uploadStage,
+                stage,
+                status,
+                imageUploaded
+            )
 
 
 
+
+        activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(this)
+        activityPostRectroReviewScreenBinding.previewImageViewpager.adapter = previewImageAdapter
+        activityPostRectroReviewScreenBinding.previewImageViewpager.setCurrentItem(0, true)
 
 
 
@@ -144,8 +173,9 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
         if (stage == "isPreRetroStage") {
             activityPostRectroReviewScreenBinding.reviewName.setText("Pre Retro Review")
-            if (posImageUrlList.size == 1&& posImageUrlList.get(0).status!!.equals("2")) {
-                activityPostRectroReviewScreenBinding.reshootCameraPreRetro.visibility=View.VISIBLE
+            if (posImageUrlList.size == 1 && posImageUrlList.get(0).status!!.equals("2")) {
+                activityPostRectroReviewScreenBinding.reshootCameraPreRetro.visibility =
+                    View.VISIBLE
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
@@ -160,9 +190,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 lp.weight = .2f
                 activityPostRectroReviewScreenBinding.firstImageLayout.layoutParams = lp
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.GONE
-            }
-
-        else  if (posImageUrlList.size == 1) {
+            } else if (posImageUrlList.size == 1) {
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
@@ -177,9 +205,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 lp.weight = .2f
                 activityPostRectroReviewScreenBinding.firstImageLayout.layoutParams = lp
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.GONE
-            }
-
-            else if (posImageUrlList.size == 2) {
+            } else if (posImageUrlList.size == 2) {
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
@@ -198,8 +224,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
             }
 
-        }
-        else if (stage.equals("isPostRetroStage")) {
+        } else if (stage.equals("isPostRetroStage")) {
             activityPostRectroReviewScreenBinding.reviewName.setText("Post Retro Review")
 
             if (posImageUrlList.size == 1 && uploadStage.equals("newUploadStage")) {
@@ -214,11 +239,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
                     "Upload Post Retro"
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
-            }
-
-
-
-            else if (posImageUrlList.size == 2 && posImageUrlList.get(1).status.equals("2")) {
+            } else if (posImageUrlList.size == 2 && posImageUrlList.get(1).status.equals("2")) {
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
@@ -229,8 +250,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
                     "Post Retro Image"
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
-            }
-            else if (posImageUrlList.size == 2) {
+            } else if (posImageUrlList.size == 2) {
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
@@ -238,8 +258,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled = false
                 activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled = false
                 checkBoxClickedCount = 2
-            }
-            else if (posImageUrlList.size == 3) {
+            } else if (posImageUrlList.size == 3) {
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = false
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
@@ -249,13 +268,12 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                         R.color.blue
                     )
                 )
-                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=false
+                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = false
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled = true
                 activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled = true
 
             }
-        }
-        else {
+        } else {
             activityPostRectroReviewScreenBinding.reviewName.text = "After Completion Review"
             if (posImageUrlList.size == 2 && uploadStage == "newUploadStage") {
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(
@@ -271,11 +289,11 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
                     "Upload After Completion Retro"
-            }
-               else if (posImageUrlList.size == 3 && posImageUrlList.get(2).status.equals("2")) {
+            } else if (posImageUrlList.size == 3 && posImageUrlList.get(2).status.equals("2")) {
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.VISIBLE
-                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
+                    View.VISIBLE
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility = View.GONE
@@ -283,11 +301,11 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
                     "After Completion Image"
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
-                    activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(
-                        resources.getColor(R.color.grey)
-                    )
-                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = false
-                    activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(
+                    resources.getColor(R.color.grey)
+                )
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = false
+                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = true
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.setBackgroundColor(
                     resources.getColor(R.color.blue)
                 )
@@ -314,19 +332,17 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 //                    activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
 //                    activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
 //                        "After Completion Image"
-                }
-                else if (posImageUrlList.size == 3) {
-                    activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
-                    activityPostRectroReviewScreenBinding.reviewName.setText("After Completion Review")
-                    activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
-                    activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(
-                        resources.getColor(R.color.blue)
-                    )
-                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
-                    activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = false
-                    checkBoxClickedCount = 2
-                }
-
+            } else if (posImageUrlList.size == 3) {
+                activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.reviewName.setText("After Completion Review")
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(
+                    resources.getColor(R.color.blue)
+                )
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = false
+                checkBoxClickedCount = 2
+            }
 
 
         }
@@ -964,7 +980,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 .setOutputFormat("JPG")
 //                .setOutputFilename(fileNameForCompressedImage)
                 .setOutputDirPath(
-                    ViswamApp.Companion.context.cacheDir.toString()
+                    ViswamApp.context.cacheDir.toString()
                 )
 
                 .setSourceImage(imageFromCameraFile)
@@ -976,7 +992,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
             )
 //            Toast.makeText(context, "Image uploaded successfully", Toast.LENGTH_LONG).show()
             imageUploaded = true
-            activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.VISIBLE
+            activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
 
             var imageUrl = GetImageUrlsModelApnaResponse.Category.ImageUrl()
             if (uploadStage.equals("reshootStage")) {
@@ -1016,6 +1032,30 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 posImageUrlList!!.add(imageUrl)
                 synchronized(posImageUrlList) {
                     posImageUrlList.notify()
+                    previewImageAdapter =
+                        ComparisionPreviewImage(
+                            this,
+                            posImageUrlList,
+                            this,
+                            uploadStage,
+                            stage,
+                            status,
+                            imageUploaded
+                        )
+
+
+
+
+                    activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(
+                        this
+                    )
+                    activityPostRectroReviewScreenBinding.previewImageViewpager.adapter =
+                        previewImageAdapter
+                    activityPostRectroReviewScreenBinding.previewImageViewpager.setCurrentItem(
+                        0,
+                        true
+                    )
+
                 }
             }
 
@@ -1049,9 +1089,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
                     }
                 }
-            }
-
-            else if (stage.equals("isPostRetroStage")) {
+            } else if (stage.equals("isPostRetroStage")) {
                 for (i in posImageUrlList.indices) {
                     if (posImageUrlList.get(i).stage.equals("2")) {
                         activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility =
@@ -1128,4 +1166,147 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
 
     }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+    }
+
+    override fun onPageSelected(position: Int) {
+    }
+
+    override fun onPageScrollStateChanged(state: Int) {
+
+        if (categoryid.equals("1") && imageClickedPos == 0) {
+
+            if (mainImageUrlList.isNotEmpty() && mainImageUrlList[0]?.groupingImageUrlList?.size ?: 0 > 1) {
+                // Access the second element of groupingImageUrlList within the first element of mainImageUrlList
+                posImageUrlList = mainImageUrlList[0]?.groupingImageUrlList!![1]
+
+
+                previewImageAdapter = ComparisionPreviewImage(
+                    this,
+                    posImageUrlList,
+                    this,
+                    uploadStage,
+                    stage,
+                    status,
+                    imageUploaded
+                )
+
+                activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(this)
+                activityPostRectroReviewScreenBinding.previewImageViewpager.adapter =
+                    previewImageAdapter
+
+            } else {
+                // Handle the case where the structure is empty or doesn't have the expected elements
+                // You can log an error message or take appropriate action here.
+            }
+
+
+//            activityPostRectroReviewScreenBinding.previewImageViewpager.setCurrentItem(0, true)
+            imageClickedPos = 1
+            categoryid = "2"
+
+
+        } else if (categoryid.equals("2") && imageClickedPos == 1) {
+
+            if (mainImageUrlList.size>1 && mainImageUrlList[1]?.groupingImageUrlList?.size ?: 0 > 1) {
+                // Access the second element of groupingImageUrlList within the first element of mainImageUrlList
+                posImageUrlList = mainImageUrlList[1]?.groupingImageUrlList!![0]
+
+
+                previewImageAdapter = ComparisionPreviewImage(
+                    this,
+                    posImageUrlList,
+                    this,
+                    uploadStage,
+                    stage,
+                    status,
+                    imageUploaded
+                )
+
+                activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(this)
+                activityPostRectroReviewScreenBinding.previewImageViewpager.adapter =
+                    previewImageAdapter
+
+            } else {
+                // Handle the case where the structure is empty or doesn't have the expected elements
+                // You can log an error message or take appropriate action here.
+            }
+
+
+
+            categoryid = "2"
+            imageClickedPos = 0
+        } else if (categoryid.equals("2") && imageClickedPos == 0) {
+
+
+            if (mainImageUrlList.size>1 && mainImageUrlList[1]?.groupingImageUrlList?.size ?: 0 > 1) {
+                // Access the second element of groupingImageUrlList within the first element of mainImageUrlList
+                posImageUrlList = mainImageUrlList[1]?.groupingImageUrlList!![1]
+
+
+                previewImageAdapter = ComparisionPreviewImage(
+                    this,
+                    posImageUrlList,
+                    this,
+                    uploadStage,
+                    stage,
+                    status,
+                    imageUploaded
+                )
+
+                activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(this)
+                activityPostRectroReviewScreenBinding.previewImageViewpager.adapter =
+                    previewImageAdapter
+
+            } else {
+                // Handle the case where the structure is empty or doesn't have the expected elements
+                // You can log an error message or take appropriate action here.
+            }
+
+
+
+
+            imageClickedPos = 1
+            categoryid = "1"
+
+        } else if (categoryid.equals("1") && imageClickedPos == 1) {
+
+
+            if (mainImageUrlList.isNotEmpty() && mainImageUrlList[0]?.groupingImageUrlList?.size ?: 0 > 1) {
+                // Access the second element of groupingImageUrlList within the first element of mainImageUrlList
+                posImageUrlList = mainImageUrlList[0]?.groupingImageUrlList!![0]
+
+
+                previewImageAdapter = ComparisionPreviewImage(
+                    this,
+                    posImageUrlList,
+                    this,
+                    uploadStage,
+                    stage,
+                    status,
+                    imageUploaded
+                )
+
+                activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(this)
+                activityPostRectroReviewScreenBinding.previewImageViewpager.adapter =
+                    previewImageAdapter
+
+            } else {
+                // Handle the case where the structure is empty or doesn't have the expected elements
+                // You can log an error message or take appropriate action here.
+            }
+
+
+
+            categoryid = "1"
+            imageClickedPos = 0
+        } else {
+
+        }
+
+    }
+
+
 }

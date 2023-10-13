@@ -725,7 +725,6 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
     }
 
-
     override fun onBackPressed() {
         onClickBack()
     }

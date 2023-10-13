@@ -76,7 +76,8 @@ class RectroApproveListAdapter(
             holder.adapterApproveListBinding.storeId.text = approvedOrders[j].store!!.split("-").get(0)
             holder.adapterApproveListBinding.storeName.text = approvedOrders[j].store!!.split("-").get(1)
 
-            holder.adapterApproveListBinding.preRectroLayout.setOnClickListener { mClicklistner.onClick(position, j, approvePendingList, approveList) }
+            holder.adapterApproveListBinding.preRectroLayout.setOnClickListener {
+                mClicklistner.onClick(position, j, approvePendingList, approveList) }
             if (approvedOrders.get(j).status.equals("Pending")){
                 val lp = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,

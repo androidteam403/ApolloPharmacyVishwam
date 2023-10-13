@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.apnarectro.approval
 
 import android.content.Intent
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -160,6 +161,16 @@ class PreRectroApprovalFragment() :
             viewBinding.pullToRefreshApproved.isRefreshing = false
         }
         hideLoading()
+
+        if (getStorePendingApprovedList.retrolist.isNullOrEmpty()){
+           viewBinding.recyclerViewapproval.visibility= View.GONE
+            viewBinding.emptyList.visibility= View.VISIBLE
+
+        }else{
+            viewBinding.recyclerViewapproval.visibility= View.VISIBLE
+            viewBinding.emptyList.visibility= View.GONE
+
+        }
         var list: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
         var list1: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
         var getPendingApproveList: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
@@ -185,7 +196,13 @@ class PreRectroApprovalFragment() :
         list1 =
             list!!.distinctBy { it.retroid } as java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>
 
-        adapter = context?.let { RectroApproveListAdapter(it, list, list1,retroIdsGroupedList, getStorePendingApprovedList.groupByRetrodList,this) }
+        val sortedList = getStorePendingApprovedList.groupByRetrodList.orEmpty()
+            .sortedByDescending { it.firstOrNull()?.uploadedDate }
+
+        adapter = context?.let {
+            RectroApproveListAdapter(it, list, list1, retroIdsGroupedList, sortedList, this)
+        }
+
         viewBinding.recyclerViewapproval.adapter = adapter
 
     }

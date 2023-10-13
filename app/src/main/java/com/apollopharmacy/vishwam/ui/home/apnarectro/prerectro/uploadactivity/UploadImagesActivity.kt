@@ -9,10 +9,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -20,6 +18,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -29,11 +28,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
-import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityUploadImagesBinding
 import com.apollopharmacy.vishwam.databinding.DialogForImageUploadBinding
-import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.apnafileupload.ApnaRetroFileUpload
 import com.apollopharmacy.vishwam.ui.home.apnarectro.apnafileupload.ApnaRetroFileUploadCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.apnafileupload.ApnaRetroFileUploadModel
@@ -43,11 +40,8 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.reviewscreen.Pos
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerecctroreviewactivity.PreRectroReviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.adapter.ConfigApnaAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.adapter.ImagesUploadAdapter
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.GetStoreWiseCatDetailsApnaResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
-import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
@@ -95,12 +89,12 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback,
 
 
         if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
+            showLoading(this)
             uploadImagesViewModel.getStoreWiseDetailsApna(this)
 
         } else {
             Toast.makeText(
-                ViswamApp.context,
+                context,
                 resources.getString(R.string.label_network_error),
                 Toast.LENGTH_SHORT
             )
@@ -116,7 +110,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback,
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onClickUpload() {
 
-        Utlis.showLoading(this)
+        showLoading(this)
         updateButtonValidation()
 
     }
@@ -172,7 +166,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback,
 
             configApnaAdapter =
                 ConfigApnaAdapter(getStoreWiseResponse, apnaConfigList, this, this)
-            val layoutManager = LinearLayoutManager(ViswamApp.context)
+            val layoutManager = LinearLayoutManager(context)
             activityUploadImagesBinding.categoryNameApnaRecyclerView.layoutManager = layoutManager
             activityUploadImagesBinding.categoryNameApnaRecyclerView.itemAnimator =
                 DefaultItemAnimator()
@@ -217,7 +211,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback,
             val close = dialog.findViewById<LinearLayout>(R.id.close_apna)
             val textMessage = dialog.findViewById<TextView>(R.id.transaction_id_apna)
             textMessage.text =
-                "Pre Retro is Submitted for Review \n Transaction id is: " + saveImageUrlsResponse.retroid
+                "Pre Retro is Submitted for Review \n Transaction ID is: " + saveImageUrlsResponse.retroid
             close.setOnClickListener {
                 dialog.dismiss()
                 val intent = Intent()
@@ -289,8 +283,8 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback,
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
         } else {
             val photoUri = FileProvider.getUriForFile(
-                ViswamApp.context,
-                ViswamApp.context.packageName + ".provider",
+                context,
+                context.packageName + ".provider",
                 imageFromCameraFile!!
             )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
