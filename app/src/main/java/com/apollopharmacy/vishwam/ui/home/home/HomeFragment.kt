@@ -101,7 +101,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         employeeRole = MainActivity.mInstance.employeeRole
         userDesignation = MainActivity.userDesignation
 
-        updateNavMenu(isAttendanceRequired,
+       /* updateNavMenu(isAttendanceRequired,
             isCMSRequired,
             isDiscountRequired,
             isSwachhRequired,
@@ -110,7 +110,18 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             isSensingRequired,
             isChampsRequired,
             isApnaSurveyRequired,
-            isApnaRetroRequired);
+            isApnaRetroRequired);*/
+
+        updateNavMenu(true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true);
     }
 
     private fun updateNavMenu(
@@ -353,7 +364,12 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     }
 
     override fun onClickMenuItem(itemName: String?, menuModels: ArrayList<MenuModel>) {
-        MainActivity.mInstance.displaySelectedScreen(itemName)
-        MainActivity.mInstance.setSubmenu(menuModels)
+        if (itemName.equals("Dashboard")){
+            MainActivity.mInstance.displaySelectedScreen("DashboardCeo")
+            MainActivity.mInstance.setSubmenu(menuModels)
+        }else{
+            MainActivity.mInstance.displaySelectedScreen(itemName)
+            MainActivity.mInstance.setSubmenu(menuModels)
+        }
     }
 }
