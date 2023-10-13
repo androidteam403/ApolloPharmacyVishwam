@@ -118,7 +118,8 @@ class ValidatePinViewModel : ViewModel() {
 
             val result = withContext(Dispatchers.IO) {
                 RegistrationRepo.getApplevelDesignation(baseUrl, empId, appType)
-            }
+            }//apl25054  Jul@1981
+            //apl49391 Jaikumar@123
             when (result) {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {

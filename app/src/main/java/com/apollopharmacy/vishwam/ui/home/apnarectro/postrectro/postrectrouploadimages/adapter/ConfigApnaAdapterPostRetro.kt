@@ -15,10 +15,12 @@ import java.util.stream.Collectors
 
 class ConfigApnaAdapterPostRetro(
     private var apnaConfigList: MutableList<GetImageUrlsModelApnaResponse.Category>,
+
     private var configList: GetStoreWiseCatDetailsApnaResponse,
     private var context: PostRetroUploadImagesActivity,
     private val callbackInterface: ImagesUploadAdapterPostRetro.CallbackInterface,
     private var stage: String,
+    private var store: String,
     private var categoryList: List<GetImageUrlsModelApnaResponse.Category>? = null,
 ) :
     RecyclerView.Adapter<ConfigApnaAdapterPostRetro.ViewHolder>()  {
@@ -63,9 +65,9 @@ class ConfigApnaAdapterPostRetro(
 
 
         imagesUploadAdapter =
-            ImagesUploadAdapterPostRetro(position, category!!.imageDataDto, callbackInterface, category.categoryName,
-                apnaConfigList.get(position).groupingImageUrlList as MutableList<MutableList<GetImageUrlsModelApnaResponse.Category.ImageUrl>>, stage,
-                categoryGroup.groupingImageUrlList as MutableList<MutableList<GetImageUrlsModelApnaResponse.Category.ImageUrl>>, categoryGroup!!.categoryid
+            ImagesUploadAdapterPostRetro(position, category!!.imageDataDto,apnaConfigList, callbackInterface, category.categoryName,
+                apnaConfigList.get(position).groupingImageUrlList as MutableList<MutableList<GetImageUrlsModelApnaResponse.Category.ImageUrl>>, stage,store,
+                categoryGroup.groupingImageUrlList as MutableList<MutableList<GetImageUrlsModelApnaResponse.Category.ImageUrl>>, categoryGroup!!.categoryid,categoryGroup
             )
         holder.adapterConfigApnaBinding.uploadlayoutrecyclerview.layoutManager = LinearLayoutManager(
             ViswamApp.context,

@@ -62,6 +62,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     private var storeId: String = ""
     private var stage: String = ""
     private var retroStage: String = ""
+    private var storeName: String = ""
 
     private var uploadStage: String = ""
     var timelineAdapter: PreRetroTimeLineAdapter? = null
@@ -99,19 +100,22 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         activityUploadImagesPostRetroBinding.callback = this
         postRetroUploadImagesViewModel =
             ViewModelProvider(this)[PostRetroUploadImagesViewModel::class.java]
-        fragmentName = intent.getStringExtra("fragmentName")!!
-        retroid = intent.getStringExtra("retroid")!!
-        stage = intent.getStringExtra("stage")!!
-        uploadedOn = intent.getStringExtra("uploadedOn")!!
-        uploadedBy = intent.getStringExtra("uploadedBy")!!
-        storeId = intent.getStringExtra("storeId")!!
-        status = intent.getStringExtra("status")!!
+        if (intent!=null){
+            fragmentName = intent.getStringExtra("fragmentName")!!
+            retroid = intent.getStringExtra("retroid")!!
+            stage = intent.getStringExtra("stage")!!
+            uploadedOn = intent.getStringExtra("uploadedOn")!!
+            uploadedBy = intent.getStringExtra("uploadedBy")!!
+            storeId = intent.getStringExtra("storeId")!!
+            status = intent.getStringExtra("status")!!
 
-        retroStage = intent.getStringExtra("retroStage")!!
-        uploadStage = intent.getStringExtra("uploadStage")!!
-        approvedby = intent.getStringExtra("approvedby")!!
-        storeList =
-            intent.getSerializableExtra("storeList") as ArrayList<GetStorePendingAndApprovedListRes.Get>?
+            retroStage = intent.getStringExtra("retroStage")!!
+            uploadStage = intent.getStringExtra("uploadStage")!!
+            approvedby = intent.getStringExtra("approvedby")!!
+            storeList =
+                intent.getSerializableExtra("storeList") as ArrayList<GetStorePendingAndApprovedListRes.Get>?
+
+        }
 
 
         activityUploadImagesPostRetroBinding.backButton.setOnClickListener {
@@ -292,7 +296,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.GONE
-            } else if (uploadStage == "approvedStage") {
+            }
+            else if (uploadStage == "approvedStage") {
                 activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
                     context.getColor(
                         R.color.white
@@ -644,7 +649,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         position: Int,
         categoryName: String?,
     ) {
-        TODO("Not yet implemented")
     }
 
     var pendingBottomCount: Int = 0
@@ -680,7 +684,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                     }
                 }
             }
-        } else if (stage.equals("isPostRetroStage")) {
+        }
+        else if (stage.equals("isPostRetroStage")) {
             for (i in getImageUrlsLists!!.categoryList?.indices!!) {
                 for (j in getImageUrlsLists!!.categoryList!!.get(i).imageUrls?.indices!!) {
                     if (getImageUrlsLists!!.categoryList!!.get(i).imageUrls!!.get(j).stage.equals(
@@ -807,11 +812,16 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     var categoryPosComp: Int? = 0
     override fun onClickImageView(
         stage: String,
+        store:String,
         posImageUrlList: java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
+        apnaConfigList: java.util.ArrayList<GetImageUrlsModelApnaResponse.Category>,
+
         categoryName: String?,
         categoryid: String?,
         imageClickedPos: Int,
         configPosition: Int,
+        categoryGroupResponse: GetImageUrlsModelApnaResponse.Category
+
     ) {
         imageClickedPosComp = imageClickedPos
         categoryPosComp = configPosition
@@ -819,6 +829,11 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         val intent = Intent(applicationContext, ComparisonScreenCreation::class.java)
         intent.putExtra("fragmentName", fragmentName)
         intent.putExtra("stage", stage)
+        intent.putExtra("store", store)
+        intent.putExtra("mainList", apnaConfigList)
+
+        intent.putExtra("categoryResponse", categoryGroupResponse)
+
         intent.putExtra("status", approvedby)
         intent.putExtra("posImageUrlList", posImageUrlList)
         intent.putExtra("retroid", retroid)
@@ -904,7 +919,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
             timelineAdapter = PreRetroTimeLineAdapter(
                 this,
-                storeList!!.filter { it.retroid.equals(retroid) && it.stage.equals(retroStage) })
+                storeList!!.filter { it.retroid.equals(retroid) && it.stage.equals(retroStage) &&it.hierarchystatus!=null})
             activityUploadImagesPostRetroBinding.timeLineRecycleview.adapter = timelineAdapter
 
         } else {
@@ -1064,8 +1079,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 for (entry in retroIdsGroupedList.entries) {
                     getImageUrlListDummys.addAll(listOf(entry.value as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>))
                 }
-                getImageUrlsLists!!.categoryList!!.get(i).groupingImageUrlList =
-                    getImageUrlListDummys as List<ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>>?
+                getImageUrlsLists!!.categoryList!!.get(i).groupingImageUrlList = getImageUrlListDummys
 
             }
             if (uploadStage.equals("reshootStage")) {
@@ -1132,9 +1146,10 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 ConfigApnaAdapterPostRetro(
                     getImageUrlsLists!!.categoryList as MutableList<GetImageUrlsModelApnaResponse.Category>,
                     apnaConfigList.get(0),
+
                     this,
                     this,
-                    stage,
+                    stage,storeId,
                     getImageUrlsList.categoryList
                 )
             val layoutManager = LinearLayoutManager(context)

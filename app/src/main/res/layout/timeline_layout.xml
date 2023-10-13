@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Upload By :  "
+                android:text="Uploaded By :  "
 
                 android:textSize="12.5sp" />
 
@@ -71,7 +71,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Upload Date :  "
+                android:text="Uploaded Date :  "
                 android:textSize="12.5sp" />
 
             <TextView

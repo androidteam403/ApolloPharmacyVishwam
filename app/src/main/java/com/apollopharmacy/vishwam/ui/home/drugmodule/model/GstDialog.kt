@@ -50,12 +50,21 @@ class GstDialog: DialogFragment() {
         ): View? {
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             viewBinding = DialogCustomBinding.inflate(inflater, container, false)
-            viewBinding.textHead.text = context?.resources?.getString(R.string.label_select_gst)
+
             viewBinding.closeDialog.setOnClickListener { dismiss() }
 
             viewBinding.searchSite.visibility = View.GONE
             var data =
                 arguments?.getSerializable(KEY_DATA) as ArrayList<String>
+
+            if (data.contains("Watsapp")){
+                viewBinding.textHead.text = "Select Task *"
+
+            }
+            else{
+                viewBinding.textHead.text = context?.resources?.getString(R.string.label_select_gst)
+
+            }
             viewBinding.fieldRecyclerView.adapter =
                 CustomRecyclerViews(data, object : OnSelectListner {
                     override fun onSelected(data: String) {

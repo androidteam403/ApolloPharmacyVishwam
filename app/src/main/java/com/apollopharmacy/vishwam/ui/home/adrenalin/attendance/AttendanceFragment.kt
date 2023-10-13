@@ -16,44 +16,56 @@ import android.os.Build
 import android.os.Build.VERSION_CODES.TIRAMISU
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.androidisland.ezpermission.EzPermission
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.model.Image
 import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.network.LoginRepo
+import com.apollopharmacy.vishwam.databinding.DialogDeleteBinding
 import com.apollopharmacy.vishwam.databinding.FragmentAttendanceBinding
 import com.apollopharmacy.vishwam.databinding.ViewTaskItemBinding
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivity.isAtdLogout
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragmentCallback
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.adapter.AttendenceImageRecycleView
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
+import com.apollopharmacy.vishwam.ui.home.drugmodule.DrugImageRecyclerView
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DoctorListDialog
+import com.apollopharmacy.vishwam.ui.home.drugmodule.model.GstDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteDialogAttendence
 import com.apollopharmacy.vishwam.util.LocationUtil
 import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utils.*
 import com.google.android.material.textfield.TextInputLayout
 import com.waheed.location.updates.livedata.LocationViewModel
+import me.echodev.resizer.Resizer
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanceBinding>(),
     SiteDialogAttendence.NewDialogSiteClickListner, DoctorListDialog.NewDialogSiteClickListner,
+    GstDialog.GstDialogClickListner,
     ImageClickListener, AttendanceFragmentCallback {
 
     val TAG = "AttendanceFragment"
@@ -78,22 +90,39 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
     lateinit var departmentTaskList: ArrayList<DepartmentTaskListRes.DepartmentTaskItem>
     val DEPT_TASK_LIST: ArrayList<String> = ArrayList()
+    val marketingSubTaskList: ArrayList<String> = ArrayList()
+
+    val MARKETING_TASK_LIST: ArrayList<String> = ArrayList()
+    lateinit var imageAdapter: AttendenceImageRecycleView
+
     val dept_List_Map = HashMap<Int, String>()
     private lateinit var deptTaskSpinner: Spinner
+    private lateinit var marketingTaskSpinner: Spinner
+
     private lateinit var siteId: TextInputLayout
+    private lateinit var cameraIcon: ImageView
+    private lateinit var imageRecycleView: RecyclerView
+
+    private lateinit var marketingSubBranch: TextInputLayout
+
     private lateinit var doctorSpecialist: EditText
     var comment: String = ""
     var siteIds: String = ""
     var doctorNAme: String = ""
+    var imageList = ArrayList<Image>()
 
     private lateinit var siteIdText: EditText
     private lateinit var doctorId: TextInputLayout
     private lateinit var doctorText: EditText
+    var isMarketingSelected: Boolean = false
+    private lateinit var description: TextInputLayout
+    private lateinit var captureLayout: LinearLayout
 
     var isDepartmentSelected: Boolean = false
     var isDepartmentTaskSelected: Boolean = false
     var enteredTaskName: String = ""
     var taskName: Boolean = false
+    private lateinit var marketingText: EditText
 
     val LOCATION_PERMISSION_REQUEST = 101
     private lateinit var locationViewModel: LocationViewModel
@@ -163,17 +192,17 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             }
         })
 
-        viewModel.departmentData.observe(viewLifecycleOwner, {
+        viewModel.departmentData.observe(viewLifecycleOwner) {
             if (it.status) {
                 departmentList = it.DEPARTMENTLIST
             } else {
                 Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             }
-        })
+        }
 
 
 
-        viewModel.siteLiveData.observe(viewLifecycleOwner, {
+        viewModel.siteLiveData.observe(viewLifecycleOwner) {
             hideLoading()
 
             if (it.sitelist?.isEmpty()!!) {
@@ -184,9 +213,9 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
             }
 
-        })
+        }
 
-        viewModel.doctorLiveData.observe(viewLifecycleOwner, {
+        viewModel.doctorLiveData.observe(viewLifecycleOwner) {
             hideLoading()
             if (it.doctorlist?.isEmpty()!!) {
 
@@ -198,11 +227,11 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             }
 
 
-        })
+        }
 
 
 
-        viewModel.departmentTaskData.observe(viewLifecycleOwner, {
+        viewModel.departmentTaskData.observe(viewLifecycleOwner) {
             DEPT_TASK_LIST.clear()
             if (it.status) {
                 departmentTaskList = it.TASKLIST
@@ -228,7 +257,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 deptTaskSpinner.visibility = View.GONE
                 Toast.makeText(requireContext(), "Task list not found", Toast.LENGTH_SHORT).show()
             }
-        })
+        }
 
         viewBinding.singInLayout.setOnClickListener {
 //            viewBinding.singInLayout.isClickable = false
@@ -301,6 +330,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 is AttendanceCommand.ShowToast -> {
                     hideLoading()
                 }
+
                 is AttendanceCommand.UpdateTaskList -> {
                     hideLoading()
 
@@ -319,6 +349,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                             .show()
                     }
                 }
+
                 is AttendanceCommand.ImageIsUploadedInAzur -> {
 
                     imagePathToServer = it.filePath[0].base64Images
@@ -344,9 +375,13 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                             locationLatitude.toDouble(),
                                             locationLongitude.toDouble()
                                         ),
-                                        getAttendanceState(requireContext(),
+                                        getAttendanceState(
+                                            requireContext(),
                                             locationLatitude.toDouble(),
-                                            locationLongitude.toDouble())), this@AttendanceFragment)
+                                            locationLongitude.toDouble()
+                                        )
+                                    ), this@AttendanceFragment
+                                )
                             } else {
                                 Toast.makeText(
                                     requireContext(),
@@ -364,6 +399,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         (activity as MainActivity).startLocationUpdates()
                     }
                 }
+
                 is AttendanceCommand.RefreshPageOnSuccess -> {
                     if (it.status) {
                         if (NetworkUtil.isNetworkConnected(requireContext())) {
@@ -382,6 +418,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+
                 else -> {
                 }
             }
@@ -406,16 +443,45 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 val signInLayout = dialog.findViewById<LinearLayout>(R.id.singInLayout)
                 val deptSpinner = dialog.findViewById<Spinner>(R.id.dept_spinner)
                 deptTaskSpinner = dialog.findViewById<Spinner>(R.id.task_spinner)
+                marketingTaskSpinner = dialog.findViewById<Spinner>(R.id.marketing_spinner)
+                MARKETING_TASK_LIST.add("Select Task")
+                MARKETING_TASK_LIST.add("Social Media")
+                MARKETING_TASK_LIST.add("Advertising")
+                marketingSubTaskList.add("Select SubTask")
+                marketingSubTaskList.add("Watsapp")
+                marketingSubTaskList.add("Instagram")
+                marketingSubTaskList.add("Youtube")
+                marketingSubTaskList.distinct()
+
+
+
+                cameraIcon = dialog.findViewById<ImageView>(R.id.addImage)
                 siteId = dialog.findViewById<TextInputLayout>(R.id.siteIdAttendence)
+                imageRecycleView = dialog.findViewById<RecyclerView>(R.id.imageRecyclerView)
+
+                marketingSubBranch = dialog.findViewById<TextInputLayout>(R.id.marketingAttendence)
+                description = dialog.findViewById<TextInputLayout>(R.id.description)
+                captureLayout = dialog.findViewById<LinearLayout>(R.id.capture_upload_layout)
                 doctorId = dialog.findViewById<TextInputLayout>(R.id.doctornameAttendence)
                 doctorSpecialist = dialog.findViewById<EditText>(R.id.doctorspecialityinattendence)
                 siteIdText = dialog.findViewById<EditText>(R.id.siteIdSelectAttendence)
                 doctorText = dialog.findViewById<EditText>(R.id.doctorNameSelectAttendence)
+                marketingText = dialog.findViewById<EditText>(R.id.marketingIdSelectAttendence)
+
+                cameraIcon.setOnClickListener {
+                    handleTaskCameraFunctionality()
+                }
 
                 siteIdText.setOnClickListener {
                     SiteDialogAttendence().apply {
                         arguments =
                             SiteDialogAttendence().generateParsedData(siteIdList)
+                    }.show(childFragmentManager, "")
+                }
+
+                marketingText.setOnClickListener {
+                    GstDialog().apply {
+                        arguments = GstDialog().generateParsedData(marketingSubTaskList)
                     }.show(childFragmentManager, "")
                 }
 
@@ -431,9 +497,13 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
 
                 DEPT_LIST.add("Select Department")
+                DEPT_LIST.add("Marketing")
+
                 for (item in departmentList) {
                     dept_List_Map.put(Integer.parseInt(item.ID), item.DEPARTMENT)
                     DEPT_LIST.add(item.DEPARTMENT)
+
+
                 }
                 if (deptSpinner != null) {
                     val adapter = ArrayAdapter(
@@ -448,12 +518,37 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                             parent: AdapterView<*>,
                             view: View, position: Int, id: Long,
                         ) {
+
+                            if (DEPT_LIST[position].equals("Marketing")) {
+                                taskName = true
+
+                                val adapter = ArrayAdapter(
+                                    requireContext(),
+                                    R.layout.view_spinner_item,
+                                    R.id.spinner_text,
+                                    MARKETING_TASK_LIST.distinct()
+                                )
+                                marketingTaskSpinner.adapter = adapter
+                                marketingTaskSpinner.visibility = View.VISIBLE
+                                deptTaskSpinner.visibility = View.GONE
+                                siteId.visibility = View.GONE
+                                doctorId.visibility = View.GONE
+
+                            }
                             if (getKeyFromValue(dept_List_Map, DEPT_LIST[position]) != 0) {
                                 isDepartmentSelected = true
                                 isDepartmentTaskSelected = false
                                 enteredTaskName = DEPT_LIST[position]
+
+
+
                                 if (DEPT_LIST[position].equals("DR CONNECT")) {
                                     siteIdText.setText("")
+                                    marketingTaskSpinner.visibility = View.GONE
+                                    description.visibility = View.GONE
+                                    captureLayout.visibility = View.GONE
+
+                                    marketingSubBranch.visibility = View.GONE
                                     taskName = true
                                 } else {
                                     branchName = ""
@@ -461,9 +556,15 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                     doctorText.setText("")
                                     siteId.visibility = View.GONE
                                     doctorId.visibility = View.GONE
+                                    description.visibility = View.GONE
+                                    captureLayout.visibility = View.GONE
+
+                                    marketingSubBranch.visibility = View.GONE
+                                    marketingTaskSpinner.visibility = View.GONE
 
                                     doctorSpecialist.visibility = View.GONE
                                     taskName = false
+                                    isMarketingSelected = false
                                 }
 
                                 viewModel.getDepartmentTaskList(
@@ -484,6 +585,31 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 }
 
 
+                marketingTaskSpinner.onItemSelectedListener = object :
+                    AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>,
+                        view: View, position: Int, id: Long,
+                    ) {
+
+
+                        if (position != 0) {
+                            if (taskName && MARKETING_TASK_LIST.get(position)
+                                    .equals("Social Media")
+                            ) {
+                                marketingSubBranch.visibility = View.VISIBLE
+
+                            }
+
+
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+                        isDepartmentTaskSelected = false
+                        // write code to perform some action
+                    }
+                }
 
 
 
@@ -494,7 +620,15 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         parent: AdapterView<*>,
                         view: View, position: Int, id: Long,
                     ) {
+
+
+                        if (taskName && MARKETING_TASK_LIST.get(position).equals("Social Media")) {
+                            marketingSubBranch.visibility = View.VISIBLE
+
+                        }
                         if (position != 0) {
+
+
                             if (taskName && DEPT_TASK_LIST.get(position).equals("BRANCH VISIT")) {
                                 branchName = "BRANCH VISIT"
                                 showLoading()
@@ -529,9 +663,12 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 doctorSpecialist.visibility = View.GONE
                             }
 
+
                             if (enteredTaskName.contains("-")) {
-                                enteredTaskName = enteredTaskName.substring(0,
-                                    enteredTaskName.indexOf("-") - 1) + " - " + DEPT_TASK_LIST[position]
+                                enteredTaskName = enteredTaskName.substring(
+                                    0,
+                                    enteredTaskName.indexOf("-") - 1
+                                ) + " - " + DEPT_TASK_LIST[position]
 
                             } else {
                                 enteredTaskName = enteredTaskName + " - " + DEPT_TASK_LIST[position]
@@ -573,16 +710,21 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                             ) {
                                 if (NetworkUtil.isNetworkConnected(requireContext())) {
                                     showLoading()
-                                    viewModel.taskInsertUpdateService(TaskInfoReq(
-                                        enteredTaskName,
-                                        employeeID,
-                                        "",
-                                        locationLatitude,
-                                        locationLongitude,
-                                        "SIGNIN",
-                                        getAttendanceCity(requireContext(),
-                                            locationLatitude.toDouble(),
-                                            locationLongitude.toDouble()), "", siteIds, doctorNAme))
+                                    viewModel.taskInsertUpdateService(
+                                        TaskInfoReq(
+                                            enteredTaskName,
+                                            employeeID,
+                                            "",
+                                            locationLatitude,
+                                            locationLongitude,
+                                            "SIGNIN",
+                                            getAttendanceCity(
+                                                requireContext(),
+                                                locationLatitude.toDouble(),
+                                                locationLongitude.toDouble()
+                                            ), "", siteIds, doctorNAme
+                                        )
+                                    )
                                     dialog.dismiss()
                                 } else {
                                     Toast.makeText(
@@ -917,9 +1059,11 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 //            lastLogDateTime
 //        ))
         var timeDuration =
-            printDifferenceNav(getAttendanceCurrentDateNew(), getLastLoginDateNewinSec(
-                lastLogDateTime
-            ))
+            printDifferenceNav(
+                getAttendanceCurrentDateNew(), getLastLoginDateNewinSec(
+                    lastLogDateTime
+                )
+            )
         val split = timeDuration.split(":")
         dialogDurationHrs.text = split[0] //lastLogDateTime.split(" ").get(1).split(":").get(0)
         dialogDurationMins.text = split[1] // lastLogDateTime.split(" ").get(1).split(":").get(1)
@@ -948,6 +1092,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         }
         declineButton.setOnClickListener { v12: View? -> dialog.dismiss() }
     }
+
     fun printDifferenceNav(endDate: String, startDate: String): String {
         if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
             val format = SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa", Locale.ENGLISH)
@@ -985,38 +1130,6 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         }
     }
 
-//    fun printDifferenceNav(endDate: String, startDate: String): String {
-//        val format = SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa")
-//        val date1 = format.parse(startDate)
-//        val date2 = format.parse(endDate)
-//
-//        var startDate: Date = date1
-//        var endDate: Date = date2
-//        //milliseconds
-//        var different = endDate.time - startDate.time
-//        println("startDate : $startDate")
-//        println("endDate : $endDate")
-//        println("different : $different")
-//        val secondsInMilli: Long = 1000
-//        val minutesInMilli = secondsInMilli * 60
-//        val hoursInMilli = minutesInMilli * 60
-//        val daysInMilli = hoursInMilli * 24
-//
-//        //long elapsedDays = different / daysInMilli;
-//        //different = different % daysInMilli;
-//        val elapsedHours = different / hoursInMilli
-//        different = different % hoursInMilli
-//        val elapsedMinutes = different / minutesInMilli
-//        different = different % minutesInMilli
-//        val elapsedSeconds = different / secondsInMilli
-////        System.out.printf(
-////            "%d hours, %d minutes, %d seconds%n",
-////            elapsedHours, elapsedMinutes, elapsedSeconds)
-////        return String.format(
-////            "%d hours, %d minutes, %d seconds%n",
-////            elapsedHours, elapsedMinutes, elapsedSeconds)
-//        return "$elapsedHours:$elapsedMinutes:$elapsedSeconds"
-//    }
 
     private fun durationBetweenTwoDates(start: String, endDate: String) {
         try {
@@ -1079,32 +1192,6 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 //            Toast.LENGTH_SHORT).show()
 //        return "$elapsedHours-$elapsedMinutes-$elapsedSeconds"
     }
-//    private fun checkPermission(): Boolean {
-//        return ContextCompat.checkSelfPermission(
-//            requireContext(),
-//            Manifest.permission.READ_EXTERNAL_STORAGE
-//        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-//            requireContext(),
-//            Manifest.permission.WRITE_EXTERNAL_STORAGE
-//        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-//            requireContext(),
-//            Manifest.permission.CAMERA
-//        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-//            requireContext(),
-//            Manifest.permission.ACCESS_FINE_LOCATION
-//        ) == PackageManager.PERMISSION_GRANTED
-//    }
-//
-//    private fun askPermissions(PermissonCode: Int) {
-//        requestPermissions(
-//            arrayOf(
-//                Manifest.permission.READ_EXTERNAL_STORAGE,
-//                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                Manifest.permission.CAMERA,
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ), PermissonCode
-//        )
-//    }
 
     @SuppressLint("ObsoleteSdkInt")
     private fun checkPermission(): Boolean {
@@ -1151,6 +1238,25 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
 
 
+    private fun openTaskCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        imageFromCameraFile =
+            File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
+        } else {
+            val photoUri = FileProvider.getUriForFile(
+                requireContext(),
+                requireContext().packageName + ".provider",
+                imageFromCameraFile!!
+            )
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        }
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, 221)
+    }
+
+
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         imageFromCameraFile =
@@ -1169,9 +1275,28 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         startActivityForResult(intent, REQUEST_CODE_CAMERA)
     }
 
+    private fun compresImageSize(imageFromCameraFile: File): File {
+        val resizedImage = Resizer(requireContext())
+            .setTargetLength(1080)
+            .setQuality(100)
+            .setOutputFormat("JPG")
+            .setOutputDirPath(
+                ViswamApp.context.cacheDir.toString()
+            )
+            .setSourceImage(imageFromCameraFile)
+            .resizedFile
+        return resizedImage
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 221) {
+            imageList.add(Image(compresImageSize(imageFromCameraFile!!), "", ""))
+            imageAdapter = AttendenceImageRecycleView(requireContext(), imageList, this)
+            imageRecycleView.adapter = imageAdapter
+        } else if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
             isPermissionAsked = false
+
+
             fileArrayList.add(ImageDataDto(imageFromCameraFile!!, ""))
             viewBinding.capturedImageLayout.visibility = View.VISIBLE
             viewBinding.capturedImg.setImageURI(Uri.fromFile(imageFromCameraFile!!))
@@ -1192,6 +1317,15 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         }
         // super.onActivityResult(requestCode, resultCode, data)
 
+    }
+
+    private fun handleTaskCameraFunctionality() {
+        viewBinding.onCaptureClick = true
+        if (!checkPermission()) {
+            askPermissions(REQUEST_CODE_CAMERA)
+            return
+        } else
+            openTaskCamera()
     }
 
     private fun handleCameraFunctionality() {
@@ -1260,6 +1394,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             isLocationPermissionsGranted() -> {
                 observeLocationUpdates()
             }
+
             else -> {
                 askLocationPermission()
             }
@@ -1366,6 +1501,45 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
     override fun onSuccessAttendanceSignedIn(message: String) {
         TODO("Not yet implemented")
+    }
+
+    override fun onItemClick(position: Int, imagePath: String, name: String) {
+        PopUpWIndow(context, R.layout.layout_image_fullview, cameraIcon, imagePath, null, name, position)
+    }
+
+    override fun deleteImage(position: Int) {
+
+        val dialogBinding: DialogDeleteBinding? =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(requireContext()),
+                R.layout.dialog_delete,
+                null,
+                false
+            )
+        val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
+        customDialog.apply {
+
+            setView(dialogBinding?.root)
+            setCancelable(false)
+        }.show()
+        dialogBinding?.yesBtn?.setOnClickListener {
+
+
+            imageList.removeAt(position)
+
+            imageAdapter.notifyDataSetChanged()
+            customDialog.dismiss()
+        }
+        dialogBinding?.cancelButton?.setOnClickListener {
+            customDialog.dismiss()
+        }
+    }
+
+    override fun selectGST(gst: String) {
+        marketingText.setText(gst)
+        description.visibility = View.VISIBLE
+        captureLayout.visibility = View.VISIBLE
+
     }
 }
 

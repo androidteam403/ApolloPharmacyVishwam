@@ -88,6 +88,8 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
             uploadBy = intent.getStringExtra("uploadBy")!!
             uploadDate = intent.getStringExtra("uploadOn")!!
             approveResponseList = intent.getSerializableExtra("approvePendingList") as ArrayList<GetRetroPendingAndApproveResponse.Retro>
+
+
         }
 
         if (store.isNullOrEmpty()){
@@ -106,6 +108,14 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         activityPreviewBinding.uploadby.setText(uploadBy)
         activityPreviewBinding.uploadon.setText(newFrmt)
         activityPreviewBinding.status.setText(status)
+        if (status.toLowerCase().equals("pending")||status.toLowerCase().equals("reshoot")){
+            activityPreviewBinding.review.visibility=View.VISIBLE
+        }
+        else{
+            activityPreviewBinding.review.visibility=View.GONE
+
+        }
+
         if (status.contains("Approved")) {
             activityPreviewBinding.status.setTextColor(ViswamApp.context.getColor(R.color.greenn))
 
@@ -127,17 +137,17 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
             ) + " Preview"
         )
         activityPreviewBinding.retroId.setText(retroId)
-        if (status.toLowerCase()
-                .contains("pen") || Preferences.getAppLevelDesignationApnaRetro() == "MANAGER" || Preferences.getAppLevelDesignationApnaRetro() == "GENERAL MANAGER" || Preferences.getAppLevelDesignationApnaRetro() == "CEO"
-        ) {
-            activityPreviewBinding.review.visibility = View.VISIBLE
-        } else if (status.toLowerCase().contains("app")) {
-            activityPreviewBinding.review.visibility = View.GONE
-        } else if (status.toLowerCase().contains("res")) {
-            activityPreviewBinding.review.visibility = View.GONE
-
-
-        }
+//        if (status.toLowerCase()
+//                .contains("pen") || Preferences.getAppLevelDesignationApnaRetro() == "MANAGER" || Preferences.getAppLevelDesignationApnaRetro() == "GENERAL MANAGER" || Preferences.getAppLevelDesignationApnaRetro() == "CEO"
+//        ) {
+//            activityPreviewBinding.review.visibility = View.VISIBLE
+//        } else if (status.toLowerCase().contains("app")) {
+//            activityPreviewBinding.review.visibility = View.GONE
+//        } else if (status.toLowerCase().contains("res")) {
+//            activityPreviewBinding.review.visibility = View.GONE
+//
+//
+//        }
 
 
         activityPreviewBinding.arrow.setOnClickListener {
