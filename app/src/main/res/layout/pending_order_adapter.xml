@@ -14,6 +14,7 @@
             android:id="@+id/orderHead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
@@ -21,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:background="@color/dark_yellow"
+                android:background="#ffeac5"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -29,51 +30,49 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="0.7"
+                    android:layout_weight=".4"
                     android:gravity="center"
+                    android:paddingStart="@dimen/value_5dp"
                     android:paddingTop="@dimen/value_10dp"
                     android:orientation="vertical"
-                    android:paddingStart="@dimen/value_15dp"
-                    android:paddingEnd="@dimen/value_15dp"
                     android:paddingBottom="@dimen/value_10dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <ImageView
                         android:id="@+id/checkBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="43dp"
+                        android:layout_height="43dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/icon_item_unchecked" />
+                        android:src="@drawable/qc_checkbox" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/itemHeaderLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3.3"
+                    android:layout_weight="3.6"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:weightSum="3.3">
+                        android:weightSum="4">
 
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.75"
-                            android:paddingTop="@dimen/value_10dp">
+                            android:layout_weight="0.8"
+                            android:paddingTop="5dp">
 
                             <TextView
                                 android:id="@+id/storeId"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
-                                android:text="Store Id"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_13sp"
-                                app:fontFamily="@font/droidsans" />
+                                android:text="Store ID"
+                                android:textSize="12sp"
+                                app:fontFamily="@font/poppins_medium" />
 
                             <TextView
                                 android:id="@+id/storeIdText"
@@ -81,19 +80,47 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/storeId"
                                 android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/value_5dp"
-                                android:layout_marginBottom="@dimen/value_10dp"
+                                android:layout_marginBottom="5dp"
                                 android:text="50001400"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_14sp"
-                                app:fontFamily="@font/droidsans" />
+                                android:textColor="@color/black"
+                                android:textSize="13sp"
+                                app:fontFamily="@font/poppins_medium" />
                         </RelativeLayout>
+
 
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:paddingTop="@dimen/value_10dp">
+                            android:paddingTop="5dp">
+
+                            <TextView
+                                android:id="@+id/orderid"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:text="Order ID"
+                                android:textSize="12sp"
+                                app:fontFamily="@font/poppins_medium" />
+
+                            <TextView
+                                android:id="@+id/order_id_text"
+                                android:layout_width="match_parent"
+                                android:textAlignment="center"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/orderid"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="5dp"
+                                android:text="Hyderabad"
+                                android:textColor="@color/black"
+                                android:textSize="13sp"
+                                app:fontFamily="@font/poppins_medium" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.7"
+                            android:paddingTop="5dp">
 
                             <TextView
                                 android:id="@+id/postedDateText"
@@ -101,59 +128,29 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:text="Req. Date"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_13sp"
-                                app:fontFamily="@font/droidsans" />
+                                android:textSize="12sp"
+                                app:fontFamily="@font/poppins_medium" />
 
                             <TextView
                                 android:id="@+id/postedDate"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
+                                android:textAlignment="center"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/postedDateText"
                                 android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/value_5dp"
-                                android:layout_marginBottom="@dimen/value_10dp"
+                                android:layout_marginBottom="5dp"
                                 android:text="25-sep-2020"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_14sp"
-                                app:fontFamily="@font/droidsans" />
+                                android:textColor="@color/black"
+                                android:textSize="13sp"
+                                app:fontFamily="@font/poppins_medium" />
                         </RelativeLayout>
 
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.8"
-                            android:paddingTop="@dimen/value_10dp">
-
-                            <TextView
-                                android:id="@+id/orderid"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:text="Order Id"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_13sp"
-                                app:fontFamily="@font/droidsans" />
-
-                            <TextView
-                                android:id="@+id/order_id_text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/orderid"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/value_5dp"
-                                android:layout_marginBottom="@dimen/value_10dp"
-                                android:text="Hyderabad"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_14sp"
-                                app:fontFamily="@font/droidsans" />
-                        </RelativeLayout>
 
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.7"
-                            android:paddingTop="@dimen/value_10dp"
+                            android:paddingTop="5dp"
                             android:visibility="gone">
 
                             <TextView
@@ -163,8 +160,8 @@
                                 android:layout_centerHorizontal="true"
                                 android:text="DC Code"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/text_13sp"
-                                app:fontFamily="@font/droidsans" />
+                                android:textSize="12sp"
+                                app:fontFamily="@font/poppins_medium" />
 
                             <TextView
                                 android:id="@+id/locations"
@@ -173,17 +170,17 @@
                                 android:layout_below="@+id/bulkDiscText"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="@dimen/value_5dp"
-                                android:layout_marginBottom="@dimen/value_10dp"
+                                android:layout_marginBottom="5dp"
                                 android:text="hyderbad"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/text_14sp"
-                                app:fontFamily="@font/droidsans" />
+                                android:textSize="13sp"
+                                app:fontFamily="@font/poppins_medium" />
                         </RelativeLayout>
 
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.75">
+                            android:layout_weight="0.5">
 
                             <ImageView
                                 android:id="@+id/arrowClose"
@@ -201,7 +198,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:contentDescription="@string/app_name"
-                                android:src="@drawable/ic_baseline_add_24"
+                                android:src="@drawable/baseline_add_circle_outline_qc"
+                                android:tint="#fcb42b"
                                 android:visibility="visible" />
                         </RelativeLayout>
                     </LinearLayout>
@@ -212,6 +210,8 @@
                 android:id="@+id/extraData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
+
                 android:orientation="vertical">
 
                 <LinearLayout

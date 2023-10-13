@@ -992,7 +992,9 @@ class ComplaintsListDetailsViewModel:ViewModel() {
             URLEncoder.encode("dependents[site_type]", "utf-8")
         }=${responseList.get(position)!!.site!!.site_type!!.uid}" + "&&${
             URLEncoder.encode("dependents[employee_id]", "utf-8")
-        }=${Preferences.getValidatedEmpId()}"//SE35674  RH75774748
+        }=${Preferences.getValidatedEmpId()}" + "&&${
+            URLEncoder.encode("dependents[ch_role]", "utf-8")
+        }=${row.assign_to_role!!.uid}"//SE35674  RH75774748
         /* + "&&${
              URLEncoder.encode(
                  "dependents[ch_role]",

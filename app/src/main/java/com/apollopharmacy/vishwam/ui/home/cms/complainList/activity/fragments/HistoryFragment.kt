@@ -128,6 +128,7 @@ class HistoryFragment(
                     position
                 )
                 viewBinding.subworkflowConfigDetailsListLayout.visibility = View.VISIBLE
+                viewBinding.inventoryActionLayout.visibility=View.GONE
 
                 var layoutManager =
                     LinearLayoutManager(ViswamApp.context, LinearLayoutManager.HORIZONTAL, false)
@@ -137,6 +138,7 @@ class HistoryFragment(
                     subworkflowConfigDetailsAdapter
             } else {
                 viewBinding.subworkflowConfigDetailsListLayout.visibility = View.GONE
+                viewBinding.inventoryActionLayout.visibility=View.GONE
             }
 
 
@@ -342,7 +344,12 @@ class HistoryFragment(
                         "forward"
                     ) && managerUid.equals(employeeDetailsResponse?.data!!.uid)
                 ) {
-                    viewBinding.inventoryActionLayout.visibility = View.VISIBLE
+                    if(!isFromApprovalList){
+                        viewBinding.inventoryActionLayout.visibility = View.VISIBLE
+                    }else{
+                        viewBinding.inventoryActionLayout.visibility = View.GONE
+                    }
+//                    viewBinding.inventoryActionLayout.visibility = View.VISIBLE
                     viewBinding.inventoryRejectBtn.visibility = View.VISIBLE
                     viewBinding.inventoryForwardManagerBtn.visibility = View.GONE
                     viewBinding.inventoryChangeForwardBtn.visibility = View.VISIBLE
@@ -351,7 +358,12 @@ class HistoryFragment(
                         orderDataWp.ticketDetailsResponse?.data?.user!!.uid
                     )
                 ) {
-                    viewBinding.inventoryActionLayout.visibility = View.VISIBLE
+                    if(!isFromApprovalList){
+                        viewBinding.inventoryActionLayout.visibility = View.VISIBLE
+                    }else{
+                        viewBinding.inventoryActionLayout.visibility = View.GONE
+                    }
+//                    viewBinding.inventoryActionLayout.visibility = View.VISIBLE
                     viewBinding.inventoryRejectBtn.visibility = View.VISIBLE
                     viewBinding.inventoryForwardManagerBtn.visibility = View.GONE
                     viewBinding.inventoryChangeForwardBtn.visibility = View.GONE

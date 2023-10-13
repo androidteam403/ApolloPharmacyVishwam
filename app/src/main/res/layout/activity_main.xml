@@ -36,6 +36,18 @@
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_18sp"
             android:visibility="gone" />
+        <TextView
+            android:id="@+id/locationtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_10dp"
+            android:layout_below="@+id/headerTitle"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_toRightOf="@+id/backArrow"
+            android:text="Location Details"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/apolloLogo"
@@ -129,6 +141,18 @@
                     android:paddingBottom="5dp"
                     android:src="@drawable/plus"
                     android:visibility="gone" />
+
+
+                <ImageView
+                    android:id="@+id/plusIconattendence"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/plus"
+                    android:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/filtericonapna"
@@ -304,7 +328,7 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/logout_icon"
                 android:tint="#FDB813"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:ignore="UseAppTint" />
         </LinearLayout>
 

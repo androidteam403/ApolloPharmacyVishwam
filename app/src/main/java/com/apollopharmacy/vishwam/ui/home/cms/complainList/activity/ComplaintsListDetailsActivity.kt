@@ -80,7 +80,7 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
 //        viewPager2 = findViewById(R.id.view_pager_cms)
         activityComplaintsDetailsBinding.callback = this
         userData = LoginRepo.getProfile()!!
-
+        viewModel.getTicketRatingApi()
 
 
         orderDataWp = intent.getSerializableExtra("orderDataWp") as ResponseNewTicketlist.Row
@@ -105,6 +105,33 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
             }
 
 
+        }
+        viewModel.cmsticketRatingresponse.observe(this) {
+//            Utlis.hideLoading()
+//            ticketratingapiresponse = it.data;
+//            callAPI(1)
+//            if (!Preferences.getResponseNewTicketlist().isEmpty()) {
+//                if (Config.COMPLAINTLISTFETCHEDTIME != null) {
+//                    if (diffTime(Config.COMPLAINTLISTFETCHEDTIME!!,
+//                            Calendar.getInstance().getTime()) < 6
+//                    ) {
+//                        isTicketListThereFirstTime = false
+//                        viewModel.setTicketListFromSheredPeff()
+//                    } else {
+//                        Utlis.hideLoading()
+//                        ticketratingapiresponse = it.data;
+//                        callAPI(1)
+//                    }
+//                } else {
+//                    Utlis.hideLoading()
+//                    ticketratingapiresponse = it.data;
+//                    callAPI(1)
+//                }
+//            } else {
+            Utlis.hideLoading()
+            ticketratingapiresponse = it.data;
+//            callAPI(1)
+//            }
         }
         viewModel.command.observe(this, Observer {
             hideLoading()
@@ -753,7 +780,10 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
         row: SubworkflowConfigDetailsResponse.Rows,
         historyCallback: HistoryCallback,
     ) {
-        if (row.action!!.code.equals("forward") && row.assignToUser!!.uid!!.equals("Yes")) {
+        if ((row.action!!.code.equals("forward") || row.action!!.code.equals("change_forward_manager")) && row.assignToUser!!.uid!!.equals(
+                "Yes"
+            )
+        ) {
             if (NetworkUtil.isNetworkConnected(applicationContext)) {
                 showLoading(this)
                 viewModel.userlistForSubworkflowApiCall(

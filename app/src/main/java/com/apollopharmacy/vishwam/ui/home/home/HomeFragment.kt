@@ -211,7 +211,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             viewBinding.apolloSensingMenu.visibility = View.GONE
         }
 
-        if (isAttendanceRequired) {
+        if (true) {
             viewBinding.attendanceManagementMenu.visibility = View.VISIBLE
         } else {
             viewBinding.attendanceManagementMenu.visibility = View.GONE
@@ -353,7 +353,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     }
 
     override fun onClickMenuItem(itemName: String?, menuModels: ArrayList<MenuModel>) {
-        MainActivity.mInstance.displaySelectedScreen(itemName)
         MainActivity.mInstance.setSubmenu(menuModels)
+        if (itemName.equals("Dashboard", true)) {
+            MainActivity.mInstance.displaySelectedScreen("DashboardCeo")
+        } else {
+            MainActivity.mInstance.displaySelectedScreen(itemName)
+        }
     }
 }

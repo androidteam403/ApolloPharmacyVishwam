@@ -53,21 +53,21 @@
                             android:id="@+id/store"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="Store Id"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                          />
 
                         <TextView
                             android:id="@+id/store_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/store"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="16001"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                          />
                     </RelativeLayout>
 
 
@@ -81,21 +81,21 @@
                             android:id="@+id/orderHeads"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="Order Id"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                           />
 
                         <TextView
                             android:id="@+id/orderid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/orderHeads"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="50001400"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                           />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -108,21 +108,21 @@
                             android:id="@+id/requireDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="Req. Date"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                            />
 
                         <TextView
                             android:id="@+id/req_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/requireDate"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="25-sep-2020"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                             />
                     </RelativeLayout>
 
 

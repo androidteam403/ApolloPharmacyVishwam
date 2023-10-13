@@ -61,7 +61,7 @@ class DoctorListDialog : DialogFragment() {
         viewBinding.siteNotAvailable.setText("Doctor Not Available")
         viewBinding.textHead.setText("Select Doctor")
 
-        viewBinding.searchSite.setHint("Search Doctor Name")
+        viewBinding.searchView.setHint("Search Doctor Name")
         var viewModel = ViewModelProviders.of(requireActivity())[DoctorListViewModel::class.java]
         viewBinding.closeDialog.visibility = View.VISIBLE
 
@@ -93,7 +93,7 @@ class DoctorListDialog : DialogFragment() {
         abstractDialogClick = parentFragment as NewDialogSiteClickListner
         siteDataArrayList =
             arguments?.getSerializable(KEY_DATA) as ArrayList<DoctorListResponse.Doctor>
-        viewBinding.searchSite.visibility = View.VISIBLE
+        viewBinding.searchView.visibility = View.VISIBLE
         viewModel.siteArrayList(siteDataArrayList)
 
 
@@ -102,7 +102,7 @@ class DoctorListDialog : DialogFragment() {
 
 
 
-        viewBinding.searchSiteText.addTextChangedListener(object : TextWatcher {
+        viewBinding.searchView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 Utils.printMessage(TAG, "Before Text Changed :: " + s.toString())
             }

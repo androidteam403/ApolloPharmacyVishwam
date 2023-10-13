@@ -1891,13 +1891,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                         if (imagesExits) {
                             var answerImage = CmsChampsSurveyQa.AnswerImage()
                             var imagesList = ArrayList<CmsChampsSurveyQa.AnswerImage.Image>()
-                            var image = answerImage.Image()
+
                             var cmsChampsSurveQa = CmsChampsSurveyQa()
                             cmsChampsSurveQa.categoryName = i.categoryName
                             cmsChampsSurveQa.question = "Upload Images"
                             cmsChampsSurveQa.answerType = "image"
                             for (k in i.imageDataLists!!) {
                                 if (k.imageUrl != null && !k.imageUrl!!.isEmpty()) {
+                                    var image = answerImage.Image()
                                     image.url = k.imageUrl
                                     imagesList.add(image)
                                 }

@@ -25,7 +25,7 @@
                     android:id="@+id/pendingLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#EFFFE8"
+                    android:background="#d3e9da"
                     android:paddingTop="7dp"
                     android:orientation="horizontal"
                     android:weightSum="1">
@@ -54,21 +54,21 @@
                             android:id="@+id/store"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="Store Id"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                          />
 
                         <TextView
                             android:id="@+id/store_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/store"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="-"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                            />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -82,21 +82,21 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="Order Id"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                             />
 
                         <TextView
                             android:id="@+id/orderid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/order"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="50001400"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                       />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -109,21 +109,21 @@
                             android:id="@+id/postedDateText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="Req. Date"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                          />
 
                         <TextView
                             android:id="@+id/req_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/postedDateText"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/poppins_medium"
                             android:text="25-sep-2020"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                       />
                     </RelativeLayout>
 
 
@@ -160,7 +160,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#EFFFE8"
+                    android:background="#d3e9da"
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/value_5dp"
                     android:weightSum="1">
@@ -176,7 +176,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#8FBC8F">
+                    android:background="#d3e9da">
 
                 </LinearLayout>
 

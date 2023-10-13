@@ -93,13 +93,15 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
                 }
             }
             if (fragment.equals("approved")) {
+                activityQcPendingBinding.status.visibility=View.VISIBLE
+
                 activityQcPendingBinding.actionLayout.visibility = View.GONE
                 activityQcPendingBinding.recyclerViewPending.visibility = View.GONE
                 activityQcPendingBinding.recyclerViewApproved.visibility = View.VISIBLE
                 activityQcPendingBinding.statusRecyleview.visibility = View.VISIBLE
                 activityQcPendingBinding.recyclerViewReject.visibility = View.GONE
 
-                activityQcPendingBinding.heaader.setBackgroundColor(Color.parseColor("#EFFFE8"))
+                activityQcPendingBinding.heaader.setBackgroundColor(Color.parseColor("#d3e9da"))
 
                 statusList = intent.getSerializableExtra("statusList") as ArrayList<ActionResponse>
                 activityQcPendingBinding.listName.setText("Approved List")
@@ -107,6 +109,13 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
                 if (itemsList != null) {
                     for (i in itemsList.indices) {
                         if (itemsList[i].orderno.equals(orderId)) {
+
+                            approvedAdapter = QcApprovedOrderDetailsAdapter(
+                                this,
+                                itemsList[i].itemlist!!, 0, this, orderId
+                            )
+                            activityQcPendingBinding.recyclerViewApproved.adapter = approvedAdapter
+
 
 
                             var totalPrices = 0.0
@@ -167,11 +176,6 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
 
 
 
-                            approvedAdapter = QcApprovedOrderDetailsAdapter(
-                                this,
-                                itemsList[i].itemlist!!, 0, this, orderId
-                            )
-                            activityQcPendingBinding.recyclerViewApproved.adapter = approvedAdapter
 
 
                         }
@@ -196,6 +200,8 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
 
 
             } else if (fragment.equals("reject")) {
+                activityQcPendingBinding.status.visibility=View.VISIBLE
+
                 activityQcPendingBinding.actionLayout.visibility = View.GONE
                 activityQcPendingBinding.recyclerViewPending.visibility = View.GONE
                 activityQcPendingBinding.recyclerViewApproved.visibility = View.GONE
@@ -289,6 +295,7 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
 
 
             } else if (fragment.equals("pending")) {
+                activityQcPendingBinding.status.visibility=View.GONE
                 pendingList =
                     intent.getSerializableExtra("pendingList") as ArrayList<QcListsResponse.Pending>
                 if (pendingList != null) {

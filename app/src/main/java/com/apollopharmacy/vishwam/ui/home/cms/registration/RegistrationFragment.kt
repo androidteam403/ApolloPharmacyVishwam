@@ -36,6 +36,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_CAMERA
+import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_GALLERY
 import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_PRODUCT_FRONT_CAMERA
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
@@ -320,6 +321,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             } else {
                 if (!checkPermission()) {
                     askPermissions(REQUEST_CODE_CAMERA)
+                    askPermissions(REQUEST_CODE_GALLERY)
                     return@setOnClickListener
                 } else
                     showOption(0)
@@ -416,6 +418,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             } else {
                 if (!checkPermission()) {
                     askPermissions(REQUEST_CODE_CAMERA)
+//                    askPermissions(REQUEST_CODE_GALLERY)
                     return@setOnClickListener
                 } else
                     showOption(0)
@@ -440,7 +443,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewBinding.productImageView.frontImageDelete.visibility = View.GONE
             viewBinding.productImageView.productFrontImagePreview.setImageDrawable(
                 resources.getDrawable(
-                    R.drawable.ic_capture_image
+                    R.drawable.cam_ash
                 )
             )
             imagesFilledCount--
@@ -450,7 +453,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewBinding.productImageView.backImageDelete.visibility = View.GONE
             viewBinding.productImageView.productBackImagePreview.setImageDrawable(
                 resources.getDrawable(
-                    R.drawable.ic_capture_image
+                    R.drawable.cam_ash
                 )
             )
             imagesFilledCount--
@@ -460,7 +463,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewBinding.productImageView.otherImageDelete.visibility = View.GONE
             viewBinding.productImageView.productOtherImagePreview.setImageDrawable(
                 resources.getDrawable(
-                    R.drawable.ic_capture_image
+                    R.drawable.cam_ash
                 )
             )
             imagesFilledCount--
@@ -1137,13 +1140,19 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     private fun openGallery() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(
-            Intent.createChooser(intent, "Select Picture"), Config.REQUEST_CODE_GALLERY
-        )
+        if (!checkPermission()) {
+            askPermissions(REQUEST_CODE_GALLERY)
+        }else{
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(
+                Intent.createChooser(intent, "Select Picture"), Config.REQUEST_CODE_GALLERY
+            )
+        }
+
+
     }
 
     private fun openCameraForFrontImage(imgType: Int) {
@@ -1200,6 +1209,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         clickedCamera = num
         if (num == 0) {
             notFrontView = true
+        }else{
+            notFrontView = false
         }
         dialog = Dialog(requireContext())
 //        val window: Window = myDialog.getWindow()
@@ -1271,7 +1282,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                             if (!notFrontView) {
                                 if ((imagesFilledCount == 0 && images.itemCount == 3)
                                     || (imagesFilledCount == 1 && images.itemCount == 2)
-                                    || (imagesFilledCount == 2 && images.itemCount == 1)
+                                    || (imagesFilledCount == 2 && images.itemCount == 1 )
+                                    ||(imagesFilledCount == 0 && images.itemCount == 2 )
                                 ) {
                                     for (i in 0 until images.itemCount) {
                                         var imagePath =
