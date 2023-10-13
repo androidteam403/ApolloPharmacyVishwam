@@ -46,7 +46,7 @@ class QcRejectedOrderDetailsAdapter(
             holder.orderdetailsBinding.reason.setText(items.remarks)
             holder.orderdetailsBinding.quantityText.setText(items.qty.toString())
         holder.orderdetailsBinding.medicineName.setText(items.itemname)
-        holder.orderdetailsBinding.categoryName.setText("- " + items.category)
+        holder.orderdetailsBinding.categoryName.setText("( " + items.category+" )")
         holder.orderdetailsBinding.price.setText(items.price.toString())
         holder.orderdetailsBinding.discountTotal.setText(items.discamount.toString())
         if (items.imageurls.toString().isNullOrEmpty()){

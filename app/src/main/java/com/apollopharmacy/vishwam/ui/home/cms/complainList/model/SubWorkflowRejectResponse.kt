@@ -2,7 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.cms.complainList.model
 
 import com.google.gson.annotations.SerializedName
 
-class SubWorkflowRejectResponse {
+class SubWorkflowRejectResponse :java.io.Serializable{
     @field:SerializedName("message")
     val message: String? = null
 
@@ -12,7 +12,7 @@ class SubWorkflowRejectResponse {
     @field:SerializedName("data")
     val data: Data? = null
 
-    class Data {
+    class Data :java.io.Serializable{
         @field:SerializedName("uid")
         val uid: String? = null
 

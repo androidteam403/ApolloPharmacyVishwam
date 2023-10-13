@@ -2,7 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.cms.complainList.model
 
 import com.google.gson.annotations.SerializedName
 
-class SubWorkflowRejectRequest {
+class SubWorkflowRejectRequest :java.io.Serializable{
 
     @field:SerializedName("comment")
     var comment: String? = null

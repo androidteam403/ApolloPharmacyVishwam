@@ -1,5 +1,7 @@
 package com.apollopharmacy.vishwam.data.model.discount
 
+import java.io.Serializable
+
 data class RejectedOrderResponse(
     val PENDINGLIST: List<PENDINGLISTItem>,
     val APPROVEDLIST: List<APPROVEDLISTItem>,
@@ -49,7 +51,7 @@ data class RejectedOrderResponse(
         val ITEMS: List<ITEMSItem>,
         val REMARKS: List<REMARKSItem>,
         val STATUSLIST: ArrayList<PendingOrder.STATUSItem>,
-    )
+    ):Serializable
 
     data class PENDINGLISTItem(
         val TRACKINGREFNAME: String,
@@ -74,7 +76,7 @@ data class RejectedOrderResponse(
         val CREATEDDATE: String,
         val REMARKS: String,
         val EMPNAME: String,
-    )
+    ):Serializable
 
     data class ITEMSItem(
         val ITEMID:  String? = null,
@@ -86,6 +88,6 @@ data class RejectedOrderResponse(
         val PRICE: Double,
         val QTY: Double,
         val ORIGINAL_DISC: Double,
-    )
+    ):Serializable
 }
 

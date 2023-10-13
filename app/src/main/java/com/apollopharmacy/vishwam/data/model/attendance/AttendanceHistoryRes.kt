@@ -19,5 +19,7 @@ data class AttendanceHistoryRes(
     val longitude: String,
 
     @field:SerializedName("DURIATION")
-    val duration: String
-)
+    val duration: String,
+    var isExpanded: Boolean
+
+    )

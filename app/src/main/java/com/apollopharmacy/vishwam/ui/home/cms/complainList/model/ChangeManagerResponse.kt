@@ -7,10 +7,10 @@ data class ChangeManagerResponse(
     val zcServerDateTime: String,
     val zcServerHost: String,
     val zcServerIp: String
-)
+):java.io.Serializable
 
 data class ChangeManagerData(
     val isExecSuccess: Boolean,
     val isUpdate: Boolean,
     val uid: String
-)
+):java.io.Serializable

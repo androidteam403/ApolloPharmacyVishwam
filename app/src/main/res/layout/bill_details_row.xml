@@ -14,48 +14,53 @@
                 android:id="@+id/medicineNameOrg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="24dp"
                 android:lines="1"
+                android:text="Paracetamol"
                 android:textColor="@color/backgroundColor"
-                android:textSize="@dimen/text_15sp"
-                app:fontFamily="@font/droidsans" />
+                android:textSize="12sp"
+                app:fontFamily="@font/poppins_semi_bold" />
 
             <LinearLayout
                 android:id="@+id/billedLayoutOne"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/medicineNameOrg"
-                android:layout_marginLeft="10dp"
                 android:orientation="horizontal"
                 android:weightSum="3">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value_10dp"
+
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/medicineNameHeader"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="Req.Qty"
-                        android:textColor="@color/fadedTextColor"
+                        android:paddingStart="5dp"
+
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/reqQuantity"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:paddingStart="5dp"
+
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/medicineNameHeader"
-                        android:layout_centerHorizontal="true"
                         android:text="12"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                 </RelativeLayout>
 
@@ -66,24 +71,21 @@
 
                     <TextView
                         android:id="@+id/quantityHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"                        android:layout_height="wrap_content"
                         android:text="Billed.Qty."
-                        android:textColor="@color/fadedTextColor"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/quantityText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"                        android:layout_height="wrap_content"
                         android:layout_below="@+id/quantityHeader"
-                        android:layout_centerHorizontal="true"
                         android:text="12"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                 </RelativeLayout>
 
@@ -94,68 +96,68 @@
 
                     <TextView
                         android:id="@+id/priceHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"                        android:layout_height="wrap_content"
                         android:text="Batch No."
-                        android:textColor="@color/fadedTextColor"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
                     <TextView
                         android:id="@+id/batchNo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"                        android:layout_height="wrap_content"
                         android:layout_below="@+id/priceHeader"
-                        android:layout_centerHorizontal="true"
                         android:text="100"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
 
                 </RelativeLayout>
 
 
             </LinearLayout>
+
             <LinearLayout
-                android:layout_below="@+id/billedLayoutOne"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/billedLayoutOne"
                 android:layout_marginTop="2dp"
-                android:weightSum="3"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal"
+                android:weightSum="3">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="@dimen/value_10dp"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/bulkDiscText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:paddingStart="5dp"
+
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="Approv.%"
-                        android:textColor="@color/fadedTextColor"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
 
                     <TextView
                         android:id="@+id/approvedPer"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:paddingStart="5dp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/bulkDiscText"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"
                         android:text="1"
+
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
 
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -163,58 +165,53 @@
 
                     <TextView
                         android:id="@+id/finalBilltext"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"                        android:layout_height="wrap_content"
                         android:text="Billed %"
-                        android:textColor="@color/fadedTextColor"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
 
                     <TextView
                         android:id="@+id/billedpercentage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/finalBilltext"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"
                         android:text="1"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
 
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/marginDiscLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:visibility="visible">
 
                     <TextView
                         android:id="@+id/marginDiscHeader"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="Margin"
-                        android:textColor="@color/fadedTextColor"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
 
                     <TextView
                         android:id="@+id/marginDiscText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"                        android:layout_height="wrap_content"
                         android:layout_below="@+id/marginDiscHeader"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"
                         android:text="1%"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
 
 
                 </RelativeLayout>

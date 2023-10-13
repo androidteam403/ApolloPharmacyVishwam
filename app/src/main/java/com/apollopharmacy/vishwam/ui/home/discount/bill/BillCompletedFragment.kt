@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.discount.bill
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +17,15 @@ import com.apollopharmacy.vishwam.databinding.BillDetailsRowBinding
 import com.apollopharmacy.vishwam.databinding.BillRowBinding
 import com.apollopharmacy.vishwam.databinding.FragmentBillCompletedBinding
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
+import com.apollopharmacy.vishwam.ui.home.discount.approved.ApprovedFragmentCallback
+import com.apollopharmacy.vishwam.ui.home.discount.approved.DiscountApprovedActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import java.util.*
 
-class BillCompletedFragment : BaseFragment<BillCompletedViewModel, FragmentBillCompletedBinding>() {
+class BillCompletedFragment : BaseFragment<BillCompletedViewModel, FragmentBillCompletedBinding>(),BilledFragmentCallback {
 
     override val layoutRes: Int
         get() = R.layout.fragment_bill_completed
@@ -49,7 +52,7 @@ class BillCompletedFragment : BaseFragment<BillCompletedViewModel, FragmentBillC
         viewModel.billArrayLiveData.observe(viewLifecycleOwner, Observer {
             hideLoading()
             Utils.printMessage("billData", it.toString())
-            viewBinding.recyclerViewPending.adapter = BillRecyclerView(it)
+            viewBinding.recyclerViewPending.adapter = BillRecyclerView(it,this)
         })
         viewModel.command.observe(viewLifecycleOwner, Observer {
             hideLoading()
@@ -68,9 +71,16 @@ class BillCompletedFragment : BaseFragment<BillCompletedViewModel, FragmentBillC
             }
         })
     }
+
+    override fun onClick(orderdetails: ArrayList<BILLDEATILSItem>, position: Int) {
+        val i = Intent(context, DiscountBillingActivity::class.java)
+        i.putExtra("billList",orderdetails)
+        i.putExtra("position",position)
+
+        startActivityForResult(i, 210)    }
 }
 
-class BillRecyclerView(val billData: List<BILLDEATILSItem>) :
+class BillRecyclerView(val billData: ArrayList<BILLDEATILSItem>, private val listener: BilledFragmentCallback) :
     SimpleRecyclerView<BillRowBinding, BILLDEATILSItem>(
         billData,
         R.layout.bill_row
@@ -100,17 +110,19 @@ class BillRecyclerView(val billData: List<BILLDEATILSItem>) :
         binding.extraData.visibility =
             if (orderItemsId.contains(items.iNDENTNO)) View.VISIBLE else View.GONE
         binding.orderHead.setOnClickListener {
-            if (orderItemsId.contains(items.iNDENTNO)) {
-                binding.extraData.visibility = View.GONE
-                orderItemsId.remove(items.iNDENTNO)
-                binding.arrowClose.visibility = View.GONE
-                binding.arrow.visibility = View.VISIBLE
-            } else {
-                binding.extraData.visibility = View.VISIBLE
-                orderItemsId.add(items.iNDENTNO)
-                binding.arrowClose.visibility = View.VISIBLE
-                binding.arrow.visibility = View.GONE
-            }
+            listener.onClick(billData,position)
+
+//            if (orderItemsId.contains(items.iNDENTNO)) {
+//                binding.extraData.visibility = View.GONE
+//                orderItemsId.remove(items.iNDENTNO)
+//                binding.arrowClose.visibility = View.GONE
+//                binding.arrow.visibility = View.VISIBLE
+//            } else {
+//                binding.extraData.visibility = View.VISIBLE
+//                orderItemsId.add(items.iNDENTNO)
+//                binding.arrowClose.visibility = View.VISIBLE
+//                binding.arrow.visibility = View.GONE
+//            }
         }
         binding.recyclerView.adapter = OrderAdapter(items = billData[position].iTEMS, false)
     }

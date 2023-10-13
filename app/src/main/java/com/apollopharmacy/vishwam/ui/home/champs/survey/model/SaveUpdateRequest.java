@@ -29,6 +29,18 @@ public class SaveUpdateRequest implements Serializable {
     @SerializedName("trainer_id")
     @Expose
     private String trainerId;
+    @SerializedName("employee_id")
+    @Expose
+    private String employeeId;
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
     @SerializedName("trainer_name")
     @Expose
     private String trainerName;

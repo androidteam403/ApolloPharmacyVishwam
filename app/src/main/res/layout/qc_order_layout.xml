@@ -24,10 +24,10 @@
                 android:layout_marginRight="24dp"
                 android:lines="1"
                 android:text="Cirizen"
-                android:textColor="#48b184"
+                android:textColor="#135A6E"
                 android:textSize="@dimen/text_12sp"
                 android:textStyle="bold"
-                app:fontFamily="@font/roboto_medium" />
+                app:fontFamily="@font/poppins_semi_bold" />
 
             <TextView
                 android:id="@+id/category_name"
@@ -38,10 +38,12 @@
                 android:layout_marginRight="24dp"
                 android:layout_toRightOf="@id/medicineName"
                 android:lines="1"
+                android:textColor="#135A6E"
+
                 android:text="Pharma"
                 android:textSize="@dimen/text_12sp"
                 android:textStyle="bold"
-                app:fontFamily="@font/roboto_medium" />
+                app:fontFamily="@font/poppins_semi_bold" />
 
             <LinearLayout
                 android:id="@+id/header_label_layout"
@@ -65,8 +67,7 @@
                         android:layout_height="wrap_content"
                         android:text="Req Qty."
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold"
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
 
                 </RelativeLayout>
 
@@ -82,8 +83,7 @@
                         android:layout_height="wrap_content"
                         android:text="Approve Qty."
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold"
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
 
 
                 </RelativeLayout>
@@ -103,8 +103,7 @@
                         android:text="Reason"
                         android:textAlignment="center"
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold"
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
 
 
                 </RelativeLayout>
@@ -122,8 +121,8 @@
                         android:text="Price "
                         android:textAlignment="center"
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold"
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
+
 
 
                 </RelativeLayout>
@@ -140,8 +139,7 @@
                         android:layout_alignParentStart="true"
                         android:text="Images "
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold"
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
 
                     <!--                    <ImageView-->
                     <!--                        android:layout_width="@dimen/value_25dp"-->
@@ -220,8 +218,8 @@
                         android:text="100"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold"
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
+
 
                 </RelativeLayout>
 
@@ -242,8 +240,8 @@
                             android:layout_width="@dimen/value_30dp"
                             android:layout_height="@dimen/value_30dp"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/qc_minus" />
-
+                            android:src="@drawable/minus"
+                            app:tint="@color/grey" />
 
                         <EditText
                             android:id="@+id/approve_qty_text"
@@ -259,15 +257,15 @@
                             android:text="0"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
-                            app:fontFamily="@font/droidsans" />
+                            app:fontFamily="@font/poppins_medium" />
 
                         <ImageView
                             android:id="@+id/add"
                             android:layout_width="@dimen/value_30dp"
                             android:layout_height="@dimen/value_30dp"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/qc_plus" />
-
+                            android:src="@drawable/add_circle"
+                            app:tint="#27abe4" />
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -299,7 +297,7 @@
                             android:text="select"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen11sp"
-                            app:fontFamily="@font/roboto_medium" />
+                            app:fontFamily="@font/poppins_medium" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -327,9 +325,8 @@
                         android:text="100"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold"
 
-                        app:fontFamily="@font/roboto_medium" />
+                        app:fontFamily="@font/poppins_medium" />
 
                 </RelativeLayout>
 
@@ -367,8 +364,7 @@
                         android:layout_marginTop="2dp"
                         android:text="100"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/poppins_medium" />
                 </RelativeLayout>
 
             </LinearLayout>

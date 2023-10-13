@@ -3,24 +3,40 @@ package com.apollopharmacy.vishwam.ui.home.cms.registration
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
+import android.content.ContentUris
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.apollopharmacy.eposmobileapp.ui.dashboard.ConfirmSiteDialog
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_CAMERA
+import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_GALLERY
 import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_PRODUCT_FRONT_CAMERA
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
@@ -30,6 +46,7 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
+import com.apollopharmacy.vishwam.databinding.ChooseImageOptionLayoutBinding
 import com.apollopharmacy.vishwam.databinding.FragmentRegistrationBinding
 import com.apollopharmacy.vishwam.databinding.ViewImageItemBinding
 import com.apollopharmacy.vishwam.dialog.*
@@ -49,7 +66,10 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import me.echodev.resizer.Resizer
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -62,8 +82,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     ReasonsDialog.ReasonsDialogClickListner,
     SearchArticleCodeDialog.SearchArticleDialogClickListner, CalendarFutureDate.DateSelectedFuture,
     OnTransactionPOSSelectedListnier, IOnBackPressed, CmsFileUploadCallback {
-
+    var imagesFilledCount = 0
+    var clickedCamera = 0
+    var notFrontView = false
     private var statusInventory: String? = null
+    lateinit var dialog: Dialog
     lateinit var userData: LoginDetails
     lateinit var storeData: LoginDetails.StoreData
     private var fileArrayList = ArrayList<ImageDataDto>()
@@ -74,6 +97,10 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     var frontImageFile: File? = null
     var backImageFile: File? = null
     var otherImageFile: File? = null
+    var frontImageFilled: Boolean = false
+    var backImageFilled: Boolean = false
+    var otherImageFilled: Boolean = false
+
     private var categoryListSelected = ArrayList<DepartmentV2Response.CategoriesItem>()
     private var subCategoryListSelected = ArrayList<DepartmentV2Response.SubcategoryItem>()
     private var departmentId: String? = null
@@ -284,6 +311,25 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             }
         })
 
+        viewBinding.captureUploadLayout.setOnClickListener {
+            if (fileArrayList.size == 2) {
+                Toast.makeText(
+                    requireContext(),
+                    context?.resources?.getString(R.string.label_upload_image_limit),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                if (!checkPermission()) {
+                    askPermissions(REQUEST_CODE_CAMERA)
+                    askPermissions(REQUEST_CODE_GALLERY)
+                    return@setOnClickListener
+                } else
+                    showOption(0)
+//                    openCamera()
+            }
+
+        }
+
         //select category form Reasons list api..........
         viewBinding.selectCategory.setOnClickListener {
             if (reasoncategoryListSelected.size == 0) {
@@ -372,46 +418,55 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             } else {
                 if (!checkPermission()) {
                     askPermissions(REQUEST_CODE_CAMERA)
+//                    askPermissions(REQUEST_CODE_GALLERY)
                     return@setOnClickListener
-                } else openCamera()
+                } else
+                    showOption(0)
+//                    openCamera()
             }
         }
 
         viewBinding.productImageView.otherImageLayout.setOnClickListener {
-            openCameraForFrontImage(3)
+            showOption(3)
+//            openCameraForFrontImage(3)
         }
         viewBinding.productImageView.backImageLayout.setOnClickListener {
-            openCameraForFrontImage(2)
+            showOption(2)
+//            openCameraForFrontImage(2)
         }
         viewBinding.productImageView.frontImageLayout.setOnClickListener {
-            openCameraForFrontImage(1)
+//            openCameraForFrontImage(1)
+            showOption(1)
         }
         viewBinding.productImageView.frontImageDelete.setOnClickListener {
             frontImageFile = null
             viewBinding.productImageView.frontImageDelete.visibility = View.GONE
             viewBinding.productImageView.productFrontImagePreview.setImageDrawable(
                 resources.getDrawable(
-                    R.drawable.ic_capture_image
+                    R.drawable.cam_ash
                 )
             )
+            imagesFilledCount--
         }
         viewBinding.productImageView.backImageDelete.setOnClickListener {
             backImageFile = null
             viewBinding.productImageView.backImageDelete.visibility = View.GONE
             viewBinding.productImageView.productBackImagePreview.setImageDrawable(
                 resources.getDrawable(
-                    R.drawable.ic_capture_image
+                    R.drawable.cam_ash
                 )
             )
+            imagesFilledCount--
         }
         viewBinding.productImageView.otherImageDelete.setOnClickListener {
             otherImageFile = null
             viewBinding.productImageView.otherImageDelete.visibility = View.GONE
             viewBinding.productImageView.productOtherImagePreview.setImageDrawable(
                 resources.getDrawable(
-                    R.drawable.ic_capture_image
+                    R.drawable.cam_ash
                 )
             )
+            imagesFilledCount--
         }
         viewBinding.dateOfProblem.setOnClickListener { openDateDialog() }
         viewBinding.articleCode.setOnClickListener {
@@ -685,7 +740,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     } else if (oldmrpPrice.toDouble() < purchasePrice.toDouble() || newMrpPrice.toDouble() < purchasePrice.toDouble()) {
                         showErrorMsg(context?.resources?.getString(R.string.err_msg_purchace_price_old_new))
                         return false
-                    }else if (!newMrpPrice.isEmpty() && !oldmrpPrice.isEmpty() && newMrpPrice.toDouble() == oldmrpPrice.toDouble()){
+                    } else if (!newMrpPrice.isEmpty() && !oldmrpPrice.isEmpty() && newMrpPrice.toDouble() == oldmrpPrice.toDouble()) {
                         showErrorMsg(context?.resources?.getString(R.string.err_msg_old_new_price_should_not_same))
                         return false
                     }
@@ -1043,7 +1098,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         when (requestCode) {
             REQUEST_CODE_CAMERA -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openCamera()
+                    showOption(0)
+//                    openCamera()
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -1055,7 +1111,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
             REQUEST_CODE_PRODUCT_FRONT_CAMERA -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openCameraForFrontImage(1)
+//                    openCameraForFrontImage(1)
+                    showOption(1)
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -1080,6 +1137,22 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         startActivityForResult(intent, REQUEST_CODE_CAMERA)
+    }
+
+    private fun openGallery() {
+        if (!checkPermission()) {
+            askPermissions(REQUEST_CODE_GALLERY)
+        }else{
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(
+                Intent.createChooser(intent, "Select Picture"), Config.REQUEST_CODE_GALLERY
+            )
+        }
+
+
     }
 
     private fun openCameraForFrontImage(imgType: Int) {
@@ -1132,10 +1205,269 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         }
     }
 
+    private fun showOption(num: Int) {
+        clickedCamera = num
+        if (num == 0) {
+            notFrontView = true
+        }else{
+            notFrontView = false
+        }
+        dialog = Dialog(requireContext())
+//        val window: Window = myDialog.getWindow()
+        dialog.window!!.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val chooseImageOptionLayoutBinding =
+            DataBindingUtil.inflate<ChooseImageOptionLayoutBinding>(
+                LayoutInflater.from(requireContext()),
+                R.layout.choose_image_option_layout,
+                null,
+                false
+            )
+        dialog.setContentView(chooseImageOptionLayoutBinding.root)
+        chooseImageOptionLayoutBinding.cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        // Open camera
+        chooseImageOptionLayoutBinding.camera.setOnClickListener {
+
+            if (num == 0) {
+                openCamera()
+            } else {
+                openCameraForFrontImage(num)
+            }
+        }
+        // Open gallery
+        chooseImageOptionLayoutBinding.gallery.setOnClickListener {
+            openGallery()
+        }
+
+        dialog.setCancelable(false)
+        dialog.show()
+
+
+//        ImagePicker.with(this@ApolloSensingFragment)
+//            .crop()
+//            .start(Config.REQUEST_CODE_CAMERA)
+
+//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        imageFile = File(ViswamApp.context.cacheDir, "${System.currentTimeMillis()}.jpg")
+//        compressedImageFileName = "${System.currentTimeMillis()}.jpg"
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile))
+//        } else {
+//            val photoUri = FileProvider.getUriForFile(
+//                ViswamApp.context, ViswamApp.context.packageName + ".provider", imageFile!!
+//            )
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+//        }
+//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//        startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 || requestCode == 2 || requestCode == 3) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (dialog != null) {
+            dialog.dismiss()
+        }
+        if (requestCode == 1 || requestCode == 2 || requestCode == 3 || requestCode == Config.REQUEST_CODE_GALLERY) {
+            if (requestCode == Config.REQUEST_CODE_GALLERY) {
+                dialog.dismiss()
+                if (data != null && data!!.clipData != null) {
+                    val images = data!!.clipData
+                    if (images != null) {
+                        if (images!!.itemCount <= 3) {
+                            if (!notFrontView) {
+                                if ((imagesFilledCount == 0 && images.itemCount == 3)
+                                    || (imagesFilledCount == 1 && images.itemCount == 2)
+                                    || (imagesFilledCount == 2 && images.itemCount == 1 )
+                                    ||(imagesFilledCount == 0 && images.itemCount == 2 )
+                                ) {
+                                    for (i in 0 until images.itemCount) {
+                                        var imagePath =
+                                            getRealPathFromURI(
+                                                requireContext(),
+                                                images.getItemAt(i).uri
+                                            )
+                                        var imageFileGallery: File? = File(imagePath)
+                                        val imageBase64 =
+                                            encodeImage(imageFileGallery!!.absolutePath)
+                                        val resizedImage =
+                                            Resizer(requireContext()).setTargetLength(1080)
+                                                .setQuality(100)
+                                                .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                                                .setOutputDirPath(
+                                                    ViswamApp.Companion.context.cacheDir.toString()
+                                                )
+
+                                                .setSourceImage(imageFileGallery).resizedFile
+
+//
+                                        if (frontImageFile == null) {
+                                            viewBinding.productImageView.productFrontImagePreview.setImageURI(
+                                                Uri.fromFile(
+                                                    resizedImage
+                                                )
+                                            )
+                                            viewBinding.productImageView.frontImageDelete.visibility =
+                                                View.VISIBLE
+                                            frontImageFile = resizedImage
+                                            imagesFilledCount++
+                                        } else if (backImageFile == null) {
+                                            viewBinding.productImageView.productBackImagePreview.setImageURI(
+                                                Uri.fromFile(
+                                                    resizedImage
+                                                )
+                                            )
+                                            viewBinding.productImageView.backImageDelete.visibility =
+                                                View.VISIBLE
+                                            backImageFile = resizedImage
+                                            imagesFilledCount++
+                                        } else if (otherImageFile == null) {
+                                            viewBinding.productImageView.productOtherImagePreview.setImageURI(
+                                                Uri.fromFile(
+                                                    resizedImage
+                                                )
+                                            )
+                                            viewBinding.productImageView.otherImageDelete.visibility =
+                                                View.VISIBLE
+                                            otherImageFile = resizedImage
+                                            imagesFilledCount++
+                                        }
+
+                                    }
+                                } else {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "You are allowed to upload only three images",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } else {
+                                if ((fileArrayList.size == 0 && images.itemCount == 2)
+                                    || (fileArrayList.size == 1 && images.itemCount == 1)
+                                ) {
+                                    for (i in 0 until images.itemCount) {
+                                        var imagePath =
+                                            getRealPathFromURI(
+                                                requireContext(),
+                                                images.getItemAt(i).uri
+                                            )
+                                        var imageFileGallery: File? = File(imagePath)
+                                        val imageBase64 =
+                                            encodeImage(imageFileGallery!!.absolutePath)
+                                        val resizedImage =
+                                            Resizer(requireContext()).setTargetLength(1080)
+                                                .setQuality(100)
+                                                .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                                                .setOutputDirPath(
+                                                    ViswamApp.Companion.context.cacheDir.toString()
+                                                )
+
+                                                .setSourceImage(imageFileGallery).resizedFile
+                                        fileArrayList.add(ImageDataDto(resizedImage, ""))
+//           imagesFilledCount++
+                                        adapter.notifyAdapter(fileArrayList)
+                                    }
+
+                                } else {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "You are allowed to upload only two images",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+
+
+                        } else {
+                            if (!notFrontView) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "You are allowed to upload only three images",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "You are allowed to upload only two images",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        }
+                    }
+                } else {
+                    dialog.dismiss()
+                    if (data != null) {
+
+                        val uri = data!!.data
+                        var imagePath = getRealPathFromURI(requireContext(), uri!!)
+                        var imageFileGallery: File? = File(imagePath)
+                        val resizedImage =
+                            Resizer(requireContext()).setTargetLength(1080).setQuality(100)
+                                .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                                .setOutputDirPath(
+                                    ViswamApp.Companion.context.cacheDir.toString()
+                                )
+
+                                .setSourceImage(imageFileGallery).resizedFile
+                        if (!notFrontView) {
+                            if (clickedCamera == 1 && frontImageFile == null) {
+                                viewBinding.productImageView.productFrontImagePreview.setImageURI(
+                                    Uri.fromFile(
+                                        resizedImage
+                                    )
+                                )
+                                viewBinding.productImageView.frontImageDelete.visibility =
+                                    View.VISIBLE
+                                frontImageFile = resizedImage
+                                imagesFilledCount++
+                            } else if (clickedCamera == 2 && backImageFile == null) {
+                                viewBinding.productImageView.productBackImagePreview.setImageURI(
+                                    Uri.fromFile(
+                                        resizedImage
+                                    )
+                                )
+                                viewBinding.productImageView.backImageDelete.visibility =
+                                    View.VISIBLE
+                                backImageFile = resizedImage
+                                imagesFilledCount++
+                            } else if (clickedCamera == 3 && otherImageFile == null) {
+                                viewBinding.productImageView.productOtherImagePreview.setImageURI(
+                                    Uri.fromFile(
+                                        resizedImage
+                                    )
+                                )
+                                viewBinding.productImageView.otherImageDelete.visibility =
+                                    View.VISIBLE
+                                otherImageFile = resizedImage
+                                imagesFilledCount++
+                            }
+                        } else {
+                            if (fileArrayList.size <= 1) {
+                                fileArrayList.add(ImageDataDto(resizedImage, ""))
+//           imagesFilledCount++
+                                adapter.notifyAdapter(fileArrayList)
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "You are allowed to upload only two images",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        }
+                    }
+
+                }
+
+            } else if (resultCode == Activity.RESULT_OK) {
                 when (requestCode) {
                     1 -> {
                         viewBinding.productImageView.productFrontImagePreview.setImageURI(
@@ -1143,6 +1475,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                                 frontImageFile
                             )
                         )
+                        imagesFilledCount++
                         viewBinding.productImageView.frontImageDelete.visibility = View.VISIBLE
                         frontImageFile = compresImageSize(frontImageFile!!)
                     }
@@ -1153,6 +1486,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                                 backImageFile
                             )
                         )
+                        imagesFilledCount++
                         viewBinding.productImageView.backImageDelete.visibility = View.VISIBLE
                         backImageFile = compresImageSize(backImageFile!!)
                     }
@@ -1163,6 +1497,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                                 otherImageFile
                             )
                         )
+                        imagesFilledCount++
                         viewBinding.productImageView.otherImageDelete.visibility = View.VISIBLE
                         otherImageFile = compresImageSize(otherImageFile!!)
                     }
@@ -1185,6 +1520,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             }
         } else if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
             fileArrayList.add(ImageDataDto(compresImageSize(imageFromCameraFile!!), ""))
+//           imagesFilledCount++
             adapter.notifyAdapter(fileArrayList)
         }
     }
@@ -1197,11 +1533,169 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         return resizedImage
     }
 
+    fun getRealPathFromURI(context: Context, uri: Uri): String? {
+        when {
+            // DocumentProvider
+            DocumentsContract.isDocumentUri(context, uri) -> {
+                when {
+                    // ExternalStorageProvider
+                    isExternalStorageDocument(uri) -> {
+                        val docId = DocumentsContract.getDocumentId(uri)
+                        val split = docId.split(":").toTypedArray()
+                        val type = split[0]
+                        // This is for checking Main Memory
+                        return if ("primary".equals(type, ignoreCase = true)) {
+                            if (split.size > 1) {
+                                Environment.getExternalStorageDirectory()
+                                    .toString() + "/" + split[1]
+                            } else {
+                                Environment.getExternalStorageDirectory().toString() + "/"
+                            }
+                            // This is for checking SD Card
+                        } else {
+                            "storage" + "/" + docId.replace(":", "/")
+                        }
+                    }
+
+                    isDownloadsDocument(uri) -> {
+                        val fileName = getFilePath(context, uri)
+                        if (fileName != null) {
+                            return Environment.getExternalStorageDirectory()
+                                .toString() + "/Download/" + fileName
+                        }
+                        var id = DocumentsContract.getDocumentId(uri)
+                        if (id.startsWith("raw:")) {
+                            id = id.replaceFirst("raw:".toRegex(), "")
+                            val file = File(id)
+                            if (file.exists()) return id
+                        }
+                        val contentUri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"),
+                            java.lang.Long.valueOf(id)
+                        )
+                        return getDataColumn(context, contentUri, null, null)
+                    }
+
+                    isMediaDocument(uri) -> {
+                        val docId = DocumentsContract.getDocumentId(uri)
+                        val split = docId.split(":").toTypedArray()
+                        val type = split[0]
+                        var contentUri: Uri? = null
+                        when (type) {
+                            "image" -> {
+                                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                            }
+
+                            "video" -> {
+                                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                            }
+
+                            "audio" -> {
+                                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                            }
+                        }
+                        val selection = "_id=?"
+                        val selectionArgs = arrayOf(split[1])
+                        return getDataColumn(context, contentUri, selection, selectionArgs)
+                    }
+                }
+            }
+
+            "content".equals(uri.scheme, ignoreCase = true) -> {
+                // Return the remote address
+                return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
+                    context, uri, null, null
+                )
+            }
+
+            "file".equals(uri.scheme, ignoreCase = true) -> {
+                return uri.path
+            }
+        }
+        return null
+    }
+
+    fun isExternalStorageDocument(uri: Uri): Boolean {
+        return "com.android.externalstorage.documents" == uri.authority
+    }
+
+    fun isGooglePhotosUri(uri: Uri): Boolean {
+        return "com.google.android.apps.photos.content" == uri.authority
+    }
+
+    fun getFilePath(context: Context, uri: Uri?): String? {
+        var cursor: Cursor? = null
+        val projection = arrayOf(
+            MediaStore.MediaColumns.DISPLAY_NAME
+        )
+        try {
+            if (uri == null) return null
+            cursor = context.contentResolver.query(
+                uri, projection, null, null, null
+            )
+            if (cursor != null && cursor.moveToFirst()) {
+                val index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
+                return cursor.getString(index)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return null
+    }
+
+    fun getDataColumn(
+        context: Context, uri: Uri?, selection: String?,
+        selectionArgs: Array<String>?,
+    ): String? {
+        var cursor: Cursor? = null
+        val column = "_data"
+        val projection = arrayOf(
+            column
+        )
+        try {
+            if (uri == null) return null
+            cursor = context.contentResolver.query(
+                uri, projection, selection, selectionArgs, null
+            )
+            if (cursor != null && cursor.moveToFirst()) {
+                val index = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(index)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return null
+    }
+
+    fun isDownloadsDocument(uri: Uri): Boolean {
+        return "com.android.providers.downloads.documents" == uri.authority
+    }
+
+    fun isMediaDocument(uri: Uri): Boolean {
+        return "com.android.providers.media.documents" == uri.authority
+    }
+
     override fun deleteImage(position: Int) {
         imagesArrayListSend.clear()
         NewimagesArrayListSend.clear()
         fileArrayList.removeAt(position)
         adapter.deleteImage(position)
+    }
+
+    fun encodeImage(path: String): String? {
+        val imagefile = File(path)
+        var fis: FileInputStream? = null
+        try {
+            fis = FileInputStream(imagefile)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        val bm = BitmapFactory.decodeStream(fis)
+        val baos = ByteArrayOutputStream()
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val b = baos.toByteArray()
+        //Base64.de
+        return android.util.Base64.encodeToString(b, android.util.Base64.NO_WRAP)
     }
 
     @SuppressLint("ResourceType")
@@ -1534,8 +2028,16 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             )
         } else {
             for (i in cmsFileUploadModelList!!.indices) {
-                imagesArrayListSend.add(SubmitNewV2Response.PrescriptionImagesItem(cmsFileUploadModelList.get(i).fileDownloadResponse!!.decryptedUrl))
-                NewimagesArrayListSend.add(RequestNewComplaintRegistration.Image(cmsFileUploadModelList.get(i).fileDownloadResponse!!.decryptedUrl))
+                imagesArrayListSend.add(
+                    SubmitNewV2Response.PrescriptionImagesItem(
+                        cmsFileUploadModelList.get(i).fileDownloadResponse!!.decryptedUrl
+                    )
+                )
+                NewimagesArrayListSend.add(
+                    RequestNewComplaintRegistration.Image(
+                        cmsFileUploadModelList.get(i).fileDownloadResponse!!.decryptedUrl
+                    )
+                )
             }
             val ticketIt: Ticket_it? =
                 if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
@@ -1701,7 +2203,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     override fun onFailureUpload(message: String) {
-        TODO("Not yet implemented")
+
     }
 
     override fun allFilesDownloaded(
@@ -1712,7 +2214,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     override fun allFilesUploaded(cmsfileUploadModelList: List<CmsFileUploadModel>?, tag: String) {
-        TODO("Not yet implemented")
+
     }
 }
 

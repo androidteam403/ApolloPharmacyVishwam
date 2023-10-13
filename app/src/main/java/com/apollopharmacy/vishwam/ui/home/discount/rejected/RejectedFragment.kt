@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.discount.rejected
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,8 @@ import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.DiscountCalendarDialog
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
+import com.apollopharmacy.vishwam.ui.home.discount.approved.ApprovedFragmentCallback
+import com.apollopharmacy.vishwam.ui.home.discount.approved.DiscountApprovedActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.CalculateDiscountAndTotalQuantity
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -47,8 +50,8 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
     override fun setup() {
         viewBinding.rejectedViewModel = viewModel
         viewModel.getDiscountColorDetails(this)
-        viewBinding.fromDateText.setText(Utils.getCurrentDate())
-        viewBinding.toDateText.setText(Utils.getCurrentDate())
+        viewBinding.fromDate.setText(Utils.getCurrentDate())
+        viewBinding.toDate.setText(Utils.getCurrentDate())
         userData = LoginRepo.getProfile()!!
 
         handleRejectListService()
@@ -65,18 +68,18 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
 //                .show()
 //        }
 
-        viewModel.rejectedList.observe(viewLifecycleOwner, {
+        viewModel.rejectedList.observe(viewLifecycleOwner) {
             hideLoading()
             if (it.isNullOrEmpty()) {
                 viewBinding.emptyList.visibility = View.VISIBLE
                 viewBinding.rejectedRecycler.visibility = View.GONE
                 Toast.makeText(requireContext(), "No Rejected data", Toast.LENGTH_SHORT).show()
             } else {
-                viewBinding.rejectedRecycler.adapter = ApproveRecyclerView(it, colorResponseList)
+                viewBinding.rejectedRecycler.adapter = RejectRecyclerView(it as ArrayList<RejectedOrderResponse.REJECTEDLISTItem>, colorResponseList,this)
                 viewBinding.rejectedRecycler.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
             }
-        })
+        }
 
         viewModel.command.observe(viewLifecycleOwner, Observer {
             hideLoading()
@@ -142,15 +145,15 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
     @SuppressLint("NewApi")
     private fun handleRejectListService() {
         if (NetworkUtil.isNetworkConnected(requireContext())) {
-            val fromDate = viewBinding.fromDateText.text.toString()
-            val toDate = viewBinding.toDateText.text.toString()
+            val fromDate = viewBinding.fromDate.text.toString()
+            val toDate = viewBinding.toDate.text.toString()
             if (getDateDifference(fromDate, toDate) > 0) {
                 showLoading()
                 viewModel.getFilterApprovedList(
                     FilterDiscountRequest(
                         userData.EMPID,
-                        Utils.getFilterDate(viewBinding.fromDateText.text.toString()),
-                        Utils.getFilterDate(viewBinding.toDateText.text.toString()),
+                        Utils.getFilterDate(viewBinding.fromDate.text.toString()),
+                        Utils.getFilterDate(viewBinding.toDate.text.toString()),
                         "REJECTED"
                     )
                 )
@@ -174,13 +177,13 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
     fun openDateDialog() {
         if (isFromDateSelected) {
             DiscountCalendarDialog().apply {
-                arguments = generateParsedData(viewBinding.fromDateText.text.toString(), "")
+                arguments = generateParsedData(viewBinding.fromDate.text.toString(), "")
             }.show(childFragmentManager, "")
         } else {
             DiscountCalendarDialog().apply {
                 arguments = generateParsedData(
-                    viewBinding.toDateText.text.toString(),
-                    viewBinding.fromDateText.text.toString()
+                    viewBinding.toDate.text.toString(),
+                    viewBinding.fromDate.text.toString()
                 )
             }.show(childFragmentManager, "")
         }
@@ -189,14 +192,14 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
         if (isFromDateSelected) {
             isFromDateSelected = false
-            viewBinding.fromDateText.setText(showingDate)
+            viewBinding.fromDate.setText(showingDate)
             var finalDate = ""
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 val datePattern = android.icu.text.SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
                 val dateDifference =
                     Utils.getDateDiff(
                         datePattern,
-                        viewBinding.fromDateText.text.toString(),
+                        viewBinding.fromDate.text.toString(),
                         Utils.getCurrentDate()
                     )
                         .toInt()
@@ -204,15 +207,15 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
                     //Nothing to do
                     finalDate =
                         Utils.getCurrentDate()
-                    viewBinding.toDateText.setText(finalDate)
+                    viewBinding.toDate.setText(finalDate)
                 } else {
                     finalDate =
-                        Utils.getCustomHalfMonthDate(viewBinding.fromDateText.text.toString())
-                    viewBinding.toDateText.setText(finalDate)
+                        Utils.getCustomHalfMonthDate(viewBinding.fromDate.text.toString())
+                    viewBinding.toDate.setText(finalDate)
                 }
             }
         } else {
-            viewBinding.toDateText.setText(showingDate)
+            viewBinding.toDate.setText(showingDate)
         }
     }
 
@@ -220,11 +223,26 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
         colorResponseList =
             value.trainingDetails as java.util.ArrayList<GetDiscountColorResponse.TrainingDetail>
     }
+
+    override fun onClick(
+        orderdetails: ArrayList<RejectedOrderResponse.REJECTEDLISTItem>,
+        position: Int,
+        isMarginRequired: Boolean,
+    ) {
+
+        val i = Intent(context, DiscountRejectActivity::class.java)
+        i.putExtra("rejectList",orderdetails)
+        i.putExtra("isMarginRequired",isMarginRequired)
+        i.putExtra("position",position)
+
+        startActivityForResult(i, 210)
+    }
 }
 
-class ApproveRecyclerView(
-    val orderData: List<RejectedOrderResponse.REJECTEDLISTItem>,
+class RejectRecyclerView(
+    val orderData: ArrayList<RejectedOrderResponse.REJECTEDLISTItem>,
     val colorList: java.util.ArrayList<GetDiscountColorResponse.TrainingDetail>,
+    private val listener: RejectedFragmentCallback
 ) :
     SimpleRecyclerView<RejectedLayoutBinding, RejectedOrderResponse.REJECTEDLISTItem>(
         orderData,
@@ -237,7 +255,7 @@ class ApproveRecyclerView(
         items: RejectedOrderResponse.REJECTEDLISTItem,
         position: Int,
     ) {
-        binding.pendingLayout.setBackgroundColor(Color.parseColor("#69BD77"))
+        binding.pendingLayout.setBackgroundColor(Color.parseColor("#ffe9e9"))
         for (i in colorList.indices) {
             for (j in items.ITEMS.indices) {
                 if (colorList.get(i).length!!.toInt() <= items.ITEMS[j].APPROVEDDISC!!.toInt() && colorList[i].type!!.toUpperCase()
@@ -274,25 +292,28 @@ class ApproveRecyclerView(
 
         binding.extraData.visibility =
             if (orderItemsId.contains(items.INDENTNO)) View.VISIBLE else View.GONE
-        binding.orderHead.setOnClickListener {
-            if (orderItemsId.contains(items.INDENTNO)) {
-                binding.extraData.visibility = View.GONE
-                orderItemsId.remove(items.INDENTNO)
-                binding.arrowClose.visibility = View.GONE
-                binding.arrow.visibility = View.VISIBLE
-            } else {
-                binding.extraData.visibility = View.VISIBLE
-                orderItemsId.add(items.INDENTNO)
-                binding.arrowClose.visibility = View.VISIBLE
-                binding.arrow.visibility = View.GONE
-            }
-        }
         var isMarginRequired = false;
         if (orderData[position].ISMARGIN == 1) {
             isMarginRequired = true
         } else {
             isMarginRequired = false
         }
+        binding.orderHead.setOnClickListener {
+
+            listener.onClick(orderData,position,isMarginRequired)
+//            if (orderItemsId.contains(items.INDENTNO)) {
+//                binding.extraData.visibility = View.GONE
+//                orderItemsId.remove(items.INDENTNO)
+//                binding.arrowClose.visibility = View.GONE
+//                binding.arrow.visibility = View.VISIBLE
+//            } else {
+//                binding.extraData.visibility = View.VISIBLE
+//                orderItemsId.add(items.INDENTNO)
+//                binding.arrowClose.visibility = View.VISIBLE
+//                binding.arrow.visibility = View.GONE
+//            }
+        }
+
         binding.recyclerView.adapter =
             OrderAdapter(items = orderData[position].ITEMS, isMarginRequired)
 

@@ -3,7 +3,9 @@ package com.apollopharmacy.vishwam.ui.home.cms.complainList.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public  class CCAcceptRejectModel {
+import java.io.Serializable;
+
+public  class CCAcceptRejectModel implements Serializable {
 
 
     @Expose
@@ -63,7 +65,7 @@ public  class CCAcceptRejectModel {
         this.comment = comment;
     }
 
-    public static class Ticket_it {
+    public static class Ticket_it implements Serializable {
         @Expose
         @SerializedName("status.uid")
         private String uid;

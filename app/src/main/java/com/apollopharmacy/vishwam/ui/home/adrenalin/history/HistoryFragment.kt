@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
@@ -13,12 +12,10 @@ import com.apollopharmacy.vishwam.data.model.attendance.AttendanceHistoryRes
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.FragmentHistoryBinding
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.adapter.AttendenceHistoryAdapter
-import com.apollopharmacy.vishwam.ui.home.qcfail.rejected.adapter.QcRejectedListAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utils
-import org.apache.commons.lang3.StringUtils
 
-class HistoryFragment() : BaseFragment<HistoryViewModel, FragmentHistoryBinding>() {
+class HistoryFragment() : BaseFragment<HistoryViewModel, FragmentHistoryBinding>(),HistorryImageClickListener {
 
     val TAG = "HistoryFragment"
     lateinit var userData: LoginDetails
@@ -57,7 +54,7 @@ class HistoryFragment() : BaseFragment<HistoryViewModel, FragmentHistoryBinding>
                 viewBinding.emptyList.visibility = View.VISIBLE
             } else {
                 viewBinding.emptyList.visibility = View.GONE
-                adapter= context?.let { it1 -> AttendenceHistoryAdapter(it1,it) }
+                adapter= context?.let { it1 -> AttendenceHistoryAdapter(it1,it,this) }
                 viewBinding.taskRecyclerView.adapter = adapter            }
         })
     }
@@ -94,5 +91,15 @@ class HistoryFragment() : BaseFragment<HistoryViewModel, FragmentHistoryBinding>
             rowDuration.text =durationVal
             viewBinding.tableLayout.addView(view)
         }
+    }
+
+    override fun onItemClick(position: Int, orderData: ArrayList<AttendanceHistoryRes>) {
+        var curStatus: Boolean = orderData.get(position).isExpanded
+        orderData.forEach {
+            it.isExpanded = false
+        }
+
+        orderData.get(position).isExpanded = !curStatus
+    adapter!!.notifyDataSetChanged()
     }
 }

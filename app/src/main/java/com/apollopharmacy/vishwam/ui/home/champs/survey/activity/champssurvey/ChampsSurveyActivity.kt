@@ -1841,6 +1841,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
 
             saveUpdateRequest.trainerId = Preferences.getValidatedEmpId()
+            saveUpdateRequest.employeeId = Preferences.getValidatedEmpId()
             val userData = LoginRepo.getProfile()
             if (userData != null) {
                 saveUpdateRequest.trainerName = userData.EMPNAME
@@ -1890,13 +1891,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                         if (imagesExits) {
                             var answerImage = CmsChampsSurveyQa.AnswerImage()
                             var imagesList = ArrayList<CmsChampsSurveyQa.AnswerImage.Image>()
-                            var image = answerImage.Image()
+
                             var cmsChampsSurveQa = CmsChampsSurveyQa()
                             cmsChampsSurveQa.categoryName = i.categoryName
                             cmsChampsSurveQa.question = "Upload Images"
                             cmsChampsSurveQa.answerType = "image"
                             for (k in i.imageDataLists!!) {
                                 if (k.imageUrl != null && !k.imageUrl!!.isEmpty()) {
+                                    var image = answerImage.Image()
                                     image.url = k.imageUrl
                                     imagesList.add(image)
                                 }
@@ -1913,12 +1915,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             }
             saveUpdateRequest.cmsChampsSurveyQa = cmsChampsSurveQaList
 
-
-            if (champsRefernceId != null) {
-                saveUpdateRequest.champsId = champsRefernceId
-            } else {
-                saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
-            }
+            saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
+//            if (champsRefernceId != null) {
+//                saveUpdateRequest.champsId = champsRefernceId
+//            } else {
+//                saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
+//            }
             champsSurveyViewModel.saveUpdateApi(this, saveUpdateRequest)
         } else {
             Utlis.hideLoading()

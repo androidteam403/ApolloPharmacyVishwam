@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.data.model.discount
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class BillOrderResponse(
 
@@ -12,7 +13,7 @@ data class BillOrderResponse(
 
 	@field:SerializedName("BILLDEATILS")
 	val bILLDEATILS: ArrayList<BILLDEATILSItem>
-)
+):Serializable
 
 data class ITEMSItem(
 
@@ -36,7 +37,7 @@ data class ITEMSItem(
 
 	@field:SerializedName("APPROVEDDSICPERCENTAGE")
 	val aPPROVEDDSICPERCENTAGE: Double? = null
-)
+):Serializable
 
 data class BILLDEATILSItem(
 
@@ -60,4 +61,4 @@ data class BILLDEATILSItem(
 
 	@field:SerializedName("ITEMS")
 	val iTEMS: List<ITEMSItem>
-)
+):Serializable

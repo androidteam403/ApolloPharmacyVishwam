@@ -43,6 +43,29 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ui.home.discount.pending.DiscountPendingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ui.home.discount.bill.DiscountBillingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ui.home.discount.approved.DiscountApprovedActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ui.home.discount.rejected.DiscountRejectActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.planogram.activity.PlanogramEvaluationActivity"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -59,6 +82,11 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.retroqr.activity.retroqrreview.RetroQrReviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.cms.complainList.activity.ComplaintsListDetailsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

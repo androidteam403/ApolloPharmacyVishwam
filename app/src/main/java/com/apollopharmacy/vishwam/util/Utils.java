@@ -221,6 +221,44 @@ public class Utils {
         }
         return resultStr;
     }
+    public static String getHistoryCustomDateNew(String orderedDate) {
+        SimpleDateFormat format1 = null;
+        SimpleDateFormat format2 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH);
+        }
+        String convertedDate = "";
+        try {
+            Date date = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                date = format1.parse(orderedDate);
+                convertedDate = format2.format(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
+    }
+    public static String getHistoryTimeFormat(String orderedDate) {
+        SimpleDateFormat format1 = null;
+        SimpleDateFormat format2 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("hh:mm:ss aa", Locale.ENGLISH);
+        }
+        String convertedDate = "";
+        try {
+            Date date = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                date = format1.parse(orderedDate);
+                convertedDate = format2.format(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
+    }
 
     public static String getHistoryCustomDate(String orderedDate) {
         SimpleDateFormat format1 = null;
@@ -318,9 +356,9 @@ public class Utils {
         long elapsedSeconds = timeDifference % 60;
         String hrsLbl = "";
         if (elapsedHours == 0 || elapsedHours == 1) {
-            hrsLbl = elapsedHours + " Hr";
+            hrsLbl = String.valueOf(elapsedHours);
         } else {
-            hrsLbl = elapsedHours + " Hrs";
+            hrsLbl = String.valueOf(elapsedHours);
         }
         String minsLbl = "";
         if (elapsedMinutes == 0 || elapsedMinutes == 1) {
@@ -334,7 +372,50 @@ public class Utils {
         } else {
             secsLbl = elapsedSeconds + " Secs";
         }
-        resultTime = hrsLbl + " " + minsLbl;
+        resultTime = hrsLbl;
+        return resultTime;
+    }
+    public static String getDurationTimMin(String currentDate, String previousDate) {
+        String resultTime = "";
+        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.ENGLISH);
+        Date dateCurrent = null;
+        Date dateBefore = null;
+        try {
+            dateCurrent = simpleDateFormat.parse(currentDate);
+            dateBefore = simpleDateFormat.parse(previousDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assert dateCurrent != null;
+        assert dateBefore != null;
+        long timeDifference = dateCurrent.getTime() - dateBefore.getTime();
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+        long elapsedHours = timeDifference / hoursInMilli;
+        timeDifference = timeDifference % hoursInMilli;
+        long elapsedMinutes = timeDifference / minutesInMilli;
+        long elapsedSeconds = timeDifference % 60;
+        String hrsLbl = "";
+        if (elapsedHours == 0 || elapsedHours == 1) {
+            hrsLbl = elapsedHours + " Hr";
+        } else {
+            hrsLbl = elapsedHours + " Hrs";
+        }
+        String minsLbl = "";
+        if (elapsedMinutes == 0 || elapsedMinutes == 1) {
+            minsLbl = String.valueOf(elapsedMinutes);
+        } else {
+            minsLbl = String.valueOf(elapsedMinutes);
+        }
+        String secsLbl = "";
+        if (elapsedSeconds == 0 || elapsedSeconds == 1) {
+            secsLbl = String.valueOf(elapsedSeconds);
+        } else {
+            secsLbl = String.valueOf(elapsedSeconds);
+        }
+        resultTime =  minsLbl;
         return resultTime;
     }
 
@@ -375,11 +456,11 @@ public class Utils {
         }
         String secsLbl = "";
         if (elapsedSeconds == 0 || elapsedSeconds == 1) {
-            secsLbl = elapsedSeconds + " Sec";
+            secsLbl = String.valueOf(elapsedSeconds);
         } else {
-            secsLbl = elapsedSeconds + " Secs";
+            secsLbl = String.valueOf(elapsedSeconds);
         }
-        resultTime = hrsLbl + "-" + minsLbl + "-" + secsLbl;
+        resultTime =  secsLbl;
         return resultTime;
     }
 
@@ -402,6 +483,46 @@ public class Utils {
         }
         return convertedDate;
     }
+
+    public static String getLastLoginDateNewFormat(String loginDate) {
+        SimpleDateFormat format1 = null;
+        SimpleDateFormat format2 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH);
+        }
+        String convertedDate = "";
+        try {
+            Date date = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                date = format1.parse(loginDate);
+                convertedDate = format2.format(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
+    }
+    public static String getLastLoginDateNewFormatTime(String loginDate) {
+        SimpleDateFormat format1 = null;
+        SimpleDateFormat format2 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("hh:mm:ss aa", Locale.ENGLISH);
+        }
+        String convertedDate = "";
+        try {
+            Date date = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                date = format1.parse(loginDate);
+                convertedDate = format2.format(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
+    }
+
 
     public static String getLastLoginDateNewinSec(String loginDate) {
         SimpleDateFormat format1 = null;
@@ -493,12 +614,65 @@ public class Utils {
         }
     }
 
+    public static String getAttendanceCurrentDateNewFormat() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return new SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH).format(Calendar.getInstance().getTime());
+        } else {
+            return "";
+        }
+    }
+    public static String getAttendanceCurrentDateNewFormatTime() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return new SimpleDateFormat("hh:mm:ss aa", Locale.ENGLISH).format(Calendar.getInstance().getTime());
+        } else {
+            return "";
+        }
+    }
+
     public static String getAttendanceCurrentDateNew() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return new SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa", Locale.ENGLISH).format(Calendar.getInstance().getTime());
         } else {
             return "";
         }
+    }
+    public static String getAttendanceCustomDateFormat(String orderedDate) {
+        SimpleDateFormat format1 = null;
+        SimpleDateFormat format2 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH);
+        }
+        String convertedDate = "";
+        try {
+            Date date = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                date = format1.parse(orderedDate);
+                convertedDate = format2.format(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
+    }
+    public static String getAttendanceCustomTimeFormat(String orderedDate) {
+        SimpleDateFormat format1 = null;
+        SimpleDateFormat format2 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("hh:mm:ss aa", Locale.ENGLISH);
+        }
+        String convertedDate = "";
+        try {
+            Date date = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                date = format1.parse(orderedDate);
+                convertedDate = format2.format(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
     }
 
     public static String getAttendanceCustomDate(String orderedDate) {

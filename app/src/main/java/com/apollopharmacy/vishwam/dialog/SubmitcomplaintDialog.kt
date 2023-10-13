@@ -69,7 +69,7 @@ class SubmitcomplaintDialog: DialogFragment()
         }*/
        //datanew.message
         val datanew = arguments?.getSerializable(KEY_DATA) as ResponseNewComplaintRegistration
-        viewBinding.messagetext.text="Successfully Ticket Created"+"\n"+"Your Ticket Id is"+"\n"+datanew.data.ticket_id
+        viewBinding.messagetext.text="Ticket created successfully"+"\n"+datanew.data.ticket_id
     }
 
     interface AbstractDialogSubmitClickListner {
