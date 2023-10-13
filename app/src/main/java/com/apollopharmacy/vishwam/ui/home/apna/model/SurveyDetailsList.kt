@@ -54,7 +54,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("distance")
         @Expose
-        var distance: Int? = null
+        var distance: Double? = null
         fun withUid(uid: String?): Apartment {
             this.uid = uid
             return this
@@ -75,7 +75,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withDistance(distance: Int?): Apartment {
+        fun withDistance(distance: Double?): Apartment {
             this.distance = distance
             return this
         }
