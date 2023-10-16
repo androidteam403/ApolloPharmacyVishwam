@@ -124,9 +124,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 arguments = QcListSizeDialog().generateParsedData(pageSizeList)
             }.show(childFragmentManager, "")
         }
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         currentDate = simpleDateFormat.format(Date())
-
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         fromDate = simpleDateFormat.format(cal.time)
@@ -537,7 +536,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         approvedListList.clear()
         approvedListMain.clear()
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         currentDate = simpleDateFormat.format(Date())
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
@@ -609,7 +608,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                         typeString = ""
                         approvedListList.clear()
                         approvedListMain.clear()
-                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
                         currentDate = simpleDateFormat.format(Date())
                         val cal = Calendar.getInstance()
                         cal.add(Calendar.DATE, -7)

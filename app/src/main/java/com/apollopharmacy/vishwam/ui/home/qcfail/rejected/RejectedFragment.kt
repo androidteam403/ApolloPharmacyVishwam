@@ -108,7 +108,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         viewBinding.closeArrow.setOnClickListener {
             viewBinding.searchView.setText("")
         }
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         currentDate = simpleDateFormat.format(Date())
 
 
@@ -246,7 +246,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             rejectedListList.clear()
             rejectedListMain.clear()
             MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             currentDate = simpleDateFormat.format(Date())
             val cal = Calendar.getInstance()
             cal.add(Calendar.DATE, -7)
@@ -788,7 +788,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                         typeString = ""
                         rejectedListList.clear()
                         rejectedListMain.clear()
-                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
                         currentDate = simpleDateFormat.format(Date())
                         val cal = Calendar.getInstance()
                         cal.add(Calendar.DATE, -7)

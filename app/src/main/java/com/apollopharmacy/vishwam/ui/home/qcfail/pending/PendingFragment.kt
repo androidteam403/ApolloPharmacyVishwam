@@ -147,7 +147,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 //        viewModel.getQcStoreist()
 //        Preferences.setQcToDate(Utlis.getCurrentDate("dd-MMM-yyy")!!)
 //        Preferences.setQcFromDate("1-Apr-2019")
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         currentDate = simpleDateFormat.format(Date())
 
         val cal = Calendar.getInstance()
@@ -296,7 +296,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             typeString = ""
             pendingListList.clear()
             pendingListMain.clear()
-            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             currentDate = simpleDateFormat.format(Date())
 
             MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
@@ -1032,7 +1032,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                         typeString = ""
                         pendingListList.clear()
                         pendingListMain.clear()
-                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
                         currentDate = simpleDateFormat.format(Date())
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
 
