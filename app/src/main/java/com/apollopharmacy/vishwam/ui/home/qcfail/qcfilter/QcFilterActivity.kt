@@ -406,7 +406,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             val cal = Calendar.getInstance()
             cal.time = sdf.parse(toQcDate)
             cal.add(Calendar.DATE, -30)
-            val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
+            val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             qcDate = sdf1.format(cal.time)
 
             if (Utlis.filterDateFormate(fromDate)
@@ -443,7 +443,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             cal.time = sdf.parse(fromQcDate)
 
             cal.add(Calendar.DATE, 30)
-            val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
+            val sdf1 = SimpleDateFormat("dd-MMM-yyyy",Locale.ENGLISH)
             qcDate = sdf1.format(cal.time)
             if (Utlis.filterDateFormate(dateSelected)
                     .before(Utlis.filterDateFormate(qcDate)) || Utlis.filterDateFormate(dateSelected)

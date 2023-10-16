@@ -342,7 +342,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("security_deposit")
         @Expose
-        var securityDeposit: Int? = null
+        var securityDeposit: Float? = null
 
         @SerializedName("length")
         @Expose
@@ -637,7 +637,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withSecurityDeposit(securityDeposit: Int?): Data {
+        fun withSecurityDeposit(securityDeposit: Float?): Data {
             this.securityDeposit = securityDeposit
             return this
         }

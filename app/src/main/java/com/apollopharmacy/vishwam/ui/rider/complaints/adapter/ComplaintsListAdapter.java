@@ -67,7 +67,7 @@ public class ComplaintsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         holder.complaintsListBinding.comment.setText(complaint.getComments());
         holder.complaintsListBinding.status.setText(complaint.getStatus().getName());
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",  Locale.ENGLISH);
             Date orderDates = formatter.parse(complaint.getCreatedTime());
             long orderDateMills = orderDates.getTime();
             holder.complaintsListBinding.complaintedDate.setText(Utlis.INSTANCE.getTimeFormatter(orderDateMills));

@@ -48,12 +48,14 @@ class PreviewChemistAdapter(
         } else {
             holder.chemistLayoutBinding.organized.setText("-")
         }
-        if (items.orgAvgSale.toString().isNotEmpty()) {
-            holder.chemistLayoutBinding.avgsale.setText("\u20B9" + DecimalFormat("##,##,##0").format(
-                items.orgAvgSale!!.toLong()))
-        } else {
-            holder.chemistLayoutBinding.avgsale.setText("-")
+        if(items!=null && items.orgAvgSale!=null){
+            if (!items.orgAvgSale.toString().isNullOrEmpty()) {
+                holder.chemistLayoutBinding.avgsale.setText("\u20B9" + DecimalFormat("##,##,##0").format(items.orgAvgSale!!.toLong()))
+            } else {
+                holder.chemistLayoutBinding.avgsale.setText("-")
+            }
         }
+
         if (items.unorganised != null) {
             if (items.unorganised!!.name.toString()
                     .isNotEmpty() && items.unorganised!!.name != null

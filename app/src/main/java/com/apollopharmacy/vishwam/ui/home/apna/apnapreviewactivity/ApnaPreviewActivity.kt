@@ -684,6 +684,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setLabelCount(5, true)
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMinimum(0f)
+        if(avgSales!=null && avgSales.size>0)
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMaximum(avgSales.max())
 
         apnaPreviewActivityBinding.competitorsChart.xAxis.isEnabled = false
@@ -875,9 +876,9 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
             )
             apnaPreviewActivityBinding.recyclerViewchemist.adapter = adapter
 
-            val totalOrg =
-                value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }
-                    .sum()
+            var totalOrg=0
+            if(value.data!!.chemist!!.get(0).orgAvgSale!=null)
+             totalOrg = value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt()}.sum()
             val totalUnorg =
                 value.data!!.chemist!!.stream().map { it.unorgAvgSale }.mapToInt { it!!.toInt() }
                     .sum()
@@ -901,7 +902,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                     total.toLong()
                 )
             )
-
+            if(value.data!!.chemist!!.get(0).orgAvgSale!=null)
             avgSales = value.data!!.chemist!!.map { it.orgAvgSale!!.toFloat() } as ArrayList<Float>
             setCompetitorsValues()
             setupCompetitorsChart()

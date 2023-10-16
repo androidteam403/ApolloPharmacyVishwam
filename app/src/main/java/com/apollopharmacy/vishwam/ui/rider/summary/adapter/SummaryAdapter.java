@@ -69,7 +69,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.summaryBinding.orderId.setText("#" + item.getOrderNumber());
 
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",  Locale.ENGLISH);
             Date orderDates = formatter.parse(item.getCreatedTime());
             long orderDateMills = orderDates.getTime();
             holder.summaryBinding.createdDate.setText(Utlis.INSTANCE.getTimeFormatter(orderDateMills));
@@ -185,7 +185,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 //        holder.summaryBinding.cancelledReasonLayout.setVisibility(View.GONE);
 //        holder.summaryBinding.dividerViewFour.setBackgroundColor(context.getColor(R.color.order_item_divider_color));
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",  Locale.ENGLISH);
             String currentDate = Utlis.INSTANCE.getCurrentTimeDate();
             Date currentDates = formatter.parse(currentDate);
             Date orderDates = formatter.parse(orderDate);

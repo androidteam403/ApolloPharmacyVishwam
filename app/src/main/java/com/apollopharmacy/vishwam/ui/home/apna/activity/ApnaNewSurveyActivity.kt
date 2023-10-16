@@ -1,3 +1,7 @@
+
+
+
+
 package com.apollopharmacy.vishwam.ui.home.apna.activity
 
 import android.Manifest
@@ -1827,7 +1831,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             morningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm",  Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
 
                             if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningToSelect.text.toString()
@@ -1953,7 +1957,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             morningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
 
                             if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningToSelect.text.toString()
@@ -2091,7 +2095,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             morningToMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningFromSelect.text.toString()
                                     .isEmpty()
@@ -2222,7 +2226,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             morningToMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm",  Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningFromSelect.text.toString()
                                     .isEmpty()
@@ -2355,7 +2359,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             eveningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm",  Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.eveningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.eveningToSelect.text.toString()
                                     .isEmpty()
@@ -2453,7 +2457,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             eveningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm",  Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.eveningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.eveningToSelect.text.toString()
                                     .isEmpty()
@@ -2555,7 +2559,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             eveningToMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm",  Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
                                     .isEmpty()
@@ -2649,7 +2653,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             eveningToMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm",  Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
                                     .isEmpty()
