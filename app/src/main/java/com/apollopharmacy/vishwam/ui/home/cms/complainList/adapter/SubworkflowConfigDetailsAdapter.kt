@@ -12,13 +12,14 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.cms.ResponseNewTicketlist
 import com.apollopharmacy.vishwam.databinding.AdapterSubworkflowConfigDetailsActionsBinding
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ImageClickListener
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.callback.HistoryCallback
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubworkflowConfigDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketData
 
 
 class SubworkflowConfigDetailsAdapter(
     var context: Context,
-    val imageClickListener: ImageClickListener,
+    val imageClickListener: HistoryCallback,
     var rowsList: ArrayList<SubworkflowConfigDetailsResponse.Rows>,
     val data: TicketData,
     val responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
@@ -65,7 +66,8 @@ class SubworkflowConfigDetailsAdapter(
                 data,
                 responseList,
                 positionHeader,
-                row
+                row,
+                imageClickListener
             )
         }
     }

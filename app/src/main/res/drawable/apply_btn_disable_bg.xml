@@ -6,7 +6,7 @@
             <item>
                 <shape>
                     <solid android:color="@color/fadedTextColor" />
-                    <corners android:radius="10dp" />
+<!--                    <corners android:radius="10dp" />-->
                     <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
                 </shape>
             </item>
@@ -18,7 +18,7 @@
             <item>
                 <shape>
                     <solid android:color="@color/grey" />
-                    <corners android:radius="10dp" />
+<!--                    <corners android:radius="10dp" />-->
                     <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
                 </shape>
             </item>
@@ -30,7 +30,7 @@
             <item>
                 <shape>
                     <solid android:color="@color/grey" />
-                    <corners android:radius="10dp" />
+<!--                    <corners android:radius="10dp" />-->
                     <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
                 </shape>
             </item>

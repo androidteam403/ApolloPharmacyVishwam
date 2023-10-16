@@ -627,17 +627,38 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/titleName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_20dp"
-                        android:layout_marginTop="@dimen/value_15dp"
-                        android:text="@string/label_upload_image"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_16sp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/description" />
+                    <LinearLayout
+                        android:background="@drawable/grey_rectangle_cap"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="@dimen/text_dimen_15"
+                        android:layout_marginEnd="@dimen/text_dimen_15"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:layout_width="@dimen/value_30dp"
+                            android:layout_height="@dimen/value_30dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/value_15dp"
+                            android:contentDescription="@string/app_name"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/cam_ash" />
+
+                        <TextView
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/titleName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:text="@string/label_upload_image"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_16sp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/description" />
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:id="@+id/attachImageLayout"
@@ -648,6 +669,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/titleName">
 
                         <ImageView
+                            android:visibility="gone"
                             android:id="@+id/addImage"
                             android:layout_width="@dimen/value_40dp"
                             android:layout_height="@dimen/value_40dp"

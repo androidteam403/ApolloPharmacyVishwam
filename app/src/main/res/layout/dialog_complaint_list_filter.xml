@@ -28,6 +28,7 @@
         <variable
             name="isClosedChecked"
             type="Boolean" />
+
         <variable
             name="isOnHoldChecked"
             type="Boolean" />
@@ -36,12 +37,16 @@
             name="isSubmitEnable"
             type="Boolean" />
 
+        <variable
+            name="isSelectAllChecked"
+            type="Boolean" />
+
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/dialog_background">
+        android:background="@drawable/dialogue_bg_">
 
         <RelativeLayout
             android:id="@+id/header_layout"
@@ -55,7 +60,8 @@
                 android:id="@+id/textHead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_marginStart="@dimen/text_dimen_10"
+                android:gravity="start"
                 android:text="@string/label_filters_by_status"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_18sp"
@@ -82,6 +88,30 @@
             android:paddingEnd="@dimen/value_5dp"
             android:paddingBottom="@dimen/value_5dp">
 
+            <RelativeLayout
+                android:id="@+id/select_all_checkbox_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/select_all"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/value_3dp"
+                    android:buttonTint="@color/sky_bluee"
+                    android:checked="@{isSelectAllChecked}"
+                    android:clickable="false"
+                    android:text="Select all"
+                    android:textColor="@color/grey"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/value_2dp"
+                android:background="@color/grey" />
+
             <!--            <RadioGroup-->
             <!--                android:id="@+id/status_radio_group"-->
             <!--                android:layout_width="match_parent"-->
@@ -93,120 +123,123 @@
                 android:id="@+id/new_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/splash_start_color"
+                android:layout_marginTop="@dimen/value_3dp"
+                android:buttonTint="@color/sky_bluee"
                 android:checked="@{isNewChecked}"
-                android:text="@string/label_new" />
+                android:text="@string/label_new"
+                android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="@dimen/value_2dp"
-                android:background="@color/grey" />
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.5dp"-->
+            <!--                android:layout_marginTop="@dimen/value_2dp"-->
+            <!--                android:background="@color/grey" />-->
 
             <CheckBox
                 android:id="@+id/in_progress_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/splash_start_color"
+                android:buttonTint="@color/sky_bluee"
                 android:checked="@{isInProgressChecked}"
-                android:text="@string/label_in_progress" />
+                android:text="@string/label_in_progress"
+                android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="@dimen/value_2dp"
-                android:background="@color/grey"
-                android:buttonTint="@color/splash_start_color" />
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.5dp"-->
+            <!--                android:layout_marginTop="@dimen/value_2dp"-->
+            <!--                android:background="@color/grey"-->
+            <!--                android:buttonTint="@color/splash_start_color" />-->
 
             <CheckBox
                 android:id="@+id/resolved_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/splash_start_color"
+                android:buttonTint="@color/sky_bluee"
                 android:checked="@{isResolvedChecked}"
-                android:text="@string/label_resolved" />
+                android:text="@string/label_resolved"
+                android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="@dimen/value_2dp"
-                android:background="@color/grey" />
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.5dp"-->
+            <!--                android:layout_marginTop="@dimen/value_2dp"-->
+            <!--                android:background="@color/grey" />-->
 
             <CheckBox
                 android:id="@+id/rejected_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/splash_start_color"
+                android:buttonTint="@color/sky_bluee"
                 android:checked="@{isRejectedChecked}"
-                android:text="@string/label_rejectedd" />
+                android:text="@string/label_rejectedd"
+                android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="@dimen/value_2dp"
-                android:background="@color/grey" />
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.5dp"-->
+            <!--                android:layout_marginTop="@dimen/value_2dp"-->
+            <!--                android:background="@color/grey" />-->
 
             <CheckBox
                 android:id="@+id/reopen_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/splash_start_color"
+                android:buttonTint="@color/sky_bluee"
                 android:checked="@{isReopenChecked}"
-                android:text="@string/label_reopen" />
+                android:text="@string/label_reopen"
+                android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="@dimen/value_2dp"
-                android:background="@color/grey" />
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.5dp"-->
+            <!--                android:layout_marginTop="@dimen/value_2dp"-->
+            <!--                android:background="@color/grey" />-->
 
             <CheckBox
                 android:id="@+id/closed_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/splash_start_color"
+                android:buttonTint="@color/sky_bluee"
                 android:checked="@{isClosedChecked}"
-                android:text="@string/label_closed" />
+                android:text="@string/label_closed"
+                android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="@dimen/value_2dp"
-                android:background="@color/grey" />
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.5dp"-->
+            <!--                android:layout_marginTop="@dimen/value_2dp"-->
+            <!--                android:background="@color/grey" />-->
 
             <CheckBox
                 android:id="@+id/onhold_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/splash_start_color"
+                android:buttonTint="@color/sky_bluee"
                 android:checked="@{isOnHoldChecked}"
-                android:text="@string/label_on_hold" />
+                android:text="@string/label_on_hold"
+                android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="@dimen/value_2dp"
-                android:background="@color/grey" />
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.5dp"-->
+            <!--                android:layout_marginTop="@dimen/value_2dp"-->
+            <!--                android:background="@color/grey" />-->
 
             <!--            </RadioGroup>-->
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/submit"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/value_100dp"
                 android:layout_height="@dimen/value_35dp"
+
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/value_5dp"
-                android:background="@drawable/yellow_drawable"
+                android:background="@drawable/dark_blue_bg_for_btn"
                 android:enabled="@{isSubmitEnable}"
                 android:text="@string/label_apply"
-                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_14sp" />
 
         </LinearLayout>

@@ -17,47 +17,47 @@ data class WorkFlowUpdateModel(
     val visibility_to_site_user: String,
     val acted_by: String
 
-)
+):java.io.Serializable
 
 data class Action(
     val code: String?,
     val uid: String?
-)
+):java.io.Serializable
 
 data class Department(
     val code: String?,
     val uid: String?
-)
+):java.io.Serializable
 
 data class Level(
     val code: String?,
     val uid: String?
-)
+):java.io.Serializable
 
 data class NextLevel(
     val uid: String?
-)
+):java.io.Serializable
 
 data class SessionUser(
     val login_unique: String?,
     val name: String?,
     val uid: String?
-)
+):java.io.Serializable
 
 data class Site(
     val uid: String?
-)
+):java.io.Serializable
 
 data class Status(
     val code: String?,
     val uid: String?
-)
+):java.io.Serializable
 
 data class TicketOwner(
     val uid: String?
-)
+):java.io.Serializable
 
 data class User(
     val name: String?,
     val uid: String?
-)
+):java.io.Serializable

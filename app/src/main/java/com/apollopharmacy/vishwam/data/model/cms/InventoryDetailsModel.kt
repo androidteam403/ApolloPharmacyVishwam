@@ -8,7 +8,7 @@ data class InventoryDetailsModel(
     val zcServerHost: String,
     val zcServerIp: String,
     var position: Int
-)
+):java.io.Serializable
 
 data class Data(
     val category: Category,
@@ -27,19 +27,19 @@ data class Data(
     val ticket_inventory: TicketInventory,
     val ticket_type: TicketType,
     val uid: String
-)
+):java.io.Serializable
 
 data class Category(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class Cluster(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CreatedId(
     val email: Any,
@@ -49,14 +49,14 @@ data class CreatedId(
     val middle_name: Any,
     val phone: Any,
     val uid: String
-)
+):java.io.Serializable
 
 data class Department(
     val allocation_type: AllocationType,
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class Ou(
     val code: Any,
@@ -64,26 +64,26 @@ data class Ou(
     val organization: Organization,
     val state: State,
     val uid: Any
-)
+):java.io.Serializable
 
 data class Platform(
     val icon: Any,
     val name: String,
     val other: Other,
     val uid: String
-)
+):java.io.Serializable
 
 data class Reason(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class Region(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class Site(
     val hod: Hod,
@@ -95,7 +95,7 @@ data class Site(
     val store_name: String,
     val uid: String,
     val manager: Manager
-)
+):java.io.Serializable
 
 data class Status(
     val background_color: String,
@@ -103,52 +103,52 @@ data class Status(
     val name: String,
     val text_color: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class Subcategory(
     val code: String,
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class TicketInventory(
     val code_batch: CodeBatch,
     val ticket_inventory_item: List<TicketInventoryItem>,
     val uid: String
-)
+):java.io.Serializable
 
 data class TicketType(
     val icon: Any,
     val name: Any,
     val other: Other,
     val uid: Any
-)
+):java.io.Serializable
 
 data class AllocationType(
     val icon: Any,
     val name: String,
     val other: Other,
     val uid: String
-)
+):java.io.Serializable
 
 data class Other(
     val color: Any
-)
+):java.io.Serializable
 
 data class Organization(
     val code: Any,
     val uid: Any
-)
+):java.io.Serializable
 
 data class State(
     val name: Any,
     val uid: Any
-)
+):java.io.Serializable
 
 data class Hod(
     val first_name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class OuX(
     val code: String,
@@ -156,36 +156,36 @@ data class OuX(
     val organization: OrganizationX,
     val state: StateX,
     val uid: String
-)
+):java.io.Serializable
 
 data class RegionX(
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class SiteType(
     val icon: Any,
     val name: String,
     val other: Other,
     val uid: String
-)
+):java.io.Serializable
 
 data class OrganizationX(
     val code: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class StateX(
     val name: String,
     val uid: String
-)
+):java.io.Serializable
 
 data class CodeBatch(
     val icon: Any,
     val name: String,
     val other: Other,
     val uid: String
-)
+):java.io.Serializable
 
 data class TicketInventoryItem(
     val acted_by: ActedBy,
@@ -209,17 +209,17 @@ data class TicketInventoryItem(
     val other_img_blob: String ,
     val purchase_rate: Double,
     val uid: String
-)
+):java.io.Serializable
 
 data class ActedBy(
     val first_name: Any,
     val uid: Any
-)
+):java.io.Serializable
 
 data class ItemStatus(
     val icon: Any,
     val name: Any,
     val other: Other,
     val uid: Any
-)
+):java.io.Serializable
 

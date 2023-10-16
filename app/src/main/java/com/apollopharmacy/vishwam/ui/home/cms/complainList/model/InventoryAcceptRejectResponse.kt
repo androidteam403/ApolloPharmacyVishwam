@@ -7,7 +7,7 @@ data class InventoryAcceptRejectResponse(
     val zcServerDateTime: String,
     val zcServerHost: String,
     val zcServerIp: String
-)
+):java.io.Serializable
 
 data class AcceptRejectData(
     val isExecSuccess: Boolean,
@@ -15,8 +15,8 @@ data class AcceptRejectData(
     val res: String,
     val uid: String,
     val errors: ArrayList<Errors>
-)
+):java.io.Serializable
 
 data class Errors(
     val msg: String
-)
+):java.io.Serializable
