@@ -104,7 +104,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("org_avg_sale")
         @Expose
-        var orgAvgSale: Int? = 0
+        var orgAvgSale: Double? = 0.0
         fun withUid(uid: String?): Chemist {
             this.uid = uid
             return this
@@ -130,7 +130,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withOrgAvgSale(orgAvgSale: Int?): Chemist {
+        fun withOrgAvgSale(orgAvgSale: Double?): Chemist {
             this.orgAvgSale = orgAvgSale
             return this
         }
@@ -342,7 +342,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("security_deposit")
         @Expose
-        var securityDeposit: Int? = null
+        var securityDeposit: Double? = null
 
         @SerializedName("length")
         @Expose
@@ -395,7 +395,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("expected_rent")
         @Expose
-        var expectedRent: Int? = null
+        var expectedRent: Double? = null
 
         @SerializedName("service_class")
         @Expose
@@ -642,7 +642,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withSecurityDeposit(securityDeposit: Int?): Data {
+        fun withSecurityDeposit(securityDeposit: Double?): Data {
             this.securityDeposit = securityDeposit
             return this
         }
@@ -702,7 +702,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withExpectedRent(expectedRent: Int?): Data {
+        fun withExpectedRent(expectedRent: Double?): Data {
             this.expectedRent = expectedRent
             return this
         }
@@ -907,7 +907,7 @@ class SurveyDetailsList : Serializable {
         var store: String? = null
 
         @SerializedName("rent")
-        var rent = 0
+        var rent : Double= 0.0
 
         @SerializedName("sales")
         var sales: Double? = null

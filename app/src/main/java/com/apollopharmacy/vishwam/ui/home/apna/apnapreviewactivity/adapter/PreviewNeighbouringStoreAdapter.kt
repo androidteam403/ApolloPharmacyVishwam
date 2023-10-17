@@ -31,11 +31,28 @@ class PreviewNeighbouringStoreAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = listData.get(position)
-        holder.neighbourStoreAdapterLayoutBinding.rent.setText(
-            "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
-                items.rent.toLong()
+        if (items.rent!= null) {
+            val rentValue =  items.rent.toString()
+            var rent = ""
+            var rentSplit = "${rentValue}".split(".")
+            if (rentSplit[1].toInt() > 0) {
+                rent =
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(items.rent)
+            } else {
+                rent =
+                    DecimalFormat("##,##,###", Utils.symbols).format(items.rent)
+            }
+            holder.neighbourStoreAdapterLayoutBinding.rent.setText(
+                rent
             )
-        )
+        } else {
+            holder.neighbourStoreAdapterLayoutBinding.rent.setText("-")
+        }
+//        holder.neighbourStoreAdapterLayoutBinding.rent.setText(
+//            "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
+//                items.rent.toLong()
+//            )
+//        )
 
         holder.neighbourStoreAdapterLayoutBinding.neighborLocation.setText(items.location!!.name)
 

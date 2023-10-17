@@ -694,6 +694,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setLabelCount(5, true)
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMinimum(0f)
+        if(avgSales!=null && avgSales.size>0)
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMaximum(avgSales.max())
 
         apnaPreviewActivityBinding.competitorsChart.xAxis.isEnabled = false
@@ -722,9 +723,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
     }
 
     private fun setCompetitorsValues() {
-        for (i in avgSales.indices) {
-            competitorsEntries.add(Entry(i.toFloat(), avgSales.get(i), chemist.get(i).toString()))
+        if(avgSales!=null && avgSales.size>0){
+            for (i in avgSales.indices) {
+                competitorsEntries.add(Entry(i.toFloat(), avgSales.get(i), chemist.get(i).toString()))
+            }
         }
+
 //        competitorsEntries.add(Entry(0f, 5f))
 //        competitorsEntries.add(Entry(1f, 7f))
 //        competitorsEntries.add(Entry(2f, 8f))
@@ -887,10 +891,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                 this, value.data!!.chemist as ArrayList<SurveyDetailsList.Chemist>
             )
             apnaPreviewActivityBinding.recyclerViewchemist.adapter = adapter
+            var totalOrg=0
+            if(value.data!!.chemist!!.get(0).orgAvgSale!=null)
+                totalOrg = value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }.sum()
 
-            val totalOrg =
-                value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }
-                    .sum()
             val totalUnorg =
                 value.data!!.chemist!!.stream().map { it.unorgAvgSale }.mapToInt { it!!.toInt() }
                     .sum()
@@ -914,7 +918,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                     total.toLong()
                 )
             )
-
+            if(value.data!!.chemist!!.get(0).orgAvgSale!=null)
             avgSales = value.data!!.chemist!!.map { it.orgAvgSale!!.toFloat() } as ArrayList<Float>
             setCompetitorsValues()
             setupCompetitorsChart()
@@ -1307,27 +1311,63 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
             apnaPreviewActivityBinding.shopNumber.text = "-"
         }
 
+//        if (value.data!!.expectedRent != null) {
+//            apnaPreviewActivityBinding.expectedrentsrft.setText(
+//                DecimalFormat(
+//                    "##,##,##0",
+//                    Utils.symbols
+//                ).format(value.data!!.expectedRent!!.toLong())
+//            )
+//        } else {
+//            apnaPreviewActivityBinding.expectedrentsrft.setText("-")
+//        }
+
         if (value.data!!.expectedRent != null) {
+            val expectedRentValue =  value.data!!.expectedRent.toString()
+            var expectedRent = ""
+            var expectedRentSplit = "${expectedRentValue}".split(".")
+            if (expectedRentSplit[1].toInt() > 0) {
+                expectedRent =
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(value.data!!.expectedRent)
+            } else {
+                expectedRent =
+                    DecimalFormat("##,##,###", Utils.symbols).format(value.data!!.expectedRent)
+            }
             apnaPreviewActivityBinding.expectedrentsrft.setText(
-                DecimalFormat(
-                    "##,##,##0",
-                    Utils.symbols
-                ).format(value.data!!.expectedRent!!.toLong())
+                expectedRent
             )
         } else {
             apnaPreviewActivityBinding.expectedrentsrft.setText("-")
         }
 
         if (value.data!!.securityDeposit != null) {
+            val securityDepositValue =  value.data!!.securityDeposit.toString()
+            var securityDeposit = ""
+            var securityDepositSplit = "${securityDepositValue}".split(".")
+            if (securityDepositSplit[1].toInt() > 0) {
+                securityDeposit =
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(value.data!!.securityDeposit)
+            } else {
+                securityDeposit =
+                    DecimalFormat("##,##,###", Utils.symbols).format(value.data!!.securityDeposit)
+            }
             apnaPreviewActivityBinding.securitydeposit.setText(
-                DecimalFormat(
-                    "##,##,##0",
-                    Utils.symbols
-                ).format(value.data!!.securityDeposit!!.toLong())
+                securityDeposit
             )
         } else {
             apnaPreviewActivityBinding.securitydeposit.setText("-")
         }
+
+//        if (value.data!!.securityDeposit != null) {
+//            apnaPreviewActivityBinding.securitydeposit.setText(
+//                DecimalFormat(
+//                    "##,##,##0",
+//                    Utils.symbols
+//                ).format(value.data!!.securityDeposit!!.toLong())
+//            )
+//        } else {
+//            apnaPreviewActivityBinding.securitydeposit.setText("-")
+//        }
 
         if (value.data!!.toiletsAvailability != null) {
             if (value.data!!.toiletsAvailability!!.name != null) {
