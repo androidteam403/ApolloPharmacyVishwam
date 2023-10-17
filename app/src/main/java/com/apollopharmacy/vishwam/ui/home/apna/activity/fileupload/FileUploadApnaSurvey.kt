@@ -4,16 +4,16 @@ import android.content.Context
 import android.widget.Toast
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
-import com.apollopharmacy.vishwam.network.ApiClient
+import com.apollopharmacy.vishwam.data.network.Api
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
-import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.fileupload.FileDownloadRequest
 import com.apollopharmacy.vishwam.util.fileupload.FileDownloadResponse
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
+import com.apollopharmacy.vishwam.util.signaturepad.NetworkUtils
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -50,7 +50,7 @@ class FileUploadApnaSurvey {
 
     fun uploadFile(fileUploadApnaSurveyModel: FileUploadApnaSurveyModel) {
         if (NetworkUtils.isNetworkConnected(context)) {
-            val apiInterface = ApiClient.getApiServiceVishwam()
+            val apiInterface = Api.getClient()
 
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -62,7 +62,7 @@ class FileUploadApnaSurvey {
                 ""//"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
             var token = ""//"9f15bdd0fcd5423190cHNK"
             for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOBUPLOAD")) {
+                if (data.APIS[i].NAME.equals("APNA SURVEY BLOBUPLOAD")) {//SEN BLOBUPLOAD
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
@@ -156,7 +156,7 @@ class FileUploadApnaSurvey {
 
     fun downloadFile(fileUploadApnaSurveyModel: FileUploadApnaSurveyModel) {
         if (NetworkUtils.isNetworkConnected(context)) {
-            val apiInterface = ApiClient.getApiServiceVishwam()
+            val apiInterface = Api.getClient()
 
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -169,7 +169,7 @@ class FileUploadApnaSurvey {
             //"https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingSingleFileDownload"
             var token = "" //"9f15bdd0fcd5423190cHNK"
             for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("SEN BLOBDOWNLOAD")) {
+                if (data.APIS[i].NAME.equals("APNA SURVEY BLOBDOWNLOAD")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break

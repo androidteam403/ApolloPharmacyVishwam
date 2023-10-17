@@ -27,6 +27,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment
 import com.apollopharmacy.vishwam.ui.home.apna.survey.videopreview.ApnaVideoPreview
+import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
@@ -239,15 +240,18 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                 state = "-"
             }
             apnaPreviewActivityBinding.location.setText("$city, $state")
-            val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            val outputDateFormat = SimpleDateFormat("dd MMM, yyy")
-            apnaPreviewActivityBinding.surveystart.setText(
-                outputDateFormat.format(
-                    inputDateFormat.parse(
-                        approvedOrders.createdTime!!
-                    )!!
+            val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+            val outputDateFormat = SimpleDateFormat("dd MMM, yyyy hh:mm a", Locale.ENGLISH)
+            if (approvedOrders != null && approvedOrders.surveyed_on != null) {
+                apnaPreviewActivityBinding.surveystart.setText(
+                    outputDateFormat.format(
+                        inputDateFormat.parse(
+                            approvedOrders.surveyed_on!!
+                        )!!
+                    )
                 )
-            )
+            }
+            // approvedOrders.createdTime!!
 //            apnaPreviewActivityBinding.surveyended.setText(
 //                outputDateFormat.format(
 //                    inputDateFormat.parse(
@@ -280,7 +284,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                 }
             }
 
-            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
 
             try {
                 val date1 = simpleDateFormat.parse(approvedOrders.createdTime)
@@ -466,8 +470,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         apnaPreviewActivityBinding.hospitalsChart.data = barData
-        apnaPreviewActivityBinding.hospitalsChart.setDragEnabled(true)
-        apnaPreviewActivityBinding.hospitalsChart.setScaleEnabled(true);
+        apnaPreviewActivityBinding.hospitalsChart.setDragEnabled(false)
+        apnaPreviewActivityBinding.hospitalsChart.setScaleEnabled(false)
+        apnaPreviewActivityBinding.hospitalsChart.setPinchZoom(false)
+        apnaPreviewActivityBinding.hospitalsChart.isDoubleTapToZoomEnabled = false
         apnaPreviewActivityBinding.hospitalsChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -561,8 +567,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
         apnaPreviewActivityBinding.apartmentsChart.data = barData
-        apnaPreviewActivityBinding.apartmentsChart.setDragEnabled(true)
-        apnaPreviewActivityBinding.apartmentsChart.setScaleEnabled(true);
+        apnaPreviewActivityBinding.apartmentsChart.setDragEnabled(false)
+        apnaPreviewActivityBinding.apartmentsChart.setScaleEnabled(false)
+        apnaPreviewActivityBinding.apartmentsChart.setPinchZoom(false)
+        apnaPreviewActivityBinding.apartmentsChart.isDoubleTapToZoomEnabled = false
         apnaPreviewActivityBinding.apartmentsChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -649,8 +657,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         lineDataSet.isHighlightEnabled = true
         val lineData = LineData(lineDataSet)
         apnaPreviewActivityBinding.competitorsChart.data = lineData
-        apnaPreviewActivityBinding.competitorsChart.setDragEnabled(true)
-        apnaPreviewActivityBinding.competitorsChart.setScaleEnabled(true);
+        apnaPreviewActivityBinding.competitorsChart.setDragEnabled(false)
+        apnaPreviewActivityBinding.competitorsChart.setScaleEnabled(false)
+        apnaPreviewActivityBinding.competitorsChart.setPinchZoom(false)
+        apnaPreviewActivityBinding.competitorsChart.isDoubleTapToZoomEnabled = false
         apnaPreviewActivityBinding.competitorsChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -684,7 +694,6 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setLabelCount(5, true)
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMinimum(0f)
-        if(avgSales!=null && avgSales.size>0)
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMaximum(avgSales.max())
 
         apnaPreviewActivityBinding.competitorsChart.xAxis.isEnabled = false
@@ -726,8 +735,11 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         val barDataSet = BarDataSet(neighborEntries, "")
         barDataSet.isHighlightEnabled = true
         val barData = BarData(barDataSet)
-        apnaPreviewActivityBinding.neighborChart.setDragEnabled(true)
-        apnaPreviewActivityBinding.neighborChart.setScaleEnabled(true);
+        apnaPreviewActivityBinding.neighborChart.setDragEnabled(false)
+        apnaPreviewActivityBinding.neighborChart.setScaleEnabled(false)
+        apnaPreviewActivityBinding.neighborChart.setPinchZoom(false)
+        apnaPreviewActivityBinding.neighborChart.isDoubleTapToZoomEnabled = false
+
         apnaPreviewActivityBinding.neighborChart.data = barData
         apnaPreviewActivityBinding.neighborChart.setDrawValueAboveBar(true)
         apnaPreviewActivityBinding.neighborChart.setOnChartValueSelectedListener(object :
@@ -876,9 +888,9 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
             )
             apnaPreviewActivityBinding.recyclerViewchemist.adapter = adapter
 
-            var totalOrg=0
-            if(value.data!!.chemist!!.get(0).orgAvgSale!=null)
-             totalOrg = value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt()}.sum()
+            val totalOrg =
+                value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }
+                    .sum()
             val totalUnorg =
                 value.data!!.chemist!!.stream().map { it.unorgAvgSale }.mapToInt { it!!.toInt() }
                     .sum()
@@ -888,21 +900,21 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
             val total = totalOrg + totalUnorg
 
             apnaPreviewActivityBinding.organized.setText(
-                "\u20B9" + DecimalFormat("##,##,##0").format(
+                "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
                     totalOrg.toLong()
                 )
             )
             apnaPreviewActivityBinding.unorganized.setText(
-                "\u20B9" + DecimalFormat("##,##,##0").format(
+                "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
                     totalUnorg.toLong()
                 )
             )
             apnaPreviewActivityBinding.total.setText(
-                "\u20B9" + DecimalFormat("##,##,##0").format(
+                "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
                     total.toLong()
                 )
             )
-            if(value.data!!.chemist!!.get(0).orgAvgSale!=null)
+
             avgSales = value.data!!.chemist!!.map { it.orgAvgSale!!.toFloat() } as ArrayList<Float>
             setCompetitorsValues()
             setupCompetitorsChart()
@@ -1218,17 +1230,67 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 //            apnaPreviewActivityBinding.securityDepositUnit.setText("-")
         }
 
-        apnaPreviewActivityBinding.length.setText(value.data!!.length.toString())
-        apnaPreviewActivityBinding.width.setText(value.data!!.width.toString())
-
-        if (value.data!!.ceilingHeight != null) {
-            apnaPreviewActivityBinding.ceilingHeight.setText(value.data!!.ceilingHeight.toString())
+        var length = ""
+        var lengthSplit = "${value.data!!.length}".split(".")
+        if (lengthSplit[1].toInt() > 0) {
+            length = DecimalFormat("##,##,###.0##", Utils.symbols).format(value.data!!.length)
         } else {
-            apnaPreviewActivityBinding.ceilingHeight.setText("-")
+            length = DecimalFormat("##,##,###", Utils.symbols).format(value.data!!.length)
+        }
+
+        var width = ""
+        var widthSplit = "${value.data!!.width}".split(".")
+        if (widthSplit[1].toInt() > 0) {
+            width = DecimalFormat("##,##,###.0##", Utils.symbols).format(value.data!!.width)
+        } else {
+            width = DecimalFormat("##,##,###", Utils.symbols).format(value.data!!.width)
+        }
+
+        var ceilingHeight = ""
+        var ceilingHeightSplit = "${value.data!!.ceilingHeight}".split(".")
+        if (ceilingHeightSplit[1].toInt() > 0) {
+            ceilingHeight =
+                DecimalFormat("##,##,###.0##", Utils.symbols).format(value.data!!.ceilingHeight)
+        } else {
+            ceilingHeight =
+                DecimalFormat("##,##,###", Utils.symbols).format(value.data!!.ceilingHeight)
+        }
+
+        //DecimalFormat("##,##,###.0##")
+
+        var dimensions =
+            "${length} (L) X ${width} (W) X ${ceilingHeight} (H)"
+        //"${value.data!!.length} (L) X ${value.data!!.width} (W) X ${value.data!!.ceilingHeight} (H)"
+        apnaPreviewActivityBinding.length.setText(dimensions)
+
+//        apnaPreviewActivityBinding.length.setText(value.data!!.length.toString())
+        /* apnaPreviewActivityBinding.width.setText(value.data!!.width.toString())
+
+         if (value.data!!.ceilingHeight != null) {
+             apnaPreviewActivityBinding.ceilingHeight.setText(value.data!!.ceilingHeight.toString())
+         } else {
+             apnaPreviewActivityBinding.ceilingHeight.setText("-")
+         }*/
+
+
+        var totalAreaFromResponse =
+            DecimalFormat("###.0##", Utils.symbols).format(value.data!!.totalArea)
+        var totalArea = ""
+        var totalAreaSplit = "${totalAreaFromResponse}".split(".")
+        if (totalAreaSplit[1].toInt() > 0) {
+            totalArea = DecimalFormat(
+                "##,##,###.0##",
+                Utils.symbols
+            ).format(totalAreaFromResponse.toDouble())
+        } else {
+            totalArea =
+                DecimalFormat("##,##,###", Utils.symbols).format(totalAreaFromResponse.toDouble())
         }
 
         if (value.data!!.totalArea != null) {
-            apnaPreviewActivityBinding.totalareasqft.setText(value.data!!.totalArea.toString())
+            apnaPreviewActivityBinding.totalareasqft.setText(totalArea)
+//            val df = DecimalFormat("##.###").format(value.data!!.totalArea!!)
+//            apnaPreviewActivityBinding.totalareasqft.setText(df.toString())
         } else {
             apnaPreviewActivityBinding.totalareasqft.setText("-")
         }
@@ -1247,7 +1309,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         if (value.data!!.expectedRent != null) {
             apnaPreviewActivityBinding.expectedrentsrft.setText(
-                DecimalFormat("##,##,##0").format(value.data!!.expectedRent!!.toLong())
+                DecimalFormat(
+                    "##,##,##0",
+                    Utils.symbols
+                ).format(value.data!!.expectedRent!!.toLong())
             )
         } else {
             apnaPreviewActivityBinding.expectedrentsrft.setText("-")
@@ -1255,7 +1320,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         if (value.data!!.securityDeposit != null) {
             apnaPreviewActivityBinding.securitydeposit.setText(
-                DecimalFormat("##,##,##0").format(value.data!!.securityDeposit!!.toLong())
+                DecimalFormat(
+                    "##,##,##0",
+                    Utils.symbols
+                ).format(value.data!!.securityDeposit!!.toLong())
             )
         } else {
             apnaPreviewActivityBinding.securitydeposit.setText("-")
@@ -1354,35 +1422,75 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 //            apnaPreviewActivityBinding.existingOutletName.setText("-")
 //        }
 
-        if (value.data!!.eoSiteId != null) {
-            apnaPreviewActivityBinding.existingOutletSiteId.setText(value.data!!.eoSiteId)
+        var siteIdName = ""
+        if (!value.data!!.eoSiteId.isNullOrEmpty()) {
+            siteIdName = value.data!!.eoSiteId!!
+        }
+        if (!value.data!!.eoSiteName.isNullOrEmpty()) {
+            if (siteIdName.isEmpty()) {
+                siteIdName = value.data!!.eoSiteName!!
+            } else {
+                siteIdName = "${siteIdName} - ${value.data!!.eoSiteName!!}"
+            }
+        }
+        if (siteIdName.isNullOrEmpty()) {
+            apnaPreviewActivityBinding.existingOutletSiteName.text = "-"
         } else {
-            apnaPreviewActivityBinding.existingOutletSiteId.setText("-")
+            apnaPreviewActivityBinding.existingOutletSiteName.text = siteIdName
+
         }
 
-        if (value.data!!.eoSiteName != null) {
+
+        /* if (value.data!!.eoSiteId != null) {
+             apnaPreviewActivityBinding.existingOutletSiteId.setText(value.data!!.eoSiteId)
+         } else {
+             apnaPreviewActivityBinding.existingOutletSiteId.setText("-")
+         }*/
+
+        /*if (value.data!!.eoSiteName != null) {
             apnaPreviewActivityBinding.existingOutletSiteName.setText(value.data!!.eoSiteName)
         } else {
             apnaPreviewActivityBinding.existingOutletSiteName.setText("-")
+        }*/
+
+
+        var existingOutletAge = ""
+        if (value.data!!.extngOutletAge != null) {
+            existingOutletAge = "${Math.round(value.data!!.extngOutletAge!!)} years"
+            if (value.data!!.extng_outlet_age_in_month != null) {
+                existingOutletAge =
+                    "$existingOutletAge ${Math.round(value.data!!.extng_outlet_age_in_month!!)} months"
+            }
+            apnaPreviewActivityBinding.existingOutletAge.text = "$existingOutletAge"
+        } else {
+            if (value.data!!.extng_outlet_age_in_month != null) {
+                existingOutletAge =
+                    "0 years ${Math.round(value.data!!.extng_outlet_age_in_month!!)} months"
+                apnaPreviewActivityBinding.existingOutletAge.text = "$existingOutletAge"
+            } else {
+                existingOutletAge = "-"
+                apnaPreviewActivityBinding.existingOutletAge.text = "$existingOutletAge"
+            }
         }
 
-        if (value.data!!.extngOutletAge != null) {
-            if (value.data!!.extngOutletAge!! > 0) {
-                if (value.data!!.extngOutletAge.toString().isNotEmpty()) {
-                    if (!value.data!!.extngOutletAge.toString().equals("null", true)) {
-                        apnaPreviewActivityBinding.existingOutletAge.setText(value.data!!.extngOutletAge.toString())
-                    } else {
-                        apnaPreviewActivityBinding.existingOutletAge.setText("-")
-                    }
-                } else {
-                    apnaPreviewActivityBinding.existingOutletAge.setText("-")
-                }
-            } else {
-                apnaPreviewActivityBinding.existingOutletAge.setText("-")
-            }
-        } else {
-            apnaPreviewActivityBinding.existingOutletAge.setText("-")
-        }
+
+        /* if (value.data!!.extngOutletAge != null) {
+             if (value.data!!.extngOutletAge!! > 0) {
+                 if (value.data!!.extngOutletAge.toString().isNotEmpty()) {
+                     if (!value.data!!.extngOutletAge.toString().equals("null", true)) {
+                         apnaPreviewActivityBinding.existingOutletAge.setText(value.data!!.extngOutletAge.toString())
+                     } else {
+                         apnaPreviewActivityBinding.existingOutletAge.setText("-")
+                     }
+                 } else {
+                     apnaPreviewActivityBinding.existingOutletAge.setText("-")
+                 }
+             } else {
+                 apnaPreviewActivityBinding.existingOutletAge.setText("-")
+             }
+         } else {
+             apnaPreviewActivityBinding.existingOutletAge.setText("-")
+         }*/
 
 //        if (value.data!!.csPharma != null) {
 //            apnaPreviewActivityBinding.pharma.setText(value.data!!.csPharma.toString())
@@ -1419,21 +1527,27 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         }
         if (value.data!!.serviceClass != null) {
             apnaPreviewActivityBinding.serviceClass.setText(
-                DecimalFormat("##,##,##0").format(value.data!!.serviceClass!!.toLong())
+                DecimalFormat(
+                    "##,##,##0",
+                    Utils.symbols
+                ).format(value.data!!.serviceClass!!.toLong())
             )
         } else {
             apnaPreviewActivityBinding.serviceClass.setText("-")
         }
         if (value.data!!.businessClass != null) {
             apnaPreviewActivityBinding.businessClass.setText(
-                DecimalFormat("##,##,##0").format(value.data!!.businessClass!!.toLong())
+                DecimalFormat(
+                    "##,##,##0",
+                    Utils.symbols
+                ).format(value.data!!.businessClass!!.toLong())
             )
         } else {
             apnaPreviewActivityBinding.businessClass.setText("-")
         }
 
-        val inputDateFormat = SimpleDateFormat("HH:mm:ss")
-        val outputDateFormat = SimpleDateFormat("HH:mm")
+        val inputDateFormat = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
+        val outputDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
         if (value.data!!.morningFrom != null) {
             apnaPreviewActivityBinding.morningFrom.setText(
                 outputDateFormat.format(

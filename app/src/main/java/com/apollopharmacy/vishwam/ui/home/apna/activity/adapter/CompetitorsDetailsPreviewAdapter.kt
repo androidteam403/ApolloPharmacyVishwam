@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ChemistAdapterLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
+import com.apollopharmacy.vishwam.util.Utils
 import java.text.DecimalFormat
 
 class CompetitorsDetailsPreviewAdapter(
@@ -33,10 +34,10 @@ class CompetitorsDetailsPreviewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.chemistAdapterLayoutBinding.name.setText(data[position].chemist)
         holder.chemistAdapterLayoutBinding.organized.setText(data[position].organised!!.uid)
-        holder.chemistAdapterLayoutBinding.avgsale.setText("\u20B9" + DecimalFormat("##,##,##0").format(
+        holder.chemistAdapterLayoutBinding.avgsale.setText("\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
             data[position].orgAvgSale!!.toLong()))
         holder.chemistAdapterLayoutBinding.unorganized.setText(data[position].unorganised!!.uid)
-        holder.chemistAdapterLayoutBinding.unorganisedAvgSale.setText("\u20B9" + DecimalFormat("##,##,##0").format(
+        holder.chemistAdapterLayoutBinding.unorganisedAvgSale.setText("\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
             data[position].unorgAvgSale!!.toLong()))
     }
 

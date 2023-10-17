@@ -16,9 +16,11 @@ interface SurveyDetailsCallback {
     fun deleteEmailAddressCC(get: String)
 
     fun onClickPlusCC()
-     fun onSuccessgetEmailDetails(value: GetEmailAddressModelResponse)
-     fun onFailuregetEmailDetails(value: GetEmailAddressModelResponse)
-     fun onSuccessgetEmailDetailsCC(value: GetEmailAddressModelResponse)
-     fun onSuccessgetStoreWiseDetails(value: GetStoreWiseEmpIdResponse)
-     fun onFailuregetStoreWiseDetails(value: GetStoreWiseEmpIdResponse)
+    fun onSuccessgetEmailDetails(value: GetEmailAddressModelResponse)
+    fun onFailuregetEmailDetails(value: GetEmailAddressModelResponse)
+    fun onSuccessgetEmailDetailsCC(value: GetEmailAddressModelResponse)
+    fun onSuccessgetStoreWiseDetails(value: GetStoreWiseEmpIdResponse)
+    fun onFailuregetStoreWiseDetails(value: GetStoreWiseEmpIdResponse)
+
+    fun onDeleteManualRecipient(recipient: String)
 }

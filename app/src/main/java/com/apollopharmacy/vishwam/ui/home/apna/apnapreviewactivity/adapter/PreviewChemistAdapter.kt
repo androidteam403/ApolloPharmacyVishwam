@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ChemistAdapterLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
+import com.apollopharmacy.vishwam.util.Utils
 import java.text.DecimalFormat
 
 class PreviewChemistAdapter(
@@ -48,14 +49,12 @@ class PreviewChemistAdapter(
         } else {
             holder.chemistLayoutBinding.organized.setText("-")
         }
-        if(items!=null && items.orgAvgSale!=null){
-            if (!items.orgAvgSale.toString().isNullOrEmpty()) {
-                holder.chemistLayoutBinding.avgsale.setText("\u20B9" + DecimalFormat("##,##,##0").format(items.orgAvgSale!!.toLong()))
-            } else {
-                holder.chemistLayoutBinding.avgsale.setText("-")
-            }
+        if (items.orgAvgSale.toString().isNotEmpty()) {
+            holder.chemistLayoutBinding.avgsale.setText("\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
+                items.orgAvgSale!!.toLong()))
+        } else {
+            holder.chemistLayoutBinding.avgsale.setText("-")
         }
-
         if (items.unorganised != null) {
             if (items.unorganised!!.name.toString()
                     .isNotEmpty() && items.unorganised!!.name != null
@@ -68,7 +67,7 @@ class PreviewChemistAdapter(
             holder.chemistLayoutBinding.unorganized.setText("-")
         }
         if (items.unorgAvgSale.toString().isNotEmpty()) {
-            holder.chemistLayoutBinding.unorganisedAvgSale.setText("\u20B9" + DecimalFormat("##,##,##0").format(
+            holder.chemistLayoutBinding.unorganisedAvgSale.setText("\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
                 items.unorgAvgSale!!.toLong()))
         } else {
             holder.chemistLayoutBinding.unorganisedAvgSale.setText("-")

@@ -54,7 +54,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("distance")
         @Expose
-        var distance: Int? = null
+        var distance: Double? = null
         fun withUid(uid: String?): Apartment {
             this.uid = uid
             return this
@@ -75,7 +75,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withDistance(distance: Int?): Apartment {
+        fun withDistance(distance: Double?): Apartment {
             this.distance = distance
             return this
         }
@@ -100,11 +100,11 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("unorg_avg_sale")
         @Expose
-        var unorgAvgSale: Int? = null
+        var unorgAvgSale: Int? = 0
 
         @SerializedName("org_avg_sale")
         @Expose
-        var orgAvgSale: Int? = null
+        var orgAvgSale: Int? = 0
         fun withUid(uid: String?): Chemist {
             this.uid = uid
             return this
@@ -342,7 +342,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("security_deposit")
         @Expose
-        var securityDeposit: Float? = null
+        var securityDeposit: Int? = null
 
         @SerializedName("length")
         @Expose
@@ -379,6 +379,11 @@ class SurveyDetailsList : Serializable {
         @SerializedName("extng_outlet_age")
         @Expose
         var extngOutletAge: Double? = null
+
+        @SerializedName("extng_outlet_age_in_month")
+        @Expose
+        var extng_outlet_age_in_month: Double? = null
+
 
         @SerializedName("site_image_mb")
         @Expose
@@ -637,7 +642,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withSecurityDeposit(securityDeposit: Float?): Data {
+        fun withSecurityDeposit(securityDeposit: Int?): Data {
             this.securityDeposit = securityDeposit
             return this
         }
@@ -905,7 +910,7 @@ class SurveyDetailsList : Serializable {
         var rent = 0
 
         @SerializedName("sales")
-        var sales: Float = 0.0F
+        var sales: Double? = null
 
         @SerializedName("sqft")
         var sqft = 0.0
