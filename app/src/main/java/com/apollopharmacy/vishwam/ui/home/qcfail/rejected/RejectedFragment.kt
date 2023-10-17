@@ -108,7 +108,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         viewBinding.closeArrow.setOnClickListener {
             viewBinding.searchView.setText("")
         }
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         currentDate = simpleDateFormat.format(Date())
 
 
@@ -246,7 +246,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             rejectedListList.clear()
             rejectedListMain.clear()
             MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             currentDate = simpleDateFormat.format(Date())
             val cal = Calendar.getInstance()
             cal.add(Calendar.DATE, -7)
@@ -744,6 +744,9 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                     siteId = data.getStringExtra("siteId").toString()
                     regionId = data.getStringExtra("regionId").toString()
                     typeString = data.getStringExtra("orderType").toString()
+                    storeStringList= data.getStringArrayListExtra("storeList")!!
+                    regionStringList= data.getStringArrayListExtra("regionList")!!
+
                     if (currentDate.isNotEmpty() && fromDate.isNotEmpty()) {
                         showLoading()
                         viewModel.getQcRejectList(
@@ -755,7 +758,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                         )
 
 
-                            MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
+                        MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
 
                     }else if (rejectedListList.size == rejectedListMain.size) {
@@ -777,13 +780,15 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                         Preferences.setQcFromDate("")
                         Preferences.setQcToDate("")
                         Preferences.setQcSite("")
+                        storeStringList.clear()
+                        regionStringList.clear()
                         siteId = ""
                         Preferences.setQcRegion("")
                         Preferences.setQcOrderType("")
                         typeString = ""
                         rejectedListList.clear()
                         rejectedListMain.clear()
-                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
                         currentDate = simpleDateFormat.format(Date())
                         val cal = Calendar.getInstance()
                         cal.add(Calendar.DATE, -7)
@@ -908,9 +913,9 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
     private fun setQcRejectedListResponse(rejectedlist: List<QcListsResponse.Reject>) {
         viewBinding.refreshSwipe.isRefreshing = false
-        storeStringList.clear()
+//        storeStringList.clear()
         orderTypeList.clear()
-        regionStringList.clear()
+//        regionStringList.clear()
         if (rejectedlist != null && rejectedlist!!.size > 0) {
 
             viewBinding.recyclerViewPending.visibility = View.VISIBLE
@@ -964,18 +969,29 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
 
 
+            if (subList.size>0){
+                viewBinding.emptyList.visibility = View.GONE
+                viewBinding.recyclerViewPending.visibility = View.VISIBLE
+                viewBinding.continueBtn.visibility = View.VISIBLE
+                adapter =
+                    context?.let { it1 ->
+                        QcRejectedListAdapter(
+                            it1, this,
+                            subList!!.get(increment),
 
-            adapter =
-                context?.let { it1 ->
-                    QcRejectedListAdapter(
-                        it1, this,
-                        subList!!.get(increment),
+                            itemsList,
+                            statusList
+                        )
+                    }
+                viewBinding.recyclerViewPending.adapter = adapter
+            }
+            else{
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.recyclerViewPending.visibility = View.GONE
+                viewBinding.continueBtn.visibility = View.GONE
+            }
 
-                        itemsList,
-                        statusList
-                    )
-                }
-            viewBinding.recyclerViewPending.adapter = adapter
+
 
         } else {
             viewBinding.emptyList.visibility = View.VISIBLE
