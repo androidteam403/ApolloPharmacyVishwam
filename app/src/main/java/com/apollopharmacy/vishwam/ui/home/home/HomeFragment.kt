@@ -101,7 +101,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         employeeRole = MainActivity.mInstance.employeeRole
         userDesignation = MainActivity.userDesignation
 
-       /* updateNavMenu(isAttendanceRequired,
+        updateNavMenu(
+            isAttendanceRequired,
             isCMSRequired,
             isDiscountRequired,
             isSwachhRequired,
@@ -110,9 +111,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             isSensingRequired,
             isChampsRequired,
             isApnaSurveyRequired,
-            isApnaRetroRequired);*/
+            isApnaRetroRequired
+        );
 
-        updateNavMenu(true,
+        /*updateNavMenu(true,
             true,
             true,
             true,
@@ -121,7 +123,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             true,
             true,
             true,
-            true);
+            true);*/
     }
 
     private fun updateNavMenu(
@@ -163,23 +165,40 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         val swachhMenuModel = ArrayList<MenuModel>()
         if (isSwachhRequired) {
-            if (employeeRole.equals("Yes",
-                    ignoreCase = true) && MainActivity.userDesignation != null && (MainActivity.userDesignation.equals(
+            if (employeeRole.equals(
+                    "Yes",
+                    ignoreCase = true
+                ) && MainActivity.userDesignation != null && (MainActivity.userDesignation.equals(
                     "MANAGER",
-                    ignoreCase = true) || MainActivity.userDesignation.equals("GENERAL MANAGER",
-                    ignoreCase = true) || MainActivity.userDesignation.equals("EXECUTIVE",
-                    ignoreCase = true) || MainActivity.userDesignation.equals("CEO",
-                    ignoreCase = true))
+                    ignoreCase = true
+                ) || MainActivity.userDesignation.equals(
+                    "GENERAL MANAGER",
+                    ignoreCase = true
+                ) || MainActivity.userDesignation.equals(
+                    "EXECUTIVE",
+                    ignoreCase = true
+                ) || MainActivity.userDesignation.equals(
+                    "CEO",
+                    ignoreCase = true
+                ))
             ) {
                 swachhMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload))
                 swachhMenuModel.add(MenuModel("List", R.drawable.swachh_list))
             } else if (employeeRole.equals("Yes", ignoreCase = true)) {
                 swachhMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload))
-            } else if (MainActivity.userDesignation != null && MainActivity.userDesignation.equals("MANAGER",
-                    ignoreCase = true) || MainActivity.userDesignation.equals("GENERAL MANAGER",
-                    ignoreCase = true) || MainActivity.userDesignation.equals("EXECUTIVE",
-                    ignoreCase = true) || MainActivity.userDesignation.equals("CEO",
-                    ignoreCase = true)
+            } else if (MainActivity.userDesignation != null && MainActivity.userDesignation.equals(
+                    "MANAGER",
+                    ignoreCase = true
+                ) || MainActivity.userDesignation.equals(
+                    "GENERAL MANAGER",
+                    ignoreCase = true
+                ) || MainActivity.userDesignation.equals(
+                    "EXECUTIVE",
+                    ignoreCase = true
+                ) || MainActivity.userDesignation.equals(
+                    "CEO",
+                    ignoreCase = true
+                )
             ) {
                 swachhMenuModel.add(MenuModel("List", R.drawable.swachh_list))
             }
@@ -198,16 +217,20 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         val apnaRetroMenuModel = ArrayList<MenuModel>()
         if (isApnaRetroRequired) {
-            if (MainActivity.mInstance.employeeRoleRetro.equals("Yes",
-                    ignoreCase = true) && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
-                    "CEO") || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
+            if (MainActivity.mInstance.employeeRoleRetro.equals(
+                    "Yes",
+                    ignoreCase = true
+                ) && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
+                    "CEO"
+                ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
             ) {
                 apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.retro_creation))
                 apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.retro_approval))
             } else if (getAppLevelDesignationApnaRetro().contains("NODATA")) {
                 apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.retro_creation))
             } else if (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
-                    "CEO") || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER"
+                    "CEO"
+                ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER"
             ) {
                 apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.retro_approval))
             }
@@ -215,6 +238,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         val apnaMenuModel = ArrayList<MenuModel>()
         apnaMenuModel.add(MenuModel("Apna Survey", R.drawable.apna_survey))
+
+        viewBinding.greetingsToChairmanMenu.visibility = View.GONE
+        viewBinding.cashDepositMenu.visibility = View.GONE
+
+
 
         if (isSensingRequired) {
             viewBinding.apolloSensingMenu.visibility = View.VISIBLE
@@ -241,8 +269,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         }
 
         if (isDrugRequired) {
-            if (MainActivity.mInstance.employeeRoleNewDrugRequest.equals("Yes",
-                    ignoreCase = true)
+            if (MainActivity.mInstance.employeeRoleNewDrugRequest.equals(
+                    "Yes",
+                    ignoreCase = true
+                )
             ) {
                 viewBinding.drugRequestMenu.visibility = View.VISIBLE
             } else {
@@ -258,8 +288,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             viewBinding.omsQcMenu.visibility = View.GONE
         }
 
-        if (MainActivity.mInstance.ceoDashboardAccessFromEmployee.equals("Yes",
-                ignoreCase = true)
+        if (MainActivity.mInstance.ceoDashboardAccessFromEmployee.equals(
+                "Yes",
+                ignoreCase = true
+            )
         ) {
             viewBinding.monitoringMenu.visibility = View.VISIBLE
         } else {

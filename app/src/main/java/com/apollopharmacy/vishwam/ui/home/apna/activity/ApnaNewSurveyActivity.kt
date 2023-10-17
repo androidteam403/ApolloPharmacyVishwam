@@ -1827,7 +1827,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             morningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
                             val formattedTime = simpleDateFormat.format(calendar.time)
 
                             if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningToSelect.text.toString()

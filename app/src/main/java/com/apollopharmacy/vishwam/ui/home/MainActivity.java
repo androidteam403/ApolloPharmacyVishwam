@@ -2526,7 +2526,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 anim.setRepeatCount(Animation.INFINITE);
                 notificationTextCustom.startAnimation(anim);
 
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                 String orderDate = Utlis.INSTANCE.getCurrentTimeDate();
                 Date orderDates = formatter.parse(orderDate);
                 long orderDateMills = orderDates.getTime();
