@@ -204,11 +204,14 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 if (isLoading) {
                     isLastPage = false
                     isLoading = false
+                    val pos = surveyResponseList.size - 1
                     surveyResponseList.removeAt(surveyResponseList.size - 1)
                     surveyResponseList.addAll(getsurveyList!!)
                     pageNo++
-
+//                    adapter!!.notifyDataSetChanged()
+//                    viewBinding.recyclerViewApproved.smoothScrollToPosition(pos)
                     initAdapter()
+                    viewBinding.recyclerViewApproved.smoothScrollToPosition(pos)
 //                    addScrollerListener()
                 }
             }
@@ -224,8 +227,11 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 viewBinding.noListFound.visibility = View.VISIBLE
             } else {
+                val pos = surveyResponseList.size - 1
                 surveyResponseList.removeAt(surveyResponseList.size - 1)
                 initAdapter()
+                viewBinding.recyclerViewApproved.smoothScrollToPosition(pos)
+
             }
 
         }
@@ -262,7 +268,16 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     }
 
     private fun loadMore() {
-        handler.post(Runnable {
+        if (!isLoading) {
+            isLoading = true
+            val newdata = SurveyListResponse.Row()
+            newdata.isLoading = "YES"
+            surveyResponseList.add(newdata)
+//            adapter!!.getData().add(newdata)
+            adapter!!.notifyItemInserted(surveyResponseList.size - 1)
+            callAPI(pageNo, rowSize, false)
+        }
+        /*handler.post(Runnable {
             if (!isLoading) {
                 isLoading = true
                 val newdata = SurveyListResponse.Row()
@@ -272,7 +287,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 adapter!!.notifyItemInserted(surveyResponseList.size - 1)
                 callAPI(pageNo, rowSize, false)
             }
-        })
+        })*/
 
     }
 
@@ -490,8 +505,9 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     override fun onClickSubmenuItem(
         menuName: String?,
         submenus: java.util.ArrayList<MenuModel>?,
-        position: Int
+        position: Int,
     ) {
         TODO("Not yet implemented")
     }
+
 }

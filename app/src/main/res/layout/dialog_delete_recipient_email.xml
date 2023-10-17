@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/value_10dp"
+        android:background="@drawable/dialog_background"
+        android:orientation="vertical"
+        android:padding="@dimen/value_20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_for_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/value_15dp"
+                android:layout_marginBottom="@dimen/value_25dp"
+                android:gravity="center_horizontal"
+                android:text="Do you want to delete recipient email?"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/value_5dp"
+                android:gravity="center"
+                android:paddingBottom="@dimen/value_5dp">
+
+                <TextView
+                    android:id="@+id/no_btn"
+                    android:layout_width="@dimen/value_70dp"
+                    android:layout_height="@dimen/value_30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:background="@drawable/grey_rectangle1"
+                    android:gravity="center"
+                    android:text="No"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/yes_btn"
+                    android:layout_width="@dimen/value_70dp"
+                    android:layout_height="@dimen/value_30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:background="@drawable/red_rounded_corners"
+                    android:gravity="center"
+                    android:text="Yes"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>
+

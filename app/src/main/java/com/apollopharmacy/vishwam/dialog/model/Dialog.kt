@@ -92,7 +92,7 @@ class Dialog: DialogFragment() {
         dataPickerBinding.datePicker.updateDate(year, (month - 1), day)
         dataPickerBinding.datePicker.maxDate = (c.timeInMillis)
         if (arguments?.getBoolean(ComplaintListCalendarDialog.KEY_IS_TO) == true) {
-            val date = SimpleDateFormat("yyyy-MMM-dd").parse(
+            val date = SimpleDateFormat("yyyy-MMM-dd", Locale.ENGLISH).parse(
                 arguments?.getString(
                     ComplaintListCalendarDialog.KEY_FROM_DATE
                 )

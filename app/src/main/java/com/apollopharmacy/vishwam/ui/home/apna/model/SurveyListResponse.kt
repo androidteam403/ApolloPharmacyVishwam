@@ -230,6 +230,11 @@ class SurveyListResponse : Serializable {
         @Expose
         var createdId: CreatedId? = null
 
+        @SerializedName("surveyed_on")
+        @Expose
+        var surveyed_on: String? = null
+
+
 //        @SerializedName("location")
 //        @Expose
 //        var location: Location? = null

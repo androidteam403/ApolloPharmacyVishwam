@@ -8,6 +8,8 @@ interface AdminModuleCallBack {
 
     fun onClickExpand()
 
+    fun onClickBack()
+
 
     fun onClickEditOverall(
         categoryDetails: GetCategoryDetailsResponse.CategoryDetails,

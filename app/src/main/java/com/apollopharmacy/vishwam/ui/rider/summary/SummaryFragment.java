@@ -68,7 +68,7 @@ public class SummaryFragment extends BaseFragment implements SummaryFragmentCall
 //        NavigationActivity.getInstance().setTitle(R.string.menu_summary);
         summaryBinding.setCallbak(this);
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd",  Locale.ENGLISH);
 
             Date fromDates = formatter.parse(fromDate);
             long fromDateMills = fromDates.getTime();

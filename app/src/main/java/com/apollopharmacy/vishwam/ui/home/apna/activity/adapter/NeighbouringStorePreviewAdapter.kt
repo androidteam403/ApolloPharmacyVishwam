@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.LayoutNeighbouringStorePreviewBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
+import com.apollopharmacy.vishwam.util.Utils
 import java.text.DecimalFormat
 
 class NeighbouringStorePreviewAdapter(
@@ -42,20 +43,58 @@ class NeighbouringStorePreviewAdapter(
             holder.layoutNeighbouringStorePreviewBinding.store.setText("-")
         }
         if (data[position].rent != null) {
-            holder.layoutNeighbouringStorePreviewBinding.rent.setText("\u20B9" + DecimalFormat("##,##,##0").format(
-                data[position].rent!!.toLong()))
+            holder.layoutNeighbouringStorePreviewBinding.rent.setText(
+                "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(
+                    data[position].rent!!.toLong()
+                )
+            )
         } else {
             holder.layoutNeighbouringStorePreviewBinding.rent.setText("-")
         }
         if (data[position].sales != null) {
-            holder.layoutNeighbouringStorePreviewBinding.sales.setText(data.get(position).sales!!.toString())
+            var salesFromResponse = DecimalFormat("###.0##", Utils.symbols).format(data[position].sales)
+            var sales = ""
+            var salesSplit =
+                "${salesFromResponse}".split(
+                    "."
+                )
+            if (salesSplit[1].toInt() > 0) {
+                sales =
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(salesFromResponse.toDouble())
+            } else {
+                sales =
+                    DecimalFormat("##,##,###", Utils.symbols).format(salesFromResponse.toDouble())
+            }
+            holder.layoutNeighbouringStorePreviewBinding.sales.setText(sales)//data.get(position).sales!!.toString()
+
+
+//            val df = DecimalFormat("##.###").format(data[position].sales!!)
+//            val a = DecimalFormat(data[position].sales!!.toString())
+//            holder.layoutNeighbouringStorePreviewBinding.sales.setText(df.toString())//data.get(position).sales!!.toString()
 //            holder.layoutNeighbouringStorePreviewBinding.sales.setText("\u20B9" + DecimalFormat("##,##,##0").format(
 //                data[position].sales!!.toLong()))
         } else {
             holder.layoutNeighbouringStorePreviewBinding.sales.setText("-")
         }
         if (data[position].sqft != null) {
-            holder.layoutNeighbouringStorePreviewBinding.sqft.setText(data[position].sqft.toString())
+
+            var sqftFromResponse = DecimalFormat("###.0##", Utils.symbols).format(data[position].sqft)
+            var sqft = ""
+            var sqftSplit =
+                "${sqftFromResponse}".split(
+                    "."
+                )
+            if (sqftSplit[1].toInt() > 0) {
+                sqft =
+                    DecimalFormat("##,##,###.0##", Utils.symbols).format(sqftFromResponse.toDouble())
+            } else {
+                sqft =
+                    DecimalFormat("##,##,###", Utils.symbols).format(sqftFromResponse.toDouble())
+            }
+            holder.layoutNeighbouringStorePreviewBinding.sqft.setText(sqft)
+
+            /* val df = DecimalFormat("##.###").format(data[position].sqft!!)
+             holder.layoutNeighbouringStorePreviewBinding.sqft.setText(df)*/
         } else {
             holder.layoutNeighbouringStorePreviewBinding.sqft.setText("-")
         }

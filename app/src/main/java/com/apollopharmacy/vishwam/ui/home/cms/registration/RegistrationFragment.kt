@@ -209,7 +209,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
             val c = Calendar.getInstance().time
             println("Current time => $c")
-            val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+            val df = SimpleDateFormat("dd MMM yyyy",  Locale.ENGLISH)
             var formattedDate = df.format(c)
             viewBinding.dateOfProblem.setText(formattedDate)
             viewBinding.dateOfProblem.isEnabled = false
@@ -1013,7 +1013,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
         val c = Calendar.getInstance().time
         println("Current time => $c")
-        val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+        val df = SimpleDateFormat("dd MMM yyyy",  Locale.ENGLISH)
         var formattedDate = df.format(c)
         viewBinding.dateOfProblem.setText(formattedDate)
 
@@ -1865,7 +1865,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     private fun submitClick() {
         val description = viewBinding.descriptionText.text.toString().trim()
-        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+        val currentTime = SimpleDateFormat("HH:mm:ss",  Locale.ENGLISH).format(Date())
         val problemDate =
             Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
         showLoading()
@@ -1958,7 +1958,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         val storeId = Preferences.getSiteId()
 //        }
         val description = viewBinding.descriptionText.text.toString().trim()
-        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+        val currentTime = SimpleDateFormat("HH:mm:ss",  Locale.ENGLISH).format(Date())
         val problemDate =
             Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
         var newPrice = 0.0

@@ -342,7 +342,7 @@ public class ActivityUtils {
     }
 
     public static String getCurrentTimeDate() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",  Locale.ENGLISH).format(new Date());
     }
 
 }

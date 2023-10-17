@@ -41,10 +41,10 @@ class GetSurveyDetailsAdapter(
         holder.adapterGetSurveyDetailsBinding.siteName.text=surveyList.sitename// + "," + " " + surveyList.city
 
         val strDate = surveyList.visitDate
-        val dateFormat = SimpleDateFormat("dd-MM-yy kk:mm:ss");
+        val dateFormat = SimpleDateFormat("dd-MM-yy kk:mm:ss", Locale.ENGLISH);
         val date = dateFormat.parse(strDate)
         val dateNewFormat =
-            SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.getDefault()).format(date)
+            SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH).format(date)
         if(surveyList.status.equals("PENDING")){
             holder.adapterGetSurveyDetailsBinding.status.setTextColor(context.getColor(R.color.pending_reshoot_color))
             holder.adapterGetSurveyDetailsBinding.statusLayout.setBackgroundColor((context.getColor(R.color.light_pink_for_reshoot_pending))

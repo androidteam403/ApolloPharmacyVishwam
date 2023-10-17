@@ -1152,7 +1152,7 @@ public class DashboardFragment extends BaseFragment implements DashboardFragment
         try {
             if (show) {
                 newOrderLayoutView.setVisibility(View.VISIBLE);
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",  Locale.ENGLISH);
                 String orderDate = Utils.getCurrentTimeDate();
                 Date orderDates = formatter.parse(orderDate);
                 long orderDateMills = orderDates.getTime();

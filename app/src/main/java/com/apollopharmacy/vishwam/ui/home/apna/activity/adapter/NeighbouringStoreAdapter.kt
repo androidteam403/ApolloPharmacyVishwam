@@ -15,6 +15,7 @@ import com.apollopharmacy.vishwam.databinding.ImageDeleteConfirmDialogBinding
 import com.apollopharmacy.vishwam.databinding.LayoutNeighbouringStoreBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringStoreData
+import com.apollopharmacy.vishwam.util.Utils
 import java.text.DecimalFormat
 
 class NeighbouringStoreAdapter(
@@ -54,7 +55,7 @@ class NeighbouringStoreAdapter(
 
         if (neighbouringList.get(position).rent.isNotEmpty()) {
             holder.layoutNeighbouringStoreBinding.rent.setText(
-                "\u20B9" + DecimalFormat("##,##,##0").format(neighbouringList[position].rent.toLong())
+                "\u20B9" + DecimalFormat("##,##,##0", Utils.symbols).format(neighbouringList[position].rent.toLong())
             )
         } else {
             holder.layoutNeighbouringStoreBinding.rent.setText("-")

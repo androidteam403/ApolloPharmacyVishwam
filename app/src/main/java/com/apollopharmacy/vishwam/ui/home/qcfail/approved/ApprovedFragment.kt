@@ -124,9 +124,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 arguments = QcListSizeDialog().generateParsedData(pageSizeList)
             }.show(childFragmentManager, "")
         }
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         currentDate = simpleDateFormat.format(Date())
-
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         fromDate = simpleDateFormat.format(cal.time)
@@ -386,8 +385,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
     private fun setQcApprovedListResponse(approvedlist: List<QcListsResponse.Approved>) {
         viewBinding.refreshSwipe.isRefreshing = false
-        storeStringList.clear();
-        regionStringList.clear();
+//        storeStringList.clear();
+//        regionStringList.clear();
         hideLoading()
         if (approvedlist.isNullOrEmpty()) {
             if (viewBinding.recyclerViewApproved != null) {
@@ -537,7 +536,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         approvedListList.clear()
         approvedListMain.clear()
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         currentDate = simpleDateFormat.format(Date())
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
@@ -565,6 +564,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                     siteId = data.getStringExtra("siteId").toString()
                     regionId = data.getStringExtra("regionId").toString()
                     typeString = data.getStringExtra("orderType").toString()
+                    storeStringList= data.getStringArrayListExtra("storeList")!!
+                    regionStringList= data.getStringArrayListExtra("regionList")!!
 
 
                     if (currentDate.isNotEmpty() && fromDate.isNotEmpty()) {
@@ -579,14 +580,11 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
 
-                    }
-
-                    else if (approvedListList.size == approvedListList.size){
+                    } else if (approvedListList.size == approvedListList.size) {
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
                         setQcApprovedListResponse(approvedListList)
                         adapter!!.notifyDataSetChanged()
-                    }
-                    else {
+                    } else {
                         approvedListList.clear()
                         approvedListList = approvedListMain
                         MainActivity.mInstance.qcfilterIndicator.visibility = View.VISIBLE
@@ -602,14 +600,15 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                         Preferences.setQcToDate("")
                         Preferences.setQcSite("")
                         orderTypeList.clear()
-
+                        storeStringList.clear();
+                        regionStringList.clear();
                         siteId = ""
                         Preferences.setQcRegion("")
                         Preferences.setQcOrderType("")
                         typeString = ""
                         approvedListList.clear()
                         approvedListMain.clear()
-                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
                         currentDate = simpleDateFormat.format(Date())
                         val cal = Calendar.getInstance()
                         cal.add(Calendar.DATE, -7)

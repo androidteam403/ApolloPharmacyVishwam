@@ -25,6 +25,7 @@ object Preferences {
     private const val REJECTED_PAGE_SIZE_QC = "REJECTED_PAGE_SIZE_QC"
     private const val KEY_TO_DATE = "KEY_TO_DATE"
     private const val KEY_DISC_FROM_DATE = "KEY_DISC_FROM_DATE"
+    private const val EMPLOYEE_ROLE_CHAMPS_ADMIN = "EMPLOYEE_ROLE_CHAMPS_ADMIN"
     private const val KEY_DISC_TO_DATE = "KEY_DISC_TO_DATE"
     private const val KEY_QC_REGION_ID = "KEY_QC_REGION_ID"
     private const val KEY_QC_ORDER_TYPE = "KEY_QC_ORDER_TYPE"
@@ -717,6 +718,14 @@ object Preferences {
 
     fun setQcFromDate(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_FROM_DATE, siteIdList).apply()
+    }
+
+    fun setEmployeeRoleUidChampsAdmin(uid: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_ROLE_CHAMPS_ADMIN, uid).apply()
+    }
+
+    fun getEmployeeRoleUidChampsAdmin(): String {
+        return sharedPreferences.getString(EMPLOYEE_ROLE_CHAMPS_ADMIN, "")!!
     }
 
     fun getQcFromDate(): String {

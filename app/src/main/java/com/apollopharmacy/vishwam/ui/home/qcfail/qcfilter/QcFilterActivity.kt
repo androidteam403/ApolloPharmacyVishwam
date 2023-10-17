@@ -247,15 +247,32 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
 
         activityQcFilterBinding.reset.setOnClickListener {
-            val intent = Intent()
-            Preferences.setQcFromDate("")
-            Preferences.setQcToDate("")
-            Preferences.setQcSite("")
-            Preferences.setQcRegion("")
-            Preferences.setQcOrderType("")
-            intent.putExtra("reset", "reset")
-            setResult(Activity.RESULT_OK, intent)
-            finish()
+            if (fragmentName.equals("pending")){
+                val intent = Intent()
+                Preferences.setQcFromDate("")
+                Preferences.setQcToDate("")
+                Preferences.setQcSite("")
+                intent.putStringArrayListExtra("storeList", storeStringList)
+                intent.putStringArrayListExtra("regionList", regionStringList)
+                Preferences.setQcRegion("")
+                Preferences.setQcOrderType("")
+                intent.putExtra("reset", "reset")
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }else{
+                val intent = Intent()
+                Preferences.setQcFromDate("")
+                Preferences.setQcToDate("")
+                Preferences.setQcSite("")
+                Preferences.setQcRegion("")
+                intent.putStringArrayListExtra("storeList", storeStringList)
+                intent.putStringArrayListExtra("regionList", regionStringList)
+                Preferences.setQcOrderType("")
+                intent.putExtra("reset", "reset")
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+
 
         }
 
@@ -269,13 +286,30 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
             }
 
-            else if (fromQcDate.isNotEmpty()&&toQcDate.isNullOrEmpty()){
+            else if (fromQcDate.isNullOrEmpty()||toQcDate.isNullOrEmpty()){
                 Toast.makeText(context, "Date Fields Should not be  Empty", Toast.LENGTH_LONG).show()
 
             }
-            else if (fromQcDate.isNullOrEmpty()&&toQcDate.isNotEmpty()){
-                Toast.makeText(context, "Date Fields Should not be  Empty", Toast.LENGTH_LONG).show()
 
+            else if (fragmentName.equals("pending")){
+                val intent = Intent()
+                Preferences.setQcFromDate(fromQcDate)
+                Preferences.setQcToDate(toQcDate)
+                Preferences.setQcSite(siteId)
+                Preferences.setQcRegion(regionId)
+                Preferences.setQcOrderType(orderType)
+                intent.putStringArrayListExtra("storeList", storeStringList)
+                intent.putStringArrayListExtra("regionList", regionStringList)
+
+                intent.putExtra("regionId", regionId.replace(" ", ""))
+                intent.putExtra("siteId", siteId.replace(" ", ""))
+                intent.putExtra("fromQcDate", fromQcDate)
+                intent.putExtra("toDate", toQcDate)
+                intent.putExtra("orderType", orderType)
+                intent.putExtra("apply", "apply")
+
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             }
             else {
 //                orderType = activityQcFilterBinding.selectfiltertype.text.toString()
@@ -284,6 +318,8 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
                 Preferences.setQcToDate(toQcDate)
                 Preferences.setQcSite(siteId)
                 Preferences.setQcRegion(regionId)
+                intent.putStringArrayListExtra("storeList", storeStringList)
+                intent.putStringArrayListExtra("regionList", regionStringList)
                 Preferences.setQcOrderType(orderType)
                 intent.putExtra("regionId", regionId.replace(" ", ""))
                 intent.putExtra("siteId", siteId.replace(" ", ""))
@@ -402,12 +438,26 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             activityQcFilterBinding.fromDateText.setText(fromDate)
 
         } else if (toQcDate.isNotEmpty()) {
-            val sdf = SimpleDateFormat("dd-MMM-yyyy")
-            val cal = Calendar.getInstance()
-            cal.time = sdf.parse(toQcDate)
-            cal.add(Calendar.DATE, -30)
-            val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
-            qcDate = sdf1.format(cal.time)
+
+            val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+
+            try {
+                val cal = Calendar.getInstance()
+                cal.time = sdf.parse(toQcDate)
+
+                // Add 30 days to the parsed date
+                cal.add(Calendar.DATE, -30)
+
+                val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+                qcDate = sdf1.format(cal.time)
+
+                // Now, you can use qcDate for further comparisons or display
+                println("Parsed date: $qcDate")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+
 
             if (Utlis.filterDateFormate(fromDate)
                     .after(Utlis.filterDateFormate(qcDate)) || Utlis.filterDateFormate(fromDate)
@@ -417,6 +467,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
                 activityQcFilterBinding.fromDateText.setText(fromDate)
 
             } else {
+                fromQcDate=""
                 activityQcFilterBinding.fromDateText.setText("")
 
                 Toast.makeText(
@@ -438,13 +489,26 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
         } else if (fromQcDate.isNotEmpty()) {
 
-            val sdf = SimpleDateFormat("dd-MMM-yyyy")
-            val cal = Calendar.getInstance()
-            cal.time = sdf.parse(fromQcDate)
 
-            cal.add(Calendar.DATE, 30)
-            val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
-            qcDate = sdf1.format(cal.time)
+            val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+
+            try {
+                val cal = Calendar.getInstance()
+                cal.time = sdf.parse(fromQcDate)
+
+                // Add 30 days to the parsed date
+                cal.add(Calendar.DATE, 30)
+
+                val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+                qcDate = sdf1.format(cal.time)
+
+                // Now, you can use qcDate for further comparisons or display
+                println("Parsed date: $qcDate")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+
             if (Utlis.filterDateFormate(dateSelected)
                     .before(Utlis.filterDateFormate(qcDate)) || Utlis.filterDateFormate(dateSelected)
                     .equals(Utlis.filterDateFormate(qcDate))
@@ -454,6 +518,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
             } else {
                 activityQcFilterBinding.toDateText.setText("")
+                toQcDate=""
 
                 Toast.makeText(
                     context,

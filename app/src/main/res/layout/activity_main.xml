@@ -270,6 +270,21 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/settings_champs"
+                android:layout_width="@dimen/dimen20dp"
+                android:layout_height="@dimen/dimen20dp"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen20dp"
+                    android:layout_height="@dimen/dimen20dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/settings_white_champs"
+                    android:visibility="visible" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/qc_filter_icon"
                 android:layout_width="@dimen/value_20dp"
                 android:layout_height="@dimen/value_20dp"
