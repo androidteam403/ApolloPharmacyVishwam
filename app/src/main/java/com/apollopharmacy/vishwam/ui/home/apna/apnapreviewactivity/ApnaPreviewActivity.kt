@@ -888,9 +888,9 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
             )
             apnaPreviewActivityBinding.recyclerViewchemist.adapter = adapter
 
-            val totalOrg =
-                value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }
-                    .sum()
+            val totalOrg = value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt {
+                if (it != null) it.toInt() else 0
+            }.sum()
             val totalUnorg =
                 value.data!!.chemist!!.stream().map { it.unorgAvgSale }.mapToInt { it!!.toInt() }
                     .sum()
@@ -915,7 +915,14 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                 )
             )
 
-            avgSales = value.data!!.chemist!!.map { it.orgAvgSale!!.toFloat() } as ArrayList<Float>
+            avgSales = value.data!!.chemist!!.map {
+                if (it.orgAvgSale != null) {
+                    it.orgAvgSale!!.toFloat()
+                } else {
+                    it.orgAvgSale = 0
+                    it.orgAvgSale!!.toFloat()
+                }
+            } as ArrayList<Float>
             setCompetitorsValues()
             setupCompetitorsChart()
         } else {
@@ -1258,8 +1265,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         //DecimalFormat("##,##,###.0##")
 
-        var dimensions =
-            "${length} (L) X ${width} (W) X ${ceilingHeight} (H)"
+        var dimensions = "${length} (L) X ${width} (W) X ${ceilingHeight} (H)"
         //"${value.data!!.length} (L) X ${value.data!!.width} (W) X ${value.data!!.ceilingHeight} (H)"
         apnaPreviewActivityBinding.length.setText(dimensions)
 
@@ -1279,8 +1285,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         var totalAreaSplit = "${totalAreaFromResponse}".split(".")
         if (totalAreaSplit[1].toInt() > 0) {
             totalArea = DecimalFormat(
-                "##,##,###.0##",
-                Utils.symbols
+                "##,##,###.0##", Utils.symbols
             ).format(totalAreaFromResponse.toDouble())
         } else {
             totalArea =
@@ -1310,8 +1315,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         if (value.data!!.expectedRent != null) {
             apnaPreviewActivityBinding.expectedrentsrft.setText(
                 DecimalFormat(
-                    "##,##,##0",
-                    Utils.symbols
+                    "##,##,##0", Utils.symbols
                 ).format(value.data!!.expectedRent!!.toLong())
             )
         } else {
@@ -1321,8 +1325,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         if (value.data!!.securityDeposit != null) {
             apnaPreviewActivityBinding.securitydeposit.setText(
                 DecimalFormat(
-                    "##,##,##0",
-                    Utils.symbols
+                    "##,##,##0", Utils.symbols
                 ).format(value.data!!.securityDeposit!!.toLong())
             )
         } else {
@@ -1528,8 +1531,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         if (value.data!!.serviceClass != null) {
             apnaPreviewActivityBinding.serviceClass.setText(
                 DecimalFormat(
-                    "##,##,##0",
-                    Utils.symbols
+                    "##,##,##0", Utils.symbols
                 ).format(value.data!!.serviceClass!!.toLong())
             )
         } else {
@@ -1538,8 +1540,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         if (value.data!!.businessClass != null) {
             apnaPreviewActivityBinding.businessClass.setText(
                 DecimalFormat(
-                    "##,##,##0",
-                    Utils.symbols
+                    "##,##,##0", Utils.symbols
                 ).format(value.data!!.businessClass!!.toLong())
             )
         } else {
