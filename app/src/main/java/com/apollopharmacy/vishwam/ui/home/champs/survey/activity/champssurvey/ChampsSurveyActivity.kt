@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
@@ -1770,7 +1771,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
 
             var saveUpdateRequest = SaveUpdateRequest()
-            saveUpdateRequest.employee_id = Preferences.getValidatedEmpId()
+            saveUpdateRequest.employeeId = Preferences.getValidatedEmpId()
             val strDates = activityChampsSurveyBinding.issuedOn.text.toString()
             val dateFormats = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
             val date = dateFormats.parse(strDates)
@@ -1846,8 +1847,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 saveUpdateRequest.trainerEmail = ""
             }*/
 
-
             saveUpdateRequest.trainerId = Preferences.getValidatedEmpId()
+            saveUpdateRequest.employeeId = Preferences.getValidatedEmpId()
             val userData = LoginRepo.getProfile()
             if (userData != null) {
                 saveUpdateRequest.trainerName = userData.EMPNAME
@@ -1904,13 +1905,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                         if (imagesExits) {
                             var answerImage = CmsChampsSurveyQa.AnswerImage()
                             var imagesList = ArrayList<CmsChampsSurveyQa.AnswerImage.Image>()
-                            var image = answerImage.Image()
+
                             var cmsChampsSurveQa = CmsChampsSurveyQa()
                             cmsChampsSurveQa.categoryName = i.categoryName
                             cmsChampsSurveQa.question = "Upload Images"
                             cmsChampsSurveQa.answerType = "image"
                             for (k in i.imageDataLists!!) {
                                 if (k.imageUrl != null && !k.imageUrl!!.isEmpty()) {
+                                    var image = answerImage.Image()
                                     image.url = k.imageUrl
                                     imagesList.add(image)
                                 }
@@ -1927,12 +1929,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             }
             saveUpdateRequest.cmsChampsSurveyQa = cmsChampsSurveQaList
 
-
-            if (!champsRefernceId.isNullOrEmpty()) {
-                saveUpdateRequest.champsId = champsRefernceId
-            } else {
-                saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
-            }
+//
+//            if (!champsRefernceId.isNullOrEmpty()) {
+//                saveUpdateRequest.champsId = champsRefernceId
+//            } else {
+//                saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
+//            }
+            saveUpdateRequest.champsId = saveSurveyResponse.champReferenceId
 
             var ccEmails: String = ""
             if (!surveyCCDetailsList.isNullOrEmpty()) {

@@ -4,12 +4,20 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.content.ContentUris
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputFilter
@@ -17,16 +25,19 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.eposmobileapp.ui.dashboard.ConfirmSiteDialog
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_CAMERA
+import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_GALLERY
 import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_PRODUCT_FRONT_CAMERA
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
@@ -36,8 +47,7 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
-import com.apollopharmacy.vishwam.databinding.DialogAllowDuplicateStCreationBinding
-import com.apollopharmacy.vishwam.databinding.DialogHavedubworkflowTicketresolvedBinding
+import com.apollopharmacy.vishwam.databinding.ChooseImageOptionLayoutBinding
 import com.apollopharmacy.vishwam.databinding.FragmentRegistrationBinding
 import com.apollopharmacy.vishwam.databinding.ViewImageItemBinding
 import com.apollopharmacy.vishwam.dialog.*
@@ -46,22 +56,21 @@ import com.apollopharmacy.vishwam.dialog.CategoryDialog.Companion.KEY_DATA_SUBCA
 import com.apollopharmacy.vishwam.dialog.CustomDialog.Companion.KEY_DATA
 import com.apollopharmacy.vishwam.dialog.model.Row
 import com.apollopharmacy.vishwam.ui.home.IOnBackPressed
-import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivity.isSuperAdmin
 import com.apollopharmacy.vishwam.ui.home.cms.cmsfileupload.CmsFileUpload
 import com.apollopharmacy.vishwam.ui.home.cms.cmsfileupload.CmsFileUploadCallback
 import com.apollopharmacy.vishwam.ui.home.cms.cmsfileupload.CmsFileUploadModel
-import com.apollopharmacy.vishwam.ui.home.cms.registration.adapter.AllowDuplicateStCreationAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
 import com.apollopharmacy.vishwam.util.Utils
-import com.apollopharmacy.vishwam.util.Utlis
-import com.apollopharmacy.vishwam.util.signaturepad.NetworkUtils
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import me.echodev.resizer.Resizer
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -74,8 +83,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     ReasonsDialog.ReasonsDialogClickListner,
     SearchArticleCodeDialog.SearchArticleDialogClickListner, CalendarFutureDate.DateSelectedFuture,
     OnTransactionPOSSelectedListnier, IOnBackPressed, CmsFileUploadCallback {
-
+    var imagesFilledCount = 0
+    var clickedCamera = 0
+    var notFrontView = false
     private var statusInventory: String? = null
+    lateinit var dialog: Dialog
     lateinit var userData: LoginDetails
     lateinit var storeData: LoginDetails.StoreData
     private var fileArrayList = ArrayList<ImageDataDto>()
@@ -86,6 +98,10 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     var frontImageFile: File? = null
     var backImageFile: File? = null
     var otherImageFile: File? = null
+    var frontImageFilled: Boolean = false
+    var backImageFilled: Boolean = false
+    var otherImageFilled: Boolean = false
+
     private var categoryListSelected = ArrayList<DepartmentV2Response.CategoriesItem>()
     private var subCategoryListSelected = ArrayList<DepartmentV2Response.SubcategoryItem>()
     private var departmentId: String? = null
@@ -127,10 +143,6 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     lateinit var selectedSubCategory: ReasonmasterV2Response.TicketSubCategory
     lateinit var selectedReasonDto: ReasonmasterV2Response.Row
 
-    var isBackPressAllow = ""
-    lateinit var reasonmasterV2Response: ReasonmasterV2Response
-
-    var siteUid = ""
     override val layoutRes: Int
         get() = R.layout.fragment_registration
 
@@ -165,9 +177,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 employeeDetailsResponse!!.data!!.site!!.state!!.code,
                 employeeDetailsResponse!!.data!!.site!!.dcCode!!.name,
                 employeeDetailsResponse!!.data!!.site!!.site,
-                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code,
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code
             )
-            siteUid = employeeDetailsResponse!!.data!!.site!!.uid!!
             Preferences.setRegistrationSiteId(employeeDetailsResponse!!.data!!.site!!.site.toString())
             Preferences.saveSiteId(employeeDetailsResponse!!.data!!.site!!.site.toString())
 
@@ -199,7 +210,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
             val c = Calendar.getInstance().time
             println("Current time => $c")
-            val df = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+            val df = SimpleDateFormat("dd MMM yyyy",  Locale.ENGLISH)
             var formattedDate = df.format(c)
             viewBinding.dateOfProblem.setText(formattedDate)
             viewBinding.dateOfProblem.isEnabled = false
@@ -301,6 +312,25 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             }
         })
 
+        viewBinding.captureText.setOnClickListener {
+            if (fileArrayList.size == 2) {
+                Toast.makeText(
+                    requireContext(),
+                    context?.resources?.getString(R.string.label_upload_image_limit),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                if (!checkPermission()) {
+                    askPermissions(REQUEST_CODE_CAMERA)
+                    askPermissions(REQUEST_CODE_GALLERY)
+                    return@setOnClickListener
+                } else
+                    showOption(0)
+//                    openCamera()
+            }
+
+        }
+
         //select category form Reasons list api..........
         viewBinding.selectCategory.setOnClickListener {
             if (reasoncategoryListSelected.size == 0) {
@@ -365,64 +395,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             ticketstatus = it
             if (!ticketstatus.success) {
                 ticketstatusapiresponse = ticketstatus
-                if ((ticketstatusapiresponse!!.data!!.have_subworkflow == null || ticketstatusapiresponse!!.data!!.allow_manual_ticket_closure!!.isNullOrEmpty() || ticketstatusapiresponse!!.data!!.have_subworkflow == false) && (ticketstatusapiresponse!!.data!!.allow_manual_ticket_closure == null || ticketstatusapiresponse!!.data!!.allow_manual_ticket_closure!! == "Yes")) {
-                    AcknowledgementDialog().apply {
-                        arguments = AcknowledgementDialog().generateParsedDataNew(
-                            ticketstatus.data, KEY_DATA_ACK
-                        )
-                    }.show(childFragmentManager, "")
-                } else {
-                    var dialog = Dialog(requireContext())
-                    val dialogHavedubworkflowTicketresolvedBinding =
-                        DataBindingUtil.inflate<DialogHavedubworkflowTicketresolvedBinding>(
-                            LayoutInflater.from(requireContext()),
-                            R.layout.dialog_havedubworkflow_ticketresolved,
-                            null,
-                            false
-                        )
-                    dialog.setContentView(dialogHavedubworkflowTicketresolvedBinding.root)
-                    dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    if (ticketstatusapiresponse!!.data != null && ticketstatusapiresponse!!.data!!.override_ticket_creation != null && ticketstatusapiresponse!!.data!!.override_ticket_creation.equals(
-                            "No"
-                        )
-                    ) {
-                        dialog.setCancelable(false)
-                        dialogHavedubworkflowTicketresolvedBinding.message.text =
-                            "To this selected Department & Store, this ticket has been resolved. Please close the ticket and create new one."
-                    }
-                    var override_ticket_creation: Boolean = false
-                    if (ticketstatusapiresponse!!.data != null && ticketstatusapiresponse!!.data!!.override_ticket_creation != null && ticketstatusapiresponse!!.data!!.override_ticket_creation!!.isEmpty() && ticketstatusapiresponse!!.data!!.override_ticket_creation.equals(
-                            "No"
-                        )
-                    ) {
-                        override_ticket_creation = true
-                    } else {
-                        override_ticket_creation = false
-                    }
-
-                    dialogHavedubworkflowTicketresolvedBinding.ticketNo.setText(
-                        ticketstatusapiresponse!!.data.ticket_id
+                AcknowledgementDialog().apply {
+                    arguments = AcknowledgementDialog().generateParsedDataNew(
+                        ticketstatus.data, KEY_DATA_ACK
                     )
-                    if (ticketstatusapiresponse!!.data.ticket_created_time != null) {
-                        dialogHavedubworkflowTicketresolvedBinding.regDate.setText(
-                            "${Utlis.convertCmsDate(ticketstatusapiresponse!!.data.ticket_created_time.toString())}"
-                        )
-                    }
-                    dialogHavedubworkflowTicketresolvedBinding.dilogaClose.setOnClickListener {
-                        if (ticketstatusapiresponse!!.data != null && ticketstatusapiresponse!!.data!!.override_ticket_creation != null && !ticketstatusapiresponse!!.data!!.override_ticket_creation!!.isEmpty() && ticketstatusapiresponse!!.data!!.override_ticket_creation.equals(
-                                "No"
-                            )
-                        ) {
-                            isBackPressAllow = "GO_BACK"
-                            dialog!!.dismiss()
-                            MainActivity.mInstance.onBackPressed()
-                        } else {
-                            dialog!!.dismiss()
-                        }
-                    }
-                    dialog.show()
-
-                }
+                }.show(childFragmentManager, "")
             }
         })
 
@@ -442,46 +419,79 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             } else {
                 if (!checkPermission()) {
                     askPermissions(REQUEST_CODE_CAMERA)
+//                    askPermissions(REQUEST_CODE_GALLERY)
                     return@setOnClickListener
-                } else openCamera()
+                } else
+                    showOption(0)
+//                    openCamera()
             }
         }
 
-        viewBinding.productImageView.otherImageLayout.setOnClickListener {
-            openCameraForFrontImage(3)
+        viewBinding.productImageView.productOtherImagePreview.setOnClickListener {
+            val desiredDrawable: Drawable? = ContextCompat.getDrawable(
+                requireContext(), R.drawable.cam_ash
+            )
+            if(viewBinding.productImageView.productOtherImagePreview.getDrawable() != null && viewBinding.productImageView.productOtherImagePreview.getDrawable().getConstantState()!!.equals(desiredDrawable!!.getConstantState())){
+                showOption(3)
+            }else{
+
+            }
+
+//            openCameraForFrontImage(3)
         }
-        viewBinding.productImageView.backImageLayout.setOnClickListener {
-            openCameraForFrontImage(2)
+        viewBinding.productImageView.productBackImagePreview.setOnClickListener {
+            val desiredDrawable: Drawable? = ContextCompat.getDrawable(
+                requireContext(), R.drawable.cam_ash
+            )
+            if(viewBinding.productImageView.productBackImagePreview.getDrawable() != null && viewBinding.productImageView.productBackImagePreview.getDrawable().getConstantState()!!.equals(desiredDrawable!!.getConstantState())){
+                showOption(2)
+            }else{
+
+            }
+
+//            openCameraForFrontImage(2)
         }
-        viewBinding.productImageView.frontImageLayout.setOnClickListener {
-            openCameraForFrontImage(1)
+        viewBinding.productImageView.productFrontImagePreview.setOnClickListener {
+            val desiredDrawable: Drawable? = ContextCompat.getDrawable(
+                requireContext(), R.drawable.cam_ash
+            )
+            if(viewBinding.productImageView.productFrontImagePreview.getDrawable() != null && viewBinding.productImageView.productFrontImagePreview.getDrawable().getConstantState()!!.equals(desiredDrawable!!.getConstantState())){
+                showOption(1)
+            }else{
+
+            }
+//            openCameraForFrontImage(1)
+
         }
         viewBinding.productImageView.frontImageDelete.setOnClickListener {
             frontImageFile = null
             viewBinding.productImageView.frontImageDelete.visibility = View.GONE
             viewBinding.productImageView.productFrontImagePreview.setImageDrawable(
                 resources.getDrawable(
-                    R.drawable.ic_capture_image
+                    R.drawable.cam_ash
                 )
             )
+            imagesFilledCount--
         }
         viewBinding.productImageView.backImageDelete.setOnClickListener {
             backImageFile = null
             viewBinding.productImageView.backImageDelete.visibility = View.GONE
             viewBinding.productImageView.productBackImagePreview.setImageDrawable(
                 resources.getDrawable(
-                    R.drawable.ic_capture_image
+                    R.drawable.cam_ash
                 )
             )
+            imagesFilledCount--
         }
         viewBinding.productImageView.otherImageDelete.setOnClickListener {
             otherImageFile = null
             viewBinding.productImageView.otherImageDelete.visibility = View.GONE
             viewBinding.productImageView.productOtherImagePreview.setImageDrawable(
                 resources.getDrawable(
-                    R.drawable.ic_capture_image
+                    R.drawable.cam_ash
                 )
             )
+            imagesFilledCount--
         }
         viewBinding.dateOfProblem.setOnClickListener { openDateDialog() }
         viewBinding.articleCode.setOnClickListener {
@@ -511,10 +521,6 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
         viewModel.command.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is CmsCommand.ResonListforMobile -> {
-                    reasonmasterV2Response = it.reasonmasterV2Response
-                }
-
                 is CmsCommand.RefreshPageOnSuccess -> {
 
                 }
@@ -632,40 +638,6 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
             }
         })
-        viewBinding.oldmrpEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                charSequence: CharSequence,
-                i: Int,
-                i1: Int,
-                i2: Int,
-            ) {
-            }
-
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                val text = charSequence.toString()
-                if (charSequence.length <= 1) {
-                    if (text.contains(".") && text.indexOf(".") == 0) {
-                        viewBinding.oldmrpEditText.setText(
-                            viewBinding.oldmrpEditText.text.toString().replace(".", "")
-                        )
-                        viewBinding.oldmrpEditText.setSelection(viewBinding.oldmrpEditText.text.toString().length)
-                    }
-                } else {
-                    if (text.contains(".") && text.indexOf(".") != text.length - 1 && text[text.length - 1].toString() == ".") {
-                        viewBinding.oldmrpEditText.setText(text.substring(0, text.length - 1))
-                        viewBinding.oldmrpEditText.setSelection(viewBinding.oldmrpEditText.text.toString().length)
-                    }
-                    if (text.contains(".") && text.substring(text.indexOf(".") + 1).length > 2) {
-                        viewBinding.oldmrpEditText.setText(text.substring(0, text.length - 1))
-                        viewBinding.oldmrpEditText.setSelection(viewBinding.oldmrpEditText.text.toString().length)
-                    }
-                }
-            }
-
-            override fun afterTextChanged(editable: Editable) {
-
-            }
-        })
 
         viewBinding.newMrpEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
@@ -711,7 +683,6 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.transactionDetailsLayout.tidEdit.setOnClickListener {
             viewModel.fetchTransactionPOSDetails(viewModel.tisketstatusresponse.value!!.data.uid)
         }
-        siteTicketbyReasonSuccess()
     }
 
 
@@ -1018,27 +989,6 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewBinding.titleName.text = "${resources.getString(R.string.label_upload_image)} *"
 
         }
-        if (departmentDto != null && departmentDto!!.allow_duplicate_st_creation != null && departmentDto!!.allow_duplicate_st_creation!!.uid != null && departmentDto!!.allow_duplicate_st_creation!!.uid!!.equals(
-                "No"
-            )
-        ) {
-            if (NetworkUtils.isNetworkConnected(requireContext())) {
-                showLoading()
-                viewModel.siteTicketbyReason(
-                    siteUid,
-                    departmentDto!!.uid!!,
-                    departmentDto!!.allow_duplicate_st_creation!!.uid!!
-                )
-            } else {
-                Toast.makeText(
-                    requireContext(), "Check your internet connection", Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-
-        /*if (reasonmasterV2Response != null
-            && reasonmasterV2Response!!.data != null
-            && reasonmasterV2Response!!.data!!.)*/
     }
 
 
@@ -1088,7 +1038,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
         val c = Calendar.getInstance().time
         println("Current time => $c")
-        val df = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+        val df = SimpleDateFormat("dd MMM yyyy",  Locale.ENGLISH)
         var formattedDate = df.format(c)
         viewBinding.dateOfProblem.setText(formattedDate)
 
@@ -1173,7 +1123,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         when (requestCode) {
             REQUEST_CODE_CAMERA -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openCamera()
+                    showOption(0)
+//                    openCamera()
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -1185,7 +1136,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
             REQUEST_CODE_PRODUCT_FRONT_CAMERA -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openCameraForFrontImage(1)
+//                    openCameraForFrontImage(1)
+                    showOption(1)
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -1210,6 +1162,22 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         startActivityForResult(intent, REQUEST_CODE_CAMERA)
+    }
+
+    private fun openGallery() {
+        if (!checkPermission()) {
+            askPermissions(REQUEST_CODE_GALLERY)
+        }else{
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(
+                Intent.createChooser(intent, "Select Picture"), Config.REQUEST_CODE_GALLERY
+            )
+        }
+
+
     }
 
     private fun openCameraForFrontImage(imgType: Int) {
@@ -1262,10 +1230,269 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         }
     }
 
+    private fun showOption(num: Int) {
+        clickedCamera = num
+        if (num == 0) {
+            notFrontView = true
+        }else{
+            notFrontView = false
+        }
+        dialog = Dialog(requireContext())
+//        val window: Window = myDialog.getWindow()
+        dialog.window!!.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val chooseImageOptionLayoutBinding =
+            DataBindingUtil.inflate<ChooseImageOptionLayoutBinding>(
+                LayoutInflater.from(requireContext()),
+                R.layout.choose_image_option_layout,
+                null,
+                false
+            )
+        dialog.setContentView(chooseImageOptionLayoutBinding.root)
+        chooseImageOptionLayoutBinding.cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        // Open camera
+        chooseImageOptionLayoutBinding.camera.setOnClickListener {
+
+            if (num == 0) {
+                openCamera()
+            } else {
+                openCameraForFrontImage(num)
+            }
+        }
+        // Open gallery
+        chooseImageOptionLayoutBinding.gallery.setOnClickListener {
+            openGallery()
+        }
+
+        dialog.setCancelable(false)
+        dialog.show()
+
+
+//        ImagePicker.with(this@ApolloSensingFragment)
+//            .crop()
+//            .start(Config.REQUEST_CODE_CAMERA)
+
+//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        imageFile = File(ViswamApp.context.cacheDir, "${System.currentTimeMillis()}.jpg")
+//        compressedImageFileName = "${System.currentTimeMillis()}.jpg"
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile))
+//        } else {
+//            val photoUri = FileProvider.getUriForFile(
+//                ViswamApp.context, ViswamApp.context.packageName + ".provider", imageFile!!
+//            )
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+//        }
+//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//        startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 || requestCode == 2 || requestCode == 3) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (dialog != null) {
+            dialog.dismiss()
+        }
+        if (requestCode == 1 || requestCode == 2 || requestCode == 3 || requestCode == Config.REQUEST_CODE_GALLERY) {
+            if (requestCode == Config.REQUEST_CODE_GALLERY) {
+                dialog.dismiss()
+                if (data != null && data!!.clipData != null) {
+                    val images = data!!.clipData
+                    if (images != null) {
+                        if (images!!.itemCount <= 3) {
+                            if (!notFrontView) {
+                                if ((imagesFilledCount == 0 && images.itemCount == 3)
+                                    || (imagesFilledCount == 1 && images.itemCount == 2)
+                                    || (imagesFilledCount == 2 && images.itemCount == 1 )
+                                    ||(imagesFilledCount == 0 && images.itemCount == 2 )
+                                ) {
+                                    for (i in 0 until images.itemCount) {
+                                        var imagePath =
+                                            getRealPathFromURI(
+                                                requireContext(),
+                                                images.getItemAt(i).uri
+                                            )
+                                        var imageFileGallery: File? = File(imagePath)
+                                        val imageBase64 =
+                                            encodeImage(imageFileGallery!!.absolutePath)
+                                        val resizedImage =
+                                            Resizer(requireContext()).setTargetLength(1080)
+                                                .setQuality(100)
+                                                .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                                                .setOutputDirPath(
+                                                    ViswamApp.Companion.context.cacheDir.toString()
+                                                )
+
+                                                .setSourceImage(imageFileGallery).resizedFile
+
+//
+                                        if (frontImageFile == null) {
+                                            viewBinding.productImageView.productFrontImagePreview.setImageURI(
+                                                Uri.fromFile(
+                                                    resizedImage
+                                                )
+                                            )
+                                            viewBinding.productImageView.frontImageDelete.visibility =
+                                                View.VISIBLE
+                                            frontImageFile = resizedImage
+                                            imagesFilledCount++
+                                        } else if (backImageFile == null) {
+                                            viewBinding.productImageView.productBackImagePreview.setImageURI(
+                                                Uri.fromFile(
+                                                    resizedImage
+                                                )
+                                            )
+                                            viewBinding.productImageView.backImageDelete.visibility =
+                                                View.VISIBLE
+                                            backImageFile = resizedImage
+                                            imagesFilledCount++
+                                        } else if (otherImageFile == null) {
+                                            viewBinding.productImageView.productOtherImagePreview.setImageURI(
+                                                Uri.fromFile(
+                                                    resizedImage
+                                                )
+                                            )
+                                            viewBinding.productImageView.otherImageDelete.visibility =
+                                                View.VISIBLE
+                                            otherImageFile = resizedImage
+                                            imagesFilledCount++
+                                        }
+
+                                    }
+                                } else {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "You are allowed to upload only three images",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } else {
+                                if ((fileArrayList.size == 0 && images.itemCount == 2)
+                                    || (fileArrayList.size == 1 && images.itemCount == 1)
+                                ) {
+                                    for (i in 0 until images.itemCount) {
+                                        var imagePath =
+                                            getRealPathFromURI(
+                                                requireContext(),
+                                                images.getItemAt(i).uri
+                                            )
+                                        var imageFileGallery: File? = File(imagePath)
+                                        val imageBase64 =
+                                            encodeImage(imageFileGallery!!.absolutePath)
+                                        val resizedImage =
+                                            Resizer(requireContext()).setTargetLength(1080)
+                                                .setQuality(100)
+                                                .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                                                .setOutputDirPath(
+                                                    ViswamApp.Companion.context.cacheDir.toString()
+                                                )
+
+                                                .setSourceImage(imageFileGallery).resizedFile
+                                        fileArrayList.add(ImageDataDto(resizedImage, ""))
+//           imagesFilledCount++
+                                        adapter.notifyAdapter(fileArrayList)
+                                    }
+
+                                } else {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "You are allowed to upload only two images",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+
+
+                        } else {
+                            if (!notFrontView) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "You are allowed to upload only three images",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "You are allowed to upload only two images",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        }
+                    }
+                } else {
+                    dialog.dismiss()
+                    if (data != null) {
+
+                        val uri = data!!.data
+                        var imagePath = getRealPathFromURI(requireContext(), uri!!)
+                        var imageFileGallery: File? = File(imagePath)
+                        val resizedImage =
+                            Resizer(requireContext()).setTargetLength(1080).setQuality(100)
+                                .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                                .setOutputDirPath(
+                                    ViswamApp.Companion.context.cacheDir.toString()
+                                )
+
+                                .setSourceImage(imageFileGallery).resizedFile
+                        if (!notFrontView) {
+                            if (clickedCamera == 1 && frontImageFile == null) {
+                                viewBinding.productImageView.productFrontImagePreview.setImageURI(
+                                    Uri.fromFile(
+                                        resizedImage
+                                    )
+                                )
+                                viewBinding.productImageView.frontImageDelete.visibility =
+                                    View.VISIBLE
+                                frontImageFile = resizedImage
+                                imagesFilledCount++
+                            } else if (clickedCamera == 2 && backImageFile == null) {
+                                viewBinding.productImageView.productBackImagePreview.setImageURI(
+                                    Uri.fromFile(
+                                        resizedImage
+                                    )
+                                )
+                                viewBinding.productImageView.backImageDelete.visibility =
+                                    View.VISIBLE
+                                backImageFile = resizedImage
+                                imagesFilledCount++
+                            } else if (clickedCamera == 3 && otherImageFile == null) {
+                                viewBinding.productImageView.productOtherImagePreview.setImageURI(
+                                    Uri.fromFile(
+                                        resizedImage
+                                    )
+                                )
+                                viewBinding.productImageView.otherImageDelete.visibility =
+                                    View.VISIBLE
+                                otherImageFile = resizedImage
+                                imagesFilledCount++
+                            }
+                        } else {
+                            if (fileArrayList.size <= 1) {
+                                fileArrayList.add(ImageDataDto(resizedImage, ""))
+//           imagesFilledCount++
+                                adapter.notifyAdapter(fileArrayList)
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "You are allowed to upload only two images",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        }
+                    }
+
+                }
+
+            } else if (resultCode == Activity.RESULT_OK) {
                 when (requestCode) {
                     1 -> {
                         viewBinding.productImageView.productFrontImagePreview.setImageURI(
@@ -1273,6 +1500,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                                 frontImageFile
                             )
                         )
+                        imagesFilledCount++
                         viewBinding.productImageView.frontImageDelete.visibility = View.VISIBLE
                         frontImageFile = compresImageSize(frontImageFile!!)
                     }
@@ -1283,6 +1511,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                                 backImageFile
                             )
                         )
+                        imagesFilledCount++
                         viewBinding.productImageView.backImageDelete.visibility = View.VISIBLE
                         backImageFile = compresImageSize(backImageFile!!)
                     }
@@ -1293,6 +1522,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                                 otherImageFile
                             )
                         )
+                        imagesFilledCount++
                         viewBinding.productImageView.otherImageDelete.visibility = View.VISIBLE
                         otherImageFile = compresImageSize(otherImageFile!!)
                     }
@@ -1315,6 +1545,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             }
         } else if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
             fileArrayList.add(ImageDataDto(compresImageSize(imageFromCameraFile!!), ""))
+//           imagesFilledCount++
             adapter.notifyAdapter(fileArrayList)
         }
     }
@@ -1327,11 +1558,169 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         return resizedImage
     }
 
+    fun getRealPathFromURI(context: Context, uri: Uri): String? {
+        when {
+            // DocumentProvider
+            DocumentsContract.isDocumentUri(context, uri) -> {
+                when {
+                    // ExternalStorageProvider
+                    isExternalStorageDocument(uri) -> {
+                        val docId = DocumentsContract.getDocumentId(uri)
+                        val split = docId.split(":").toTypedArray()
+                        val type = split[0]
+                        // This is for checking Main Memory
+                        return if ("primary".equals(type, ignoreCase = true)) {
+                            if (split.size > 1) {
+                                Environment.getExternalStorageDirectory()
+                                    .toString() + "/" + split[1]
+                            } else {
+                                Environment.getExternalStorageDirectory().toString() + "/"
+                            }
+                            // This is for checking SD Card
+                        } else {
+                            "storage" + "/" + docId.replace(":", "/")
+                        }
+                    }
+
+                    isDownloadsDocument(uri) -> {
+                        val fileName = getFilePath(context, uri)
+                        if (fileName != null) {
+                            return Environment.getExternalStorageDirectory()
+                                .toString() + "/Download/" + fileName
+                        }
+                        var id = DocumentsContract.getDocumentId(uri)
+                        if (id.startsWith("raw:")) {
+                            id = id.replaceFirst("raw:".toRegex(), "")
+                            val file = File(id)
+                            if (file.exists()) return id
+                        }
+                        val contentUri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"),
+                            java.lang.Long.valueOf(id)
+                        )
+                        return getDataColumn(context, contentUri, null, null)
+                    }
+
+                    isMediaDocument(uri) -> {
+                        val docId = DocumentsContract.getDocumentId(uri)
+                        val split = docId.split(":").toTypedArray()
+                        val type = split[0]
+                        var contentUri: Uri? = null
+                        when (type) {
+                            "image" -> {
+                                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                            }
+
+                            "video" -> {
+                                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                            }
+
+                            "audio" -> {
+                                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                            }
+                        }
+                        val selection = "_id=?"
+                        val selectionArgs = arrayOf(split[1])
+                        return getDataColumn(context, contentUri, selection, selectionArgs)
+                    }
+                }
+            }
+
+            "content".equals(uri.scheme, ignoreCase = true) -> {
+                // Return the remote address
+                return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
+                    context, uri, null, null
+                )
+            }
+
+            "file".equals(uri.scheme, ignoreCase = true) -> {
+                return uri.path
+            }
+        }
+        return null
+    }
+
+    fun isExternalStorageDocument(uri: Uri): Boolean {
+        return "com.android.externalstorage.documents" == uri.authority
+    }
+
+    fun isGooglePhotosUri(uri: Uri): Boolean {
+        return "com.google.android.apps.photos.content" == uri.authority
+    }
+
+    fun getFilePath(context: Context, uri: Uri?): String? {
+        var cursor: Cursor? = null
+        val projection = arrayOf(
+            MediaStore.MediaColumns.DISPLAY_NAME
+        )
+        try {
+            if (uri == null) return null
+            cursor = context.contentResolver.query(
+                uri, projection, null, null, null
+            )
+            if (cursor != null && cursor.moveToFirst()) {
+                val index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
+                return cursor.getString(index)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return null
+    }
+
+    fun getDataColumn(
+        context: Context, uri: Uri?, selection: String?,
+        selectionArgs: Array<String>?,
+    ): String? {
+        var cursor: Cursor? = null
+        val column = "_data"
+        val projection = arrayOf(
+            column
+        )
+        try {
+            if (uri == null) return null
+            cursor = context.contentResolver.query(
+                uri, projection, selection, selectionArgs, null
+            )
+            if (cursor != null && cursor.moveToFirst()) {
+                val index = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(index)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return null
+    }
+
+    fun isDownloadsDocument(uri: Uri): Boolean {
+        return "com.android.providers.downloads.documents" == uri.authority
+    }
+
+    fun isMediaDocument(uri: Uri): Boolean {
+        return "com.android.providers.media.documents" == uri.authority
+    }
+
     override fun deleteImage(position: Int) {
         imagesArrayListSend.clear()
         NewimagesArrayListSend.clear()
         fileArrayList.removeAt(position)
         adapter.deleteImage(position)
+    }
+
+    fun encodeImage(path: String): String? {
+        val imagefile = File(path)
+        var fis: FileInputStream? = null
+        try {
+            fis = FileInputStream(imagefile)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        val bm = BitmapFactory.decodeStream(fis)
+        val baos = ByteArrayOutputStream()
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val b = baos.toByteArray()
+        //Base64.de
+        return android.util.Base64.encodeToString(b, android.util.Base64.NO_WRAP)
     }
 
     @SuppressLint("ResourceType")
@@ -1455,7 +1844,6 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     @SuppressLint("SetTextI18n")
     fun onSuccessUserWithSiteID(selectedStoreItem: StoreListItem) {
-        siteUid = selectedStoreItem!!.uid!!
         hideLoading()
         RefreshView()
         if (selectedStoreItem.site.isNullOrEmpty()) {
@@ -1502,7 +1890,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     private fun submitClick() {
         val description = viewBinding.descriptionText.text.toString().trim()
-        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(Date())
+        val currentTime = SimpleDateFormat("HH:mm:ss",  Locale.ENGLISH).format(Date())
         val problemDate =
             Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
         showLoading()
@@ -1540,8 +1928,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             CmsFileUpload().uploadFiles(
                 requireContext(),
                 this@RegistrationFragment,
-                cmsFileUploadModelList,
-                statusInventory!!
+                cmsFileUploadModelList, statusInventory!!
             )
             //viewModel.connectToAzure(InventoryfileArrayList, statusInventory!!)
         } else {
@@ -1574,8 +1961,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 CmsFileUpload().uploadFiles(
                     requireContext(),
                     this@RegistrationFragment,
-                    cmsFileUploadModelList,
-                    statusInventory!!
+                    cmsFileUploadModelList, statusInventory!!
                 )
 
                 //viewModel.connectToAzure(fileArrayList, statusInventory!!)
@@ -1597,7 +1983,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         val storeId = Preferences.getSiteId()
 //        }
         val description = viewBinding.descriptionText.text.toString().trim()
-        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(Date())
+        val currentTime = SimpleDateFormat("HH:mm:ss",  Locale.ENGLISH).format(Date())
         val problemDate =
             Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
         var newPrice = 0.0
@@ -1805,40 +2191,6 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             }
         }
     */
-    fun siteTicketbyReasonSuccess() {
-        viewModel.siteTicketbyReasonResponseLive.observe(viewLifecycleOwner) {
-            hideLoading()
-            if (it.data!!.listData!!.records!!.toInt() > 0) {
-                var allowDuplicateStCreationDialog = Dialog(requireContext())
-                var dialogAllowDuplicateStCreationBinding =
-                    DataBindingUtil.inflate<DialogAllowDuplicateStCreationBinding>(
-                        LayoutInflater.from(requireContext()),
-                        R.layout.dialog_allow_duplicate_st_creation,
-                        null,
-                        false
-                    )
-                allowDuplicateStCreationDialog.setContentView(dialogAllowDuplicateStCreationBinding.root)
-                allowDuplicateStCreationDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                allowDuplicateStCreationDialog.setCancelable(false)
-                if (it.data != null && it.data!!.listData != null && it.data!!.listData!!.rows != null && it.data!!.listData!!.rows!!.size > 0) {
-                    var allowDuplicateStCreationAdapter =
-                        AllowDuplicateStCreationAdapter(it.data!!.listData!!.rows!!)
-                    var mLayoutManager =
-                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                    dialogAllowDuplicateStCreationBinding.ticketListRecyclerView.layoutManager =
-                        mLayoutManager
-                    dialogAllowDuplicateStCreationBinding.ticketListRecyclerView.adapter =
-                        allowDuplicateStCreationAdapter
-                }
-                dialogAllowDuplicateStCreationBinding.dilogaClose.setOnClickListener {
-                    allowDuplicateStCreationDialog.dismiss()
-                    isBackPressAllow = "GO_BACK"
-                    MainActivity.mInstance.onBackPressed()
-                }
-                allowDuplicateStCreationDialog.show()
-            }
-        }
-    }
 
     private fun callSubmitNewComplaintRegApi(
         description: String,
@@ -1866,9 +2218,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     override fun onBackPressed(): Boolean {
-        if (isBackPressAllow.equals("GO_BACK")) {
-            return false
-        } else if (viewBinding.selectDepartment.text.toString()
+        if (viewBinding.selectDepartment.text.toString()
                 .isNotEmpty() || viewBinding.descriptionText.text.toString()
                 .isNotEmpty() || fileArrayList.isNotEmpty()
         ) {
@@ -1878,7 +2228,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     override fun onFailureUpload(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+
     }
 
     override fun allFilesDownloaded(
