@@ -76,6 +76,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ui.home.planogram.siteid.SelectPlanogramSiteIDActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+
+        <activity
             android:name=".ui.home.retroqr.activity.retroqrscanner.RetroQrScannerActivity"
             android:exported="false"
             android:screenOrientation="portrait"

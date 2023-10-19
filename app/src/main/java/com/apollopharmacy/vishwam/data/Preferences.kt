@@ -38,6 +38,7 @@ object Preferences {
     private const val KEY_QC_SITE_ID = "KEY_QC_SITE_ID"
     private const val PREF_SITE_ID_FETCHED_CHAMPS = "PREF_SITE_ID_FETCHED_CHAMPS"
 
+    private const val PREF_SITE_ID_FETCHED_PLANOGRAM = "PREF_SITE_ID_FETCHED_PLANOGRAM"
     private const val KEY_SITE_DETAILS = "KEY_SITE_DETAILS"
     private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
 
@@ -89,6 +90,7 @@ object Preferences {
      fun getSiteIdListJsonChamps(): String {
          return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_CHAMPS, "")!!
      }*/
+
     fun savingStoreData(storedata: String) {
         sharedPreferences.edit().putString(KEY_SITE_DETAILS, storedata).apply()
     }
@@ -211,10 +213,14 @@ object Preferences {
     private const val KEY_RECTRO_SITENAME = "KEY_RECTRO_SITENAME"
 
     private const val KEY_APNA_SITEID = "KEY_APNA_SITEID"
+    private const val KEY_PLANOGRAM_SITEID = "KEY_PLANOGRAM_SITEID"
+    private const val KEY_PLANOGRAM_SITENAME = "KEY_PLANOGRAM_SITENAME"
+    private const val KEY_PLANOGRAM_SITESTATE = "KEY_PLANOGRAM_SITESTATE"
     private const val KEY_CHAMPS_SITENAME = "KEY_CHAMPS_SITENAME"
     private const val KEY_CHAMPS_SITEID = "KEY_CHAMPS_SITEID"
     private const val KEY_APNA_SITENAME = "KEY_APNA_SITENAME"
 
+    private const val KEY_PLANOGRAM_SITECITY = "KEY_PLANOGRAM_SITECITY"
     private const val KEY_SWACHH_SITENAME = "KEY_SWACHH_SITENAME"
 
     private const val KEY_REGISTRATION_SITE_ID = "KEY_REGISTRATION_SITE_ID"
@@ -425,7 +431,14 @@ object Preferences {
     fun isSiteIdListFetchedChamps(): Boolean {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_CHAMPS, false)
     }
+    fun setSiteIdListFetchedPlanogram(isSiteIdListFetchedPlanogram: Boolean) {
+        sharedPreferences.edit()
+            .putBoolean(PREF_SITE_ID_FETCHED_PLANOGRAM, isSiteIdListFetchedPlanogram).apply()
+    }
 
+    fun isSiteIdListFetchedPlanogram(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_PLANOGRAM, false)
+    }
     fun setRegionIdListFetchedQcFail(isRegionIdListFetchedQcfail: Boolean) {
         sharedPreferences.edit()
             .putBoolean(PREF_REGION_ID_FETCHED_QC_FAIL, isRegionIdListFetchedQcfail).apply()
@@ -442,7 +455,13 @@ object Preferences {
     fun getSiteIdListJson(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
     }
+    fun setSiteIdListPlanogram(siteIdList: String) {
+        sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST, siteIdList).apply()
+    }
 
+    fun getSiteIdListJsonPlanogram(): String {
+        return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
+    }
     fun setItemTypeList(siteIdList: String) {
         sharedPreferences.edit().putString(PREF_ITEMTYPE_LIST_FETCHED, siteIdList).apply()
     }
@@ -868,4 +887,35 @@ object Preferences {
 //    fun getStoreListItem(): String {
 //        return sharedPreferences.getString(KEY_STORE_LIST_JSON, "")!!
 //    }
+
+    fun setPlanogramSiteId(planogramSiteId: String) {
+        sharedPreferences.edit().putString(KEY_PLANOGRAM_SITEID, planogramSiteId).apply()
+    }
+
+    fun getPlanogramSiteId(): String {
+        return sharedPreferences.getString(KEY_PLANOGRAM_SITEID, "")!!
+    }
+
+    fun setPlanogramSiteName(planogramSiteId: String) {
+        sharedPreferences.edit().putString(KEY_PLANOGRAM_SITENAME, planogramSiteId).apply()
+    }
+
+    fun getPlanogramSiteName(): String {
+        return sharedPreferences.getString(KEY_PLANOGRAM_SITENAME, "")!!
+    }
+    fun setPlanogramSiteState(planogramSiteId: String) {
+        sharedPreferences.edit().putString(KEY_PLANOGRAM_SITESTATE, planogramSiteId).apply()
+    }
+
+    fun getPlanogramSiteState(): String {
+        return sharedPreferences.getString(KEY_PLANOGRAM_SITESTATE, "")!!
+    }
+
+    fun setPlanogramSiteCity(planogramSiteId: String) {
+        sharedPreferences.edit().putString(KEY_PLANOGRAM_SITECITY, planogramSiteId).apply()
+    }
+
+    fun getPlanogramSiteCity(): String {
+        return sharedPreferences.getString(KEY_PLANOGRAM_SITECITY, "")!!
+    }
 }
