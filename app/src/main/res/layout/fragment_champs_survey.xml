@@ -69,7 +69,7 @@
                             android:layout_width="@dimen/dimen20dp"
                             android:layout_height="@dimen/dimen20dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/filtersnew" />
+                            android:src="@drawable/siteid_icon" />
 
 
                     </LinearLayout>
@@ -192,7 +192,6 @@
                             android:id="@+id/orderHead"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="@dimen/value_5dp"
                             android:elevation="@dimen/twenty20_dp"
                             android:orientation="vertical">
 
@@ -207,7 +206,7 @@
                                 <LinearLayout
                                     android:id="@+id/cardview"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:orientation="vertical">
 
                                     <LinearLayout

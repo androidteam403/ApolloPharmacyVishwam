@@ -1,146 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
-    android:layout_height="wrap_content">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewStore"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:layout_marginTop="@dimen/value_5dp"
-        android:layout_marginBottom="@dimen/value_5dp"
-        android:layout_marginStart="@dimen/value_10dp"
-        android:layout_marginEnd="@dimen/value_10dp"
-        android:visibility="visible"
-        app:cardElevation="@dimen/value_15dp">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/white"
+        android:layout_height="wrap_content">
 
-        <FrameLayout
-            android:background="@drawable/background_for_store"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewStore"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="110dp"
+            android:layout_marginTop="@dimen/value_5dp"
+            android:layout_marginBottom="@dimen/value_5dp"
+            android:layout_marginStart="@dimen/value_10dp"
+            android:layout_marginEnd="@dimen/value_10dp"
+            android:visibility="visible"
+            app:cardElevation="@dimen/value_15dp">
 
-            <LinearLayout
-                android:id="@+id/orderHead"
+            <FrameLayout
+                android:background="@drawable/background_for_store"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/value_5dp"
-                android:elevation="@dimen/twenty20_dp"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
                 <LinearLayout
-
-                    android:id="@+id/pendingLayout"
+                    android:id="@+id/orderHead"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/value_5dp"
+                    android:elevation="@dimen/twenty20_dp"
                     android:orientation="vertical">
 
-
                     <LinearLayout
-                        android:id="@+id/cardview"
+
+                        android:id="@+id/pendingLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="vertical">
 
+
                         <LinearLayout
+                            android:id="@+id/cardview"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
                             <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_10dp"
+                                    android:layout_marginEnd="@dimen/value_5dp"
+                                    android:orientation="horizontal">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Store ID: "
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/store_id"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="end">
+
+                                    <ImageView
+                                        android:layout_gravity="center"
+                                        android:layout_marginEnd="@dimen/value_5dp"
+                                        android:layout_width="@dimen/value_30dp"
+                                        android:layout_height="@dimen/value_30dp"
+                                        android:src="@drawable/ic_baseline_chevron_right_24"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+
+
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_marginTop="@dimen/value_10dp"
-                                android:layout_marginEnd="@dimen/value_5dp"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:id="@+id/address"
+                                android:text="B V Nagar, Nellore"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_15dp"
+                                android:layout_marginBottom="@dimen/value_10dp"
                                 android:orientation="horizontal">
 
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Store ID: "
-                                    android:textSize="@dimen/text_12sp" />
-
-                                <TextView
-                                    android:id="@+id/store_id"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/black"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:text="Executive: "
                                     android:textSize="@dimen/text_12sp"
                                     android:textStyle="bold" />
 
 
+                                <TextView
+                                    android:id="@+id/executive_email"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:text="ramesh_p@apollopharmacay.org"
+                                    android:textColor="@color/darkk_blue"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="end">
 
-                                <ImageView
-                                    android:layout_gravity="center"
-                                    android:layout_marginEnd="@dimen/value_5dp"
-                                    android:layout_width="@dimen/value_30dp"
-                                    android:layout_height="@dimen/value_30dp"
-                                    android:src="@drawable/ic_baseline_chevron_right_24"/>
-                            </LinearLayout>
                         </LinearLayout>
-
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_10dp"
-                            android:layout_marginTop="@dimen/value_5dp"
-                            android:id="@+id/address"
-                            android:text="B V Nagar, Nellore"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_15dp"
-                            android:layout_marginBottom="@dimen/value_10dp"
-                            android:orientation="horizontal">
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_marginTop="@dimen/value_5dp"
-                                android:text="Executive: "
-                                android:textSize="@dimen/text_12sp"
-                                android:textStyle="bold" />
-
-
-                            <TextView
-                                android:id="@+id/executive_email"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_5dp"
-                                android:text="ramesh_p@apollopharmacay.org"
-                                android:textColor="@color/darkk_blue"
-                                android:textSize="@dimen/text_12sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
 
                     </LinearLayout>
-
                 </LinearLayout>
-            </LinearLayout>
-        </FrameLayout>
+            </FrameLayout>
 
 
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-</RelativeLayout>
+    </RelativeLayout>
 </layout>

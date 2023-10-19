@@ -97,7 +97,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                      android:textStyle="bold"
+                        android:textStyle="bold"
                         android:text="80"
                         android:textColor="#009642"
                         android:textSize="@dimen/text_20sp" />
@@ -131,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/count_layout"
-               />
+                />
 
             <LinearLayout
                 android:onClick="@{()-> callback.onClickFilter()}"
