@@ -179,8 +179,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         val champsMenuModel = ArrayList<MenuModel>()
         champsMenuModel.add(MenuModel("Champs Survey", R.drawable.champs_survey))
-        champsMenuModel.add(MenuModel("Champs Reports", R.drawable.champs_reports))
-        champsMenuModel.add(MenuModel("Champs Admin", R.drawable.champs_admin))
+//        champsMenuModel.add(MenuModel("Champs Reports", R.drawable.champs_reports))
+//        champsMenuModel.add(MenuModel("Champs Admin", R.drawable.champs_admin))
 
         val planogramMenuModel = ArrayList<MenuModel>()
         planogramMenuModel.add(MenuModel("Planogram Evaluation", R.drawable.planogram))

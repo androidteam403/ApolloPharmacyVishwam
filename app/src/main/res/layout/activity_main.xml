@@ -235,9 +235,8 @@
                 android:visibility="gone">
 
                 <ImageView
-                    android:layout_width="@dimen/twenty_seven27_dp"
-                    android:layout_height="@dimen/twenty_seven27_dp"
-                    android:background="@drawable/green_backgroundplus"
+                    android:layout_width="@dimen/value_30dp"
+                    android:layout_height="@dimen/value_30dp"
                     android:contentDescription="@string/app_name"
                     android:paddingTop="@dimen/value_6dp"
                     android:paddingBottom="@dimen/value_6dp"

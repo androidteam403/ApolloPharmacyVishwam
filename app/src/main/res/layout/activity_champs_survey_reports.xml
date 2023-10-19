@@ -96,7 +96,7 @@
                                 android:textSize="@dimen/text_14sp"
                                 android:gravity="center"
                                 android:textStyle="bold"
-                               android:text="27-DEC-2022"
+                                android:text="27-DEC-2022"
                                 android:textColor="@color/black"
                                 />
 
