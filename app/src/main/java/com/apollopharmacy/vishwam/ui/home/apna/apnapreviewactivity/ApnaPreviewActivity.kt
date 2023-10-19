@@ -694,6 +694,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setLabelCount(5, true)
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMinimum(0f)
+        if(avgSales!=null && avgSales.size>0)
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMaximum(avgSales.max())
 
         apnaPreviewActivityBinding.competitorsChart.xAxis.isEnabled = false
@@ -722,9 +723,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
     }
 
     private fun setCompetitorsValues() {
-        for (i in avgSales.indices) {
-            competitorsEntries.add(Entry(i.toFloat(), avgSales.get(i), chemist.get(i).toString()))
+        if(avgSales.size>0){
+            for (i in avgSales.indices) {
+                competitorsEntries.add(Entry(i.toFloat(), avgSales.get(i), chemist.get(i).toString()))
+            }
         }
+
 //        competitorsEntries.add(Entry(0f, 5f))
 //        competitorsEntries.add(Entry(1f, 7f))
 //        competitorsEntries.add(Entry(2f, 8f))
@@ -845,7 +849,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     override fun onSuccessgetSurveyDetails(value: SurveyDetailsList) {
         if (value.data!!.id != null) {
             apnaPreviewActivityBinding.surveyId.setText(value.data!!.id)
@@ -887,10 +891,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                 this, value.data!!.chemist as ArrayList<SurveyDetailsList.Chemist>
             )
             apnaPreviewActivityBinding.recyclerViewchemist.adapter = adapter
+            var totalOrg=0
+            if(value.data!!.chemist!!.get(0).orgAvgSale!=null)
+             totalOrg = value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt()}.sum()
 
-            val totalOrg =
-                value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }
-                    .sum()
             val totalUnorg =
                 value.data!!.chemist!!.stream().map { it.unorgAvgSale }.mapToInt { it!!.toInt() }
                     .sum()
@@ -914,7 +918,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                     total.toLong()
                 )
             )
-
+            if(value.data!!.chemist!!.get(0).orgAvgSale!=null)
             avgSales = value.data!!.chemist!!.map { it.orgAvgSale!!.toFloat() } as ArrayList<Float>
             setCompetitorsValues()
             setupCompetitorsChart()
