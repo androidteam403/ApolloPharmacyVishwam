@@ -180,7 +180,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
             } else if (requestCode == 779) {
                 if (NetworkUtil.isNetworkConnected(requireContext())) {
-                    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+                    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
                     val cal = Calendar.getInstance()
                     cal.add(Calendar.DATE, -7)
                     val currentDate: String = simpleDateFormat.format(Date())

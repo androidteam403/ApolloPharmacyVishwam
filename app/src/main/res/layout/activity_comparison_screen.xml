@@ -382,7 +382,6 @@
                                 </RelativeLayout>
 
                                 <LinearLayout
-                                    android:onClick="@{()-> callback.onClickDelete()}"
                                     android:id="@+id/deleteIconPreRetro"
                                     android:visibility="gone"
                                     android:layout_width="wrap_content"
@@ -406,7 +405,6 @@
 
                                 <LinearLayout
                                     android:visibility="gone"
-                                    android:onClick="@{()-> callback.onClickCamera()}"
                                     android:id="@+id/reshootCameraPreRetro"
                                     android:layout_width="wrap_content"
                                     android:layout_height="@dimen/value_25dp"
@@ -493,7 +491,6 @@
                                             tools:ignore="UseAppTint" />
                                     </RelativeLayout>
                                     <LinearLayout
-                                        android:onClick="@{()-> callback.onClickDelete()}"
                                         android:id="@+id/deleteIcon"
                                         android:visibility="gone"
                                         android:layout_width="wrap_content"
@@ -517,7 +514,6 @@
 
                                     <LinearLayout
                                         android:visibility="gone"
-                                        android:onClick="@{()-> callback.onClickCamera()}"
                                         android:id="@+id/reshootCamera"
                                         android:layout_width="wrap_content"
                                         android:layout_height="@dimen/value_25dp"
@@ -571,7 +567,6 @@
                                     android:textStyle="bold"/>
 
                                 <LinearLayout
-                                    android:onClick="@{()-> callback.onClickCamera()}"
                                     android:id="@+id/cameraIconImage"
                                     android:layout_width="wrap_content"
                                     android:layout_height="@dimen/value_25dp"
@@ -878,12 +873,10 @@
                         android:visibility="visible"
                         android:layout_marginTop="@dimen/value_15dp"
                         android:id="@+id/uploadnowbutton"
-                        android:layout_marginBottom="3dp"
                         android:layout_gravity="bottom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/ashcolor"
-                        android:onClick="@{()-> callback.onClickUpload()}"
                         android:orientation="horizontal"
                         android:padding="@dimen/value_9dp">
 

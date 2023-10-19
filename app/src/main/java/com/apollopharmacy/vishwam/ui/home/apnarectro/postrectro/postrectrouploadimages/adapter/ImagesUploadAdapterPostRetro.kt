@@ -107,7 +107,8 @@ class ImagesUploadAdapterPostRetro(
                             )
                         holder.adapterImagesuploadApnaBinding.redTrash.visibility=View.GONE
 
-                    } else if (i.status.equals("1"))
+                    }
+                    else if (i.status.equals("1"))
                     {
                         Glide.with(context)
                             .load(i.url)

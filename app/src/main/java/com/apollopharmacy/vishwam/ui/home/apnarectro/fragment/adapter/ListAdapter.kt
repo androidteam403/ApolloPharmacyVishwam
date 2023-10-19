@@ -23,8 +23,6 @@ class ListAdapter(
 ) :
     RecyclerView.Adapter<ListAdapter.ViewHolder>() {
     var retroStore: String? = null
-    var storeName: String? = null
-
     var approvedDate: String? = null
     var partiallyApprovedBy: String? = null
     var partiallyApprovedDate: String? = null
@@ -56,7 +54,6 @@ class ListAdapter(
         for (i in item.indices) {
             if (item.get(i).stage.equals("PRE-RETRO")) {
                 retroStore = item.get(i).store
-                storeName=item.get(i).store.split("-").get(1)
                 holder.adapterListApnaBinding.firstStageStatus.text = item.get(i).status
                 holder.adapterListApnaBinding.transactionId.text = item.get(i).retroid
                 holder.adapterListApnaBinding.storeId.text = item.get(i).store.split("-").get(0)
@@ -140,8 +137,7 @@ class ListAdapter(
                         )
                     )
                 }
-            }
-            else if (item.get(i).stage.equals("POST-RETRO")&&item.get(i).hierarchystatus!=null) {
+            } else if (item.get(i).stage.equals("POST-RETRO")) {
                 holder.adapterListApnaBinding.secondstageStatus.text = item.get(i).status
 
                 if (item.get(i).status.equals("Pending At User")||item.get(i).hierarchystatus.toString().contains("AWAITING") || item.get(i).status.contains("Reshoot")) {
@@ -185,8 +181,7 @@ class ListAdapter(
                             R.drawable.clock_small
                         )
                     )
-                }
-                else if (item.get(i).hierarchystatus.toString().contains("APPROVED")) {
+                } else if (item.get(i).hierarchystatus.toString().contains("APPROVED")) {
                     holder.adapterListApnaBinding.postRectroText.setTextColor(context.getColor(R.color.black))
                     holder.adapterListApnaBinding.approvedByLayout.visibility = View.GONE
                     holder.adapterListApnaBinding.approvedOnLayout.visibility = View.GONE
@@ -202,8 +197,7 @@ class ListAdapter(
                             R.drawable.greenright
                         )
                     )
-                }
-                else if (item.get(i).status.contains("")) {
+                } else if (item.get(i).status.contains("")) {
                     holder.adapterListApnaBinding.postRectroText.setTextColor(context.getColor(R.color.ash_color_for_apna))
                     holder.adapterListApnaBinding.approvedByLayout.visibility = View.GONE
                     holder.adapterListApnaBinding.approvedOnLayout.visibility = View.GONE
@@ -220,8 +214,7 @@ class ListAdapter(
                         )
                     )
                 }
-            }
-            else if (item.get(i).stage.equals("AFTER-COMPLETION")) {
+            } else if (item.get(i).stage.equals("AFTER-COMPLETION")) {
                 holder.adapterListApnaBinding.thirdstagestatus.text =item.get(i).status
 
                 holder.adapterListApnaBinding.approvedByLayout.visibility = View.GONE

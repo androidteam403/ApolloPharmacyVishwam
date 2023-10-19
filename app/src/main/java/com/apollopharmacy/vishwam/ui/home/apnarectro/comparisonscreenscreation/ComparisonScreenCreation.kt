@@ -25,18 +25,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
-import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityComparisonScreenBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewlmageRetro.adapter.ComparisionPreviewImage
-import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewlmageRetro.adapter.RetroPreviewImage
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
 import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.bumptech.glide.Glide
 import me.echodev.resizer.Resizer
 import okhttp3.internal.notify
 import java.io.File
-import java.util.ArrayList
 
 
 class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCallBack,
@@ -46,6 +43,9 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     var categoryName: String = ""
     var categoryid: String = ""
     var storeId: String = ""
+    var uploadPosition: Int = 0
+    var uploadSubPosition: Int = 0
+
     var checkBoxClickedCount: Int = 0
     private var uploadStage: String = ""
     private var fileNameForCompressedImage: String? = null
@@ -55,12 +55,16 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     var categoryGroupResponse: GetImageUrlsModelApnaResponse.Category? = null
     var imageUploaded = false
     private var previewImageAdapter: ComparisionPreviewImage? = null
-    private var mainImageUrlList =
-        ArrayList<GetImageUrlsModelApnaResponse.Category>()
+    private var mainImageUrlList = ArrayList<GetImageUrlsModelApnaResponse.Category>()
     var status: String = ""
+    var tempImageUrlList: MutableList<ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>>? =
+        mutableListOf()
+    var posImageId: String = ""
+
     private var posImageUrlList =
         ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>()
-    var pos: Int = 0
+    var imageId: String = ""
+    var isLastPage = false
 
     lateinit var activityPostRectroReviewScreenBinding: ActivityComparisonScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,6 +116,9 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
     private fun setUp() {
         activityPostRectroReviewScreenBinding.callback = this
+        activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(
+            this
+        )
         if (intent != null) {
             stage = intent.getStringExtra("stage")!!
             status = intent.getStringExtra("status")!!
@@ -130,8 +137,11 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
             activityPostRectroReviewScreenBinding.storeId.setText(
                 storeId.split("-").get(0) + "-" + storeId.split("-").get(1)
             )
-        }
 
+            mainImageUrlList.forEach { category ->
+                category.groupingImageUrlList?.let { tempImageUrlList?.addAll(it) }
+            }
+        }
 
         activityPostRectroReviewScreenBinding.imageStatus.setText(status)
 
@@ -146,23 +156,63 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
             activityPostRectroReviewScreenBinding.imageStatus.setTextColor(context.getColor(R.color.color_red))
 
         }
-        previewImageAdapter =
-            ComparisionPreviewImage(
-                this,
-                posImageUrlList,
-                this,
-                uploadStage,
-                stage,
-                status,
-                imageUploaded
+
+
+
+
+
+
+        for (i in mainImageUrlList.indices) {
+            for (j in mainImageUrlList.get(i).groupingImageUrlList!!.indices) {
+                for (k in mainImageUrlList.get(i).groupingImageUrlList!!.get(j).indices) {
+                    if (categoryName.equals(mainImageUrlList.get(i).categoryname)) {
+                        if (mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                .get(k).imageid.isNullOrEmpty()
+                        ) {
+
+                        } else {
+                            posImageId = mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                .get(k).imageid!!
+
+                        }
+
+
+                    }
+
+
+                }
+            }
+        }
+        for (k in tempImageUrlList!!.indices) {
+            for (l in tempImageUrlList!!.get(k).indices) {
+                if (posImageId.equals(tempImageUrlList!!.get(k).get(l).imageid)) {
+
+                }
+            }
+        }
+// Ensure that tempImageUrlList is not null before using it
+        tempImageUrlList?.let {
+            previewImageAdapter = ComparisionPreviewImage(
+                this, it,
+                this, uploadStage, mainImageUrlList, stage, status, imageUploaded,
+                imageClickedPos!!
             )
 
+            activityPostRectroReviewScreenBinding.previewImageViewpager.adapter =
+                previewImageAdapter
+            activityPostRectroReviewScreenBinding.previewImageViewpager.setCurrentItem(
+                imageClickedPos!!,
+                true
+            )
+        } ?: run {
+            // Handle the case when tempImageUrlList is null
+        }
 
 
 
-        activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(this)
-        activityPostRectroReviewScreenBinding.previewImageViewpager.adapter = previewImageAdapter
-        activityPostRectroReviewScreenBinding.previewImageViewpager.setCurrentItem(0, true)
+
+
+
 
 
 
@@ -201,7 +251,6 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT
                 )
-
                 lp.weight = .2f
                 activityPostRectroReviewScreenBinding.firstImageLayout.layoutParams = lp
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.GONE
@@ -310,28 +359,6 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                     resources.getColor(R.color.blue)
                 )
 
-//                    activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
-//                        "Upload After Completion"
-//
-//                    activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility =
-//                        View.VISIBLE
-//                    activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility =
-//                        View.VISIBLE
-//                    activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
-//                        View.VISIBLE
-//                    activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
-//                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.GONE
-//                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
-//                        View.VISIBLE
-//                    if (activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked) {
-//                        activityPostRectroReviewScreenBinding.reshootCamera.visibility =
-//                            View.VISIBLE
-//                    } else {
-//                        activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
-//                    }
-//                    activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
-//                    activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
-//                        "After Completion Image"
             } else if (posImageUrlList.size == 3) {
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.reviewName.setText("After Completion Review")
@@ -762,7 +789,10 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         super.onPause()
     }
 
-    override fun onClickCamera() {
+    override fun onClickCamera(imageId: String, position: Int, subPos: Int) {
+        uploadPosition = position
+        uploadSubPosition = subPos
+        this.imageId = imageId
         if (!checkPermission()) {
             askPermissions(Config.REQUEST_CODE_CAMERA)
             return
@@ -778,10 +808,32 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     }
 
     var imageUrlWithData = GetImageUrlsModelApnaResponse.Category.ImageUrl()
-    override fun onClickUpload() {
-        if (imageUploaded) {
+    override fun onClickUpload(pos: Int, subPos: Int) {
+
+        if (tempImageUrlList!!.get(pos).get(subPos).file != null) {
+            for (i in mainImageUrlList.indices) {
+                for (j in mainImageUrlList[i].groupingImageUrlList!!.indices) {
+                    for (k in mainImageUrlList[i].groupingImageUrlList!![j].indices) {
+                        if (tempImageUrlList!![pos].get(subPos).imageid.equals(
+                                mainImageUrlList[i].groupingImageUrlList!![j].get(
+                                    k
+                                ).imageid
+                            ) && !mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                .get(k).imageUploadStatusUpdate
+                        ) {
+                            mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                .get(k).imageUploadStatusUpdate = true
+                        }
+
+                    }
+                }
+            }
             val intent = Intent()
             intent.putExtra("imageUrlWithData", imageUrlWithData)
+            intent.putExtra("mainImageUrlList", mainImageUrlList)
+            intent.putExtra("stage", tempImageUrlList!!.get(pos).get(subPos).stage)
+
+
             if (uploadStage.equals("reshootStage")) {
                 intent.putExtra("posImageUrlList", posImageUrlList)
                 intent.putExtra("fileForReshoot", fileForReshoot)
@@ -791,9 +843,12 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         } else {
             Toast.makeText(context, "Please upload the image", Toast.LENGTH_SHORT).show()
         }
+
+
     }
 
-    override fun onClickDelete() {
+    override fun onClickDelete(position: Int) {
+        var file: String = ""
         cameraDialog = Dialog(this)
         cameraDialog.setContentView(R.layout.dialog_camera_delete)
         val close = cameraDialog.findViewById<TextView>(R.id.no_btnN)
@@ -804,6 +859,66 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         ok.setOnClickListener {
 
             var pos = -1
+
+            for (i in tempImageUrlList!!.get(position).indices) {
+                if (tempImageUrlList!!.get(position).get(i).status.equals("9")) {
+                    file = tempImageUrlList!!.get(position).get(i).file.toString()
+                }
+            }
+
+            for (k in mainImageUrlList.indices) {
+                for (l in mainImageUrlList.get(k).groupingImageUrlList!!.indices) {
+                    for (m in mainImageUrlList.get(k).groupingImageUrlList!!.get(l).indices) {
+                        if (mainImageUrlList.get(k).groupingImageUrlList!!.get(l).get(m).file!=null&&file.equals(mainImageUrlList.get(k).groupingImageUrlList!!.get(l).get(m).file.toString())){
+                            mainImageUrlList.get(k).groupingImageUrlList!!.get(l).removeAt(m)
+
+                            synchronized(mainImageUrlList.get(k).groupingImageUrlList!!.get(l)!!) {
+                                mainImageUrlList.get(k).groupingImageUrlList!!.get(l)!!
+                                    .notify()
+                                previewImageAdapter?.notifyDataSetChanged()
+
+                            }
+                        }
+
+                    }
+                }
+            }
+
+
+
+
+//            for (n in tempImageUrlList!!.get(position).indices) {
+//
+//            for (k in mainImageUrlList.indices) {
+//                for (l in mainImageUrlList.get(k).groupingImageUrlList!!.indices) {
+//                    for (m in mainImageUrlList.get(k).groupingImageUrlList!!.get(l).indices) {
+//
+//                            if (tempImageUrlList!!.get(position).get(n).file != null&&mainImageUrlList.get(k).groupingImageUrlList!!.get(l).get(m).file!=null) {
+//
+//                                    if (mainImageUrlList.get(k).groupingImageUrlList!!.get(l).get(m).status.equals("9")) {
+//                                        mainImageUrlList.get(k).groupingImageUrlList!!.get(l).removeAt(m)
+//
+//                                        synchronized(mainImageUrlList.get(k).groupingImageUrlList!!.get(l)!!) {
+//                                            mainImageUrlList.get(k).groupingImageUrlList!!.get(l)!!
+//                                                .notify()
+//                                            previewImageAdapter?.notifyDataSetChanged()
+//
+//                                        }
+//
+//                                    }
+//
+//
+//
+//                            }
+//
+//                        }
+//
+//
+//                    }
+//                }
+//            }
+
+
             for (i in posImageUrlList) {
                 if (stage.equals("isPreRetroStage")) {
                     if (i.stage.equals("1")) {
@@ -901,8 +1016,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         cameraDialog.show()
     }
 
-    override fun onClickDeleteforPreRetro() {
-        TODO("Not yet implemented")
+    override fun onClickDeleteforPreRetro(position: Int) {
     }
 
     private fun openCamera() {
@@ -980,7 +1094,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 .setOutputFormat("JPG")
 //                .setOutputFilename(fileNameForCompressedImage)
                 .setOutputDirPath(
-                    ViswamApp.context.cacheDir.toString()
+                    context.cacheDir.toString()
                 )
 
                 .setSourceImage(imageFromCameraFile)
@@ -990,29 +1104,53 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                     R.color.dark_green
                 )
             )
+            var imageUrl = GetImageUrlsModelApnaResponse.Category.ImageUrl()
+
 //            Toast.makeText(context, "Image uploaded successfully", Toast.LENGTH_LONG).show()
             imageUploaded = true
             activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
-
-            var imageUrl = GetImageUrlsModelApnaResponse.Category.ImageUrl()
             if (uploadStage.equals("reshootStage")) {
-                if (stage.equals("isPreRetroStage")) {
-                    posImageUrlList.get(0).file = resizedImage
-//                    posImageUrlList.get(0).url=null
-                    stagePos = 0
-                } else if (stage.equals("isPostRetroStage")) {
-                    posImageUrlList.get(1).file = resizedImage
-//                    posImageUrlList.get(1).url=null
-                    stagePos = 1
-                } else {
-                    posImageUrlList.get(2).file = resizedImage
-//                    posImageUrlList.get(2).url=null
-                    stagePos = 2
+                for (k in mainImageUrlList.indices) {
+                    for (l in mainImageUrlList.get(k).groupingImageUrlList!!.indices) {
+                        for (m in mainImageUrlList.get(k).groupingImageUrlList!!.get(l)!!.indices) {
+                            if (imageId.equals(
+                                    mainImageUrlList!!.get(k).groupingImageUrlList!!.get(l)
+                                        .get(m).imageid
+                                )
+                            ) {
+                                mainImageUrlList.get(k).groupingImageUrlList!!.get(l).get(m).file =
+                                    resizedImage
+                                mainImageUrlList.get(k).groupingImageUrlList!!.get(l).get(m).url =
+                                    null
+
+                            }
+
+
+                        }
+                    }
+
                 }
-                fileForReshoot = resizedImage
+                for (i in tempImageUrlList!!.indices) {
+                    for (j in tempImageUrlList!!.get(i).indices) {
 
+                        if (imageId.equals(tempImageUrlList!!.get(i).get(j).imageid)) {
+                            tempImageUrlList!!.get(i).get(j).file = resizedImage
+
+                            imageUploaded = true
+                            tempImageUrlList!!.get(i).get(j).url = null
+                            previewImageAdapter?.notifyDataSetChanged()
+                            activityPostRectroReviewScreenBinding.previewImageViewpager.setCurrentItem(
+                                i,
+                                true
+                            )
+                            activityPostRectroReviewScreenBinding.previewImageViewpager.adapter =
+                                previewImageAdapter
+                        }
+
+                    }
+
+                }
             } else {
-
                 imageUrl.file = resizedImage!!
                 imageUrl.status = "9"
                 if (stage.equals("isPreRetroStage")) {
@@ -1025,30 +1163,358 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                     imageUrl.stage = "3"
                     stagePos = 2
                 }
-                imageUrl.categoryid = categoryid.toInt()
-                imageUrl.position = imageClickedPos
-                imageUrlWithData = imageUrl
 
-                posImageUrlList!!.add(imageUrl)
-                synchronized(posImageUrlList) {
-                    posImageUrlList.notify()
-                    previewImageAdapter =
-                        ComparisionPreviewImage(
-                            this,
-                            posImageUrlList,
-                            this,
-                            uploadStage,
-                            stage,
-                            status,
-                            imageUploaded
-                        )
+                for (k in mainImageUrlList.indices) {
+                    for (l in mainImageUrlList.get(k).groupingImageUrlList!!.indices) {
+
+                        for (m in mainImageUrlList.get(k).groupingImageUrlList!!.get(l).indices) {
+                            if (tempImageUrlList!!.get(uploadPosition)
+                                    .get(uploadSubPosition).imageid!!.equals(
+                                        mainImageUrlList.get(k).groupingImageUrlList!!.get(
+                                            l
+                                        ).get(m).imageid
+                                    )
+                            ) {
+
+                                imageUrl.categoryid = mainImageUrlList.get(k).categoryid!!.toInt()
+                                imageUrl.position =
+                                    mainImageUrlList.get(k).groupingImageUrlList!!.get(l)
+                                        .get(m).position
+                                imageUrlWithData = imageUrl
+                                mainImageUrlList.get(k).groupingImageUrlList!!.get(l)!!
+                                    .add(imageUrl)
+                                synchronized(
+                                    mainImageUrlList.get(k).groupingImageUrlList!!.get(
+                                        l
+                                    )!!
+                                ) {
+                                    mainImageUrlList.get(k).groupingImageUrlList!!.get(l)!!
+                                        .notify()
+                                    previewImageAdapter?.notifyDataSetChanged()
+
+                                }
+                            }
+                        }
+                    }
+
+                }
 
 
+            }
 
 
-                    activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(
-                        this
-                    )
+//            if (uploadStage.equals("reshootStage"))
+//            {
+//                if (stage.equals("isPreRetroStage")) {
+//                    posImageUrlList.get(0).file = resizedImage
+//                    mainImageUrlList.get(pos).groupingImageUrlList!![imageClickedPos!!].get(0).file =
+//                        resizedImage
+//
+////                    posImageUrlList.get(0).url=null
+//                    stagePos = 0
+//                } else if (stage.equals("isPostRetroStage")) {
+//                    posImageUrlList.get(1).file = resizedImage
+//                    mainImageUrlList.get(pos).groupingImageUrlList!![imageClickedPos!!].get(1).file =
+//                        resizedImage
+//
+////                    posImageUrlList.get(1).url=null
+//                    stagePos = 1
+//                } else {
+//                    posImageUrlList.get(2).file = resizedImage
+//                    mainImageUrlList.get(pos).groupingImageUrlList!![imageClickedPos!!].get(2).file =
+//                        resizedImage
+//
+////                    posImageUrlList.get(2).url=null
+//                    stagePos = 2
+//                }
+//                fileForReshoot = resizedImage
+//
+//            }
+//            else {
+//
+//                imageUrl.file = resizedImage!!
+//                imageUrl.status = "9"
+//                if (stage.equals("isPreRetroStage")) {
+//                    imageUrl.stage = "1"
+//                    stagePos = 0
+//                } else if (stage.equals("isPostRetroStage")) {
+//                    imageUrl.stage = "2"
+//                    stagePos = 1
+//                } else {
+//                    imageUrl.stage = "3"
+//                    stagePos = 2
+//                }
+//                imageUrl.categoryid = categoryid.toInt()
+//                imageUrl.position = imageClickedPos
+//                imageUrlWithData = imageUrl
+//                mainImageUrlList.get(pos).groupingImageUrlList!![imageClickedPos!!].add(imageUrl)
+//
+//                posImageUrlList!!.add(imageUrl)
+//
+//                previewImageAdapter!!.notifyDataSetChanged()
+//
+//                activityPostRectroReviewScreenBinding.previewImageViewpager.setCurrentItem(0, true)
+//
+//                synchronized(mainImageUrlList.get(pos).groupingImageUrlList!!) {
+//                    mainImageUrlList.get(pos).groupingImageUrlList!!.notify()
+//
+//                }
+//            }
+
+            if (stage.equals("isPreRetroStage")) {
+                for (i in mainImageUrlList.indices) {
+                    for (j in mainImageUrlList.get(i).groupingImageUrlList!!.indices) {
+                        for (k in mainImageUrlList.get(i).groupingImageUrlList!!.get(j).indices) {
+
+
+                            if (mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                    .get(k).stage.equals("2")
+                            ) {
+                                activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility =
+                                    View.GONE
+                                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
+                                    View.GONE
+                                activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled =
+                                    false
+                                activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled =
+                                    false
+                                activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
+                                    View.GONE
+                                activityPostRectroReviewScreenBinding.firstImageLayout.visibility =
+                                    View.VISIBLE
+                                activityPostRectroReviewScreenBinding.deleteIcon.visibility =
+                                    View.VISIBLE
+                                activityPostRectroReviewScreenBinding.reshootCamera.visibility =
+                                    View.GONE
+                                activityPostRectroReviewScreenBinding.imageHeading1.text =
+                                    "Pre Retro Image"
+                                if (!uploadStage.equals("reshootStage")) {
+                                    Glide.with(this).load(
+                                        mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                            .get(k).file
+                                    )
+                                        .placeholder(R.drawable.thumbnail_image)
+                                        .into(activityPostRectroReviewScreenBinding.imageOne)
+                                } else {
+                                    Glide.with(this).load(
+                                        mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                            .get(k).file
+                                    )
+                                        .placeholder(R.drawable.thumbnail_image)
+                                        .into(activityPostRectroReviewScreenBinding.imageOne)
+
+                                }
+
+                            }
+
+
+                        }
+                    }
+
+
+                }
+            } else if (stage.equals("isPostRetroStage")) {
+                for (i in mainImageUrlList.indices) {
+                    for (j in mainImageUrlList.get(i).groupingImageUrlList!!.indices) {
+                        for (k in mainImageUrlList.get(i).groupingImageUrlList!!.get(j).indices) {
+
+
+                            if (mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                    .get(k).stage.equals("2")
+                            ) {
+                                activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility =
+                                    View.GONE
+                                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
+                                    View.GONE
+                                activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled =
+                                    false
+                                activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled =
+                                    false
+                                activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
+                                    View.GONE
+                                activityPostRectroReviewScreenBinding.firstImageLayout.visibility =
+                                    View.VISIBLE
+                                activityPostRectroReviewScreenBinding.deleteIcon.visibility =
+                                    View.VISIBLE
+                                activityPostRectroReviewScreenBinding.reshootCamera.visibility =
+                                    View.GONE
+                                activityPostRectroReviewScreenBinding.imageHeading1.text =
+                                    "Pre Retro Image"
+                                if (!uploadStage.equals("reshootStage")) {
+                                    Glide.with(this).load(
+                                        mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                            .get(k).file
+                                    )
+                                        .placeholder(R.drawable.thumbnail_image)
+                                        .into(activityPostRectroReviewScreenBinding.imageOne)
+                                } else {
+                                    Glide.with(this).load(
+                                        mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                            .get(k).file
+                                    )
+                                        .placeholder(R.drawable.thumbnail_image)
+                                        .into(activityPostRectroReviewScreenBinding.imageOne)
+
+                                }
+
+                            }
+
+
+                            activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility =
+                                View.VISIBLE
+                            activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
+                                View.GONE
+                            activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled =
+                                false
+                            activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled =
+                                false
+                            activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
+                                View.GONE
+                            activityPostRectroReviewScreenBinding.secondImageLayout.visibility =
+                                View.VISIBLE
+                            activityPostRectroReviewScreenBinding.deleteIcon.visibility =
+                                View.VISIBLE
+                            activityPostRectroReviewScreenBinding.reshootCamera.visibility =
+                                View.GONE
+                            activityPostRectroReviewScreenBinding.imageHeading2.text =
+                                "Post Retro Image"
+                            if (!uploadStage.equals("reshootStage")) {
+                                Glide.with(this).load(
+                                    mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                        .get(k).file
+                                )
+                                    .placeholder(R.drawable.thumbnail_image)
+                                    .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
+                                Glide.with(this).load(
+                                    mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                        .get(k).file
+                                )
+                                    .placeholder(R.drawable.thumbnail_image)
+                                    .into(activityPostRectroReviewScreenBinding.imageTwo)
+                            } else {
+                                Glide.with(this).load(
+                                    mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                        .get(k).file
+                                )
+                                    .placeholder(R.drawable.thumbnail_image)
+                                    .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
+                                Glide.with(this).load(
+                                    mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                        .get(k).file
+                                )
+                                    .placeholder(R.drawable.thumbnail_image)
+                                    .into(activityPostRectroReviewScreenBinding.imageTwo)
+
+                            }
+
+                        }
+                    }
+                }
+            } else if (stage.equals("isAfterCompletionStage")) {
+                for (i in mainImageUrlList.indices) {
+                    for (j in mainImageUrlList.get(i).groupingImageUrlList!!.indices) {
+                        for (k in mainImageUrlList.get(i).groupingImageUrlList!!.get(j).indices) {
+                            if (mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                    .get(k).stage.equals("3")
+                            ) {
+                                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
+                                    View.VISIBLE
+                                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked =
+                                    true
+                                activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
+                                    View.GONE
+                                activityPostRectroReviewScreenBinding.secondImageLayout.visibility =
+                                    View.VISIBLE
+                                activityPostRectroReviewScreenBinding.deleteIcon.visibility =
+                                    View.VISIBLE
+                                activityPostRectroReviewScreenBinding.reshootCamera.visibility =
+                                    View.GONE
+                                if (!uploadStage.equals("reshootStage")) {
+                                    Glide.with(this).load(
+                                        mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                            .get(k).file
+                                    )
+                                        .placeholder(R.drawable.thumbnail_image)
+                                        .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
+                                    Glide.with(this).load(
+                                        mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                            .get(k).file
+                                    )
+                                        .placeholder(R.drawable.thumbnail_image)
+                                        .into(activityPostRectroReviewScreenBinding.imageTwo)
+                                } else {
+                                    Glide.with(this).load(
+                                        mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                            .get(k).file
+                                    )
+                                        .placeholder(R.drawable.thumbnail_image)
+                                        .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
+                                    Glide.with(this).load(
+                                        mainImageUrlList.get(i).groupingImageUrlList!!.get(j)
+                                            .get(k).file
+                                    )
+                                        .placeholder(R.drawable.thumbnail_image)
+                                        .into(activityPostRectroReviewScreenBinding.imageTwo)
+
+                                }
+
+                                activityPostRectroReviewScreenBinding.imageHeading2.text =
+                                    "After Completion Image"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+
+    }
+
+
+    override fun onPageSelected(position: Int) {
+        if (position == 0 || position == 1) {
+            activityPostRectroReviewScreenBinding.categoryNumber.setText("1")
+
+            activityPostRectroReviewScreenBinding.categoryName.setText("Signage")
+        } else {
+            activityPostRectroReviewScreenBinding.categoryNumber.setText("2")
+
+            activityPostRectroReviewScreenBinding.categoryName.setText("Front Glass Facade Left and Right")
+
+        }
+
+    }
+
+
+    override fun onPageScrollStateChanged(state: Int) {
+
+    }
+
+    private var currentIndex = 0
+
+    private fun performFunctionAfterLastPage() {
+        val listSize = mainImageUrlList.size
+        val categoryNameList = mainImageUrlList.map { it.categoryname }
+
+        // Iterate over the list
+        for (i in 0 until listSize) {
+            val index = (currentIndex + i) % listSize
+            val currentItem = mainImageUrlList[index]
+
+            if (currentItem.categoryname == categoryName) {
+                val nextIndex = (index + 1) % listSize
+                if (mainImageUrlList[nextIndex].groupingImageUrlList!!.isNotEmpty()) {
+                    categoryName = mainImageUrlList[nextIndex].categoryname!!
+//                    previewImageAdapter = ComparisionPreviewImage(
+//                        this, mainImageUrlList[nextIndex].groupingImageUrlList,
+//                        this, uploadStage, mainImageUrlList, stage, status, imageUploaded,
+//                        imageClickedPos!!
+//                    )
+
                     activityPostRectroReviewScreenBinding.previewImageViewpager.adapter =
                         previewImageAdapter
                     activityPostRectroReviewScreenBinding.previewImageViewpager.setCurrentItem(
@@ -1056,257 +1522,12 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                         true
                     )
 
+                    // Update the current index
+                    currentIndex = nextIndex
+                    break // Exit the loop after performing the operation
                 }
             }
-
-            if (stage.equals("isPreRetroStage")) {
-                for (i in posImageUrlList.indices) {
-                    if (posImageUrlList.get(i).stage.equals("2")) {
-                        activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility =
-                            View.GONE
-                        activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
-                            View.GONE
-                        activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled = false
-                        activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled = false
-                        activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
-                            View.GONE
-                        activityPostRectroReviewScreenBinding.firstImageLayout.visibility =
-                            View.VISIBLE
-                        activityPostRectroReviewScreenBinding.deleteIcon.visibility = View.VISIBLE
-                        activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
-                        activityPostRectroReviewScreenBinding.imageHeading1.text =
-                            "Pre Retro Image"
-                        if (!uploadStage.equals("reshootStage")) {
-                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
-                                .placeholder(R.drawable.thumbnail_image)
-                                .into(activityPostRectroReviewScreenBinding.imageOne)
-                        } else {
-                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
-                                .placeholder(R.drawable.thumbnail_image)
-                                .into(activityPostRectroReviewScreenBinding.imageOne)
-
-                        }
-
-                    }
-                }
-            } else if (stage.equals("isPostRetroStage")) {
-                for (i in posImageUrlList.indices) {
-                    if (posImageUrlList.get(i).stage.equals("2")) {
-                        activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility =
-                            View.VISIBLE
-                        activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
-                            View.GONE
-                        activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled = false
-                        activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled = false
-                        activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
-                            View.GONE
-                        activityPostRectroReviewScreenBinding.secondImageLayout.visibility =
-                            View.VISIBLE
-                        activityPostRectroReviewScreenBinding.deleteIcon.visibility = View.VISIBLE
-                        activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
-                        activityPostRectroReviewScreenBinding.imageHeading2.text =
-                            "Post Retro Image"
-                        if (!uploadStage.equals("reshootStage")) {
-                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
-                                .placeholder(R.drawable.thumbnail_image)
-                                .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
-                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
-                                .placeholder(R.drawable.thumbnail_image)
-                                .into(activityPostRectroReviewScreenBinding.imageTwo)
-                        } else {
-                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
-                                .placeholder(R.drawable.thumbnail_image)
-                                .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
-                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
-                                .placeholder(R.drawable.thumbnail_image)
-                                .into(activityPostRectroReviewScreenBinding.imageTwo)
-
-                        }
-
-                    }
-                }
-            } else if (stage.equals("isAfterCompletionStage")) {
-                for (i in posImageUrlList.indices) {
-                    if (posImageUrlList.get(i).stage.equals("3")) {
-                        activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
-                            View.VISIBLE
-                        activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked =
-                            true
-                        activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
-                            View.GONE
-                        activityPostRectroReviewScreenBinding.secondImageLayout.visibility =
-                            View.VISIBLE
-                        activityPostRectroReviewScreenBinding.deleteIcon.visibility = View.VISIBLE
-                        activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
-                        if (!uploadStage.equals("reshootStage")) {
-                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
-                                .placeholder(R.drawable.thumbnail_image)
-                                .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
-                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
-                                .placeholder(R.drawable.thumbnail_image)
-                                .into(activityPostRectroReviewScreenBinding.imageTwo)
-                        } else {
-                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
-                                .placeholder(R.drawable.thumbnail_image)
-                                .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
-                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
-                                .placeholder(R.drawable.thumbnail_image)
-                                .into(activityPostRectroReviewScreenBinding.imageTwo)
-
-                        }
-
-                        activityPostRectroReviewScreenBinding.imageHeading2.text =
-                            "After Completion Image"
-                    }
-                }
-            }
-
-
         }
-
-
     }
-
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-    }
-
-    override fun onPageSelected(position: Int) {
-    }
-
-    override fun onPageScrollStateChanged(state: Int) {
-
-        if (categoryid.equals("1") && imageClickedPos == 0) {
-
-            if (mainImageUrlList.isNotEmpty() && mainImageUrlList[0]?.groupingImageUrlList?.size ?: 0 > 1) {
-                // Access the second element of groupingImageUrlList within the first element of mainImageUrlList
-                posImageUrlList = mainImageUrlList[0]?.groupingImageUrlList!![1]
-
-
-                previewImageAdapter = ComparisionPreviewImage(
-                    this,
-                    posImageUrlList,
-                    this,
-                    uploadStage,
-                    stage,
-                    status,
-                    imageUploaded
-                )
-
-                activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(this)
-                activityPostRectroReviewScreenBinding.previewImageViewpager.adapter =
-                    previewImageAdapter
-
-            } else {
-                // Handle the case where the structure is empty or doesn't have the expected elements
-                // You can log an error message or take appropriate action here.
-            }
-
-
-//            activityPostRectroReviewScreenBinding.previewImageViewpager.setCurrentItem(0, true)
-            imageClickedPos = 1
-            categoryid = "2"
-
-
-        } else if (categoryid.equals("2") && imageClickedPos == 1) {
-
-            if (mainImageUrlList.size>1 && mainImageUrlList[1]?.groupingImageUrlList?.size ?: 0 > 1) {
-                // Access the second element of groupingImageUrlList within the first element of mainImageUrlList
-                posImageUrlList = mainImageUrlList[1]?.groupingImageUrlList!![0]
-
-
-                previewImageAdapter = ComparisionPreviewImage(
-                    this,
-                    posImageUrlList,
-                    this,
-                    uploadStage,
-                    stage,
-                    status,
-                    imageUploaded
-                )
-
-                activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(this)
-                activityPostRectroReviewScreenBinding.previewImageViewpager.adapter =
-                    previewImageAdapter
-
-            } else {
-                // Handle the case where the structure is empty or doesn't have the expected elements
-                // You can log an error message or take appropriate action here.
-            }
-
-
-
-            categoryid = "2"
-            imageClickedPos = 0
-        } else if (categoryid.equals("2") && imageClickedPos == 0) {
-
-
-            if (mainImageUrlList.size>1 && mainImageUrlList[1]?.groupingImageUrlList?.size ?: 0 > 1) {
-                // Access the second element of groupingImageUrlList within the first element of mainImageUrlList
-                posImageUrlList = mainImageUrlList[1]?.groupingImageUrlList!![1]
-
-
-                previewImageAdapter = ComparisionPreviewImage(
-                    this,
-                    posImageUrlList,
-                    this,
-                    uploadStage,
-                    stage,
-                    status,
-                    imageUploaded
-                )
-
-                activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(this)
-                activityPostRectroReviewScreenBinding.previewImageViewpager.adapter =
-                    previewImageAdapter
-
-            } else {
-                // Handle the case where the structure is empty or doesn't have the expected elements
-                // You can log an error message or take appropriate action here.
-            }
-
-
-
-
-            imageClickedPos = 1
-            categoryid = "1"
-
-        } else if (categoryid.equals("1") && imageClickedPos == 1) {
-
-
-            if (mainImageUrlList.isNotEmpty() && mainImageUrlList[0]?.groupingImageUrlList?.size ?: 0 > 1) {
-                // Access the second element of groupingImageUrlList within the first element of mainImageUrlList
-                posImageUrlList = mainImageUrlList[0]?.groupingImageUrlList!![0]
-
-
-                previewImageAdapter = ComparisionPreviewImage(
-                    this,
-                    posImageUrlList,
-                    this,
-                    uploadStage,
-                    stage,
-                    status,
-                    imageUploaded
-                )
-
-                activityPostRectroReviewScreenBinding.previewImageViewpager.addOnPageChangeListener(this)
-                activityPostRectroReviewScreenBinding.previewImageViewpager.adapter =
-                    previewImageAdapter
-
-            } else {
-                // Handle the case where the structure is empty or doesn't have the expected elements
-                // You can log an error message or take appropriate action here.
-            }
-
-
-
-            categoryid = "1"
-            imageClickedPos = 0
-        } else {
-
-        }
-
-    }
-
 
 }

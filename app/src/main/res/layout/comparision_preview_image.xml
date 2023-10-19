@@ -519,7 +519,6 @@
             android:visibility="gone"
             android:layout_marginTop="@dimen/value_15dp"
             android:id="@+id/uploadnowbutton"
-            android:layout_marginBottom="5dp"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
