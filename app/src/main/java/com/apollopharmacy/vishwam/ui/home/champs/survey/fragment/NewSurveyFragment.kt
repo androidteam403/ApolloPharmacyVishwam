@@ -272,16 +272,19 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                 fragmentChampsSurveyBinding!!.emailId.setText(getStoreWiseDetailsResponses.data.executive.email)
             } else {
                 fragmentChampsSurveyBinding!!.emailId.setText("--")
+                hideLoading()
             }
 
         } else {
+            hideLoading()
             fragmentChampsSurveyBinding!!.emailId.setText("--")
             Preferences.setApnaSite("")
             val i = Intent(applicationContext, SelectChampsSiteIDActivity::class.java)
             i.putExtra("modulename", "CHAMPS")
             startActivityForResult(i, 781)
+
         }
-        hideLoading()
+//        hideLoading()
     }
 
     override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {

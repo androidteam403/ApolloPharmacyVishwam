@@ -1174,12 +1174,14 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     override fun onPageSelected(position: Int) {
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onPageScrollStateChanged(state: Int) {
 
         if (categoryid.equals("1") && imageClickedPos == 0) {
 
             if (mainImageUrlList.isNotEmpty() && mainImageUrlList[0]?.groupingImageUrlList?.size ?: 0 > 1) {
                 // Access the second element of groupingImageUrlList within the first element of mainImageUrlList
+                if(mainImageUrlList!=null && mainImageUrlList[0]?.groupingImageUrlList!!.size>0 && mainImageUrlList[0]?.groupingImageUrlList!![1]!=null)
                 posImageUrlList = mainImageUrlList[0]?.groupingImageUrlList!![1]
 
 
@@ -1212,6 +1214,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
             if (mainImageUrlList.size>1 && mainImageUrlList[1]?.groupingImageUrlList?.size ?: 0 > 1) {
                 // Access the second element of groupingImageUrlList within the first element of mainImageUrlList
+                if(mainImageUrlList!=null && mainImageUrlList[1]?.groupingImageUrlList!!.size>0 && mainImageUrlList[1]?.groupingImageUrlList!![0]!=null)
                 posImageUrlList = mainImageUrlList[1]?.groupingImageUrlList!![0]
 
 
@@ -1243,6 +1246,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
             if (mainImageUrlList.size>1 && mainImageUrlList[1]?.groupingImageUrlList?.size ?: 0 > 1) {
                 // Access the second element of groupingImageUrlList within the first element of mainImageUrlList
+                if(mainImageUrlList!=null && mainImageUrlList[1]?.groupingImageUrlList!!.size>0 && mainImageUrlList[1]?.groupingImageUrlList!![1]!=null)
                 posImageUrlList = mainImageUrlList[1]?.groupingImageUrlList!![1]
 
 
@@ -1276,6 +1280,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
             if (mainImageUrlList.isNotEmpty() && mainImageUrlList[0]?.groupingImageUrlList?.size ?: 0 > 1) {
                 // Access the second element of groupingImageUrlList within the first element of mainImageUrlList
+                if(mainImageUrlList!=null && mainImageUrlList[0]?.groupingImageUrlList!!.size>0 && mainImageUrlList[0]?.groupingImageUrlList!![0]!=null)
                 posImageUrlList = mainImageUrlList[0]?.groupingImageUrlList!![0]
 
 
