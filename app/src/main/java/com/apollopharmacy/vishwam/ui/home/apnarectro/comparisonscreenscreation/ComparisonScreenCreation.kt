@@ -101,6 +101,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         )
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun setUp() {
         activityPostRectroReviewScreenBinding.callback = this
         if (intent != null) {
@@ -131,16 +132,6 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
             activityPostRectroReviewScreenBinding.imageStatus.setTextColor(context.getColor(R.color.color_red))
 
         }
-
-
-
-
-
-
-
-
-
-
 
         if (stage == "isPreRetroStage") {
             activityPostRectroReviewScreenBinding.reviewName.setText("Pre Retro Review")
