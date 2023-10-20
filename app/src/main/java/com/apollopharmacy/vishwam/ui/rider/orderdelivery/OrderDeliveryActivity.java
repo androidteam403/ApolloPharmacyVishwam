@@ -708,7 +708,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                         orderCurrentStatus = 2;
                         isOrderPicked = true;
                         orderDeliveryBinding.customerTxt.setBackground(getResources().getDrawable(R.drawable.delivery_item_bg));
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                         String orderDate = row.getCreatedTime();
                         Date orderDates = formatter.parse(orderDate);
                         long orderDateMills = orderDates.getTime();
@@ -853,7 +853,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
 
                         for (OrderStatusHitoryListResponse.Row row : orderStatusHitoryListResponse.getData().getListData().getRows()) {
                             if (row.getOrderStatus().getUid().equals("DELIVERED")) {
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ENGLISH);
                                 String orderDate = row.getCreatedTime();
                                 Date orderDates = formatter.parse(orderDate);
                                 long orderDateMills = orderDates.getTime();
@@ -950,7 +950,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                         orderDeliveredParentLayout.setBackground(getResources().getDrawable(R.drawable.order_delivered_layout_bg));
                         for (OrderStatusHitoryListResponse.Row row : orderStatusHitoryListResponse.getData().getListData().getRows()) {
                             if (row.getOrderStatus().getUid().equals("DELIVERED")) {
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                                 String orderDate = row.getCreatedTime();
                                 Date orderDates = formatter.parse(orderDate);
                                 long orderDateMills = orderDates.getTime();
@@ -2521,7 +2521,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                     if (this.orderDetailsResponse.getData().getOrderState().getName().equals("RETURN")) {
                         cancelOrderBtn.setVisibility(View.GONE);
                         orderDeliveryBinding.actionBarDeliverBy.setText("Pickup by: ");
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                         String orderDate = orderDetailsResponse.getData().getPickupEtWindo();
                         Date orderDates = formatter.parse(orderDate);
                         long orderDateMills = orderDates.getTime();
@@ -2567,7 +2567,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
 
                     } else {
                         orderDeliveryBinding.actionBarDeliverBy.setText("Deliver by: ");
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                         String orderDate = orderDetailsResponse.getData().getDelEtWindo();
                         Date orderDates = formatter.parse(orderDate);
                         long orderDateMills = orderDates.getTime();
@@ -2708,7 +2708,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                 orderDeliveryBinding.apolloPhamrmacyAddHeadId.setText("Order Picked");
                 orderDeliveryBinding.apolloPhamrmacyAddHeadIdLayout.setBackground(getResources().getDrawable(R.drawable.status_completed_curves_bg));
                 orderDeliveryBinding.pickupDetailsInnerHeadIdLayout.setBackground(getResources().getDrawable(R.drawable.status_completed_curves_bg));
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                 String orderDate = Utils.getCurrentTimeDate();
                 Date orderDates = formatter.parse(orderDate);
                 long orderDateMills = orderDates.getTime();
@@ -2851,7 +2851,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                     cancelItemBtn.setVisibility(View.GONE);
                     cancelOrderBtn.setVisibility(View.GONE);
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                     String orderDate = Utils.getCurrentTimeDate();
                     Date orderDates = formatter.parse(orderDate);
                     long orderDateMills = orderDates.getTime();
@@ -2885,7 +2885,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                     orderDeliveryBinding.collectPaymentText.setText("4. Collected Payment");
                     orderDeliveredParentLayout.setBackground(getResources().getDrawable(R.drawable.order_delivered_layout_bg));
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ENGLISH);
                     String orderDate = Utils.getCurrentTimeDate();
                     Date orderDates = formatter.parse(orderDate);
                     long orderDateMills = orderDates.getTime();
@@ -3063,7 +3063,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                 cancelItemBtn.setVisibility(View.GONE);
                 cancelOrderBtn.setVisibility(View.GONE);
 
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                 String orderDate = Utils.getCurrentTimeDate();
                 Date orderDates = formatter.parse(orderDate);
                 long orderDateMills = orderDates.getTime();
@@ -3121,7 +3121,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
             try {
                 orderDeliveryBinding.cancelledReachedStoreLayout.setBackgroundColor(getResources().getColor(R.color.order_status_processed_color));
                 orderDeliveryBinding.cancelledReachedStoreImg.setImageDrawable(getDrawable(R.drawable.icon_status_completed));
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                 String orderDate = Utils.getCurrentTimeDate();
                 Date orderDates = formatter.parse(orderDate);
                 long orderDateMills = orderDates.getTime();

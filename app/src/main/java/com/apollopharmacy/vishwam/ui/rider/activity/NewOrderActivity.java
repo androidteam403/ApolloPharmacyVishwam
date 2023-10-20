@@ -1113,7 +1113,7 @@ public class NewOrderActivity extends BaseActivity implements DirectionApiCallba
                 if (orderDetailsResponse.getData() != null) {
                     orderNumber.setText(orderDetailsResponse.getData().getOrderNumber());
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",  Locale.ENGLISH);
                     String orderDate = orderDetailsResponse.getData().getCreatedTime();
                     Date orderDates = formatter.parse(orderDate);
                     long orderDateMills = orderDates.getTime();

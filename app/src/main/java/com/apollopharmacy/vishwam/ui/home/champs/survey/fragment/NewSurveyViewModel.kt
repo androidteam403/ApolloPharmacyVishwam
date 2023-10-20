@@ -15,7 +15,6 @@ import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.rider.login.BackSlash
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hadilq.liveevent.LiveEvent
@@ -130,12 +129,12 @@ class NewSurveyViewModel : ViewModel() {
                             e.printStackTrace()
                         }
                         if (resp != null) {
-                            val res = BackSlash.removeBackSlashes(resp)
+                            val res = BackShlash.removeBackSlashes(resp)
                             val gson = Gson()
                             val type = object : TypeToken<StoreDetailsModelResponse>() {}.type
 
                             val storeListResponse = gson.fromJson<StoreDetailsModelResponse>(
-                                BackSlash.removeSubString(res), type
+                                BackShlash.removeSubString(res), type
                             )
                             if (storeListResponse.data != null) {
                                 newSurveyCallback.onSuccessgetStoreDetails(storeListResponse.data!!.listData!!.rows!!)

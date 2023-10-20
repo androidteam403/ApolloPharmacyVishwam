@@ -9,9 +9,11 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -21,9 +23,20 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityRetroImagePreviewBinding
+import com.apollopharmacy.vishwam.ui.home.model.GetImageByRackResponse
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagecomparison.ImageComparisonActivity
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.RetroQrScannerActivity
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.retroqrscanner.model.ScannerResponse
+import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.bumptech.glide.Glide
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.opencv.android.OpenCVLoader
+import org.opencv.android.Utils
+import org.opencv.core.Core
+import org.opencv.core.Mat
+import org.opencv.imgproc.Imgproc
 import java.io.File
 import java.io.IOException
 
@@ -31,28 +44,38 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
     private lateinit var activityRetroImagePreviewBinding: ActivityRetroImagePreviewBinding
     lateinit var scannerResponse: ScannerResponse
     var imageFile: File? = null
-
+    var matchingPercentages: Double = 0.0
     private var firstImage: String = ""
     private var secondImage: String = ""
     private var matchingPercentage: String = ""
     private var rackNo: String = ""
+
+    var navigationBack:Boolean=false
     private var compressedImageFileName: String? = null
+    var imageByRackResponse = GetImageByRackResponse()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityRetroImagePreviewBinding =
-            DataBindingUtil.setContentView(this@RetroImagePreviewActivity,
-                R.layout.activity_retro_image_preview)
+            DataBindingUtil.setContentView(
+                this@RetroImagePreviewActivity,
+                R.layout.activity_retro_image_preview
+            )
         activityRetroImagePreviewBinding.callback = this@RetroImagePreviewActivity
         setUp()
     }
 
     private fun setUp() {
-        if (intent != null) {
+        OpenCVLoader.initDebug()
+
+        if (intent != null && intent.getStringExtra("activity").equals("comparision")) {
             firstImage = intent.getStringExtra("firstimage")!!
             secondImage = intent.getStringExtra("secondimage")!!
             rackNo = intent.getStringExtra("rackNo")!!
             matchingPercentage = intent.getStringExtra("matchingPercentage")!!
+            navigationBack=intent.getBooleanExtra("navigateBack",false)
 
+
+            activityRetroImagePreviewBinding.cameraIcon.visibility = View.GONE
 
 
             Glide.with(this).load(firstImage)
@@ -63,6 +86,52 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
 
 //            scannerResponse = intent.getSerializableExtra("SCANNER_RESPONSE") as ScannerResponse
         }
+
+
+        if (intent != null && intent.getStringExtra("activity").equals("scanner")) {
+            rackNo = intent.getStringExtra("rackNo")!!
+
+            imageByRackResponse =
+                intent.getSerializableExtra("SCANNER_RESPONSE") as GetImageByRackResponse
+            Glide.with(this).load(imageByRackResponse.imageurl)
+                .placeholder(R.drawable.thumbnail_image)
+                .into(activityRetroImagePreviewBinding.image)
+
+            activityRetroImagePreviewBinding.cameraIcon.visibility = View.VISIBLE
+            activityRetroImagePreviewBinding.rack.setText("RACK3")
+
+        }
+    }
+
+    private fun calculateMatchingPercentage(bitmap1: Bitmap?, bitmap2: Bitmap?): Double {
+        val firstImage = Mat()
+        val secondImage = Mat()
+        // Convert bitmap to Mat object
+        Utils.bitmapToMat(bitmap1, firstImage)
+        Utils.bitmapToMat(bitmap2, secondImage)
+        // Convert images to grayscale
+        Imgproc.cvtColor(firstImage, firstImage, Imgproc.COLOR_BGR2GRAY)
+        Imgproc.cvtColor(secondImage, secondImage, Imgproc.COLOR_BGR2GRAY)
+        // Calculate matching percentage
+        val result = Mat()
+        Imgproc.matchTemplate(firstImage, secondImage, result, Imgproc.TM_CCOEFF_NORMED)
+        val minMaxLoc = Core.minMaxLoc(result)
+        val maxVal = minMaxLoc.maxVal
+        var matchingPercentage: Double = maxVal * 100
+        if (matchingPercentage < 0) {
+            matchingPercentage = 0.0
+        }
+
+        val intent = Intent(this@RetroImagePreviewActivity, ImageComparisonActivity::class.java)
+        intent.putExtra("firstimage", imageByRackResponse.imageurl)
+        intent.putExtra("secondimage", imageFile!!.absolutePath)
+        intent.putExtra("rackNo", rackNo)
+        intent.putExtra("activity", "preview")
+        intent.putExtra("matchingPercentage", matchingPercentage.toInt().toString())
+        Utlis.hideLoading()
+
+        startActivityForResult(intent,210)
+        return matchingPercentage
     }
 
     override fun onClickCameraIcon() {
@@ -75,19 +144,31 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
     }
 
     override fun onClickBack() {
+        val intent = Intent()
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent()
+        setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
     override fun onClickTick() {
-        if (imageFile != null) {
-            val intent = Intent(this@RetroImagePreviewActivity, ImageComparisonActivity::class.java)
-            intent.putExtra("SCANNER_RESPONSE", scannerResponse)
-            startActivity(intent)
-        } else {
-            Toast.makeText(this@RetroImagePreviewActivity,
-                "Please capture image",
-                Toast.LENGTH_SHORT).show()
-        }
+//        if (imageFile != null) {
+//
+//
+//
+//        } else {
+//            Toast.makeText(this@RetroImagePreviewActivity,
+//                "Please capture image",
+//                Toast.LENGTH_SHORT).show()
+//        }
+    }
+
+    fun resizeBitmap(originalBitmap: Bitmap?, newWidth: Int, newHeight: Int): Bitmap? {
+        return Bitmap.createScaledBitmap(originalBitmap!!, newWidth, newHeight, false)
     }
 
     private fun openCamera() {
@@ -108,11 +189,59 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==210){
+            if (resultCode==Activity.RESULT_OK){
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        }
+
+
+
         if (requestCode == Config.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK && imageFile != null) {
-            scannerResponse.imageUrl1 = imageFile
-            activityRetroImagePreviewBinding.image.setImageBitmap(
-                rotateImage(BitmapFactory.decodeFile(imageFile!!.absolutePath), imageFile!!)
-            )
+//            imageByRackResponse.imageurl = imageFile.toString()
+//            activityRetroImagePreviewBinding.image.setImageBitmap(
+//                rotateImage(BitmapFactory.decodeFile(imageFile!!.absolutePath), imageFile!!)
+//            )
+
+
+            runOnUiThread {
+                // Show a loading dialog on the main UI thread
+                com.apollopharmacy.vishwam.util.Utils.showLoadingDialog(this@RetroImagePreviewActivity) // Assuming RetroQrScannerActivity is the current activity
+            }
+            val thread = Thread {
+                try {
+                    if (imageFile!!.path.isNotEmpty()) {
+                        val client = OkHttpClient()
+                        val request =
+                            Request.Builder().url(imageByRackResponse.imageurl.toString()).build()
+                        val response = client.newCall(request).execute()
+                        val inputStream = response.body!!.byteStream()
+
+                        val bitmap1 = BitmapFactory.decodeStream(inputStream)
+                        val bitmap2 = BitmapFactory.decodeFile(imageFile!!.absolutePath)
+                        val newWidth = 1920 // Desired width for the new Bitmap
+
+                        val newHeight = 1200 // Desired height for the new Bitmap
+
+                        val resizedBitmap1 = resizeBitmap(bitmap1, newWidth, newHeight)
+                        val resizedBitmap2 = resizeBitmap(bitmap2, newWidth, newHeight)
+                        val threshold = 21
+
+                        matchingPercentages =
+                            calculateMatchingPercentage(resizedBitmap1!!, resizedBitmap2!!)
+//                        Toast.makeText(this,matchingPercentages.toString(),Toast.LENGTH_LONG).show()
+
+
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            thread.start()
+
+
         }
     }
 

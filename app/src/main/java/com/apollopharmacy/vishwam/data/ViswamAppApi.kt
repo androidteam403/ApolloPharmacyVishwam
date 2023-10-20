@@ -955,7 +955,11 @@ interface ViswamAppApi {
         @Url url: String, @Header("token") token: String,
         @Body qrSaveImageUrlsRequest: QrSaveImageUrlsRequest,
     ): QrSaveImageUrlsResponse
-
+    @GET
+    suspend fun getImageUrlsByRack(
+        @Url url: String,
+        @Header("token") token: String,
+    ): GetImageByRackResponse
     @POST
     fun FILE_DOWNLOAD_API_CALL_QR(
         @Url url: String, @Header("token") token: String,

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
 
@@ -9,7 +7,7 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -56,411 +54,463 @@
 
                 <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
-
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
+                        android:layout_height="wrap_content">
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/value_80dp"
-                            android:background="@color/very_very_light_blue"
+                            android:layout_height="match_parent"
                             android:orientation="vertical">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:weightSum="1">
+                                android:layout_height="@dimen/value_80dp"
+                                android:background="@color/very_very_light_blue"
+                                android:orientation="vertical">
 
                                 <LinearLayout
-                                    android:layout_width="0dp"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1">
+                                    android:weightSum="1">
 
                                     <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1">
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_15dp"
+                                            android:layout_marginTop="@dimen/value_10dp"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Store ID: "
+                                                android:textSize="@dimen/text_14sp" />
+
+                                            <TextView
+                                                android:id="@+id/store_id"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="16520"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/text_14sp"
+                                                android:textStyle="bold" />
+
+
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_10dp"
+                                        android:layout_weight="0.2"
+                                        android:gravity="end"
+                                        android:onClick="@{()-> callback.onClickBack()}"
+                                        android:visibility="gone">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/value_40dp"
+                                            android:layout_height="@dimen/value_40dp"
+                                            android:src="@drawable/closee_black" />
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_15dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="@dimen/value_15dp"
-                                        android:layout_marginTop="@dimen/value_10dp"
-                                        android:orientation="horizontal">
+                                        android:text="Region: "
+                                        android:textSize="@dimen/text_14sp" />
 
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="Store ID: "
-                                            android:textSize="@dimen/text_14sp" />
-
-                                        <TextView
-                                            android:id="@+id/store_id"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="16520"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp"
-                                            android:textStyle="bold" />
-
-
-                                    </LinearLayout>
+                                    <TextView
+                                        android:id="@+id/address"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_14sp"
+                                        android:textStyle="bold" />
 
                                 </LinearLayout>
 
-                                <LinearLayout
-                                    android:visibility="gone"
-                                    android:onClick="@{()-> callback.onClickBack()}"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_10dp"
-                                    android:layout_weight="0.2"
-                                    android:gravity="end">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/value_40dp"
-                                        android:layout_height="@dimen/value_40dp"
-                                        android:src="@drawable/closee_black" />
-                                </LinearLayout>
 
                             </LinearLayout>
 
+
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_15dp"
-                                android:layout_marginTop="@dimen/value_5dp"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Region: "
-                                    android:textSize="@dimen/text_14sp" />
-
-                                <TextView
-                                    android:textSize="@dimen/text_14sp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/address"
-                                    android:textColor="@color/black"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-
-
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_15dp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_12dp"
                                 android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Trainer: "
-                                    android:textColor="@color/grey"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/trainer"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/darkk_blue"
-                                    android:textStyle="bold" />
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_12dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Regional Head: "
-                                    android:textColor="@color/grey"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/regionalHead"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/darkk_blue"
-                                    android:textStyle="bold" />
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_12dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Manager: "
-                                    android:textColor="@color/grey"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/manager"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/darkk_blue"
-                                    android:textStyle="bold" />
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_12dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Executive: "
-                                    android:textColor="@color/grey"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/executive"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/darkk_blue"
-                                    android:textStyle="bold" />
-
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="@dimen/value_10dp"
-                            android:background="@color/fadedTextColor" />
-
-                        <!--                    <view-->
-                        <!--                        android:layout_marginTop="@dimen/value_10dp"-->
-                        <!--                        android:layout_width="match_parent"-->
-                        <!--                        android:layout_height="1dp"/>-->
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_15dp"
-                            android:layout_marginTop="@dimen/value_15dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Recipients: "
-                                android:textColor="@color/grey"
-                                android:textStyle="bold" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/emailRecRecyclerView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/count_layout" />
-
-                            </LinearLayout>
-
-
-                            <LinearLayout
-                                android:visibility="gone"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_10dp"
-                                android:orientation="horizontal"
-                                android:weightSum="1">
-
-
-                                <com.google.android.material.textfield.TextInputLayout
-                                    android:id="@+id/enterEmail"
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="0.85"
-                                    android:textColorHint="@color/black">
-
-                                    <androidx.appcompat.widget.AppCompatEditText
-                                        android:id="@+id/enterEmailEdittextRec"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_50dp"
-                                        android:clickable="true"
-                                        android:hint="Enter Email Address"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:paddingEnd="@dimen/value_10dp"
-                                        android:textColor="@color/black"
-                                        android:textColorHint="@color/black"
-                                        android:textSize="@dimen/text_15sp" />
-                                </com.google.android.material.textfield.TextInputLayout>
 
                                 <LinearLayout
-                                    android:id="@+id/plusIconRec"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_weight="0.15"
-                                    android:gravity="center"
-                                    android:onClick="@{()-> callback.onClickPlusRec()}">
-
-                                    <LinearLayout
-                                        android:layout_width="@dimen/value_30dp"
-                                        android:layout_height="@dimen/value_30dp"
-                                        android:layout_alignParentRight="true"
-                                        android:layout_alignParentBottom="true"
-                                        android:layout_margin="@dimen/four4_dp"
-                                        android:background="@drawable/darkblue_background_plus"
-                                        android:padding="@dimen/value_3dp"
-                                        android:visibility="visible">
-
-                                        <ImageView
-                                            android:id="@+id/plusSysmbol"
-                                            android:layout_width="@dimen/value_25dp"
-                                            android:layout_height="@dimen/value_25dp"
-                                            android:layout_gravity="center"
-                                            android:padding="@dimen/value_4dp"
-                                            android:src="@drawable/plus" />
-                                    </LinearLayout>
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="@dimen/value_10dp"
-                            android:background="@color/fadedTextColor" />
-                        <!--                    <view-->
-                        <!--                        android:layout_marginTop="@dimen/value_10dp"-->
-                        <!--                        android:layout_width="match_parent"-->
-                        <!--                        android:layout_height="1dp"/>-->
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_15dp"
-                            android:layout_marginTop="@dimen/value_15dp"
-                            android:layout_marginBottom="@dimen/value_50dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="CC: "
-                                android:textColor="@color/grey"
-                                android:textStyle="bold" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/emailCCRecyclerView"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_below="@+id/count_layout" />
+                                    android:layout_marginTop="@dimen/value_12dp"
+                                    android:orientation="vertical">
 
-                            </LinearLayout>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Trainer: "
+                                        android:textColor="@color/grey"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/trainer"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/darkk_blue"
+                                        android:textStyle="bold" />
 
 
-                            <LinearLayout
-                                android:visibility="gone"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_10dp"
-                                android:orientation="horizontal"
-                                android:weightSum="1">
-
-
-                                <com.google.android.material.textfield.TextInputLayout
-
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="0.85"
-                                    android:textColorHint="@color/black">
-
-                                    <androidx.appcompat.widget.AppCompatEditText
-                                        android:id="@+id/enterEmailEdittextCC"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_50dp"
-                                        android:clickable="true"
-                                        android:hint="Enter Email Address"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:paddingEnd="@dimen/value_10dp"
-                                        android:textColor="@color/black"
-                                        android:textColorHint="@color/black"
-                                        android:textSize="@dimen/text_15sp" />
-                                </com.google.android.material.textfield.TextInputLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/plusIconCC"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_weight="0.15"
-                                    android:gravity="center"
-                                    android:onClick="@{()-> callback.onClickPlusCC()}">
-
-                                    <LinearLayout
-                                        android:layout_width="@dimen/value_30dp"
-                                        android:layout_height="@dimen/value_30dp"
-                                        android:layout_alignParentRight="true"
-                                        android:layout_alignParentBottom="true"
-                                        android:layout_margin="@dimen/four4_dp"
-                                        android:background="@drawable/darkblue_background_plus"
-                                        android:padding="@dimen/value_3dp"
-                                        android:visibility="visible">
-
-                                        <ImageView
-
-                                            android:layout_width="@dimen/value_25dp"
-                                            android:layout_height="@dimen/value_25dp"
-                                            android:layout_gravity="center"
-                                            android:padding="@dimen/value_4dp"
-                                            android:src="@drawable/plus" />
-                                    </LinearLayout>
                                 </LinearLayout>
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_12dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Regional Head: "
+                                        android:textColor="@color/grey"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/regionalHead"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/darkk_blue"
+                                        android:textStyle="bold" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_12dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Manager: "
+                                        android:textColor="@color/grey"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/manager"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/darkk_blue"
+                                        android:textStyle="bold" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_12dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Executive: "
+                                        android:textColor="@color/grey"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/executive"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/darkk_blue"
+                                        android:textStyle="bold" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="@dimen/value_10dp"
+                                android:background="@color/fadedTextColor" />
+
+                            <!--                    <view-->
+                            <!--                        android:layout_marginTop="@dimen/value_10dp"-->
+                            <!--                        android:layout_width="match_parent"-->
+                            <!--                        android:layout_height="1dp"/>-->
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_15dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Recipients: "
+                                    android:textColor="@color/grey"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/emailRecRecyclerView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/count_layout" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:weightSum="1">
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:id="@+id/recipient_edittext"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_2dp"
+                                        android:layout_weight=".8"
+                                        android:textColorHint="@color/black">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/enter_recipient"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_50dp"
+                                            android:gravity="start"
+                                            android:hint="Enter Recipient"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:imeOptions="actionDone"
+                                            android:textAlignment="textStart"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="@dimen/text_14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <TextView
+                                        android:id="@+id/add_btn"
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/value_45dp"
+                                        android:layout_marginStart="@dimen/value_2dp"
+                                        android:layout_weight=".2"
+                                        android:background="@drawable/greenbackgrounf_forstartsurvey"
+                                        android:gravity="center"
+                                        android:text="Add"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_10dp"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone"
+                                    android:weightSum="1">
+
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:id="@+id/enterEmail"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.85"
+                                        android:textColorHint="@color/black">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/enterEmailEdittextRec"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_50dp"
+                                            android:clickable="true"
+                                            android:hint="Enter Email Address"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="@dimen/text_15sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/plusIconRec"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="0.15"
+                                        android:gravity="center"
+                                        android:onClick="@{()-> callback.onClickPlusRec()}">
+
+                                        <LinearLayout
+                                            android:layout_width="@dimen/value_30dp"
+                                            android:layout_height="@dimen/value_30dp"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_alignParentBottom="true"
+                                            android:layout_margin="@dimen/four4_dp"
+                                            android:background="@drawable/darkblue_background_plus"
+                                            android:padding="@dimen/value_3dp"
+                                            android:visibility="visible">
+
+                                            <ImageView
+                                                android:id="@+id/plusSysmbol"
+                                                android:layout_width="@dimen/value_25dp"
+                                                android:layout_height="@dimen/value_25dp"
+                                                android:layout_gravity="center"
+                                                android:padding="@dimen/value_4dp"
+                                                android:src="@drawable/plus" />
+                                        </LinearLayout>
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+
                             </LinearLayout>
 
 
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="@dimen/value_10dp"
+                                android:background="@color/fadedTextColor" />
+                            <!--                    <view-->
+                            <!--                        android:layout_marginTop="@dimen/value_10dp"-->
+                            <!--                        android:layout_width="match_parent"-->
+                            <!--                        android:layout_height="1dp"/>-->
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_15dp"
+                                android:layout_marginBottom="@dimen/value_10dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="CC: "
+                                    android:textColor="@color/grey"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/emailCCRecyclerView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/count_layout" />
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_10dp"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone"
+                                    android:weightSum="1">
+
+
+                                    <com.google.android.material.textfield.TextInputLayout
+
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.85"
+                                        android:textColorHint="@color/black">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/enterEmailEdittextCC"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_50dp"
+                                            android:clickable="true"
+                                            android:hint="Enter Email Address"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="@dimen/text_15sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/plusIconCC"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="0.15"
+                                        android:gravity="center"
+                                        android:onClick="@{()-> callback.onClickPlusCC()}">
+
+                                        <LinearLayout
+                                            android:layout_width="@dimen/value_30dp"
+                                            android:layout_height="@dimen/value_30dp"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_alignParentBottom="true"
+                                            android:layout_margin="@dimen/four4_dp"
+                                            android:background="@drawable/darkblue_background_plus"
+                                            android:padding="@dimen/value_3dp"
+                                            android:visibility="visible">
+
+                                            <ImageView
+
+                                                android:layout_width="@dimen/value_25dp"
+                                                android:layout_height="@dimen/value_25dp"
+                                                android:layout_gravity="center"
+                                                android:padding="@dimen/value_4dp"
+                                                android:src="@drawable/plus" />
+                                        </LinearLayout>
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
                         </LinearLayout>
-                    </LinearLayout>
+
+
+                    </RelativeLayout>
+
+
+
 
                     <!--                <LinearLayout-->
                     <!--                    android:layout_width="match_parent"-->
@@ -1297,37 +1347,46 @@
                     <!--                </LinearLayout>-->
                 </ScrollView>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:layout_gravity="center"
+                        android:id="@+id/startSurveyButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="@dimen/value_15dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:background="@drawable/greenbackgrounf_forstartsurvey"
+                        android:gravity="center"
+                        android:onClick="@{()-> callback.onClickStartChampsSurvey()}"
+                        android:padding="@dimen/value_12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="START CHAMPS SURVEY"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_17sp"
+                            android:textStyle="bold" />
+
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+
 
             </LinearLayout>
 
 
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/startSurveyButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/value_15dp"
-            android:layout_marginEnd="@dimen/value_10dp"
-            android:layout_marginBottom="@dimen/value_10dp"
-            android:background="@drawable/greenbackgrounf_forstartsurvey"
-            android:gravity="center"
-            android:onClick="@{()-> callback.onClickStartChampsSurvey()}"
-            android:padding="@dimen/value_12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="START CHAMPS SURVEY"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_17sp"
-                android:textStyle="bold" />
-
-
         </RelativeLayout>
+
+
     </RelativeLayout>
 
     <data>

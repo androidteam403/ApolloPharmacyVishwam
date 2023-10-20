@@ -48,12 +48,12 @@ object Utlis {
                     //here return like "Tomorrow at 12:00"
                     SimpleDateFormat(
                         "MMM dd, yyyy hh:mm aa",
-                        Locale.getDefault()
+                        Locale.ENGLISH
                     ).format(neededTime.time) //new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
                 } else if (nowTime[Calendar.DATE] == neededTime[Calendar.DATE]) {
                     //here return like "Today at 12:00"
                     val time =
-                        SimpleDateFormat("hh:mm a", Locale.getDefault()).format(neededTime.time)
+                        SimpleDateFormat("hh:mm a",  Locale.ENGLISH).format(neededTime.time)
                     val ampm: String
                     var times: String? = null
                     if (time.endsWith("a.m.") || time.endsWith("am")) {
@@ -79,55 +79,55 @@ object Utlis {
                     }
                     "Today at " + SimpleDateFormat(
                         "hh:mm a",
-                        Locale.getDefault()
+                        Locale.ENGLISH
                     ).format(neededTime.time) //times;
                 } else if (nowTime[Calendar.DATE] - neededTime[Calendar.DATE] == 1) {
                     //here return like "Yesterday at 12:00"
                     SimpleDateFormat(
                         "MMM dd, yyyy hh:mm aa",
-                        Locale.getDefault()
+                        Locale.ENGLISH
                     ).format(neededTime.time) //new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
                 } else {
                     //here return like "May 31, 12:00"
                     SimpleDateFormat(
                         "MMM dd, yyyy hh:mm aa",
-                        Locale.getDefault()
+                        Locale.ENGLISH
                     ).format(neededTime.time) // new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
                 }
             } else {
                 //here return like "May 31, 12:00"
                 SimpleDateFormat(
                     "MMM dd, yyyy hh:mm aa",
-                    Locale.getDefault()
+                    Locale.ENGLISH
                 ).format(neededTime.time) //new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
             }
         } else {
             //here return like "May 31 2010, 12:00" - it's a different year we need to show it
             SimpleDateFormat(
                 "MMM dd, yyyy hh:mm aa",
-                Locale.getDefault()
+                Locale.ENGLISH
             ).format(neededTime.time) //new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(neededTime.getTime());
         }
     }
 
     fun getfromDate(): String? {
-        return SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(Date())
+        return SimpleDateFormat("yyyy-MM", Locale.ENGLISH).format(Date())
     }
 
     fun getDateFormatForSummaryEditText(c: Long): String? {
         val neededTime = Calendar.getInstance()
         neededTime.timeInMillis = c
-        return SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(neededTime.time)
+        return SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH).format(neededTime.time)
     }
 
     @Throws(ParseException::class)
     fun getSqlDateFormat(c: Calendar): String? {
-        return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(c.time)
+        return SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(c.time)
     }
 
     fun isFromDateBeforeToDate(fromDate: String?, toDate: String?): Boolean {
         return try {
-            val formatter = SimpleDateFormat("yyyy-MM-dd")
+            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
             val dateFrom = formatter.parse(fromDate)
             val dateTo = formatter.parse(toDate)
             if (dateFrom.compareTo(dateTo) < 0 || dateFrom == dateTo) {
@@ -215,8 +215,8 @@ object Utlis {
     @SuppressLint("SimpleDateFormat")
     fun convertDateAddedTimeZone(DateFromServer: String): String {
         try {
-            val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-            val destFormat = SimpleDateFormat("dd-MMM-yyyy")
+            val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+            val destFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             val convertedDate: Date = sourceFormat.parse(DateFromServer)
             return destFormat.format(convertedDate)
         } catch (e: Exception) {
@@ -227,8 +227,8 @@ object Utlis {
     @SuppressLint("SimpleDateFormat")
     fun convertDateTimeZone(DateFromServer: String): String {
         try {
-            val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-            val destFormat = SimpleDateFormat("dd-MMM-yyyy")
+            val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
+            val destFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             val convertedDate: Date = sourceFormat.parse(DateFromServer)
             return destFormat.format(convertedDate)
         } catch (e: Exception) {
@@ -248,7 +248,7 @@ object Utlis {
         val destinationFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
 
 //        val dtStart = "2010-10-15T09:27:37Z"
-        val format = SimpleDateFormat("dd-MMM-yyyy")
+        val format = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         try {
             val date = format.parse(dateForFilter)
             System.out.println(date)
@@ -299,7 +299,7 @@ object Utlis {
     }
 
     fun getDateSevenDaysEarlier(pattern: String?): String? {
-        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
 
 //        Date date = new Date();
 //        String todate = sdf.format(date);
@@ -317,7 +317,7 @@ object Utlis {
     }
 
     fun getDatethirtyDays(pattern: String?): String? {
-        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
 
 //        Date date = new Date();
 //        String todate = sdf.format(date);
@@ -328,12 +328,12 @@ object Utlis {
     }
 
     fun getCurrentDate(pattern: String?): String? {
-        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
         return sdf.format(Date())
     }
 
     fun getTodayDate(): String? {
-        return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        return SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(Date())
     }
 
     fun convertSpannableStrings(
@@ -374,7 +374,7 @@ object Utlis {
     }
 
     fun getCurrentTimeDate(): String? {
-        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Date())
     }
 
     fun hideDialog() {
@@ -485,7 +485,7 @@ object Utlis {
 
 
     fun getCurrent30Date(pattern: String?): String? {
-        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -30)
         val todate1 = cal.time

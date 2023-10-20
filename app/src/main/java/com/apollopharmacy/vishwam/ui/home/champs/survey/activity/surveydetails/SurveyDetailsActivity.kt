@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -24,12 +25,11 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.databinding.ActivityStartSurvey2Binding
+import com.apollopharmacy.vishwam.databinding.DialogDeleteRecipientEmailBinding
 import com.apollopharmacy.vishwam.databinding.DialogNoTrainerBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressCCAdapter
-import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment
-import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseEmpIdResponse
@@ -46,6 +46,8 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
     private lateinit var surveyDetailsViewModel: SurveyDetailsViewModel
     private var adapterRec: EmailAddressAdapter? = null
     private var adapterCC: EmailAddressCCAdapter? = null
+    val surveyRecManualList = ArrayList<String>()
+    val surveyRecDetailsListTemp = ArrayList<String>()
     val surveyRecDetailsList = ArrayList<String>()
     val surveyCCDetailsList = ArrayList<String>()
     private var storeId: String = ""
@@ -54,7 +56,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
     var siteName: String? = ""
     private var region: String = ""
     var isNewSurveyCreated = false
-    var status= ""
+    var status = ""
 
     //    private lateinit var seekbar : SeekBar
     private lateinit var dialog: Dialog
@@ -235,14 +237,58 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 //        surveyCCDetailsList.add("kkabcr@apollopharmacy.org")
 
 
-        adapterRec = EmailAddressAdapter(surveyRecDetailsList, applicationContext, this)
-        activityStartSurvey2Binding.emailRecRecyclerView.setLayoutManager(LinearLayoutManager(this))
+        adapterRec = EmailAddressAdapter(surveyRecManualList, applicationContext, this)
+        activityStartSurvey2Binding.emailRecRecyclerView.setLayoutManager(
+            LinearLayoutManager(
+                this,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        )
         activityStartSurvey2Binding.emailRecRecyclerView.setAdapter(adapterRec)
 
         adapterCC = EmailAddressCCAdapter(surveyCCDetailsList, this, applicationContext)
         activityStartSurvey2Binding.emailCCRecyclerView.setLayoutManager(LinearLayoutManager(this))
         activityStartSurvey2Binding.emailCCRecyclerView.setAdapter(adapterCC)
 
+        onClickAddRecipient()
+    }
+
+    var isRecipientsEmailAdded: Boolean = false
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun onClickAddRecipient() {
+        activityStartSurvey2Binding.addBtn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val recipientEmail: String =
+                    activityStartSurvey2Binding.enterRecipient.text.toString()
+                if (recipientEmail.isEmpty()) {
+                    activityStartSurvey2Binding.enterRecipient.requestFocus()
+                    Toast.makeText(
+                        this@SurveyDetailsActivity,
+                        "Recipient email should not be empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(recipientEmail).matches()) {
+                    activityStartSurvey2Binding.enterRecipient.requestFocus()
+                    Toast.makeText(
+                        this@SurveyDetailsActivity,
+                        "Enter valid email",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    activityStartSurvey2Binding.enterRecipient.text!!.clear()
+                    surveyRecManualList.add(recipientEmail)
+                    adapterRec!!.notifyDataSetChanged()
+                    /*if (!surveyRecDetailsList.isNullOrEmpty()) {
+                        isRecipientsEmailAdded = true
+                        activityStartSurvey2Binding.enterRecipient.text!!.clear()
+                        surveyRecDetailsList.set(0, "${surveyRecDetailsList.get(0)},$recipientEmail")
+                        adapterRec!!.notifyDataSetChanged()
+                    }*/
+                }
+            }
+        });
     }
 
     override fun onClickBack() {
@@ -253,7 +299,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 891 && resultCode == RESULT_OK) {
             isNewSurveyCreated = data!!.getBooleanExtra("isNewSurveyCreated", false)
-            status= data!!.getStringExtra("status")!!
+            status = data!!.getStringExtra("status")!!
             if (isNewSurveyCreated && status.equals("NEW")) {
                 val intent = Intent()
                 intent.putExtra("isNewSurveyCreated", isNewSurveyCreated)
@@ -266,21 +312,32 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
 
     override fun onClickStartChampsSurvey() {
-        val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
-        intent.putExtra("getStoreWiseEmpIdResponse", getStoreWiseEmpIdResponse)
-        intent.putExtra("address", address)
-        intent.putExtra("storeId", storeId)
-        intent.putExtra("siteName", siteName)
-        intent.putExtra("storeCity", storeCity)
-        intent.putExtra("region", region)
-        intent.putExtra("status", "NEW")
-        intent.putExtra("visitDate", "")
-        intent.putExtra("champsRefernceId", "")
-        intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
-        intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
-        startActivityForResult(intent, 891)
+        if (surveyRecManualList.size > 0) {
+            var recipientEmails: String = ""
+            for (i in surveyRecManualList) {
+                if (recipientEmails.isEmpty()) recipientEmails = "$i" else recipientEmails =
+                    "$recipientEmails, $i"
+            }
+            surveyRecDetailsList.set(0, "$recipientEmails")
+
+//            surveyRecDetailsList.set(0, "${surveyRecDetailsListTemp.get(0)},$recipientEmails")
+
+            val intent = Intent(ViswamApp.context, ChampsSurveyActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
+            intent.putExtra("getStoreWiseEmpIdResponse", getStoreWiseEmpIdResponse)
+            intent.putExtra("address", address)
+            intent.putExtra("storeId", storeId)
+            intent.putExtra("siteName", siteName)
+            intent.putExtra("storeCity", storeCity)
+            intent.putExtra("region", region)
+            intent.putExtra("status", "NEW")
+            intent.putExtra("visitDate", "")
+            intent.putExtra("champsRefernceId", "")
+            intent.putExtra("RECIPIENTS_NEWLY_ADDED", recipientEmails)
+            intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
+            intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
+            startActivityForResult(intent, 891)
 //        val intent = Intent(context, GetSurveyDetailsListActivity::class.java)
 //        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 //        intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
@@ -293,7 +350,12 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 //        intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
 //        intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
 //        startActivity(intent)
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        } else {
+            activityStartSurvey2Binding.enterRecipient.requestFocus()
+            Toast.makeText(this@SurveyDetailsActivity, "Add Recipient Email", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 
     fun isValidEmail(target: CharSequence?): Boolean {
@@ -393,11 +455,12 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         if (getEmailAddressResponse != null && getEmailAddressResponse.emailDetails != null && getEmailAddressResponse.emailDetails!!.size != null) {
             for (i in getEmailAddressResponse.emailDetails!!.indices) {
                 surveyRecDetailsList.add(getEmailAddressResponse.emailDetails!!.get(i).email!!)
+                surveyRecDetailsListTemp.add(getEmailAddressResponse.emailDetails!!.get(i).email!!)
             }
-            adapterRec = EmailAddressAdapter(surveyRecDetailsList, applicationContext, this)
+            adapterRec = EmailAddressAdapter(surveyRecManualList, applicationContext, this)
             activityStartSurvey2Binding.emailRecRecyclerView.setLayoutManager(
                 LinearLayoutManager(
-                    this
+                    this, LinearLayoutManager.HORIZONTAL, false
                 )
             )
             activityStartSurvey2Binding.emailRecRecyclerView.setAdapter(adapterRec)
@@ -467,6 +530,33 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
     override fun onFailuregetStoreWiseDetails(value: GetStoreWiseEmpIdResponse) {
         activityStartSurvey2Binding.trainer.text = "--"
+    }
+
+    override fun onDeleteManualRecipient(recipient: String) {
+        var recipientEmailDialog = Dialog(this@SurveyDetailsActivity)
+        var dialogDeleteRecipientEmailBinding =
+            DataBindingUtil.inflate<DialogDeleteRecipientEmailBinding>(
+                LayoutInflater.from(this@SurveyDetailsActivity),
+                R.layout.dialog_delete_recipient_email,
+                null,
+                false
+            )
+        recipientEmailDialog.setContentView(dialogDeleteRecipientEmailBinding.root)
+        recipientEmailDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogDeleteRecipientEmailBinding.noBtn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                recipientEmailDialog.dismiss()
+            }
+        })
+        dialogDeleteRecipientEmailBinding.yesBtn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                surveyRecManualList.remove(recipient)
+                adapterRec!!.notifyDataSetChanged()
+                recipientEmailDialog.dismiss()
+            }
+
+        })
+        recipientEmailDialog.show()
     }
 
 

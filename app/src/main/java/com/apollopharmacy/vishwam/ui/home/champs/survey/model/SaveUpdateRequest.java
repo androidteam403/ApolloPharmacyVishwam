@@ -23,22 +23,32 @@ public class SaveUpdateRequest implements Serializable {
     @SerializedName("email")
     @Expose
     private String email;
+
+    @SerializedName("add_recp_email")
+    @Expose
+    private String add_recp_email;
+
+    @SerializedName("cc_email")
+    @Expose
+    private String cc_email;
+
     @SerializedName("trainer_email")
     @Expose
     private String trainerEmail;
     @SerializedName("trainer_id")
     @Expose
     private String trainerId;
+
     @SerializedName("employee_id")
     @Expose
     private String employeeId;
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
-    }
-
     public String getEmployeeId() {
         return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
     }
 
     @SerializedName("trainer_name")
@@ -87,6 +97,7 @@ public class SaveUpdateRequest implements Serializable {
         return champsId;
     }
 
+
     public void setChampsId(String champsId) {
         this.champsId = champsId;
     }
@@ -105,6 +116,22 @@ public class SaveUpdateRequest implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAdd_recp_email() {
+        return add_recp_email;
+    }
+
+    public void setAdd_recp_email(String add_recp_email) {
+        this.add_recp_email = add_recp_email;
+    }
+
+    public String getCc_email() {
+        return cc_email;
+    }
+
+    public void setCc_email(String cc_email) {
+        this.cc_email = cc_email;
     }
 
     public String getTrainerEmail() {

@@ -74,7 +74,7 @@ public class ReportsFragment extends BaseFragment implements ReportsFragmentCall
 
         reportsBinding.setCallback(this);
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             Date fromDates = formatter.parse(fromDate);
             long fromDateMills = fromDates.getTime();
             reportsBinding.fromDate.setText(Utlis.INSTANCE.getDateFormatForSummaryEditText(fromDateMills));
