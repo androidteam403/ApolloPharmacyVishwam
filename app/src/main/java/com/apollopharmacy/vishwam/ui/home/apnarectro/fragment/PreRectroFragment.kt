@@ -23,11 +23,13 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApp
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.selectapnasite.SelectApnaSiteIDActivity
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.stream.Collectors
+import kotlin.Comparator
 import kotlin.collections.ArrayList
 
 
@@ -82,9 +84,10 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 viewBinding.recordsUploaded.visibility = View.GONE
             }
             viewBinding.incharge.text = Preferences.getToken()
-            viewBinding.storeName.text = Preferences.getApnaSiteId() + " - " + Preferences.getApnaSiteName()
+            viewBinding.storeName.text =
+                Preferences.getApnaSiteId() + " - " + Preferences.getApnaSiteName()
             if (NetworkUtil.isNetworkConnected(requireContext())) {
-                val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd",  Locale.ENGLISH)
+                val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                 val cal = Calendar.getInstance()
                 cal.add(Calendar.DATE, -7)
                 val currentDate: String = simpleDateFormat.format(Date())
@@ -96,7 +99,10 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 getStorePendingApprovedRequest.empid = Preferences.getToken()
                 getStorePendingApprovedRequest.fromdate = fromdate
                 getStorePendingApprovedRequest.todate = toDate
-                viewModel.getStorePendingApprovedListApiCallApnaRetro(getStorePendingApprovedRequest, this)
+                viewModel.getStorePendingApprovedListApiCallApnaRetro(
+                    getStorePendingApprovedRequest,
+                    this
+                )
 
             } else {
                 Toast.makeText(
@@ -118,7 +124,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         if (!viewBinding.pullToRefreshApproved.isRefreshing)
             Utlis.showLoading(requireContext())
 
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd",  Locale.ENGLISH)
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         val currentDate: String = simpleDateFormat.format(Date())
@@ -149,7 +155,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 //                    .show()
                 hideLoading()
                 if (NetworkUtil.isNetworkConnected(requireContext())) {
-                    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd",  Locale.ENGLISH)
+                    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                     val cal = Calendar.getInstance()
                     cal.add(Calendar.DATE, -7)
                     val currentDate: String = simpleDateFormat.format(Date())
@@ -175,7 +181,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
             } else if (requestCode == 779) {
                 if (NetworkUtil.isNetworkConnected(requireContext())) {
-                    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd",  Locale.ENGLISH)
+                    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
                     val cal = Calendar.getInstance()
                     cal.add(Calendar.DATE, -7)
                     val currentDate: String = simpleDateFormat.format(Date())
@@ -220,6 +226,8 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         uploadedOn: String,
         uploadedBy: String,
         storeId: String,
+
+
         uploadStage: String,
         approvedby: String?,
         approvedDate: String?,
@@ -235,8 +243,8 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         intent.putExtra("uploadedOn", uploadedOn)
         intent.putExtra("uploadedBy", uploadedBy)
         intent.putExtra("storeId", storeId)
-        intent.putExtra("storeList",storeList)
-        intent.putExtra("retroStage",retroStage)
+        intent.putExtra("storeList", storeList)
+        intent.putExtra("retroStage", retroStage)
 
         intent.putExtra("uploadStage", uploadStage)
         intent.putExtra("approvedby", approvedby)
@@ -279,10 +287,11 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         intent.putExtra("stage", stage)
         intent.putExtra("retroid", retroid)
         intent.putExtra("uploadedOn", uploadedOn)
-        intent.putExtra("storeList",storeList)
+        intent.putExtra("storeList", storeList)
         intent.putExtra("uploadedBy", uploadedBy)
         intent.putExtra("storeId", storeId)
-        intent.putExtra("retroStage",retroStage)
+
+        intent.putExtra("retroStage", retroStage)
         intent.putExtra("uploadStage", uploadStage)
         intent.putExtra("approvedby", approvedby)
         intent.putExtra("status", status)
@@ -299,9 +308,6 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     override fun onSuccessgetStorePendingApprovedApiCall(getStorePendingApprovedList: GetStorePendingAndApprovedListRes) {
 
 
-
-
-
         if (getStorePendingApprovedList.status.equals(true) && getStorePendingApprovedList.getList.size > 0) {
             hideLoading()
             viewBinding.listRecyclerView.visibility = View.VISIBLE
@@ -311,11 +317,13 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 //            Toast.makeText(context, "Refresh", Toast.LENGTH_LONG).show()
                 viewBinding.pullToRefreshApproved.isRefreshing = false
             }
-            storeList= getStorePendingApprovedList.getList as ArrayList<GetStorePendingAndApprovedListRes.Get>?
+            storeList =
+                getStorePendingApprovedList.getList as ArrayList<GetStorePendingAndApprovedListRes.Get>?
 
 
             val retroIdsGroupedList: Map<String, List<GetStorePendingAndApprovedListRes.Get>> =
-                getStorePendingApprovedList.getList.stream().collect(Collectors.groupingBy { w -> w.retroid })
+                getStorePendingApprovedList.getList.stream()
+                    .collect(Collectors.groupingBy { w -> w.retroid })
 //            Toast.makeText(context, "" + retroIdsGroupedList.size, Toast.LENGTH_SHORT).show()
 
             var getStorePendingApprovedListDummys =
@@ -331,15 +339,17 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 //                })
 
             listAdapter =
-                ListAdapter(getStorePendingApprovedList.groupByRetrodList.sortedByDescending { it.get(0).uploadedDate }, requireContext(), this)
+                ListAdapter(getStorePendingApprovedList.groupByRetrodList.sortedByDescending {
+                    it.get(
+                        0
+                    ).uploadedDate
+                }, requireContext(), this)
             val layoutManager = LinearLayoutManager(ViswamApp.context)
             viewBinding.listRecyclerView.layoutManager = layoutManager
             viewBinding.listRecyclerView.itemAnimator = DefaultItemAnimator()
             viewBinding.listRecyclerView.adapter = listAdapter
 
-        }
-
-        else {
+        } else {
             hideLoading()
             viewBinding.recordsUploaded.visibility = View.GONE
             viewBinding.listRecyclerView.visibility = View.GONE
@@ -398,8 +408,9 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     override fun onClickSubmenuItem(
         menuName: String?,
         submenus: java.util.ArrayList<MenuModel>?,
-        position: Int
+        position: Int,
     ) {
+        TODO("Not yet implemented")
     }
 
 }

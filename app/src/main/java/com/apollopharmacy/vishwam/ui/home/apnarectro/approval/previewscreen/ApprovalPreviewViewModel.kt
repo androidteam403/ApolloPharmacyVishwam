@@ -39,7 +39,7 @@ class ApprovalPreviewViewModel : ViewModel() {
         var token = ""
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
-                baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls"
+                baseUrl =  data.APIS[i].URL
                 token = data.APIS[i].TOKEN
                 break
             }
@@ -64,7 +64,7 @@ class ApprovalPreviewViewModel : ViewModel() {
                         imageUrlResponse.value = response.value
                     } else {
                         state.value = State.ERROR
-                        preRetroCallback.onFailureImageUrlList(response.value)
+                        preRetroCallback.onFailureImageUrlList(response.value.message!!)
                         imageUrlResponse.value = response.value
                     }
                 }
@@ -73,23 +73,28 @@ class ApprovalPreviewViewModel : ViewModel() {
                     command.postValue(response.error?.let {
                         Command.ShowToast(it)
                     })
+                    preRetroCallback.onFailureImageUrlList("Something went wrong, please try again later")
+
                     state.value = State.ERROR
                 }
 
                 is ApiResult.NetworkError -> {
                     command.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
+                    preRetroCallback.onFailureImageUrlList("Network Error")
 
                 }
 
                 is ApiResult.UnknownError -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
+                    preRetroCallback.onFailureImageUrlList("Something went wrong, please try again later")
 
                 }
 
                 else -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    preRetroCallback.onFailureImageUrlList("Something went wrong, please try again later")
 
                     state.value = State.ERROR
                 }

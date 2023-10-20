@@ -108,6 +108,8 @@ class GetImageUrlsModelApnaResponse : Serializable {
             var position: Int? = null
 
             var file: File?=null
+              var imageUploadStatusUpdate: Boolean = false
+              var imageUpload: Boolean = false
 
             var isReshootStatus: Boolean? = null
 

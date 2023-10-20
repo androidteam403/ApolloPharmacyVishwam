@@ -81,6 +81,8 @@ class PreviewPreRetroViewModel : ViewModel() {
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
+
+                else -> {}
             }
         }
     }
@@ -137,6 +139,8 @@ class PreviewPreRetroViewModel : ViewModel() {
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
+
+                else -> {}
             }
         }
     }
