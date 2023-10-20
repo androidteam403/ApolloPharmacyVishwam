@@ -132,7 +132,7 @@ class UploadRackAdapter(
 
                         if (!imagesFilterList.contains(row) && row.rackno!!.lowercase(Locale.getDefault()).contains(
                                 charString!!.lowercase(
-                                Locale.getDefault()))) {
+                                    Locale.getDefault()))) {
                             imagesFilterList.add(row)
                         }
                     }

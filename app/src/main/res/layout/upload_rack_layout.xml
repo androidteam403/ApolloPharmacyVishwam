@@ -85,7 +85,7 @@
                             android:src="@drawable/ash_color_caera"
                             android:contentDescription="@string/app_name" />-->
 
-<!--                        android:src="@drawable/ash_color_caera"-->
+                        <!--                        android:src="@drawable/ash_color_caera"-->
 
                         <!--<TextView
                             android:id="@+id/imageTextandNumber1"

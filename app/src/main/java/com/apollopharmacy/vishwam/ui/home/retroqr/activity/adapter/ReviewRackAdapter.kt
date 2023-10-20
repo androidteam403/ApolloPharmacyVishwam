@@ -91,7 +91,7 @@ class ReviewRackAdapter(
 //        }
         holder.reviewRackLayoutBinding.compareIconLayout.setOnClickListener {
             mCallback.onClickCompare(items.matchingPercentage!!,
-               items.imageurl!!, items.reviewimageurl!!, items.rackno!!
+                items.imageurl!!, items.reviewimageurl!!, items.rackno!!
             )
         }
 

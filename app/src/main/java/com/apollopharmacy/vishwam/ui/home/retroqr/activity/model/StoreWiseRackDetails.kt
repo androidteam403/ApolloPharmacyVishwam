@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.retroqr.activity.model
 
+import android.graphics.Bitmap
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -44,11 +45,17 @@ class StoreWiseRackDetails : Serializable {
         @Expose
         var imageurl: String? = null
 
+        var byteArray = ByteArray(0)
+
         var reviewimageurl: String? = ""
 
+        var isRackSelected: Boolean = false
+
+        //        var bitmap: Bitmap? = null
         fun setreviewimageurl(url: String) {
             reviewimageurl = url
         }
+
         var matchingPercentage: String? = ""
 
         fun setmatchingPercentage(pos: String) {
