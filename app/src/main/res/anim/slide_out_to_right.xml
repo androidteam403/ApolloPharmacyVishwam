@@ -19,7 +19,7 @@
     android:interpolator="@android:anim/accelerate_interpolator" >
 
     <translate
-        android:duration="@android:integer/config_longAnimTime"
+        android:duration="450"
         android:fromXDelta="0"
         android:toXDelta="100%p" />
 

@@ -102,7 +102,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         userDesignation = MainActivity.userDesignation
 
         updateNavMenu(
-            isAttendanceRequired,
+            true,
             isCMSRequired,
             isDiscountRequired,
             isSwachhRequired,
