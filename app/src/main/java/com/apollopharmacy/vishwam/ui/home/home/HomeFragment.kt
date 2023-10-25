@@ -249,8 +249,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         } else {
             viewBinding.apolloSensingMenu.visibility = View.GONE
         }
-
-        if (isAttendanceRequired) {
+        //isAttendanceRequired
+        if (true) {
             viewBinding.attendanceManagementMenu.visibility = View.VISIBLE
         } else {
             viewBinding.attendanceManagementMenu.visibility = View.GONE
