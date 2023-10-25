@@ -34,10 +34,10 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
     private var uploadBy: String = ""
     private var statusId: String = ""
     private var isApiHit: Boolean = false
-    private lateinit var dialog: Dialog
     var ratingbar: RatingBar? = null
     private var isRatingApiHit: Boolean = false
     var ratingforsubmit: String? = null
+    private lateinit var dialog: Dialog
 
     private var status: String = ""
     var url: String = ""
@@ -382,6 +382,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
     }
 
     override fun onSuccessRatingResponse(value: SaveAcceptResponse) {
+        Utlis.hideLoading()
         val imagesStatusAlertDialog = Dialog(this)
         val dialogLastimagePreviewAlertBinding: DialogOkAlertBinding =
             DataBindingUtil.inflate(
@@ -396,6 +397,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
             " ")) + " Review")
 
         dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
+            imagesStatusAlertDialog.dismiss()
 
             isRatingApiHit = true
 
@@ -406,7 +408,6 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
             intent.putExtra("ratingApi", isRatingApiHit)
             setResult(Activity.RESULT_OK, intent)
             finish()
-            imagesStatusAlertDialog.dismiss()
         }
 
         imagesStatusAlertDialog.show()
@@ -492,12 +493,12 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
                     imageRequest.storeid = store.split("-").get(0)
                     imageRequest.userid = com.apollopharmacy.vishwam.data.Preferences.getToken()
                     imageRequest.rating = ratingforsubmit.toString()
+                    dialog.dismiss()
 
                     Utlis.showLoading(this)
                     previewLastImageViewModel.getRatingResponse(imageRequest,
                         this
                     )
-                    dialog.dismiss()
 
                 } else {
                     Toast.makeText(applicationContext,
@@ -525,16 +526,16 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
             dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
 
                 isRatingApiHit = true
+                imagesStatusAlertDialog.dismiss()
 
                 val intent = Intent()
                 intent.putExtra("imagesList", imageUrlsList)
                 intent.putExtra("imageUrlList",imageUrlList)
                 intent.putExtra("isApiHit", isApiHit)
                 intent.putExtra("ratingApi", isRatingApiHit)
-
                 setResult(Activity.RESULT_OK, intent)
+
                 finish()
-                imagesStatusAlertDialog.dismiss()
             }
 
             imagesStatusAlertDialog.show()

@@ -16,20 +16,26 @@ import android.os.Build
 import android.os.Build.VERSION_CODES.TIRAMISU
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.androidisland.ezpermission.EzPermission
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.model.Image
 import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.network.LoginRepo
+import com.apollopharmacy.vishwam.databinding.DialogDeleteBinding
 import com.apollopharmacy.vishwam.databinding.FragmentAttendanceBinding
 import com.apollopharmacy.vishwam.databinding.ViewTaskItemBinding
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
@@ -38,25 +44,30 @@ import com.apollopharmacy.vishwam.ui.home.MainActivity.isAtdLogout
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragmentCallback
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.adapter.AttendenceImageRecycleView
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DoctorListDialog
+import com.apollopharmacy.vishwam.ui.home.drugmodule.model.GstDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteDialogAttendence
 import com.apollopharmacy.vishwam.util.LocationUtil
 import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utils.*
 import com.google.android.material.textfield.TextInputLayout
 import com.waheed.location.updates.livedata.LocationViewModel
+import me.echodev.resizer.Resizer
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanceBinding>(),
     SiteDialogAttendence.NewDialogSiteClickListner, DoctorListDialog.NewDialogSiteClickListner,
-    MainActivityCallback,
+    MainActivityCallback,GstDialog.GstDialogClickListner,
+
     ImageClickListener, AttendanceFragmentCallback {
 
     val TAG = "AttendanceFragment"
@@ -64,6 +75,10 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     lateinit var userData: LoginDetails
     var employeeID: String = ""
     var branchName: String = ""
+    var imageList = ArrayList<Image>()
+    lateinit var imageAdapter: AttendenceImageRecycleView
+    private lateinit var cameraIcon: ImageView
+    val MARKETING_TASK_LIST: ArrayList<String> = ArrayList()
 
     var lastLogDateTime: String = ""
     var taskAlreadyAvailable: Boolean = false
@@ -78,12 +93,20 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
     var siteIdList = ArrayList<SiteListResponse.Site>()
     var doctorList = ArrayList<DoctorListResponse.Doctor>()
+    val marketingSubTaskList: ArrayList<String> = ArrayList()
 
     lateinit var departmentTaskList: ArrayList<DepartmentTaskListRes.DepartmentTaskItem>
     val DEPT_TASK_LIST: ArrayList<String> = ArrayList()
     val dept_List_Map = HashMap<Int, String>()
     private lateinit var deptTaskSpinner: Spinner
     private lateinit var siteId: TextInputLayout
+    private lateinit var marketingTaskSpinner: Spinner
+    private lateinit var imageRecycleView: RecyclerView
+    private lateinit var marketingSubBranch: TextInputLayout
+    private lateinit var description: TextInputLayout
+    private lateinit var captureLayout: LinearLayout
+    private lateinit var marketingText: EditText
+
     private lateinit var doctorSpecialist: EditText
     var comment: String = ""
     var siteIds: String = ""
@@ -98,6 +121,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     var enteredTaskName: String = ""
     var taskName: Boolean = false
     val params = MainActivity.mInstance.headerText!!.layoutParams as RelativeLayout.LayoutParams
+    var isMarketingSelected: Boolean = false
 
     val LOCATION_PERMISSION_REQUEST = 101
     private lateinit var locationViewModel: LocationViewModel
@@ -148,11 +172,47 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 val deptSpinner = dialog.findViewById<Spinner>(R.id.dept_spinner)
                 deptTaskSpinner = dialog.findViewById<Spinner>(R.id.task_spinner)
                 siteId = dialog.findViewById<TextInputLayout>(R.id.siteIdAttendence)
-                doctorId = dialog.findViewById<TextInputLayout>(R.id.doctornameAttendence)
                 doctorSpecialist = dialog.findViewById<EditText>(R.id.doctorspecialityinattendence)
                 siteIdText = dialog.findViewById<EditText>(R.id.siteIdSelectAttendence)
                 doctorText = dialog.findViewById<EditText>(R.id.doctorNameSelectAttendence)
+                deptTaskSpinner = dialog.findViewById<Spinner>(R.id.task_spinner)
+                marketingTaskSpinner = dialog.findViewById<Spinner>(R.id.marketing_spinner)
+                doctorId = dialog.findViewById<TextInputLayout>(R.id.doctornameAttendence)
+                cameraIcon = dialog.findViewById<ImageView>(R.id.addImage)
+                siteId = dialog.findViewById<TextInputLayout>(R.id.siteIdAttendence)
+                imageRecycleView = dialog.findViewById<RecyclerView>(R.id.imageRecyclerView)
+                marketingSubBranch = dialog.findViewById<TextInputLayout>(R.id.marketingAttendence)
+                description = dialog.findViewById<TextInputLayout>(R.id.description)
+                captureLayout = dialog.findViewById<LinearLayout>(R.id.capture_upload_layout)
+                marketingText = dialog.findViewById<EditText>(R.id.marketingIdSelectAttendence)
 
+
+
+
+
+                MARKETING_TASK_LIST.add("Select Task")
+                /*MARKETING_TASK_LIST.add("Social Media")
+                MARKETING_TASK_LIST.add("Advertising")*/
+                MARKETING_TASK_LIST.add("Office work")
+                MARKETING_TASK_LIST.add("New business client visit")
+                MARKETING_TASK_LIST.add("Debtor Follow-up Client Visit")
+                MARKETING_TASK_LIST.add("Existing client relationship visit")
+                /*marketingSubTaskList.add("Select SubTask")
+                marketingSubTaskList.add("Watsapp")
+                marketingSubTaskList.add("Instagram")
+                marketingSubTaskList.add("Youtube")
+                marketingSubTaskList.distinct()*/
+
+                cameraIcon.setOnClickListener {
+                    handleTaskCameraFunctionality()
+                }
+                marketingText.setOnClickListener {
+
+
+                    GstDialog().apply {
+                        arguments = GstDialog().generateParsedData(marketingSubTaskList)
+                    }.show(childFragmentManager, "")
+                }
                 siteIdText.setOnClickListener {
                     SiteDialogAttendence().apply {
                         arguments =
@@ -171,10 +231,15 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
 
 
+
                 DEPT_LIST.add("Select Department")
+                DEPT_LIST.add("Marketing")
+                dept_List_Map.put(Integer.parseInt("1001"), "Marketing")
                 for (item in departmentList) {
                     dept_List_Map.put(Integer.parseInt(item.ID), item.DEPARTMENT)
                     DEPT_LIST.add(item.DEPARTMENT)
+
+
                 }
                 if (deptSpinner != null) {
                     val adapter = ArrayAdapter(
@@ -189,12 +254,39 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                             parent: AdapterView<*>,
                             view: View, position: Int, id: Long,
                         ) {
+
+
                             if (getKeyFromValue(dept_List_Map, DEPT_LIST[position]) != 0) {
                                 isDepartmentSelected = true
                                 isDepartmentTaskSelected = false
                                 enteredTaskName = DEPT_LIST[position]
-                                if (DEPT_LIST[position].equals("DR CONNECT")) {
+
+                                if (DEPT_LIST[position].equals("Marketing")) {
+                                    taskName = true
+
+                                    val adapter = ArrayAdapter(
+                                        requireContext(),
+                                        R.layout.view_spinner_item,
+                                        R.id.spinner_text,
+                                        MARKETING_TASK_LIST.distinct()
+                                    )
+
+                                    marketingText.visibility = View.GONE
+                                    description.visibility = View.GONE
+                                    captureLayout.visibility = View.GONE
+                                    marketingTaskSpinner.adapter = adapter
+                                    marketingTaskSpinner.visibility = View.VISIBLE
+                                    deptTaskSpinner.visibility = View.GONE
+                                    siteId.visibility = View.GONE
+                                    doctorId.visibility = View.GONE
+
+                                } else if (DEPT_LIST[position].equals("DR CONNECT")) {
                                     siteIdText.setText("")
+                                    marketingTaskSpinner.visibility = View.GONE
+                                    description.visibility = View.GONE
+                                    captureLayout.visibility = View.GONE
+
+                                    marketingSubBranch.visibility = View.GONE
                                     taskName = true
                                 } else {
                                     branchName = ""
@@ -202,9 +294,15 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                     doctorText.setText("")
                                     siteId.visibility = View.GONE
                                     doctorId.visibility = View.GONE
+                                    description.visibility = View.GONE
+                                    captureLayout.visibility = View.GONE
+
+                                    marketingSubBranch.visibility = View.GONE
+                                    marketingTaskSpinner.visibility = View.GONE
 
                                     doctorSpecialist.visibility = View.GONE
                                     taskName = false
+                                    isMarketingSelected = false
                                 }
 
                                 viewModel.getDepartmentTaskList(
@@ -225,6 +323,67 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 }
 
 
+                marketingTaskSpinner.onItemSelectedListener = object :
+                    AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>,
+                        view: View, position: Int, id: Long,
+                    ) {
+
+
+                        if (position != 0) {
+                            if (taskName && (MARKETING_TASK_LIST.get(position).equals("Office work")
+                                        || MARKETING_TASK_LIST.get(position)
+                                    .equals("New business client visit")
+                                        || MARKETING_TASK_LIST.get(position)
+                                    .equals("Debtor Follow-up Client Visit")
+                                        || MARKETING_TASK_LIST.get(position)
+                                    .equals("Existing client relationship visit"))
+                            ) {
+                                marketingText.visibility = View.VISIBLE
+                                marketingText.setText("")
+                                description.visibility = View.GONE
+                                captureLayout.visibility = View.GONE
+                                if (MARKETING_TASK_LIST.get(position).equals("Office work")) {
+                                    marketingSubTaskList.clear()
+                                    marketingSubTaskList.add("Discussion with RH")
+                                    marketingSubTaskList.add("New proposal working")
+                                    marketingSubTaskList.add("Discussion with Team")
+                                    marketingSubTaskList.add("Internal review")
+                                } else if (MARKETING_TASK_LIST.get(position)
+                                        .equals("New business client visit")
+                                ) {
+                                    marketingSubTaskList.clear()
+                                    marketingSubTaskList.add("Private Corp")
+                                    marketingSubTaskList.add("PSU")
+                                } else if (MARKETING_TASK_LIST.get(position)
+                                        .equals("Debtor Follow-up Client Visit")
+                                ) {
+                                    marketingSubTaskList.clear()
+                                    marketingSubTaskList.add("Long over due discussion")
+                                    marketingSubTaskList.add("Bill submission issue")
+                                    marketingSubTaskList.add("Related to current O/S")
+                                    marketingSubTaskList.add("Any other mandatory typing space")
+                                } else if (MARKETING_TASK_LIST.get(position)
+                                        .equals("Existing client relationship visit")
+                                ) {
+                                    marketingSubTaskList.clear()
+                                    marketingSubTaskList.add("General feedback visit")
+                                    marketingSubTaskList.add("Specific issue based visit")
+                                }
+                                marketingSubBranch.visibility = View.VISIBLE
+
+                            }
+
+
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+                        isDepartmentTaskSelected = false
+                        // write code to perform some action
+                    }
+                }
 
 
 
@@ -235,7 +394,53 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         parent: AdapterView<*>,
                         view: View, position: Int, id: Long,
                     ) {
+
+
+                        if (taskName &&
+                            (MARKETING_TASK_LIST.get(position).equals("Office work")
+                                    || MARKETING_TASK_LIST.get(position)
+                                .equals("New business client visit")
+                                    || MARKETING_TASK_LIST.get(position)
+                                .equals("Debtor Follow-up Client Visit")
+                                    || MARKETING_TASK_LIST.get(position)
+                                .equals("Existing client relationship visit"))
+                        ) {
+                            marketingText.visibility = View.VISIBLE
+                            marketingText.setText("")
+                            description.visibility = View.GONE
+                            captureLayout.visibility = View.GONE
+                            if (MARKETING_TASK_LIST.get(position).equals("Office work")) {
+                                marketingSubTaskList.clear()
+                                marketingSubTaskList.add("Discussion with RH")
+                                marketingSubTaskList.add("New proposal working")
+                                marketingSubTaskList.add("Discussion with Team")
+                                marketingSubTaskList.add("Internal review")
+                            } else if (MARKETING_TASK_LIST.get(position)
+                                    .equals("New business client visit")
+                            ) {
+                                marketingSubTaskList.clear()
+                                marketingSubTaskList.add("Private Corp")
+                                marketingSubTaskList.add("PSU")
+                            } else if (MARKETING_TASK_LIST.get(position)
+                                    .equals("Debtor Follow-up Client Visit")
+                            ) {
+                                marketingSubTaskList.clear()
+                                marketingSubTaskList.add("Long over due discussion")
+                                marketingSubTaskList.add("Bill submission issue")
+                                marketingSubTaskList.add("Related to current O/S")
+                                marketingSubTaskList.add("Any other mandatory typing space")
+                            } else if (MARKETING_TASK_LIST.get(position)
+                                    .equals("Existing client relationship visit")
+                            ) {
+                                marketingSubTaskList.clear()
+                                marketingSubTaskList.add("General feedback visit")
+                                marketingSubTaskList.add("Specific issue based visit")
+                            }
+                            marketingSubBranch.visibility = View.VISIBLE
+                        }
                         if (position != 0) {
+
+
                             if (taskName && DEPT_TASK_LIST.get(position).equals("BRANCH VISIT")) {
                                 branchName = "BRANCH VISIT"
                                 showLoading()
@@ -270,6 +475,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 doctorSpecialist.visibility = View.GONE
                             }
 
+
                             if (enteredTaskName.contains("-")) {
                                 enteredTaskName = enteredTaskName.substring(
                                     0,
@@ -289,6 +495,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         // write code to perform some action
                     }
                 }
+
 
 
                 signInLayout.setOnClickListener { v1: View? ->
@@ -1193,9 +1400,25 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivityForResult(intent, REQUEST_CODE_CAMERA)
     }
-
+    private fun compresImageSize(imageFromCameraFile: File): File {
+        val resizedImage = Resizer(requireContext())
+            .setTargetLength(1080)
+            .setQuality(100)
+            .setOutputFormat("JPG")
+            .setOutputDirPath(
+                ViswamApp.context.cacheDir.toString()
+            )
+            .setSourceImage(imageFromCameraFile)
+            .resizedFile
+        return resizedImage
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 221) {
+            imageList.add(Image(compresImageSize(imageFromCameraFile!!), "", ""))
+            imageAdapter = AttendenceImageRecycleView(requireContext(), imageList, this)
+            imageRecycleView.adapter = imageAdapter
+        }
+        else  if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
             isPermissionAsked = false
             fileArrayList.add(ImageDataDto(imageFromCameraFile!!, ""))
             viewBinding.capturedImageLayout.visibility = View.VISIBLE
@@ -1406,6 +1629,61 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         TODO("Not yet implemented")
     }
 
+    override fun onItemClick(position: Int, imagePath: String, name: String) {
+        PopUpWIndow(
+            context,
+            R.layout.layout_image_fullview,
+            cameraIcon,
+            imagePath,
+            null,
+            name,
+            position
+        )
+    }
+    private fun openTaskCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        imageFromCameraFile =
+            File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
+        } else {
+            val photoUri = FileProvider.getUriForFile(
+                requireContext(),
+                requireContext().packageName + ".provider",
+                imageFromCameraFile!!
+            )
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        }
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, 221)
+    }
+
+    override fun deleteImage(position: Int) {
+        val dialogBinding: DialogDeleteBinding? =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(requireContext()),
+                R.layout.dialog_delete,
+                null,
+                false
+            )
+        val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
+        customDialog.apply {
+
+            setView(dialogBinding?.root)
+            setCancelable(false)
+        }.show()
+        dialogBinding?.yesBtn?.setOnClickListener {
+
+
+            imageList.removeAt(position)
+
+            imageAdapter.notifyDataSetChanged()
+            customDialog.dismiss()
+        }
+        dialogBinding?.cancelButton?.setOnClickListener {
+            customDialog.dismiss()
+        }    }
+
     override fun onClickFilterIcon() {
         TODO("Not yet implemented")
     }
@@ -1433,6 +1711,14 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     override fun onClickSpinnerLayout() {
         TODO("Not yet implemented")
     }
+    private fun handleTaskCameraFunctionality() {
+        viewBinding.onCaptureClick = true
+        if (!checkPermission()) {
+            askPermissions(REQUEST_CODE_CAMERA)
+            return
+        } else
+            openTaskCamera()
+    }
 
     override fun onClickSubmenuItem(
         menuName: String?,
@@ -1440,6 +1726,12 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         position: Int,
     ) {
         TODO("Not yet implemented")
+    }
+
+    override fun selectGST(gst: String) {
+        marketingText.setText(gst)
+        description.visibility = View.VISIBLE
+        captureLayout.visibility = View.VISIBLE
     }
 }
 
