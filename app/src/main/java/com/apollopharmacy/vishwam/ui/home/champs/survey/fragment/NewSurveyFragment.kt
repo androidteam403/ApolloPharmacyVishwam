@@ -272,6 +272,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                 fragmentChampsSurveyBinding!!.emailId.setText(getStoreWiseDetailsResponses.data.executive.email)
             } else {
                 fragmentChampsSurveyBinding!!.emailId.setText("--")
+                hideLoading()
             }
 
         } else {
@@ -281,7 +282,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
             i.putExtra("modulename", "CHAMPS")
             startActivityForResult(i, 781)
         }
-        hideLoading()
+
     }
 
     override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {

@@ -54,7 +54,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("distance")
         @Expose
-        var distance: Int? = null
+        var distance: Double? = null
         fun withUid(uid: String?): Apartment {
             this.uid = uid
             return this
@@ -75,7 +75,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withDistance(distance: Int?): Apartment {
+        fun withDistance(distance: Double?): Apartment {
             this.distance = distance
             return this
         }
@@ -100,11 +100,11 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("unorg_avg_sale")
         @Expose
-        var unorgAvgSale: Int? = null
+        var unorgAvgSale: Int? = 0
 
         @SerializedName("org_avg_sale")
         @Expose
-        var orgAvgSale: Int? = null
+        var orgAvgSale: Int? = 0
         fun withUid(uid: String?): Chemist {
             this.uid = uid
             return this
@@ -129,11 +129,11 @@ class SurveyDetailsList : Serializable {
             this.unorgAvgSale = unorgAvgSale
             return this
         }
-
         fun withOrgAvgSale(orgAvgSale: Int?): Chemist {
             this.orgAvgSale = orgAvgSale
             return this
         }
+
     }
 
     inner class City : Serializable {
@@ -342,7 +342,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("security_deposit")
         @Expose
-        var securityDeposit: Int? = null
+        var securityDeposit: Double? = null
 
         @SerializedName("length")
         @Expose
@@ -395,7 +395,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("expected_rent")
         @Expose
-        var expectedRent: Int? = null
+        var expectedRent: Double? = null
 
         @SerializedName("service_class")
         @Expose
@@ -642,11 +642,6 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withSecurityDeposit(securityDeposit: Int?): Data {
-            this.securityDeposit = securityDeposit
-            return this
-        }
-
         fun withLength(length: Double?): Data {
             this.length = length
             return this
@@ -699,11 +694,6 @@ class SurveyDetailsList : Serializable {
 
         fun withCsFmcg(csFmcg: Double?): Data {
             this.csFmcg = csFmcg
-            return this
-        }
-
-        fun withExpectedRent(expectedRent: Int?): Data {
-            this.expectedRent = expectedRent
             return this
         }
 

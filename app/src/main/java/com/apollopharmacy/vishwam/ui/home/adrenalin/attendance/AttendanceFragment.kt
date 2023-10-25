@@ -47,7 +47,6 @@ import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorLi
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
-import com.apollopharmacy.vishwam.ui.home.drugmodule.DrugImageRecyclerView
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DoctorListDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.GstDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteDialogAttendence
@@ -345,8 +344,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                             requireContext(),
                             context?.resources?.getString(R.string.label_network_error),
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        ).show()
                     }
                 }
 
@@ -445,13 +443,17 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 deptTaskSpinner = dialog.findViewById<Spinner>(R.id.task_spinner)
                 marketingTaskSpinner = dialog.findViewById<Spinner>(R.id.marketing_spinner)
                 MARKETING_TASK_LIST.add("Select Task")
-                MARKETING_TASK_LIST.add("Social Media")
-                MARKETING_TASK_LIST.add("Advertising")
-                marketingSubTaskList.add("Select SubTask")
+                /*MARKETING_TASK_LIST.add("Social Media")
+                MARKETING_TASK_LIST.add("Advertising")*/
+                MARKETING_TASK_LIST.add("Office work")
+                MARKETING_TASK_LIST.add("New business client visit")
+                MARKETING_TASK_LIST.add("Debtor Follow-up Client Visit")
+                MARKETING_TASK_LIST.add("Existing client relationship visit")
+                /*marketingSubTaskList.add("Select SubTask")
                 marketingSubTaskList.add("Watsapp")
                 marketingSubTaskList.add("Instagram")
                 marketingSubTaskList.add("Youtube")
-                marketingSubTaskList.distinct()
+                marketingSubTaskList.distinct()*/
 
 
 
@@ -480,6 +482,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 }
 
                 marketingText.setOnClickListener {
+
+
                     GstDialog().apply {
                         arguments = GstDialog().generateParsedData(marketingSubTaskList)
                     }.show(childFragmentManager, "")
@@ -498,7 +502,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
                 DEPT_LIST.add("Select Department")
                 DEPT_LIST.add("Marketing")
-
+                dept_List_Map.put(Integer.parseInt("1001"), "Marketing")
                 for (item in departmentList) {
                     dept_List_Map.put(Integer.parseInt(item.ID), item.DEPARTMENT)
                     DEPT_LIST.add(item.DEPARTMENT)
@@ -519,30 +523,32 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                             view: View, position: Int, id: Long,
                         ) {
 
-                            if (DEPT_LIST[position].equals("Marketing")) {
-                                taskName = true
 
-                                val adapter = ArrayAdapter(
-                                    requireContext(),
-                                    R.layout.view_spinner_item,
-                                    R.id.spinner_text,
-                                    MARKETING_TASK_LIST.distinct()
-                                )
-                                marketingTaskSpinner.adapter = adapter
-                                marketingTaskSpinner.visibility = View.VISIBLE
-                                deptTaskSpinner.visibility = View.GONE
-                                siteId.visibility = View.GONE
-                                doctorId.visibility = View.GONE
-
-                            }
                             if (getKeyFromValue(dept_List_Map, DEPT_LIST[position]) != 0) {
                                 isDepartmentSelected = true
                                 isDepartmentTaskSelected = false
                                 enteredTaskName = DEPT_LIST[position]
 
+                                if (DEPT_LIST[position].equals("Marketing")) {
+                                    taskName = true
 
+                                    val adapter = ArrayAdapter(
+                                        requireContext(),
+                                        R.layout.view_spinner_item,
+                                        R.id.spinner_text,
+                                        MARKETING_TASK_LIST.distinct()
+                                    )
 
-                                if (DEPT_LIST[position].equals("DR CONNECT")) {
+                                    marketingText.visibility = View.GONE
+                                    description.visibility = View.GONE
+                                    captureLayout.visibility = View.GONE
+                                    marketingTaskSpinner.adapter = adapter
+                                    marketingTaskSpinner.visibility = View.VISIBLE
+                                    deptTaskSpinner.visibility = View.GONE
+                                    siteId.visibility = View.GONE
+                                    doctorId.visibility = View.GONE
+
+                                } else if (DEPT_LIST[position].equals("DR CONNECT")) {
                                     siteIdText.setText("")
                                     marketingTaskSpinner.visibility = View.GONE
                                     description.visibility = View.GONE
@@ -594,9 +600,45 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
 
                         if (position != 0) {
-                            if (taskName && MARKETING_TASK_LIST.get(position)
-                                    .equals("Social Media")
+                            if (taskName && (MARKETING_TASK_LIST.get(position).equals("Office work")
+                                        || MARKETING_TASK_LIST.get(position)
+                                    .equals("New business client visit")
+                                        || MARKETING_TASK_LIST.get(position)
+                                    .equals("Debtor Follow-up Client Visit")
+                                        || MARKETING_TASK_LIST.get(position)
+                                    .equals("Existing client relationship visit"))
                             ) {
+                                marketingText.visibility = View.VISIBLE
+                                marketingText.setText("")
+                                description.visibility = View.GONE
+                                captureLayout.visibility = View.GONE
+                                if (MARKETING_TASK_LIST.get(position).equals("Office work")) {
+                                    marketingSubTaskList.clear()
+                                    marketingSubTaskList.add("Discussion with RH")
+                                    marketingSubTaskList.add("New proposal working")
+                                    marketingSubTaskList.add("Discussion with Team")
+                                    marketingSubTaskList.add("Internal review")
+                                } else if (MARKETING_TASK_LIST.get(position)
+                                        .equals("New business client visit")
+                                ) {
+                                    marketingSubTaskList.clear()
+                                    marketingSubTaskList.add("Private Corp")
+                                    marketingSubTaskList.add("PSU")
+                                } else if (MARKETING_TASK_LIST.get(position)
+                                        .equals("Debtor Follow-up Client Visit")
+                                ) {
+                                    marketingSubTaskList.clear()
+                                    marketingSubTaskList.add("Long over due discussion")
+                                    marketingSubTaskList.add("Bill submission issue")
+                                    marketingSubTaskList.add("Related to current O/S")
+                                    marketingSubTaskList.add("Any other mandatory typing space")
+                                } else if (MARKETING_TASK_LIST.get(position)
+                                        .equals("Existing client relationship visit")
+                                ) {
+                                    marketingSubTaskList.clear()
+                                    marketingSubTaskList.add("General feedback visit")
+                                    marketingSubTaskList.add("Specific issue based visit")
+                                }
                                 marketingSubBranch.visibility = View.VISIBLE
 
                             }
@@ -622,9 +664,47 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                     ) {
 
 
-                        if (taskName && MARKETING_TASK_LIST.get(position).equals("Social Media")) {
+                        if (taskName &&
+                            (MARKETING_TASK_LIST.get(position).equals("Office work")
+                                    || MARKETING_TASK_LIST.get(position)
+                                .equals("New business client visit")
+                                    || MARKETING_TASK_LIST.get(position)
+                                .equals("Debtor Follow-up Client Visit")
+                                    || MARKETING_TASK_LIST.get(position)
+                                .equals("Existing client relationship visit"))
+                        ) {
+                            marketingText.visibility = View.VISIBLE
+                            marketingText.setText("")
+                            description.visibility = View.GONE
+                            captureLayout.visibility = View.GONE
+                            if (MARKETING_TASK_LIST.get(position).equals("Office work")) {
+                                marketingSubTaskList.clear()
+                                marketingSubTaskList.add("Discussion with RH")
+                                marketingSubTaskList.add("New proposal working")
+                                marketingSubTaskList.add("Discussion with Team")
+                                marketingSubTaskList.add("Internal review")
+                            } else if (MARKETING_TASK_LIST.get(position)
+                                    .equals("New business client visit")
+                            ) {
+                                marketingSubTaskList.clear()
+                                marketingSubTaskList.add("Private Corp")
+                                marketingSubTaskList.add("PSU")
+                            } else if (MARKETING_TASK_LIST.get(position)
+                                    .equals("Debtor Follow-up Client Visit")
+                            ) {
+                                marketingSubTaskList.clear()
+                                marketingSubTaskList.add("Long over due discussion")
+                                marketingSubTaskList.add("Bill submission issue")
+                                marketingSubTaskList.add("Related to current O/S")
+                                marketingSubTaskList.add("Any other mandatory typing space")
+                            } else if (MARKETING_TASK_LIST.get(position)
+                                    .equals("Existing client relationship visit")
+                            ) {
+                                marketingSubTaskList.clear()
+                                marketingSubTaskList.add("General feedback visit")
+                                marketingSubTaskList.add("Specific issue based visit")
+                            }
                             marketingSubBranch.visibility = View.VISIBLE
-
                         }
                         if (position != 0) {
 
@@ -1504,7 +1584,15 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
 
     override fun onItemClick(position: Int, imagePath: String, name: String) {
-        PopUpWIndow(context, R.layout.layout_image_fullview, cameraIcon, imagePath, null, name, position)
+        PopUpWIndow(
+            context,
+            R.layout.layout_image_fullview,
+            cameraIcon,
+            imagePath,
+            null,
+            name,
+            position
+        )
     }
 
     override fun deleteImage(position: Int) {
