@@ -15,11 +15,10 @@
      limitations under the License.
 -->
 
-<set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:interpolator="@android:anim/accelerate_interpolator" >
+<set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <translate
-        android:duration="450"
+        android:duration="@android:integer/config_longAnimTime"
         android:fromXDelta="0"
         android:toXDelta="100%p" />
 
