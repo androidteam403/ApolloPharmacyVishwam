@@ -2499,7 +2499,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //replacing the fragment
         if (fragment != null && itemName.equalsIgnoreCase("HOME")) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//            ft.setCustomAnimations(R.anim.slide_out_to_left, R.anim.slide_out_to_right);
+            ft.setCustomAnimations(R.anim.anim_enter,R.anim.anim_exit);
 
             ft.replace(R.id.fragment_container, fragment);
             ft.addToBackStack(null);
@@ -2510,7 +2510,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         else if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.setCustomAnimations(R.anim.slide_out_to_right,R.anim.slide_out_to_left);
+            ft.setCustomAnimations(R.anim.anim_enter,R.anim.anim_exit);
             ft.replace(R.id.fragment_container, fragment);
             ft.addToBackStack(null);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
