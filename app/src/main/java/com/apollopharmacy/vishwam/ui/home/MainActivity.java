@@ -2499,7 +2499,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //replacing the fragment
         if (fragment != null && itemName.equalsIgnoreCase("HOME")) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.setCustomAnimations(R.anim.anim_enter,R.anim.anim_exit);
+            ft.setCustomAnimations(R.anim.slide_to_right_new,R.anim.slide_to_left_new);
 
             ft.replace(R.id.fragment_container, fragment);
             ft.addToBackStack(null);
