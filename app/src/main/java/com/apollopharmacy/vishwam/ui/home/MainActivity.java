@@ -1445,7 +1445,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setVisibility(View.VISIBLE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
-                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 logoutBtn.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
@@ -1466,11 +1466,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent i = new Intent(this, GreetingActivity.class);
                 refreshIconQc.setVisibility(View.GONE);
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-
                 startActivity(i);
                 break;
-
-
             case "Cash Deposit":
                 headerText.setText("Cash Deposit");
                 fragment = new CashCloserFragment();
@@ -1524,7 +1521,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
-                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+//                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
