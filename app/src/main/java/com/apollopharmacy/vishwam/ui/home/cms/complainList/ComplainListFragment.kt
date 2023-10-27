@@ -259,6 +259,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     isLoading = false
                 } else {
                     viewBinding.recyclerViewApproved.visibility = View.GONE
+                    viewBinding.pullToRefresh.visibility = View.GONE
                     viewBinding.emptyList.visibility = View.VISIBLE
                 }
             } else {
@@ -274,6 +275,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 }
                 viewBinding.emptyList.visibility = View.GONE
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
+                viewBinding.pullToRefresh.visibility = View.VISIBLE
                 if (isLoading) {
                     adapter!!.getData().removeAt(adapter!!.getData().size - 1)
                     var listSize = adapter!!.getData().size
@@ -1509,10 +1511,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 .into(binding.image)
             binding.image.setOnClickListener {
                 items.url?.let { it1 -> imageClickListener.onItemClick(position, it1) }
-            }
+            }//image
             binding.eyePreviewIcon.setOnClickListener {
                 imageClickListener.onClickPreviewIconBackOther(items.url, it)
             }
+           /* binding.eyePreviewIcon.setOnClickListener {
+                imageClickListener.onClickPreviewIconBackOther(items.url, it)
+            }*/
         }
     }
 
@@ -2587,7 +2592,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     var isNewStatusClicked = false
     override fun onClickFilterIcon() {
-        val complaintListStatusFilterDialog = context?.let { Dialog(it) }
+        val complaintListStatusFilterDialog = Dialog(context!!, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen)//context?.let { Dialog(it) }
         val dialogComplaintListFilterBinding: DialogComplaintListFilterBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(context), R.layout.dialog_complaint_list_filter, null, false
