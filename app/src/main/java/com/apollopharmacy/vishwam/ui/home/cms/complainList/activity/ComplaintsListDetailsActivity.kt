@@ -85,7 +85,7 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
 
         orderDataWp = intent.getSerializableExtra("orderDataWp") as ResponseNewTicketlist.Row
         orderData =
-            intent.getStringArrayListExtra("orderData") as ArrayList<ResponseNewTicketlist.Row>
+            intent.getSerializableExtra("orderData") as ArrayList<ResponseNewTicketlist.Row>
         position = intent.getIntExtra("position", 0)
         isFromApprovalList = intent.getBooleanExtra("isFromApprovalList", false)
         activityComplaintsDetailsBinding.ticketNumber.text = orderDataWp.ticket_id

@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey
 
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.model.TrainersEmailIdResponse
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 
@@ -33,4 +34,10 @@ interface ChampsSurveyCallBack {
      fun onFailuregetSubCategoryDetails(value: GetSubCategoryDetailsModelResponse)
      fun onSuccessSaveUpdateApi(value: SaveUpdateResponse)
      fun onFailureSaveUpdateApi(value: SaveUpdateResponse)
+
+     fun onClickDelete()
+
+     fun onClickEyeIconForDropDown()
+     fun onSuccessTrainerList(storeWiseDetailListResponse: TrainersEmailIdResponse?)
+     fun onFailureTrainerList(storeWiseDetailListResponse: TrainersEmailIdResponse?)
 }

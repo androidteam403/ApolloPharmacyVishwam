@@ -69,7 +69,7 @@
                             android:layout_width="@dimen/dimen20dp"
                             android:layout_height="@dimen/dimen20dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/siteid_icon" />
+                            android:src="@drawable/plus" />
 
 
                     </LinearLayout>

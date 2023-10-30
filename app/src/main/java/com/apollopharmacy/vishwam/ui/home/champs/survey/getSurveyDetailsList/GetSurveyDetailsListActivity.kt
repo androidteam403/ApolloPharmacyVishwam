@@ -98,7 +98,7 @@ class GetSurveyDetailsListActivity :
 //        region = intent.getStringExtra("region")!!
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val cal = Calendar.getInstance()
-        cal.add(Calendar.DATE, -7)
+        cal.add(Calendar.DATE, -6)
         val currentDate: String = simpleDateFormat.format(Date())
 
         var fromdate = simpleDateFormat.format(cal.time)
@@ -278,7 +278,7 @@ class GetSurveyDetailsListActivity :
         if (requestCode == 781 && resultCode == RESULT_OK || requestCode == 891 && resultCode == RESULT_OK ) {
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
             val cal = Calendar.getInstance()
-            cal.add(Calendar.DATE, -7)
+            cal.add(Calendar.DATE, -6)
             val currentDate: String = simpleDateFormat.format(Date())
 
             var fromdate = simpleDateFormat.format(cal.time)
