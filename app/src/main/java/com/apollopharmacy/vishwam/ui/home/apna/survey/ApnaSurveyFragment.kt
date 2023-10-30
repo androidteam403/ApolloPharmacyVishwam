@@ -58,6 +58,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
+        viewBinding.callback = this
 
         MainActivity.mInstance.filterIndicator.visibility = View.GONE
 //        showLoading()
