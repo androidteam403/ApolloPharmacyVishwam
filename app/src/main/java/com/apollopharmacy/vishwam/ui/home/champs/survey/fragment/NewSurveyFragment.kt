@@ -37,6 +37,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
     var isSiteIdEmpty: Boolean = false
     var isNewSurveyCreated = false
     var status = ""
+//    var siteId: String? = ""
 
 //    override val layoutRes: Int
 //        get() = R.layout.fragment_champs_survey
@@ -61,18 +62,19 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun setup() {
         fragmentChampsSurveyBinding!!.callback = this
 //        MainActivity.mInstance.mainActivityCallback = this
 //        Utlis.hideLoading()
-        if (Preferences.getApnaSiteId().isEmpty()) {
+        if (Preferences.getSaveChampsSurveySiteId().isEmpty()) {
 //            showLoading()
             val i = Intent(applicationContext, SelectChampsSiteIDActivity::class.java)
             i.putExtra("modulename", "CHAMPS")
             startActivityForResult(i, 781)
         } else {
 
-            fragmentChampsSurveyBinding!!.enterStoreEdittext.setText("${Preferences.getApnaSiteId()} - ${Preferences.getApnaSiteName()}")
+            fragmentChampsSurveyBinding!!.enterStoreEdittext.setText("${Preferences.getSaveChampsSurveySiteId()} - ${Preferences.getSaveChampsSurveySiteName()}")
 
 
 //
@@ -104,10 +106,17 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
             }
             if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                 Utlis.showLoading(this)
-                newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
-                    this,
-                    Preferences.getApnaSiteId()
-                )
+                if(storeId.isNullOrEmpty()){
+                    newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
+                        this,
+                        Preferences.getSaveChampsSurveySiteId()
+                    )
+                }else{
+                    newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
+                        this,
+                        storeId!!
+                    )
+                }
             } else {
                 Toast.makeText(
                     applicationContext,
@@ -182,7 +191,13 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
     override fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>) {
         if (value != null) {
             for (i in value.indices) {
-                if (value.get(i).site.equals(Preferences.getApnaSiteId())) {//viewBinding.enterStoreEdittext.text.toString()
+                var siteForDetails = ""
+                if(storeId.isNullOrEmpty()){
+                    siteForDetails = Preferences.getSaveChampsSurveySiteId()
+                }else{
+                    siteForDetails= storeId!!
+                }
+                if (value.get(i).site.equals(siteForDetails)) {//viewBinding.enterStoreEdittext.text.toString()
                     storeId = value.get(i).site
                     siteName = value.get(i).storeName
                     Preferences.setChampsSiteName(siteName!!)
@@ -191,16 +206,24 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                     if (value.get(i).address != null)
                         address = value.get(i).address
                     fragmentChampsSurveyBinding!!.storeId.text =
-                        "${value.get(i).site} - ${Preferences.getApnaSiteName()}"
+                        "${value.get(i).site} - ${siteName}"
                     fragmentChampsSurveyBinding!!.region.text =
                         value.get(i).city + ", " + value.get(i).state!!.name + ", " + value.get(i).district!!.name
 
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                         Utlis.showLoading(this)
-                        newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
-                            this,
-                            fragmentChampsSurveyBinding!!.enterStoreEdittext.text.toString()
-                        )
+                        if(storeId.isNullOrEmpty()){
+                            newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
+                                this,
+                                Preferences.getSaveChampsSurveySiteId()
+                            )
+                        }else{
+                            newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
+                                this,
+                                storeId!!
+                            )
+                        }
+
                     } else {
                         Toast.makeText(
                             applicationContext,
@@ -218,10 +241,18 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
 
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
             Utlis.showLoading(this)
-            newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
-                this,
-                Preferences.getApnaSiteId()
-            )
+            if(storeId.isNullOrEmpty()){
+                newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
+                    this,
+                    Preferences.getSaveChampsSurveySiteId()
+                )
+            }else{
+                newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
+                    this,
+                    storeId!!
+                )
+            }
+
         } else {
             Toast.makeText(
                 applicationContext,
@@ -282,7 +313,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
             i.putExtra("modulename", "CHAMPS")
             startActivityForResult(i, 781)
         }
-
+        hideLoading()
     }
 
     override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
@@ -314,6 +345,8 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             isSiteIdEmpty = data!!.getBooleanExtra("isSiteIdEmpty", isSiteIdEmpty)
+            storeId = data!!.getStringExtra("siteId")
+            siteName = data!!.getStringExtra("siteName")
             if (requestCode == 781) {
                 hideLoading()
                 Utlis.hideLoading()
@@ -322,7 +355,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
 //                    hideLoadingTemp()
                     hideLoading()
                 } else {
-                    fragmentChampsSurveyBinding!!.enterStoreEdittext.setText("${Preferences.getApnaSiteId()} - ${Preferences.getApnaSiteName()}")
+                    fragmentChampsSurveyBinding!!.enterStoreEdittext.setText("${storeId} - ${siteName}")
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                         Utlis.showLoading(this)
                         newSurveyViewModel!!.getStoreDetailsChampsApi(

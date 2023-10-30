@@ -78,6 +78,9 @@ public class GetStoreWiseDetailsModelResponse implements Serializable {
         @SerializedName("region_head")
         @Expose
         private RegionHead regionHead;
+        @SerializedName("region")
+        @Expose
+        private Region region;
         @SerializedName("site_mngr_exec")
         @Expose
         private List<SiteMngrExec> siteMngrExec;
@@ -331,6 +334,35 @@ public class GetStoreWiseDetailsModelResponse implements Serializable {
         public Manager withRole(Role__2 role) {
             this.role = role;
             return this;
+        }
+
+    }
+
+
+    public class Region implements Serializable
+    {
+
+        @SerializedName("uid")
+        @Expose
+        private String uid;
+        @SerializedName("code")
+        @Expose
+        private String code;
+
+        public String getUid() {
+            return uid;
+        }
+
+        public void setUid(String uid) {
+            this.uid = uid;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
         }
 
     }

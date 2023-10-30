@@ -335,7 +335,7 @@ public class Utils {
     @SuppressLint("NewApi")
     public static String getDurationTime(String currentDate, String previousDate) {
         String resultTime = "";
-        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.ENGLISH);
+        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy - hh:mm a", Locale.ENGLISH);
         Date dateCurrent = null;
         Date dateBefore = null;
         try {
@@ -378,7 +378,7 @@ public class Utils {
     }
     public static String getDurationTimMin(String currentDate, String previousDate) {
         String resultTime = "";
-        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.ENGLISH);
+        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy - hh:mm a", Locale.ENGLISH);
         Date dateCurrent = null;
         Date dateBefore = null;
         try {
@@ -423,7 +423,7 @@ public class Utils {
     @SuppressLint("NewApi")
     public static String getDurationTimeSec(String currentDate, String previousDate) {
         String resultTime = "";
-        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.ENGLISH);
+        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy - hh:mm a", Locale.ENGLISH);
         Date dateCurrent = null;
         Date dateBefore = null;
         try {
@@ -470,7 +470,7 @@ public class Utils {
         SimpleDateFormat format2 = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH);
-            format2 = new SimpleDateFormat("dd MMM yyyy, hh:mm aa", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("dd MMM yyyy - hh:mm aa", Locale.ENGLISH);
         }
         String convertedDate = "";
         try {
@@ -550,7 +550,7 @@ public class Utils {
         SimpleDateFormat format2 = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH);
-            format2 = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("dd MMM yyyy - hh:mm a", Locale.ENGLISH);
         }
         String convertedDate = "";
         try {
@@ -609,7 +609,7 @@ public class Utils {
 
     public static String getAttendanceCurrentDate() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.ENGLISH).format(Calendar.getInstance().getTime());
+            return new SimpleDateFormat("dd MMM yyyy - hh:mm a", Locale.ENGLISH).format(Calendar.getInstance().getTime());
         } else {
             return "";
         }
@@ -681,7 +681,7 @@ public class Utils {
         SimpleDateFormat format2 = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-            format2 = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("dd MMM yyyy - hh:mm a", Locale.ENGLISH);
         }
         String convertedDate = "";
         try {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
 
@@ -60,6 +61,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <LinearLayout
+                            android:layout_marginBottom="@dimen/value_40dp"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
@@ -83,7 +85,7 @@
                                         <LinearLayout
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginStart="@dimen/value_15dp"
+                                            android:layout_marginStart="@dimen/value_10dp"
                                             android:layout_marginTop="@dimen/value_10dp"
                                             android:orientation="horizontal">
 
@@ -127,7 +129,7 @@
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/value_15dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
                                     android:layout_marginTop="@dimen/value_5dp"
                                     android:orientation="horizontal">
 
@@ -154,32 +156,100 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginStart="@dimen/value_10dp"
                                 android:orientation="vertical">
 
                                 <LinearLayout
+
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/value_12dp"
                                     android:orientation="vertical">
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Trainer: "
-                                        android:textColor="@color/grey"
-                                        android:textStyle="bold" />
+                                    <LinearLayout
 
-                                    <TextView
-                                        android:id="@+id/trainer"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:weightSum="1"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/darkk_blue"
-                                        android:textStyle="bold" />
+                                        android:layout_marginTop="@dimen/value_12dp"
+                                        android:orientation="horizontal">
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0.9">
+
+                                            <TextView
+                                                android:textSize="@dimen/text_13sp"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Trainer: "
+                                                android:textColor="@color/grey"
+                                                android:textStyle="bold" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_gravity="center"
+                                            android:onClick="@{()-> callback.onClickEyeIconForDropDown()}"
+                                            android:id="@+id/eye_icon_for_dropdown"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0.1">
+
+                                            <ImageView
+                                                android:layout_width="@dimen/value_15dp"
+                                                android:layout_height="@dimen/value_15dp"
+                                                android:src="@drawable/plus"
+                                                app:tint="@color/black" />
+
+
+                                        </LinearLayout>
+
+
+
+
+
+
+
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/value_3dp"
+                                            android:background="@drawable/manual_recipients_email_bg"
+                                            android:gravity="center"
+                                            android:orientation="horizontal"
+                                            android:padding="@dimen/value_8dp">
+
+                                            <TextView
+                                                android:id="@+id/trainer"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/darkk_blue"
+                                                android:textStyle="bold" />
+                                        </LinearLayout>
+
+
+
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/trainerRecyclerview"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            />
+
+                                    </LinearLayout>
 
 
                                 </LinearLayout>
 
+
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -187,18 +257,30 @@
                                     android:orientation="vertical">
 
                                     <TextView
+                                        android:textSize="@dimen/text_13sp"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Regional Head: "
                                         android:textColor="@color/grey"
                                         android:textStyle="bold" />
 
-                                    <TextView
-                                        android:id="@+id/regionalHead"
+                                    <LinearLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/darkk_blue"
-                                        android:textStyle="bold" />
+                                        android:layout_margin="@dimen/value_3dp"
+                                        android:background="@drawable/manual_recipients_email_bg"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        android:padding="@dimen/value_8dp">
+                                        <TextView
+                                            android:id="@+id/regionalHead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/darkk_blue"
+                                            android:textStyle="bold" />
+                                    </LinearLayout>
+
+
 
 
                                 </LinearLayout>
@@ -210,18 +292,30 @@
                                     android:orientation="vertical">
 
                                     <TextView
+                                        android:textSize="@dimen/text_13sp"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Manager: "
                                         android:textColor="@color/grey"
                                         android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/manager"
+                                    <LinearLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/darkk_blue"
-                                        android:textStyle="bold" />
+                                        android:layout_margin="@dimen/value_3dp"
+                                        android:background="@drawable/manual_recipients_email_bg"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        android:padding="@dimen/value_8dp">
+
+                                        <TextView
+                                            android:id="@+id/manager"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/darkk_blue"
+                                            android:textStyle="bold" />
+                                    </LinearLayout>
+
+
 
 
                                 </LinearLayout>
@@ -232,19 +326,34 @@
                                     android:layout_marginTop="@dimen/value_12dp"
                                     android:orientation="vertical">
 
+
+
                                     <TextView
+                                        android:textSize="@dimen/text_13sp"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Executive: "
                                         android:textColor="@color/grey"
                                         android:textStyle="bold" />
 
-                                    <TextView
-                                        android:id="@+id/executive"
+                                    <LinearLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/darkk_blue"
-                                        android:textStyle="bold" />
+                                        android:layout_margin="@dimen/value_3dp"
+                                        android:background="@drawable/manual_recipients_email_bg"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        android:padding="@dimen/value_8dp">
+
+                                        <TextView
+                                            android:id="@+id/executive"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/darkk_blue"
+                                            android:textStyle="bold" />
+                                    </LinearLayout>
+
+
 
 
                                 </LinearLayout>
@@ -266,11 +375,12 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginStart="@dimen/value_10dp"
                                 android:layout_marginTop="@dimen/value_15dp"
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:textSize="@dimen/text_13sp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Recipients: "
@@ -414,12 +524,13 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginStart="@dimen/value_10dp"
                                 android:layout_marginTop="@dimen/value_15dp"
                                 android:layout_marginBottom="@dimen/value_10dp"
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:textSize="@dimen/text_13sp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="CC: "
@@ -505,6 +616,38 @@
                             </LinearLayout>
 
                         </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_alignParentBottom="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <RelativeLayout
+                                android:layout_gravity="center"
+                                android:id="@+id/startSurveyButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginEnd="@dimen/value_10dp"
+                                android:background="@drawable/greenbackgrounf_forstartsurvey"
+                                android:gravity="center"
+                                android:onClick="@{()-> callback.onClickStartChampsSurvey()}"
+                                android:padding="@dimen/value_12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="START CHAMPS SURVEY"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_17sp"
+                                    android:textStyle="bold" />
+
+
+                            </RelativeLayout>
+                        </RelativeLayout>
 
 
                     </RelativeLayout>
@@ -1347,36 +1490,7 @@
                     <!--                </LinearLayout>-->
                 </ScrollView>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
 
-                    <RelativeLayout
-                        android:layout_gravity="center"
-                        android:id="@+id/startSurveyButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="@dimen/value_15dp"
-                        android:layout_marginEnd="@dimen/value_10dp"
-                        android:background="@drawable/greenbackgrounf_forstartsurvey"
-                        android:gravity="center"
-                        android:onClick="@{()-> callback.onClickStartChampsSurvey()}"
-                        android:padding="@dimen/value_12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="START CHAMPS SURVEY"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_17sp"
-                            android:textStyle="bold" />
-
-
-                    </RelativeLayout>
-                </RelativeLayout>
 
 
 

@@ -34,6 +34,9 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
     var siteDataList = ArrayList<StoreDetailsModelResponse.Row>()
     var isSiteIdEmpty: Boolean = false
     private lateinit var dialog: Dialog
+    public var storeIdSelected = ""
+    var siteId: String? = ""
+    var siteName: String? = ""
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,16 +95,20 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
     }
 
     override fun onClickCancel() {
-        if (!Preferences.getApnaSiteId().isEmpty()) {
+        if (!siteId!!.isEmpty()) {
             isSiteIdEmpty = false
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            intent.putExtra("siteId", siteId)
+            intent.putExtra("siteName", siteName)
             setResult(Activity.RESULT_OK, intent)
             finish()
         } else {
             isSiteIdEmpty = true
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            intent.putExtra("siteId", siteId)
+            intent.putExtra("siteName", siteName)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
@@ -112,16 +119,20 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
 //        setResult(Activity.RESULT_OK, intent)
 //        finish()
 
-        if (!Preferences.getApnaSiteId().isEmpty()) {
+        if (!siteId!!.isEmpty()) {
             isSiteIdEmpty = false
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            intent.putExtra("siteId", siteId)
+            intent.putExtra("siteName", siteName)
             setResult(Activity.RESULT_OK, intent)
             finish()
         } else {
             isSiteIdEmpty = true
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            intent.putExtra("siteId", siteId)
+            intent.putExtra("siteName", siteName)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
@@ -136,8 +147,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         }
     }
 
-    var siteId: String? = ""
-    var siteName: String? = ""
+
 
     override fun onItemClick(site: String, siteName: String) {
 
@@ -206,6 +216,8 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
             Preferences.setApnaSite(siteId!!)
             Preferences.setChampsSiteName(siteName!!)
             val intent = Intent()
+            intent.putExtra("siteId", siteId)
+            intent.putExtra("siteName", siteName)
             setResult(Activity.RESULT_OK, intent)
             finish()
         } else {
