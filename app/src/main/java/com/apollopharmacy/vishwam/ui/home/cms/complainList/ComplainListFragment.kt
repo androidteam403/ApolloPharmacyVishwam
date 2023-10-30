@@ -82,10 +82,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     var complaintListStatus: String =
         "new,inprogress,solved,rejected,reopened,closed,onHold,selectAll"
-   var orderData: ArrayList<ResponseNewTicketlist.Row>? = null
+    var orderData: ArrayList<ResponseNewTicketlist.Row>? = null
+
     // var TicketHistorydata:ArrayList<NewTicketHistoryResponse.Row>()
     var isTicketListThereFirstTime: Boolean = true
 
+    var fromDate = Utils.getCurrentDate()
+    var toDate = Utils.getCurrentDate()
     override fun onPause() {
         super.onPause()
         MainActivity.mInstance.filterIndicator.visibility = View.GONE
@@ -133,9 +136,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         if (arguments?.getBoolean("isFromApprovalList") == true) {
             viewBinding.dateFilterLayout.visibility = View.GONE
 //            viewBinding.dateSelectionLayout.visibility = View.GONE
-            val layoutParams: LinearLayout.LayoutParams =
+           /* val layoutParams: LinearLayout.LayoutParams =
                 LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 110)
-            viewBinding.overAllDateFilter.setLayoutParams(layoutParams)
+            viewBinding.overAllDateFilter.setLayoutParams(layoutParams)*/
 
 
         } else {
@@ -244,7 +247,6 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         }
 
         viewModel.resLiveData.observe(viewLifecycleOwner) {
-            Utlis.hideLoading()
             if (viewBinding.pullToRefresh.isRefreshing) {
                 viewBinding.pullToRefresh.isRefreshing = false
             }
@@ -293,6 +295,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     viewBinding.recyclerViewApproved.adapter = adapter
                 }
             }
+            Utlis.hideLoading()
         }
         //tickethistory api response...............................................................
         viewModel.newtickethistoryLiveData.observe(viewLifecycleOwner, Observer {
@@ -480,16 +483,15 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         }
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             isFirstTime = false
-            var fromDate = Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString())
-            var toDate = Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString())
+            var fromDate =
+                Utils.getticketlistfiltersdate(fromDate)//viewBinding.fromDateText.text.toString()
+            var toDate =
+                Utils.getticketlistfiltersdate(toDate)//viewBinding.toDateText.text.toString()
             if (!isLoading) Utlis.showLoading(requireContext())
 
             viewModel.getNewticketlist(
                 RequestComplainList(
-                    //"11002",
                     Preferences.getSiteId(),
-                    // viewBinding.fromDateText.text.toString(),
-                    // viewBinding.toDateText.text.toString(),
                     fromDate, toDate, userData.EMPID, page
                 ),
                 complaintListStatus,
@@ -529,17 +531,17 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         if (isFromDateSelected) {
             ComplaintListCalendarDialog().apply {
                 arguments = generateParsedData(
-                    viewBinding.fromDateText.text.toString(),
+                    dialogComplaintListFilterBinding!!.fromDateText.text.toString(),
                     false,
-                    viewBinding.fromDateText.text.toString()
+                    dialogComplaintListFilterBinding!!.fromDateText.text.toString()
                 )
             }.show(childFragmentManager, "")
         } else {
             ComplaintListCalendarDialog().apply {
                 arguments = generateParsedData(
-                    viewBinding.toDateText.text.toString(),
+                    dialogComplaintListFilterBinding!!.toDateText.text.toString(),
                     true,
-                    viewBinding.fromDateText.text.toString()
+                    dialogComplaintListFilterBinding!!.fromDateText.text.toString()
                 )
             }.show(childFragmentManager, "")
         }
@@ -624,7 +626,29 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         }
 
         inner class ProgressViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+        fun bindItems(
+            binding: ViewComplaintItemBinding,
+            items: ResponseNewTicketlist.Row,
+            position: Int,
 
+            ) {
+            binding.ticketNumber.text = items.ticket_id
+            binding.regDate.text = items.created_time?.let {
+                Utlis.cmsComplaintDateFormat(it)
+            }
+            binding.cmpStatus.text = " " + items.status!!.name
+            binding.cmpStatus.setTextColor(Color.parseColor(items.status!!.background_color))
+            binding.pendingLayout.setOnClickListener {
+                imageClickListener.onComplaintItemClick(
+                    position,
+                    orderData,
+                    orderData.get(position)
+                )
+
+            }
+        }
+
+/* start
         fun bindItems(
             binding: ViewComplaintItemBinding,
             items: ResponseNewTicketlist.Row,
@@ -1110,7 +1134,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 }
 
             }
-            /*    // soubworkflow manual
+            */
+/*    // soubworkflow manual
                         if (items!!.have_subworkflow != null) {
                             if (items!!.have_subworkflow == true) {
                                 if (items!!.is_subworkflow_completed == false) {
@@ -1143,7 +1168,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         } else {
                             binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
                         }
-            */
+            *//*
+
 
 
 
@@ -1200,7 +1226,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 }
 
 
-                /*  //Subworkflow action details adapter.....
+                */
+/*  //Subworkflow action details adapter.....
                   if (orderData != null
                       && orderData.get(position) != null
                       && orderData.get(position).ticket_subworkflow_history != null
@@ -1225,7 +1252,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                           subworkflowActionDetailsAdapter
                   } else {
                       binding.subworkflowDetailsHistoryLayout.visibility = View.GONE
-                  }*/
+                  }*//*
+
             }
             binding.pendingLayout.setOnClickListener {
                 imageClickListener.onComplaintItemClick(
@@ -1241,8 +1269,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.arrow.visibility = View.GONE
                 binding.arrowClose.visibility = View.VISIBLE
 
-                /*   tickethistoryresponsenew=
-                       orderData[position].uid?.let { imageClickListener.gettickethistory(it) }!!;*/
+                */
+/*   tickethistoryresponsenew=
+                       orderData[position].uid?.let { imageClickListener.gettickethistory(it) }!!;*//*
+
 
             } else {
                 binding.extraData.visibility = View.GONE
@@ -1290,6 +1320,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.closedDateLayout.visibility = View.GONE
             }
         }
+end*/
 
         fun notifyAdapter(userList: ArrayList<ResponseNewTicketlist.Row>) {
             this.orderData = userList
@@ -1515,9 +1546,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             binding.eyePreviewIcon.setOnClickListener {
                 imageClickListener.onClickPreviewIconBackOther(items.url, it)
             }
-           /* binding.eyePreviewIcon.setOnClickListener {
-                imageClickListener.onClickPreviewIconBackOther(items.url, it)
-            }*/
+            /* binding.eyePreviewIcon.setOnClickListener {
+                 imageClickListener.onClickPreviewIconBackOther(items.url, it)
+             }*/
         }
     }
 
@@ -2576,14 +2607,14 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
         if (isFromDateSelected) {
             isFromDateSelected = false
-            viewBinding.fromDateText.setText(showingDate)
-            val fromDate = viewBinding.fromDateText.text.toString()
-            val toDate = viewBinding.toDateText.text.toString()
+            dialogComplaintListFilterBinding!!.fromDateText.setText(showingDate)
+            val fromDate = dialogComplaintListFilterBinding!!.fromDateText.text.toString()
+            val toDate = dialogComplaintListFilterBinding!!.toDateText.text.toString()
             if (getDateDifference(fromDate, toDate) == 0) {
-                viewBinding.toDateText.setText(Utils.getCurrentDate())
+                dialogComplaintListFilterBinding!!.toDateText.setText(Utils.getCurrentDate())
             }
         } else {
-            viewBinding.toDateText.setText(showingDate)
+            dialogComplaintListFilterBinding!!.toDateText.setText(showingDate)
         }
     }
 
@@ -2591,102 +2622,135 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     }
 
     var isNewStatusClicked = false
+    var dialogComplaintListFilterBinding: DialogComplaintListFilterBinding? = null
     override fun onClickFilterIcon() {
-        val complaintListStatusFilterDialog = Dialog(context!!, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen)//context?.let { Dialog(it) }
-        val dialogComplaintListFilterBinding: DialogComplaintListFilterBinding =
+        val complaintListStatusFilterDialog = Dialog(
+            context!!,
+            android.R.style.Theme_Translucent_NoTitleBar_Fullscreen
+        )//context?.let { Dialog(it) }
+        dialogComplaintListFilterBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(context), R.layout.dialog_complaint_list_filter, null, false
             )
-        complaintListStatusFilterDialog!!.setContentView(dialogComplaintListFilterBinding.root)
+        complaintListStatusFilterDialog!!.setContentView(dialogComplaintListFilterBinding!!.root)
         complaintListStatusFilterDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        if (arguments?.getBoolean("isFromApprovalList") == true) {
+            dialogComplaintListFilterBinding!!.fromDate.visibility = View.GONE
+            dialogComplaintListFilterBinding!!.toDate.visibility = View.GONE
+        }
 
-        dialogComplaintListFilterBinding.closeDialog.setOnClickListener {
+        dialogComplaintListFilterBinding!!.fromDateText.text = fromDate
+        dialogComplaintListFilterBinding!!.toDateText.text = toDate
+        dialogComplaintListFilterBinding!!.closeDialog.setOnClickListener {
             complaintListStatusFilterDialog.dismiss()
         }
-        if (dialogComplaintListFilterBinding.newStatus.isChecked &&
-            dialogComplaintListFilterBinding.inProgressStatus.isChecked &&
-            dialogComplaintListFilterBinding.rejectedStatus.isChecked &&
-            dialogComplaintListFilterBinding.reopenStatus.isChecked &&
-            dialogComplaintListFilterBinding.closedStatus.isChecked &&
-            dialogComplaintListFilterBinding.resolvedStatus.isChecked &&
-            dialogComplaintListFilterBinding.onholdStatus.isChecked
-        ) {
-            dialogComplaintListFilterBinding.selectAll.isChecked = true
-        } else {
-            dialogComplaintListFilterBinding.selectAll.isChecked = false
+        dialogComplaintListFilterBinding!!.clearAllFilters.setOnClickListener {
+            dialogComplaintListFilterBinding!!.selectAll.isChecked = true
+            if (dialogComplaintListFilterBinding!!.selectAll.isChecked) {
+                dialogComplaintListFilterBinding!!.newStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.inProgressStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.rejectedStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.reopenStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.closedStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.resolvedStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.onholdStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.selectAll.isChecked = true
+            }
+            dialogComplaintListFilterBinding!!.fromDateText.text = Utils.getCurrentDate()
+            dialogComplaintListFilterBinding!!.toDateText.text = Utils.getCurrentDate()
         }
-        dialogComplaintListFilterBinding.isNewChecked = this.complaintListStatus.contains("new")
-        dialogComplaintListFilterBinding.isInProgressChecked =
+        dialogComplaintListFilterBinding!!.fromDate.setOnClickListener {
+            isFromDateSelected = true
+            openDateDialog()
+        }
+        dialogComplaintListFilterBinding!!.toDate.setOnClickListener {
+            isFromDateSelected = false
+            openDateDialog()
+        }
+        if (dialogComplaintListFilterBinding!!.newStatus.isChecked &&
+            dialogComplaintListFilterBinding!!.inProgressStatus.isChecked &&
+            dialogComplaintListFilterBinding!!.rejectedStatus.isChecked &&
+            dialogComplaintListFilterBinding!!.reopenStatus.isChecked &&
+            dialogComplaintListFilterBinding!!.closedStatus.isChecked &&
+            dialogComplaintListFilterBinding!!.resolvedStatus.isChecked &&
+            dialogComplaintListFilterBinding!!.onholdStatus.isChecked
+        ) {
+            dialogComplaintListFilterBinding!!.selectAll.isChecked = true
+        } else {
+            dialogComplaintListFilterBinding!!.selectAll.isChecked = false
+        }
+        dialogComplaintListFilterBinding!!.isNewChecked = this.complaintListStatus.contains("new")
+        dialogComplaintListFilterBinding!!.isInProgressChecked =
             this.complaintListStatus.contains("inprogress")
-        dialogComplaintListFilterBinding.isResolvedChecked =
+        dialogComplaintListFilterBinding!!.isResolvedChecked =
             this.complaintListStatus.contains("solved")
-        dialogComplaintListFilterBinding.isRejectedChecked =
+        dialogComplaintListFilterBinding!!.isRejectedChecked =
             this.complaintListStatus.contains("rejected")
-        dialogComplaintListFilterBinding.isReopenChecked =
+        dialogComplaintListFilterBinding!!.isReopenChecked =
             this.complaintListStatus.contains("reopened")
-        dialogComplaintListFilterBinding.isClosedChecked =
+        dialogComplaintListFilterBinding!!.isClosedChecked =
             this.complaintListStatus.contains("closed")
-        dialogComplaintListFilterBinding.isOnHoldChecked =
+        dialogComplaintListFilterBinding!!.isOnHoldChecked =
             this.complaintListStatus.contains("onHold")
-        dialogComplaintListFilterBinding.isSelectAllChecked =
+        dialogComplaintListFilterBinding!!.isSelectAllChecked =
             this.complaintListStatus.contains("new,inprogress,solved,rejected,reopened,closed,onHold")
 
 
 
-        submitButtonEnable(dialogComplaintListFilterBinding)
+        submitButtonEnable(dialogComplaintListFilterBinding!!)
 
 
-        dialogComplaintListFilterBinding.newStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.newStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.inProgressStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.inProgressStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.resolvedStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.resolvedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.rejectedStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.rejectedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.reopenStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.reopenStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.closedStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.closedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.onholdStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.onholdStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.selectAllCheckboxLayout.setOnClickListener {
-            dialogComplaintListFilterBinding.selectAll.isChecked =
-                !dialogComplaintListFilterBinding.selectAll.isChecked
+        dialogComplaintListFilterBinding!!.selectAllCheckboxLayout.setOnClickListener {
+            dialogComplaintListFilterBinding!!.selectAll.isChecked =
+                !dialogComplaintListFilterBinding!!.selectAll.isChecked
 
-            if (dialogComplaintListFilterBinding.selectAll.isChecked) {
+            if (dialogComplaintListFilterBinding!!.selectAll.isChecked) {
 
-                dialogComplaintListFilterBinding.newStatus.isChecked = true
-                dialogComplaintListFilterBinding.inProgressStatus.isChecked = true
-                dialogComplaintListFilterBinding.rejectedStatus.isChecked = true
-                dialogComplaintListFilterBinding.reopenStatus.isChecked = true
-                dialogComplaintListFilterBinding.closedStatus.isChecked = true
-                dialogComplaintListFilterBinding.resolvedStatus.isChecked = true
-                dialogComplaintListFilterBinding.onholdStatus.isChecked = true
-                dialogComplaintListFilterBinding.selectAll.isChecked = true
+                dialogComplaintListFilterBinding!!.newStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.inProgressStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.rejectedStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.reopenStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.closedStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.resolvedStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.onholdStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.selectAll.isChecked = true
             }
 //            else{
 //                dialogComplaintListFilterBinding.selectAll.isChecked=false
 ////            }
             else {
 //                /                if(isNewStatusClicked)
-                dialogComplaintListFilterBinding.newStatus.isChecked = false
-                dialogComplaintListFilterBinding.inProgressStatus.isChecked = false
-                dialogComplaintListFilterBinding.rejectedStatus.isChecked = false
-                dialogComplaintListFilterBinding.reopenStatus.isChecked = false
-                dialogComplaintListFilterBinding.closedStatus.isChecked = false
-                dialogComplaintListFilterBinding.resolvedStatus.isChecked = false
-                dialogComplaintListFilterBinding.onholdStatus.isChecked = false
-                dialogComplaintListFilterBinding.selectAll.isChecked = false
+                dialogComplaintListFilterBinding!!.newStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.inProgressStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.rejectedStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.reopenStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.closedStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.resolvedStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.onholdStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.selectAll.isChecked = false
             }
-            submitButtonEnable(dialogComplaintListFilterBinding)
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
 
 
@@ -2736,48 +2800,48 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //        }
 
 
-        dialogComplaintListFilterBinding.submit.setOnClickListener {
+        dialogComplaintListFilterBinding!!.submit.setOnClickListener {
 //            this.complaintListStatus = complaintListStatusTemp
             this.complaintListStatus = ""
-            if (dialogComplaintListFilterBinding.newStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.newStatus.isChecked) {
                 this.complaintListStatus = "new"
             }
-            if (dialogComplaintListFilterBinding.inProgressStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.inProgressStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "inprogress"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},inprogress"
                 }
             }
-            if (dialogComplaintListFilterBinding.resolvedStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.resolvedStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "solved"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},solved"
                 }
             }
-            if (dialogComplaintListFilterBinding.rejectedStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.rejectedStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "rejected"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},rejected"
                 }
             }
-            if (dialogComplaintListFilterBinding.reopenStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.reopenStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "reopened"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},reopened"
                 }
             }
-            if (dialogComplaintListFilterBinding.closedStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.closedStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "closed"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},closed"
                 }
             }
-            if (dialogComplaintListFilterBinding.onholdStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.onholdStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "onHold"
                 } else {
@@ -2785,7 +2849,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 }
             }
 
-            if (dialogComplaintListFilterBinding.selectAll.isChecked) {
+            if (dialogComplaintListFilterBinding!!.selectAll.isChecked) {
                 this.complaintListStatus = "new,inprogress,solved,rejected,reopened,closed,onHold"
 //                    if (this.complaintListStatus.isEmpty()) {
 //                        this.complaintListStatus = "new,inprogress,solved,rejected,reopened,closed,onHold"
@@ -2794,7 +2858,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //                    }
             }
 
-
+            fromDate = dialogComplaintListFilterBinding!!.fromDateText.text.toString()
+            toDate = dialogComplaintListFilterBinding!!.toDateText.text.toString()
             if (complaintListStatusFilterDialog != null && complaintListStatusFilterDialog.isShowing) {
                 complaintListStatusFilterDialog.dismiss()
                 callAPI(1)

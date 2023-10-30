@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
@@ -16,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/value_15dp"
             android:layout_marginTop="@dimen/value_10dp"
-            android:layout_marginEnd="@dimen/value_5dp"
+            android:layout_marginEnd="@dimen/value_15dp"
             android:baselineAligned="false"
             android:orientation="vertical">
 
@@ -39,20 +38,15 @@
                         android:layout_height="wrap_content"
                         android:text="@string/label_site_list"
                         android:textColor="@color/fadedTextColor"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/text_13sp" />
 
 
                     <TextView
                         android:id="@+id/siteid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_3dp"
-                        android:layout_marginEnd="@dimen/value_5dp"
-                        android:layout_toEndOf="@+id/siteid_lable"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_13sp" />
 
                 </LinearLayout>
 
@@ -68,20 +62,15 @@
                         android:layout_height="wrap_content"
                         android:text="@string/label_department"
                         android:textColor="@color/fadedTextColor"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/text_13sp" />
 
                     <TextView
                         android:id="@+id/departmentName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_3dp"
-                        android:layout_marginEnd="@dimen/value_5dp"
-                        android:layout_toEndOf="@+id/departmetnName"
                         android:maxLines="1"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_13sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -89,7 +78,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_dimen_10"
+                android:layout_marginTop="@dimen/value_10dp"
                 android:weightSum="1">
 
                 <LinearLayout
@@ -105,20 +94,15 @@
                         android:layout_height="wrap_content"
                         android:text="@string/label_ticket_categoty"
                         android:textColor="@color/fadedTextColor"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/text_13sp" />
 
 
                     <TextView
                         android:id="@+id/ticket_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_3dp"
-                        android:layout_marginEnd="@dimen/value_5dp"
-                        android:layout_toEndOf="@+id/ticket_category_lable"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_13sp" />
 
                 </LinearLayout>
 
@@ -137,20 +121,15 @@
                         android:layout_height="wrap_content"
                         android:text="Sub Category :"
                         android:textColor="@color/fadedTextColor"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/text_13sp" />
 
 
                     <TextView
                         android:id="@+id/sub_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_3dp"
-                        android:layout_marginEnd="@dimen/value_5dp"
-                        android:layout_toEndOf="@+id/sub_category_lable"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_13sp" />
 
                 </LinearLayout>
 
@@ -159,7 +138,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_dimen_10"
+                android:layout_marginTop="@dimen/value_10dp"
                 android:weightSum="1">
 
                 <LinearLayout
@@ -175,22 +154,17 @@
                         android:id="@+id/region_lable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Reason :"
+                        android:text="Reason:"
                         android:textColor="@color/fadedTextColor"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/text_13sp" />
 
 
                     <TextView
                         android:id="@+id/region"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_3dp"
-                        android:layout_marginEnd="@dimen/value_5dp"
-                        android:layout_toEndOf="@+id/region_lable"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_13sp" />
 
                 </LinearLayout>
 
@@ -206,21 +180,17 @@
                         android:id="@+id/it_ticket_executive_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Executive : "
+                        android:text="Executive: "
                         android:textColor="@color/fadedTextColor"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/text_13sp" />
 
                     <TextView
                         android:id="@+id/it_ticket_executive"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_3dp"
-                        android:layout_toEndOf="@+id/it_ticket_executive_label"
                         android:maxLines="1"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_13sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -228,7 +198,7 @@
                 android:id="@+id/detailslayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_dimen_10"
+                android:layout_marginTop="@dimen/value_10dp"
                 android:baselineAligned="false"
                 android:orientation="vertical">
 
@@ -250,21 +220,17 @@
                             android:id="@+id/it_ticket_manager_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Manager :"
+                            android:text="Manager:"
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <TextView
                             android:id="@+id/it_ticket_manager"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_3dp"
-                            android:layout_toEndOf="@+id/it_ticket_manager_label"
                             android:maxLines="1"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -279,26 +245,22 @@
                             android:layout_height="wrap_content"
                             android:text="@string/label_problem_since"
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <TextView
                             android:id="@+id/problemSinceText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_3dp"
-                            android:layout_marginEnd="@dimen/value_5dp"
-                            android:layout_toEndOf="@+id/orderid"
                             android:maxLines="1"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_10dp"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
@@ -314,19 +276,15 @@
                             android:layout_height="wrap_content"
                             android:text="@string/label_staff_name"
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <TextView
                             android:id="@+id/staffNameText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_3dp"
-                            android:layout_toEndOf="@+id/staffName"
                             android:maxLines="1"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -337,15 +295,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingStart="0dp"
-                android:paddingEnd="@dimen/value_5dp"
                 android:visibility="visible">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_dimen_10"
+                    android:layout_marginTop="@dimen/value_10dp"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
@@ -359,22 +315,16 @@
                             android:id="@+id/batch_number_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Batch No : "
+                            android:text="Batch No: "
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/article_name" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/batch_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/batch_number_label"
-                            app:layout_constraintTop_toTopOf="@+id/batch_number_label" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -387,22 +337,16 @@
                             android:id="@+id/barcode_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Barcode : "
+                            android:text="Barcode: "
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/batch_number_label" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/barcode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/barcode_label"
-                            app:layout_constraintTop_toTopOf="@+id/barcode_label" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -410,7 +354,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_dimen_10"
+                    android:layout_marginTop="@dimen/value_10dp"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
@@ -424,22 +368,16 @@
                             android:id="@+id/expairy_date_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Expiry Date : "
+                            android:text="Expiry Date: "
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/barcode_label" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/expairy_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/expairy_date_label"
-                            app:layout_constraintTop_toTopOf="@+id/expairy_date_label" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
 
                     </LinearLayout>
 
@@ -453,22 +391,16 @@
                             android:id="@+id/purchase_rate_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Purchase Rate : "
+                            android:text="Purchase Rate: "
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/expairy_date_label" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/purchase_rate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/purchase_rate_label"
-                            app:layout_constraintTop_toTopOf="@+id/purchase_rate_label" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
 
 
@@ -477,7 +409,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_dimen_10"
+                    android:layout_marginTop="@dimen/value_10dp"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
@@ -491,22 +423,16 @@
                             android:id="@+id/old_mrp_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Old MRP : "
+                            android:text="Old MRP: "
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/purchase_rate_label" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/old_mrp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/old_mrp_label"
-                            app:layout_constraintTop_toTopOf="@+id/old_mrp_label" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -519,22 +445,16 @@
                             android:id="@+id/new_mrp_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="New MRP : "
+                            android:text="New MRP: "
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/old_mrp_label" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/new_mrp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/new_mrp_label"
-                            app:layout_constraintTop_toTopOf="@+id/new_mrp_label" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -542,24 +462,17 @@
                     android:id="@+id/article_name_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_dimen_10"
-                    android:text="Item Description : "
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:text="Item Description: "
                     android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:textSize="@dimen/text_13sp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/article_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/article_name_label"
-                    app:layout_constraintTop_toTopOf="@+id/article_name_label" />
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_13sp" />
 
 
             </LinearLayout>
@@ -582,18 +495,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/label_location"
                     android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_13sp" />
 
 
                 <TextView
                     android:id="@+id/location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_5dp"
-                    android:layout_marginEnd="@dimen/value_5dp"
                     android:layout_toEndOf="@+id/location_lable"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorBlack"
                     android:textSize="@dimen/text_13sp" />
 
             </RelativeLayout>
@@ -602,7 +512,7 @@
                 android:id="@+id/credit_card_details_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_dimen_10"
+                android:layout_marginTop="@dimen/value_10dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -622,22 +532,16 @@
                             android:id="@+id/cc_tid_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="TID : "
+                            android:text="TID: "
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/cc_tid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/cc_tid_label"
-                            app:layout_constraintTop_toTopOf="@+id/cc_tid_label" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -650,22 +554,16 @@
                             android:id="@+id/bill_number_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Invoice Number : "
+                            android:text="Invoice Number: "
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/cc_tid_label" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/bill_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/bill_number_label"
-                            app:layout_constraintTop_toTopOf="@+id/bill_number_label" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -686,22 +584,16 @@
                             android:id="@+id/transaction_number_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Transaction ID : "
+                            android:text="Transaction ID: "
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/bill_number_label" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/transaction_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/transaction_number_label"
-                            app:layout_constraintTop_toTopOf="@+id/transaction_number_label" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
 
                     </LinearLayout>
 
@@ -715,22 +607,16 @@
                             android:id="@+id/approval_code_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Approval Code : "
+                            android:text="Approval Code: "
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/transaction_number_label" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/approval_code"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/approval_code_label"
-                            app:layout_constraintTop_toTopOf="@+id/approval_code_label" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -751,22 +637,16 @@
                             android:id="@+id/bill_amount_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Bill Amount : "
+                            android:text="Bill Amount: "
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/approval_code_label" />
+                            android:textSize="@dimen/text_13sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/bill_amount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/bill_amount_label"
-                            app:layout_constraintTop_toTopOf="@+id/bill_amount_label" />
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -786,20 +666,14 @@
                     android:layout_height="wrap_content"
                     android:text="@string/label_description"
                     android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_13sp" />
 
                 <TextView
                     android:id="@+id/complainDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/description"
-                    android:layout_marginTop="@dimen/value_3dp"
-                    android:layout_marginEnd="@dimen/value_5dp"
-                    android:layout_marginBottom="@dimen/value_5dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
 
 
@@ -832,8 +706,7 @@
                     android:text="REJECT"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textSize="15sp" />
 
 
             </LinearLayout>
@@ -855,8 +728,7 @@
                     android:text="ACCEPT"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textSize="15sp" />
 
 
             </LinearLayout>

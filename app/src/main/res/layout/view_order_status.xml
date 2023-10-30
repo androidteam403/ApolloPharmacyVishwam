@@ -44,13 +44,6 @@
                 android:layout_toEndOf="@+id/created"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/createdDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/createdPerson"
@@ -59,6 +52,13 @@
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_minus_2dp"
                     android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+                <TextView
+                    android:id="@+id/createdDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_12sp" />
 
 
@@ -151,13 +151,6 @@
                 android:layout_toEndOf="@+id/holdProcess"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/holdProcessDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/holdProcessPerson"
@@ -168,6 +161,13 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_12sp" />
 
+                <TextView
+                    android:id="@+id/holdProcessDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/holdProcessStatus"
@@ -279,13 +279,6 @@
                 android:layout_toEndOf="@+id/process"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/processDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/processPerson"
@@ -294,6 +287,13 @@
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_minus_3dp"
                     android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+                <TextView
+                    android:id="@+id/processDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
@@ -405,13 +405,6 @@
                 android:layout_toEndOf="@+id/closed"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/closedDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/closedPerson"
@@ -420,6 +413,13 @@
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_minus_3dp"
                     android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+                <TextView
+                    android:id="@+id/closedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
@@ -550,14 +550,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/lOneDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/lOnePerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -566,6 +558,13 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_12sp" />
 
+                <TextView
+                    android:id="@+id/lOneDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/lOneStatus"
@@ -676,20 +675,19 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/lTwoDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/lTwoPerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_minus_3dp"
                     android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+                <TextView
+                    android:id="@+id/lTwoDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
@@ -801,20 +799,19 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/lThreeDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/lThreePerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_minus_3dp"
                     android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+                <TextView
+                    android:id="@+id/lThreeDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_12sp" />
 
 
@@ -927,20 +924,19 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/reopenRequestDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/reopenRequestPerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_minus_3dp"
                     android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+                <TextView
+                    android:id="@+id/reopenRequestDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_12sp" />
 
 
@@ -1097,13 +1093,6 @@
                 android:layout_toEndOf="@+id/acknowledged"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/acknowledgedDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/acknowledgedPerson"
@@ -1112,6 +1101,13 @@
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_minus_3dp"
                     android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+                <TextView
+                    android:id="@+id/acknowledgedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
@@ -1222,13 +1218,6 @@
                 android:layout_toEndOf="@+id/reopenedForProcess"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/reopenedForProcessDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/reopenedForProcessPerson"
@@ -1237,6 +1226,13 @@
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_minus_3dp"
                     android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+                <TextView
+                    android:id="@+id/reopenedForProcessDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
@@ -1348,20 +1344,19 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/reOpenDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/reOpenPerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_minus_2dp"
                     android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+                <TextView
+                    android:id="@+id/reOpenDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
@@ -1473,20 +1468,19 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/acceptDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/acceptPerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_minus_3dp"
                     android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+                <TextView
+                    android:id="@+id/acceptDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView

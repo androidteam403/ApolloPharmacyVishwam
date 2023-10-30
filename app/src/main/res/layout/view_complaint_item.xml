@@ -320,11 +320,13 @@
                 -->
             </LinearLayout>
 
+<!--
             <LinearLayout
                 android:id="@+id/extraData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#dceaf4"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -1052,43 +1054,43 @@
                         android:layout_margin="@dimen/value_10dp"
                         android:background="@color/splash_start_color" />
 
-                    <!--                    <androidx.constraintlayout.widget.ConstraintLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:paddingTop="@dimen/value_5dp"-->
-                    <!--                        android:paddingBottom="@dimen/value_5dp"-->
-                    <!--                        android:paddingStart="@dimen/value_5dp"-->
-                    <!--                        android:paddingEnd="@dimen/value_5dp">-->
-                    <!--                        <androidx.appcompat.widget.AppCompatButton-->
-                    <!--                            android:id="@+id/accept_btn"-->
-                    <!--                            android:layout_width="wrap_content"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:text="Accept"-->
-                    <!--                            android:paddingStart="4dp"-->
-                    <!--                            android:paddingEnd="4dp"-->
-                    <!--                            app:layout_constraintStart_toStartOf="parent"-->
-                    <!--                            app:layout_constraintTop_toTopOf="parent"-->
-                    <!--                            android:background="@drawable/green_background"-->
-                    <!--                            android:textAllCaps="false"-->
-                    <!--                            android:textSize="@dimen/text_14sp"-->
-                    <!--                            android:textColor="@color/white"/>-->
-                    <!--                        <androidx.appcompat.widget.AppCompatButton-->
-                    <!--                            android:id="@+id/reject_btn"-->
-                    <!--                            android:layout_width="wrap_content"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:text="Reject"-->
-                    <!--                            android:paddingStart="4dp"-->
-                    <!--                            android:paddingEnd="4dp"-->
-                    <!--                            app:layout_constraintStart_toEndOf="@+id/accept_btn"-->
-                    <!--                            app:layout_constraintTop_toTopOf="parent"-->
-                    <!--                            android:layout_marginEnd="@dimen/value_10dp"-->
-                    <!--                            android:textAllCaps="false"-->
-                    <!--                            android:layout_marginStart="@dimen/value_5dp"-->
-                    <!--                            android:textSize="@dimen/text_14sp"-->
-                    <!--                            android:textColor="@color/white"-->
-                    <!--                            android:background="@drawable/red_rounded_corners"-->
-                    <!--                            />-->
-                    <!--                    </androidx.constraintlayout.widget.ConstraintLayout>-->
+                    &lt;!&ndash;                    <androidx.constraintlayout.widget.ConstraintLayout&ndash;&gt;
+                    &lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;
+                    &lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;
+                    &lt;!&ndash;                        android:paddingTop="@dimen/value_5dp"&ndash;&gt;
+                    &lt;!&ndash;                        android:paddingBottom="@dimen/value_5dp"&ndash;&gt;
+                    &lt;!&ndash;                        android:paddingStart="@dimen/value_5dp"&ndash;&gt;
+                    &lt;!&ndash;                        android:paddingEnd="@dimen/value_5dp">&ndash;&gt;
+                    &lt;!&ndash;                        <androidx.appcompat.widget.AppCompatButton&ndash;&gt;
+                    &lt;!&ndash;                            android:id="@+id/accept_btn"&ndash;&gt;
+                    &lt;!&ndash;                            android:layout_width="wrap_content"&ndash;&gt;
+                    &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;
+                    &lt;!&ndash;                            android:text="Accept"&ndash;&gt;
+                    &lt;!&ndash;                            android:paddingStart="4dp"&ndash;&gt;
+                    &lt;!&ndash;                            android:paddingEnd="4dp"&ndash;&gt;
+                    &lt;!&ndash;                            app:layout_constraintStart_toStartOf="parent"&ndash;&gt;
+                    &lt;!&ndash;                            app:layout_constraintTop_toTopOf="parent"&ndash;&gt;
+                    &lt;!&ndash;                            android:background="@drawable/green_background"&ndash;&gt;
+                    &lt;!&ndash;                            android:textAllCaps="false"&ndash;&gt;
+                    &lt;!&ndash;                            android:textSize="@dimen/text_14sp"&ndash;&gt;
+                    &lt;!&ndash;                            android:textColor="@color/white"/>&ndash;&gt;
+                    &lt;!&ndash;                        <androidx.appcompat.widget.AppCompatButton&ndash;&gt;
+                    &lt;!&ndash;                            android:id="@+id/reject_btn"&ndash;&gt;
+                    &lt;!&ndash;                            android:layout_width="wrap_content"&ndash;&gt;
+                    &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;
+                    &lt;!&ndash;                            android:text="Reject"&ndash;&gt;
+                    &lt;!&ndash;                            android:paddingStart="4dp"&ndash;&gt;
+                    &lt;!&ndash;                            android:paddingEnd="4dp"&ndash;&gt;
+                    &lt;!&ndash;                            app:layout_constraintStart_toEndOf="@+id/accept_btn"&ndash;&gt;
+                    &lt;!&ndash;                            app:layout_constraintTop_toTopOf="parent"&ndash;&gt;
+                    &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_10dp"&ndash;&gt;
+                    &lt;!&ndash;                            android:textAllCaps="false"&ndash;&gt;
+                    &lt;!&ndash;                            android:layout_marginStart="@dimen/value_5dp"&ndash;&gt;
+                    &lt;!&ndash;                            android:textSize="@dimen/text_14sp"&ndash;&gt;
+                    &lt;!&ndash;                            android:textColor="@color/white"&ndash;&gt;
+                    &lt;!&ndash;                            android:background="@drawable/red_rounded_corners"&ndash;&gt;
+                    &lt;!&ndash;                            />&ndash;&gt;
+                    &lt;!&ndash;                    </androidx.constraintlayout.widget.ConstraintLayout>&ndash;&gt;
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1126,8 +1128,8 @@
                     </LinearLayout>
 
                 </LinearLayout>
-                <!-- soubworkflow manual-->
-                <!--    <LinearLayout
+                &lt;!&ndash; soubworkflow manual&ndash;&gt;
+                &lt;!&ndash;    <LinearLayout
                         android:id="@+id/sub_workflow_acceptreject_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1177,7 +1179,7 @@
 
                         </LinearLayout>
 
-                    </LinearLayout>-->
+                    </LinearLayout>&ndash;&gt;
 
                 <LinearLayout
                     android:id="@+id/cc_action_layout"
@@ -1458,6 +1460,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+-->
         </LinearLayout>
 
 
