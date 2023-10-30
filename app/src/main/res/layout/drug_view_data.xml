@@ -4,23 +4,23 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/drug_details_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/text_dimen_10"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/text_dimen_10"
         android:layout_marginEnd="@dimen/value_5dp"
+        android:orientation="vertical"
         android:visibility="visible">
 
         <LinearLayout
-            android:weightSum="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:weightSum="1">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.33">
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/drug_item_label"
@@ -38,17 +38,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
                     android:textSize="@dimen/text_13sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/drug_item_label"
                     app:layout_constraintTop_toTopOf="@+id/drug_item_label" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.33">
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/item_type_label"
@@ -72,11 +72,19 @@
                     app:layout_constraintTop_toTopOf="@+id/item_type_label" />
             </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_dimen_10"
+            android:weightSum="1">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.33">
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/required_qty_label"
@@ -94,26 +102,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
                     android:textSize="@dimen/text_13sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/required_qty_label"
                     app:layout_constraintTop_toTopOf="@+id/required_qty_label" />
             </LinearLayout>
 
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="@dimen/text_dimen_10"
-            android:weightSum="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.33">
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/doctor_name_label"
@@ -131,17 +130,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
                     android:textSize="@dimen/text_13sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/doctor_name_label"
                     app:layout_constraintTop_toTopOf="@+id/doctor_name_label" />
             </LinearLayout>
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_dimen_10"
+            android:weightSum="1">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.33">
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/doctor_speciality_label"
@@ -159,26 +167,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
                     android:textSize="@dimen/text_13sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/doctor_speciality_label"
                     app:layout_constraintTop_toTopOf="@+id/doctor_speciality_label" />
 
             </LinearLayout>
 
-
-
         </LinearLayout>
 
 
-
-
         <!--        made changes by naveen-->
-
-
-
-
-
 
 
         <androidx.appcompat.widget.AppCompatTextView

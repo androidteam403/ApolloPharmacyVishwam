@@ -13,6 +13,8 @@ class PlanogramSurveyQuestionsListResponse {
     @SerializedName("data")
     var data: Data? = null
 
+    var overAllScore:Float=0f
+
     class Questions {
 
         @SerializedName("name")
@@ -20,6 +22,13 @@ class PlanogramSurveyQuestionsListResponse {
 
         @SerializedName("hintText")
         var hintText: String? = null
+
+        var value:String?=null
+
+        var categoryName:String?=null
+
+        var catScore:Float=0f
+
 
     }
 
@@ -49,6 +58,8 @@ class PlanogramSurveyQuestionsListResponse {
 
         @SerializedName("name")
         var name: String? = null
+
+        var cattScore:Float=0f
 
         var isExpanded: Boolean = false
 
@@ -82,6 +93,20 @@ class PlanogramSurveyQuestionsListResponse {
 
         @SerializedName("size")
         var size: Int? = null
+
+        var categoryScore : Float =0f
+
+        var diaperPodiumScore : Float =0f
+
+        var valueDealsBinScore : Float =0f
+
+        var postersScore : Float =0f
+
+        var peghooksDisplayScore : Float =0f
+
+        var offersGondolaScore : Float =0f
+
+        var chillerScore : Float =0f
 
     }
 

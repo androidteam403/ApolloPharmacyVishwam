@@ -36,27 +36,45 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/value_10dp"
                 android:gravity="end"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/siteId"
+                <ImageView
+                    android:layout_width="@dimen/value_30dp"
+                    android:layout_height="@dimen/value_30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:background="@drawable/retro_qr_print_icon_bg"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickQrCodePrint()}"
+                    android:src="@drawable/ic_print_qr" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="14001"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:gravity="end"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/siteName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Apollo Punjagutta"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_10sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/siteId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="14001"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/siteName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Apollo Punjagutta"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -82,130 +100,156 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_45dp"
+                android:layout_marginTop="@dimen/value_3dp"
                 android:background="#f4f5f4"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_weight=".8"
                     android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_25dp"
-                        android:layout_marginEnd="@dimen/value_8dp"
-                        android:text="Rack No: "
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/rackNum"
-                        android:layout_width="@dimen/value_80dp"
-                        android:layout_height="@dimen/value_25dp"
-                        android:layout_marginEnd="@dimen/value_3dp"
-                        android:background="@drawable/white_rounded_corner"
-                        android:paddingStart="4dp"
-                        android:paddingTop="3dp"
-                        android:textColor="@color/black"
-                        android:text="All"
-                        android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/rack_arrow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/value_25dp"
-                        android:background="@drawable/gray_rounded_bg"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/square_stroke_spinner_bg"
-                        android:visibility="gone">
-
-                        <Spinner
-                            android:id="@+id/spinner"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/value_5dp">
-
-                        <LinearLayout
-                            android:layout_width="@dimen/value_40dp"
-                            android:layout_height="@dimen/value_70dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="0.10"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="@dimen/value_55dp"
-                                android:layout_height="@dimen/value_55dp"
-                                android:layout_gravity="center"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/right_greenn" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!--<ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/right_green"
-                        android:contentDescription="@string/app_name" />-->
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lastUpdateLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/value_8dp"
-                    android:gravity="center_vertical|end"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="@dimen/value_5dp"
-                        android:gravity="center_vertical|end"
-                        android:orientation="vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Last Update"
-                            android:textColor="#666666"
-                            android:textSize="@dimen/text_10sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/lastUpdateDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="10 June, 2023"
+                            android:layout_marginStart="@dimen/value_25dp"
+                            android:layout_marginEnd="@dimen/value_8dp"
+                            android:text="Rack No: "
                             android:textColor="@color/black"
-                            android:textSize="@dimen/dimen11sp"
+                            android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/rackNum"
+                            android:layout_width="@dimen/value_80dp"
+                            android:layout_height="@dimen/value_25dp"
+                            android:layout_marginEnd="@dimen/value_3dp"
+                            android:background="@drawable/white_rounded_corner"
+                            android:paddingStart="4dp"
+                            android:paddingTop="3dp"
+                            android:text="All"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/rack_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/value_25dp"
+                            android:background="@drawable/gray_rounded_bg"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/square_stroke_spinner_bg"
+                            android:visibility="gone">
+
+                            <Spinner
+                                android:id="@+id/spinner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/value_5dp">
+
+                            <LinearLayout
+                                android:layout_width="@dimen/value_40dp"
+                                android:layout_height="@dimen/value_70dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="0.10"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="@dimen/value_55dp"
+                                    android:layout_height="@dimen/value_55dp"
+                                    android:layout_gravity="center"
+                                    android:scaleType="fitXY"
+                                    android:src="@drawable/right_greenn" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!--<ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/right_green"
+                            android:contentDescription="@string/app_name" />-->
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/lastUpdateLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/value_8dp"
+                        android:gravity="center_vertical|end"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:gravity="center_vertical|end"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Last Update"
+                                android:textColor="#666666"
+                                android:textSize="@dimen/text_10sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/lastUpdateDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="10 June, 2023"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="@dimen/value_20dp"
+                            android:layout_height="@dimen/value_20dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/calendar"
+                            android:tint="#979b97"
+                            tools:ignore="UseAppTint" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/print"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/value_3dp"
+                    android:layout_weight=".2"
+                    android:background="#00bff3"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:onClick="@{()->callback.onClickPrintIcon()}">
+
                     <ImageView
-                        android:layout_width="@dimen/value_20dp"
-                        android:layout_height="@dimen/value_20dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/calendar"
-                        android:tint="#979b97"
-                        tools:ignore="UseAppTint" />
+                        android:layout_width="@dimen/value_30dp"
+                        android:layout_height="@dimen/value_30dp"
+                        android:src="@drawable/print_label" />
                 </LinearLayout>
             </LinearLayout>
 

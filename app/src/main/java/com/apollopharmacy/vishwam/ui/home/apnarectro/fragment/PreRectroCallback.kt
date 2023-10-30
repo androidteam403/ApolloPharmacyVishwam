@@ -13,7 +13,9 @@ interface PreRectroCallback {
         uploadedOn: String,
         uploadedBy: String,
         toString: String,
+
         s: String,
+
         approvedby: String?,
         approvedDate: String?,
         partiallyApprovedBy: String?,
@@ -31,6 +33,7 @@ interface PreRectroCallback {
         uploadedOn: String,
         uploadedBy: String,
         toString: String,
+
         s: String,
         approvedby: String?,
         approvedDate: String?,

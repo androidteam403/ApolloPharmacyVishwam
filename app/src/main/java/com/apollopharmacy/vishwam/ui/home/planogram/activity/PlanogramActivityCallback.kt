@@ -1,5 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.planogram.activity
 
+import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramDetailsListResponse
+import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSurveyQuestionsListResponse
 
 interface PlanogramActivityCallback {
@@ -13,8 +15,23 @@ interface PlanogramActivityCallback {
     fun onClickCategoriesToFocusOn()
 
     fun showTillTop()
+    fun onSuccessPlanogramDetailListApiCall(planogramDetailsListResponse: PlanogramDetailsListResponse)
 
     fun onSuccessPlanogramSurveyQuestionsListApiCall(planogramSurveyQuestionsListResponse: PlanogramSurveyQuestionsListResponse)
 
     fun onFailurePlanogramSurveyQuestionsListApiCall(message: String)
+
+    fun countValues(questionsList: ArrayList<PlanogramSurveyQuestionsListResponse.Questions>,questionsListResponse: ArrayList<PlanogramSurveyQuestionsListResponse.Rows>)
+    fun checkAreasToFocusOn(
+        questionsList: ArrayList<PlanogramSurveyQuestionsListResponse.Questions>,
+        categoryPosition: Int
+    )
+    fun checkCategoriesToFocusOn(
+        questionsList: ArrayList<PlanogramSurveyQuestionsListResponse.Questions>,
+        categoryPosition: Int
+    )
+
+    fun onSuccessSaveUpdateApi(saveUpdateRequestJsonResponse: PlanogramSaveUpdateResponse?)
+    abstract fun onFailureSaveUpdateApi(saveUpdateRequestJsonResponse: PlanogramSaveUpdateResponse?)
+    fun caluclateScore()
 }

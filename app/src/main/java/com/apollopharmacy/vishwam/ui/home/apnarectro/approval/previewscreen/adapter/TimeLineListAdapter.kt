@@ -76,8 +76,8 @@ class TimeLineListAdapter(
         }
 
         if(approvedOrders.managerApprovedBy.toString().contains("null")||approvedOrders.managerApprovedBy.isNullOrEmpty()){
-            holder.timelineLayoutBinding.executiveApproveByLayout.visibility=android.view.View.GONE
-            holder.timelineLayoutBinding.executiveApproveDateLayout.visibility=android.view.View.GONE
+            holder.timelineLayoutBinding.managerApproveLayout.visibility=android.view.View.GONE
+            holder.timelineLayoutBinding.managerApproveDateLayout.visibility=android.view.View.GONE
 
         }
         else{
@@ -100,9 +100,9 @@ class TimeLineListAdapter(
             holder.timelineLayoutBinding.managerReshootDate.text=Utlis.convertRetroDate(approvedOrders.managerReshootDate.toString()!!)
         }
 
-        if(approvedOrders.gmApprovedBy.toString().contains("null")||approvedOrders.gmApprovedBy.isNullOrEmpty()){
-            holder.timelineLayoutBinding.executiveApproveByLayout.visibility=android.view.View.GONE
-            holder.timelineLayoutBinding.executiveApproveDateLayout.visibility=android.view.View.GONE
+        if(approvedOrders.gmApprovedBy.isNullOrEmpty()){
+            holder.timelineLayoutBinding.gmApproveDateLayout.visibility=android.view.View.GONE
+            holder.timelineLayoutBinding.gmApproveLayout.visibility=android.view.View.GONE
 
         }
         else{

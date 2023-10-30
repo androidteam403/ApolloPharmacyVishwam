@@ -67,11 +67,12 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_60dp"
             android:visibility="gone"
+            android:id="@+id/camera_icon"
+
             android:layout_alignParentBottom="true"
             android:background="#eef7f8">
 
             <ImageView
-                android:id="@+id/camera_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

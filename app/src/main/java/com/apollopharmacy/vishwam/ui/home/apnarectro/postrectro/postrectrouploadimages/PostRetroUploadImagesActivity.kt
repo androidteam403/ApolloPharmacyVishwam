@@ -62,6 +62,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     private var storeId: String = ""
     private var stage: String = ""
     private var retroStage: String = ""
+    private var storeName: String = ""
+    private var mainImageUrlList = ArrayList<GetImageUrlsModelApnaResponse.Category>()
 
     private var uploadStage: String = ""
     var timelineAdapter: PreRetroTimeLineAdapter? = null
@@ -70,6 +72,9 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     var pos: Int = 0
     var imageFromCameraFile: File? = null
     private var uploadedImageCount: Int = 0
+    private var uploadedImageCountReset: Int = 0
+    private var uploadedReshootImageCountReset: Int = 0
+
     private var uploadedReshootImageCount: Int = 0
     private var overallImageCount: Int = 0
     private var apnaConfigList = ArrayList<GetStoreWiseCatDetailsApnaResponse>()
@@ -99,19 +104,22 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         activityUploadImagesPostRetroBinding.callback = this
         postRetroUploadImagesViewModel =
             ViewModelProvider(this)[PostRetroUploadImagesViewModel::class.java]
-        fragmentName = intent.getStringExtra("fragmentName")!!
-        retroid = intent.getStringExtra("retroid")!!
-        stage = intent.getStringExtra("stage")!!
-        uploadedOn = intent.getStringExtra("uploadedOn")!!
-        uploadedBy = intent.getStringExtra("uploadedBy")!!
-        storeId = intent.getStringExtra("storeId")!!
-        status = intent.getStringExtra("status")!!
+        if (intent != null) {
+            fragmentName = intent.getStringExtra("fragmentName")!!
+            retroid = intent.getStringExtra("retroid")!!
+            stage = intent.getStringExtra("stage")!!
+            uploadedOn = intent.getStringExtra("uploadedOn")!!
+            uploadedBy = intent.getStringExtra("uploadedBy")!!
+            storeId = intent.getStringExtra("storeId")!!
+            status = intent.getStringExtra("status")!!
 
-        retroStage = intent.getStringExtra("retroStage")!!
-        uploadStage = intent.getStringExtra("uploadStage")!!
-        approvedby = intent.getStringExtra("approvedby")!!
-        storeList =
-            intent.getSerializableExtra("storeList") as ArrayList<GetStorePendingAndApprovedListRes.Get>?
+            retroStage = intent.getStringExtra("retroStage")!!
+            uploadStage = intent.getStringExtra("uploadStage")!!
+            approvedby = intent.getStringExtra("approvedby")!!
+            storeList =
+                intent.getSerializableExtra("storeList") as ArrayList<GetStorePendingAndApprovedListRes.Get>?
+
+        }
 
 
         activityUploadImagesPostRetroBinding.backButton.setOnClickListener {
@@ -265,8 +273,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
             }
 
-        }
-        else if (stage.equals("isPostRetroStage")) {
+        } else if (stage.equals("isPostRetroStage")) {
 
 
             if (uploadStage == "newUploadStage") {
@@ -364,23 +371,32 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.storeId.text = storeId.split("-").get(0)
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.statusBottom.text = status
-                if (status!!.contains("Approved")){
-                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
+                if (status!!.contains("Approved")) {
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(
+                        context.getColor(
+                            R.color.greenn
+                        )
+                    )
 
-                }
-                else
-                    if (status!!.contains("Reshoot")){
-                        activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+                } else
+                    if (status!!.contains("Reshoot")) {
+                        activityUploadImagesPostRetroBinding.statusBottom.setTextColor(
+                            context.getColor(
+                                R.color.color_red
+                            )
+                        )
 
-                    }
-                    else{
-                        activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.pending_color_for_apna))
+                    } else {
+                        activityUploadImagesPostRetroBinding.statusBottom.setTextColor(
+                            context.getColor(
+                                R.color.pending_color_for_apna
+                            )
+                        )
 
                     }
             }
 
-        }
-        else {
+        } else {
             if (uploadStage.equals("newUploadStage")) {
 
                 activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
@@ -424,21 +440,30 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.storeId.text = storeId.split("-").get(0)
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.statusBottom.text = status
-                if (status!!.contains("Approved")){
-                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
+                if (status!!.contains("Approved")) {
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(
+                        context.getColor(
+                            R.color.greenn
+                        )
+                    )
 
-                }
-                else
-                    if (status!!.contains("Reshoot")){
-                        activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+                } else
+                    if (status!!.contains("Reshoot")) {
+                        activityUploadImagesPostRetroBinding.statusBottom.setTextColor(
+                            context.getColor(
+                                R.color.color_red
+                            )
+                        )
+
+                    } else {
+                        activityUploadImagesPostRetroBinding.statusBottom.setTextColor(
+                            context.getColor(
+                                R.color.pending_color_for_apna
+                            )
+                        )
 
                     }
-                    else{
-                        activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.pending_color_for_apna))
-
-                    }
-            }
-            else if (uploadStage.equals("reshootStage")) {
+            } else if (uploadStage.equals("reshootStage")) {
                 activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(
                     context.getColor(
                         R.color.white
@@ -464,17 +489,27 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.storeId.text = storeId.split("-").get(0)
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.statusBottom.text = status
-                if (status!!.contains("Approved")){
-                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
+                if (status!!.contains("Approved")) {
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(
+                        context.getColor(
+                            R.color.greenn
+                        )
+                    )
 
-                }
-                else
-                    if (status!!.contains("Reshoot")){
-                        activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+                } else
+                    if (status!!.contains("Reshoot")) {
+                        activityUploadImagesPostRetroBinding.statusBottom.setTextColor(
+                            context.getColor(
+                                R.color.color_red
+                            )
+                        )
 
-                    }
-                    else{
-                        activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.pending_color_for_apna))
+                    } else {
+                        activityUploadImagesPostRetroBinding.statusBottom.setTextColor(
+                            context.getColor(
+                                R.color.pending_color_for_apna
+                            )
+                        )
 
                     }
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.GONE
@@ -610,6 +645,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             apnaConfigList.get(0).configlist!!.get(configPosDelete).imageUploaded = false
             if (!uploadStage.equals("reshootStage")) {
                 uploadedImageCount--
+                uploadedImageCountReset--
                 runOnUiThread(Runnable {
                     activityUploadImagesPostRetroBinding.uploadedCount.text =
                         uploadedImageCount.toString()
@@ -617,6 +653,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
             } else {
                 uploadedReshootImageCount--
+                uploadedReshootImageCountReset--
                 runOnUiThread(Runnable {
                     activityUploadImagesPostRetroBinding.uploadedCount.text =
                         uploadedReshootImageCount.toString()
@@ -644,7 +681,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         position: Int,
         categoryName: String?,
     ) {
-        TODO("Not yet implemented")
     }
 
     var pendingBottomCount: Int = 0
@@ -807,11 +843,16 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     var categoryPosComp: Int? = 0
     override fun onClickImageView(
         stage: String,
+        store: String,
         posImageUrlList: java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
+        apnaConfigList: java.util.ArrayList<GetImageUrlsModelApnaResponse.Category>,
+
         categoryName: String?,
         categoryid: String?,
         imageClickedPos: Int,
         configPosition: Int,
+        categoryGroupResponse: GetImageUrlsModelApnaResponse.Category
+
     ) {
         imageClickedPosComp = imageClickedPos
         categoryPosComp = configPosition
@@ -819,6 +860,17 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         val intent = Intent(applicationContext, ComparisonScreenCreation::class.java)
         intent.putExtra("fragmentName", fragmentName)
         intent.putExtra("stage", stage)
+        intent.putExtra("store", store)
+        if (mainImageUrlList.isNullOrEmpty()) {
+            intent.putExtra("mainList", apnaConfigList)
+
+        } else {
+            intent.putExtra("mainList", mainImageUrlList)
+
+        }
+
+        intent.putExtra("categoryResponse", categoryGroupResponse)
+
         intent.putExtra("status", approvedby)
         intent.putExtra("posImageUrlList", posImageUrlList)
         intent.putExtra("retroid", retroid)
@@ -873,6 +925,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             uploadPosition
         )?.position = uploadPosition
         uploadedReshootImageCount++
+        uploadedReshootImageCountReset++
         runOnUiThread(Runnable {
             activityUploadImagesPostRetroBinding.uploadedCount.text =
                 uploadedReshootImageCount.toString()
@@ -904,7 +957,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
             timelineAdapter = PreRetroTimeLineAdapter(
                 this,
-                storeList!!.filter { it.retroid.equals(retroid) && it.stage.equals(retroStage) })
+                storeList!!.filter { it.retroid.equals(retroid) && it.stage.equals(retroStage) && it.hierarchystatus != null })
             activityUploadImagesPostRetroBinding.timeLineRecycleview.adapter = timelineAdapter
 
         } else {
@@ -927,11 +980,10 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         "Pre Retro is Submitted for Review \n Transaction id is: " + saveImageUrlsResponse.retroid
                 }
             } else {
-                 if (stage.equals("isPreRetroStage")) {
+                if (stage.equals("isPreRetroStage")) {
                     textMessage.text =
                         "Pre Retro is Submitted for Review for transaction id: " + retroid
-                }
-                else if (stage.equals("isPostRetroStage")) {
+                } else if (stage.equals("isPostRetroStage")) {
                     textMessage.text =
                         "Post Retro is Submitted for Review for transaction id: " + retroid
                 } else {
@@ -1065,7 +1117,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                     getImageUrlListDummys.addAll(listOf(entry.value as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>))
                 }
                 getImageUrlsLists!!.categoryList!!.get(i).groupingImageUrlList =
-                    getImageUrlListDummys as List<ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>>?
+                    getImageUrlListDummys
 
             }
             if (uploadStage.equals("reshootStage")) {
@@ -1132,10 +1184,11 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 ConfigApnaAdapterPostRetro(
                     getImageUrlsLists!!.categoryList as MutableList<GetImageUrlsModelApnaResponse.Category>,
                     apnaConfigList.get(0),
+
                     this,
                     this,
-                    stage,
-                    getImageUrlsList.categoryList
+                    stage, storeId,
+                    getImageUrlsLists!!.categoryList
                 )
             val layoutManager = LinearLayoutManager(context)
             activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.layoutManager =
@@ -1452,46 +1505,96 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
             if (!uploadStage.equals("reshootStage")) {
                 uploadedImageCount++
+                uploadedImageCountReset++
                 checkAllImagesUploaded()
             } else {
                 uploadedReshootImageCount++
+                uploadedReshootImageCountReset++
                 checkAllImagesUploadedReshoot()
             }
 
 
         } else if (requestCode == 999 && resultCode == Activity.RESULT_OK) {
-            if (uploadStage.equals("reshootStage")) {
-                posImageUrlListForReshoot =
-                    data!!.getSerializableExtra("posImageUrlList") as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
-                if (stage.equals("isPreRetroStage")) {
-                    getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
-                        imageClickedPosComp!!
-                    ).get(0).file = posImageUrlListForReshoot.get(0).file
+            val uploadedImageIds = mutableSetOf<String>()
+            uploadedReshootImageCount=0
+            var stage:String=""
+            uploadedImageCount=0
+//            getImageUrlsLists!!.categoryList = mainImageUrlList
 
-                } else if (stage.equals("isPostRetroStage")) {
-                    getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
-                        imageClickedPosComp!!
-                    ).get(1).file = posImageUrlListForReshoot.get(1).file
+            mainImageUrlList =
+                data!!.getSerializableExtra("mainImageUrlList") as ArrayList<GetImageUrlsModelApnaResponse.Category>
+//            posImageUrlListForReshoot =
+//                data!!.getSerializableExtra("posImageUrlList") as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
+//            imageUrlWithData =
+//                data!!.getSerializableExtra("imageUrlWithData") as GetImageUrlsModelApnaResponse.Category.ImageUrl
 
-                } else {
-                    getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
-                        imageClickedPosComp!!
-                    )[2].file = posImageUrlListForReshoot.get(2).file
+            stage= data!!.getStringExtra("stage")!!
+            for (i in mainImageUrlList.indices) {
+                for (j in mainImageUrlList[i].groupingImageUrlList!!.indices) {
+                    for (k in mainImageUrlList[i].groupingImageUrlList!![j].indices) {
+                        if (mainImageUrlList[i].groupingImageUrlList!![j][k].url.isNullOrEmpty()&&mainImageUrlList[i].groupingImageUrlList!![j][k].stage.equals(stage)) {
+                            if (uploadStage.equals("reshootStage")) {
+                                uploadedImageCount++
+//                            overallreshootcount++
+                                uploadedReshootImageCount++
+                                checkAllImagesUploaded()
+                                checkAllImagesUploadedReshoot()
 
+                                // Add the file from mainImageUrlList to getImageUrlsLists
+                                getImageUrlsLists!!.categoryList!!.get(i).groupingImageUrlList!!.get(j)[k].file = mainImageUrlList[i].groupingImageUrlList!![j][k].file
+                            }else{
+                                uploadedImageCount++
+//                            overallreshootcount++
+                                uploadedReshootImageCount++
+                                checkAllImagesUploaded()
+                                checkAllImagesUploadedReshoot()
+                                getImageUrlsLists!!.categoryList!!.get(i).groupingImageUrlList!!.get(j).add(mainImageUrlList[i].groupingImageUrlList!![j].get(k))
+                            }
+
+                        }
+                    }
                 }
-                uploadedReshootImageCount++
-                checkAllImagesUploadedReshoot()
-                configApnaAdapterPostRetro!!.notifyDataSetChanged()
-            } else {
-                imageUrlWithData =
-                    data!!.getSerializableExtra("imageUrlWithData") as GetImageUrlsModelApnaResponse.Category.ImageUrl
-                getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
-                    imageClickedPosComp!!
-                ).add(imageUrlWithData)
-                configApnaAdapterPostRetro!!.notifyDataSetChanged()
-                uploadedImageCount++
-                checkAllImagesUploaded()
             }
+            configApnaAdapterPostRetro!!.notifyDataSetChanged()
+
+// Notify the adapter of the data change
+
+
+
+
+//            if (uploadStage.equals("reshootStage")) {
+//                if (stage.equals("isPreRetroStage")) {
+//                    getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
+//                        imageClickedPosComp!!
+//                    ).get(0).file = posImageUrlListForReshoot.get(0).file
+//
+//                } else if (stage.equals("isPostRetroStage")) {
+//                    getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
+//                        imageClickedPosComp!!
+//                    ).get(1).file = posImageUrlListForReshoot.get(1).file
+//
+//                } else {
+//                    getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
+//                        imageClickedPosComp!!
+//                    )[2].file = posImageUrlListForReshoot.get(2).file
+//
+//                }
+//
+//                getImageUrlsLists!!.categoryList = mainImageUrlList
+//
+//                checkAllImagesUploadedReshoot()
+//                configApnaAdapterPostRetro!!.notifyDataSetChanged()
+//            }
+//
+//            else {
+
+
+//                getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
+//                    imageClickedPosComp!!
+//                ).add(imageUrlWithData)
+//            configApnaAdapterPostRetro!!.notifyDataSetChanged()
+
+//            }
 
         }
 

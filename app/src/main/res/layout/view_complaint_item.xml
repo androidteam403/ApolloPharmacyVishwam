@@ -5,20 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
-        android:layout_marginBottom="@dimen/value_3dp"
-        android:padding="@dimen/value_3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/editbox_bg">
+        android:layout_marginBottom="@dimen/value_3dp"
+        android:background="@drawable/editbox_bg"
+        android:padding="@dimen/value_3dp">
 
+        <!--    <androidx.cardview.widget.CardView-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="wrap_content"-->
 
-<!--    <androidx.cardview.widget.CardView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-
-<!--        app:cardCornerRadius="@dimen/value_3dp"-->
-<!--        app:cardElevation="@dimen/value_3dp"-->
-<!--        app:cardUseCompatPadding="true">-->
+        <!--        app:cardCornerRadius="@dimen/value_3dp"-->
+        <!--        app:cardElevation="@dimen/value_3dp"-->
+        <!--        app:cardUseCompatPadding="true">-->
 
 
         <!--        android:layout_marginStart="4sp"-->
@@ -47,61 +46,45 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_5dp"
-                    android:layout_weight="2.7"
+                    android:layout_weight="3"
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_5dp"
-                            android:text="@string/label_complaint_ticket_number"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/ticketNumber"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_5dp"
-                            android:layout_marginTop="@dimen/value_5dp"
-                            android:text=""
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp" />
-                    </LinearLayout>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_3dp"
-                        android:layout_marginBottom="@dimen/value_5dp"
-                        android:orientation="horizontal">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            android:layout_weight=".7"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/ticketNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
 
                             <LinearLayout
                                 android:id="@+id/registerd_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_5dp"
                                 android:orientation="horizontal">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/label_registered_date"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_12sp"
-                                    android:textStyle="bold" />
+                                    android:textColor="#3a3a3b"
+                                    android:textSize="@dimen/text_12sp" />
 
                                 <TextView
                                     android:id="@+id/regDate"
@@ -109,13 +92,15 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_5dp"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_12sp" />
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
 
                             <LinearLayout
                                 android:id="@+id/closed_date_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_5dp"
                                 android:orientation="horizontal"
                                 android:visibility="gone">
 
@@ -123,9 +108,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Closed Date: "
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_13sp"
-                                    android:textStyle="bold" />
+                                    android:textColor="#3a3a3b"
+                                    android:textSize="@dimen/text_12sp" />
 
                                 <TextView
                                     android:id="@+id/closedDate"
@@ -136,61 +120,204 @@
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_13sp" />
                             </LinearLayout>
+
+
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/status_label"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_status"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold"
+                            android:layout_weight=".3"
+                            android:gravity="center_vertical|end"
+                            android:orientation="horizontal">
 
-                            app:layout_constraintEnd_toStartOf="@+id/cmpStatus"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/cmpStatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_5dp"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp"
-                            app:layout_constraintBottom_toBottomOf="@+id/status_label"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/status_label" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                                <TextView
+                                    android:id="@+id/status_label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Status"
+                                    android:textColor="#3a3a3b"
+                                    android:textSize="@dimen/text_12sp" />
+
+                                <TextView
+                                    android:id="@+id/cmpStatus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/arrowClose"
+                                android:layout_width="@dimen/value_25dp"
+                                android:layout_height="@dimen/value_25dp"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:contentDescription="@string/app_name"
+                                android:rotation="-90"
+                                android:src="@drawable/rightarrow"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/arrow"
+                                android:layout_width="@dimen/value_25dp"
+                                android:layout_height="@dimen/value_25dp"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:contentDescription="@string/app_name"
+                                android:rotation="0"
+                                android:src="@drawable/rightarrow"
+                                android:visibility="visible" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <!-- <LinearLayout
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:orientation="horizontal">
+
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_marginTop="@dimen/value_5dp"
+                             android:text="@string/label_complaint_ticket_number"
+                             android:textColor="@color/black"
+                             android:textSize="@dimen/text_12sp"
+                             android:textStyle="bold" />
+
+                         <TextView
+                             android:id="@+id/ticketNumber"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_marginStart="@dimen/value_5dp"
+                             android:layout_marginTop="@dimen/value_5dp"
+                             android:text=""
+                             android:textColor="@color/black"
+                             android:textSize="@dimen/text_13sp" />
+                     </LinearLayout>
+                     <androidx.constraintlayout.widget.ConstraintLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_marginTop="@dimen/value_3dp"
+                         android:layout_marginBottom="@dimen/value_5dp"
+                         android:orientation="horizontal">
+
+                         <LinearLayout
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:orientation="vertical"
+                             app:layout_constraintStart_toStartOf="parent"
+                             app:layout_constraintTop_toTopOf="parent">
+
+                             <LinearLayout
+                                 android:id="@+id/registerd_layout"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:orientation="horizontal">
+
+                                 <TextView
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:text="@string/label_registered_date"
+                                     android:textColor="@color/black"
+                                     android:textSize="@dimen/text_12sp"
+                                     android:textStyle="bold" />
+
+                                 <TextView
+                                     android:id="@+id/regDate"
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:layout_marginStart="@dimen/value_5dp"
+                                     android:textColor="@color/black"
+                                     android:textSize="@dimen/text_12sp" />
+                             </LinearLayout>
+
+                             <LinearLayout
+                                 android:id="@+id/closed_date_layout"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:orientation="horizontal"
+                                 android:visibility="gone">
+
+                                 <TextView
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:text="Closed Date: "
+                                     android:textColor="@color/black"
+                                     android:textSize="@dimen/text_13sp"
+                                     android:textStyle="bold" />
+
+                                 <TextView
+                                     android:id="@+id/closedDate"
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:layout_marginStart="@dimen/value_5dp"
+                                     android:layout_marginBottom="@dimen/value_5dp"
+                                     android:textColor="@color/black"
+                                     android:textSize="@dimen/text_13sp" />
+                             </LinearLayout>
+                         </LinearLayout>
+
+                         <TextView
+                             android:id="@+id/status_label"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="@string/label_status"
+                             android:textColor="@color/black"
+                             android:textSize="@dimen/text_12sp"
+                             android:textStyle="bold"
+
+                             app:layout_constraintEnd_toStartOf="@+id/cmpStatus"
+                             app:layout_constraintTop_toTopOf="parent" />
+
+                         <TextView
+                             android:id="@+id/cmpStatus"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_marginStart="@dimen/value_5dp"
+                             android:textColor="@color/black"
+                             android:textSize="@dimen/text_12sp"
+                             app:layout_constraintBottom_toBottomOf="@+id/status_label"
+                             app:layout_constraintEnd_toEndOf="parent"
+                             app:layout_constraintTop_toTopOf="@+id/status_label" />
+                     </androidx.constraintlayout.widget.ConstraintLayout>-->
                 </LinearLayout>
 
 
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3">
+                <!--
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.3">
 
-                    <ImageView
-                        android:id="@+id/arrowClose"
-                        android:layout_width="@dimen/value_25dp"
-                        android:layout_height="@dimen/value_25dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="@dimen/value_10dp"
-                        android:contentDescription="@string/app_name"
-                        android:rotation="-90"
-                        android:src="@drawable/rightarrow"
-                        android:visibility="gone" />
+                                    <ImageView
+                                        android:id="@+id/arrowClose"
+                                        android:layout_width="@dimen/value_25dp"
+                                        android:layout_height="@dimen/value_25dp"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_marginTop="@dimen/value_10dp"
+                                        android:contentDescription="@string/app_name"
+                                        android:rotation="-90"
+                                        android:src="@drawable/rightarrow"
+                                        android:visibility="gone" />
 
-                    <ImageView
-                        android:id="@+id/arrow"
-                        android:layout_width="@dimen/value_25dp"
-                        android:layout_height="@dimen/value_25dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="@dimen/value_10dp"
-                        android:contentDescription="@string/app_name"
-                        android:rotation="0"
-                        android:src="@drawable/rightarrow"
-                        android:visibility="visible" />
-                </RelativeLayout>
+                                    <ImageView
+                                        android:id="@+id/arrow"
+                                        android:layout_width="@dimen/value_25dp"
+                                        android:layout_height="@dimen/value_25dp"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_marginTop="@dimen/value_10dp"
+                                        android:contentDescription="@string/app_name"
+                                        android:rotation="0"
+                                        android:src="@drawable/rightarrow"
+                                        android:visibility="visible" />
+                                </RelativeLayout>
+                -->
             </LinearLayout>
 
             <LinearLayout
@@ -911,9 +1038,6 @@
                 </LinearLayout>
 
 
-
-
-
                 <LinearLayout
                     android:id="@+id/cc_acceptreject_layout"
                     android:layout_width="match_parent"
@@ -1002,58 +1126,58 @@
                     </LinearLayout>
 
                 </LinearLayout>
-<!-- soubworkflow manual-->
-            <!--    <LinearLayout
-                    android:id="@+id/sub_workflow_acceptreject_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <View
+                <!-- soubworkflow manual-->
+                <!--    <LinearLayout
+                        android:id="@+id/sub_workflow_acceptreject_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_1dp"
-                        android:layout_margin="@dimen/value_10dp"
-                        android:background="@color/splash_start_color" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_10dp"
-                        android:layout_marginBottom="@dimen/value_5dp"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="3dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-                        <TextView
-                            android:id="@+id/sub_workflow_accept_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/green_background"
-                            android:paddingStart="@dimen/value_20dp"
-                            android:paddingTop="@dimen/value_10dp"
-                            android:paddingEnd="@dimen/value_20dp"
-                            android:paddingBottom="@dimen/value_10dp"
-                            android:text="Accept"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_14sp" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_1dp"
+                            android:layout_margin="@dimen/value_10dp"
+                            android:background="@color/splash_start_color" />
 
-                        <TextView
-                            android:id="@+id/sub_workflow_reject_btn"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/value_10dp"
-                            android:background="@drawable/red_rounded_corners"
-                            android:paddingStart="@dimen/value_20dp"
-                            android:paddingTop="@dimen/value_10dp"
-                            android:paddingEnd="@dimen/value_20dp"
-                            android:paddingBottom="@dimen/value_10dp"
-                            android:text="Reject"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_14sp" />
+                            android:layout_marginBottom="@dimen/value_5dp"
+                            android:orientation="horizontal">
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/sub_workflow_accept_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/green_background"
+                                android:paddingStart="@dimen/value_20dp"
+                                android:paddingTop="@dimen/value_10dp"
+                                android:paddingEnd="@dimen/value_20dp"
+                                android:paddingBottom="@dimen/value_10dp"
+                                android:text="Accept"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_14sp" />
 
-                </LinearLayout>-->
+                            <TextView
+                                android:id="@+id/sub_workflow_reject_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:background="@drawable/red_rounded_corners"
+                                android:paddingStart="@dimen/value_20dp"
+                                android:paddingTop="@dimen/value_10dp"
+                                android:paddingEnd="@dimen/value_20dp"
+                                android:paddingBottom="@dimen/value_10dp"
+                                android:text="Reject"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_14sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>-->
 
                 <LinearLayout
                     android:id="@+id/cc_action_layout"
@@ -1339,5 +1463,5 @@
 
     </LinearLayout>
 
-<!--    </androidx.cardview.widget.CardView>-->
+    <!--    </androidx.cardview.widget.CardView>-->
 </layout>

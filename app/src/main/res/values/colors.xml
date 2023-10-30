@@ -233,5 +233,7 @@
     <color name="ver_light_blue">#edf6f8</color>
     <color name="tab_color">#035b71</color>
     <color name="sky_bluee">#01bdbe</color>
+    <color name="red_no_plano">#ef1c23</color>
+    <color name="retroqr_rack_selected_color">#e6e6e6</color>
 
 </resources>

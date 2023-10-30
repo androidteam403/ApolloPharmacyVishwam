@@ -29,6 +29,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -48,6 +49,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -600,6 +602,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         TextView version = findViewById(R.id.version);
         version.setText("Version: " + BuildConfig.VERSION_NAME);
+//        updateDynamicNavMenu(isAttendanceRequired,isCMSRequired,isDiscountRequired,isSwachhRequired,isQcFailRequired,isDrugRequired,isSensingRequired,isChampsRequired,isApnaSurveyRequired,isApnaRetroRequired);
+
 //        TextView versionInfo = findViewById(R.id.versionInfo);
 //        versionInfo.setText("Version : " + BuildConfig.VERSION_NAME);
 //        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired, isSensingRequired, isChampsRequired, isApnaSurveyRequired, isApnaRetroRequired);
@@ -952,15 +956,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                return;
 //            }
 //        }
-        if (itemName.equalsIgnoreCase("HOME")) {
-            if (menuModels != null && !menuModels.isEmpty()) {
-                menuModels.clear();
-            }
-        }
+//        if (itemName.equalsIgnoreCase("HOME")) {
+//            if (menuModels != null && !menuModels.isEmpty()) {
+//                menuModels.clear();
+//
+//            }
+//        }
         if (submenuDialog != null && submenuDialog.isShowing()) {
             submenuDialog.dismiss();
         }
-        //initializing the fragment object which is selected
+
+
+//        if (itemName.equalsIgnoreCase("HOME")) {
+//            headerText.setText("HOME");
+//            fragment = new HomeFragment();
+//            filterIcon.setVisibility(View.GONE);
+//            headerTextLocation.setVisibility(View.GONE);
+//            plusIconAttendence.setVisibility(View.GONE);
+//            plusIconApna.setVisibility(View.GONE);
+//            refreshIconQc.setVisibility(View.GONE);
+//            onClickPlusIcon.setVisibility(View.GONE);
+//            settingsWhite.setVisibility(View.GONE);
+//            filterIconApna.setVisibility(View.GONE);
+//            qcfilterIcon.setVisibility(View.GONE);
+//            siteIdIcon.setVisibility(View.GONE);
+//            scannerIcon.setVisibility(View.GONE);
+//            spinnerLayout.setVisibility(View.GONE);
+//            isHomeScreen = true;
+//            riderNotificationLayout.setVisibility(View.GONE);
+//            logo.setVisibility(View.VISIBLE);
+//            customerDetails.setVisibility(View.VISIBLE);
+//            backArrow.setVisibility(View.GONE);
+//            headerText.setVisibility(View.GONE);
+//            logoutBtn.setVisibility(View.VISIBLE);
+//            toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//            bottomNavigationView.setVisibility(View.GONE);
+//            if (fragment != null) {
+//                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                ft.setCustomAnimations(R.anim.slide_out_to_right,R.anim.slide_out_to_left);
+//                ft.replace(R.id.fragment_container, fragment);
+//                ft.addToBackStack(null);
+//                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                ft.commit();
+////            drawer.closeDrawer(GravityCompat.START);
+//
+//
+//
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        // Update UI elements after the animation is complete
+////                        drawer.closeDrawer(GravityCompat.START);
+//                    }
+//                }, 1000);
+//
+//            }
+//
+//        }
+
+            //initializing the fragment object which is selected
         switch (itemName) {
             case "HOME":
                 headerText.setText("HOME");
@@ -968,6 +1022,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+
 
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
@@ -987,7 +1042,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.VISIBLE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 bottomNavigationView.setVisibility(View.GONE);
+
                 break;
+
             case "Complaint Register":
                 headerText.setText("Complaint Registration");
                 fragment = new RegistrationFragment();
@@ -999,6 +1056,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 isAllowFragmentChange = true;
                 siteIdIcon.setVisibility(View.GONE);
@@ -1030,6 +1088,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1056,6 +1115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 filterIconApna.setVisibility(View.GONE);
                 Bundle bundle1 = new Bundle();
@@ -1089,6 +1149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.VISIBLE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1111,6 +1172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1139,6 +1201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
@@ -1175,6 +1238,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconAttendence.setVisibility(View.GONE);
                 settingsWhite.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -1202,6 +1267,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1233,6 +1299,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
@@ -1256,6 +1323,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1286,6 +1354,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1314,6 +1383,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 siteIdIcon.setVisibility(View.VISIBLE);
                 scannerIcon.setVisibility(View.GONE);
@@ -1341,6 +1411,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1374,6 +1445,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setVisibility(View.VISIBLE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+//                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 logoutBtn.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
@@ -1393,11 +1465,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "Greetings to Chairman":
                 Intent i = new Intent(this, GreetingActivity.class);
                 refreshIconQc.setVisibility(View.GONE);
-
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                 startActivity(i);
                 break;
-
-
             case "Cash Deposit":
                 headerText.setText("Cash Deposit");
                 fragment = new CashCloserFragment();
@@ -1405,6 +1475,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
@@ -1450,6 +1521,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+//                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
@@ -1479,6 +1551,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 qcfilterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.VISIBLE);
@@ -1501,6 +1574,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 onClickPlusIcon.setVisibility(View.GONE);
 
@@ -1531,6 +1605,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 filterIcon.setVisibility(View.GONE);
                 Bundle bundle = new Bundle();
@@ -1567,6 +1642,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -1592,6 +1668,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 settingsWhite.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1625,6 +1702,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -1650,6 +1728,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1676,6 +1755,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1707,6 +1787,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
@@ -1724,6 +1805,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new ReportsFragment();
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
@@ -1756,6 +1838,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 settingsWhite.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
@@ -1782,6 +1865,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 onClickPlusIcon.setVisibility(View.GONE);
                 settingsWhite.setVisibility(View.GONE);
@@ -1814,6 +1898,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1841,6 +1926,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -1870,6 +1956,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
 
                 onClickPlusIcon.setVisibility(View.GONE);
                 settingsWhite.setVisibility(View.GONE);
@@ -1901,6 +1988,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 settingsWhite.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
 //                selectFilterType.setText("Rows: "+ String.valueOf(Preferences.INSTANCE.getQcRejectedPageSiz()));
                 filterIcon.setVisibility(View.GONE);
@@ -1940,6 +2028,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 filterIcon.setVisibility(View.VISIBLE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -1966,6 +2055,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 onClickPlusIcon.setVisibility(View.GONE);
                 settingsWhite.setVisibility(View.GONE);
@@ -1998,6 +2088,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -2029,6 +2120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.VISIBLE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -2056,6 +2148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 settingsWhite.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -2087,6 +2180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -2110,6 +2204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 onClickPlusIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.VISIBLE);
@@ -2143,6 +2238,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -2172,6 +2268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
@@ -2199,6 +2296,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
@@ -2236,6 +2334,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 qcfilterIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -2268,6 +2367,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 siteIdIcon.setVisibility(View.GONE);
                 scannerIcon.setVisibility(View.GONE);
@@ -2297,6 +2397,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
@@ -2317,6 +2418,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 settingsWhite.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
@@ -2343,6 +2445,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 settingsWhite.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
@@ -2367,6 +2470,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                 onClickPlusIcon.setVisibility(View.GONE);
                 settingsWhite.setVisibility(View.GONE);
@@ -2393,9 +2497,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 //        previousItem = itemName;
         //replacing the fragment
-        if (fragment != null) {
+        if (fragment != null && itemName.equalsIgnoreCase("HOME")) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.slide_to_right_new,R.anim.slide_to_left_new);
+
             ft.replace(R.id.fragment_container, fragment);
+            ft.addToBackStack(null);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            ft.commit();
+
+        }
+
+        else if (fragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.anim_enter,R.anim.anim_exit);
+            ft.replace(R.id.fragment_container, fragment);
+            ft.addToBackStack(null);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             ft.commit();
 //            drawer.closeDrawer(GravityCompat.START);
         }

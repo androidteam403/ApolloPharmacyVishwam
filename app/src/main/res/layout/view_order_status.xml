@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,17 +17,17 @@
                 android:id="@+id/created"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/created_des_layout"
+                android:layout_alignParentTop="true"
                 android:layout_marginStart="@dimen/value_20dp"
                 android:layout_marginTop="@dimen/value_2dp"
-                android:orientation="vertical"
-                android:layout_alignBottom="@+id/created_des_layout"
-                android:layout_alignParentTop="true">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_create"/>
+                    android:src="@drawable/status_create" />
 
                 <View
                     android:id="@+id/viewCreated"
@@ -46,16 +45,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/createdPerson"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:layout_marginTop="@dimen/value_minus_2dp"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
-                    android:textStyle="italic"
                     android:id="@+id/createdDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,18 +53,65 @@
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
+                    android:id="@+id/createdPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_minus_2dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+
+
+                <TextView
                     android:id="@+id/created_comment_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="italic"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/value_5dp"
-                    app:drawableStartCompat="@drawable/icon_chat"
-                    android:paddingEnd="@dimen/value_5dp"/>
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/created_des_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/created"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/createdPerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_minus_2dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:textStyle="italic"
+                                android:id="@+id/createdDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/created_comment_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/fadedTextColor"
+                                android:textSize="@dimen/text_13sp"
+                                android:textStyle="italic"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:gravity="center_vertical"
+                                android:drawablePadding="@dimen/value_5dp"
+                                app:drawableStartCompat="@drawable/icon_chat"
+                                android:paddingEnd="@dimen/value_5dp"/>
+                        </LinearLayout>
+            -->
         </RelativeLayout>
 
         <RelativeLayout
@@ -89,16 +125,16 @@
                 android:id="@+id/holdProcess"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical"
                 android:layout_alignBottom="@+id/hold_process_desc_layout"
-                android:layout_alignParentTop="true">
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_create"/>
+                    android:src="@drawable/status_create" />
 
                 <View
                     android:id="@+id/viewHoldProcess"
@@ -116,23 +152,22 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/holdProcessPerson"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
-                    android:textStyle="italic"
                     android:id="@+id/holdProcessDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_12sp" />
+
+                <TextView
+                    android:id="@+id/holdProcessPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+
 
                 <TextView
                     android:id="@+id/holdProcessStatus"
@@ -140,23 +175,71 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:visibility="gone"
-                    
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp" />
+                    android:textSize="@dimen/text_13sp"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/hold_comment_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="italic"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/value_5dp"
-                    app:drawableStartCompat="@drawable/icon_chat"
-                    android:paddingEnd="@dimen/value_5dp"/>
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/hold_process_desc_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/holdProcess"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/holdProcessPerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_minus_3dp"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:textStyle="italic"
+                                android:id="@+id/holdProcessDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/holdProcessStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:visibility="gone"
+
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_13sp" />
+                            <TextView
+                                android:id="@+id/hold_comment_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/fadedTextColor"
+                                android:textSize="@dimen/text_13sp"
+                                android:textStyle="italic"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:gravity="center_vertical"
+                                android:drawablePadding="@dimen/value_5dp"
+                                app:drawableStartCompat="@drawable/icon_chat"
+                                android:paddingEnd="@dimen/value_5dp"/>
+                        </LinearLayout>
+            -->
         </RelativeLayout>
 
         <RelativeLayout
@@ -170,16 +253,16 @@
                 android:id="@+id/process"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical"
                 android:layout_alignBottom="@+id/process_layout"
-                android:layout_alignParentTop="true">
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_create"/>
+                    android:src="@drawable/status_create" />
 
                 <View
                     android:id="@+id/viewProcess"
@@ -197,6 +280,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/processDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
                     android:id="@+id/processPerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -206,37 +297,75 @@
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
-                    android:textStyle="italic"
-                    android:id="@+id/processDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/processStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    
-                    android:visibility="gone"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp" />
+                    android:textSize="@dimen/text_13sp"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/process_comment_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="italic"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/value_5dp"
-                    app:drawableStartCompat="@drawable/icon_chat"
-                    android:paddingEnd="@dimen/value_5dp"/>
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/process_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/process"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/processPerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_minus_3dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:textStyle="italic"
+                                android:id="@+id/processDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/processStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginEnd="@dimen/value_15dp"
+
+                                android:visibility="gone"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_13sp" />
+                            <TextView
+                                android:id="@+id/process_comment_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/fadedTextColor"
+                                android:textSize="@dimen/text_13sp"
+                                android:textStyle="italic"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:gravity="center_vertical"
+                                android:drawablePadding="@dimen/value_5dp"
+                                app:drawableStartCompat="@drawable/icon_chat"
+                                android:paddingEnd="@dimen/value_5dp"/>
+                        </LinearLayout>
+            -->
         </RelativeLayout>
 
         <RelativeLayout
@@ -250,10 +379,10 @@
                 android:id="@+id/closed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical"
                 android:layout_alignBottom="@+id/closed_desc_layout"
-                android:layout_alignParentTop="true">
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
@@ -277,6 +406,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/closedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
                     android:id="@+id/closedPerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -286,23 +423,14 @@
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
-                    android:textStyle="italic"
-                    android:id="@+id/closedDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/closedStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:visibility="gone"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp" />
+                    android:textSize="@dimen/text_13sp"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -313,19 +441,75 @@
                         android:id="@+id/closed_comment_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@color/fadedTextColor"
-                        android:textSize="@dimen/text_13sp"
-                        android:textStyle="italic"
                         android:layout_marginStart="@dimen/value_15dp"
                         android:gravity="center_vertical"
-                        android:drawablePadding="@dimen/value_5dp"
-                        app:drawableStartCompat="@drawable/icon_chat"
-                        android:paddingEnd="@dimen/value_5dp"/>
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/text_13sp" />
 
                 </LinearLayout>
 
 
             </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/closed_desc_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/closed"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/closedPerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_minus_3dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:textStyle="italic"
+                                android:id="@+id/closedDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/closedStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:visibility="gone"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_13sp" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/closed_comment_txt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:textColor="@color/fadedTextColor"
+                                    android:textSize="@dimen/text_13sp"
+                                    android:textStyle="italic"
+                                    android:layout_marginStart="@dimen/value_15dp"
+                                    android:gravity="center_vertical"
+                                    android:drawablePadding="@dimen/value_5dp"
+                                    app:drawableStartCompat="@drawable/icon_chat"
+                                    android:paddingEnd="@dimen/value_5dp"/>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+            -->
         </RelativeLayout>
 
         <RelativeLayout
@@ -339,10 +523,10 @@
                 android:id="@+id/lOne"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical"
                 android:layout_alignBottom="@+id/lOne_desc_layout"
-                android:layout_alignParentTop="true">
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
@@ -366,16 +550,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/lOnePerson"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
-                    android:textStyle="italic"
                     android:id="@+id/lOneDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -384,27 +558,84 @@
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
+                    android:id="@+id/lOnePerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+
+
+                <TextView
                     android:id="@+id/lOneStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:visibility="gone"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp" />
+                    android:textSize="@dimen/text_13sp"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/lone_comment_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="italic"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/value_5dp"
-                    app:drawableStartCompat="@drawable/icon_chat"
-                    android:paddingEnd="@dimen/value_5dp"/>
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/lOne_desc_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/lOne"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/lOnePerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_minus_3dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:textStyle="italic"
+                                android:id="@+id/lOneDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/lOneStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:visibility="gone"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_13sp" />
+                            <TextView
+                                android:id="@+id/lone_comment_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/fadedTextColor"
+                                android:textSize="@dimen/text_13sp"
+                                android:textStyle="italic"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:gravity="center_vertical"
+                                android:drawablePadding="@dimen/value_5dp"
+                                app:drawableStartCompat="@drawable/icon_chat"
+                                android:paddingEnd="@dimen/value_5dp"/>
+                        </LinearLayout>
+            -->
         </RelativeLayout>
 
         <RelativeLayout
@@ -418,10 +649,10 @@
                 android:id="@+id/lTwo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical"
                 android:layout_alignBottom="@+id/lTwo_desc_layout"
-                android:layout_alignParentTop="true">
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
@@ -445,6 +676,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/lTwoDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
                     android:id="@+id/lTwoPerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -454,36 +693,74 @@
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
-                    android:textStyle="italic"
-                    android:id="@+id/lTwoDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/lTwoStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:visibility="gone"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp" />
+                    android:textSize="@dimen/text_13sp"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/lTwo_comment_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="italic"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/value_5dp"
-                    app:drawableStartCompat="@drawable/icon_chat"
-                    android:paddingEnd="@dimen/value_5dp"/>
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/lTwo_desc_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/lTwo"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/lTwoPerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_minus_3dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:textStyle="italic"
+                                android:id="@+id/lTwoDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/lTwoStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:visibility="gone"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_13sp" />
+                            <TextView
+                                android:id="@+id/lTwo_comment_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/fadedTextColor"
+                                android:textSize="@dimen/text_13sp"
+                                android:textStyle="italic"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:gravity="center_vertical"
+                                android:drawablePadding="@dimen/value_5dp"
+                                app:drawableStartCompat="@drawable/icon_chat"
+                                android:paddingEnd="@dimen/value_5dp"/>
+                        </LinearLayout>
+            -->
         </RelativeLayout>
 
         <RelativeLayout
@@ -497,10 +774,10 @@
                 android:id="@+id/lThree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical"
                 android:layout_alignBottom="@+id/lThree_desc_layout"
-                android:layout_alignParentTop="true">
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
@@ -524,16 +801,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/lThreePerson"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
-                    android:textStyle="italic"
                     android:id="@+id/lThreeDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -542,27 +809,84 @@
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
+                    android:id="@+id/lThreePerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+
+
+                <TextView
                     android:id="@+id/lThreeStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:visibility="gone"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp" />
+                    android:textSize="@dimen/text_13sp"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/lThree_comment_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="italic"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/value_5dp"
-                    app:drawableStartCompat="@drawable/icon_chat"
-                    android:paddingEnd="@dimen/value_5dp"/>
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/lThree_desc_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/lThree"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/lThreePerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_minus_3dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:textStyle="italic"
+                                android:id="@+id/lThreeDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/lThreeStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:visibility="gone"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_13sp" />
+                            <TextView
+                                android:id="@+id/lThree_comment_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/fadedTextColor"
+                                android:textSize="@dimen/text_13sp"
+                                android:textStyle="italic"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:gravity="center_vertical"
+                                android:drawablePadding="@dimen/value_5dp"
+                                app:drawableStartCompat="@drawable/icon_chat"
+                                android:paddingEnd="@dimen/value_5dp"/>
+                        </LinearLayout>
+            -->
         </RelativeLayout>
 
         <RelativeLayout
@@ -576,10 +900,10 @@
                 android:id="@+id/reopenRequest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical"
                 android:layout_alignBottom="@+id/reOpen_desc_layout"
-                android:layout_alignParentTop="true">
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
@@ -603,16 +927,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/reopenRequestPerson"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
-                    android:textStyle="italic"
                     android:id="@+id/reopenRequestDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -621,27 +935,129 @@
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
+                    android:id="@+id/reopenRequestPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
+
+
+                <TextView
                     android:id="@+id/reopenRequestStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:visibility="gone"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp" />
+                    android:textSize="@dimen/text_13sp"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/reopenRequest_comment_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="italic"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/value_5dp"
-                    app:drawableStartCompat="@drawable/icon_chat"
-                    android:paddingEnd="@dimen/value_5dp"/>
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/reOpen_desc_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/reopenRequest"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/reopenRequestDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/reopenRequestPerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_minus_3dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+
+                            <TextView
+                                android:id="@+id/reopenRequestStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:visibility="gone"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_13sp" />
+                            <TextView
+                                android:id="@+id/reopenRequest_comment_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/red"
+                                android:textSize="@dimen/text_13sp"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:gravity="center_vertical"/>
+                        </LinearLayout>
+            -->
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/reOpen_desc_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/reopenRequest"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/reopenRequestPerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_minus_3dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:textStyle="italic"
+                                android:id="@+id/reopenRequestDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/reopenRequestStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:visibility="gone"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_13sp" />
+                            <TextView
+                                android:id="@+id/reopenRequest_comment_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/fadedTextColor"
+                                android:textSize="@dimen/text_13sp"
+                                android:textStyle="italic"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:gravity="center_vertical"
+                                android:drawablePadding="@dimen/value_5dp"
+                                app:drawableStartCompat="@drawable/icon_chat"
+                                android:paddingEnd="@dimen/value_5dp"/>
+                        </LinearLayout>
+            -->
         </RelativeLayout>
 
         <RelativeLayout
@@ -655,10 +1071,10 @@
                 android:id="@+id/acknowledged"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical"
                 android:layout_alignBottom="@+id/acknowledged_desc_layout"
-                android:layout_alignParentTop="true">
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
@@ -682,6 +1098,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/acknowledgedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
                     android:id="@+id/acknowledgedPerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -691,36 +1115,74 @@
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
-                    android:textStyle="italic"
-                    android:id="@+id/acknowledgedDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/acknowledgedStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:visibility="gone"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp" />
+                    android:textSize="@dimen/text_13sp"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/acknowledged_comment_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="italic"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/value_5dp"
-                    app:drawableStartCompat="@drawable/icon_chat"
-                    android:paddingEnd="@dimen/value_5dp"/>
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/acknowledged_desc_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/acknowledged"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/acknowledgedPerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_minus_3dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:textStyle="italic"
+                                android:id="@+id/acknowledgedDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/acknowledgedStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:visibility="gone"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_13sp" />
+                            <TextView
+                                android:id="@+id/acknowledged_comment_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/fadedTextColor"
+                                android:textSize="@dimen/text_13sp"
+                                android:textStyle="italic"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:gravity="center_vertical"
+                                android:drawablePadding="@dimen/value_5dp"
+                                app:drawableStartCompat="@drawable/icon_chat"
+                                android:paddingEnd="@dimen/value_5dp"/>
+                        </LinearLayout>
+            -->
         </RelativeLayout>
 
         <RelativeLayout
@@ -734,10 +1196,10 @@
                 android:id="@+id/reopenedForProcess"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical"
                 android:layout_alignBottom="@+id/reOpenPrecess_desc_layout"
-                android:layout_alignParentTop="true">
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
@@ -761,6 +1223,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/reopenedForProcessDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
                     android:id="@+id/reopenedForProcessPerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -770,36 +1240,74 @@
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
-                    android:textStyle="italic"
-                    android:id="@+id/reopenedForProcessDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/reopenedForProcessStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:visibility="gone"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp" />
+                    android:textSize="@dimen/text_13sp"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/reopenedFroProcess_comment_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="italic"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/value_5dp"
-                    app:drawableStartCompat="@drawable/icon_chat"
-                    android:paddingEnd="@dimen/value_5dp"/>
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/reOpenPrecess_desc_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/reopenedForProcess"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/reopenedForProcessPerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_minus_3dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:textStyle="italic"
+                                android:id="@+id/reopenedForProcessDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/reopenedForProcessStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:visibility="gone"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_13sp" />
+                            <TextView
+                                android:id="@+id/reopenedFroProcess_comment_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/fadedTextColor"
+                                android:textSize="@dimen/text_13sp"
+                                android:textStyle="italic"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:gravity="center_vertical"
+                                android:drawablePadding="@dimen/value_5dp"
+                                app:drawableStartCompat="@drawable/icon_chat"
+                                android:paddingEnd="@dimen/value_5dp"/>
+                        </LinearLayout>
+            -->
         </RelativeLayout>
 
         <RelativeLayout
@@ -812,17 +1320,17 @@
                 android:id="@+id/reOpen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/viewreOpen_desc_layout"
+                android:layout_alignParentTop="true"
                 android:layout_marginStart="@dimen/value_20dp"
                 android:layout_marginTop="@dimen/value_2dp"
-                android:orientation="vertical"
-                android:layout_alignBottom="@+id/viewreOpen_desc_layout"
-                android:layout_alignParentTop="true">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_create"/>
+                    android:src="@drawable/status_create" />
 
                 <View
                     android:id="@+id/viewReOpen"
@@ -840,6 +1348,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/reOpenDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
                     android:id="@+id/reOpenPerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -849,36 +1365,74 @@
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
-                    android:textStyle="italic"
-                    android:id="@+id/reOpenDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/reOpenStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:visibility="gone"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp" />
+                    android:textSize="@dimen/text_13sp"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/reOpen_comment_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:textStyle="italic"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/value_5dp"
-                    app:drawableStartCompat="@drawable/icon_chat"
-                    android:paddingEnd="@dimen/value_5dp"/>
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/viewreOpen_desc_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/reOpen"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/reOpenPerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_minus_2dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:textStyle="italic"
+                                android:id="@+id/reOpenDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/reOpenStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:visibility="gone"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_13sp" />
+                            <TextView
+                                android:id="@+id/reOpen_comment_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/fadedTextColor"
+                                android:textSize="@dimen/text_13sp"
+                                android:textStyle="italic"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:gravity="center_vertical"
+                                android:drawablePadding="@dimen/value_5dp"
+                                app:drawableStartCompat="@drawable/icon_chat"
+                                android:paddingEnd="@dimen/value_5dp"/>
+                        </LinearLayout>
+            -->
         </RelativeLayout>
 
         <RelativeLayout
@@ -892,10 +1446,10 @@
                 android:id="@+id/accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical"
+                android:layout_alignBottom="@+id/accept_desc_layout"
                 android:layout_alignParentTop="true"
-                android:layout_alignBottom="@+id/accept_desc_layout">
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
@@ -919,6 +1473,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/acceptDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
                     android:id="@+id/acceptPerson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -928,37 +1490,76 @@
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
-                    android:textStyle="italic"
-                    android:id="@+id/acceptDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
-
-                <TextView
                     android:id="@+id/acceptStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:visibility="gone"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp" />
+                    android:textSize="@dimen/text_13sp"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/accept_comment_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/fadedTextColor"
-                    android:textSize="@dimen/text_13sp"
-                    android:layout_marginTop="@dimen/value_2dp"
-                    android:textStyle="italic"
                     android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_2dp"
                     android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/value_5dp"
-                    app:drawableStartCompat="@drawable/icon_chat"
-                    android:paddingEnd="@dimen/value_5dp"/>
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:id="@+id/accept_desc_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/accept"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/acceptPerson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_minus_3dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:textStyle="italic"
+                                android:id="@+id/acceptDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/acceptStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:visibility="gone"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_13sp" />
+                            <TextView
+                                android:id="@+id/accept_comment_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/fadedTextColor"
+                                android:textSize="@dimen/text_13sp"
+                                android:layout_marginTop="@dimen/value_2dp"
+                                android:textStyle="italic"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:gravity="center_vertical"
+                                android:drawablePadding="@dimen/value_5dp"
+                                app:drawableStartCompat="@drawable/icon_chat"
+                                android:paddingEnd="@dimen/value_5dp"/>
+                        </LinearLayout>
+            -->
         </RelativeLayout>
     </LinearLayout>
 </layout>

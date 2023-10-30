@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.cms.complainList.activity
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -84,6 +85,11 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
 
 
         orderDataWp = intent.getSerializableExtra("orderDataWp") as ResponseNewTicketlist.Row
+        if (orderDataWp != null
+            && orderDataWp.status != null){
+            activityComplaintsDetailsBinding.ticketStatus.text = orderDataWp.status!!.name
+            activityComplaintsDetailsBinding.ticketStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor(orderDataWp.status!!.background_color))
+        }
         orderData =
             intent.getSerializableExtra("orderData") as ArrayList<ResponseNewTicketlist.Row>
         position = intent.getIntExtra("position", 0)
@@ -178,7 +184,7 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
             && orderDataWp.ticketDetailsResponse!!.data.ticket_inventory.ticket_inventory_item.size > 0
         ) {
             activityComplaintsDetailsBinding.tabLayout.getTabAt(2)
-                ?.setText("Attachments" + "(" + orderDataWp.ticketDetailsResponse!!.data.ticket_inventory.ticket_inventory_item.size + ")")
+                ?.setText("Files" + "(" + orderDataWp.ticketDetailsResponse!!.data.ticket_inventory.ticket_inventory_item.size + ")")
         }
 
 

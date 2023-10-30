@@ -13,7 +13,7 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.util.Utlis
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Collections
 
 
 class ListAdapter(
@@ -60,10 +60,10 @@ class ListAdapter(
                 holder.adapterListApnaBinding.storeName.text = item.get(i).store.split("-").get(1)
                 holder.adapterListApnaBinding.uploadedBy.text = item.get(i).uploadedBy
                 val strDate = item.get(i).uploadedDate
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss",  Locale.ENGLISH);
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
                 val date = dateFormat.parse(strDate)
                 val dateNewFormat =
-                    SimpleDateFormat("dd MMM, yyyy - hh:mm a",  Locale.ENGLISH).format(date)
+                    SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
                 holder.adapterListApnaBinding.uploadedOn.text =
                     dateNewFormat.toString()
                 if (item.get(i).hierarchystatus.toString()
