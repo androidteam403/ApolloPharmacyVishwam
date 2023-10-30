@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 class ImagesDisplayChampsAdapter(
     private val context: Context,
     private val champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack,
-    private val imageDataLists: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>?,
+    private var imageDataLists: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>?,
     private val status: String
 ) : RecyclerView.Adapter<ImagesDisplayChampsAdapter.ViewHolder>() {
 
@@ -47,16 +47,16 @@ class ImagesDisplayChampsAdapter(
 //                    .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
 //
 //            } else
-                if((imageDataLists!!.get(position).imageUrl!=null && !imageDataLists.get(position).imageUrl!!.isEmpty()) ||
+                if((imageDataLists!!.get(position).imageUrl!=null && !imageDataLists!!.get(position).imageUrl!!.isEmpty()) ||
                     imageDataLists!!.get(position).file!=null){
                 holder.adapterCaptureImagesSwachBinding.imagePlusIcon.visibility = View.GONE
                 holder.adapterCaptureImagesSwachBinding.uploadImageLayout1.visibility = View.VISIBLE
-                    if(imageDataLists.get(position).imageUrl!=null && !imageDataLists.get(position).imageUrl!!.isEmpty()){
-                        Glide.with(context).load(imageDataLists.get(position).imageUrl)
+                    if(imageDataLists!!.get(position).imageUrl!=null && !imageDataLists!!.get(position).imageUrl!!.isEmpty()){
+                        Glide.with(context).load(imageDataLists!!.get(position).imageUrl)
                             .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
                     }else{
-                        Glide.with(context).load(imageDataLists.get(position).file)
+                        Glide.with(context).load(imageDataLists!!.get(position).file)
                             .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
                     }
@@ -105,7 +105,7 @@ class ImagesDisplayChampsAdapter(
         }
 
         holder.adapterCaptureImagesSwachBinding.uploadImageChamps.setOnClickListener {
-            champsDetailsandRatingBarCallBack.onClickImageView(it,imageDataLists!!.get(position));
+            champsDetailsandRatingBarCallBack.onClickImageView(it,imageDataLists , position);
         }
 
 

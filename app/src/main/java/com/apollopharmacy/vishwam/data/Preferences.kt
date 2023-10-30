@@ -211,6 +211,8 @@ object Preferences {
     private const val KEY_RECTRO_SITENAME = "KEY_RECTRO_SITENAME"
 
     private const val KEY_APNA_SITEID = "KEY_APNA_SITEID"
+    private const val KEY_SAVE_CHAMPS_SURVEY_SITEID = "KEY_SAVE_CHAMPS_SURVEY_SITEID"
+    private const val KEY_SAVE_CHAMPS_SURVEY_SITENAME = "KEY_SAVE_CHAMPS_SURVEY_SITENAME"
     private const val KEY_CHAMPS_SITENAME = "KEY_CHAMPS_SITENAME"
     private const val KEY_CHAMPS_SITEID = "KEY_CHAMPS_SITEID"
     private const val KEY_APNA_SITENAME = "KEY_APNA_SITENAME"
@@ -635,6 +637,23 @@ object Preferences {
     fun getApnaSiteId(): String {
         return sharedPreferences.getString(KEY_APNA_SITEID, "")!!
     }
+
+    fun setSaveChampsSurveySiteId(apnaSiteId: String) {
+        sharedPreferences.edit().putString(KEY_SAVE_CHAMPS_SURVEY_SITEID, apnaSiteId).apply()
+    }
+
+    fun getSaveChampsSurveySiteId(): String {
+        return sharedPreferences.getString(KEY_SAVE_CHAMPS_SURVEY_SITEID, "")!!
+    }
+
+    fun setSaveChampsSurveySiteName(apnaSiteId: String) {
+        sharedPreferences.edit().putString(KEY_SAVE_CHAMPS_SURVEY_SITENAME, apnaSiteId).apply()
+    }
+
+    fun getSaveChampsSurveySiteName(): String {
+        return sharedPreferences.getString(KEY_SAVE_CHAMPS_SURVEY_SITENAME, "")!!
+    }
+
 
     fun setChampsSiteName(champsSiteId: String) {
         sharedPreferences.edit().putString(KEY_CHAMPS_SITENAME, champsSiteId).apply()

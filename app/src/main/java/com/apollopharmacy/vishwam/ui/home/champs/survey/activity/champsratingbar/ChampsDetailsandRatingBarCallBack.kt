@@ -18,5 +18,9 @@ interface ChampsDetailsandRatingBarCallBack {
     fun onFailureGetSurveyDetailsByChampsId(value: GetSurevyDetailsByChampsIdResponse)
     fun onClickPlusIcon(position: Int)
     fun onClickImageDelete(position: Int)
-    fun onClickImageView(view: View, file: GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas)
+    fun onClickImageView(
+        view: View,
+        file: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>?,
+        position: Int
+    )
 }
