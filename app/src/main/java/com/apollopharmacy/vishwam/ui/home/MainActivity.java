@@ -1507,9 +1507,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                riderNotificationLayout.setVisibility(View.GONE);
 //                break;
             case "Apna Survey":
-                headerText.setText("Apna Survey");
+                headerText.setText("APNA Survey");
                 fragment = new ApnaSurveyFragment();
-                filterIcon.setVisibility(View.VISIBLE);
+                filterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.VISIBLE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
@@ -1533,6 +1533,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                bottomNavigationView.setBackgroundColor(Color.parseColor("#0c273a"));
                 break;
 
             case "Apollo Sensing":
