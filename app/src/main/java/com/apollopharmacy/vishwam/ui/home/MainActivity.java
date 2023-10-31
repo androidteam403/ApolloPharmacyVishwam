@@ -1502,7 +1502,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "APNA":
                 headerText.setText("APNA Survey");
                 fragment = new ApnaSurveyFragment();
-                filterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.VISIBLE);
                 plusIconApna.setVisibility(View.VISIBLE);
                 filterIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);

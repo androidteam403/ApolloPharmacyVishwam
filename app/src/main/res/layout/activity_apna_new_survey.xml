@@ -13,7 +13,7 @@
         <LinearLayout
             android:id="@+id/header_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/value_50dp"
+            android:layout_height="@dimen/vishwam_actionbar_height"
             android:background="@drawable/apna_project_actionbar_bg"
             android:gravity="center_vertical">
 
@@ -106,7 +106,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
-                                    android:backgroundTint="@color/apna_project_actionbar_color"
+                                    android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:gravity="center_vertical|center_horizontal"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="1"
@@ -134,7 +134,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Location Details"
-                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textColor="@color/vishwam_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -591,7 +591,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
-                                    android:backgroundTint="@color/apna_project_actionbar_color"
+                                    android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="2"
                                     android:textColor="@color/white"
@@ -617,7 +617,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Site Specifications"
-                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textColor="@color/vishwam_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -1195,7 +1195,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_30dp"
-                                        android:buttonTint="@color/apna_project_actionbar_color"
+                                        android:buttonTint="@color/vishwam_actionbar_color"
                                         android:text="Yes"
                                         android:textSize="@dimen/text_14sp"
                                         android:textStyle="bold" />
@@ -1204,7 +1204,7 @@
                                         android:id="@+id/toiletsAvailabilityNo"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:buttonTint="@color/apna_project_actionbar_color"
+                                        android:buttonTint="@color/vishwam_actionbar_color"
                                         android:text="No"
                                         android:textSize="@dimen/text_14sp"
                                         android:textStyle="bold" />
@@ -1312,7 +1312,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_30dp"
-                                        android:buttonTint="@color/apna_project_actionbar_color"
+                                        android:buttonTint="@color/vishwam_actionbar_color"
                                         android:text="Yes"
                                         android:textSize="@dimen/text_14sp"
                                         android:textStyle="bold" />
@@ -1321,7 +1321,7 @@
                                         android:id="@+id/noRadioButton"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:buttonTint="@color/apna_project_actionbar_color"
+                                        android:buttonTint="@color/vishwam_actionbar_color"
                                         android:text="No"
                                         android:textSize="@dimen/text_14sp"
                                         android:textStyle="bold" />
@@ -1633,7 +1633,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
-                                    android:backgroundTint="@color/apna_project_actionbar_color"
+                                    android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="3"
                                     android:textColor="@color/white"
@@ -1659,7 +1659,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Market Information"
-                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textColor="@color/vishwam_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -2436,7 +2436,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
-                                    android:backgroundTint="@color/apna_project_actionbar_color"
+                                    android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="4"
                                     android:textColor="@color/white"
@@ -2462,7 +2462,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Competitors Details"
-                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textColor="@color/vishwam_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -2843,7 +2843,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
-                                    android:backgroundTint="@color/apna_project_actionbar_color"
+                                    android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="5"
                                     android:textColor="@color/white"
@@ -2869,7 +2869,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Population and Houses"
-                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textColor="@color/vishwam_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -3088,7 +3088,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
-                                    android:backgroundTint="@color/apna_project_actionbar_color"
+                                    android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="6"
                                     android:textColor="@color/white"
@@ -3114,7 +3114,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Hospitals"
-                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textColor="@color/vishwam_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -3378,7 +3378,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/green_rounded_background"
-                                    android:backgroundTint="@color/apna_project_actionbar_color"
+                                    android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="7"
                                     android:textColor="@color/white"
@@ -3391,7 +3391,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Photos and Media"
-                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textColor="@color/vishwam_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
@@ -3654,7 +3654,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_30dp"
-                                        android:buttonTint="@color/apna_project_actionbar_color"
+                                        android:buttonTint="@color/vishwam_actionbar_color"
                                         android:text="Yes"
                                         android:textSize="@dimen/text_14sp"
                                         android:textStyle="bold" />
@@ -3663,7 +3663,7 @@
                                         android:id="@+id/knownOfEmployeeNo"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:buttonTint="@color/apna_project_actionbar_color"
+                                        android:buttonTint="@color/vishwam_actionbar_color"
                                         android:text="No"
                                         android:textSize="@dimen/text_14sp"
                                         android:textStyle="bold" />
@@ -3681,7 +3681,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/apna_project_actionbar_color"
+            android:background="@color/vishwam_actionbar_color"
             android:gravity="center_horizontal"
             android:paddingVertical="@dimen/value_12dp"
             android:visibility="visible">
@@ -3720,8 +3720,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:background="@color/apna_project_actionbar_color"
-                android:backgroundTint="@color/apna_project_actionbar_color"
+                android:background="@color/vishwam_actionbar_color"
                 android:hint="Submit"
                 android:textColorHint="@color/white"
                 android:textSize="@dimen/text_20sp" />
@@ -3753,7 +3752,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:background="@color/apna_project_actionbar_color"
+                android:background="@color/vishwam_actionbar_color"
                 android:hint="Next"
                 android:textColorHint="@color/white"
                 android:textSize="@dimen/text_20sp" />

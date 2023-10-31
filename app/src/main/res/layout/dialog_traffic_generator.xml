@@ -10,7 +10,7 @@
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/apna_project_actionbar_color"
+            android:background="@color/vishwam_actionbar_color"
             android:paddingTop="@dimen/value_15dp"
             android:paddingBottom="@dimen/value_15dp">
 
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/apna_project_actionbar_color"
+            android:background="@color/vishwam_actionbar_color"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="@dimen/value_12dp">

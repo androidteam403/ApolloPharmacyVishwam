@@ -618,7 +618,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.locationDetailsProgress.visibility = View.VISIBLE
                     dialogBinding.locationDetails.setTextColor(
                         ContextCompat.getColor(
-                            context, R.color.apna_project_actionbar_color
+                            context, R.color.vishwam_actionbar_color
                         )
                     )
                 } else {
@@ -650,7 +650,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.siteSpecifiactionProgress.visibility = View.VISIBLE
                     dialogBinding.siteSpecification.setTextColor(
                         ContextCompat.getColor(
-                            context, R.color.apna_project_actionbar_color
+                            context, R.color.vishwam_actionbar_color
                         )
                     )
                 } else {
@@ -682,7 +682,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.marketInformationProgress.visibility = View.VISIBLE
                     dialogBinding.marketInformation.setTextColor(
                         ContextCompat.getColor(
-                            context, R.color.apna_project_actionbar_color
+                            context, R.color.vishwam_actionbar_color
                         )
                     )
                 } else {
@@ -714,7 +714,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.competitorsDetailsProgress.visibility = View.VISIBLE
                     dialogBinding.competitorsDetails.setTextColor(
                         ContextCompat.getColor(
-                            context, R.color.apna_project_actionbar_color
+                            context, R.color.vishwam_actionbar_color
                         )
                     )
                 } else {
@@ -746,7 +746,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.populationAndHousesProgress.visibility = View.VISIBLE
                     dialogBinding.populationAndHouses.setTextColor(
                         ContextCompat.getColor(
-                            context, R.color.apna_project_actionbar_color
+                            context, R.color.vishwam_actionbar_color
                         )
                     )
                 } else {
@@ -778,7 +778,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.hospitalsProgress.visibility = View.VISIBLE
                     dialogBinding.hospitals.setTextColor(
                         ContextCompat.getColor(
-                            context, R.color.apna_project_actionbar_color
+                            context, R.color.vishwam_actionbar_color
                         )
                     )
                 } else {
@@ -808,7 +808,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     dialogBinding.photosAndMediaProgress.visibility = View.VISIBLE
                     dialogBinding.photosAndMedia.setTextColor(
                         ContextCompat.getColor(
-                            context, R.color.apna_project_actionbar_color
+                            context, R.color.vishwam_actionbar_color
                         )
                     )
                 } else {
