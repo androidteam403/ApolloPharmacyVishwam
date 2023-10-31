@@ -5,9 +5,10 @@ public class MenuModel {
     private int menuIcon;
     private boolean isSelected;
 
-    public MenuModel(String menuName, int menuIcon) {
+    public MenuModel(String menuName, int menuIcon,boolean isSelected) {
         this.menuName = menuName;
         this.menuIcon = menuIcon;
+        this.isSelected=isSelected;
     }
 
     public MenuModel() {

@@ -94,9 +94,9 @@ class ApnaSurveyAdapter(
         }
 //        holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.surveyId)
         if (approvedOrders.id != null) {
-            holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.id)
+            holder.apnaSurveyLayoutBinding.surveyId.setText(approvedOrders.id)
         } else {
-            holder.apnaSurveyLayoutBinding.storeId.setText("-")
+            holder.apnaSurveyLayoutBinding.surveyId.setText("-")
         }
 
         var fName = ""
@@ -121,7 +121,7 @@ class ApnaSurveyAdapter(
         if (!lName.isEmpty()) {
             fullName = "$fullName $lName"
         }
-        holder.apnaSurveyLayoutBinding.surveyby.setText(fullName)
+        holder.apnaSurveyLayoutBinding.surveyBy.setText(fullName)
 //        var locationName = ""
 //        var cityName = ""
 //        if (approvedOrders.location != null) {
@@ -161,6 +161,7 @@ class ApnaSurveyAdapter(
 
         if (approvedOrders.pincode != null) {
             pincode = approvedOrders.pincode!!.toString()
+                .substring(0, 3) + " " + approvedOrders.pincode!!.toString().substring(3)
         } else {
             pincode = "-"
         }
@@ -168,11 +169,11 @@ class ApnaSurveyAdapter(
 
 
         holder.apnaSurveyLayoutBinding.location.text = "$city, $state, $pincode"
-        holder.apnaSurveyLayoutBinding.landmark.text = "${approvedOrders.landmarks}"
+//        holder.apnaSurveyLayoutBinding.landmark.text = "${approvedOrders.landmarks}"
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
-        val outputDateFormat = SimpleDateFormat("dd MMM, yyyy hh:mm a", Locale.ENGLISH)
+        val outputDateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH)
         if (approvedOrders.surveyed_on != null) {
-            holder.apnaSurveyLayoutBinding.surveystart.setText(
+            holder.apnaSurveyLayoutBinding.surveyStartTime.setText(
                 outputDateFormat.format(
                     inputDateFormat.parse(
                         approvedOrders.surveyed_on!!
@@ -186,20 +187,20 @@ class ApnaSurveyAdapter(
                         .isNotEmpty() && !approvedOrders.status!!.name.toString().equals("null")
                 ) {
                     if (approvedOrders.status!!.name.toString().equals("Approved", true)) {
-                        holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.VISIBLE
+                        /*holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.VISIBLE
                         holder.apnaSurveyLayoutBinding.surveyended.setText(
                             outputDateFormat.format(
                                 inputDateFormat.parse(approvedOrders.modifiedTime!!)!!
                             )
-                        )
+                        )*/
                     } else {
-                        holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.GONE
+//                        holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.GONE
                     }
                 } else {
-                    holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.GONE
+//                    holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.GONE
                 }
             } else {
-                holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.GONE
+//                holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.GONE
             }
         }
 
@@ -221,42 +222,43 @@ class ApnaSurveyAdapter(
                             .isNotEmpty() && !approvedOrders.status!!.name.toString().equals("null")
                     ) {
                         if (approvedOrders.status!!.name.toString().equals("Approved", true)) {
-                            holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.VISIBLE
+                            /*holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.VISIBLE
                             holder.apnaSurveyLayoutBinding.timeTaken.setText(
                                 printDifference(
                                     date1, date2
                                 )
-                            )
+                            )*/
                         } else {
-                            holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.GONE
+//                            holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.GONE
                         }
                     } else {
-                        holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.GONE
+//                        holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.GONE
                     }
                 } else {
-                    holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.GONE
+//                    holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.GONE
                 }
             }
 
         } catch (e: ParseException) {
             e.printStackTrace()
         }
-        holder.apnaSurveyLayoutBinding.status.setTextColor(Color.parseColor(approvedOrders.status!!.textColor))//approvedOrders.status!!.textColor
+//        holder.apnaSurveyLayoutBinding.status.setTextColor(Color.parseColor(approvedOrders.status!!.textColor))//approvedOrders.status!!.textColor
         if (approvedOrders.status != null) {
             if (approvedOrders.status!!.name != null) {
                 if (approvedOrders.status!!.name.toString()
                         .isNotEmpty() && !approvedOrders.status!!.name.toString().equals("null")
                 ) {
+                    holder.apnaSurveyLayoutBinding.status.setText(approvedOrders.status!!.name.toString())
                     if (approvedOrders.status!!.name.toString().equals("New", true)) {
-                        holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(
+                        /*holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(
                             ContextCompat.getColor(mContext, R.color.apna_project_actionbar_color)
-                        )
+                        )*/
                     } else {
-                        holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(
+                        /*holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(
                             Color.parseColor(
                                 approvedOrders.status!!.backgroundColor
                             )
-                        )
+                        )*/
                     }
                 } else {
                 }

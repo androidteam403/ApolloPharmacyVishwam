@@ -96,15 +96,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_45dp"
                     android:background="@drawable/search_view_pendency"
+                    android:backgroundTint="#f2f2f2"
+                    android:gravity="center_vertical"
                     android:weightSum="2">
+
+                    <ImageView
+                        android:id="@+id/searchIcon"
+                        android:layout_width="@dimen/value_22dp"
+                        android:layout_height="@dimen/value_22dp"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_search"
+                        android:tint="#b8b8b8"
+                        tools:ignore="UseAppTint" />
 
                     <EditText
                         android:id="@+id/search"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="5dp"
-                        android:layout_marginEnd="@dimen/value_60dp"
-                        android:layout_weight="1.8"
                         android:background="@color/transparent"
                         android:gravity="left|center"
                         android:hint="Search by Survey ID"
@@ -115,15 +125,35 @@
                         android:textColor="@color/black"
                         android:textColorHint="@android:color/black"
                         android:textSize="@dimen/text_14sp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:padding="@dimen/value_5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/poppin_bold"
+                        android:text="Apna Survey List"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp" />
 
                     <ImageView
-                        android:id="@+id/searchIcon"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="@dimen/value_10dp"
-                        android:layout_weight=".2"
-                        android:src="@drawable/ic_search_24" />
-                </LinearLayout>
+                        android:id="@+id/filterIcon"
+                        android:layout_width="@dimen/value_25dp"
+                        android:layout_height="@dimen/value_25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{() -> callback.onClickFilterIcon()}"
+                        android:src="@drawable/filtersnew"
+                        android:tint="#939394"
+                        tools:ignore="UseAppTint" />
+                </RelativeLayout>
 
                 <!--<RelativeLayout
                     android:layout_width="match_parent"
@@ -189,4 +219,12 @@
             android:layout_centerHorizontal="true"
             android:visibility="gone" />
     </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyCallback" />
+        />
+    </data>
 </layout>

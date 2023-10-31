@@ -1,42 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
 
-        <LinearLayout
-            android:id="@+id/menu"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/menuIcon"
-                android:layout_width="@dimen/value_25dp"
-                android:layout_height="@dimen/value_25dp"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginEnd="@dimen/value_10dp"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_home_24"
-                android:tint="#035b71"
-                tools:ignore="UseAppTint" />
-
-            <TextView
-                android:id="@+id/menuName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Drug List"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_15sp" />
-        </LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_below="@+id/menu"
-            android:background="@color/fadedTextColor"
-            android:visibility="gone" />
-    </RelativeLayout>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:background="@color/transparent"
+            android:layout_weight="0.5" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/headerLayout"
+            android:background="@drawable/new_round_corner"
+
+            android:layout_weight="0.5">
+
+            <!-- Rest of your RelativeLayout content here -->
+
+            <LinearLayout
+                android:id="@+id/menu"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:weightSum="2"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/menuName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.6"
+                    android:textAlignment="textEnd"
+                    android:text="New Drug List"
+                    android:textColor="#253339"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="11sp" />
+
+                <ImageView
+                    android:id="@+id/menuIcon"
+                    android:layout_width="@dimen/value_25dp"
+                    android:layout_height="@dimen/value_25dp"
+                    android:layout_marginStart="14dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_baseline_home_24"
+                    android:tint="#035b71"
+                    tools:ignore="UseAppTint" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/menu"
+                android:background="@color/light_ash" />
+
+        </RelativeLayout>
+    </LinearLayout>
 </layout>
