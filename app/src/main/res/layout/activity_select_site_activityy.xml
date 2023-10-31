@@ -29,34 +29,35 @@
         <RelativeLayout
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/splash_start_color"
+            android:layout_height="@dimen/vishwam_actionbar_height"
+            android:background="@color/vishwam_actionbar_color"
             android:paddingTop="@dimen/value_15dp"
-            android:paddingBottom="@dimen/value_15dp">
+            android:paddingBottom="@dimen/value_10dp">
 
 
 
             <TextView
+                android:layout_centerInParent="true"
                 android:id="@+id/textHead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Select Site ID"
+                android:text="Select Store ID"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_18sp"
                 android:textStyle="bold" />
 
             <ImageView
-                android:onClick="@{()-> callback.onClickCancel()}"
                 android:id="@+id/close_dialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/value_10dp"
                 android:contentDescription="@string/app_name"
-                android:paddingStart="@dimen/value_10dp"
-                android:paddingEnd="@dimen/value_10dp"
-                android:src="@drawable/close_icon"
-                android:tint="@color/white" />
+                android:onClick="@{()-> callback.onClickCancel()}"
+                android:src="@drawable/icon_close"
+                app:tint="@color/white" />
         </RelativeLayout>
 
         <LinearLayout
@@ -71,9 +72,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/value_10dp"
-                android:layout_marginEnd="@dimen/value_10dp"
-                android:textColorHint="@color/black">
+                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_marginEnd="@dimen/value_10dp">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/searchSiteText"
@@ -83,8 +83,10 @@
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
                     android:singleLine="true"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_10dp"
+                    android:drawableStart="@drawable/ic_search_grey"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/black"
                     android:textSize="@dimen/text_15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -143,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="SUBMIT"
+                android:text="SELECT"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_17sp"
                 android:textStyle="bold" />

@@ -137,8 +137,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         adapterTrainers = EmailAddressAdapterTrainers(listForTrainers, applicationContext, this)
         activityStartSurvey2Binding.trainerRecyclerview.setLayoutManager(
             LinearLayoutManager(
-                this, LinearLayoutManager.HORIZONTAL, false
-            )
+                this)
         )
         activityStartSurvey2Binding.trainerRecyclerview.setAdapter(adapterTrainers)
         surveyDetailsViewModel.getTrainerDetails(this)
@@ -516,7 +515,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
             adapterRec = EmailAddressAdapter(surveyRecManualList, applicationContext, this)
             activityStartSurvey2Binding.emailRecRecyclerView.setLayoutManager(
                 LinearLayoutManager(
-                    this, LinearLayoutManager.HORIZONTAL, false
+                    this
                 )
             )
             activityStartSurvey2Binding.emailRecRecyclerView.setAdapter(adapterRec)

@@ -38,24 +38,34 @@ class GetSurveyDetailsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        var surveyList = getSurvetDetailsModelResponse.get(position)
         holder.adapterGetSurveyDetailsBinding.champsRefId.text=surveyList.champsRefernceId
-        holder.adapterGetSurveyDetailsBinding.siteName.text=surveyList.sitename// + "," + " " + surveyList.city
+        if(!surveyList.sitename.isNullOrEmpty()){
+            holder.adapterGetSurveyDetailsBinding.siteName.text=surveyList.sitename
+        }else{
+            holder.adapterGetSurveyDetailsBinding.siteName.text="--"
+        }
+       // + "," + " " + surveyList.city
+        if(!surveyList.visitDate.isNullOrEmpty()){
+            val strDate = surveyList.visitDate
+            val dateFormat = SimpleDateFormat("dd-MM-yy kk:mm:ss", Locale.ENGLISH);
+            val date = dateFormat.parse(strDate)
+            val dateNewFormat =
+                SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH).format(date)
+            holder.adapterGetSurveyDetailsBinding.visitDate.text=dateNewFormat
+        }else{
+            holder.adapterGetSurveyDetailsBinding.visitDate.text="--"
+        }
 
-        val strDate = surveyList.visitDate
-        val dateFormat = SimpleDateFormat("dd-MM-yy kk:mm:ss", Locale.ENGLISH);
-        val date = dateFormat.parse(strDate)
-        val dateNewFormat =
-            SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH).format(date)
         if(surveyList.status.equals("PENDING")){
             holder.adapterGetSurveyDetailsBinding.status.setTextColor(context.getColor(R.color.pending_reshoot_color))
-            holder.adapterGetSurveyDetailsBinding.statusLayout.setBackgroundColor((context.getColor(R.color.light_pink_for_reshoot_pending))
-            )
+//            holder.adapterGetSurveyDetailsBinding.statusLayout.setBackgroundColor((context.getColor(R.color.light_pink_for_reshoot_pending))
+//            )
             holder.adapterGetSurveyDetailsBinding.status.text= surveyList.status
         }else if(surveyList.status.equals("COMPLETED")){
             holder.adapterGetSurveyDetailsBinding.status.text= surveyList.status
             holder.adapterGetSurveyDetailsBinding.status.setTextColor(context.getColor(R.color.greenn))
-            holder.adapterGetSurveyDetailsBinding.statusLayout.setBackgroundColor(context.getColor(R.color.green_bg_for_approved))
+//            holder.adapterGetSurveyDetailsBinding.statusLayout.setBackgroundColor(context.getColor(R.color.green_bg_for_approved))
         }
-        holder.adapterGetSurveyDetailsBinding.visitDate.text=dateNewFormat
+
         holder.adapterGetSurveyDetailsBinding.cardView.setOnClickListener {
             getSurveyDetailsListCallback.onClickCardView(surveyList.status, surveyList.champsRefernceId, holder.adapterGetSurveyDetailsBinding.siteName.text.toString(),   holder.adapterGetSurveyDetailsBinding.visitDate.text.toString())
         }

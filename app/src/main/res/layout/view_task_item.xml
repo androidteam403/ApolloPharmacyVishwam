@@ -156,8 +156,8 @@
                                             android:orientation="horizontal">
 
                                             <ImageView
-                                                android:layout_width="@dimen/value_16dp"
-                                                android:layout_height="@dimen/value_16dp"
+                                                android:layout_width="@dimen/value_14dp"
+                                                android:layout_height="@dimen/value_14dp"
                                                 android:src="@drawable/in_login"
                                                 android:visibility="visible"
                                                 app:tint="#68d3a7" />
@@ -188,7 +188,7 @@
                                                     android:gravity="center"
                                                     android:id="@+id/signInTime"
                                                     android:layout_width="wrap_content"
-                                                    android:layout_marginStart="@dimen/value_3dp"
+                                                    android:layout_marginStart="@dimen/value_5dp"
                                                     android:layout_height="wrap_content"
                                                     android:layout_marginEnd="@dimen/value_10dp"
                                                     android:fontFamily="@font/poppin_bold"
@@ -225,8 +225,8 @@
                                             android:orientation="horizontal">
 
                                             <ImageView
-                                                android:layout_width="@dimen/value_16dp"
-                                                android:layout_height="@dimen/value_16dp"
+                                                android:layout_width="@dimen/thirteen13_dp"
+                                                android:layout_height="@dimen/thirteen13_dp"
                                                 android:src="@drawable/out"
                                                 android:visibility="visible"
                                                 app:tint="@color/red" />
@@ -258,7 +258,7 @@
                                                     android:id="@+id/signOutTime"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"
-                                                    android:layout_marginStart="@dimen/value_3dp"
+                                                    android:layout_marginStart="@dimen/value_5dp"
                                                     android:layout_marginEnd="@dimen/value_10dp"
                                                     android:fontFamily="@font/poppin_bold"
                                                     android:textColor="@color/black"
@@ -320,8 +320,8 @@
                                         android:orientation="horizontal">
 
                                         <ImageView
-                                            android:layout_width="@dimen/value_16dp"
-                                            android:layout_height="@dimen/value_16dp"
+                                            android:layout_width="@dimen/value_14dp"
+                                            android:layout_height="@dimen/value_14dp"
                                             android:src="@drawable/in_login"
                                             android:visibility="visible"
                                             app:tint="#68d3a7" />
@@ -357,7 +357,7 @@
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="match_parent"
                                                     android:layout_gravity="center"
-                                                    android:layout_marginStart="@dimen/value_1dp"
+                                                    android:layout_marginStart="@dimen/value_2dp"
                                                     android:layout_marginEnd="@dimen/value_10dp"
                                                     android:fontFamily="@font/poppin_bold"
                                                     android:text="12222222"
