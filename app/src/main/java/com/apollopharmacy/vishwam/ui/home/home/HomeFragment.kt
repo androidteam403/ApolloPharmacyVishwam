@@ -403,6 +403,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         MainActivity.mInstance.setSubmenu(menuModels)
         if (itemName.equals("Dashboard", true)) {
             MainActivity.mInstance.displaySelectedScreen("DashboardCeo")
+        } else if (itemName.equals("APNA", true)) {
+            MainActivity.mInstance.displaySelectedScreen("Apna Survey")
         } else {
             MainActivity.mInstance.displaySelectedScreen(itemName)
         }
