@@ -12,8 +12,8 @@
     <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#045a71">
+        android:layout_height="@dimen/vishwam_actionbar_height"
+        android:background="@color/vishwam_actionbar_color">
 
         <ImageView
             android:id="@+id/backArrow"
@@ -31,19 +31,20 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/value_10dp"
-            android:fontFamily="@font/poppin_bold"
             android:layout_toRightOf="@+id/backArrow"
+            android:fontFamily="@font/poppin_bold"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_18sp"
             android:visibility="gone" />
+
         <TextView
             android:id="@+id/locationtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/value_10dp"
             android:layout_below="@+id/headerTitle"
-            android:fontFamily="@font/poppins_medium"
+            android:layout_marginStart="@dimen/value_10dp"
             android:layout_toRightOf="@+id/backArrow"
+            android:fontFamily="@font/poppins_medium"
             android:text="Location Details"
             android:textColor="@color/colorWhite"
             android:textSize="17sp"
@@ -333,6 +334,7 @@
                     android:textSize="@dimen/text_dimen_12"
                     android:visibility="gone" />
             </RelativeLayout>
+
             <ImageView
                 android:id="@+id/helpBtn"
                 android:layout_width="22dp"
@@ -342,12 +344,13 @@
                 android:src="@drawable/help_icon"
                 android:visibility="gone"
                 tools:ignore="UseAppTint" />
+
             <ImageView
                 android:id="@+id/logoutBtn"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_marginEnd="5dp"
                 android:layout_marginStart="@dimen/value_8dp"
+                android:layout_marginEnd="5dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/logout_icon"
                 android:tint="#FDB813"
@@ -884,7 +887,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/value_60dp"
         android:layout_alignParentBottom="true"
-        android:background="#045a71"
+        android:background="@color/vishwam_actionbar_color"
         app:itemActiveIndicatorStyle="@color/black"
         app:itemIconSize="@dimen/value_25dp"
         app:itemIconTint="#83acb8"
