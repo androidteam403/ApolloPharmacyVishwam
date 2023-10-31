@@ -163,13 +163,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                     isSensingRequired
                 )
             )
-
         }
         if (true) {
-
-
             attendanceMenuModel.add(MenuModel("Retro QR", R.drawable.retro_qr_menu, true))
-
         }
         //isAttendanceRequired
         if (true) {
@@ -274,7 +270,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             )
 
         }
-        if (false) {
+        if (true) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Planogram Evaluation",
