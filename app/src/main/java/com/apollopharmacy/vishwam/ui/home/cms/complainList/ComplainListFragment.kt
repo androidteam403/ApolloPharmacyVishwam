@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Handler
 import android.text.Editable
 import android.text.InputFilter
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -58,8 +57,6 @@ import com.apollopharmacy.vishwam.util.Utils.getDateDifference
 import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonParseException
 import com.hsalf.smilerating.SmileRating
 import java.util.*
 
@@ -136,9 +133,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         if (arguments?.getBoolean("isFromApprovalList") == true) {
             viewBinding.dateFilterLayout.visibility = View.GONE
 //            viewBinding.dateSelectionLayout.visibility = View.GONE
-           /* val layoutParams: LinearLayout.LayoutParams =
-                LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 110)
-            viewBinding.overAllDateFilter.setLayoutParams(layoutParams)*/
+            /* val layoutParams: LinearLayout.LayoutParams =
+                 LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 110)
+             viewBinding.overAllDateFilter.setLayoutParams(layoutParams)*/
 
 
         } else {
@@ -435,7 +432,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 "reopened"
             ) || !this.complaintListStatus.contains("closed") || !this.complaintListStatus.contains(
                 "onHold"
-            )
+            ) || !fromDate.equals(Utils.getCurrentDate()) || !toDate.equals(Utils.getCurrentDate())
         ) {
             MainActivity.mInstance.filterIndicator.visibility = View.VISIBLE
         } else {
@@ -626,6 +623,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         }
 
         inner class ProgressViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
         fun bindItems(
             binding: ViewComplaintItemBinding,
             items: ResponseNewTicketlist.Row,
@@ -648,527 +646,527 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             }
         }
 
-/* start
-        fun bindItems(
-            binding: ViewComplaintItemBinding,
-            items: ResponseNewTicketlist.Row,
-            position: Int,
+        /* start
+                fun bindItems(
+                    binding: ViewComplaintItemBinding,
+                    items: ResponseNewTicketlist.Row,
+                    position: Int,
 
-            ) {
-            binding.ticketNumber.text = items.ticket_id
-            binding.regDate.text = items.created_time?.let {
-                Utlis.cmsComplaintDateFormat(it)
-            }
-
-            lateinit var userData: LoginDetails
-            userData = LoginRepo.getProfile()!!
-
-//            lateinit var StoreData: StoreData
-//            StoreData = LoginRepo.getStoreData()!!
-//            if(items.status.code != "new")
-//                binding.staffNameText.text = items.user.first_name + if(items.user.middle_name != null)  " "+ items.user.middle_name else "" +if(items.user.last_name != null)   " "+ items.user.last_name else ""
-//            else
-            binding.staffNameText.text =
-                items.ticketDetailsResponse?.data?.created_id?.first_name + (if (items.ticketDetailsResponse?.data?.created_id?.middle_name != null) " " + items.ticketDetailsResponse?.data?.created_id?.middle_name else "") + (if (items.ticketDetailsResponse?.data?.created_id?.last_name != null) " " + items.ticketDetailsResponse?.data?.created_id?.last_name else "") + " (" + items.ticketDetailsResponse?.data?.created_id?.login_unique + ")"
-            binding.departmentName.text = items.ticketDetailsResponse?.data?.department?.name
-            binding.problemSinceText.text = items.created_time?.let {
-                Utlis.convertCmsDate(it)
-            }
-
-            var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
-            var managerUid: String? = null
-            var employeeDetailsResponse: EmployeeDetailsResponse? = null
-            try {
-                val gson = GsonBuilder().setPrettyPrinting().create()
-                employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
-                    empDetailsResponse, EmployeeDetailsResponse::class.java
-                )
-
-            } catch (e: JsonParseException) {
-                e.printStackTrace()
-            }
-            var isDonthaveInventory = false
-            if (items.ticketDetailsResponse?.data?.ticket_inventory?.uid != null && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item.isNotEmpty()) {
-                binding.inventoryDetailsLayout.visibility = View.VISIBLE
-//                binding.articleCode.text =
-//                    "${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_code}"
-//              if (items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item)
-                binding.articleName.text =
-                    "${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_name}"
-                binding.batchNumber.text =
-                    " ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].batch_no}"
-                binding.barcode.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].barcode
-                        ?: "--"
-                binding.expairyDate.text =
-                    Utlis.convertCmsExparyDate(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].expiry_date)
-
-                binding.purchaseRate.text =
-                    "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].purchase_rate}"
-                if (items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req")) {
-                    binding.oldMrpLabel.text = "MRP : "
-                    binding.oldMrp.text =
-                        "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp}"
-                    binding.newMrp.visibility = View.GONE
-                    binding.newMrpLabel.visibility = View.GONE
-                } else {
-                    binding.oldMrp.text =
-                        "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp}"
-                    binding.newMrp.text =
-                        "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp}"
-                }
-//                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name == null) {
-//                    binding.manager.text =
-//                        " ${items.inventoryDetailsModel?.data?.site?.manager?.first_name}"
-//                }else {
-//                    binding.manager.text =
-//                        " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name}"
-//                }
-//                binding.category.text =
-//                    " ${items.inventoryDetailsModel?.data?.category!!.name}"
-//                binding.subCategory.text =
-//                    " ${items.inventoryDetailsModel?.data?.subcategory!!.name}"
-//                binding.reason.text =
-//                    " ${items.inventoryDetailsModel?.data?.reason!!.name}"
-
-                if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.uid == null) {
-                    managerUid = items.ticketDetailsResponse?.data?.site?.manager?.uid!!
-                } else {
-                    managerUid =
-                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.uid
-                }
-
-                if (items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopen")) {
-                    if (items.ticketDetailsResponse?.data?.category?.code.equals("mrp_cr") && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid != null && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid.equals(
-                            "forward"
-                        ) && managerUid.equals(employeeDetailsResponse?.data!!.uid)
                     ) {
-                        binding.inventoryActionLayout.visibility = View.VISIBLE
-                        binding.inventoryRejectBtn.visibility = View.VISIBLE
-                        binding.inventoryForwardManagerBtn.visibility = View.GONE
-                        binding.inventoryChangeForwardBtn.visibility = View.VISIBLE
-                        binding.inventoryAcceptBtn.text = "Approve"
-                    } else if (items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req") && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid == null && employeeDetailsResponse?.data!!.uid.equals(
-                            items.ticketDetailsResponse?.data?.user!!.uid
+                    binding.ticketNumber.text = items.ticket_id
+                    binding.regDate.text = items.created_time?.let {
+                        Utlis.cmsComplaintDateFormat(it)
+                    }
+
+                    lateinit var userData: LoginDetails
+                    userData = LoginRepo.getProfile()!!
+
+        //            lateinit var StoreData: StoreData
+        //            StoreData = LoginRepo.getStoreData()!!
+        //            if(items.status.code != "new")
+        //                binding.staffNameText.text = items.user.first_name + if(items.user.middle_name != null)  " "+ items.user.middle_name else "" +if(items.user.last_name != null)   " "+ items.user.last_name else ""
+        //            else
+                    binding.staffNameText.text =
+                        items.ticketDetailsResponse?.data?.created_id?.first_name + (if (items.ticketDetailsResponse?.data?.created_id?.middle_name != null) " " + items.ticketDetailsResponse?.data?.created_id?.middle_name else "") + (if (items.ticketDetailsResponse?.data?.created_id?.last_name != null) " " + items.ticketDetailsResponse?.data?.created_id?.last_name else "") + " (" + items.ticketDetailsResponse?.data?.created_id?.login_unique + ")"
+                    binding.departmentName.text = items.ticketDetailsResponse?.data?.department?.name
+                    binding.problemSinceText.text = items.created_time?.let {
+                        Utlis.convertCmsDate(it)
+                    }
+
+                    var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+                    var managerUid: String? = null
+                    var employeeDetailsResponse: EmployeeDetailsResponse? = null
+                    try {
+                        val gson = GsonBuilder().setPrettyPrinting().create()
+                        employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                            empDetailsResponse, EmployeeDetailsResponse::class.java
                         )
-                    ) {
-                        binding.inventoryActionLayout.visibility = View.VISIBLE
-                        binding.inventoryRejectBtn.visibility = View.VISIBLE
-                        binding.inventoryForwardManagerBtn.visibility = View.GONE
-                        binding.inventoryChangeForwardBtn.visibility = View.GONE
-                        binding.inventoryAcceptBtn.text = "Approve"
+
+                    } catch (e: JsonParseException) {
+                        e.printStackTrace()
                     }
-                    binding.inventoryAcceptBtn.setOnClickListener {
-                        imageClickListener.onClickInventoryAccept(items, position, orderData)
-                    }
-                    binding.inventoryRejectBtn.setOnClickListener {
-                        imageClickListener.onClickInventoryReject(items, position, orderData)
-                    }
-                    binding.inventoryForwardManagerBtn.setOnClickListener {
-                        imageClickListener.onClickForwardToManager(items)
-                    }
-                    binding.inventoryChangeForwardBtn.setOnClickListener {
-                        imageClickListener.onClickForwardChangeManager(items, position, orderData)
-                    }
-                } else {
-                    binding.inventoryActionLayout.visibility = View.GONE
-                }
-                binding.inventoryImagesLayout.visibility = View.VISIBLE
-                if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.isNullOrEmpty()) {
-                    Glide.with(context)
-                        .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob)
-                        .placeholder(R.drawable.thumbnail_image).into(binding.frontImgView)
-                    binding.frontImgView.setOnClickListener {
-                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.let { it1 ->
-                            imageClickListener.onItemClick(position, it1)
+                    var isDonthaveInventory = false
+                    if (items.ticketDetailsResponse?.data?.ticket_inventory?.uid != null && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item.isNotEmpty()) {
+                        binding.inventoryDetailsLayout.visibility = View.VISIBLE
+        //                binding.articleCode.text =
+        //                    "${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_code}"
+        //              if (items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item)
+                        binding.articleName.text =
+                            "${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_name}"
+                        binding.batchNumber.text =
+                            " ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].batch_no}"
+                        binding.barcode.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].barcode
+                                ?: "--"
+                        binding.expairyDate.text =
+                            Utlis.convertCmsExparyDate(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].expiry_date)
+
+                        binding.purchaseRate.text =
+                            "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].purchase_rate}"
+                        if (items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req")) {
+                            binding.oldMrpLabel.text = "MRP : "
+                            binding.oldMrp.text =
+                                "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp}"
+                            binding.newMrp.visibility = View.GONE
+                            binding.newMrpLabel.visibility = View.GONE
+                        } else {
+                            binding.oldMrp.text =
+                                "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp}"
+                            binding.newMrp.text =
+                                "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp}"
                         }
-                    }
-                } else {
-                    binding.frontImgLabel.visibility = View.GONE
-                    binding.frontImgView.visibility = View.GONE
-                }
-                if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.isNullOrEmpty()) {
-                    Glide.with(context)
-                        .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob)
-                        .placeholder(R.drawable.thumbnail_image).into(binding.backImgView)
-                    binding.backImgView.setOnClickListener {
-                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.let { it1 ->
-                            imageClickListener.onItemClick(position, it1)
+        //                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name == null) {
+        //                    binding.manager.text =
+        //                        " ${items.inventoryDetailsModel?.data?.site?.manager?.first_name}"
+        //                }else {
+        //                    binding.manager.text =
+        //                        " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name}"
+        //                }
+        //                binding.category.text =
+        //                    " ${items.inventoryDetailsModel?.data?.category!!.name}"
+        //                binding.subCategory.text =
+        //                    " ${items.inventoryDetailsModel?.data?.subcategory!!.name}"
+        //                binding.reason.text =
+        //                    " ${items.inventoryDetailsModel?.data?.reason!!.name}"
+
+                        if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.uid == null) {
+                            managerUid = items.ticketDetailsResponse?.data?.site?.manager?.uid!!
+                        } else {
+                            managerUid =
+                                items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.uid
                         }
-                    }
-                } else {
-                    binding.backImgLabel.visibility = View.GONE
-                    binding.backImgView.visibility = View.GONE
-                }
-                if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob.isNullOrEmpty()) {
-                    Glide.with(context)
-                        .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob)
-                        .placeholder(R.drawable.thumbnail_image).into(binding.otherImgView)
-                    binding.otherImgView.setOnClickListener {
-                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob.let { it1 ->
-                            imageClickListener.onItemClick(position, it1)
-                        }
-                    }
-                    binding.otherImgLabel.visibility = View.VISIBLE
-                    binding.otherImgView.visibility = View.VISIBLE
-                } else {
-                    binding.otherImgLabel.visibility = View.GONE
-                    binding.otherImgView.visibility = View.GONE
-                }
-            } else {
-                isDonthaveInventory = true
-                binding.inventoryDetailsLayout.visibility = View.GONE
-                binding.inventoryActionLayout.visibility = View.GONE
-                binding.inventoryImagesLayout.visibility = View.GONE
-            }
-            items.created_id?.first_name + (if (items.created_id?.middle_name != null) " " + items.created_id?.middle_name else "") + (if (items.created_id?.last_name != null) " " + items.created_id?.last_name else "") + " (" + items.created_id?.login_unique + ")"
-//            if(items.department?.code.equals("IT")){
-            if (!TextUtils.isEmpty(items.ticketDetailsResponse?.data?.executive?.first_name)) {
-                binding.itTicketExecutive.text =
-                    items.ticketDetailsResponse?.data?.executive?.first_name + (if (items.ticketDetailsResponse?.data?.executive?.middle_name != null) " " + items.ticketDetailsResponse?.data?.executive?.middle_name else "") + (if (items.ticketDetailsResponse?.data?.executive?.last_name != null) " " + items.ticketDetailsResponse?.data?.executive?.last_name else "") + " (" + items.ticketDetailsResponse?.data?.executive?.login_unique + ")"
-                binding.itTicketExecutiveLayout.visibility = View.VISIBLE
-            } else {
-                binding.itTicketExecutiveLayout.visibility = View.GONE
-            }
-            if (!TextUtils.isEmpty(items.ticketDetailsResponse?.data?.manager?.first_name)) {
-                binding.itTicketManager.text =
-                    items.ticketDetailsResponse?.data?.manager?.first_name + (if (items.ticketDetailsResponse?.data?.manager?.middle_name != null) " " + items.ticketDetailsResponse?.data?.manager?.middle_name else "") + (if (items.ticketDetailsResponse?.data?.manager?.last_name != null) " " + items.ticketDetailsResponse?.data?.manager?.last_name else "") + " (" + items.ticketDetailsResponse?.data?.manager?.login_unique + ")"
-                binding.itTicketManagerLayout.visibility = View.VISIBLE
-            } else {
-                binding.itTicketManagerLayout.visibility = View.GONE
-            }
 
-
-//            }else{
-//                binding.itTicketExecutiveLayout.visibility = View.GONE
-//                binding.itTicketManagerLayout.visibility = View.GONE
-//            }
-            if (items.ticketDetailsResponse?.data?.ticket_it?.tid?.uid != null) {
-                binding.creditCardDetailsLayout.visibility = View.VISIBLE
-//                binding.ccReason.text = " ${items.creditCardTSDetails?.data?.reason!!.name }"
-//                binding.ccExecutive.text = " ${items.creditCardTSDetails?.data?.executive!!.first_name }"
-//                binding.ccManager.text = items.creditCardTSDetails?.data?.manager!!.first_name
-                binding.ccTid.text = " ${items.ticketDetailsResponse?.data?.ticket_it!!.tid.tid}"
-                binding.billNumber.text =
-                    " ${items.ticketDetailsResponse?.data?.ticket_it!!.bill_number}"
-                binding.transactionNumber.text =
-                    " ${items.ticketDetailsResponse?.data?.ticket_it!!.transaction_id}"
-                binding.approvalCode.text =
-                    " ${items.ticketDetailsResponse?.data?.ticket_it!!.approval_code}"
-                binding.billAmount.text =
-                    "₹ ${items.ticketDetailsResponse?.data?.ticket_it!!.bill_amount}"
-
-
-//                department?.code == 'IT' && category.code == 'pos'  && reason.code == 'asb_not_completed'
-//                        && user?.uid == session user.uid && ticket_it?.status?.uid == 'forwarded_to_fin' && status?.code == 'inprogress'
-//                && sessionuser.department.code == 'FN' && reason?.sub_workflow?.uid ==  'Yes'
-
-
-                if (((items.status!!.code.equals("new") || items.status!!.code.equals("reopen")) && items.ticketDetailsResponse!!.data.executive.uid.equals(
-                        employeeDetailsResponse?.data!!.uid
-                    ) && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
-                        "Yes"
-                    ) && checkResonDepot(
-                        items.ticketDetailsResponse!!.data.reason.reason_dept,
-                        employeeDetailsResponse
-                    ))
-                ) {
-                    if (items.ticketDetailsResponse!!.data.ticket_it.status.uid != null && (items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
-                            "approved"
-                        ) || items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
-                            "rejected"
-                        ))
-                    ) {
-                        binding.ccActionLayout.visibility = View.GONE
-                    } else {
-                        if (items.ticketDetailsResponse!!.data.ticket_it.status.uid == null) {
-                            //Change to visible if required
-                            binding.ccActionLayout.visibility = View.GONE
-//                            binding.ccActionLayout.visibility = View.VISIBLE
-//                        binding.acceptBtn.setOnClickListener {
-//
-//
-//
-//
-//
-//
-////                            imageClickListener.onClickForwardToFinance(cmsTicketRequest)
-//
-//                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data)
-//                        }
-                            binding.frwdToFinance.setOnClickListener {
-
-                                val cmsTicketRequest = CmsTicketRequest()
-                                val cms = CmsTicketRequest.Ticket()
-                                cmsTicketRequest.uid =
-                                    items.ticketDetailsResponse!!.data.ticket_it.uid
-                                cms.uid = items.ticketDetailsResponse!!.data.uid
-                                cmsTicketRequest.ticket = cms
-
-
-//
-
-
-                                imageClickListener.onClickForwardToFinance(
-                                    cmsTicketRequest, orderData, position
+                        if (items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopen")) {
+                            if (items.ticketDetailsResponse?.data?.category?.code.equals("mrp_cr") && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid != null && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid.equals(
+                                    "forward"
+                                ) && managerUid.equals(employeeDetailsResponse?.data!!.uid)
+                            ) {
+                                binding.inventoryActionLayout.visibility = View.VISIBLE
+                                binding.inventoryRejectBtn.visibility = View.VISIBLE
+                                binding.inventoryForwardManagerBtn.visibility = View.GONE
+                                binding.inventoryChangeForwardBtn.visibility = View.VISIBLE
+                                binding.inventoryAcceptBtn.text = "Approve"
+                            } else if (items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req") && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid == null && employeeDetailsResponse?.data!!.uid.equals(
+                                    items.ticketDetailsResponse?.data?.user!!.uid
                                 )
-//                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
+                            ) {
+                                binding.inventoryActionLayout.visibility = View.VISIBLE
+                                binding.inventoryRejectBtn.visibility = View.VISIBLE
+                                binding.inventoryForwardManagerBtn.visibility = View.GONE
+                                binding.inventoryChangeForwardBtn.visibility = View.GONE
+                                binding.inventoryAcceptBtn.text = "Approve"
+                            }
+                            binding.inventoryAcceptBtn.setOnClickListener {
+                                imageClickListener.onClickInventoryAccept(items, position, orderData)
+                            }
+                            binding.inventoryRejectBtn.setOnClickListener {
+                                imageClickListener.onClickInventoryReject(items, position, orderData)
+                            }
+                            binding.inventoryForwardManagerBtn.setOnClickListener {
+                                imageClickListener.onClickForwardToManager(items)
+                            }
+                            binding.inventoryChangeForwardBtn.setOnClickListener {
+                                imageClickListener.onClickForwardChangeManager(items, position, orderData)
+                            }
+                        } else {
+                            binding.inventoryActionLayout.visibility = View.GONE
+                        }
+                        binding.inventoryImagesLayout.visibility = View.VISIBLE
+                        if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.isNullOrEmpty()) {
+                            Glide.with(context)
+                                .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob)
+                                .placeholder(R.drawable.thumbnail_image).into(binding.frontImgView)
+                            binding.frontImgView.setOnClickListener {
+                                items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.let { it1 ->
+                                    imageClickListener.onItemClick(position, it1)
+                                }
+                            }
+                        } else {
+                            binding.frontImgLabel.visibility = View.GONE
+                            binding.frontImgView.visibility = View.GONE
+                        }
+                        if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.isNullOrEmpty()) {
+                            Glide.with(context)
+                                .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob)
+                                .placeholder(R.drawable.thumbnail_image).into(binding.backImgView)
+                            binding.backImgView.setOnClickListener {
+                                items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.let { it1 ->
+                                    imageClickListener.onItemClick(position, it1)
+                                }
+                            }
+                        } else {
+                            binding.backImgLabel.visibility = View.GONE
+                            binding.backImgView.visibility = View.GONE
+                        }
+                        if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob.isNullOrEmpty()) {
+                            Glide.with(context)
+                                .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob)
+                                .placeholder(R.drawable.thumbnail_image).into(binding.otherImgView)
+                            binding.otherImgView.setOnClickListener {
+                                items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob.let { it1 ->
+                                    imageClickListener.onItemClick(position, it1)
+                                }
+                            }
+                            binding.otherImgLabel.visibility = View.VISIBLE
+                            binding.otherImgView.visibility = View.VISIBLE
+                        } else {
+                            binding.otherImgLabel.visibility = View.GONE
+                            binding.otherImgView.visibility = View.GONE
+                        }
+                    } else {
+                        isDonthaveInventory = true
+                        binding.inventoryDetailsLayout.visibility = View.GONE
+                        binding.inventoryActionLayout.visibility = View.GONE
+                        binding.inventoryImagesLayout.visibility = View.GONE
+                    }
+                    items.created_id?.first_name + (if (items.created_id?.middle_name != null) " " + items.created_id?.middle_name else "") + (if (items.created_id?.last_name != null) " " + items.created_id?.last_name else "") + " (" + items.created_id?.login_unique + ")"
+        //            if(items.department?.code.equals("IT")){
+                    if (!TextUtils.isEmpty(items.ticketDetailsResponse?.data?.executive?.first_name)) {
+                        binding.itTicketExecutive.text =
+                            items.ticketDetailsResponse?.data?.executive?.first_name + (if (items.ticketDetailsResponse?.data?.executive?.middle_name != null) " " + items.ticketDetailsResponse?.data?.executive?.middle_name else "") + (if (items.ticketDetailsResponse?.data?.executive?.last_name != null) " " + items.ticketDetailsResponse?.data?.executive?.last_name else "") + " (" + items.ticketDetailsResponse?.data?.executive?.login_unique + ")"
+                        binding.itTicketExecutiveLayout.visibility = View.VISIBLE
+                    } else {
+                        binding.itTicketExecutiveLayout.visibility = View.GONE
+                    }
+                    if (!TextUtils.isEmpty(items.ticketDetailsResponse?.data?.manager?.first_name)) {
+                        binding.itTicketManager.text =
+                            items.ticketDetailsResponse?.data?.manager?.first_name + (if (items.ticketDetailsResponse?.data?.manager?.middle_name != null) " " + items.ticketDetailsResponse?.data?.manager?.middle_name else "") + (if (items.ticketDetailsResponse?.data?.manager?.last_name != null) " " + items.ticketDetailsResponse?.data?.manager?.last_name else "") + " (" + items.ticketDetailsResponse?.data?.manager?.login_unique + ")"
+                        binding.itTicketManagerLayout.visibility = View.VISIBLE
+                    } else {
+                        binding.itTicketManagerLayout.visibility = View.GONE
+                    }
+
+
+        //            }else{
+        //                binding.itTicketExecutiveLayout.visibility = View.GONE
+        //                binding.itTicketManagerLayout.visibility = View.GONE
+        //            }
+                    if (items.ticketDetailsResponse?.data?.ticket_it?.tid?.uid != null) {
+                        binding.creditCardDetailsLayout.visibility = View.VISIBLE
+        //                binding.ccReason.text = " ${items.creditCardTSDetails?.data?.reason!!.name }"
+        //                binding.ccExecutive.text = " ${items.creditCardTSDetails?.data?.executive!!.first_name }"
+        //                binding.ccManager.text = items.creditCardTSDetails?.data?.manager!!.first_name
+                        binding.ccTid.text = " ${items.ticketDetailsResponse?.data?.ticket_it!!.tid.tid}"
+                        binding.billNumber.text =
+                            " ${items.ticketDetailsResponse?.data?.ticket_it!!.bill_number}"
+                        binding.transactionNumber.text =
+                            " ${items.ticketDetailsResponse?.data?.ticket_it!!.transaction_id}"
+                        binding.approvalCode.text =
+                            " ${items.ticketDetailsResponse?.data?.ticket_it!!.approval_code}"
+                        binding.billAmount.text =
+                            "₹ ${items.ticketDetailsResponse?.data?.ticket_it!!.bill_amount}"
+
+
+        //                department?.code == 'IT' && category.code == 'pos'  && reason.code == 'asb_not_completed'
+        //                        && user?.uid == session user.uid && ticket_it?.status?.uid == 'forwarded_to_fin' && status?.code == 'inprogress'
+        //                && sessionuser.department.code == 'FN' && reason?.sub_workflow?.uid ==  'Yes'
+
+
+                        if (((items.status!!.code.equals("new") || items.status!!.code.equals("reopen")) && items.ticketDetailsResponse!!.data.executive.uid.equals(
+                                employeeDetailsResponse?.data!!.uid
+                            ) && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
+                                "Yes"
+                            ) && checkResonDepot(
+                                items.ticketDetailsResponse!!.data.reason.reason_dept,
+                                employeeDetailsResponse
+                            ))
+                        ) {
+                            if (items.ticketDetailsResponse!!.data.ticket_it.status.uid != null && (items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
+                                    "approved"
+                                ) || items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
+                                    "rejected"
+                                ))
+                            ) {
+                                binding.ccActionLayout.visibility = View.GONE
+                            } else {
+                                if (items.ticketDetailsResponse!!.data.ticket_it.status.uid == null) {
+                                    //Change to visible if required
+                                    binding.ccActionLayout.visibility = View.GONE
+        //                            binding.ccActionLayout.visibility = View.VISIBLE
+        //                        binding.acceptBtn.setOnClickListener {
+        //
+        //
+        //
+        //
+        //
+        //
+        ////                            imageClickListener.onClickForwardToFinance(cmsTicketRequest)
+        //
+        //                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data)
+        //                        }
+                                    binding.frwdToFinance.setOnClickListener {
+
+                                        val cmsTicketRequest = CmsTicketRequest()
+                                        val cms = CmsTicketRequest.Ticket()
+                                        cmsTicketRequest.uid =
+                                            items.ticketDetailsResponse!!.data.ticket_it.uid
+                                        cms.uid = items.ticketDetailsResponse!!.data.uid
+                                        cmsTicketRequest.ticket = cms
+
+
+        //
+
+
+                                        imageClickListener.onClickForwardToFinance(
+                                            cmsTicketRequest, orderData, position
+                                        )
+        //                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
+                                    }
+                                } else {
+                                    binding.ccActionLayout.visibility = View.GONE
+                                }
                             }
                         } else {
                             binding.ccActionLayout.visibility = View.GONE
                         }
-                    }
-                } else {
-                    binding.ccActionLayout.visibility = View.GONE
-                }
-            } else {
-                binding.creditCardDetailsLayout.visibility = View.GONE
-                binding.ccActionLayout.visibility = View.GONE
-            }
-
-            if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.uid != null) {
-                binding.drugLayout.drugDetailsLayout.visibility = View.VISIBLE
-//                binding.drugLayout.drugBarcode.text = items.ticket_inventory.drug_request.barcode ?: "--"
-                binding.drugLayout.drugItemNumber.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_name
-                        ?: "--"
-//                binding.drugLayout.drugItemDetailsNumber.text = items.subcategory?.name ?: "--"
-                binding.drugLayout.drugPackSize.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.pack_size.toString()
-                        ?: "--"
-                binding.drugLayout.drugMrp.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.mrp.toString()
-                        ?: "--"
-//                binding.drugLayout.drugPurchasePrice.text =
-//                    items.ticket_inventory.drug_request.purchase_price.toString() ?: "--"
-//                binding.drugLayout.drugRemarks.text = items.ticket_inventory.drug_request.remarks ?: "--"
-                binding.drugLayout.drugBatchNo.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.batch_no
-                        ?: "--"
-
-
-                //From - made changes by naveen//
-                binding.drugLayout.itemType.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_type.name
-                binding.drugLayout.requiredQty.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.required_quantity.toString()
-                binding.drugLayout.doctorName.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.doctors_name
-                binding.drugLayout.doctorSpeciality.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.doctor_specialty.name
-
-                //To - made changes by naveen//
-
-
-//                binding.drugLayout.drugManufactuing.text = if(items.ticket_inventory.drug_request?.manufacturing_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.manufacturing_date)}
-//                binding.drugLayout.drugExpairy.text =  if(items.ticket_inventory.drug_request?.expiry_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.expiry_date)}
-//                binding.drugLayout.drugHsn.text = items.ticket_inventory.drug_request.hsn_code ?: "--"
-//                binding.drugLayout.drugGst.text = items.ticket_inventory.drug_request.gst ?: "--"
-//                binding.drugLayout.drugReference.text = items.ticket_inventory.drug_request.reference_no ?: "--"
-
-                if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb != null) {
-                    Glide.with(context)
-                        .load(items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb)
-                        .placeholder(R.drawable.thumbnail_image).into(binding.frontImgView)
-                    binding.frontImgView.setOnClickListener {
-                        items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb.let { it1 ->
-                            imageClickListener.onItemClick(position, it1)
-                        }
-                    }
-                } else {
-                    binding.frontImgLabel.visibility = View.GONE
-                    binding.frontImgView.visibility = View.GONE
-                }
-                if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.back_mb != null) {
-                    Glide.with(context)
-                        .load(items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.back_mb)
-                        .placeholder(R.drawable.thumbnail_image).into(binding.backImgView)
-                    binding.backImgView.setOnClickListener {
-                        items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.back_mb.let { it1 ->
-                            imageClickListener.onItemClick(position, it1)
-                        }
-                    }
-                } else {
-                    binding.backImgLabel.visibility = View.GONE
-                    binding.backImgView.visibility = View.GONE
-                }
-                binding.inventoryImagesLayout.visibility = View.VISIBLE
-            } else {
-                binding.drugLayout.drugDetailsLayout.visibility = View.GONE
-
-            }
-            binding.complainDetails.text = items.ticketDetailsResponse?.data?.description?.trim()
-                ?.replace("\\s+".toRegex(), " ") ?: "--"
-            if (items.status?.code.isNullOrEmpty()) {
-            } else {
-
-                if (items.status!!.code.equals("solved") && employeeDetailsResponse?.data!!.uid.equals(
-                        items.created_id!!.uid
-                    )
-                ) {
-                    binding.ticketResolveBtn.visibility = View.VISIBLE
-                    if (items.ticketDetailsResponse?.data?.category?.code.equals("mrp_cr") || items.ticketDetailsResponse?.data?.category?.code.equals(
-                            "new_batch_req"
-                        )
-                    ) {
-                        binding.ticketResolveBtn.visibility = View.GONE
-                    }
-                    if (items.ticketDetailsResponse != null) {
-                        if (items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == null
-                            || items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == "Yes"
-                        ) {
-                            binding.ticketCloseBtn.visibility = View.VISIBLE
-                        } else {
-                            binding.ticketCloseBtn.visibility = View.GONE
-                        }
-                    }
-
-
-
-
-
-                    binding.ticketCloseBtn.setOnClickListener {
-                        imageClickListener.onClickTicketClose(items, orderData, position)
-                    }
-                    binding.ticketActionLayout.visibility = View.VISIBLE
-                    binding.ticketResolveBtn.text = "Reopen"
-                    binding.ticketResolveBtn.setOnClickListener {
-                        imageClickListener.onClickTicketReopen(items, orderData, position)
-                    }
-                } else if ((items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened")) && employeeDetailsResponse?.data!!.uid.equals(
-                        items.ticketDetailsResponse?.data?.user?.uid
-                    )
-                ) {
-                    if (items.ticketDetailsResponse != null && (items.ticketDetailsResponse?.data?.category?.code.equals(
-                            "mrp_cr"
-                        ) || items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req"))
-                    ) {
-                        binding.ticketResolveBtn.visibility = View.GONE
-                        binding.ticketActionLayout.visibility = View.GONE
-                    } else if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.uid != null && items.ticketDetailsResponse?.data?.category?.code.equals(
-                            "new_drug_req"
-                        )
-                    ) {
-                        binding.ticketResolveBtn.visibility = View.GONE
-                        binding.ticketActionLayout.visibility = View.GONE
-                    }
-//                    else if (items.status!!.code.equals("inprogress")
-//                        && items.ticketDetailsResponse!!.data.department.code.equals(
-//                            "IT") && items.ticketDetailsResponse!!.data.category.code.equals("pos")
-//                    ) {
-//                        binding.ticketResolveBtn.visibility = View.GONE
-//                        binding.ticketActionLayout.visibility = View.GONE
-//                    }
-
-//                    else  if (employeeDetailsResponse?.data!!.department!!.code.equals(
-//                            "FN")
-//                    ) {
-//                        if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
-//                                "pos") && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed")
-//                            && items.ticketDetailsResponse!!.data.user.uid.equals(
-//                                employeeDetailsResponse?.data!!.uid)
-//                            && items.status!!.code.equals("inprogress")
-//                            && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals("Yes")
-//                        ) {
-//
-//                            binding.ticketResolveBtn.visibility = View.GONE
-//                            binding.ticketActionLayout.visibility = View.GONE
-//                        }
-//                        else {
-//                            binding.ticketResolveBtn.visibility = View.VISIBLE
-//                            binding.ticketCloseBtn.visibility = View.GONE
-//                            binding.ticketResolveBtn.text = "Resolve"
-//                            binding.ticketResolveBtn.setOnClickListener {
-//                                imageClickListener.onClickTicketResolve(items)
-//                            }
-//                            binding.ticketActionLayout.visibility = View.VISIBLE
-//                        }
-//
-//                        }
-
-                    else {
-                        binding.ticketResolveBtn.visibility = View.VISIBLE
-                        binding.ticketCloseBtn.visibility = View.GONE
-                        binding.ticketResolveBtn.text = "Resolve"
-                        binding.ticketResolveBtn.setOnClickListener {
-
-//                            items.Tickethistory!!.data.listData.rows[0].description=items.Tickethistory!!.data.listData.rows[0].description.replace("Accepted","Resolved")
-                            imageClickListener.onClickTicketResolve(items, orderData, position)
-                        }
-                        binding.ticketActionLayout.visibility = View.VISIBLE
-                    }
-                } else {
-                    binding.ticketActionLayout.visibility = View.GONE
-                }
-            }
-
-            if (items.ticketDetailsResponse != null) {
-                if (employeeDetailsResponse?.data!!.department!!.code.equals("FN")) {
-                    if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
-                            "pos"
-                        ) && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed") && items.ticketDetailsResponse!!.data!!.user!!.uid != null && items.ticketDetailsResponse!!.data!!.user!!.uid!!.equals(
-                            employeeDetailsResponse?.data!!.uid
-                        ) && items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
-                            "forwarded_to_fin"
-                        ) && items.status!!.code.equals("inprogress") && employeeDetailsResponse?.data!!.department!!.code.equals(
-                            "FN"
-                        ) && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
-                            "Yes"
-                        )
-                    ) {
-
-                        binding.ccAcceptrejectLayout.visibility = View.VISIBLE;
-                        binding.acceptBtn.setOnClickListener {
-                            imageClickListener.onClickCCAccept(
-                                items.ticketDetailsResponse!!.data, orderData, position
-                            )
-                        }
-                        binding.rejectBtn.setOnClickListener {
-                            imageClickListener.onClickCCReject(
-                                items.ticketDetailsResponse!!.data, orderData, position
-                            )
-                        }
                     } else {
-                        binding.ccAcceptrejectLayout.visibility = View.GONE
+                        binding.creditCardDetailsLayout.visibility = View.GONE
+                        binding.ccActionLayout.visibility = View.GONE
                     }
-                }
 
-            }
-            */
-/*    // soubworkflow manual
-                        if (items!!.have_subworkflow != null) {
-                            if (items!!.have_subworkflow == true) {
-                                if (items!!.is_subworkflow_completed == false) {
-                                    binding.ticketResolveBtn.visibility = View.GONE
+                    if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.uid != null) {
+                        binding.drugLayout.drugDetailsLayout.visibility = View.VISIBLE
+        //                binding.drugLayout.drugBarcode.text = items.ticket_inventory.drug_request.barcode ?: "--"
+                        binding.drugLayout.drugItemNumber.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_name
+                                ?: "--"
+        //                binding.drugLayout.drugItemDetailsNumber.text = items.subcategory?.name ?: "--"
+                        binding.drugLayout.drugPackSize.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.pack_size.toString()
+                                ?: "--"
+                        binding.drugLayout.drugMrp.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.mrp.toString()
+                                ?: "--"
+        //                binding.drugLayout.drugPurchasePrice.text =
+        //                    items.ticket_inventory.drug_request.purchase_price.toString() ?: "--"
+        //                binding.drugLayout.drugRemarks.text = items.ticket_inventory.drug_request.remarks ?: "--"
+                        binding.drugLayout.drugBatchNo.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.batch_no
+                                ?: "--"
+
+
+                        //From - made changes by naveen//
+                        binding.drugLayout.itemType.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_type.name
+                        binding.drugLayout.requiredQty.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.required_quantity.toString()
+                        binding.drugLayout.doctorName.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.doctors_name
+                        binding.drugLayout.doctorSpeciality.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.doctor_specialty.name
+
+                        //To - made changes by naveen//
+
+
+        //                binding.drugLayout.drugManufactuing.text = if(items.ticket_inventory.drug_request?.manufacturing_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.manufacturing_date)}
+        //                binding.drugLayout.drugExpairy.text =  if(items.ticket_inventory.drug_request?.expiry_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.expiry_date)}
+        //                binding.drugLayout.drugHsn.text = items.ticket_inventory.drug_request.hsn_code ?: "--"
+        //                binding.drugLayout.drugGst.text = items.ticket_inventory.drug_request.gst ?: "--"
+        //                binding.drugLayout.drugReference.text = items.ticket_inventory.drug_request.reference_no ?: "--"
+
+                        if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb != null) {
+                            Glide.with(context)
+                                .load(items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb)
+                                .placeholder(R.drawable.thumbnail_image).into(binding.frontImgView)
+                            binding.frontImgView.setOnClickListener {
+                                items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb.let { it1 ->
+                                    imageClickListener.onItemClick(position, it1)
                                 }
-                                if (isApprovalListFragment) {
-                                    if (items!!.is_subworkflow_completed == true) {
-                                        binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                            }
+                        } else {
+                            binding.frontImgLabel.visibility = View.GONE
+                            binding.frontImgView.visibility = View.GONE
+                        }
+                        if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.back_mb != null) {
+                            Glide.with(context)
+                                .load(items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.back_mb)
+                                .placeholder(R.drawable.thumbnail_image).into(binding.backImgView)
+                            binding.backImgView.setOnClickListener {
+                                items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.back_mb.let { it1 ->
+                                    imageClickListener.onItemClick(position, it1)
+                                }
+                            }
+                        } else {
+                            binding.backImgLabel.visibility = View.GONE
+                            binding.backImgView.visibility = View.GONE
+                        }
+                        binding.inventoryImagesLayout.visibility = View.VISIBLE
+                    } else {
+                        binding.drugLayout.drugDetailsLayout.visibility = View.GONE
+
+                    }
+                    binding.complainDetails.text = items.ticketDetailsResponse?.data?.description?.trim()
+                        ?.replace("\\s+".toRegex(), " ") ?: "--"
+                    if (items.status?.code.isNullOrEmpty()) {
+                    } else {
+
+                        if (items.status!!.code.equals("solved") && employeeDetailsResponse?.data!!.uid.equals(
+                                items.created_id!!.uid
+                            )
+                        ) {
+                            binding.ticketResolveBtn.visibility = View.VISIBLE
+                            if (items.ticketDetailsResponse?.data?.category?.code.equals("mrp_cr") || items.ticketDetailsResponse?.data?.category?.code.equals(
+                                    "new_batch_req"
+                                )
+                            ) {
+                                binding.ticketResolveBtn.visibility = View.GONE
+                            }
+                            if (items.ticketDetailsResponse != null) {
+                                if (items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == null
+                                    || items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == "Yes"
+                                ) {
+                                    binding.ticketCloseBtn.visibility = View.VISIBLE
+                                } else {
+                                    binding.ticketCloseBtn.visibility = View.GONE
+                                }
+                            }
+
+
+
+
+
+                            binding.ticketCloseBtn.setOnClickListener {
+                                imageClickListener.onClickTicketClose(items, orderData, position)
+                            }
+                            binding.ticketActionLayout.visibility = View.VISIBLE
+                            binding.ticketResolveBtn.text = "Reopen"
+                            binding.ticketResolveBtn.setOnClickListener {
+                                imageClickListener.onClickTicketReopen(items, orderData, position)
+                            }
+                        } else if ((items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened")) && employeeDetailsResponse?.data!!.uid.equals(
+                                items.ticketDetailsResponse?.data?.user?.uid
+                            )
+                        ) {
+                            if (items.ticketDetailsResponse != null && (items.ticketDetailsResponse?.data?.category?.code.equals(
+                                    "mrp_cr"
+                                ) || items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req"))
+                            ) {
+                                binding.ticketResolveBtn.visibility = View.GONE
+                                binding.ticketActionLayout.visibility = View.GONE
+                            } else if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.uid != null && items.ticketDetailsResponse?.data?.category?.code.equals(
+                                    "new_drug_req"
+                                )
+                            ) {
+                                binding.ticketResolveBtn.visibility = View.GONE
+                                binding.ticketActionLayout.visibility = View.GONE
+                            }
+        //                    else if (items.status!!.code.equals("inprogress")
+        //                        && items.ticketDetailsResponse!!.data.department.code.equals(
+        //                            "IT") && items.ticketDetailsResponse!!.data.category.code.equals("pos")
+        //                    ) {
+        //                        binding.ticketResolveBtn.visibility = View.GONE
+        //                        binding.ticketActionLayout.visibility = View.GONE
+        //                    }
+
+        //                    else  if (employeeDetailsResponse?.data!!.department!!.code.equals(
+        //                            "FN")
+        //                    ) {
+        //                        if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
+        //                                "pos") && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed")
+        //                            && items.ticketDetailsResponse!!.data.user.uid.equals(
+        //                                employeeDetailsResponse?.data!!.uid)
+        //                            && items.status!!.code.equals("inprogress")
+        //                            && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals("Yes")
+        //                        ) {
+        //
+        //                            binding.ticketResolveBtn.visibility = View.GONE
+        //                            binding.ticketActionLayout.visibility = View.GONE
+        //                        }
+        //                        else {
+        //                            binding.ticketResolveBtn.visibility = View.VISIBLE
+        //                            binding.ticketCloseBtn.visibility = View.GONE
+        //                            binding.ticketResolveBtn.text = "Resolve"
+        //                            binding.ticketResolveBtn.setOnClickListener {
+        //                                imageClickListener.onClickTicketResolve(items)
+        //                            }
+        //                            binding.ticketActionLayout.visibility = View.VISIBLE
+        //                        }
+        //
+        //                        }
+
+                            else {
+                                binding.ticketResolveBtn.visibility = View.VISIBLE
+                                binding.ticketCloseBtn.visibility = View.GONE
+                                binding.ticketResolveBtn.text = "Resolve"
+                                binding.ticketResolveBtn.setOnClickListener {
+
+        //                            items.Tickethistory!!.data.listData.rows[0].description=items.Tickethistory!!.data.listData.rows[0].description.replace("Accepted","Resolved")
+                                    imageClickListener.onClickTicketResolve(items, orderData, position)
+                                }
+                                binding.ticketActionLayout.visibility = View.VISIBLE
+                            }
+                        } else {
+                            binding.ticketActionLayout.visibility = View.GONE
+                        }
+                    }
+
+                    if (items.ticketDetailsResponse != null) {
+                        if (employeeDetailsResponse?.data!!.department!!.code.equals("FN")) {
+                            if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
+                                    "pos"
+                                ) && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed") && items.ticketDetailsResponse!!.data!!.user!!.uid != null && items.ticketDetailsResponse!!.data!!.user!!.uid!!.equals(
+                                    employeeDetailsResponse?.data!!.uid
+                                ) && items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
+                                    "forwarded_to_fin"
+                                ) && items.status!!.code.equals("inprogress") && employeeDetailsResponse?.data!!.department!!.code.equals(
+                                    "FN"
+                                ) && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
+                                    "Yes"
+                                )
+                            ) {
+
+                                binding.ccAcceptrejectLayout.visibility = View.VISIBLE;
+                                binding.acceptBtn.setOnClickListener {
+                                    imageClickListener.onClickCCAccept(
+                                        items.ticketDetailsResponse!!.data, orderData, position
+                                    )
+                                }
+                                binding.rejectBtn.setOnClickListener {
+                                    imageClickListener.onClickCCReject(
+                                        items.ticketDetailsResponse!!.data, orderData, position
+                                    )
+                                }
+                            } else {
+                                binding.ccAcceptrejectLayout.visibility = View.GONE
+                            }
+                        }
+
+                    }
+                    */
+        /*    // soubworkflow manual
+                                if (items!!.have_subworkflow != null) {
+                                    if (items!!.have_subworkflow == true) {
+                                        if (items!!.is_subworkflow_completed == false) {
+                                            binding.ticketResolveBtn.visibility = View.GONE
+                                        }
+                                        if (isApprovalListFragment) {
+                                            if (items!!.is_subworkflow_completed == true) {
+                                                binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                                            } else {
+                                                binding.subWorkflowAcceptrejectLayout.visibility = View.VISIBLE
+                                                binding.subWorkflowAcceptBtn.setOnClickListener {
+                                                    imageClickListener.onClickSubWorkflowAccept(
+                                                        items.ticketDetailsResponse!!.data, orderData, position
+                                                    )
+                                                }
+
+                                                binding.subWorkflowRejectBtn.setOnClickListener {
+                                                    imageClickListener.onClickSubWorkflowReject(
+                                                        items.ticketDetailsResponse!!.data, orderData, position
+                                                    )
+                                                }
+
+                                            }
+                                        } else {
+                                            binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                                        }
                                     } else {
-                                        binding.subWorkflowAcceptrejectLayout.visibility = View.VISIBLE
-                                        binding.subWorkflowAcceptBtn.setOnClickListener {
-                                            imageClickListener.onClickSubWorkflowAccept(
-                                                items.ticketDetailsResponse!!.data, orderData, position
-                                            )
-                                        }
-
-                                        binding.subWorkflowRejectBtn.setOnClickListener {
-                                            imageClickListener.onClickSubWorkflowReject(
-                                                items.ticketDetailsResponse!!.data, orderData, position
-                                            )
-                                        }
-
+                                        binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
                                     }
                                 } else {
                                     binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
                                 }
-                            } else {
-                                binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
-                            }
-                        } else {
-                            binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
-                        }
-            *//*
+                    *//*
 
 
 
@@ -1227,32 +1225,32 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
 
                 */
-/*  //Subworkflow action details adapter.....
-                  if (orderData != null
-                      && orderData.get(position) != null
-                      && orderData.get(position).ticket_subworkflow_history != null
-                      && orderData.get(position).ticket_subworkflow_history!!.size > 0
-                  ) {
-                      if (orderData.get(position).ticketSubworkflowInfo != null
-                          && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action != null
-                          && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action != null
-                      ) {
-                          binding.subworkflowAction.text =
-                              "${orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action}"
-                      }
-                      var subworkflowActionDetailsAdapter = SubworkflowActionDetailsAdapter(
-                          context,
-                          orderData.get(position).ticket_subworkflow_history!!
-                      )
-                      binding.subworkflowDetailsHistoryLayout.visibility = View.VISIBLE
-                      var layoutManager =
-                          LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                      binding.subworkflowActionDetailsRecyclerview.layoutManager = layoutManager
-                      binding.subworkflowActionDetailsRecyclerview.adapter =
-                          subworkflowActionDetailsAdapter
-                  } else {
-                      binding.subworkflowDetailsHistoryLayout.visibility = View.GONE
-                  }*//*
+        /*  //Subworkflow action details adapter.....
+                          if (orderData != null
+                              && orderData.get(position) != null
+                              && orderData.get(position).ticket_subworkflow_history != null
+                              && orderData.get(position).ticket_subworkflow_history!!.size > 0
+                          ) {
+                              if (orderData.get(position).ticketSubworkflowInfo != null
+                                  && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action != null
+                                  && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action != null
+                              ) {
+                                  binding.subworkflowAction.text =
+                                      "${orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action}"
+                              }
+                              var subworkflowActionDetailsAdapter = SubworkflowActionDetailsAdapter(
+                                  context,
+                                  orderData.get(position).ticket_subworkflow_history!!
+                              )
+                              binding.subworkflowDetailsHistoryLayout.visibility = View.VISIBLE
+                              var layoutManager =
+                                  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                              binding.subworkflowActionDetailsRecyclerview.layoutManager = layoutManager
+                              binding.subworkflowActionDetailsRecyclerview.adapter =
+                                  subworkflowActionDetailsAdapter
+                          } else {
+                              binding.subworkflowDetailsHistoryLayout.visibility = View.GONE
+                          }*//*
 
             }
             binding.pendingLayout.setOnClickListener {
@@ -1270,8 +1268,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.arrowClose.visibility = View.VISIBLE
 
                 */
-/*   tickethistoryresponsenew=
-                       orderData[position].uid?.let { imageClickListener.gettickethistory(it) }!!;*//*
+        /*   tickethistoryresponsenew=
+                               orderData[position].uid?.let { imageClickListener.gettickethistory(it) }!!;*//*
 
 
             } else {
