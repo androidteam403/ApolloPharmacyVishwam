@@ -351,7 +351,12 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                 hideLoading()
                 Utlis.hideLoading()
                 if (isSiteIdEmpty) {
-                    finish()
+                    if(!Preferences.getSaveChampsSurveySiteId().isEmpty()){
+
+                    }else{
+                        finish()
+                    }
+
 //                    hideLoadingTemp()
                     hideLoading()
                 } else {

@@ -2008,7 +2008,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                imageView.setVisibility(View.GONE);
 //                break;
             case "Champs Survey":
-                headerText.setText("Survey Details List");
+                headerText.setText("Champs Survey");
                 fragment = new GetSurveyDetailsListActivity();
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);

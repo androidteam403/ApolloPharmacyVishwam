@@ -148,8 +148,8 @@
 
                 <ImageView
                     android:id="@+id/plusIconattendence"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center"
                     android:layout_marginEnd="15dp"
                     android:paddingTop="5dp"
@@ -238,8 +238,8 @@
                 android:visibility="gone">
 
                 <ImageView
-                    android:layout_width="@dimen/value_30dp"
-                    android:layout_height="@dimen/value_30dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:contentDescription="@string/app_name"
                     android:paddingTop="@dimen/value_6dp"
                     android:paddingBottom="@dimen/value_6dp"
@@ -273,14 +273,14 @@
 
             <RelativeLayout
                 android:id="@+id/settings_champs"
-                android:layout_width="@dimen/dimen20dp"
-                android:layout_height="@dimen/dimen20dp"
+                android:layout_width="@dimen/value_22dp"
+                android:layout_height="@dimen/value_22dp"
                 android:layout_marginStart="@dimen/value_10dp"
                 android:visibility="gone">
 
                 <ImageView
-                    android:layout_width="@dimen/dimen20dp"
-                    android:layout_height="@dimen/dimen20dp"
+                    android:layout_width="@dimen/value_22dp"
+                    android:layout_height="@dimen/value_22dp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/settings_white_champs"
                     android:visibility="visible" />

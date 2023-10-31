@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/value_5dp"
-            android:textSize="@dimen/text_16sp"
+            android:textSize="@dimen/text_17sp"
             android:buttonTint="@color/splash_start_color"
             android:text="Pending" />
 
