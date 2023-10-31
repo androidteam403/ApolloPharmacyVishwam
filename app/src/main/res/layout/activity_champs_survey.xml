@@ -21,74 +21,128 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:weightSum="1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/text_color_blue"
+                    android:layout_height="@dimen/vishwam_actionbar_height"
+                    android:background="@color/vishwam_actionbar_color"
                     android:orientation="horizontal"
                     android:padding="@dimen/value_10dp">
 
-                    <ImageView
-                        android:layout_width="@dimen/value_40dp"
-                        android:layout_height="@dimen/value_40dp"
-                        android:layout_marginTop="@dimen/value_3dp"
-                        android:contentDescription="@string/app_name"
-                        android:onClick="@{()-> callback.onClickBack()}"
-                        android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
-
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
+                        android:layout_width="0dp"
+                        android:layout_weight="0.1"
+                        android:layout_height="wrap_content">
 
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="CHAMPS Survey"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_17sp"
-                            android:textStyle="bold" />
-
+                        <ImageView
+                            android:layout_width="@dimen/value_40dp"
+                            android:layout_height="@dimen/value_40dp"
+                            android:layout_marginTop="@dimen/value_3dp"
+                            android:contentDescription="@string/app_name"
+                            android:onClick="@{()-> callback.onClickBack()}"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="end"
-                        android:orientation="vertical">
-
-
+                        android:layout_width="0dp"
+                        android:layout_weight="0.8"
+                        android:layout_height="wrap_content">
                         <LinearLayout
-                            android:id="@+id/preview"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="end"
-                            android:onClick="@{()-> callback.onClickPreview()}"
+                            android:layout_gravity="center"
                             android:orientation="vertical">
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="@dimen/value_30dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/blue_eye_icon" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Preview"
-                                android:textColor="@color/white" />
+                                android:text="CHAMPS Survey"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_17sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:orientation="horizontal">
+
+<!--                                <TextView-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:text="Site ID: "-->
+<!--                                    android:textSize="@dimen/text_14sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+                                <TextView
+                                    android:id="@+id/address"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_14sp"
+                                    android:textStyle="bold" />
+
+
+                            </LinearLayout>
+
 
                         </LinearLayout>
 
-
                     </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.1"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_gravity="center"
+                                android:id="@+id/preview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:onClick="@{()-> callback.onClickPreview()}"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="@dimen/value_25dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/white_eye_icon" />
+
+                                <!--                            <TextView-->
+                                <!--                                android:layout_width="wrap_content"-->
+                                <!--                                android:layout_height="wrap_content"-->
+                                <!--                                android:text="Preview"-->
+                                <!--                                android:textColor="@color/white" />-->
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -165,31 +219,31 @@
 
                                 </LinearLayout>
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center"
-                                    android:orientation="horizontal">
+<!--                                <LinearLayout-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="match_parent"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:orientation="horizontal">-->
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:text="Site ID: "
-                                        android:textSize="@dimen/text_14sp"
-                                        android:textStyle="bold" />
+<!--                                    <TextView-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        android:text="Site ID: "-->
+<!--                                        android:textSize="@dimen/text_14sp"-->
+<!--                                        android:textStyle="bold" />-->
 
-                                    <TextView
-                                        android:id="@+id/address"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp"
-                                        android:textStyle="bold" />
+<!--                                    <TextView-->
+<!--                                        android:id="@+id/address"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:textSize="@dimen/text_14sp"-->
+<!--                                        android:textStyle="bold" />-->
 
 
-                                </LinearLayout>
+<!--                                </LinearLayout>-->
 
 
                             </LinearLayout>
@@ -1695,21 +1749,43 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:layout_marginEnd="@dimen/value_12dp"
                                     android:id="@+id/eye_icon_for_dropdown"
+                                    android:onClick="@{()-> callback.onClickEyeIconForDropDown()}"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_weight="0.1"
-                                    android:onClick="@{()-> callback.onClickEyeIconForDropDown()}">
+                                    android:layout_weight=".1">
 
                                     <ImageView
-                                        android:layout_width="@dimen/text_15sp"
-                                        android:layout_height="@dimen/text_15sp"
-                                        android:src="@drawable/plus"
-                                        app:tint="@color/black" />
+                                        android:padding="@dimen/value_5dp"
+                                        android:background="@drawable/green_backgroundplus"
+                                        android:layout_width="@dimen/value_22dp"
+                                        android:layout_height="@dimen/value_22dp"
+                                        android:layout_gravity="center"
 
+                                        android:contentDescription="TODO"
 
+                                        android:src="@drawable/plus" />
                                 </LinearLayout>
+
+<!--                                <LinearLayout-->
+<!--                                    android:id="@+id/eye_icon_for_dropdown"-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:layout_weight="0.1"-->
+<!--                                    android:onClick="@{()-> callback.onClickEyeIconForDropDown()}">-->
+
+<!--                                    <ImageView-->
+<!--                                        android:layout_width="@dimen/text_15sp"-->
+<!--                                        android:layout_height="@dimen/text_15sp"-->
+<!--                                        android:src="@drawable/plus"-->
+<!--                                        app:tint="@color/black" />-->
+
+
+<!--                                </LinearLayout>-->
 
 
                             </LinearLayout>
@@ -1720,15 +1796,16 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                   android:id="@+id/trainer_layout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="@dimen/value_3dp"
-                                    android:background="@drawable/manual_recipients_email_bg"
                                     android:gravity="center"
                                     android:orientation="horizontal"
                                     android:padding="@dimen/value_8dp">
 
                                     <TextView
+                                        android:background="@drawable/manual_recipients_email_bg"
                                         android:id="@+id/trainer"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -1792,7 +1869,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_2dp"
-                                    android:layout_weight=".8"
+                                    android:layout_weight=".9"
                                     android:textColorHint="@color/black">
 
                                     <androidx.appcompat.widget.AppCompatEditText
@@ -1810,17 +1887,34 @@
                                         android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
-                                <TextView
-                                    android:id="@+id/add_btn"
-                                    android:layout_width="0dp"
-                                    android:layout_height="@dimen/value_45dp"
-                                    android:layout_marginStart="@dimen/value_2dp"
-                                    android:layout_weight=".2"
-                                    android:background="@drawable/greenbackgrounf_forstartsurvey"
+                                <LinearLayout
+                                    android:layout_gravity="center"
                                     android:gravity="center"
-                                    android:text="Add"
-                                    android:textColor="@color/white"
-                                    android:textStyle="bold" />
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".1">
+
+                                    <ImageView
+                                        android:padding="@dimen/value_5dp"
+                                        android:background="@drawable/green_backgroundplus"
+                                        android:id="@+id/add_btn"
+                                        android:layout_width="@dimen/value_22dp"
+                                        android:layout_height="@dimen/value_22dp"
+                                        android:layout_gravity="center"
+                                        android:contentDescription="TODO"
+                                        android:src="@drawable/plus" />
+                                </LinearLayout>
+<!--                                <TextView-->
+<!--                                    android:id="@+id/add_btn"-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="@dimen/value_45dp"-->
+<!--                                    android:layout_marginStart="@dimen/value_2dp"-->
+<!--                                    android:layout_weight=".2"-->
+<!--                                    android:background="@drawable/greenbackgrounf_forstartsurvey"-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:text="Add"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:textStyle="bold" />-->
                             </LinearLayout>
 
                             <!--                            <LinearLayout-->
@@ -1940,9 +2034,10 @@
 
 
                             <LinearLayout
+                                android:padding="@dimen/value_6dp"
                                 android:id="@+id/preview_down"
                                 android:layout_width="0dp"
-                                android:layout_height="@dimen/value_50dp"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="0.15"
                                 android:background="@drawable/preview_blue_icon_bg"
                                 android:gravity="center"
@@ -1951,21 +2046,21 @@
 
                                 <ImageView
                                     android:layout_width="@dimen/value_60dp"
-                                    android:layout_height="@dimen/twenty20_dp"
+                                    android:layout_height="@dimen/value_25dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/white_eye_icon" />
 
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/value_1dp"
-                                    android:layout_marginEnd="@dimen/value_1dp"
-                                    android:layout_marginBottom="@dimen/value_3dp"
-                                    android:gravity="center"
-                                    android:text="Preview"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/text_14sp" />
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/value_1dp"-->
+<!--                                    android:layout_marginEnd="@dimen/value_1dp"-->
+<!--                                    android:layout_marginBottom="@dimen/value_3dp"-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:text="Preview"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:textSize="@dimen/text_14sp" />-->
 
 
                             </LinearLayout>
@@ -1973,31 +2068,32 @@
                             <LinearLayout
                                 android:id="@+id/delete_down"
                                 android:layout_width="0dp"
-                                android:layout_height="@dimen/value_50dp"
+                                android:padding="@dimen/value_6dp"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="0.15"
-                                android:background="@drawable/preview_blue_icon_bg"
+                                android:background="@drawable/red_delete_bg"
                                 android:gravity="center"
                                 android:onClick="@{()-> callback.onClickDelete()}"
                                 android:orientation="vertical">
 
                                 <ImageView
                                     android:layout_width="@dimen/value_60dp"
-                                    android:layout_height="@dimen/twenty20_dp"
+                                    android:layout_height="@dimen/value_25dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/delete_white" />
 
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/value_1dp"
-                                    android:layout_marginEnd="@dimen/value_1dp"
-                                    android:layout_marginBottom="@dimen/value_3dp"
-                                    android:gravity="center"
-                                    android:text="Delete"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/text_14sp"
-                                    android:textStyle="bold" />
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/value_1dp"-->
+<!--                                    android:layout_marginEnd="@dimen/value_1dp"-->
+<!--                                    android:layout_marginBottom="@dimen/value_3dp"-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:text="Delete"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:textSize="@dimen/text_14sp"-->
+<!--                                    android:textStyle="bold" />-->
 
 
                             </LinearLayout>
@@ -2009,7 +2105,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginStart="@dimen/value_10dp"
                                 android:layout_weight="0.42"
-                                android:background="@drawable/background_for_champs_green"
+                                android:background="@drawable/bg_for_champs_save_draft"
                                 android:gravity="center"
                                 android:onClick="@{()-> callback.onClickSaveDraft()}"
                                 android:padding="@dimen/value_6dp">
@@ -2018,7 +2114,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="Save Draft"
+                                    android:text="Draft"
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"

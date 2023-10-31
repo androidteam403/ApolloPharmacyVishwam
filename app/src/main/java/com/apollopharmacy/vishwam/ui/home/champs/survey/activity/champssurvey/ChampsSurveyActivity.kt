@@ -193,7 +193,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //        activityChampsSurveyBinding.siteId.text = storeId
 
             activityChampsSurveyBinding.storeName.text = siteName
-            activityChampsSurveyBinding.trainer.text = trainerEmail
+            if(!trainerEmail.isNullOrEmpty()){
+                activityChampsSurveyBinding.trainerLayout.visibility=View.VISIBLE
+                activityChampsSurveyBinding.trainer.text = trainerEmail
+            }else{
+                activityChampsSurveyBinding.trainerLayout.visibility=View.GONE
+            }
+
+
 
             activityChampsSurveyBinding.storeId.text = storeId
 
@@ -203,6 +210,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.region.text = region
             activityChampsSurveyBinding.percentageSum.text = "0"
         } else if (status.equals("PENDING")) {
+            if(!trainerEmail.isNullOrEmpty()){
+                activityChampsSurveyBinding.trainerLayout.visibility=View.VISIBLE
+                activityChampsSurveyBinding.trainer.text = trainerEmail
+            }else{
+                activityChampsSurveyBinding.trainerLayout.visibility=View.GONE
+            }
             surveyDetailsByChampsIdForCheckBox = true
             activityChampsSurveyBinding.deleteDown.visibility = View.VISIBLE
             activityChampsSurveyBinding.previewDown.visibility = View.GONE
@@ -286,18 +299,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         adapterRec = EmailAddressAdapter(surveyRecManualList, applicationContext, this)
         activityChampsSurveyBinding.emailRecRecyclerView.setLayoutManager(
             LinearLayoutManager(
-                this,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
+                this)
         )
         activityChampsSurveyBinding.emailRecRecyclerView.setAdapter(adapterRec)
         onClickAddRecipient()
         adapterTrainers = EmailAddressAdapterTrainers(listForTrainers, applicationContext, this)
         activityChampsSurveyBinding.trainerRecyclerview.setLayoutManager(
             LinearLayoutManager(
-                this, LinearLayoutManager.HORIZONTAL, false
-            )
+                this)
         )
         activityChampsSurveyBinding.trainerRecyclerview.setAdapter(adapterTrainers)
 

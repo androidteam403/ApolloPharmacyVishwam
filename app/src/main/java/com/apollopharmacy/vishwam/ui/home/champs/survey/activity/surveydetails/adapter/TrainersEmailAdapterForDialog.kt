@@ -39,7 +39,7 @@ class TrainersEmailAdapterForDialog(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.trainersEmailItemBinding.itemNameTrainer.text = emailList[position].email
+        holder.trainersEmailItemBinding.itemNameTrainer.text = emailList[position].email.lowercase()
         if(trainerEmailList.contains(emailList[position].email)){
             holder.trainersEmailItemBinding.itemNameTrainer.isChecked=true
         }else{

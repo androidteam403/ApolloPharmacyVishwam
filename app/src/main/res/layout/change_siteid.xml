@@ -23,7 +23,7 @@
             android:layout_marginTop="@dimen/value_15dp"
             android:layout_marginBottom="@dimen/value_25dp"
             android:gravity="center_horizontal"
-            android:text="Do you want to change Site ID?"
+            android:text="Do you want to change the store?"
             android:textColor="@color/black"
             android:textSize="@dimen/text_15sp" />
 
