@@ -203,7 +203,8 @@
     <color name="apna_project_actionbar_color">#5a345e</color>
     <color name="retro_qr_actionbar_color">#f7941d</color>
     <!--    <color name="apna_project_preview_section_bg">#265a345e</color>-->
-    <color name="apna_project_preview_section_bg">#0DFF69B4</color>
+    <!--<color name="apna_project_preview_section_bg">#0DFF69B4</color>-->
+    <color name="apna_project_preview_section_bg">#0D045a71</color>
     <color name="green_color_resource">#4f99b1</color>
 
     <color name="ash_color_for_apna">#A8A4A4</color>
@@ -235,5 +236,6 @@
     <color name="sky_bluee">#01bdbe</color>
     <color name="red_no_plano">#ef1c23</color>
     <color name="retroqr_rack_selected_color">#e6e6e6</color>
+    <color name="vishwam_actionbar_color">#045a71</color>
 
 </resources>
