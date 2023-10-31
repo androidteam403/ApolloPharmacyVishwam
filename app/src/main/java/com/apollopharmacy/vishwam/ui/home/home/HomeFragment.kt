@@ -2,7 +2,9 @@ package com.apollopharmacy.vishwam.ui.home.home
 
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignationApnaRetro
@@ -55,8 +57,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         val userData = LoginRepo.getProfile()
         if (userData != null) {
-//            viewBinding.customerName.setText("Welcome, " + userData.EMPNAME)
-//            viewBinding.customerID.setText("Emp ID: " + userData.EMPID)
+            viewBinding.designation.setText(userData.DESIGNATION)
+            viewBinding.userName.setText(userData.EMPNAME)
+            viewBinding.userId.setText("ID: " + userData.EMPID)
         }
         Utlis.hideLoading()
         hideLoading()
@@ -102,7 +105,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         userDesignation = MainActivity.userDesignation
 
         updateNavMenu(
-            true,
+            isAttendanceRequired,
             isCMSRequired,
             isDiscountRequired,
             isSwachhRequired,
@@ -139,29 +142,165 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         isApnaRetroRequired: Boolean,
     ) {
         val attendanceMenuModel = ArrayList<MenuModel>()
-        attendanceMenuModel.add(MenuModel("Attendance", R.drawable.attendance))
-        attendanceMenuModel.add(MenuModel("History", R.drawable.history))
+
+        if (false){
+            attendanceMenuModel.add(MenuModel("Cash Deposit", R.drawable.cash_deposit,false))
+
+        }
+
+        if (false){
+            attendanceMenuModel.add(MenuModel("Greetings to Chairman", R.drawable.greetings,false))
+
+        }
+        if(isSensingRequired){
+            attendanceMenuModel.add(MenuModel("Apollo Sensing", R.drawable.apollo_sensing,isSensingRequired))
+
+        }
+        if(true){
+
+
+
+
+
+            attendanceMenuModel.add(MenuModel("Retro QR", R.drawable.retro_qr,true))
+
+        }
+        if(isAttendanceRequired){
+            attendanceMenuModel.add(MenuModel("Attendance", R.drawable.attendance,isAttendanceRequired))
+
+        }
+        if(isCMSRequired){
+            attendanceMenuModel.add(MenuModel("Complaint List", R.drawable.history,isCMSRequired))
+
+        }
+        if(isDiscountRequired){
+            attendanceMenuModel.add(MenuModel("Pending", R.drawable.attendance,isDiscountRequired))
+
+        }
+        if(isDrugRequired){
+            attendanceMenuModel.add(MenuModel("New Drug List", R.drawable.history,isDrugRequired))
+
+        }
+
+        if(isQcFailRequired){
+            attendanceMenuModel.add(MenuModel("OutStanding", R.drawable.history,isQcFailRequired))
+
+        }
+        if(isSwachhRequired){
+            if (employeeRole.equals(
+                    "Yes",
+                    ignoreCase = true
+                ) && MainActivity.userDesignation != null && (MainActivity.userDesignation.equals(
+                    "MANAGER",
+                    ignoreCase = true
+                ) || MainActivity.userDesignation.equals(
+                    "GENERAL MANAGER",
+                    ignoreCase = true
+                ) || MainActivity.userDesignation.equals(
+                    "EXECUTIVE",
+                    ignoreCase = true
+                ) || MainActivity.userDesignation.equals(
+                    "CEO",
+                    ignoreCase = true
+                ))
+            ) {
+//                attendanceMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload,true))
+                attendanceMenuModel.add(MenuModel("List", R.drawable.swachh_list,true))
+            } else if (employeeRole.equals("Yes", ignoreCase = true)) {
+                attendanceMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload,true))
+            } else if (MainActivity.userDesignation != null && MainActivity.userDesignation.equals(
+                    "MANAGER",
+                    ignoreCase = true
+                ) || MainActivity.userDesignation.equals(
+                    "GENERAL MANAGER",
+                    ignoreCase = true
+                ) || MainActivity.userDesignation.equals(
+                    "EXECUTIVE",
+                    ignoreCase = true
+                ) || MainActivity.userDesignation.equals(
+                    "CEO",
+                    ignoreCase = true
+                )
+            ) {
+                attendanceMenuModel.add(MenuModel("List", R.drawable.swachh_list,true))
+            }
+
+//            attendanceMenuModel.add(MenuModel("SWACHH", R.drawable.attendance,isSwachhRequired))
+
+        }
+
+        if(false){
+            attendanceMenuModel.add(MenuModel("Dashboard", R.drawable.history,false))
+
+        }
+        if(isChampsRequired){
+            attendanceMenuModel.add(MenuModel("Champs Survey", R.drawable.attendance,isChampsRequired))
+
+        }
+        if(false){
+            attendanceMenuModel.add(MenuModel("Planogram Evaluation", R.drawable.planogram,false))
+
+        }
+
+        if(isQcFailRequired){
+            attendanceMenuModel.add(MenuModel("OutStanding", R.drawable.history,isQcFailRequired))
+
+        }
+        if(isApnaRetroRequired){
+            if (MainActivity.mInstance.employeeRoleRetro.equals(
+                    "Yes",
+                    ignoreCase = true
+                ) && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
+                    "CEO"
+                ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
+            ) {
+//                attendanceMenuModel.add(MenuModel("Creation", R.drawable.retro_creation,true))
+                attendanceMenuModel.add(MenuModel("Approval", R.drawable.retro_approval,true))
+            } else if (getAppLevelDesignationApnaRetro().contains("NODATA")) {
+                attendanceMenuModel.add(MenuModel("Creation", R.drawable.retro_creation,true))
+            } else if (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
+                    "CEO"
+                ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER"
+            ) {
+                attendanceMenuModel.add(MenuModel("Approval", R.drawable.retro_approval,true))
+            }
+//            attendanceMenuModel.add(MenuModel("APNA Store", R.drawable.attendance,isApnaRetroRequired))
+
+        }
+
+        if(isApnaSurveyRequired){
+            attendanceMenuModel.add(MenuModel("APNA", R.drawable.champs_survey,isApnaSurveyRequired))
+
+        }
+
+
+
+
+        val attendanceSubMenuModel = ArrayList<MenuModel>()
+        attendanceSubMenuModel.add(MenuModel("Attendance", R.drawable.attendance,true))
+        attendanceSubMenuModel.add(MenuModel("History", R.drawable.history,true))
+
 
         val cmsMenuModel = ArrayList<MenuModel>()
-        cmsMenuModel.add(MenuModel("Complaint Register", R.drawable.cms_complaint_register))
-        cmsMenuModel.add(MenuModel("Complaint List", R.drawable.cms_complaint_list))
-        cmsMenuModel.add(MenuModel("Approval List", R.drawable.cms_approval_list))
+        cmsMenuModel.add(MenuModel("Complaint Register", R.drawable.cms_complaint_register,true))
+        cmsMenuModel.add(MenuModel("Complaint List", R.drawable.cms_complaint_list,true))
+        cmsMenuModel.add(MenuModel("Approval List", R.drawable.cms_approval_list,true))
 
         val discountMenuModel = ArrayList<MenuModel>()
-        discountMenuModel.add(MenuModel("Pending", R.drawable.discount_pending))
-        discountMenuModel.add(MenuModel("Approved", R.drawable.discount_approved))
-        discountMenuModel.add(MenuModel("Rejected", R.drawable.discount_rejected))
-        discountMenuModel.add(MenuModel("Bill", R.drawable.discount_bill))
+        discountMenuModel.add(MenuModel("Pending", R.drawable.discount_pending,true))
+        discountMenuModel.add(MenuModel("Approved", R.drawable.discount_approved,true))
+        discountMenuModel.add(MenuModel("Rejected", R.drawable.discount_rejected,true))
+        discountMenuModel.add(MenuModel("Bill", R.drawable.discount_bill,true))
 
         val drugRequestMenuModel = ArrayList<MenuModel>()
-        drugRequestMenuModel.add(MenuModel("New Drug Request", R.drawable.new_drug_request))
-        drugRequestMenuModel.add(MenuModel("New Drug List", R.drawable.new_drug_list))
+        drugRequestMenuModel.add(MenuModel("New Drug Request", R.drawable.new_drug_request,true))
+        drugRequestMenuModel.add(MenuModel("New Drug List", R.drawable.new_drug_list,true))
 
         val omsQcMenuModel = ArrayList<MenuModel>()
-        omsQcMenuModel.add(MenuModel("QcDashboard", R.drawable.qc_dashboard))
-        omsQcMenuModel.add(MenuModel("OutStanding", R.drawable.qc_outstanding))
-        omsQcMenuModel.add(MenuModel("Qc Approved", R.drawable.qc_approved))
-        omsQcMenuModel.add(MenuModel("Qc Rejected", R.drawable.qc_rejected))
+        omsQcMenuModel.add(MenuModel("QcDashboard", R.drawable.qc_dashboard,true))
+        omsQcMenuModel.add(MenuModel("OutStanding", R.drawable.qc_outstanding,true))
+        omsQcMenuModel.add(MenuModel("Qc Approved", R.drawable.qc_approved,true))
+        omsQcMenuModel.add(MenuModel("Qc Rejected", R.drawable.qc_rejected,true))
 
         val swachhMenuModel = ArrayList<MenuModel>()
         if (isSwachhRequired) {
@@ -182,10 +321,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                     ignoreCase = true
                 ))
             ) {
-                swachhMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload))
-                swachhMenuModel.add(MenuModel("List", R.drawable.swachh_list))
+                swachhMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload,true))
+                swachhMenuModel.add(MenuModel("List", R.drawable.swachh_list,true))
             } else if (employeeRole.equals("Yes", ignoreCase = true)) {
-                swachhMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload))
+                swachhMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload,true))
             } else if (MainActivity.userDesignation != null && MainActivity.userDesignation.equals(
                     "MANAGER",
                     ignoreCase = true
@@ -200,20 +339,20 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                     ignoreCase = true
                 )
             ) {
-                swachhMenuModel.add(MenuModel("List", R.drawable.swachh_list))
+                swachhMenuModel.add(MenuModel("List", R.drawable.swachh_list,true))
             }
         }
 
         val monitoringMenuModel = ArrayList<MenuModel>()
-        monitoringMenuModel.add(MenuModel("Dashboard", R.drawable.monitoring_dashboard))
+        monitoringMenuModel.add(MenuModel("Dashboard", R.drawable.monitoring_dashboard,true))
 
         val champsMenuModel = ArrayList<MenuModel>()
-        champsMenuModel.add(MenuModel("Champs Survey", R.drawable.champs_survey))
+        champsMenuModel.add(MenuModel("Champs Survey", R.drawable.champs_survey,true))
 //        champsMenuModel.add(MenuModel("Champs Reports", R.drawable.champs_reports))
 //        champsMenuModel.add(MenuModel("Champs Admin", R.drawable.champs_admin))
 
         val planogramMenuModel = ArrayList<MenuModel>()
-        planogramMenuModel.add(MenuModel("Planogram Evaluation", R.drawable.planogram))
+        planogramMenuModel.add(MenuModel("Planogram Evaluation", R.drawable.planogram,true))
 
         val apnaRetroMenuModel = ArrayList<MenuModel>()
         if (isApnaRetroRequired) {
@@ -224,167 +363,32 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
             ) {
-                apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.retro_creation))
-                apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.retro_approval))
+                apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.retro_creation,true))
+                apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.retro_approval,true))
             } else if (getAppLevelDesignationApnaRetro().contains("NODATA")) {
-                apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.retro_creation))
+                apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.retro_creation,true))
             } else if (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER"
             ) {
-                apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.retro_approval))
+                apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.retro_approval,true))
             }
         }
 
         val apnaMenuModel = ArrayList<MenuModel>()
-        apnaMenuModel.add(MenuModel("Apna Survey", R.drawable.apna_survey))
-
-        viewBinding.greetingsToChairmanMenu.visibility = View.GONE
-        viewBinding.cashDepositMenu.visibility = View.GONE
+        apnaMenuModel.add(MenuModel("Apna Survey", R.drawable.apna_survey,true))
 
 
 
-        if (isSensingRequired) {
-            viewBinding.apolloSensingMenu.visibility = View.VISIBLE
-        } else {
-            viewBinding.apolloSensingMenu.visibility = View.GONE
-        }
-        //isAttendanceRequired
-        if (true) {
-            viewBinding.attendanceManagementMenu.visibility = View.VISIBLE
-        } else {
-            viewBinding.attendanceManagementMenu.visibility = View.GONE
-        }
-
-        if (isCMSRequired) {
-            viewBinding.cmsMenu.visibility = View.VISIBLE
-        } else {
-            viewBinding.cmsMenu.visibility = View.GONE
-        }
-
-        if (isDiscountRequired) {
-            viewBinding.discountMenu.visibility = View.VISIBLE
-        } else {
-            viewBinding.discountMenu.visibility = View.GONE
-        }
-
-        if (isDrugRequired) {
-            if (MainActivity.mInstance.employeeRoleNewDrugRequest.equals(
-                    "Yes",
-                    ignoreCase = true
-                )
-            ) {
-                viewBinding.drugRequestMenu.visibility = View.VISIBLE
-            } else {
-                viewBinding.drugRequestMenu.visibility = View.GONE
-            }
-        } else {
-            viewBinding.drugRequestMenu.visibility = View.GONE
-        }
-
-        if (isQcFailRequired) {
-            viewBinding.omsQcMenu.visibility = View.VISIBLE
-        } else {
-            viewBinding.omsQcMenu.visibility = View.GONE
-        }
-
-        if (MainActivity.mInstance.ceoDashboardAccessFromEmployee.equals(
-                "Yes",
-                ignoreCase = true
-            )
-        ) {
-            viewBinding.monitoringMenu.visibility = View.VISIBLE
-        } else {
-            viewBinding.monitoringMenu.visibility = View.GONE
-        }
-
-        if (isChampsRequired) {
-            viewBinding.champsMenu.visibility = View.VISIBLE
-        } else {
-            viewBinding.champsMenu.visibility = View.GONE
-        }
 
 
-        if (isApnaRetroRequired) {
-            viewBinding.apnaRetroMenu.visibility = View.VISIBLE
-        } else {
-            viewBinding.apnaRetroMenu.visibility = View.GONE
-        }
 
-        if (isApnaSurveyRequired) {
-            viewBinding.apnaMenu.visibility = View.VISIBLE
-        } else {
-            viewBinding.apnaMenu.visibility = View.GONE
-        }
+        viewBinding.newMenuRecycleview.layoutManager = GridLayoutManager(context, 4)
+        attendanceManagementAdapter = MenuItemAdapter(context, this, attendanceMenuModel,attendanceSubMenuModel,cmsMenuModel,discountMenuModel, drugRequestMenuModel, omsQcMenuModel, swachhMenuModel, monitoringMenuModel, champsMenuModel, planogramMenuModel, apnaRetroMenuModel, apnaMenuModel)
+        viewBinding.newMenuRecycleview.adapter = attendanceManagementAdapter
 
-        attendanceManagementAdapter =
-            MenuItemAdapter(context, this, attendanceMenuModel)
-        viewBinding.attendanceManagementRcv.adapter = attendanceManagementAdapter
-        viewBinding.attendanceManagementRcv.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        cmsAdapter = MenuItemAdapter(context, this, cmsMenuModel)
-        viewBinding.cmsRcv.adapter = cmsAdapter
-        viewBinding.cmsRcv.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        discountAdapter = MenuItemAdapter(context, this, discountMenuModel)
-        viewBinding.discountRcv.adapter = discountAdapter
-        viewBinding.discountRcv.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        newDrugRequestAdapter = MenuItemAdapter(context, this, drugRequestMenuModel)
-        viewBinding.newDrugRequestRcv.adapter = newDrugRequestAdapter
-        viewBinding.newDrugRequestRcv.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        omsQcAdapter = MenuItemAdapter(context, this, omsQcMenuModel)
-        viewBinding.omsQcRcv.adapter = omsQcAdapter
-        viewBinding.omsQcRcv.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        swachhAdapter = MenuItemAdapter(context, this, swachhMenuModel)
-        viewBinding.swachhRcv.adapter = swachhAdapter
-        viewBinding.swachhRcv.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        monitoringAdapter = MenuItemAdapter(context, this, monitoringMenuModel)
-        viewBinding.monitoringRcv.adapter = monitoringAdapter
-        viewBinding.monitoringRcv.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        champsAdapter = MenuItemAdapter(context, this, champsMenuModel)
-        viewBinding.champsRcv.adapter = champsAdapter
-        viewBinding.champsRcv.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        planogramAdapter = MenuItemAdapter(context, this, planogramMenuModel)
-        viewBinding.planogramRcv.adapter = planogramAdapter
-        viewBinding.planogramRcv.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        apnaRetroAdapter = MenuItemAdapter(context, this, apnaRetroMenuModel)
-        viewBinding.apnaRetroRcv.adapter = apnaRetroAdapter
-        viewBinding.apnaRetroRcv.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        apnaAdapter = MenuItemAdapter(context, this, apnaMenuModel)
-        viewBinding.apnaRcv.adapter = apnaAdapter
-        viewBinding.apnaRcv.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        viewBinding.greetingsToChairmanMenu.setOnClickListener {
-            MainActivity.mInstance.displaySelectedScreen("Greetings to Chairman")
-        }
-        viewBinding.cashDepositMenu.setOnClickListener {
-            MainActivity.mInstance.displaySelectedScreen("Cash Deposit")
-        }
-        viewBinding.apolloSensingMenu.setOnClickListener {
-            MainActivity.mInstance.displaySelectedScreen("Apollo Sensing")
-        }
-        viewBinding.retroQrMenu.setOnClickListener {
-            MainActivity.mInstance.displaySelectedScreen("Retro QR")
-        }
     }
 
     fun getDataManager(): SessionManager {
