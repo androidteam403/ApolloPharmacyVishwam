@@ -133,7 +133,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
                 callback.onClickMenuItem(menuModel.get(position).getMenuName(), drugMenu);
             });
         }
-       else if (menuModel.get(position).getMenuName().equalsIgnoreCase("OutStanding")) {
+       else if (menuModel.get(position).getMenuName().equalsIgnoreCase("Out Standing")) {
             holder.menuItemBinding.name.setText("OMC QC");
             holder.menuItemBinding.icon.setImageResource(menuModel.get(position).getMenuIcon());
 
@@ -184,12 +184,14 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
         }
         else if (menuModel.get(position).getMenuName().equalsIgnoreCase("Approval")) {
             holder.menuItemBinding.name.setText("APNA Store");
+            holder.menuItemBinding.icon.setImageResource(menuModel.get(position).getMenuIcon());
             holder.menuItemBinding.menuLayout.setOnClickListener(v -> {
                 callback.onClickMenuItem(menuModel.get(position).getMenuName(), apnStoreMenu);
             });
         }
         else if (menuModel.get(position).getMenuName().equalsIgnoreCase("Creation")) {
             holder.menuItemBinding.name.setText("APNA Store");
+            holder.menuItemBinding.icon.setImageResource(menuModel.get(position).getMenuIcon());
             holder.menuItemBinding.menuLayout.setOnClickListener(v -> {
                 callback.onClickMenuItem(menuModel.get(position).getMenuName(), apnStoreMenu);
             });

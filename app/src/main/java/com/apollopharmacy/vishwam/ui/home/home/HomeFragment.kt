@@ -144,16 +144,16 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         val attendanceMenuModel = ArrayList<MenuModel>()
 
         if (false){
-            attendanceMenuModel.add(MenuModel("Cash Deposit", R.drawable.cash_deposit,false))
+            attendanceMenuModel.add(MenuModel("Cash Deposit", R.drawable.cash_deposite_menu,false))
 
         }
 
         if (false){
-            attendanceMenuModel.add(MenuModel("Greetings to Chairman", R.drawable.greetings,false))
+            attendanceMenuModel.add(MenuModel("Greetings to Chairman", R.drawable.greetings_menu,false))
 
         }
         if(isSensingRequired){
-            attendanceMenuModel.add(MenuModel("Apollo Sensing", R.drawable.apollo_sensing,isSensingRequired))
+            attendanceMenuModel.add(MenuModel("Apollo Sensing", R.drawable.apollo_sensing_menu,isSensingRequired))
 
         }
         if(true){
@@ -162,28 +162,29 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
 
 
-            attendanceMenuModel.add(MenuModel("Retro QR", R.drawable.retro_qr,true))
+            attendanceMenuModel.add(MenuModel("Retro QR", R.drawable.retro_qr_menu,true))
 
         }
-        if(isAttendanceRequired){
-            attendanceMenuModel.add(MenuModel("Attendance", R.drawable.attendance,isAttendanceRequired))
+        //isAttendanceRequired
+        if(true){
+            attendanceMenuModel.add(MenuModel("Attendance", R.drawable.attendance_menu,isAttendanceRequired))
 
         }
         if(isCMSRequired){
-            attendanceMenuModel.add(MenuModel("Complaint List", R.drawable.history,isCMSRequired))
+            attendanceMenuModel.add(MenuModel("Complaint List", R.drawable.cms_menu,isCMSRequired))
 
         }
         if(isDiscountRequired){
-            attendanceMenuModel.add(MenuModel("Pending", R.drawable.attendance,isDiscountRequired))
+            attendanceMenuModel.add(MenuModel("Pending", R.drawable.discount_menu,isDiscountRequired))
 
         }
         if(isDrugRequired){
-            attendanceMenuModel.add(MenuModel("New Drug List", R.drawable.history,isDrugRequired))
+            attendanceMenuModel.add(MenuModel("New Drug List", R.drawable.raise_menu,isDrugRequired))
 
         }
 
         if(isQcFailRequired){
-            attendanceMenuModel.add(MenuModel("OutStanding", R.drawable.history,isQcFailRequired))
+            attendanceMenuModel.add(MenuModel("Out Standing", R.drawable.omc_qc_menu,isQcFailRequired))
 
         }
         if(isSwachhRequired){
@@ -205,9 +206,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 ))
             ) {
 //                attendanceMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload,true))
-                attendanceMenuModel.add(MenuModel("List", R.drawable.swachh_list,true))
+                attendanceMenuModel.add(MenuModel("List", R.drawable.swachh_menu,true))
             } else if (employeeRole.equals("Yes", ignoreCase = true)) {
-                attendanceMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload,true))
+                attendanceMenuModel.add(MenuModel("Upload", R.drawable.swachh_menu,true))
             } else if (MainActivity.userDesignation != null && MainActivity.userDesignation.equals(
                     "MANAGER",
                     ignoreCase = true
@@ -222,7 +223,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                     ignoreCase = true
                 )
             ) {
-                attendanceMenuModel.add(MenuModel("List", R.drawable.swachh_list,true))
+                attendanceMenuModel.add(MenuModel("List", R.drawable.swachh_menu,true))
             }
 
 //            attendanceMenuModel.add(MenuModel("SWACHH", R.drawable.attendance,isSwachhRequired))
@@ -230,22 +231,22 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         }
 
         if(false){
-            attendanceMenuModel.add(MenuModel("Dashboard", R.drawable.history,false))
+            attendanceMenuModel.add(MenuModel("Dashboard", R.drawable.monitoring_menu,false))
 
         }
         if(isChampsRequired){
-            attendanceMenuModel.add(MenuModel("Champs Survey", R.drawable.attendance,isChampsRequired))
+            attendanceMenuModel.add(MenuModel("Champs Survey", R.drawable.champs_menu,isChampsRequired))
 
         }
         if(false){
-            attendanceMenuModel.add(MenuModel("Planogram Evaluation", R.drawable.planogram,false))
+            attendanceMenuModel.add(MenuModel("Planogram Evaluation", R.drawable.planogram_menu,false))
 
         }
 
-        if(isQcFailRequired){
-            attendanceMenuModel.add(MenuModel("OutStanding", R.drawable.history,isQcFailRequired))
+        /*if(isQcFailRequired){
+            attendanceMenuModel.add(MenuModel("Out Standing", R.drawable.omc_qc_menu,isQcFailRequired))
 
-        }
+        }*/
         if(isApnaRetroRequired){
             if (MainActivity.mInstance.employeeRoleRetro.equals(
                     "Yes",
@@ -255,21 +256,21 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
             ) {
 //                attendanceMenuModel.add(MenuModel("Creation", R.drawable.retro_creation,true))
-                attendanceMenuModel.add(MenuModel("Approval", R.drawable.retro_approval,true))
+                attendanceMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu,true))
             } else if (getAppLevelDesignationApnaRetro().contains("NODATA")) {
-                attendanceMenuModel.add(MenuModel("Creation", R.drawable.retro_creation,true))
+                attendanceMenuModel.add(MenuModel("Creation", R.drawable.apna_store_menu,true))
             } else if (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER"
             ) {
-                attendanceMenuModel.add(MenuModel("Approval", R.drawable.retro_approval,true))
+                attendanceMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu,true))
             }
 //            attendanceMenuModel.add(MenuModel("APNA Store", R.drawable.attendance,isApnaRetroRequired))
 
         }
 
         if(isApnaSurveyRequired){
-            attendanceMenuModel.add(MenuModel("APNA", R.drawable.champs_survey,isApnaSurveyRequired))
+            attendanceMenuModel.add(MenuModel("APNA", R.drawable.apna_menu,isApnaSurveyRequired))
 
         }
 
@@ -297,8 +298,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         drugRequestMenuModel.add(MenuModel("New Drug List", R.drawable.new_drug_list,true))
 
         val omsQcMenuModel = ArrayList<MenuModel>()
-        omsQcMenuModel.add(MenuModel("QcDashboard", R.drawable.qc_dashboard,true))
-        omsQcMenuModel.add(MenuModel("OutStanding", R.drawable.qc_outstanding,true))
+        omsQcMenuModel.add(MenuModel("Qc Dashboard", R.drawable.qc_dashboard,true))
+        omsQcMenuModel.add(MenuModel("Out Standing", R.drawable.qc_outstanding,true))
         omsQcMenuModel.add(MenuModel("Qc Approved", R.drawable.qc_approved,true))
         omsQcMenuModel.add(MenuModel("Qc Rejected", R.drawable.qc_rejected,true))
 
@@ -363,15 +364,15 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
             ) {
-                apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.retro_creation,true))
-                apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.retro_approval,true))
+                apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.apna_store_menu,true))
+                apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu,true))
             } else if (getAppLevelDesignationApnaRetro().contains("NODATA")) {
-                apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.retro_creation,true))
+                apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.apna_store_menu,true))
             } else if (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER"
             ) {
-                apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.retro_approval,true))
+                apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu,true))
             }
         }
 

@@ -17,9 +17,8 @@
             <LinearLayout
                 android:id="@+id/title_layout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/value_70dp"
-
-                android:background="#045a71"
+                android:layout_height="@dimen/vishwam_actionbar_height"
+                android:background="@color/vishwam_actionbar_color"
                 android:orientation="horizontal"
                 android:padding="@dimen/four4_dp">
 
@@ -27,7 +26,6 @@
                     android:id="@+id/back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:layout_gravity="center"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/icon_back_arrow"
@@ -48,7 +46,7 @@
                         android:fontFamily="@font/poppins_medium"
                         android:text="Rejected List"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="@dimen/text_16sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -63,7 +61,7 @@
                             android:fontFamily="@font/poppins_medium"
                             android:text="ORDER ID :"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/orderid"
@@ -71,10 +69,10 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
                             android:fontFamily="@font/poppins_semi_bold"
-                            android:paddingStart="8sp"
+                            android:paddingStart="@dimen/value_8dp"
                             android:text="Rv00005"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_dimen_12" />
 
                     </LinearLayout>
 
@@ -300,24 +298,21 @@
                 tools:listitem="@layout/approved_sub_order" />
 
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Status :"
+                android:fontFamily="@font/poppins_medium"
                 android:paddingStart="10dp"
-                android:fontFamily="@font/poppins_medium"/>
-
+                android:text="Status :" />
 
 
             <LinearLayout
                 android:id="@+id/approvedbylayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:background="@drawable/lite_blue_border"
+                android:orientation="vertical"
                 android:visibility="visible">
-
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -334,8 +329,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/value_8dp"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/value_8dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -428,7 +423,6 @@
 
 
         </LinearLayout>
-
 
 
     </RelativeLayout>

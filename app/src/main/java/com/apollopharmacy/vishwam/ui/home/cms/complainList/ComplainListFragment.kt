@@ -2656,6 +2656,73 @@ end*/
             }
             dialogComplaintListFilterBinding!!.fromDateText.text = Utils.getCurrentDate()
             dialogComplaintListFilterBinding!!.toDateText.text = Utils.getCurrentDate()
+
+            this.complaintListStatus = ""
+            if (dialogComplaintListFilterBinding!!.newStatus.isChecked) {
+                this.complaintListStatus = "new"
+            }
+            if (dialogComplaintListFilterBinding!!.inProgressStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "inprogress"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},inprogress"
+                }
+            }
+            if (dialogComplaintListFilterBinding!!.resolvedStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "solved"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},solved"
+                }
+            }
+            if (dialogComplaintListFilterBinding!!.rejectedStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "rejected"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},rejected"
+                }
+            }
+            if (dialogComplaintListFilterBinding!!.reopenStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "reopened"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},reopened"
+                }
+            }
+            if (dialogComplaintListFilterBinding!!.closedStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "closed"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},closed"
+                }
+            }
+            if (dialogComplaintListFilterBinding!!.onholdStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "onHold"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},onHold"
+                }
+            }
+
+            if (dialogComplaintListFilterBinding!!.selectAll.isChecked) {
+                this.complaintListStatus = "new,inprogress,solved,rejected,reopened,closed,onHold"
+//                    if (this.complaintListStatus.isEmpty()) {
+//                        this.complaintListStatus = "new,inprogress,solved,rejected,reopened,closed,onHold"
+//                    } else {
+//                        this.complaintListStatus = "new,inprogress,solved,rejected,reopened,closed,onHold"
+//                    }
+            }
+
+            fromDate = dialogComplaintListFilterBinding!!.fromDateText.text.toString()
+            toDate = dialogComplaintListFilterBinding!!.toDateText.text.toString()
+            if (complaintListStatusFilterDialog != null && complaintListStatusFilterDialog.isShowing) {
+                complaintListStatusFilterDialog.dismiss()
+                callAPI(1)
+
+
+            }
+            setFilterIndication()
+
         }
         dialogComplaintListFilterBinding!!.fromDate.setOnClickListener {
             isFromDateSelected = true

@@ -40,8 +40,7 @@
                     android:textAlignment="textEnd"
                     android:text="New Drug List"
                     android:textColor="#253339"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/text_12sp" />
 
                 <ImageView
                     android:id="@+id/menuIcon"

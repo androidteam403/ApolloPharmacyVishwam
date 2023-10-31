@@ -12,8 +12,8 @@
         <LinearLayout
             android:id="@+id/heaader"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/value_70dp"
-            android:background="@color/app_center_color"
+            android:layout_height="@dimen/vishwam_actionbar_height"
+            android:background="@color/vishwam_actionbar_color"
             android:orientation="horizontal">
 
             <ImageView
@@ -36,26 +36,23 @@
                 android:textSize="@dimen/text_20sp" />
 
             <LinearLayout
-                android:gravity="end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:gravity="end">
 
                 <ImageView
-                    android:layout_gravity="end"
                     android:id="@+id/cancel"
-                    android:layout_width="@dimen/value_35dp"
-                    android:layout_height="@dimen/value_35dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_width="@dimen/value_30dp"
+                    android:layout_height="@dimen/value_30dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/value_5dp"
                     android:src="@drawable/closee_whitee"
                     android:visibility="visible" />
             </LinearLayout>
 
 
-
         </LinearLayout>
-
-
 
 
         <com.google.android.material.textfield.TextInputLayout

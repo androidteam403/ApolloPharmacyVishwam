@@ -165,8 +165,7 @@
                                     android:layout_width="@dimen/value_22dp"
                                     android:layout_height="@dimen/value_22dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_search"
-                                    app:tint="#4e8086" />
+                                    android:src="@drawable/ic_search"/>
                             </LinearLayout>
 
 
@@ -202,13 +201,12 @@
                             <TextView
                                 android:id="@+id/submit"
                                 android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginBottom="@dimen/value_5dp"
-                                android:background="@drawable/background_for_blue_cms"
+                                android:layout_height="@dimen/value_30dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/search_button_bg"
+                                android:gravity="center"
                                 android:padding="5dp"
-
-                                android:text="Submit"
+                                android:text="@string/label_search"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/text_15sp"

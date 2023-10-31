@@ -5,15 +5,15 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       >
+        android:paddingBottom="@dimen/value_60dp">
 
         <RelativeLayout
             android:id="@+id/header_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/value_15dp"
-            android:visibility="gone"
-            android:paddingBottom="@dimen/value_15dp">
+            android:paddingBottom="@dimen/value_15dp"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/close_dialog"

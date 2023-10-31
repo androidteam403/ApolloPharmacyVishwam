@@ -29,7 +29,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -49,7 +48,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -75,7 +73,6 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroFragment;
 import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
 import com.apollopharmacy.vishwam.ui.home.apollosensing.ApolloSensingFragment;
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragment;
-import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
@@ -214,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private NavigationListView listView;
     public ImageView siteIdIcon;
-    public ImageView  plusIconAttendence;
+    public ImageView plusIconAttendence;
     public RelativeLayout spinnerLayout;
     public ImageView plusIconApna;
     public ImageView filterIconApna;
@@ -257,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //    private MenuItemAdapter attendanceManagementAdapter, cmsAdapter, discountAdapter, newDrugRequestAdapter, omsQcAdapter, swachhAdapter, monitoringAdapter, champsAdapter, planogramAdapter, apnaRetroAdapter, apnaAdapter;
     private ImageView backArrow;
     private ImageView logoutBtn;
-    private ImageView logo;
+    private TextView logo;
     private LinearLayout customerDetails;
     public Dialog submenuDialog;
     public ArrayList<MenuModel> menuModels;
@@ -1016,7 +1013,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //        }
 
-            //initializing the fragment object which is selected
+        //initializing the fragment object which is selected
         switch (itemName) {
             case "HOME":
                 headerText.setText("HOME");
@@ -1043,7 +1040,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.VISIBLE);
                 helpIcon.setVisibility(View.VISIBLE);
 
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 bottomNavigationView.setVisibility(View.GONE);
 
                 break;
@@ -1069,7 +1066,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerTextLocation.setVisibility(View.GONE);
 
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
                 logo.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
@@ -1097,7 +1094,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
@@ -1129,7 +1126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
@@ -1157,7 +1154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
@@ -1186,7 +1183,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
@@ -1214,7 +1211,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
@@ -1242,7 +1239,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
@@ -1271,7 +1268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
@@ -1298,7 +1295,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 helpIcon.setVisibility(View.GONE);
 
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
                 headerText.setVisibility(View.VISIBLE);
@@ -1325,7 +1322,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1356,7 +1353,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1386,7 +1383,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 isUploadScreen = true;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1417,7 +1414,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 isListScreen = true;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1454,7 +1451,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
@@ -1482,7 +1479,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1502,7 +1499,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                isHomeScreen = false;
 //                riderNotificationLayout.setVisibility(View.GONE);
 //                break;
-            case "Apna Survey":
+            case "APNA":
                 headerText.setText("APNA Survey");
                 fragment = new ApnaSurveyFragment();
                 filterIcon.setVisibility(View.GONE);
@@ -1522,7 +1519,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.apna_project_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.apna_project_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1530,7 +1527,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
-                bottomNavigationView.setBackgroundColor(Color.parseColor("#0c273a"));
+//                bottomNavigationView.setBackgroundColor(Color.parseColor("#0c273a"));
                 break;
 
             case "Apollo Sensing":
@@ -1557,7 +1554,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
                 break;
@@ -1582,7 +1579,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.retro_qr_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.retro_qr_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1617,7 +1614,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1626,7 +1623,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
-            case "QcDashboard":
+            case "Qc Dashboard":
                 headerText.setText("Dashboard");
                 fragment = new QcDashboard();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -1645,7 +1642,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1654,7 +1651,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
-            case "OutStanding":
+            case "Out Standing":
                 headerText.setText("Pending List");
                 fragment = new PendingFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
@@ -1674,7 +1671,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                selectFilterType.setText("Rows: " +String.valueOf(Preferences.INSTANCE.getQcPendingPageSiz()));
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1705,7 +1702,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1733,7 +1730,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1761,7 +1758,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1789,7 +1786,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1817,7 +1814,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1845,7 +1842,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1873,7 +1870,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1902,7 +1899,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1930,7 +1927,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1965,7 +1962,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -1995,7 +1992,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bgs));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2034,7 +2031,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2062,7 +2059,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2092,7 +2089,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2123,7 +2120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2153,7 +2150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2183,7 +2180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
             case "Approval":
@@ -2209,7 +2206,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 riderNotificationLayout.setVisibility(View.GONE);
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
@@ -2240,7 +2237,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2270,7 +2267,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2300,7 +2297,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2344,7 +2341,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2371,7 +2368,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2398,7 +2395,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 helpIcon.setVisibility(View.GONE);
 
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2425,7 +2422,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2452,7 +2449,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2479,7 +2476,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
-                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 logo.setVisibility(View.GONE);
                 customerDetails.setVisibility(View.GONE);
                 backArrow.setVisibility(View.VISIBLE);
@@ -2497,18 +2494,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //replacing the fragment
         if (fragment != null && itemName.equalsIgnoreCase("HOME")) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.setCustomAnimations(R.anim.slide_to_right_new,R.anim.slide_to_left_new);
+            ft.setCustomAnimations(R.anim.slide_to_right_new, R.anim.slide_to_left_new);
 
             ft.replace(R.id.fragment_container, fragment);
             ft.addToBackStack(null);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             ft.commit();
 
-        }
-
-        else if (fragment != null) {
+        } else if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.setCustomAnimations(R.anim.anim_enter,R.anim.anim_exit);
+            ft.setCustomAnimations(R.anim.anim_enter, R.anim.anim_exit);
             ft.replace(R.id.fragment_container, fragment);
             ft.addToBackStack(null);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -2714,7 +2709,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 anim.setRepeatCount(Animation.INFINITE);
                 notificationTextCustom.startAnimation(anim);
 
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",  Locale.ENGLISH);
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                 String orderDate = Utlis.INSTANCE.getCurrentTimeDate();
                 Date orderDates = formatter.parse(orderDate);
                 long orderDateMills = orderDates.getTime();

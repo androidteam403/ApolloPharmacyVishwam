@@ -17,9 +17,8 @@
             <LinearLayout
                 android:id="@+id/title_layout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/value_70dp"
-
-                android:background="#045a71"
+                android:layout_height="@dimen/vishwam_actionbar_height"
+                android:background="@color/vishwam_actionbar_color"
                 android:orientation="horizontal"
                 android:padding="@dimen/four4_dp">
 
@@ -48,14 +47,14 @@
                         android:fontFamily="@font/poppins_medium"
                         android:text="Bill List"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_18sp"/>
+                        android:textSize="@dimen/text_16sp" />
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -65,7 +64,7 @@
                             android:fontFamily="@font/poppins_medium"
                             android:text="ORDER ID :"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/orderid"
@@ -76,7 +75,7 @@
                             android:paddingStart="8sp"
                             android:text="Rv00005"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_dimen_12" />
 
                     </LinearLayout>
 
@@ -234,9 +233,9 @@
                         android:textSize="11sp" />
 
                     <TextView
+                        android:id="@+id/approved_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/approved_date"
 
                         android:layout_below="@+id/customer"
                         android:layout_marginEnd="@dimen/value_1dp"
@@ -283,7 +282,6 @@
             </LinearLayout>
 
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_approved"
                 android:layout_width="match_parent"
@@ -295,19 +293,15 @@
                 tools:listitem="@layout/bill_details_row" />
 
 
-
-
-
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/value_8dp"
-            android:visibility="gone"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical">
+            android:layout_marginBottom="@dimen/value_8dp"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -399,7 +393,6 @@
 
 
         </LinearLayout>
-
 
 
     </RelativeLayout>

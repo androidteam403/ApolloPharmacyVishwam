@@ -7,7 +7,7 @@
             android:shape="rectangle">
             <stroke
                 android:width="@dimen/value_2dp"
-                android:color="@color/dotted_line_color"
+                android:color="@color/grey"
                 android:dashGap="@dimen/value_3dp"
                 android:dashWidth="@dimen/value_2dp" />
         </shape>

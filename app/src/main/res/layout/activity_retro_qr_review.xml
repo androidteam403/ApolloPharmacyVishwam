@@ -16,8 +16,8 @@
             <LinearLayout
                 android:id="@+id/header_view"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/value_50dp"
-                android:background="@drawable/retro_qr_actionbar_bg"
+                android:layout_height="@dimen/vishwam_actionbar_height"
+                android:background="@color/vishwam_actionbar_color"
                 android:gravity="center_vertical">
 
                 <ImageView
