@@ -42,7 +42,7 @@
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/apna_project_actionbar_color"
+            android:background="@color/vishwam_actionbar_color"
             android:paddingTop="@dimen/value_15dp"
             android:paddingBottom="@dimen/value_15dp">
 
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/apna_project_actionbar_color"
+                android:buttonTint="@color/vishwam_actionbar_color"
                 android:checked="@{isNewChecked}"
                 android:text="@string/label_new" />
 
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/apna_project_actionbar_color"
+                android:buttonTint="@color/vishwam_actionbar_color"
                 android:checked="@{isInProgressChecked}"
                 android:text="@string/label_in_progress" />
 
@@ -121,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/apna_project_actionbar_color"
+                android:buttonTint="@color/vishwam_actionbar_color"
                 android:checked="@{isRejectedChecked}"
                 android:text="@string/label_rejectedd" />
 
@@ -136,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/apna_project_actionbar_color"
+                android:buttonTint="@color/vishwam_actionbar_color"
                 android:checked="@{isApproveChecked}"
                 android:text="Approved" />
 
@@ -151,7 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/apna_project_actionbar_color"
+                android:buttonTint="@color/vishwam_actionbar_color"
                 android:checked="@{isClosedChecked}"
                 android:text="Cancelled"
                 android:visibility="gone" />
