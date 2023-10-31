@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Select Site Id"
+                android:text="Select Store ID"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_18sp"
                 android:textStyle="bold" />

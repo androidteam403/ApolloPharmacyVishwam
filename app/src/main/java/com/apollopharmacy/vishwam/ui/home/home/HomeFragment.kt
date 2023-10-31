@@ -1,10 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.home
 
-import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignationApnaRetro
@@ -143,51 +140,84 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     ) {
         val attendanceMenuModel = ArrayList<MenuModel>()
 
-        if (false){
-            attendanceMenuModel.add(MenuModel("Cash Deposit", R.drawable.cash_deposite_menu,false))
+        if (false) {
+            attendanceMenuModel.add(MenuModel("Cash Deposit", R.drawable.cash_deposite_menu, false))
 
         }
 
-        if (false){
-            attendanceMenuModel.add(MenuModel("Greetings to Chairman", R.drawable.greetings_menu,false))
+        if (false) {
+            attendanceMenuModel.add(
+                MenuModel(
+                    "Greetings to Chairman",
+                    R.drawable.greetings_menu,
+                    false
+                )
+            )
 
         }
-        if(isSensingRequired){
-            attendanceMenuModel.add(MenuModel("Apollo Sensing", R.drawable.apollo_sensing_menu,isSensingRequired))
+        if (isSensingRequired) {
+            attendanceMenuModel.add(
+                MenuModel(
+                    "Apollo Sensing",
+                    R.drawable.apollo_sensing_menu,
+                    isSensingRequired
+                )
+            )
 
         }
-        if(true){
+        if (true) {
 
 
-
-
-
-            attendanceMenuModel.add(MenuModel("Retro QR", R.drawable.retro_qr_menu,true))
+            attendanceMenuModel.add(MenuModel("Retro QR", R.drawable.retro_qr_menu, true))
 
         }
         //isAttendanceRequired
-        if(true){
-            attendanceMenuModel.add(MenuModel("Attendance", R.drawable.attendance_menu,isAttendanceRequired))
+        if (true) {
+            attendanceMenuModel.add(
+                MenuModel(
+                    "Attendance",
+                    R.drawable.attendance_menu,
+                    isAttendanceRequired
+                )
+            )
 
         }
-        if(isCMSRequired){
-            attendanceMenuModel.add(MenuModel("Complaint List", R.drawable.cms_menu,isCMSRequired))
+        if (isCMSRequired) {
+            attendanceMenuModel.add(MenuModel("Complaint List", R.drawable.cms_menu, isCMSRequired))
 
         }
-        if(isDiscountRequired){
-            attendanceMenuModel.add(MenuModel("Pending", R.drawable.discount_menu,isDiscountRequired))
+        if (isDiscountRequired) {
+            attendanceMenuModel.add(
+                MenuModel(
+                    "Pending",
+                    R.drawable.discount_menu,
+                    isDiscountRequired
+                )
+            )
 
         }
-        if(isDrugRequired){
-            attendanceMenuModel.add(MenuModel("New Drug List", R.drawable.raise_menu,isDrugRequired))
+        if (isDrugRequired) {
+            attendanceMenuModel.add(
+                MenuModel(
+                    "New Drug List",
+                    R.drawable.raise_menu,
+                    isDrugRequired
+                )
+            )
 
         }
 
-        if(isQcFailRequired){
-            attendanceMenuModel.add(MenuModel("Out Standing", R.drawable.omc_qc_menu,isQcFailRequired))
+        if (isQcFailRequired) {
+            attendanceMenuModel.add(
+                MenuModel(
+                    "Out Standing",
+                    R.drawable.omc_qc_menu,
+                    isQcFailRequired
+                )
+            )
 
         }
-        if(isSwachhRequired){
+        if (isSwachhRequired) {
             if (employeeRole.equals(
                     "Yes",
                     ignoreCase = true
@@ -206,9 +236,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 ))
             ) {
 //                attendanceMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload,true))
-                attendanceMenuModel.add(MenuModel("List", R.drawable.swachh_menu,true))
+                attendanceMenuModel.add(MenuModel("List", R.drawable.swachh_menu, true))
             } else if (employeeRole.equals("Yes", ignoreCase = true)) {
-                attendanceMenuModel.add(MenuModel("Upload", R.drawable.swachh_menu,true))
+                attendanceMenuModel.add(MenuModel("Upload", R.drawable.swachh_menu, true))
             } else if (MainActivity.userDesignation != null && MainActivity.userDesignation.equals(
                     "MANAGER",
                     ignoreCase = true
@@ -223,23 +253,35 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                     ignoreCase = true
                 )
             ) {
-                attendanceMenuModel.add(MenuModel("List", R.drawable.swachh_menu,true))
+                attendanceMenuModel.add(MenuModel("List", R.drawable.swachh_menu, true))
             }
 
 //            attendanceMenuModel.add(MenuModel("SWACHH", R.drawable.attendance,isSwachhRequired))
 
         }
 
-        if(false){
-            attendanceMenuModel.add(MenuModel("Dashboard", R.drawable.monitoring_menu,false))
+        if (false) {
+            attendanceMenuModel.add(MenuModel("Dashboard", R.drawable.monitoring_menu, false))
 
         }
-        if(isChampsRequired){
-            attendanceMenuModel.add(MenuModel("Champs Survey", R.drawable.champs_menu,isChampsRequired))
+        if (isChampsRequired) {
+            attendanceMenuModel.add(
+                MenuModel(
+                    "Champs Survey",
+                    R.drawable.champs_menu,
+                    isChampsRequired
+                )
+            )
 
         }
-        if(false){
-            attendanceMenuModel.add(MenuModel("Planogram Evaluation", R.drawable.planogram_menu,false))
+        if (false) {
+            attendanceMenuModel.add(
+                MenuModel(
+                    "Planogram Evaluation",
+                    R.drawable.planogram_menu,
+                    false
+                )
+            )
 
         }
 
@@ -247,7 +289,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             attendanceMenuModel.add(MenuModel("Out Standing", R.drawable.omc_qc_menu,isQcFailRequired))
 
         }*/
-        if(isApnaRetroRequired){
+        if (isApnaRetroRequired) {
             if (MainActivity.mInstance.employeeRoleRetro.equals(
                     "Yes",
                     ignoreCase = true
@@ -256,52 +298,50 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
             ) {
 //                attendanceMenuModel.add(MenuModel("Creation", R.drawable.retro_creation,true))
-                attendanceMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu,true))
+                attendanceMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu, true))
             } else if (getAppLevelDesignationApnaRetro().contains("NODATA")) {
-                attendanceMenuModel.add(MenuModel("Creation", R.drawable.apna_store_menu,true))
+                attendanceMenuModel.add(MenuModel("Creation", R.drawable.apna_store_menu, true))
             } else if (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER"
             ) {
-                attendanceMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu,true))
+                attendanceMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu, true))
             }
 //            attendanceMenuModel.add(MenuModel("APNA Store", R.drawable.attendance,isApnaRetroRequired))
 
         }
 
-        if(isApnaSurveyRequired){
-            attendanceMenuModel.add(MenuModel("APNA", R.drawable.apna_menu,isApnaSurveyRequired))
+        if (isApnaSurveyRequired) {
+            attendanceMenuModel.add(MenuModel("APNA", R.drawable.apna_menu, isApnaSurveyRequired))
 
         }
 
 
-
-
         val attendanceSubMenuModel = ArrayList<MenuModel>()
-        attendanceSubMenuModel.add(MenuModel("Attendance", R.drawable.attendance,true))
-        attendanceSubMenuModel.add(MenuModel("History", R.drawable.history,true))
+        attendanceSubMenuModel.add(MenuModel("Attendance", R.drawable.attendance, true))
+        attendanceSubMenuModel.add(MenuModel("History", R.drawable.history, true))
 
 
         val cmsMenuModel = ArrayList<MenuModel>()
-        cmsMenuModel.add(MenuModel("Complaint Register", R.drawable.cms_complaint_register,true))
-        cmsMenuModel.add(MenuModel("Complaint List", R.drawable.cms_complaint_list,true))
-        cmsMenuModel.add(MenuModel("Approval List", R.drawable.cms_approval_list,true))
+        cmsMenuModel.add(MenuModel("Complaint Register", R.drawable.cms_complaint_register, true))
+        cmsMenuModel.add(MenuModel("Complaint List", R.drawable.cms_complaint_list, true))
+        cmsMenuModel.add(MenuModel("Approval List", R.drawable.cms_approval_list, true))
 
         val discountMenuModel = ArrayList<MenuModel>()
-        discountMenuModel.add(MenuModel("Pending", R.drawable.discount_pending,true))
-        discountMenuModel.add(MenuModel("Approved", R.drawable.discount_approved,true))
-        discountMenuModel.add(MenuModel("Rejected", R.drawable.discount_rejected,true))
-        discountMenuModel.add(MenuModel("Bill", R.drawable.discount_bill,true))
+        discountMenuModel.add(MenuModel("Pending", R.drawable.discount_pending, true))
+        discountMenuModel.add(MenuModel("Approved", R.drawable.discount_approved, true))
+        discountMenuModel.add(MenuModel("Rejected", R.drawable.discount_rejected, true))
+        discountMenuModel.add(MenuModel("Bill", R.drawable.discount_bill, true))
 
         val drugRequestMenuModel = ArrayList<MenuModel>()
-        drugRequestMenuModel.add(MenuModel("New Drug Request", R.drawable.new_drug_request,true))
-        drugRequestMenuModel.add(MenuModel("New Drug List", R.drawable.new_drug_list,true))
+        drugRequestMenuModel.add(MenuModel("New Drug Request", R.drawable.new_drug_request, true))
+        drugRequestMenuModel.add(MenuModel("New Drug List", R.drawable.new_drug_list, true))
 
         val omsQcMenuModel = ArrayList<MenuModel>()
-        omsQcMenuModel.add(MenuModel("Qc Dashboard", R.drawable.qc_dashboard,true))
-        omsQcMenuModel.add(MenuModel("Out Standing", R.drawable.qc_outstanding,true))
-        omsQcMenuModel.add(MenuModel("Qc Approved", R.drawable.qc_approved,true))
-        omsQcMenuModel.add(MenuModel("Qc Rejected", R.drawable.qc_rejected,true))
+        omsQcMenuModel.add(MenuModel("Qc Dashboard", R.drawable.qc_dashboard, true))
+        omsQcMenuModel.add(MenuModel("Out Standing", R.drawable.qc_outstanding, true))
+        omsQcMenuModel.add(MenuModel("Qc Approved", R.drawable.qc_approved, true))
+        omsQcMenuModel.add(MenuModel("Qc Rejected", R.drawable.qc_rejected, true))
 
         val swachhMenuModel = ArrayList<MenuModel>()
         if (isSwachhRequired) {
@@ -322,10 +362,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                     ignoreCase = true
                 ))
             ) {
-                swachhMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload,true))
-                swachhMenuModel.add(MenuModel("List", R.drawable.swachh_list,true))
+                swachhMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload, true))
+                swachhMenuModel.add(MenuModel("List", R.drawable.swachh_list, true))
             } else if (employeeRole.equals("Yes", ignoreCase = true)) {
-                swachhMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload,true))
+                swachhMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload, true))
             } else if (MainActivity.userDesignation != null && MainActivity.userDesignation.equals(
                     "MANAGER",
                     ignoreCase = true
@@ -340,20 +380,20 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                     ignoreCase = true
                 )
             ) {
-                swachhMenuModel.add(MenuModel("List", R.drawable.swachh_list,true))
+                swachhMenuModel.add(MenuModel("List", R.drawable.swachh_list, true))
             }
         }
 
         val monitoringMenuModel = ArrayList<MenuModel>()
-        monitoringMenuModel.add(MenuModel("Dashboard", R.drawable.monitoring_dashboard,true))
+        monitoringMenuModel.add(MenuModel("Dashboard", R.drawable.monitoring_dashboard, true))
 
         val champsMenuModel = ArrayList<MenuModel>()
-        champsMenuModel.add(MenuModel("Champs Survey", R.drawable.champs_survey,true))
+        champsMenuModel.add(MenuModel("Champs Survey", R.drawable.champs_survey, true))
 //        champsMenuModel.add(MenuModel("Champs Reports", R.drawable.champs_reports))
 //        champsMenuModel.add(MenuModel("Champs Admin", R.drawable.champs_admin))
 
         val planogramMenuModel = ArrayList<MenuModel>()
-        planogramMenuModel.add(MenuModel("Planogram Evaluation", R.drawable.planogram,true))
+        planogramMenuModel.add(MenuModel("Planogram Evaluation", R.drawable.planogram, true))
 
         val apnaRetroMenuModel = ArrayList<MenuModel>()
         if (isApnaRetroRequired) {
@@ -364,20 +404,20 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
             ) {
-                apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.apna_store_menu,true))
-                apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu,true))
+                apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.apna_store_menu, true))
+                apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu, true))
             } else if (getAppLevelDesignationApnaRetro().contains("NODATA")) {
-                apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.apna_store_menu,true))
+                apnaRetroMenuModel.add(MenuModel("Creation", R.drawable.apna_store_menu, true))
             } else if (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER"
             ) {
-                apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu,true))
+                apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu, true))
             }
         }
 
         val apnaMenuModel = ArrayList<MenuModel>()
-        apnaMenuModel.add(MenuModel("Apna Survey", R.drawable.apna_survey,true))
+        apnaMenuModel.add(MenuModel("Apna Survey", R.drawable.apna_survey, true))
 
 
 
@@ -385,9 +425,23 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
 
         viewBinding.newMenuRecycleview.layoutManager = GridLayoutManager(context, 4)
-        attendanceManagementAdapter = MenuItemAdapter(context, this, attendanceMenuModel,attendanceSubMenuModel,cmsMenuModel,discountMenuModel, drugRequestMenuModel, omsQcMenuModel, swachhMenuModel, monitoringMenuModel, champsMenuModel, planogramMenuModel, apnaRetroMenuModel, apnaMenuModel)
+        attendanceManagementAdapter = MenuItemAdapter(
+            context,
+            this,
+            attendanceMenuModel,
+            attendanceSubMenuModel,
+            cmsMenuModel,
+            discountMenuModel,
+            drugRequestMenuModel,
+            omsQcMenuModel,
+            swachhMenuModel,
+            monitoringMenuModel,
+            champsMenuModel,
+            planogramMenuModel,
+            apnaRetroMenuModel,
+            apnaMenuModel
+        )
         viewBinding.newMenuRecycleview.adapter = attendanceManagementAdapter
-
 
 
     }
@@ -404,8 +458,6 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         MainActivity.mInstance.setSubmenu(menuModels)
         if (itemName.equals("Dashboard", true)) {
             MainActivity.mInstance.displaySelectedScreen("DashboardCeo")
-        } else if (itemName.equals("APNA", true)) {
-            MainActivity.mInstance.displaySelectedScreen("Apna Survey")
         } else {
             MainActivity.mInstance.displaySelectedScreen(itemName)
         }

@@ -102,13 +102,12 @@
 
                                 <TextView
                                     android:id="@+id/locationDetailsNum"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="@dimen/value_25dp"
+                                    android:layout_height="@dimen/value_25dp"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:gravity="center_vertical|center_horizontal"
-                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="1"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
