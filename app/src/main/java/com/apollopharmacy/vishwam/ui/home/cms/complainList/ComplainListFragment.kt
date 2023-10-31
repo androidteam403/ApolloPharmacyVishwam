@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Handler
 import android.text.Editable
 import android.text.InputFilter
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -58,8 +57,6 @@ import com.apollopharmacy.vishwam.util.Utils.getDateDifference
 import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonParseException
 import com.hsalf.smilerating.SmileRating
 import java.util.*
 
@@ -82,10 +79,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     var complaintListStatus: String =
         "new,inprogress,solved,rejected,reopened,closed,onHold,selectAll"
-   var orderData: ArrayList<ResponseNewTicketlist.Row>? = null
+    var orderData: ArrayList<ResponseNewTicketlist.Row>? = null
+
     // var TicketHistorydata:ArrayList<NewTicketHistoryResponse.Row>()
     var isTicketListThereFirstTime: Boolean = true
 
+    var fromDate = Utils.getCurrentDate()
+    var toDate = Utils.getCurrentDate()
     override fun onPause() {
         super.onPause()
         MainActivity.mInstance.filterIndicator.visibility = View.GONE
@@ -133,9 +133,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         if (arguments?.getBoolean("isFromApprovalList") == true) {
             viewBinding.dateFilterLayout.visibility = View.GONE
 //            viewBinding.dateSelectionLayout.visibility = View.GONE
-            val layoutParams: LinearLayout.LayoutParams =
-                LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 110)
-            viewBinding.overAllDateFilter.setLayoutParams(layoutParams)
+            /* val layoutParams: LinearLayout.LayoutParams =
+                 LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 110)
+             viewBinding.overAllDateFilter.setLayoutParams(layoutParams)*/
 
 
         } else {
@@ -244,7 +244,6 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         }
 
         viewModel.resLiveData.observe(viewLifecycleOwner) {
-            Utlis.hideLoading()
             if (viewBinding.pullToRefresh.isRefreshing) {
                 viewBinding.pullToRefresh.isRefreshing = false
             }
@@ -293,6 +292,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     viewBinding.recyclerViewApproved.adapter = adapter
                 }
             }
+            Utlis.hideLoading()
         }
         //tickethistory api response...............................................................
         viewModel.newtickethistoryLiveData.observe(viewLifecycleOwner, Observer {
@@ -432,7 +432,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 "reopened"
             ) || !this.complaintListStatus.contains("closed") || !this.complaintListStatus.contains(
                 "onHold"
-            )
+            ) || !fromDate.equals(Utils.getCurrentDate()) || !toDate.equals(Utils.getCurrentDate())
         ) {
             MainActivity.mInstance.filterIndicator.visibility = View.VISIBLE
         } else {
@@ -480,16 +480,15 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         }
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             isFirstTime = false
-            var fromDate = Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString())
-            var toDate = Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString())
+            var fromDate =
+                Utils.getticketlistfiltersdate(fromDate)//viewBinding.fromDateText.text.toString()
+            var toDate =
+                Utils.getticketlistfiltersdate(toDate)//viewBinding.toDateText.text.toString()
             if (!isLoading) Utlis.showLoading(requireContext())
 
             viewModel.getNewticketlist(
                 RequestComplainList(
-                    //"11002",
                     Preferences.getSiteId(),
-                    // viewBinding.fromDateText.text.toString(),
-                    // viewBinding.toDateText.text.toString(),
                     fromDate, toDate, userData.EMPID, page
                 ),
                 complaintListStatus,
@@ -529,17 +528,17 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         if (isFromDateSelected) {
             ComplaintListCalendarDialog().apply {
                 arguments = generateParsedData(
-                    viewBinding.fromDateText.text.toString(),
+                    dialogComplaintListFilterBinding!!.fromDateText.text.toString(),
                     false,
-                    viewBinding.fromDateText.text.toString()
+                    dialogComplaintListFilterBinding!!.fromDateText.text.toString()
                 )
             }.show(childFragmentManager, "")
         } else {
             ComplaintListCalendarDialog().apply {
                 arguments = generateParsedData(
-                    viewBinding.toDateText.text.toString(),
+                    dialogComplaintListFilterBinding!!.toDateText.text.toString(),
                     true,
-                    viewBinding.fromDateText.text.toString()
+                    dialogComplaintListFilterBinding!!.fromDateText.text.toString()
                 )
             }.show(childFragmentManager, "")
         }
@@ -635,515 +634,540 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             binding.regDate.text = items.created_time?.let {
                 Utlis.cmsComplaintDateFormat(it)
             }
-
-            lateinit var userData: LoginDetails
-            userData = LoginRepo.getProfile()!!
-
-//            lateinit var StoreData: StoreData
-//            StoreData = LoginRepo.getStoreData()!!
-//            if(items.status.code != "new")
-//                binding.staffNameText.text = items.user.first_name + if(items.user.middle_name != null)  " "+ items.user.middle_name else "" +if(items.user.last_name != null)   " "+ items.user.last_name else ""
-//            else
-            binding.staffNameText.text =
-                items.ticketDetailsResponse?.data?.created_id?.first_name + (if (items.ticketDetailsResponse?.data?.created_id?.middle_name != null) " " + items.ticketDetailsResponse?.data?.created_id?.middle_name else "") + (if (items.ticketDetailsResponse?.data?.created_id?.last_name != null) " " + items.ticketDetailsResponse?.data?.created_id?.last_name else "") + " (" + items.ticketDetailsResponse?.data?.created_id?.login_unique + ")"
-            binding.departmentName.text = items.ticketDetailsResponse?.data?.department?.name
-            binding.problemSinceText.text = items.created_time?.let {
-                Utlis.convertCmsDate(it)
-            }
-
-            var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
-            var managerUid: String? = null
-            var employeeDetailsResponse: EmployeeDetailsResponse? = null
-            try {
-                val gson = GsonBuilder().setPrettyPrinting().create()
-                employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
-                    empDetailsResponse, EmployeeDetailsResponse::class.java
+            binding.cmpStatus.text = " " + items.status!!.name
+            binding.cmpStatus.setTextColor(Color.parseColor(items.status!!.background_color))
+            binding.pendingLayout.setOnClickListener {
+                imageClickListener.onComplaintItemClick(
+                    position,
+                    orderData,
+                    orderData.get(position)
                 )
 
-            } catch (e: JsonParseException) {
-                e.printStackTrace()
             }
-            var isDonthaveInventory = false
-            if (items.ticketDetailsResponse?.data?.ticket_inventory?.uid != null && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item.isNotEmpty()) {
-                binding.inventoryDetailsLayout.visibility = View.VISIBLE
-//                binding.articleCode.text =
-//                    "${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_code}"
-//              if (items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item)
-                binding.articleName.text =
-                    "${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_name}"
-                binding.batchNumber.text =
-                    " ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].batch_no}"
-                binding.barcode.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].barcode
-                        ?: "--"
-                binding.expairyDate.text =
-                    Utlis.convertCmsExparyDate(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].expiry_date)
+        }
 
-                binding.purchaseRate.text =
-                    "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].purchase_rate}"
-                if (items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req")) {
-                    binding.oldMrpLabel.text = "MRP : "
-                    binding.oldMrp.text =
-                        "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp}"
-                    binding.newMrp.visibility = View.GONE
-                    binding.newMrpLabel.visibility = View.GONE
-                } else {
-                    binding.oldMrp.text =
-                        "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp}"
-                    binding.newMrp.text =
-                        "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp}"
-                }
-//                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name == null) {
-//                    binding.manager.text =
-//                        " ${items.inventoryDetailsModel?.data?.site?.manager?.first_name}"
-//                }else {
-//                    binding.manager.text =
-//                        " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name}"
-//                }
-//                binding.category.text =
-//                    " ${items.inventoryDetailsModel?.data?.category!!.name}"
-//                binding.subCategory.text =
-//                    " ${items.inventoryDetailsModel?.data?.subcategory!!.name}"
-//                binding.reason.text =
-//                    " ${items.inventoryDetailsModel?.data?.reason!!.name}"
+        /* start
+                fun bindItems(
+                    binding: ViewComplaintItemBinding,
+                    items: ResponseNewTicketlist.Row,
+                    position: Int,
 
-                if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.uid == null) {
-                    managerUid = items.ticketDetailsResponse?.data?.site?.manager?.uid!!
-                } else {
-                    managerUid =
-                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.uid
-                }
-
-                if (items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopen")) {
-                    if (items.ticketDetailsResponse?.data?.category?.code.equals("mrp_cr") && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid != null && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid.equals(
-                            "forward"
-                        ) && managerUid.equals(employeeDetailsResponse?.data!!.uid)
                     ) {
-                        binding.inventoryActionLayout.visibility = View.VISIBLE
-                        binding.inventoryRejectBtn.visibility = View.VISIBLE
-                        binding.inventoryForwardManagerBtn.visibility = View.GONE
-                        binding.inventoryChangeForwardBtn.visibility = View.VISIBLE
-                        binding.inventoryAcceptBtn.text = "Approve"
-                    } else if (items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req") && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid == null && employeeDetailsResponse?.data!!.uid.equals(
-                            items.ticketDetailsResponse?.data?.user!!.uid
+                    binding.ticketNumber.text = items.ticket_id
+                    binding.regDate.text = items.created_time?.let {
+                        Utlis.cmsComplaintDateFormat(it)
+                    }
+
+                    lateinit var userData: LoginDetails
+                    userData = LoginRepo.getProfile()!!
+
+        //            lateinit var StoreData: StoreData
+        //            StoreData = LoginRepo.getStoreData()!!
+        //            if(items.status.code != "new")
+        //                binding.staffNameText.text = items.user.first_name + if(items.user.middle_name != null)  " "+ items.user.middle_name else "" +if(items.user.last_name != null)   " "+ items.user.last_name else ""
+        //            else
+                    binding.staffNameText.text =
+                        items.ticketDetailsResponse?.data?.created_id?.first_name + (if (items.ticketDetailsResponse?.data?.created_id?.middle_name != null) " " + items.ticketDetailsResponse?.data?.created_id?.middle_name else "") + (if (items.ticketDetailsResponse?.data?.created_id?.last_name != null) " " + items.ticketDetailsResponse?.data?.created_id?.last_name else "") + " (" + items.ticketDetailsResponse?.data?.created_id?.login_unique + ")"
+                    binding.departmentName.text = items.ticketDetailsResponse?.data?.department?.name
+                    binding.problemSinceText.text = items.created_time?.let {
+                        Utlis.convertCmsDate(it)
+                    }
+
+                    var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+                    var managerUid: String? = null
+                    var employeeDetailsResponse: EmployeeDetailsResponse? = null
+                    try {
+                        val gson = GsonBuilder().setPrettyPrinting().create()
+                        employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                            empDetailsResponse, EmployeeDetailsResponse::class.java
                         )
-                    ) {
-                        binding.inventoryActionLayout.visibility = View.VISIBLE
-                        binding.inventoryRejectBtn.visibility = View.VISIBLE
-                        binding.inventoryForwardManagerBtn.visibility = View.GONE
-                        binding.inventoryChangeForwardBtn.visibility = View.GONE
-                        binding.inventoryAcceptBtn.text = "Approve"
+
+                    } catch (e: JsonParseException) {
+                        e.printStackTrace()
                     }
-                    binding.inventoryAcceptBtn.setOnClickListener {
-                        imageClickListener.onClickInventoryAccept(items, position, orderData)
-                    }
-                    binding.inventoryRejectBtn.setOnClickListener {
-                        imageClickListener.onClickInventoryReject(items, position, orderData)
-                    }
-                    binding.inventoryForwardManagerBtn.setOnClickListener {
-                        imageClickListener.onClickForwardToManager(items)
-                    }
-                    binding.inventoryChangeForwardBtn.setOnClickListener {
-                        imageClickListener.onClickForwardChangeManager(items, position, orderData)
-                    }
-                } else {
-                    binding.inventoryActionLayout.visibility = View.GONE
-                }
-                binding.inventoryImagesLayout.visibility = View.VISIBLE
-                if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.isNullOrEmpty()) {
-                    Glide.with(context)
-                        .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob)
-                        .placeholder(R.drawable.thumbnail_image).into(binding.frontImgView)
-                    binding.frontImgView.setOnClickListener {
-                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.let { it1 ->
-                            imageClickListener.onItemClick(position, it1)
+                    var isDonthaveInventory = false
+                    if (items.ticketDetailsResponse?.data?.ticket_inventory?.uid != null && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item.isNotEmpty()) {
+                        binding.inventoryDetailsLayout.visibility = View.VISIBLE
+        //                binding.articleCode.text =
+        //                    "${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_code}"
+        //              if (items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item)
+                        binding.articleName.text =
+                            "${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_name}"
+                        binding.batchNumber.text =
+                            " ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].batch_no}"
+                        binding.barcode.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].barcode
+                                ?: "--"
+                        binding.expairyDate.text =
+                            Utlis.convertCmsExparyDate(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].expiry_date)
+
+                        binding.purchaseRate.text =
+                            "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].purchase_rate}"
+                        if (items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req")) {
+                            binding.oldMrpLabel.text = "MRP : "
+                            binding.oldMrp.text =
+                                "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp}"
+                            binding.newMrp.visibility = View.GONE
+                            binding.newMrpLabel.visibility = View.GONE
+                        } else {
+                            binding.oldMrp.text =
+                                "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp}"
+                            binding.newMrp.text =
+                                "₹ ${items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp}"
                         }
-                    }
-                } else {
-                    binding.frontImgLabel.visibility = View.GONE
-                    binding.frontImgView.visibility = View.GONE
-                }
-                if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.isNullOrEmpty()) {
-                    Glide.with(context)
-                        .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob)
-                        .placeholder(R.drawable.thumbnail_image).into(binding.backImgView)
-                    binding.backImgView.setOnClickListener {
-                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.let { it1 ->
-                            imageClickListener.onItemClick(position, it1)
+        //                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name == null) {
+        //                    binding.manager.text =
+        //                        " ${items.inventoryDetailsModel?.data?.site?.manager?.first_name}"
+        //                }else {
+        //                    binding.manager.text =
+        //                        " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name}"
+        //                }
+        //                binding.category.text =
+        //                    " ${items.inventoryDetailsModel?.data?.category!!.name}"
+        //                binding.subCategory.text =
+        //                    " ${items.inventoryDetailsModel?.data?.subcategory!!.name}"
+        //                binding.reason.text =
+        //                    " ${items.inventoryDetailsModel?.data?.reason!!.name}"
+
+                        if (items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.uid == null) {
+                            managerUid = items.ticketDetailsResponse?.data?.site?.manager?.uid!!
+                        } else {
+                            managerUid =
+                                items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.uid
                         }
-                    }
-                } else {
-                    binding.backImgLabel.visibility = View.GONE
-                    binding.backImgView.visibility = View.GONE
-                }
-                if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob.isNullOrEmpty()) {
-                    Glide.with(context)
-                        .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob)
-                        .placeholder(R.drawable.thumbnail_image).into(binding.otherImgView)
-                    binding.otherImgView.setOnClickListener {
-                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob.let { it1 ->
-                            imageClickListener.onItemClick(position, it1)
-                        }
-                    }
-                    binding.otherImgLabel.visibility = View.VISIBLE
-                    binding.otherImgView.visibility = View.VISIBLE
-                } else {
-                    binding.otherImgLabel.visibility = View.GONE
-                    binding.otherImgView.visibility = View.GONE
-                }
-            } else {
-                isDonthaveInventory = true
-                binding.inventoryDetailsLayout.visibility = View.GONE
-                binding.inventoryActionLayout.visibility = View.GONE
-                binding.inventoryImagesLayout.visibility = View.GONE
-            }
-            items.created_id?.first_name + (if (items.created_id?.middle_name != null) " " + items.created_id?.middle_name else "") + (if (items.created_id?.last_name != null) " " + items.created_id?.last_name else "") + " (" + items.created_id?.login_unique + ")"
-//            if(items.department?.code.equals("IT")){
-            if (!TextUtils.isEmpty(items.ticketDetailsResponse?.data?.executive?.first_name)) {
-                binding.itTicketExecutive.text =
-                    items.ticketDetailsResponse?.data?.executive?.first_name + (if (items.ticketDetailsResponse?.data?.executive?.middle_name != null) " " + items.ticketDetailsResponse?.data?.executive?.middle_name else "") + (if (items.ticketDetailsResponse?.data?.executive?.last_name != null) " " + items.ticketDetailsResponse?.data?.executive?.last_name else "") + " (" + items.ticketDetailsResponse?.data?.executive?.login_unique + ")"
-                binding.itTicketExecutiveLayout.visibility = View.VISIBLE
-            } else {
-                binding.itTicketExecutiveLayout.visibility = View.GONE
-            }
-            if (!TextUtils.isEmpty(items.ticketDetailsResponse?.data?.manager?.first_name)) {
-                binding.itTicketManager.text =
-                    items.ticketDetailsResponse?.data?.manager?.first_name + (if (items.ticketDetailsResponse?.data?.manager?.middle_name != null) " " + items.ticketDetailsResponse?.data?.manager?.middle_name else "") + (if (items.ticketDetailsResponse?.data?.manager?.last_name != null) " " + items.ticketDetailsResponse?.data?.manager?.last_name else "") + " (" + items.ticketDetailsResponse?.data?.manager?.login_unique + ")"
-                binding.itTicketManagerLayout.visibility = View.VISIBLE
-            } else {
-                binding.itTicketManagerLayout.visibility = View.GONE
-            }
 
-
-//            }else{
-//                binding.itTicketExecutiveLayout.visibility = View.GONE
-//                binding.itTicketManagerLayout.visibility = View.GONE
-//            }
-            if (items.ticketDetailsResponse?.data?.ticket_it?.tid?.uid != null) {
-                binding.creditCardDetailsLayout.visibility = View.VISIBLE
-//                binding.ccReason.text = " ${items.creditCardTSDetails?.data?.reason!!.name }"
-//                binding.ccExecutive.text = " ${items.creditCardTSDetails?.data?.executive!!.first_name }"
-//                binding.ccManager.text = items.creditCardTSDetails?.data?.manager!!.first_name
-                binding.ccTid.text = " ${items.ticketDetailsResponse?.data?.ticket_it!!.tid.tid}"
-                binding.billNumber.text =
-                    " ${items.ticketDetailsResponse?.data?.ticket_it!!.bill_number}"
-                binding.transactionNumber.text =
-                    " ${items.ticketDetailsResponse?.data?.ticket_it!!.transaction_id}"
-                binding.approvalCode.text =
-                    " ${items.ticketDetailsResponse?.data?.ticket_it!!.approval_code}"
-                binding.billAmount.text =
-                    "₹ ${items.ticketDetailsResponse?.data?.ticket_it!!.bill_amount}"
-
-
-//                department?.code == 'IT' && category.code == 'pos'  && reason.code == 'asb_not_completed'
-//                        && user?.uid == session user.uid && ticket_it?.status?.uid == 'forwarded_to_fin' && status?.code == 'inprogress'
-//                && sessionuser.department.code == 'FN' && reason?.sub_workflow?.uid ==  'Yes'
-
-
-                if (((items.status!!.code.equals("new") || items.status!!.code.equals("reopen")) && items.ticketDetailsResponse!!.data.executive.uid.equals(
-                        employeeDetailsResponse?.data!!.uid
-                    ) && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
-                        "Yes"
-                    ) && checkResonDepot(
-                        items.ticketDetailsResponse!!.data.reason.reason_dept,
-                        employeeDetailsResponse
-                    ))
-                ) {
-                    if (items.ticketDetailsResponse!!.data.ticket_it.status.uid != null && (items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
-                            "approved"
-                        ) || items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
-                            "rejected"
-                        ))
-                    ) {
-                        binding.ccActionLayout.visibility = View.GONE
-                    } else {
-                        if (items.ticketDetailsResponse!!.data.ticket_it.status.uid == null) {
-                            //Change to visible if required
-                            binding.ccActionLayout.visibility = View.GONE
-//                            binding.ccActionLayout.visibility = View.VISIBLE
-//                        binding.acceptBtn.setOnClickListener {
-//
-//
-//
-//
-//
-//
-////                            imageClickListener.onClickForwardToFinance(cmsTicketRequest)
-//
-//                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data)
-//                        }
-                            binding.frwdToFinance.setOnClickListener {
-
-                                val cmsTicketRequest = CmsTicketRequest()
-                                val cms = CmsTicketRequest.Ticket()
-                                cmsTicketRequest.uid =
-                                    items.ticketDetailsResponse!!.data.ticket_it.uid
-                                cms.uid = items.ticketDetailsResponse!!.data.uid
-                                cmsTicketRequest.ticket = cms
-
-
-//
-
-
-                                imageClickListener.onClickForwardToFinance(
-                                    cmsTicketRequest, orderData, position
+                        if (items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopen")) {
+                            if (items.ticketDetailsResponse?.data?.category?.code.equals("mrp_cr") && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid != null && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid.equals(
+                                    "forward"
+                                ) && managerUid.equals(employeeDetailsResponse?.data!!.uid)
+                            ) {
+                                binding.inventoryActionLayout.visibility = View.VISIBLE
+                                binding.inventoryRejectBtn.visibility = View.VISIBLE
+                                binding.inventoryForwardManagerBtn.visibility = View.GONE
+                                binding.inventoryChangeForwardBtn.visibility = View.VISIBLE
+                                binding.inventoryAcceptBtn.text = "Approve"
+                            } else if (items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req") && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid == null && employeeDetailsResponse?.data!!.uid.equals(
+                                    items.ticketDetailsResponse?.data?.user!!.uid
                                 )
-//                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
+                            ) {
+                                binding.inventoryActionLayout.visibility = View.VISIBLE
+                                binding.inventoryRejectBtn.visibility = View.VISIBLE
+                                binding.inventoryForwardManagerBtn.visibility = View.GONE
+                                binding.inventoryChangeForwardBtn.visibility = View.GONE
+                                binding.inventoryAcceptBtn.text = "Approve"
+                            }
+                            binding.inventoryAcceptBtn.setOnClickListener {
+                                imageClickListener.onClickInventoryAccept(items, position, orderData)
+                            }
+                            binding.inventoryRejectBtn.setOnClickListener {
+                                imageClickListener.onClickInventoryReject(items, position, orderData)
+                            }
+                            binding.inventoryForwardManagerBtn.setOnClickListener {
+                                imageClickListener.onClickForwardToManager(items)
+                            }
+                            binding.inventoryChangeForwardBtn.setOnClickListener {
+                                imageClickListener.onClickForwardChangeManager(items, position, orderData)
+                            }
+                        } else {
+                            binding.inventoryActionLayout.visibility = View.GONE
+                        }
+                        binding.inventoryImagesLayout.visibility = View.VISIBLE
+                        if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.isNullOrEmpty()) {
+                            Glide.with(context)
+                                .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob)
+                                .placeholder(R.drawable.thumbnail_image).into(binding.frontImgView)
+                            binding.frontImgView.setOnClickListener {
+                                items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.let { it1 ->
+                                    imageClickListener.onItemClick(position, it1)
+                                }
+                            }
+                        } else {
+                            binding.frontImgLabel.visibility = View.GONE
+                            binding.frontImgView.visibility = View.GONE
+                        }
+                        if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.isNullOrEmpty()) {
+                            Glide.with(context)
+                                .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob)
+                                .placeholder(R.drawable.thumbnail_image).into(binding.backImgView)
+                            binding.backImgView.setOnClickListener {
+                                items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.let { it1 ->
+                                    imageClickListener.onItemClick(position, it1)
+                                }
+                            }
+                        } else {
+                            binding.backImgLabel.visibility = View.GONE
+                            binding.backImgView.visibility = View.GONE
+                        }
+                        if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob.isNullOrEmpty()) {
+                            Glide.with(context)
+                                .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob)
+                                .placeholder(R.drawable.thumbnail_image).into(binding.otherImgView)
+                            binding.otherImgView.setOnClickListener {
+                                items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob.let { it1 ->
+                                    imageClickListener.onItemClick(position, it1)
+                                }
+                            }
+                            binding.otherImgLabel.visibility = View.VISIBLE
+                            binding.otherImgView.visibility = View.VISIBLE
+                        } else {
+                            binding.otherImgLabel.visibility = View.GONE
+                            binding.otherImgView.visibility = View.GONE
+                        }
+                    } else {
+                        isDonthaveInventory = true
+                        binding.inventoryDetailsLayout.visibility = View.GONE
+                        binding.inventoryActionLayout.visibility = View.GONE
+                        binding.inventoryImagesLayout.visibility = View.GONE
+                    }
+                    items.created_id?.first_name + (if (items.created_id?.middle_name != null) " " + items.created_id?.middle_name else "") + (if (items.created_id?.last_name != null) " " + items.created_id?.last_name else "") + " (" + items.created_id?.login_unique + ")"
+        //            if(items.department?.code.equals("IT")){
+                    if (!TextUtils.isEmpty(items.ticketDetailsResponse?.data?.executive?.first_name)) {
+                        binding.itTicketExecutive.text =
+                            items.ticketDetailsResponse?.data?.executive?.first_name + (if (items.ticketDetailsResponse?.data?.executive?.middle_name != null) " " + items.ticketDetailsResponse?.data?.executive?.middle_name else "") + (if (items.ticketDetailsResponse?.data?.executive?.last_name != null) " " + items.ticketDetailsResponse?.data?.executive?.last_name else "") + " (" + items.ticketDetailsResponse?.data?.executive?.login_unique + ")"
+                        binding.itTicketExecutiveLayout.visibility = View.VISIBLE
+                    } else {
+                        binding.itTicketExecutiveLayout.visibility = View.GONE
+                    }
+                    if (!TextUtils.isEmpty(items.ticketDetailsResponse?.data?.manager?.first_name)) {
+                        binding.itTicketManager.text =
+                            items.ticketDetailsResponse?.data?.manager?.first_name + (if (items.ticketDetailsResponse?.data?.manager?.middle_name != null) " " + items.ticketDetailsResponse?.data?.manager?.middle_name else "") + (if (items.ticketDetailsResponse?.data?.manager?.last_name != null) " " + items.ticketDetailsResponse?.data?.manager?.last_name else "") + " (" + items.ticketDetailsResponse?.data?.manager?.login_unique + ")"
+                        binding.itTicketManagerLayout.visibility = View.VISIBLE
+                    } else {
+                        binding.itTicketManagerLayout.visibility = View.GONE
+                    }
+
+
+        //            }else{
+        //                binding.itTicketExecutiveLayout.visibility = View.GONE
+        //                binding.itTicketManagerLayout.visibility = View.GONE
+        //            }
+                    if (items.ticketDetailsResponse?.data?.ticket_it?.tid?.uid != null) {
+                        binding.creditCardDetailsLayout.visibility = View.VISIBLE
+        //                binding.ccReason.text = " ${items.creditCardTSDetails?.data?.reason!!.name }"
+        //                binding.ccExecutive.text = " ${items.creditCardTSDetails?.data?.executive!!.first_name }"
+        //                binding.ccManager.text = items.creditCardTSDetails?.data?.manager!!.first_name
+                        binding.ccTid.text = " ${items.ticketDetailsResponse?.data?.ticket_it!!.tid.tid}"
+                        binding.billNumber.text =
+                            " ${items.ticketDetailsResponse?.data?.ticket_it!!.bill_number}"
+                        binding.transactionNumber.text =
+                            " ${items.ticketDetailsResponse?.data?.ticket_it!!.transaction_id}"
+                        binding.approvalCode.text =
+                            " ${items.ticketDetailsResponse?.data?.ticket_it!!.approval_code}"
+                        binding.billAmount.text =
+                            "₹ ${items.ticketDetailsResponse?.data?.ticket_it!!.bill_amount}"
+
+
+        //                department?.code == 'IT' && category.code == 'pos'  && reason.code == 'asb_not_completed'
+        //                        && user?.uid == session user.uid && ticket_it?.status?.uid == 'forwarded_to_fin' && status?.code == 'inprogress'
+        //                && sessionuser.department.code == 'FN' && reason?.sub_workflow?.uid ==  'Yes'
+
+
+                        if (((items.status!!.code.equals("new") || items.status!!.code.equals("reopen")) && items.ticketDetailsResponse!!.data.executive.uid.equals(
+                                employeeDetailsResponse?.data!!.uid
+                            ) && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
+                                "Yes"
+                            ) && checkResonDepot(
+                                items.ticketDetailsResponse!!.data.reason.reason_dept,
+                                employeeDetailsResponse
+                            ))
+                        ) {
+                            if (items.ticketDetailsResponse!!.data.ticket_it.status.uid != null && (items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
+                                    "approved"
+                                ) || items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
+                                    "rejected"
+                                ))
+                            ) {
+                                binding.ccActionLayout.visibility = View.GONE
+                            } else {
+                                if (items.ticketDetailsResponse!!.data.ticket_it.status.uid == null) {
+                                    //Change to visible if required
+                                    binding.ccActionLayout.visibility = View.GONE
+        //                            binding.ccActionLayout.visibility = View.VISIBLE
+        //                        binding.acceptBtn.setOnClickListener {
+        //
+        //
+        //
+        //
+        //
+        //
+        ////                            imageClickListener.onClickForwardToFinance(cmsTicketRequest)
+        //
+        //                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data)
+        //                        }
+                                    binding.frwdToFinance.setOnClickListener {
+
+                                        val cmsTicketRequest = CmsTicketRequest()
+                                        val cms = CmsTicketRequest.Ticket()
+                                        cmsTicketRequest.uid =
+                                            items.ticketDetailsResponse!!.data.ticket_it.uid
+                                        cms.uid = items.ticketDetailsResponse!!.data.uid
+                                        cmsTicketRequest.ticket = cms
+
+
+        //
+
+
+                                        imageClickListener.onClickForwardToFinance(
+                                            cmsTicketRequest, orderData, position
+                                        )
+        //                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
+                                    }
+                                } else {
+                                    binding.ccActionLayout.visibility = View.GONE
+                                }
                             }
                         } else {
                             binding.ccActionLayout.visibility = View.GONE
                         }
-                    }
-                } else {
-                    binding.ccActionLayout.visibility = View.GONE
-                }
-            } else {
-                binding.creditCardDetailsLayout.visibility = View.GONE
-                binding.ccActionLayout.visibility = View.GONE
-            }
-
-            if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.uid != null) {
-                binding.drugLayout.drugDetailsLayout.visibility = View.VISIBLE
-//                binding.drugLayout.drugBarcode.text = items.ticket_inventory.drug_request.barcode ?: "--"
-                binding.drugLayout.drugItemNumber.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_name
-                        ?: "--"
-//                binding.drugLayout.drugItemDetailsNumber.text = items.subcategory?.name ?: "--"
-                binding.drugLayout.drugPackSize.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.pack_size.toString()
-                        ?: "--"
-                binding.drugLayout.drugMrp.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.mrp.toString()
-                        ?: "--"
-//                binding.drugLayout.drugPurchasePrice.text =
-//                    items.ticket_inventory.drug_request.purchase_price.toString() ?: "--"
-//                binding.drugLayout.drugRemarks.text = items.ticket_inventory.drug_request.remarks ?: "--"
-                binding.drugLayout.drugBatchNo.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.batch_no
-                        ?: "--"
-
-
-                //From - made changes by naveen//
-                binding.drugLayout.itemType.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_type.name
-                binding.drugLayout.requiredQty.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.required_quantity.toString()
-                binding.drugLayout.doctorName.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.doctors_name
-                binding.drugLayout.doctorSpeciality.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.doctor_specialty.name
-
-                //To - made changes by naveen//
-
-
-//                binding.drugLayout.drugManufactuing.text = if(items.ticket_inventory.drug_request?.manufacturing_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.manufacturing_date)}
-//                binding.drugLayout.drugExpairy.text =  if(items.ticket_inventory.drug_request?.expiry_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.expiry_date)}
-//                binding.drugLayout.drugHsn.text = items.ticket_inventory.drug_request.hsn_code ?: "--"
-//                binding.drugLayout.drugGst.text = items.ticket_inventory.drug_request.gst ?: "--"
-//                binding.drugLayout.drugReference.text = items.ticket_inventory.drug_request.reference_no ?: "--"
-
-                if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb != null) {
-                    Glide.with(context)
-                        .load(items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb)
-                        .placeholder(R.drawable.thumbnail_image).into(binding.frontImgView)
-                    binding.frontImgView.setOnClickListener {
-                        items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb.let { it1 ->
-                            imageClickListener.onItemClick(position, it1)
-                        }
-                    }
-                } else {
-                    binding.frontImgLabel.visibility = View.GONE
-                    binding.frontImgView.visibility = View.GONE
-                }
-                if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.back_mb != null) {
-                    Glide.with(context)
-                        .load(items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.back_mb)
-                        .placeholder(R.drawable.thumbnail_image).into(binding.backImgView)
-                    binding.backImgView.setOnClickListener {
-                        items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.back_mb.let { it1 ->
-                            imageClickListener.onItemClick(position, it1)
-                        }
-                    }
-                } else {
-                    binding.backImgLabel.visibility = View.GONE
-                    binding.backImgView.visibility = View.GONE
-                }
-                binding.inventoryImagesLayout.visibility = View.VISIBLE
-            } else {
-                binding.drugLayout.drugDetailsLayout.visibility = View.GONE
-
-            }
-            binding.complainDetails.text = items.ticketDetailsResponse?.data?.description?.trim()
-                ?.replace("\\s+".toRegex(), " ") ?: "--"
-            if (items.status?.code.isNullOrEmpty()) {
-            } else {
-
-                if (items.status!!.code.equals("solved") && employeeDetailsResponse?.data!!.uid.equals(
-                        items.created_id!!.uid
-                    )
-                ) {
-                    binding.ticketResolveBtn.visibility = View.VISIBLE
-                    if (items.ticketDetailsResponse?.data?.category?.code.equals("mrp_cr") || items.ticketDetailsResponse?.data?.category?.code.equals(
-                            "new_batch_req"
-                        )
-                    ) {
-                        binding.ticketResolveBtn.visibility = View.GONE
-                    }
-                    if (items.ticketDetailsResponse != null) {
-                        if (items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == null
-                            || items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == "Yes"
-                        ) {
-                            binding.ticketCloseBtn.visibility = View.VISIBLE
-                        } else {
-                            binding.ticketCloseBtn.visibility = View.GONE
-                        }
-                    }
-
-
-
-
-
-                    binding.ticketCloseBtn.setOnClickListener {
-                        imageClickListener.onClickTicketClose(items, orderData, position)
-                    }
-                    binding.ticketActionLayout.visibility = View.VISIBLE
-                    binding.ticketResolveBtn.text = "Reopen"
-                    binding.ticketResolveBtn.setOnClickListener {
-                        imageClickListener.onClickTicketReopen(items, orderData, position)
-                    }
-                } else if ((items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened")) && employeeDetailsResponse?.data!!.uid.equals(
-                        items.ticketDetailsResponse?.data?.user?.uid
-                    )
-                ) {
-                    if (items.ticketDetailsResponse != null && (items.ticketDetailsResponse?.data?.category?.code.equals(
-                            "mrp_cr"
-                        ) || items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req"))
-                    ) {
-                        binding.ticketResolveBtn.visibility = View.GONE
-                        binding.ticketActionLayout.visibility = View.GONE
-                    } else if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.uid != null && items.ticketDetailsResponse?.data?.category?.code.equals(
-                            "new_drug_req"
-                        )
-                    ) {
-                        binding.ticketResolveBtn.visibility = View.GONE
-                        binding.ticketActionLayout.visibility = View.GONE
-                    }
-//                    else if (items.status!!.code.equals("inprogress")
-//                        && items.ticketDetailsResponse!!.data.department.code.equals(
-//                            "IT") && items.ticketDetailsResponse!!.data.category.code.equals("pos")
-//                    ) {
-//                        binding.ticketResolveBtn.visibility = View.GONE
-//                        binding.ticketActionLayout.visibility = View.GONE
-//                    }
-
-//                    else  if (employeeDetailsResponse?.data!!.department!!.code.equals(
-//                            "FN")
-//                    ) {
-//                        if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
-//                                "pos") && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed")
-//                            && items.ticketDetailsResponse!!.data.user.uid.equals(
-//                                employeeDetailsResponse?.data!!.uid)
-//                            && items.status!!.code.equals("inprogress")
-//                            && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals("Yes")
-//                        ) {
-//
-//                            binding.ticketResolveBtn.visibility = View.GONE
-//                            binding.ticketActionLayout.visibility = View.GONE
-//                        }
-//                        else {
-//                            binding.ticketResolveBtn.visibility = View.VISIBLE
-//                            binding.ticketCloseBtn.visibility = View.GONE
-//                            binding.ticketResolveBtn.text = "Resolve"
-//                            binding.ticketResolveBtn.setOnClickListener {
-//                                imageClickListener.onClickTicketResolve(items)
-//                            }
-//                            binding.ticketActionLayout.visibility = View.VISIBLE
-//                        }
-//
-//                        }
-
-                    else {
-                        binding.ticketResolveBtn.visibility = View.VISIBLE
-                        binding.ticketCloseBtn.visibility = View.GONE
-                        binding.ticketResolveBtn.text = "Resolve"
-                        binding.ticketResolveBtn.setOnClickListener {
-
-//                            items.Tickethistory!!.data.listData.rows[0].description=items.Tickethistory!!.data.listData.rows[0].description.replace("Accepted","Resolved")
-                            imageClickListener.onClickTicketResolve(items, orderData, position)
-                        }
-                        binding.ticketActionLayout.visibility = View.VISIBLE
-                    }
-                } else {
-                    binding.ticketActionLayout.visibility = View.GONE
-                }
-            }
-
-            if (items.ticketDetailsResponse != null) {
-                if (employeeDetailsResponse?.data!!.department!!.code.equals("FN")) {
-                    if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
-                            "pos"
-                        ) && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed") && items.ticketDetailsResponse!!.data!!.user!!.uid != null && items.ticketDetailsResponse!!.data!!.user!!.uid!!.equals(
-                            employeeDetailsResponse?.data!!.uid
-                        ) && items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
-                            "forwarded_to_fin"
-                        ) && items.status!!.code.equals("inprogress") && employeeDetailsResponse?.data!!.department!!.code.equals(
-                            "FN"
-                        ) && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
-                            "Yes"
-                        )
-                    ) {
-
-                        binding.ccAcceptrejectLayout.visibility = View.VISIBLE;
-                        binding.acceptBtn.setOnClickListener {
-                            imageClickListener.onClickCCAccept(
-                                items.ticketDetailsResponse!!.data, orderData, position
-                            )
-                        }
-                        binding.rejectBtn.setOnClickListener {
-                            imageClickListener.onClickCCReject(
-                                items.ticketDetailsResponse!!.data, orderData, position
-                            )
-                        }
                     } else {
-                        binding.ccAcceptrejectLayout.visibility = View.GONE
+                        binding.creditCardDetailsLayout.visibility = View.GONE
+                        binding.ccActionLayout.visibility = View.GONE
                     }
-                }
 
-            }
-            /*    // soubworkflow manual
-                        if (items!!.have_subworkflow != null) {
-                            if (items!!.have_subworkflow == true) {
-                                if (items!!.is_subworkflow_completed == false) {
-                                    binding.ticketResolveBtn.visibility = View.GONE
+                    if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.uid != null) {
+                        binding.drugLayout.drugDetailsLayout.visibility = View.VISIBLE
+        //                binding.drugLayout.drugBarcode.text = items.ticket_inventory.drug_request.barcode ?: "--"
+                        binding.drugLayout.drugItemNumber.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_name
+                                ?: "--"
+        //                binding.drugLayout.drugItemDetailsNumber.text = items.subcategory?.name ?: "--"
+                        binding.drugLayout.drugPackSize.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.pack_size.toString()
+                                ?: "--"
+                        binding.drugLayout.drugMrp.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.mrp.toString()
+                                ?: "--"
+        //                binding.drugLayout.drugPurchasePrice.text =
+        //                    items.ticket_inventory.drug_request.purchase_price.toString() ?: "--"
+        //                binding.drugLayout.drugRemarks.text = items.ticket_inventory.drug_request.remarks ?: "--"
+                        binding.drugLayout.drugBatchNo.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.batch_no
+                                ?: "--"
+
+
+                        //From - made changes by naveen//
+                        binding.drugLayout.itemType.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_type.name
+                        binding.drugLayout.requiredQty.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.required_quantity.toString()
+                        binding.drugLayout.doctorName.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.doctors_name
+                        binding.drugLayout.doctorSpeciality.text =
+                            items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.doctor_specialty.name
+
+                        //To - made changes by naveen//
+
+
+        //                binding.drugLayout.drugManufactuing.text = if(items.ticket_inventory.drug_request?.manufacturing_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.manufacturing_date)}
+        //                binding.drugLayout.drugExpairy.text =  if(items.ticket_inventory.drug_request?.expiry_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.expiry_date)}
+        //                binding.drugLayout.drugHsn.text = items.ticket_inventory.drug_request.hsn_code ?: "--"
+        //                binding.drugLayout.drugGst.text = items.ticket_inventory.drug_request.gst ?: "--"
+        //                binding.drugLayout.drugReference.text = items.ticket_inventory.drug_request.reference_no ?: "--"
+
+                        if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb != null) {
+                            Glide.with(context)
+                                .load(items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb)
+                                .placeholder(R.drawable.thumbnail_image).into(binding.frontImgView)
+                            binding.frontImgView.setOnClickListener {
+                                items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb.let { it1 ->
+                                    imageClickListener.onItemClick(position, it1)
                                 }
-                                if (isApprovalListFragment) {
-                                    if (items!!.is_subworkflow_completed == true) {
-                                        binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                            }
+                        } else {
+                            binding.frontImgLabel.visibility = View.GONE
+                            binding.frontImgView.visibility = View.GONE
+                        }
+                        if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.back_mb != null) {
+                            Glide.with(context)
+                                .load(items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.back_mb)
+                                .placeholder(R.drawable.thumbnail_image).into(binding.backImgView)
+                            binding.backImgView.setOnClickListener {
+                                items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.back_mb.let { it1 ->
+                                    imageClickListener.onItemClick(position, it1)
+                                }
+                            }
+                        } else {
+                            binding.backImgLabel.visibility = View.GONE
+                            binding.backImgView.visibility = View.GONE
+                        }
+                        binding.inventoryImagesLayout.visibility = View.VISIBLE
+                    } else {
+                        binding.drugLayout.drugDetailsLayout.visibility = View.GONE
+
+                    }
+                    binding.complainDetails.text = items.ticketDetailsResponse?.data?.description?.trim()
+                        ?.replace("\\s+".toRegex(), " ") ?: "--"
+                    if (items.status?.code.isNullOrEmpty()) {
+                    } else {
+
+                        if (items.status!!.code.equals("solved") && employeeDetailsResponse?.data!!.uid.equals(
+                                items.created_id!!.uid
+                            )
+                        ) {
+                            binding.ticketResolveBtn.visibility = View.VISIBLE
+                            if (items.ticketDetailsResponse?.data?.category?.code.equals("mrp_cr") || items.ticketDetailsResponse?.data?.category?.code.equals(
+                                    "new_batch_req"
+                                )
+                            ) {
+                                binding.ticketResolveBtn.visibility = View.GONE
+                            }
+                            if (items.ticketDetailsResponse != null) {
+                                if (items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == null
+                                    || items.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == "Yes"
+                                ) {
+                                    binding.ticketCloseBtn.visibility = View.VISIBLE
+                                } else {
+                                    binding.ticketCloseBtn.visibility = View.GONE
+                                }
+                            }
+
+
+
+
+
+                            binding.ticketCloseBtn.setOnClickListener {
+                                imageClickListener.onClickTicketClose(items, orderData, position)
+                            }
+                            binding.ticketActionLayout.visibility = View.VISIBLE
+                            binding.ticketResolveBtn.text = "Reopen"
+                            binding.ticketResolveBtn.setOnClickListener {
+                                imageClickListener.onClickTicketReopen(items, orderData, position)
+                            }
+                        } else if ((items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened")) && employeeDetailsResponse?.data!!.uid.equals(
+                                items.ticketDetailsResponse?.data?.user?.uid
+                            )
+                        ) {
+                            if (items.ticketDetailsResponse != null && (items.ticketDetailsResponse?.data?.category?.code.equals(
+                                    "mrp_cr"
+                                ) || items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req"))
+                            ) {
+                                binding.ticketResolveBtn.visibility = View.GONE
+                                binding.ticketActionLayout.visibility = View.GONE
+                            } else if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.uid != null && items.ticketDetailsResponse?.data?.category?.code.equals(
+                                    "new_drug_req"
+                                )
+                            ) {
+                                binding.ticketResolveBtn.visibility = View.GONE
+                                binding.ticketActionLayout.visibility = View.GONE
+                            }
+        //                    else if (items.status!!.code.equals("inprogress")
+        //                        && items.ticketDetailsResponse!!.data.department.code.equals(
+        //                            "IT") && items.ticketDetailsResponse!!.data.category.code.equals("pos")
+        //                    ) {
+        //                        binding.ticketResolveBtn.visibility = View.GONE
+        //                        binding.ticketActionLayout.visibility = View.GONE
+        //                    }
+
+        //                    else  if (employeeDetailsResponse?.data!!.department!!.code.equals(
+        //                            "FN")
+        //                    ) {
+        //                        if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
+        //                                "pos") && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed")
+        //                            && items.ticketDetailsResponse!!.data.user.uid.equals(
+        //                                employeeDetailsResponse?.data!!.uid)
+        //                            && items.status!!.code.equals("inprogress")
+        //                            && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals("Yes")
+        //                        ) {
+        //
+        //                            binding.ticketResolveBtn.visibility = View.GONE
+        //                            binding.ticketActionLayout.visibility = View.GONE
+        //                        }
+        //                        else {
+        //                            binding.ticketResolveBtn.visibility = View.VISIBLE
+        //                            binding.ticketCloseBtn.visibility = View.GONE
+        //                            binding.ticketResolveBtn.text = "Resolve"
+        //                            binding.ticketResolveBtn.setOnClickListener {
+        //                                imageClickListener.onClickTicketResolve(items)
+        //                            }
+        //                            binding.ticketActionLayout.visibility = View.VISIBLE
+        //                        }
+        //
+        //                        }
+
+                            else {
+                                binding.ticketResolveBtn.visibility = View.VISIBLE
+                                binding.ticketCloseBtn.visibility = View.GONE
+                                binding.ticketResolveBtn.text = "Resolve"
+                                binding.ticketResolveBtn.setOnClickListener {
+
+        //                            items.Tickethistory!!.data.listData.rows[0].description=items.Tickethistory!!.data.listData.rows[0].description.replace("Accepted","Resolved")
+                                    imageClickListener.onClickTicketResolve(items, orderData, position)
+                                }
+                                binding.ticketActionLayout.visibility = View.VISIBLE
+                            }
+                        } else {
+                            binding.ticketActionLayout.visibility = View.GONE
+                        }
+                    }
+
+                    if (items.ticketDetailsResponse != null) {
+                        if (employeeDetailsResponse?.data!!.department!!.code.equals("FN")) {
+                            if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
+                                    "pos"
+                                ) && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed") && items.ticketDetailsResponse!!.data!!.user!!.uid != null && items.ticketDetailsResponse!!.data!!.user!!.uid!!.equals(
+                                    employeeDetailsResponse?.data!!.uid
+                                ) && items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
+                                    "forwarded_to_fin"
+                                ) && items.status!!.code.equals("inprogress") && employeeDetailsResponse?.data!!.department!!.code.equals(
+                                    "FN"
+                                ) && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
+                                    "Yes"
+                                )
+                            ) {
+
+                                binding.ccAcceptrejectLayout.visibility = View.VISIBLE;
+                                binding.acceptBtn.setOnClickListener {
+                                    imageClickListener.onClickCCAccept(
+                                        items.ticketDetailsResponse!!.data, orderData, position
+                                    )
+                                }
+                                binding.rejectBtn.setOnClickListener {
+                                    imageClickListener.onClickCCReject(
+                                        items.ticketDetailsResponse!!.data, orderData, position
+                                    )
+                                }
+                            } else {
+                                binding.ccAcceptrejectLayout.visibility = View.GONE
+                            }
+                        }
+
+                    }
+                    */
+        /*    // soubworkflow manual
+                                if (items!!.have_subworkflow != null) {
+                                    if (items!!.have_subworkflow == true) {
+                                        if (items!!.is_subworkflow_completed == false) {
+                                            binding.ticketResolveBtn.visibility = View.GONE
+                                        }
+                                        if (isApprovalListFragment) {
+                                            if (items!!.is_subworkflow_completed == true) {
+                                                binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                                            } else {
+                                                binding.subWorkflowAcceptrejectLayout.visibility = View.VISIBLE
+                                                binding.subWorkflowAcceptBtn.setOnClickListener {
+                                                    imageClickListener.onClickSubWorkflowAccept(
+                                                        items.ticketDetailsResponse!!.data, orderData, position
+                                                    )
+                                                }
+
+                                                binding.subWorkflowRejectBtn.setOnClickListener {
+                                                    imageClickListener.onClickSubWorkflowReject(
+                                                        items.ticketDetailsResponse!!.data, orderData, position
+                                                    )
+                                                }
+
+                                            }
+                                        } else {
+                                            binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                                        }
                                     } else {
-                                        binding.subWorkflowAcceptrejectLayout.visibility = View.VISIBLE
-                                        binding.subWorkflowAcceptBtn.setOnClickListener {
-                                            imageClickListener.onClickSubWorkflowAccept(
-                                                items.ticketDetailsResponse!!.data, orderData, position
-                                            )
-                                        }
-
-                                        binding.subWorkflowRejectBtn.setOnClickListener {
-                                            imageClickListener.onClickSubWorkflowReject(
-                                                items.ticketDetailsResponse!!.data, orderData, position
-                                            )
-                                        }
-
+                                        binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
                                     }
                                 } else {
                                     binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
                                 }
-                            } else {
-                                binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
-                            }
-                        } else {
-                            binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
-                        }
-            */
+                    *//*
+
 
 
 
@@ -1200,32 +1224,34 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 }
 
 
-                /*  //Subworkflow action details adapter.....
-                  if (orderData != null
-                      && orderData.get(position) != null
-                      && orderData.get(position).ticket_subworkflow_history != null
-                      && orderData.get(position).ticket_subworkflow_history!!.size > 0
-                  ) {
-                      if (orderData.get(position).ticketSubworkflowInfo != null
-                          && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action != null
-                          && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action != null
-                      ) {
-                          binding.subworkflowAction.text =
-                              "${orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action}"
-                      }
-                      var subworkflowActionDetailsAdapter = SubworkflowActionDetailsAdapter(
-                          context,
-                          orderData.get(position).ticket_subworkflow_history!!
-                      )
-                      binding.subworkflowDetailsHistoryLayout.visibility = View.VISIBLE
-                      var layoutManager =
-                          LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                      binding.subworkflowActionDetailsRecyclerview.layoutManager = layoutManager
-                      binding.subworkflowActionDetailsRecyclerview.adapter =
-                          subworkflowActionDetailsAdapter
-                  } else {
-                      binding.subworkflowDetailsHistoryLayout.visibility = View.GONE
-                  }*/
+                */
+        /*  //Subworkflow action details adapter.....
+                          if (orderData != null
+                              && orderData.get(position) != null
+                              && orderData.get(position).ticket_subworkflow_history != null
+                              && orderData.get(position).ticket_subworkflow_history!!.size > 0
+                          ) {
+                              if (orderData.get(position).ticketSubworkflowInfo != null
+                                  && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action != null
+                                  && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action != null
+                              ) {
+                                  binding.subworkflowAction.text =
+                                      "${orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action}"
+                              }
+                              var subworkflowActionDetailsAdapter = SubworkflowActionDetailsAdapter(
+                                  context,
+                                  orderData.get(position).ticket_subworkflow_history!!
+                              )
+                              binding.subworkflowDetailsHistoryLayout.visibility = View.VISIBLE
+                              var layoutManager =
+                                  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                              binding.subworkflowActionDetailsRecyclerview.layoutManager = layoutManager
+                              binding.subworkflowActionDetailsRecyclerview.adapter =
+                                  subworkflowActionDetailsAdapter
+                          } else {
+                              binding.subworkflowDetailsHistoryLayout.visibility = View.GONE
+                          }*//*
+
             }
             binding.pendingLayout.setOnClickListener {
                 imageClickListener.onComplaintItemClick(
@@ -1241,8 +1267,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.arrow.visibility = View.GONE
                 binding.arrowClose.visibility = View.VISIBLE
 
-                /*   tickethistoryresponsenew=
-                       orderData[position].uid?.let { imageClickListener.gettickethistory(it) }!!;*/
+                */
+        /*   tickethistoryresponsenew=
+                               orderData[position].uid?.let { imageClickListener.gettickethistory(it) }!!;*//*
+
 
             } else {
                 binding.extraData.visibility = View.GONE
@@ -1290,6 +1318,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.closedDateLayout.visibility = View.GONE
             }
         }
+end*/
 
         fun notifyAdapter(userList: ArrayList<ResponseNewTicketlist.Row>) {
             this.orderData = userList
@@ -1515,9 +1544,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             binding.eyePreviewIcon.setOnClickListener {
                 imageClickListener.onClickPreviewIconBackOther(items.url, it)
             }
-           /* binding.eyePreviewIcon.setOnClickListener {
-                imageClickListener.onClickPreviewIconBackOther(items.url, it)
-            }*/
+            /* binding.eyePreviewIcon.setOnClickListener {
+                 imageClickListener.onClickPreviewIconBackOther(items.url, it)
+             }*/
         }
     }
 
@@ -2576,14 +2605,14 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
         if (isFromDateSelected) {
             isFromDateSelected = false
-            viewBinding.fromDateText.setText(showingDate)
-            val fromDate = viewBinding.fromDateText.text.toString()
-            val toDate = viewBinding.toDateText.text.toString()
+            dialogComplaintListFilterBinding!!.fromDateText.setText(showingDate)
+            val fromDate = dialogComplaintListFilterBinding!!.fromDateText.text.toString()
+            val toDate = dialogComplaintListFilterBinding!!.toDateText.text.toString()
             if (getDateDifference(fromDate, toDate) == 0) {
-                viewBinding.toDateText.setText(Utils.getCurrentDate())
+                dialogComplaintListFilterBinding!!.toDateText.setText(Utils.getCurrentDate())
             }
         } else {
-            viewBinding.toDateText.setText(showingDate)
+            dialogComplaintListFilterBinding!!.toDateText.setText(showingDate)
         }
     }
 
@@ -2591,102 +2620,135 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     }
 
     var isNewStatusClicked = false
+    var dialogComplaintListFilterBinding: DialogComplaintListFilterBinding? = null
     override fun onClickFilterIcon() {
-        val complaintListStatusFilterDialog = Dialog(context!!, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen)//context?.let { Dialog(it) }
-        val dialogComplaintListFilterBinding: DialogComplaintListFilterBinding =
+        val complaintListStatusFilterDialog = Dialog(
+            context!!,
+            android.R.style.Theme_Translucent_NoTitleBar_Fullscreen
+        )//context?.let { Dialog(it) }
+        dialogComplaintListFilterBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(context), R.layout.dialog_complaint_list_filter, null, false
             )
-        complaintListStatusFilterDialog!!.setContentView(dialogComplaintListFilterBinding.root)
+        complaintListStatusFilterDialog!!.setContentView(dialogComplaintListFilterBinding!!.root)
         complaintListStatusFilterDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        if (arguments?.getBoolean("isFromApprovalList") == true) {
+            dialogComplaintListFilterBinding!!.fromDate.visibility = View.GONE
+            dialogComplaintListFilterBinding!!.toDate.visibility = View.GONE
+        }
 
-        dialogComplaintListFilterBinding.closeDialog.setOnClickListener {
+        dialogComplaintListFilterBinding!!.fromDateText.text = fromDate
+        dialogComplaintListFilterBinding!!.toDateText.text = toDate
+        dialogComplaintListFilterBinding!!.closeDialog.setOnClickListener {
             complaintListStatusFilterDialog.dismiss()
         }
-        if (dialogComplaintListFilterBinding.newStatus.isChecked &&
-            dialogComplaintListFilterBinding.inProgressStatus.isChecked &&
-            dialogComplaintListFilterBinding.rejectedStatus.isChecked &&
-            dialogComplaintListFilterBinding.reopenStatus.isChecked &&
-            dialogComplaintListFilterBinding.closedStatus.isChecked &&
-            dialogComplaintListFilterBinding.resolvedStatus.isChecked &&
-            dialogComplaintListFilterBinding.onholdStatus.isChecked
-        ) {
-            dialogComplaintListFilterBinding.selectAll.isChecked = true
-        } else {
-            dialogComplaintListFilterBinding.selectAll.isChecked = false
+        dialogComplaintListFilterBinding!!.clearAllFilters.setOnClickListener {
+            dialogComplaintListFilterBinding!!.selectAll.isChecked = true
+            if (dialogComplaintListFilterBinding!!.selectAll.isChecked) {
+                dialogComplaintListFilterBinding!!.newStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.inProgressStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.rejectedStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.reopenStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.closedStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.resolvedStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.onholdStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.selectAll.isChecked = true
+            }
+            dialogComplaintListFilterBinding!!.fromDateText.text = Utils.getCurrentDate()
+            dialogComplaintListFilterBinding!!.toDateText.text = Utils.getCurrentDate()
         }
-        dialogComplaintListFilterBinding.isNewChecked = this.complaintListStatus.contains("new")
-        dialogComplaintListFilterBinding.isInProgressChecked =
+        dialogComplaintListFilterBinding!!.fromDate.setOnClickListener {
+            isFromDateSelected = true
+            openDateDialog()
+        }
+        dialogComplaintListFilterBinding!!.toDate.setOnClickListener {
+            isFromDateSelected = false
+            openDateDialog()
+        }
+        if (dialogComplaintListFilterBinding!!.newStatus.isChecked &&
+            dialogComplaintListFilterBinding!!.inProgressStatus.isChecked &&
+            dialogComplaintListFilterBinding!!.rejectedStatus.isChecked &&
+            dialogComplaintListFilterBinding!!.reopenStatus.isChecked &&
+            dialogComplaintListFilterBinding!!.closedStatus.isChecked &&
+            dialogComplaintListFilterBinding!!.resolvedStatus.isChecked &&
+            dialogComplaintListFilterBinding!!.onholdStatus.isChecked
+        ) {
+            dialogComplaintListFilterBinding!!.selectAll.isChecked = true
+        } else {
+            dialogComplaintListFilterBinding!!.selectAll.isChecked = false
+        }
+        dialogComplaintListFilterBinding!!.isNewChecked = this.complaintListStatus.contains("new")
+        dialogComplaintListFilterBinding!!.isInProgressChecked =
             this.complaintListStatus.contains("inprogress")
-        dialogComplaintListFilterBinding.isResolvedChecked =
+        dialogComplaintListFilterBinding!!.isResolvedChecked =
             this.complaintListStatus.contains("solved")
-        dialogComplaintListFilterBinding.isRejectedChecked =
+        dialogComplaintListFilterBinding!!.isRejectedChecked =
             this.complaintListStatus.contains("rejected")
-        dialogComplaintListFilterBinding.isReopenChecked =
+        dialogComplaintListFilterBinding!!.isReopenChecked =
             this.complaintListStatus.contains("reopened")
-        dialogComplaintListFilterBinding.isClosedChecked =
+        dialogComplaintListFilterBinding!!.isClosedChecked =
             this.complaintListStatus.contains("closed")
-        dialogComplaintListFilterBinding.isOnHoldChecked =
+        dialogComplaintListFilterBinding!!.isOnHoldChecked =
             this.complaintListStatus.contains("onHold")
-        dialogComplaintListFilterBinding.isSelectAllChecked =
+        dialogComplaintListFilterBinding!!.isSelectAllChecked =
             this.complaintListStatus.contains("new,inprogress,solved,rejected,reopened,closed,onHold")
 
 
 
-        submitButtonEnable(dialogComplaintListFilterBinding)
+        submitButtonEnable(dialogComplaintListFilterBinding!!)
 
 
-        dialogComplaintListFilterBinding.newStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.newStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.inProgressStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.inProgressStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.resolvedStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.resolvedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.rejectedStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.rejectedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.reopenStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.reopenStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.closedStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.closedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.onholdStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding)
+        dialogComplaintListFilterBinding!!.onholdStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
-        dialogComplaintListFilterBinding.selectAllCheckboxLayout.setOnClickListener {
-            dialogComplaintListFilterBinding.selectAll.isChecked =
-                !dialogComplaintListFilterBinding.selectAll.isChecked
+        dialogComplaintListFilterBinding!!.selectAllCheckboxLayout.setOnClickListener {
+            dialogComplaintListFilterBinding!!.selectAll.isChecked =
+                !dialogComplaintListFilterBinding!!.selectAll.isChecked
 
-            if (dialogComplaintListFilterBinding.selectAll.isChecked) {
+            if (dialogComplaintListFilterBinding!!.selectAll.isChecked) {
 
-                dialogComplaintListFilterBinding.newStatus.isChecked = true
-                dialogComplaintListFilterBinding.inProgressStatus.isChecked = true
-                dialogComplaintListFilterBinding.rejectedStatus.isChecked = true
-                dialogComplaintListFilterBinding.reopenStatus.isChecked = true
-                dialogComplaintListFilterBinding.closedStatus.isChecked = true
-                dialogComplaintListFilterBinding.resolvedStatus.isChecked = true
-                dialogComplaintListFilterBinding.onholdStatus.isChecked = true
-                dialogComplaintListFilterBinding.selectAll.isChecked = true
+                dialogComplaintListFilterBinding!!.newStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.inProgressStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.rejectedStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.reopenStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.closedStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.resolvedStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.onholdStatus.isChecked = true
+                dialogComplaintListFilterBinding!!.selectAll.isChecked = true
             }
 //            else{
 //                dialogComplaintListFilterBinding.selectAll.isChecked=false
 ////            }
             else {
 //                /                if(isNewStatusClicked)
-                dialogComplaintListFilterBinding.newStatus.isChecked = false
-                dialogComplaintListFilterBinding.inProgressStatus.isChecked = false
-                dialogComplaintListFilterBinding.rejectedStatus.isChecked = false
-                dialogComplaintListFilterBinding.reopenStatus.isChecked = false
-                dialogComplaintListFilterBinding.closedStatus.isChecked = false
-                dialogComplaintListFilterBinding.resolvedStatus.isChecked = false
-                dialogComplaintListFilterBinding.onholdStatus.isChecked = false
-                dialogComplaintListFilterBinding.selectAll.isChecked = false
+                dialogComplaintListFilterBinding!!.newStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.inProgressStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.rejectedStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.reopenStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.closedStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.resolvedStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.onholdStatus.isChecked = false
+                dialogComplaintListFilterBinding!!.selectAll.isChecked = false
             }
-            submitButtonEnable(dialogComplaintListFilterBinding)
+            submitButtonEnable(dialogComplaintListFilterBinding!!)
         }
 
 
@@ -2736,48 +2798,48 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //        }
 
 
-        dialogComplaintListFilterBinding.submit.setOnClickListener {
+        dialogComplaintListFilterBinding!!.submit.setOnClickListener {
 //            this.complaintListStatus = complaintListStatusTemp
             this.complaintListStatus = ""
-            if (dialogComplaintListFilterBinding.newStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.newStatus.isChecked) {
                 this.complaintListStatus = "new"
             }
-            if (dialogComplaintListFilterBinding.inProgressStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.inProgressStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "inprogress"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},inprogress"
                 }
             }
-            if (dialogComplaintListFilterBinding.resolvedStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.resolvedStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "solved"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},solved"
                 }
             }
-            if (dialogComplaintListFilterBinding.rejectedStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.rejectedStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "rejected"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},rejected"
                 }
             }
-            if (dialogComplaintListFilterBinding.reopenStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.reopenStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "reopened"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},reopened"
                 }
             }
-            if (dialogComplaintListFilterBinding.closedStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.closedStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "closed"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},closed"
                 }
             }
-            if (dialogComplaintListFilterBinding.onholdStatus.isChecked) {
+            if (dialogComplaintListFilterBinding!!.onholdStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "onHold"
                 } else {
@@ -2785,7 +2847,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 }
             }
 
-            if (dialogComplaintListFilterBinding.selectAll.isChecked) {
+            if (dialogComplaintListFilterBinding!!.selectAll.isChecked) {
                 this.complaintListStatus = "new,inprogress,solved,rejected,reopened,closed,onHold"
 //                    if (this.complaintListStatus.isEmpty()) {
 //                        this.complaintListStatus = "new,inprogress,solved,rejected,reopened,closed,onHold"
@@ -2794,7 +2856,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //                    }
             }
 
-
+            fromDate = dialogComplaintListFilterBinding!!.fromDateText.text.toString()
+            toDate = dialogComplaintListFilterBinding!!.toDateText.text.toString()
             if (complaintListStatusFilterDialog != null && complaintListStatusFilterDialog.isShowing) {
                 complaintListStatusFilterDialog.dismiss()
                 callAPI(1)

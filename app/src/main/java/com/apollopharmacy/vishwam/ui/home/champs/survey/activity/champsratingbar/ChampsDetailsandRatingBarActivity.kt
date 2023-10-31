@@ -38,8 +38,8 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSurevyDetailsByChampsIdResponse
-import com.apollopharmacy.vishwam.util.PopUpWIndow
-import com.apollopharmacy.vishwam.util.PopUpWIndowChamps
+import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewImage.PreviewImageChampsActivity
+import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewImage.adapter.PreviewImgViewPagerAdapter
 import com.apollopharmacy.vishwam.util.Utlis
 import me.echodev.resizer.Resizer
 import java.io.ByteArrayOutputStream
@@ -63,6 +63,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     private var champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack? = null
     private var categoryPosition: Int = 0
     private var status: String = ""
+    private var previewImgViewPagerAdapter: PreviewImgViewPagerAdapter? = null
     private var isPending: Boolean = false
     var thread: Thread? = null
     var isFromGallery: Boolean = false
@@ -1297,24 +1298,32 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         onClickDelete(position)
 
     }
-
     override fun onClickImageView(
         view: View,
-        value: GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas,
+        imageUrlsList: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>?,
+        currentPosition: Int,
     ) {
-        if (!value.imageUrl.isNullOrEmpty()) {
-            PopUpWIndow(
-                ViswamApp.context, R.layout.layout_image_fullview, view,
-                value.imageUrl.toString(), null, "", 0
-            )
-        } else {
-            if (value.file != null) {
-                PopUpWIndow(
-                    ViswamApp.context, R.layout.layout_image_fullview, view,
-                    value.file.toString(), null, "", 0
-                )
-            }
-        }
+
+        val intent = Intent(this, PreviewImageChampsActivity::class.java)
+        intent.putExtra("categoryDetails",getCategoryAndSubCategoryDetails!!)
+        intent.putExtra("catPos", categoryPosition)
+        intent.putExtra("currentPosition", currentPosition)
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+
+//        if (!value.imageUrl.isNullOrEmpty()) {
+//            PopUpWIndowChamps(
+//                ViswamApp.context, R.layout.layout_image_fullview, view,
+//                value.imageUrl.toString(), null, "", 0
+//            )
+//        } else {
+//            if (value.file != null) {
+//                PopUpWIndowChamps(
+//                    ViswamApp.context, R.layout.layout_image_fullview, view,
+//                    value.file.toString(), null, "", 0
+//                )
+//            }
+//        }
 
     }
 

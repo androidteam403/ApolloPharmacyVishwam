@@ -910,14 +910,14 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         ) {
             if (items.signOutDate.isNullOrEmpty()) {
 
-                binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
+                binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
                 binding.taskCompletedLayout.visibility = View.GONE
-                binding.taskPendingLayout.visibility = View.VISIBLE
+//                binding.taskPendingLayout.visibility = View.VISIBLE
             } else {
 
-                binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.newtask_bgs))
+                binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.newtask_bgs))
                 binding.taskCompletedLayout.visibility = View.VISIBLE
-                binding.taskPendingLayout.visibility = View.GONE
+//                binding.taskPendingLayout.visibility = View.GONE
                 binding.signOutTime.text =
                     getAttendanceCustomDate(
                         items.signOutDate
@@ -931,29 +931,35 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             binding.viewTaskLayout.setOnClickListener {
                 imageClickListener.onComplaintItemClick(position, orderData)
             }
+
             if (items.isExpanded) {
                 binding.viewExpand.visibility = View.VISIBLE
                 binding.viewCollapse.visibility = View.GONE
-//                binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
+               binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
 
                 if (items.signOutDate.isNullOrEmpty()) {
-                    binding.taskCompletedLayout.visibility = View.GONE
+//                    binding.taskCompletedLayout.visibility = View.GONE
+//                    binding.taskPendingLayout.visibility = View.VISIBLE
+                    binding.durationLayout.visibility=View.GONE
                     binding.taskPendingLayout.visibility = View.VISIBLE
-                    binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
+                   binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
 
                 } else {
-                    binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
-
-                    binding.taskCompletedLayout.visibility = View.VISIBLE
-                    binding.taskPendingLayout.visibility = View.GONE
+                   binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
+//
+//                    binding.taskCompletedLayout.visibility = View.VISIBLE
+                   binding.taskPendingLayout.visibility = View.GONE
+                    binding.durationLayout.visibility=View.VISIBLE
                 }
-            } else {
+            }
+            else {
                 binding.viewExpand.visibility = View.GONE
                 binding.viewCollapse.visibility = View.VISIBLE
-//                binding.viewTaskLayout.setBackgroundColor(context.resources.getColor(R.color.newtask_bgs))
+               binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.newtask_bgs))
 
-                binding.taskCompletedLayout.visibility = View.GONE
+//                binding.taskCompletedLayout.visibility = View.GONE
                 binding.taskPendingLayout.visibility = View.GONE
+                binding.durationLayout.visibility=View.GONE
             }
             binding.taskName.text = items.taskName
             binding.signInTime.text = getAttendanceCustomDate(

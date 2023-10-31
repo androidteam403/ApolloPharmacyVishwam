@@ -34,6 +34,14 @@ public class SubmenuAdapter extends RecyclerView.Adapter<SubmenuAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        if (position == 0) {
+            // Set background with corner radius for the first item
+            holder.submenuItemRowBinding.headerLayout.setBackgroundResource(R.drawable.new_round_corner);
+        } else {
+            // Set background without corner radius for other items
+            holder.submenuItemRowBinding.headerLayout.setBackgroundResource(R.drawable.new_round_corner_two);
+        }
         holder.submenuItemRowBinding.menuName.setText(submenus.get(position).getMenuName());
         holder.submenuItemRowBinding.menuIcon.setImageResource(submenus.get(position).getMenuIcon());
         holder.submenuItemRowBinding.menu.setOnClickListener(v -> {

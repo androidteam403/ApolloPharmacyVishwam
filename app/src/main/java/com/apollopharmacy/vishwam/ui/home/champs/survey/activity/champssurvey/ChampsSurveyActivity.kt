@@ -14,6 +14,8 @@ import android.os.SystemClock
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
+import android.util.Patterns
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -23,18 +25,26 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
-import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.ActivityChampsSurveyBinding
+import com.apollopharmacy.vishwam.databinding.DialogDeleteRecipientEmailBinding
+import com.apollopharmacy.vishwam.databinding.DialogLocationListBinding
+import com.apollopharmacy.vishwam.databinding.DialogTrainersEmailBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.adapter.CategoryDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.preview.PreviewActivity
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsCallback
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressAdapter
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressAdapterTrainers
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.TrainersEmailAdapterForDialog
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.model.TrainersEmailIdResponse
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest.CmsChampsSurveyQa
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.fileuploadchamps.FileUploadChamps
@@ -49,13 +59,15 @@ import java.util.*
 import kotlin.math.roundToInt
 
 
-class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUploadChampsCallback {
+class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUploadChampsCallback,
+    SurveyDetailsCallback {
 
     private lateinit var activityChampsSurveyBinding: ActivityChampsSurveyBinding
     private var getStoreWiseEmpIdResponse: GetStoreWiseEmpIdResponse? = null
     private lateinit var champsSurveyViewModel: ChampsSurveyViewModel
     private var getTrainingAndColorDetailss: GetTrainingAndColorDetailsModelResponse? = null
     private var i = 0
+    private var adapterRec: EmailAddressAdapter? = null
     private val handler = Handler()
     private var categoryDetailsAdapter: CategoryDetailsAdapter? = null
     private var getCategoryAndSubCategoryDetails: GetCategoryDetailsModelResponse? = null
@@ -64,16 +76,23 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     private var storeId: String = ""
     private var address: String = ""
     private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
-//    var recipientEmails: String? = ""
+    lateinit var trainerEmailList: Dialog
+    lateinit var trainersEmailAdapter: TrainersEmailAdapterForDialog
+    var emailList = ArrayList<TrainersEmailIdResponse.Data.ListData.Row.TrainerEmail>()
+    var trainerEmail:String?=null
+    //    var recipientEmails: String? = ""
     var surveyRecDetailsList = ArrayList<String>()
     private var isPending: Boolean = false
     var surveyCCDetailsList = ArrayList<String>()
+    var listForTrainers = ArrayList<String>()
     public var isNewSurveyCreated = false
+    private lateinit var dialogDElete: Dialog
     var siteName: String? = ""
     var sumOfCategoriess: Float? = 0f
     private var storeCity: String = ""
     private var region: String = ""
     private lateinit var dialog: Dialog
+    private var adapterTrainers: EmailAddressAdapterTrainers? = null
     private lateinit var leavingConfirmationDialog: Dialog
     private lateinit var dialogSubmit: Dialog
     private var overAllprogressBarCount = 0.0f
@@ -91,6 +110,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     private var type = ""
     var isFirstTime = true
     var visitDate = ""
+    var surveyRecManualList = ArrayList<String>()
+    var dialogLocationListBinding:DialogTrainersEmailBinding?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,10 +143,20 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
         activityChampsSurveyBinding.callback = this
         siteNameForAddress = intent.getStringExtra("siteNameForAddress")
+        if(intent.getStringArrayListExtra("surveyRecManualList")!=null){
+            surveyRecManualList = intent.getStringArrayListExtra("surveyRecManualList")!!
+        }
+        if(intent.getStringExtra("trainerEmail")!=null){
+            trainerEmail = intent.getStringExtra("trainerEmail")
+        }
+
         getStoreWiseEmpIdResponse =
             intent.getSerializableExtra("getStoreWiseEmpIdResponse") as GetStoreWiseEmpIdResponse?
         getStoreWiseDetails =
             intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
+        if(intent.getStringArrayListExtra("listForTrainers")!=null){
+            listForTrainers = intent.getStringArrayListExtra("listForTrainers")!!
+        }
 
 //        recipientEmails = intent.getStringExtra("RECIPIENTS_NEWLY_ADDED")!!
         surveyRecDetailsList =
@@ -144,9 +175,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.employeeName.text = userData.EMPNAME
         }
 
-
+        champsSurveyViewModel.getTrainerDetails(this)
 
         if (status.equals("NEW")) {
+            activityChampsSurveyBinding.deleteDown.visibility = View.GONE
+            activityChampsSurveyBinding.previewDown.visibility = View.VISIBLE
             surveyDetailsByChampsIdForCheckBox = false
             val currentTime: Date = Calendar.getInstance().getTime()
             activityChampsSurveyBinding.issuedOn.text = currentTime.toString()
@@ -160,6 +193,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //        activityChampsSurveyBinding.siteId.text = storeId
 
             activityChampsSurveyBinding.storeName.text = siteName
+            activityChampsSurveyBinding.trainer.text = trainerEmail
 
             activityChampsSurveyBinding.storeId.text = storeId
 
@@ -168,6 +202,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.storeCity.text = storeCity
             activityChampsSurveyBinding.region.text = region
             activityChampsSurveyBinding.percentageSum.text = "0"
+        } else if (status.equals("PENDING")) {
+            surveyDetailsByChampsIdForCheckBox = true
+            activityChampsSurveyBinding.deleteDown.visibility = View.VISIBLE
+            activityChampsSurveyBinding.previewDown.visibility = View.GONE
+
         } else {
             surveyDetailsByChampsIdForCheckBox = true
         }
@@ -244,6 +283,24 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //            )
 //                .show()
 //        }
+        adapterRec = EmailAddressAdapter(surveyRecManualList, applicationContext, this)
+        activityChampsSurveyBinding.emailRecRecyclerView.setLayoutManager(
+            LinearLayoutManager(
+                this,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        )
+        activityChampsSurveyBinding.emailRecRecyclerView.setAdapter(adapterRec)
+        onClickAddRecipient()
+        adapterTrainers = EmailAddressAdapterTrainers(listForTrainers, applicationContext, this)
+        activityChampsSurveyBinding.trainerRecyclerview.setLayoutManager(
+            LinearLayoutManager(
+                this, LinearLayoutManager.HORIZONTAL, false
+            )
+        )
+        activityChampsSurveyBinding.trainerRecyclerview.setAdapter(adapterTrainers)
+
 
 
     }
@@ -258,6 +315,40 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             }
         }
 
+    }
+
+    fun onClickAddRecipient() {
+        activityChampsSurveyBinding.addBtn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val recipientEmail: String =
+                    activityChampsSurveyBinding.enterRecipient.text.toString()
+                if (recipientEmail.isEmpty()) {
+                    activityChampsSurveyBinding.enterRecipient.requestFocus()
+                    Toast.makeText(
+                        applicationContext,
+                        "Recipient email should not be empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(recipientEmail).matches()) {
+                    activityChampsSurveyBinding.enterRecipient.requestFocus()
+                    Toast.makeText(
+                        applicationContext,
+                        "Enter valid email",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    activityChampsSurveyBinding.enterRecipient.text!!.clear()
+                    surveyRecManualList.add(recipientEmail)
+                    adapterRec!!.notifyDataSetChanged()
+                    /*if (!surveyRecDetailsList.isNullOrEmpty()) {
+                        isRecipientsEmailAdded = true
+                        activityStartSurvey2Binding.enterRecipient.text!!.clear()
+                        surveyRecDetailsList.set(0, "${surveyRecDetailsList.get(0)},$recipientEmail")
+                        adapterRec!!.notifyDataSetChanged()
+                    }*/
+                }
+            }
+        });
     }
 
     override fun onBackPressed() {
@@ -506,6 +597,194 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         onBackPressed()
     }
 
+    override fun onClickStartChampsSurvey() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickPlusRec() {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteEmailAddressRec(get: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteEmailAddressCC(get: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickPlusCC() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessgetEmailDetails(value: GetEmailAddressModelResponse) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailuregetEmailDetails(value: GetEmailAddressModelResponse) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessgetEmailDetailsCC(value: GetEmailAddressModelResponse) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessgetStoreWiseDetails(value: GetStoreWiseEmpIdResponse) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailuregetStoreWiseDetails(value: GetStoreWiseEmpIdResponse) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDeleteManualRecipient(recipient: String) {
+        var recipientEmailDialog = Dialog(this)
+        var dialogDeleteRecipientEmailBinding =
+            DataBindingUtil.inflate<DialogDeleteRecipientEmailBinding>(
+                LayoutInflater.from(this),
+                R.layout.dialog_delete_recipient_email,
+                null,
+                false
+            )
+        recipientEmailDialog.setContentView(dialogDeleteRecipientEmailBinding.root)
+        recipientEmailDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogDeleteRecipientEmailBinding.noBtn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                recipientEmailDialog.dismiss()
+            }
+        })
+        dialogDeleteRecipientEmailBinding.yesBtn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                surveyRecManualList.remove(recipient)
+                adapterRec!!.notifyDataSetChanged()
+                recipientEmailDialog.dismiss()
+            }
+
+        })
+        recipientEmailDialog.show()
+    }
+
+
+    override fun onClickEyeIconForDropDown() {
+        activityChampsSurveyBinding.eyeIconForDropdown.isEnabled=false
+        trainerEmailList = Dialog(this)
+        dialogLocationListBinding = DataBindingUtil.inflate<DialogTrainersEmailBinding>(
+            LayoutInflater.from(this),
+            R.layout.dialog_trainers_email,
+            null,
+            false
+        )
+        trainerEmailList.setContentView(dialogLocationListBinding!!.root)
+        trainerEmailList.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        trainerEmailList.setCancelable(false)
+        dialogLocationListBinding!!.closeDialog.setOnClickListener {
+            activityChampsSurveyBinding.eyeIconForDropdown.isEnabled=true
+            trainerEmailList.dismiss()
+        }
+        dialogLocationListBinding!!.submit.setOnClickListener{
+            activityChampsSurveyBinding.eyeIconForDropdown.isEnabled=true
+            trainerEmailList.dismiss()
+
+        }
+//        var emailList = ArrayList<String>()
+//        emailList.add("apollopharmacy.org")
+//        emailList.add("dhanalakshmi@gmail.com")
+        if(emailList!=null && emailList.size>0){
+            dialogLocationListBinding!!.noDataAvailable.visibility=View.GONE
+            dialogLocationListBinding!!.submit.visibility=View.VISIBLE
+            dialogLocationListBinding!!.locationRcv.visibility=View.VISIBLE
+            trainersEmailAdapter = TrainersEmailAdapterForDialog(applicationContext, emailList, this, listForTrainers)
+            dialogLocationListBinding!!.locationRcv.adapter = trainersEmailAdapter
+            dialogLocationListBinding!!.locationRcv.layoutManager =
+                LinearLayoutManager(this)
+        }else{
+            dialogLocationListBinding!!.locationRcv.visibility=View.GONE
+            dialogLocationListBinding!!.submit.visibility=View.GONE
+            dialogLocationListBinding!!.noDataAvailable.visibility=View.VISIBLE
+        }
+
+        dialogLocationListBinding!!.searchLocationListText.addTextChangedListener(object :
+            TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun afterTextChanged(editable: Editable) {
+                if (editable.length >= 2) {
+                    if (trainersEmailAdapter != null) {
+                        trainersEmailAdapter!!.getFilter()?.filter(editable)
+                    }
+                } else {
+                    if (trainersEmailAdapter != null) {
+                        trainersEmailAdapter!!.getFilter()?.filter("")
+                    }
+                }
+            }
+        })
+
+        trainerEmailList.show()
+
+    }
+
+
+    override fun updateTrainersList(selectedList: ArrayList<String>) {
+        listForTrainers.addAll(selectedList)
+        adapterTrainers!!.notifyDataSetChanged()
+    }
+
+    override fun onDeleteManualRecipientTrainers(item: String) {
+        var recipientEmailDialog = Dialog(this)
+        var dialogDeleteRecipientEmailBinding =
+            DataBindingUtil.inflate<DialogDeleteRecipientEmailBinding>(
+                LayoutInflater.from(this),
+                R.layout.dialog_delete_recipient_email,
+                null,
+                false
+            )
+        recipientEmailDialog.setContentView(dialogDeleteRecipientEmailBinding.root)
+        recipientEmailDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogDeleteRecipientEmailBinding.noBtn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                recipientEmailDialog.dismiss()
+            }
+        })
+        dialogDeleteRecipientEmailBinding.yesBtn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                listForTrainers.remove(item)
+                adapterTrainers!!.notifyDataSetChanged()
+                recipientEmailDialog.dismiss()
+            }
+
+        })
+        recipientEmailDialog.show()
+    }
+
+    override fun removeEmail(item: String) {
+        if(listForTrainers!=null &&  listForTrainers.contains(item)){
+            listForTrainers.remove(item)
+        }
+    }
+
+    override fun onSuccessTrainerList(response: TrainersEmailIdResponse?) {
+        if(response!=null && response.data!=null && response!!.data.listData!=null &&
+            response!!.data.listData.rows!=null &&  response!!.data.listData.rows.size>0 &&
+            response!!.data.listData.rows.get(0).trainerEmail!=null && response!!.data.listData.rows.get(0).trainerEmail.size>0){
+            emailList.addAll(response!!.data.listData.rows.get(0).trainerEmail)
+        }
+    }
+
+    override fun onFailureTrainerList(response: TrainersEmailIdResponse?) {
+        Toast.makeText(applicationContext, response!!.message.toString(), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun noOrdersFound(size: Int) {
+        if (size > 0 && dialogLocationListBinding!=null) {
+            dialogLocationListBinding!!.noDataAvailable.setVisibility(View.GONE)
+            dialogLocationListBinding!!.submit.visibility=View.VISIBLE
+        } else {
+            dialogLocationListBinding!!.noDataAvailable.setVisibility(View.VISIBLE)
+            dialogLocationListBinding!!.submit.visibility=View.GONE
+        }
+    }
+
 
     override fun onClickCategory(categoryName: String, position: Int) {
         getCategoryAndSubCategoryDetails?.storeIdP =
@@ -636,11 +915,28 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 } catch (e: JsonParseException) {
                     e.printStackTrace()
                 }
-                if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
-                    headerDetails.emailIdOfTrainer = employeeDetailsResponse.data!!.email!!
+//                if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
+//                    headerDetails.emailIdOfTrainer = employeeDetailsResponse.data!!.email!!
+//                } else {
+//                    headerDetails.emailIdOfTrainer = ""
+//                }
+                var trainerEmails: String = ""
+                if (!listForTrainers.isNullOrEmpty()) {
+                    for (i in listForTrainers) {
+                        if (trainerEmails.isEmpty()) {
+                            trainerEmails = i
+                        } else {
+                            trainerEmails = "$trainerEmails,$i"
+                        }
+                    }
+                }
+
+                if (trainerEmails!=null) {
+                    headerDetails.emailIdOfTrainer = trainerEmails
                 } else {
                     headerDetails.emailIdOfTrainer = ""
                 }
+
                 /*if (getStoreWiseEmpIdResponse != null &&
                     getStoreWiseEmpIdResponse?.storeWiseDetails != null &&
                     getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail != null
@@ -676,16 +972,33 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     headerDetails.emailIdOfRegionalHead = ""
                 }
 
-                if (surveyRecDetailsList != null) {
-                    if (surveyRecDetailsList.get(0) != null) {
-                        headerDetails.emailIdOfRecipients = surveyRecDetailsList.get(0)
-                    } else {
-                        headerDetails.emailIdOfRecipients = ""
+                var recepientEmails: String = ""
+                if (!surveyRecManualList.isNullOrEmpty()) {
+                    for (i in surveyRecManualList) {
+                        if (recepientEmails.isEmpty()) {
+                            recepientEmails = i
+                        } else {
+                            recepientEmails = "$recepientEmails,$i"
+                        }
                     }
+                }
 
+                if (recepientEmails!=null) {
+                    headerDetails.emailIdOfRecipients = recepientEmails
                 } else {
                     headerDetails.emailIdOfRecipients = ""
                 }
+
+//                if (surveyRecDetailsList != null) {
+//                    if (surveyRecDetailsList.get(0) != null) {
+//                        headerDetails.emailIdOfRecipients = surveyRecDetailsList.get(0)
+//                    } else {
+//                        headerDetails.emailIdOfRecipients = ""
+//                    }
+//
+//                } else {
+//                    headerDetails.emailIdOfRecipients = ""
+//                }
 
                 if (surveyCCDetailsList.get(0) != null) {
                     headerDetails.emailIdOfCc = surveyCCDetailsList.get(0)
@@ -1673,6 +1986,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         val message = dialogSubmit.findViewById<TextView>(R.id.successfull_text)
         if (type.equals("saveDraft")) {
             message.setText("Draft Saved Successfully")
+            Preferences.setSaveChampsSurveySiteId(activityChampsSurveyBinding.storeId.text.toString())
+            Preferences.setSaveChampsSurveySiteName(activityChampsSurveyBinding.storeName.text.toString())
         } else {
             message.setText("Successful")
         }
@@ -1784,11 +2099,26 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.text.toString()
 
             if (status.equals("NEW")) {
-                if (surveyRecDetailsList.get(0) != null) {
-                    saveUpdateRequest.email = surveyRecDetailsList.get(0)
+                var recepientEmails: String = ""
+                if (!surveyRecManualList.isEmpty()) {
+                    for (i in surveyRecManualList) {
+                        if (recepientEmails.isEmpty()) {
+                            recepientEmails = i
+                        } else {
+                            recepientEmails = "$recepientEmails,$i"
+                        }
+                    }
+                }
+                if (recepientEmails!= null) {
+                    saveUpdateRequest.email = recepientEmails
                 } else {
                     saveUpdateRequest.email = ""
                 }
+//                if (surveyRecDetailsList.get(0) != null) {
+//                    saveUpdateRequest.email = surveyRecDetailsList.get(0)
+//                } else {
+//                    saveUpdateRequest.email = ""
+//                }
 
                 var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
                 var employeeDetailsResponse: EmployeeDetailsResponse? = null
@@ -1801,11 +2131,31 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 } catch (e: JsonParseException) {
                     e.printStackTrace()
                 }
-                if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
-                    saveUpdateRequest.trainerEmail = employeeDetailsResponse.data!!.email!!
+                var trainerEmails: String = ""
+                if (!listForTrainers.isNullOrEmpty()) {
+                    for (i in listForTrainers) {
+                        if (trainerEmails.isEmpty()) {
+                            trainerEmails = i
+                        } else {
+                            trainerEmails = "$trainerEmails,$i"
+                        }
+                    }
+                }
+//                if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
+//                    saveUpdateRequest.trainerEmail = employeeDetailsResponse.data!!.email!!
+//                } else {
+//                    saveUpdateRequest.trainerEmail = ""
+//                }
+                if (trainerEmails!=null) {
+                    saveUpdateRequest.trainerEmail = trainerEmails
                 } else {
                     saveUpdateRequest.trainerEmail = ""
                 }
+//                if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
+//                    saveUpdateRequest.trainerEmail = employeeDetailsResponse.data!!.email!!
+//                } else {
+//                    saveUpdateRequest.trainerEmail = ""
+//                }
             } else if (status.equals("PENDING")) {
                 if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
                     if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients != null) {
@@ -1829,8 +2179,24 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 } catch (e: JsonParseException) {
                     e.printStackTrace()
                 }
-                if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
-                    saveUpdateRequest.trainerEmail = employeeDetailsResponse.data!!.email!!
+
+                var trainerEmails: String = ""
+                if (!listForTrainers.isNullOrEmpty()) {
+                    for (i in listForTrainers) {
+                        if (trainerEmails.isEmpty()) {
+                            trainerEmails = i
+                        } else {
+                            trainerEmails = "$trainerEmails,$i"
+                        }
+                    }
+                }
+//                if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
+//                    saveUpdateRequest.trainerEmail = employeeDetailsResponse.data!!.email!!
+//                } else {
+//                    saveUpdateRequest.trainerEmail = ""
+//                }
+                if (trainerEmails!=null) {
+                    saveUpdateRequest.trainerEmail = trainerEmails
                 } else {
                     saveUpdateRequest.trainerEmail = ""
                 }
@@ -1948,8 +2314,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 }
             }
             var recepientEmails: String = ""
-            if (!surveyRecDetailsList.isNullOrEmpty()) {
-                for (i in surveyRecDetailsList) {
+            if (!surveyRecManualList.isEmpty()) {
+                for (i in surveyRecManualList) {
                     if (recepientEmails.isEmpty()) {
                         recepientEmails = i
                     } else {
@@ -1982,11 +2348,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     saveUpdateRequest.cc_email = ""
                 }
             }
-           /* if (!recipientEmails.isNullOrEmpty()) {
-                saveUpdateRequest.add_recp_email = recipientEmails
-            }else{
+            /* if (!recipientEmails.isNullOrEmpty()) {
+                 saveUpdateRequest.add_recp_email = recipientEmails
+             }else{
 
-            }*/
+             }*/
             champsSurveyViewModel.saveUpdateApi(this, saveUpdateRequest)
         } else {
             Utlis.hideLoading()
@@ -2084,6 +2450,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             }
 
 
+
 //            headerDetails.state = activityChampsSurveyBinding.region.text.toString()
 //            headerDetails.city = activityChampsSurveyBinding.storeCity.text.toString()
 //            headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
@@ -2156,6 +2523,23 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.enterOtherTrainingEdittext.setText(
                 getSurveyDetailsByChapmpsId.headerDetails.otherTraining.toString()
             )
+            if(listForTrainers.isEmpty()){
+                val commaSeparatedTrainer =  getSurveyDetailsByChapmpsId!!.headerDetails.emailIdOfTrainer
+                val items = commaSeparatedTrainer.split(",".toRegex()).dropLastWhile { it.isEmpty() }
+                    .toTypedArray()
+
+                listForTrainers.addAll(items)
+                adapterTrainers!!.notifyDataSetChanged()
+            }
+            if(surveyRecManualList.isEmpty()){
+                val commaSeparatedRec =  getSurveyDetailsByChapmpsId!!.headerDetails.emailIdOfRecipients
+                val itemsRec = commaSeparatedRec.split(",".toRegex()).dropLastWhile { it.isEmpty() }
+                    .toTypedArray()
+
+                surveyRecManualList.addAll(itemsRec)
+                adapterRec!!.notifyDataSetChanged()
+            }
+
 
             overallProgressBarCount((getSurveyDetailsByChapmpsId.headerDetails.total).toFloat())
             sumOfCategoriess = ((getSurveyDetailsByChapmpsId.headerDetails.total).toFloat())
@@ -2693,6 +3077,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     }
 
     override fun onSuccessSaveUpdateApi(value: SaveUpdateResponse) {
+        Preferences.setSaveChampsSurveySiteId(activityChampsSurveyBinding.storeId.text.toString())
+        Preferences.setSaveChampsSurveySiteName(activityChampsSurveyBinding.storeName.text.toString())
 //        Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
         Utlis.hideLoading()
     }
@@ -2700,6 +3086,33 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     override fun onFailureSaveUpdateApi(value: SaveUpdateResponse) {
         Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
         Utlis.hideLoading()
+    }
+
+    override fun onClickDelete() {
+
+        dialogDElete = Dialog(this)
+        dialogDElete.setContentView(R.layout.change_siteid)
+        val close = dialogDElete.findViewById<TextView>(R.id.no_btnSiteChange)
+        val textForDialog = dialogDElete.findViewById<TextView>(R.id.text_for_dialog)
+        textForDialog.setText("Do you want to delete this survey?")
+        close.setOnClickListener {
+            dialogDElete.dismiss()
+        }
+        val ok = dialogDElete.findViewById<TextView>(R.id.yes_btnSiteChange)
+        ok.setOnClickListener {
+            dialogDElete.dismiss()
+//            Preferences.setSwachhSiteId(storeListItem.siteid!!)
+
+
+            dialogDElete.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//            dialog.show()
+
+//            val intent = Intent()
+//            setResult(Activity.RESULT_OK, intent)
+//            finish()
+        }
+        dialogDElete.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogDElete.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

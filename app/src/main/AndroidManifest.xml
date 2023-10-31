@@ -249,23 +249,32 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ui.home.swach.swachlistmodule.previewImage.PreviewImageActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".ui.home.qcfail.qcfilter.QcFilterActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
-            android:name=".ui.home.apna.survey.ApnaSurveyActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            tools:ignore="MissingClass" />
-        <activity
-            android:name=".ui.home.swach.swachuploadmodule.reviewratingactivity.RatingReviewActivity"
+            android:name=".ui.home.swach.swachlistmodule.previewImage.PreviewImageChampsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
+
+        <!--        <activity-->
+        <!--            android:name=".ui.home.apna.survey.ApnaSurveyActivity"-->
+        <!--            android:exported="true"-->
+        <!--            android:screenOrientation="portrait"-->
+        <!--            android:theme="@style/AppTheme"-->
+        <!--            tools:ignore="MissingClass" />-->
         <activity
-            android:name=".ui.home.swach.swachlistmodule.previewImage.PreviewImageActivity"
+            android:name=".ui.home.swach.swachuploadmodule.reviewratingactivity.RatingReviewActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -420,7 +429,8 @@
             android:name=".ui.home.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.rider.trackmap.TrackMapActivity"
             android:exported="true"
@@ -527,6 +537,7 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
