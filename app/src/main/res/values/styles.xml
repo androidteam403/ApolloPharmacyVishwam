@@ -264,18 +264,18 @@
     </style>
 
     <style name="TextLabelEditTextApnaProject" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:textColorHint">@color/apna_project_actionbar_color</item>
+        <item name="android:textColorHint">@color/vishwam_actionbar_color</item>
         <item name="android:textSize">@dimen/text_14sp</item>
-        <item name="colorPrimary">@color/apna_project_actionbar_color</item>
-        <item name="strokeColor">@color/apna_project_actionbar_color</item>
-        <item name="colorPrimaryDark">@color/apna_project_actionbar_color</item>
-        <item name="colorAccent">@color/apna_project_actionbar_color</item>
-        <item name="boxStrokeColor">@color/apna_project_actionbar_color</item>
+        <item name="colorPrimary">@color/vishwam_actionbar_color</item>
+        <item name="strokeColor">@color/vishwam_actionbar_color</item>
+        <item name="colorPrimaryDark">@color/vishwam_actionbar_color</item>
+        <item name="colorAccent">@color/vishwam_actionbar_color</item>
+        <item name="boxStrokeColor">@color/vishwam_actionbar_color</item>
         <item name="boxStrokeWidth">0.2dp</item>
-        <item name="colorControlNormal">@color/apna_project_actionbar_color</item>
-        <item name="colorControlActivated">@color/apna_project_actionbar_color</item>
-        <item name="android:textColorPrimary">@color/apna_project_actionbar_color</item>
-        <item name="android:textColorSecondary">@color/apna_project_actionbar_color</item>
+        <item name="colorControlNormal">@color/vishwam_actionbar_color</item>
+        <item name="colorControlActivated">@color/vishwam_actionbar_color</item>
+        <item name="android:textColorPrimary">@color/vishwam_actionbar_color</item>
+        <item name="android:textColorSecondary">@color/vishwam_actionbar_color</item>
         <item name="android:height">70dp</item>
     </style>
 

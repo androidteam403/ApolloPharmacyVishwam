@@ -21,7 +21,7 @@
                 android:id="@+id/taskCompletedLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#eef3f7"
+                android:background="@drawable/editbox_bg"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -47,7 +47,7 @@
                                 android:id="@+id/surveyId"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppin_bold"
+                                android:fontFamily="@font/poppins_regular"
                                 android:text="APNA/SREY/10269"
                                 android:textColor="@color/black" />
 
@@ -55,7 +55,7 @@
                                 android:id="@+id/location"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppin_bold"
+                                android:fontFamily="@font/poppins_regular"
                                 android:text="Chennai, Tamilnadu, 600006"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/dimen10sp" />
@@ -69,8 +69,8 @@
                         android:gravity="end">
 
                         <ImageView
-                            android:layout_width="@dimen/value_30dp"
-                            android:layout_height="@dimen/value_30dp"
+                            android:layout_width="@dimen/value_25dp"
+                            android:layout_height="@dimen/value_25dp"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/right_arrow_black_new"
                             android:tint="#707275"
@@ -89,7 +89,7 @@
                         android:id="@+id/surveyStartTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppin_bold"
+                        android:fontFamily="@font/poppins_regular"
                         android:text="27 Oct,2023 - 06:56 AM"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen10sp" />
@@ -97,7 +97,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppin_bold"
+                        android:fontFamily="@font/poppins_regular"
                         android:text=" - "
                         android:textColor="#94999d"
                         android:textSize="@dimen/dimen11sp" />
@@ -105,7 +105,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppin_bold"
+                        android:fontFamily="@font/poppins_regular"
                         android:text="By: "
                         android:textColor="#94999d"
                         android:textSize="@dimen/dimen10sp" />
@@ -114,7 +114,7 @@
                         android:id="@+id/surveyBy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppin_bold"
+                        android:fontFamily="@font/poppins_regular"
                         android:text="Dhana lakshmi V"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen10sp" />
@@ -131,7 +131,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppin_bold"
+                        android:fontFamily="@font/poppins_regular"
                         android:text="Status: "
                         android:textColor="#94999d"
                         android:textSize="@dimen/dimen10sp" />
@@ -140,7 +140,7 @@
                         android:id="@+id/status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppin_bold"
+                        android:fontFamily="@font/poppins_regular"
                         android:text="New"
                         android:textColor="#61b0cf"
                         android:textSize="@dimen/dimen10sp" />

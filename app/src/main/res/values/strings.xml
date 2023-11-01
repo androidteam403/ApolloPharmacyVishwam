@@ -499,5 +499,7 @@
     <string name="label_select_all">Select all</string>
     <string name="label_by_date">by date</string>
     <string name="label_to_date">to date</string>
+    <string name="label_search">Search</string>
+    <string name="label_select_store_id">Select Store ID</string>
 
 </resources>

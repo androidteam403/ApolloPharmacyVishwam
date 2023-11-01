@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -12,236 +12,244 @@
             name="viewModel"
             type="com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationViewModel" />
     </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/dialog_background"
         android:orientation="vertical">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="@{viewModel.state == State.LOADING ? View.VISIBLE :View.GONE}" />
-
-        <LinearLayout
-            android:id="@+id/main"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/dialog_background"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <ProgressBar
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/splash_start_color">
-
-                <TextView
-                    android:id="@+id/textHead"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_50dp"
-                    android:gravity="center"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/text_18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-                <ImageView
-                    android:id="@+id/diloga_close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_close_24"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="@dimen/value_10dp"
-                    android:visibility="gone"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_centerInParent="true"
+                android:visibility="@{viewModel.state == State.LOADING ? View.VISIBLE :View.GONE}" />
 
             <LinearLayout
+                android:id="@+id/main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/vishwam_actionbar_color">
+
+                    <TextView
+                        android:id="@+id/textHead"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/diloga_close"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:src="@drawable/ic_baseline_close_24"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:text="@string/label_complaint_ticket_number"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/ticketNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:text="@string/label_registered_date"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/regDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp" />
+                </LinearLayout>
+
                 <TextView
+                    android:id="@+id/closeDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_10dp"
-                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginTop="@dimen/value_7dp"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:text="@string/label_complaint_ticket_number"
-                    android:textSize="@dimen/text_16sp" />
-                <TextView
-                    android:id="@+id/ticketNo"
-                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/text_16sp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_5dp"
                     android:layout_marginTop="@dimen/value_10dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_16sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:text="@string/label_reason_acknowledgement"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/problemDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp" />
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/siteId"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:layout_marginTop="@dimen/value_9dp"
+                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:textColorHint="@color/black">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/remark"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_75dp"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:gravity="start"
+                        android:hint="@string/label_enter_remarks"
+                        android:inputType="textMultiLine"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.hsalf.smilerating.SmileRating
+                    android:id="@+id/smile_rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/customerPhone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_50dp"
+                    android:layout_marginTop="@dimen/value_20dp"
+                    android:layout_marginBottom="@dimen/value_15dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/reject"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/grey_rectangle1"
+                        android:backgroundTint="@color/rejected"
+                        android:enabled="@{viewModel.state == State.LOADING ? false :true}"
+                        android:text="@string/label_re_open"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_15sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="@dimen/value_10dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/accept"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/grey_rectangle1"
+                        android:backgroundTint="@color/vishwam_actionbar_color"
+                        android:enabled="@{viewModel.state == State.LOADING ? false :true}"
+                        android:text="@string/label_accept"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_15sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="@dimen/value_10dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/submit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_3dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorAccent"
+                        android:text="@string/label_submit"
+                        android:textColor="@color/colorWhite"
+                        android:visibility="gone"
+                        app:cornerRadius="@dimen/value_10dp" />
+                </LinearLayout>
+
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/value_5dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:text="@string/label_registered_date"
-                android:textSize="@dimen/text_16sp" />
 
             <TextView
-                android:id="@+id/regDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_5dp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_16sp" />
-        </LinearLayout>
-
-            <TextView
-                android:id="@+id/closeDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/value_7dp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_16sp"
-                android:visibility="gone"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/value_10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:text="@string/label_reason_acknowledgement"
-                android:textSize="@dimen/text_16sp" />
-            <TextView
-                android:id="@+id/problemDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_5dp"
-                android:layout_marginEnd="@dimen/value_10dp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_16sp" />
-        </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/siteId"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/value_9dp"
-                android:layout_marginEnd="@dimen/value_10dp"
-                android:textColorHint="@color/black">
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/remark"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_75dp"
-                    android:layout_marginTop="@dimen/value_5dp"
-                    android:gravity="start"
-                    android:hint="@string/label_enter_remarks"
-                    android:inputType="textMultiLine"
-                    android:paddingStart="@dimen/value_10dp"
-                    android:paddingEnd="@dimen/value_10dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="@dimen/text_15sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.hsalf.smilerating.SmileRating
-                android:id="@+id/smile_rating"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_20dp"
-                app:layout_constraintTop_toBottomOf="@+id/customerPhone" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/value_50dp"
-                android:layout_marginTop="@dimen/value_20dp"
+                android:layout_below="@+id/main"
                 android:layout_marginBottom="@dimen/value_15dp"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/reject"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/value_5dp"
-                    android:layout_marginEnd="@dimen/value_5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/grey_rectangle1"
-                    android:backgroundTint="@color/rejected"
-                    android:enabled="@{viewModel.state == State.LOADING ? false :true}"
-                    android:text="@string/label_re_open"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/text_15sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="@dimen/value_10dp" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/accept"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/value_5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/grey_rectangle1"
-                    android:backgroundTint="@color/splash_start_color"
-                    android:enabled="@{viewModel.state == State.LOADING ? false :true}"
-                    android:text="@string/label_accept"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/text_15sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="@dimen/value_10dp" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/submit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_3dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorAccent"
-                    android:text="@string/label_submit"
-                    android:textColor="@color/colorWhite"
-                    android:visibility="gone"
-                    app:cornerRadius="@dimen/value_10dp" />
-            </LinearLayout>
-
-        </LinearLayout>
+                android:background="@color/status_progress"
+                android:paddingStart="@dimen/value_4dp"
+                android:paddingTop="@dimen/value_7dp"
+                android:paddingEnd="@dimen/value_4dp"
+                android:paddingBottom="@dimen/value_7dp"
+                android:text="@string/label_acknowledge_close_comp"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_16sp" />
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/main"
-            android:layout_marginBottom="@dimen/value_15dp"
-            android:background="@color/status_progress"
-            android:paddingStart="@dimen/value_4dp"
-            android:paddingTop="@dimen/value_7dp"
-            android:paddingEnd="@dimen/value_4dp"
-            android:paddingBottom="@dimen/value_7dp"
-            android:text="@string/label_acknowledge_close_comp"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_16sp" />
-
-
-    </RelativeLayout>
+        </RelativeLayout>
     </ScrollView>
 </layout>

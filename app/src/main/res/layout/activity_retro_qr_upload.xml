@@ -10,8 +10,8 @@
         <LinearLayout
             android:id="@+id/header_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/value_50dp"
-            android:background="@drawable/retro_qr_actionbar_bg"
+            android:layout_height="@dimen/vishwam_actionbar_height"
+            android:background="@color/vishwam_actionbar_color"
             android:gravity="center_vertical">
 
             <ImageView
@@ -45,7 +45,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/value_10dp"
-                    android:background="@drawable/retro_qr_print_icon_bg"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()-> callback.onClickQrCodePrint()}"
                     android:src="@drawable/ic_print_qr" />
