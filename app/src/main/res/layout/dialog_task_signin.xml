@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#045a71"
+        android:background="@color/vishwam_actionbar_color"
         android:gravity="center"
         android:paddingTop="@dimen/value_10dp"
         android:paddingBottom="@dimen/value_10dp"
@@ -275,7 +275,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/value_10dp"
         android:layout_marginBottom="@dimen/value_30dp"
-        android:background="#045a71"
+        android:background="@color/vishwam_actionbar_color"
         android:gravity="center"
         android:orientation="horizontal">
 

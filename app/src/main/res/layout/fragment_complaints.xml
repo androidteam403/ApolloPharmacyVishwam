@@ -22,59 +22,132 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/ver_light_blue"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.cardview.widget.CardView
+                <!--<androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value_5dp"
+                    android:layout_margin="@dimen/value_5dp"
                     android:background="@color/cream_color"
                     android:elevation="@dimen/value_10dp"
                     android:paddingBottom="@dimen/value_5dp"
-                    app:cardElevation="@dimen/value_10dp">
+                    app:cardElevation="@dimen/value_10dp">-->
+
+                <LinearLayout
+                    android:id="@+id/overAll_dateFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:background="@color/cream_color"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/overAll_dateFilter"
+                        android:id="@+id/date_filter_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/cream_color"
-                        android:orientation="vertical">
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:layout_marginBottom="@dimen/value_5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="1">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".1">
+
+                            <ImageView
+                                android:layout_width="@dimen/value_25dp"
+                                android:layout_height="@dimen/value_25dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/calender_new_cms" />
+
+                        </RelativeLayout>
 
                         <LinearLayout
-                            android:id="@+id/date_filter_layout"
-                            android:layout_width="match_parent"
+                            android:id="@+id/fromDate"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:layout_marginTop="@dimen/value_5dp"
-                            android:layout_marginBottom="@dimen/value_5dp"
-                            android:orientation="horizontal"
-                            android:weightSum="1">
+                            android:layout_weight=".45"
+                            android:gravity="start"
+                            android:orientation="vertical">
 
-                            <RelativeLayout
-                                android:layout_width="0dp"
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".1">
+                                android:layout_marginStart="@dimen/value_20dp"
+                                android:text="@string/label_from"
+                                android:textAlignment="center"
+                                android:textColor="#999997"
+                                android:textSize="@dimen/text_15sp" />
 
-                                <ImageView
-                                    android:layout_width="@dimen/value_25dp"
-                                    android:layout_height="@dimen/value_25dp"
-                                    android:layout_gravity="center"
-                                    android:layout_marginStart="@dimen/value_10dp"
-                                    android:contentDescription="@string/app_name"
-                                    android:src="@drawable/calender_new_cms" />
+                            <TextView
+                                android:id="@+id/fromDateText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_20dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_15sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
 
-                            </RelativeLayout>
+                        <LinearLayout
+                            android:id="@+id/toDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_weight=".45"
+                            android:gravity="start"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/label_to"
+                                android:textAlignment="center"
+                                android:textColor="#999997"
+                                android:textSize="@dimen/text_15sp" />
+
+                            <TextView
+                                android:id="@+id/toDateText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_15sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+
+                        <!--<LinearLayout
+                            android:id="@+id/fromDate"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/value_40dp"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_weight="0.4"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/value_25dp"
+                                android:layout_height="@dimen/value_25dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/calender_new_cms" />
 
                             <LinearLayout
-                                android:id="@+id/fromDate"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".45"
+                                android:layout_marginStart="@dimen/dimen20dp"
                                 android:gravity="start"
                                 android:orientation="vertical">
 
@@ -83,7 +156,6 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/label_from"
                                     android:textAlignment="center"
-                                    android:layout_marginStart="@dimen/value_20dp"
                                     android:textColor="#999997"
                                     android:textSize="@dimen/text_15sp" />
 
@@ -92,18 +164,32 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textAlignment="center"
-                                    android:layout_marginStart="@dimen/value_20dp"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_15sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/toDate"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/value_40dp"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_weight="0.4"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/value_24dp"
+                                android:layout_height="@dimen/value_24dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/calender_new_cms"
+                                android:visibility="gone" />
 
                             <LinearLayout
-                                android:id="@+id/toDate"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_5dp"
-                                android:layout_weight=".45"
                                 android:gravity="start"
                                 android:orientation="vertical">
 
@@ -124,232 +210,221 @@
                                     android:textSize="@dimen/text_15sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
-
-
-                            <!--<LinearLayout
-                                android:id="@+id/fromDate"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/value_40dp"
-                                android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_weight="0.4"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="@dimen/value_25dp"
-                                    android:layout_height="@dimen/value_25dp"
-                                    android:layout_gravity="center"
-                                    android:contentDescription="@string/app_name"
-                                    android:src="@drawable/calender_new_cms" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/dimen20dp"
-                                    android:gravity="start"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/label_from"
-                                        android:textAlignment="center"
-                                        android:textColor="#999997"
-                                        android:textSize="@dimen/text_15sp" />
-
-                                    <TextView
-                                        android:id="@+id/fromDateText"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textAlignment="center"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_15sp"
-                                        android:textStyle="bold" />
-                                </LinearLayout>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/toDate"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/value_40dp"
-                                android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_weight="0.4"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="@dimen/value_24dp"
-                                    android:layout_height="@dimen/value_24dp"
-                                    android:layout_gravity="center"
-                                    android:contentDescription="@string/app_name"
-                                    android:src="@drawable/calender_new_cms"
-                                    android:visibility="gone" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/value_5dp"
-                                    android:gravity="start"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/label_to"
-                                        android:textAlignment="center"
-                                        android:textColor="#999997"
-                                        android:textSize="@dimen/text_15sp" />
-
-                                    <TextView
-                                        android:id="@+id/toDateText"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textAlignment="center"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_15sp"
-                                        android:textStyle="bold" />
-                                </LinearLayout>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/value_40dp"
-                                android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_marginEnd="@dimen/text_dimen_10"
-                                android:layout_weight="0.2"
-                                android:gravity="end"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="@dimen/dimen20dp"
-                                    android:layout_height="@dimen/dimen20dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/close_blue"
-                                    android:visibility="gone" />
-
-
-                            </LinearLayout>-->
-
-
                         </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/ashcolor" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:weightSum="1">
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/value_40dp"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginEnd="@dimen/text_dimen_10"
+                            android:layout_weight="0.2"
+                            android:gravity="end"
+                            android:orientation="horizontal">
 
-                            <RelativeLayout
-                                android:id="@+id/search_layout"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                            <ImageView
+                                android:layout_width="@dimen/dimen20dp"
+                                android:layout_height="@dimen/dimen20dp"
                                 android:layout_gravity="center"
-                                android:layout_weight="0.8"
-                                android:gravity="center"
-                                android:paddingBottom="@dimen/value_10dp"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <LinearLayout
-                                    android:id="@+id/search_icon"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginStart="@dimen/value_10dp"
-                                    android:gravity="center">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/value_25dp"
-                                        android:layout_height="@dimen/value_25dp"
-                                        android:layout_gravity="center"
-                                        android:contentDescription="@string/app_name"
-                                        android:src="@drawable/close_blue_new" />
-                                </LinearLayout>
+                                android:src="@drawable/close_blue"
+                                android:visibility="gone" />
 
 
-                                <androidx.appcompat.widget.AppCompatEditText
-                                    android:id="@+id/search_view"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/value_5dp"
-                                    android:layout_toEndOf="@id/search_icon"
-                                    android:background="@null"
-                                    android:drawablePadding="22dp"
-                                    android:gravity="left|center"
-                                    android:hint="Search by Store ID/Ticket ID"
-                                    android:imeOptions="actionSearch"
-                                    android:inputType="text"
-                                    android:maxLines="1"
-                                    android:padding="5dp"
-                                    android:paddingTop="@dimen/five5_sp"
-                                    android:paddingBottom="@dimen/five5_sp"
-                                    android:textColorHint="@android:color/darker_gray"
-                                    android:textSize="@dimen/text_14sp" />
-                            </RelativeLayout>
+                        </LinearLayout>-->
 
-                            <!--                <LinearLayout-->
-                            <!--                    android:id="@+id/search_layout"-->
-                            <!--                    android:layout_marginStart="@dimen/text_dimen_10"-->
-                            <!--                    android:layout_width="0dp"-->
-                            <!--                    android:layout_weight="0.8"-->
-                            <!--                    android:layout_height="@dimen/value_40dp"-->
-                            <!--                    android:orientation="horizontal">-->
-                            <!--                    <ImageView-->
-                            <!--                        android:layout_gravity="center"-->
-                            <!--                        android:layout_width="@dimen/value_22dp"-->
-                            <!--                        android:layout_height="@dimen/value_22dp"-->
-                            <!--                        android:src="@drawable/close_blue_new"/>-->
 
-                            <!--                    <EditText-->
-                            <!--                        android:id="@+id/search_view"-->
-                            <!--                        android:background="@null"-->
-                            <!--                        android:layout_marginStart="@dimen/value_5dp"-->
-                            <!--                        android:layout_gravity="center"-->
-                            <!--                        android:layout_width="match_parent"-->
-                            <!--                        android:layout_height="wrap_content"-->
-                            <!--                        android:textColor="@color/grey"-->
-                            <!--                        android:textStyle="bold"-->
-                            <!--                        android:textSize="@dimen/text_15sp"-->
-                            <!--                        android:hint="@string/search_by_storeid_ticket_id"/>-->
-
-                            <!--                </LinearLayout>-->
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_weight="0.2"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:id="@+id/submit"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="@dimen/value_30dp"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="@dimen/value_5dp"
-                                    android:layout_marginBottom="@dimen/value_5dp"
-                                    android:background="@drawable/background_for_blue_cms"
-                                    android:gravity="center"
-                                    android:padding="5dp"
-                                    android:text="Submit"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/text_15sp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-                        </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:visibility="gone"
+                        android:background="@color/ashcolor" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_45dp"
+                        android:background="@drawable/search_view_pendency"
+                        android:backgroundTint="#f2f2f2"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".1">
+
+                            <ImageView
+                                android:id="@+id/searchIcon"
+                                android:layout_width="@dimen/value_22dp"
+                                android:layout_height="@dimen/value_22dp"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/ic_search"
+                                android:tint="#b8b8b8"
+                                tools:ignore="UseAppTint" />
+
+                        </RelativeLayout>
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/search_view"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".67"
+                            android:background="@color/transparent"
+                            android:gravity="start|center_vertical"
+                            android:hint="Search by Store ID/Ticket ID"
+                            android:imeOptions="actionSearch"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:paddingStart="@dimen/value_10dp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_14sp" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".23"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/submit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/value_30dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/search_button_bg"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="@string/label_search"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_15sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <!--
+                                            <LinearLayout
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:orientation="horizontal"
+                                                android:weightSum="1">
+
+                                                <RelativeLayout
+                                                    android:id="@+id/search_layout"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_gravity="center"
+                                                    android:layout_weight="0.8"
+                                                    android:gravity="center"
+                                                    android:paddingBottom="@dimen/value_10dp"
+                                                    app:layout_constraintTop_toTopOf="parent">
+
+                                                    <LinearLayout
+                                                        android:id="@+id/search_icon"
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:layout_centerVertical="true"
+                                                        android:layout_marginStart="@dimen/value_10dp"
+                                                        android:gravity="center">
+
+                                                        <ImageView
+                                                            android:layout_width="@dimen/value_25dp"
+                                                            android:layout_height="@dimen/value_25dp"
+                                                            android:layout_gravity="center"
+                                                            android:contentDescription="@string/app_name"
+                                                            android:src="@drawable/close_blue_new" />
+                                                    </LinearLayout>
+
+
+                                                    <androidx.appcompat.widget.AppCompatEditText
+                                                        android:id="@+id/search_view"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:layout_centerVertical="true"
+                                                        android:layout_marginEnd="@dimen/value_5dp"
+                                                        android:layout_toEndOf="@id/search_icon"
+                                                        android:background="@null"
+                                                        android:drawablePadding="22dp"
+                                                        android:gravity="left|center"
+                                                        android:hint="Search by Store ID/Ticket ID"
+                                                        android:imeOptions="actionSearch"
+                                                        android:inputType="text"
+                                                        android:maxLines="1"
+                                                        android:padding="5dp"
+                                                        android:paddingTop="@dimen/five5_sp"
+                                                        android:paddingBottom="@dimen/five5_sp"
+                                                        android:textColorHint="@android:color/darker_gray"
+                                                        android:textSize="@dimen/text_14sp" />
+                                                </RelativeLayout>
+
+                                                &lt;!&ndash;                <LinearLayout&ndash;&gt;
+                                                &lt;!&ndash;                    android:id="@+id/search_layout"&ndash;&gt;
+                                                &lt;!&ndash;                    android:layout_marginStart="@dimen/text_dimen_10"&ndash;&gt;
+                                                &lt;!&ndash;                    android:layout_width="0dp"&ndash;&gt;
+                                                &lt;!&ndash;                    android:layout_weight="0.8"&ndash;&gt;
+                                                &lt;!&ndash;                    android:layout_height="@dimen/value_40dp"&ndash;&gt;
+                                                &lt;!&ndash;                    android:orientation="horizontal">&ndash;&gt;
+                                                &lt;!&ndash;                    <ImageView&ndash;&gt;
+                                                &lt;!&ndash;                        android:layout_gravity="center"&ndash;&gt;
+                                                &lt;!&ndash;                        android:layout_width="@dimen/value_22dp"&ndash;&gt;
+                                                &lt;!&ndash;                        android:layout_height="@dimen/value_22dp"&ndash;&gt;
+                                                &lt;!&ndash;                        android:src="@drawable/close_blue_new"/>&ndash;&gt;
+
+                                                &lt;!&ndash;                    <EditText&ndash;&gt;
+                                                &lt;!&ndash;                        android:id="@+id/search_view"&ndash;&gt;
+                                                &lt;!&ndash;                        android:background="@null"&ndash;&gt;
+                                                &lt;!&ndash;                        android:layout_marginStart="@dimen/value_5dp"&ndash;&gt;
+                                                &lt;!&ndash;                        android:layout_gravity="center"&ndash;&gt;
+                                                &lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;
+                                                &lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;
+                                                &lt;!&ndash;                        android:textColor="@color/grey"&ndash;&gt;
+                                                &lt;!&ndash;                        android:textStyle="bold"&ndash;&gt;
+                                                &lt;!&ndash;                        android:textSize="@dimen/text_15sp"&ndash;&gt;
+                                                &lt;!&ndash;                        android:hint="@string/search_by_storeid_ticket_id"/>&ndash;&gt;
+
+                                                &lt;!&ndash;                </LinearLayout>&ndash;&gt;
+
+                                                <LinearLayout
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_gravity="end"
+                                                    android:layout_marginStart="@dimen/value_10dp"
+                                                    android:layout_weight="0.2"
+                                                    android:gravity="center_vertical"
+                                                    android:orientation="horizontal">
+
+                                                    <TextView
+                                                        android:id="@+id/submit"
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="@dimen/value_30dp"
+                                                        android:layout_gravity="center"
+                                                        android:layout_marginTop="@dimen/value_5dp"
+                                                        android:layout_marginBottom="@dimen/value_5dp"
+                                                        android:background="@drawable/background_for_blue_cms"
+                                                        android:gravity="center"
+                                                        android:padding="5dp"
+                                                        android:text="Submit"
+                                                        android:textAlignment="center"
+                                                        android:textColor="@color/white"
+                                                        android:textSize="@dimen/text_15sp"
+                                                        android:textStyle="bold" />
+                                                </LinearLayout>
+                                            </LinearLayout>
+                    -->
+                </LinearLayout>
+
+
+                <!--</androidx.cardview.widget.CardView>-->
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
                 android:orientation="vertical">
 
                 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -375,7 +450,6 @@
                     android:id="@+id/emptyList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/complaint_bg"
                     android:gravity="center"
                     android:visibility="visible">
 

@@ -8,4 +8,5 @@ interface ApnaSurveyCallback {
     fun onFailureGetSurveyDetails(message: String)
      fun onFailuregetSurveyDetails(surveyListResponse: Any)
 
+
 }

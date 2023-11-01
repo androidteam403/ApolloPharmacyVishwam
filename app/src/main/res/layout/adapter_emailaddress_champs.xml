@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <RelativeLayout
@@ -22,9 +23,10 @@
             <TextView
                 android:id="@+id/setEmailAddress"
                 android:layout_width="wrap_content"
+                android:textStyle="bold"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_12sp" />
+                android:textColor="@color/darkk_blue"
+                />
 
             <ImageView
                 android:id="@+id/delete_recipient"
@@ -33,7 +35,8 @@
                 android:layout_marginStart="@dimen/value_5dp"
                 android:contentDescription="@string/app_name"
                 android:padding="@dimen/value_5dp"
-                android:src="@drawable/closee_whitee" />
+                android:src="@drawable/close_red_champs"
+                app:tint="@color/red" />
         </LinearLayout>
 
     </RelativeLayout>

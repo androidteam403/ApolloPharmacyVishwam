@@ -17,9 +17,8 @@
             <LinearLayout
                 android:id="@+id/title_layout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/value_70dp"
-
-                android:background="#045a71"
+                android:layout_height="@dimen/vishwam_actionbar_height"
+                android:background="@color/vishwam_actionbar_color"
                 android:orientation="horizontal"
                 android:padding="@dimen/four4_dp">
 
@@ -27,7 +26,6 @@
                     android:id="@+id/back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:layout_gravity="center"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()-> callback.onClickBack()}"
@@ -49,7 +47,7 @@
                         android:fontFamily="@font/poppins_medium"
                         android:text="Pending List"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="@dimen/text_16sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -64,7 +62,7 @@
                             android:fontFamily="@font/poppins_medium"
                             android:text="ORDER ID :"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/orderid"
@@ -75,7 +73,7 @@
                             android:paddingStart="8sp"
                             android:text="Rv00005"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/text_dimen_12" />
 
                     </LinearLayout>
 
@@ -283,16 +281,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:weightSum="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="1">
 
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_pending"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight=".45"
                     android:layout_marginTop="8dp"
+                    android:layout_weight=".45"
                     android:visibility="visible"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="3"
@@ -302,18 +300,18 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight=".32"
                     android:layout_alignParentBottom="true"
+                    android:layout_weight=".32"
 
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:id="@+id/categoryLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/value_8dp"
-
                         android:layout_marginTop="@dimen/value_5dp"
+
+                        android:layout_marginBottom="@dimen/value_8dp"
                         android:background="@drawable/lite_blue_border"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -340,8 +338,8 @@
                                     android:id="@+id/pharmaDiscLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Pharma"
                                     android:paddingStart="15dp"
+                                    android:text="Pharma"
 
                                     android:textSize="12sp"
                                     app:fontFamily="@font/poppins_medium" />
@@ -457,6 +455,7 @@
                                         app:tint="#27abe4" />
                                 </RelativeLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:id="@+id/remarksLayout"
                                 android:layout_width="0dp"
@@ -478,18 +477,19 @@
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
+
                                     <TextView
+                                        android:id="@+id/remarksText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_30dp"
                                         android:layout_centerHorizontal="true"
                                         android:layout_marginTop="@dimen/value_2dp"
                                         android:background="#27abe4"
                                         android:gravity="center"
-                                        android:onClick="@{()-> callback.onClickRemarks()}"
 
-                                        android:id="@+id/remarksText"
                                         android:imeOptions="flagNoExtractUi"
                                         android:inputType="numberDecimal"
+                                        android:onClick="@{()-> callback.onClickRemarks()}"
                                         android:text="Write"
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/text_13sp"
@@ -762,6 +762,7 @@
                     android:layout_height="0dp"
                     android:layout_weight=".23"
                     android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -906,10 +907,6 @@
             </LinearLayout>
 
 
-
-
-
-
             <LinearLayout
                 android:id="@+id/approvedbylayout"
                 android:layout_width="match_parent"
@@ -928,8 +925,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-
 
 
     </RelativeLayout>

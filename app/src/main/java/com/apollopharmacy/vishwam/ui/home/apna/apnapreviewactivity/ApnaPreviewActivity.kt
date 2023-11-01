@@ -155,7 +155,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                         if (approvedOrders.status!!.name.toString().equals("New", true)) {
                             apnaPreviewActivityBinding.statusLayout.setBackgroundColor(
                                 ContextCompat.getColor(
-                                    this@ApnaPreviewActivity, R.color.apna_project_actionbar_color
+                                    this@ApnaPreviewActivity, R.color.vishwam_actionbar_color
                                 )
                             )
                         } else {

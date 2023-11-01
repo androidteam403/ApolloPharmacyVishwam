@@ -12,50 +12,46 @@
             android:layout_height="match_parent">
 
 
-
             <TextView
-                android:layout_centerInParent="true"
                 android:id="@+id/no_order_found_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:text="No Site Id's Found"
                 android:textColor="@color/red"
                 android:textSize="@dimen/text_14sp"
+                android:textStyle="bold"
                 android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/header_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/splash_start_color"
-                android:paddingTop="@dimen/value_15dp"
-                android:paddingBottom="@dimen/value_15dp">
-
+                android:layout_height="@dimen/vishwam_actionbar_height"
+                android:background="@color/vishwam_actionbar_color">
 
 
                 <TextView
                     android:id="@+id/textHead"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Select Site ID"
+                    android:layout_centerInParent="true"
+                    android:text="Select Store ID"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/text_18sp"
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:onClick="@{()-> callback.onClickCancel()}"
                     android:id="@+id/close_dialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/value_30dp"
+                    android:layout_height="@dimen/value_30dp"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/value_5dp"
                     android:contentDescription="@string/app_name"
-                    android:paddingStart="@dimen/value_10dp"
-                    android:paddingEnd="@dimen/value_10dp"
-                    android:src="@drawable/close_icon"
+                    android:onClick="@{()-> callback.onClickCancel()}"
+                    android:src="@drawable/icon_close"
                     app:tint="@color/white" />
             </RelativeLayout>
 
@@ -72,19 +68,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_10dp"
                     android:layout_marginTop="@dimen/value_10dp"
-                    android:layout_marginEnd="@dimen/value_10dp"
-                    android:textColorHint="@color/black">
+                    android:layout_marginEnd="@dimen/value_10dp">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/searchSiteText"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_50dp"
+                        android:drawableStart="@drawable/ic_search_grey"
+                        android:drawablePadding="@dimen/value_10dp"
+                        android:gravity="center_vertical"
                         android:hint="@string/label_search_site_id"
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
                         android:singleLine="true"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/black"
                         android:textSize="@dimen/text_15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,16 +99,16 @@
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:visibility="visible"
-                    android:layout_marginStart="@dimen/value_12dp"
-                    android:layout_marginTop="@dimen/value_10dp"
                     android:id="@+id/storeIdsRecyclerView"
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_12dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+
                     android:layout_marginEnd="@dimen/value_5dp"
                     android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                    android:visibility="visible"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/fieldRecyclerView"
@@ -125,14 +122,12 @@
             </LinearLayout>
 
 
-
-
             <LinearLayout
-                android:layout_alignParentBottom="true"
                 android:id="@+id/completeButton"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_50dp"
-                android:background="@color/greenn"
+                android:layout_alignParentBottom="true"
+                android:background="@color/vishwam_actionbar_color"
                 android:gravity="center"
                 android:onClick="@{()-> callback.onClickCompleted()}"
                 android:orientation="horizontal"
@@ -143,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="SUBMIT"
+                    android:text="SELECT"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_17sp"
                     android:textStyle="bold" />
@@ -153,6 +148,7 @@
 
 
     <data>
+
         <variable
             name="callback"
             type="com.apollopharmacy.vishwam.ui.home.apnarectro.approval.apnasiteIdselect.ApnaSelectSiteIdCallback" />

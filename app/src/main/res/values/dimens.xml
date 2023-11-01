@@ -116,4 +116,6 @@
     <dimen name="thirty_seven_dp">37dp</dimen>
     <dimen name="twenty_one_sp">21sp</dimen>
     <dimen name="value_24dp">24dp</dimen>
+    <dimen name="dimen330dp">330dp</dimen>
+    <dimen name="vishwam_actionbar_height">60dp</dimen>
 </resources>

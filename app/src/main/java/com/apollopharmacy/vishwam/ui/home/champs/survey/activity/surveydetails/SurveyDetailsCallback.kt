@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails
 
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.model.TrainersEmailIdResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseEmpIdResponse
 
@@ -23,4 +24,12 @@ interface SurveyDetailsCallback {
     fun onFailuregetStoreWiseDetails(value: GetStoreWiseEmpIdResponse)
 
     fun onDeleteManualRecipient(recipient: String)
+
+    fun onClickEyeIconForDropDown()
+     fun updateTrainersList(selectedList: ArrayList<String>)
+     fun onDeleteManualRecipientTrainers(item: String)
+     fun removeEmail(item: String)
+     fun onSuccessTrainerList(storeWiseDetailListResponse: TrainersEmailIdResponse?)
+     fun onFailureTrainerList(storeWiseDetailListResponse: TrainersEmailIdResponse?)
+     fun noOrdersFound(i: Int)
 }

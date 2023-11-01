@@ -10,8 +10,8 @@
         <LinearLayout
             android:id="@+id/headerLayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/value_50dp"
-            android:background="@color/retro_qr_actionbar_color"
+            android:layout_height="@dimen/vishwam_actionbar_height"
+            android:background="@color/vishwam_actionbar_color"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 

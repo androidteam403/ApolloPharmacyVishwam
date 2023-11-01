@@ -22,7 +22,7 @@
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/splash_start_color"
+            android:background="@color/vishwam_actionbar_color"
             android:paddingTop="@dimen/value_15dp"
             android:paddingBottom="@dimen/value_15dp">
 
@@ -56,19 +56,19 @@
             android:layout_below="@+id/header_layout"
             android:layout_marginStart="@dimen/value_10dp"
             android:layout_marginTop="@dimen/value_10dp"
-            android:layout_marginEnd="@dimen/value_10dp"
-            android:textColorHint="@color/black">
+            android:layout_marginEnd="@dimen/value_10dp">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/searchSiteText"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_50dp"
-                android:inputType="text"
+                android:drawableStart="@drawable/ic_search_grey"
+                android:drawablePadding="@dimen/value_10dp"
+                android:gravity="center_vertical"
                 android:paddingStart="@dimen/value_10dp"
                 android:paddingEnd="@dimen/value_10dp"
                 android:singleLine="true"
                 android:textColor="@color/black"
-                android:textColorHint="@color/black"
                 android:textSize="@dimen/text_15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 

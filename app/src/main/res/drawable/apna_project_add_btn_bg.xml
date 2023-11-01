@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
     <solid
-        android:color="@color/apna_project_actionbar_color"/>
+        android:color="@color/vishwam_actionbar_color"/>
     <corners
         android:radius="@dimen/value_8dp"/>
 </shape>

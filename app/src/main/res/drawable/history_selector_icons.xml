@@ -1,0 +1,7 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Icon for the selected tab -->
+    <item android:drawable="@drawable/time_history_green" android:state_selected="true" />
+
+    <!-- Default icon for other states (unselected) -->
+    <item android:drawable="@drawable/time_history_grey" />
+</selector>

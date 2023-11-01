@@ -3,7 +3,6 @@ package com.apollopharmacy.vishwam.ui.home.cms.complainList.activity
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -12,7 +11,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -31,10 +35,33 @@ import com.apollopharmacy.vishwam.dialog.SearchManagerDialog
 import com.apollopharmacy.vishwam.dialog.model.SubmitticketDialog
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ImageClickListener
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.callback.HistoryCallback
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.viewmodel.HistoryFragmentViewModel
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.UserListAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.ViewPagerAdapter
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.*
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Action
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CCAcceptRejectModel
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Data
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Department
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.FMTicket
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Feedback
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.ForwardToManagerModel
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.InventoryAcceptrejectModel
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.ItemStatus
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Level
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Manager
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.NextLevel
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Rating
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Site
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Status
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubworkflowConfigDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketData
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketOwner
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketResolveCloseModel
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketSubworkflowActionUpdateRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketSubworkflowActionUpdateResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.User
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.UserListForSubworkflowResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.WorkFlowUpdateModel
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.Utlis
@@ -86,9 +113,10 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
 
         orderDataWp = intent.getSerializableExtra("orderDataWp") as ResponseNewTicketlist.Row
         if (orderDataWp != null
-            && orderDataWp.status != null){
+            && orderDataWp.status != null
+        ) {
             activityComplaintsDetailsBinding.ticketStatus.text = orderDataWp.status!!.name
-            activityComplaintsDetailsBinding.ticketStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor(orderDataWp.status!!.background_color))
+            activityComplaintsDetailsBinding.ticketStatus.setTextColor(Color.parseColor(orderDataWp.status!!.background_color)) //= ColorStateList.valueOf(Color.parseColor(orderDataWp.status!!.background_color))
         }
         orderData =
             intent.getSerializableExtra("orderData") as ArrayList<ResponseNewTicketlist.Row>
@@ -176,15 +204,17 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
         activityComplaintsDetailsBinding.viewPagerCms.adapter = viewPagerAdapter
 
         activityComplaintsDetailsBinding.tabLayout.getTabAt(0)
-            ?.setIcon(R.drawable.info_icon_details)
-        activityComplaintsDetailsBinding.tabLayout.getTabAt(1)?.setIcon(R.drawable.timing_symbol)
-        activityComplaintsDetailsBinding.tabLayout.getTabAt(2)?.setIcon(R.drawable.attachments_1)
+            ?.setIcon(R.drawable.info_detail_grey)!!.icon?.setTintList(resources.getColorStateList(R.color.tab_icon_color))
+        activityComplaintsDetailsBinding.tabLayout.getTabAt(1)
+            ?.setIcon(R.drawable.time_history_grey)!!.icon?.setTintList(resources.getColorStateList(R.color.tab_icon_color))
+        activityComplaintsDetailsBinding.tabLayout.getTabAt(2)
+            ?.setIcon(R.drawable.link_files_grey)!!.icon?.setTintList(resources.getColorStateList(R.color.tab_icon_color))
         if (orderDataWp != null && orderDataWp.ticketDetailsResponse != null
             && orderDataWp.ticketDetailsResponse!!.data != null && orderDataWp.ticketDetailsResponse!!.data.ticket_inventory != null
             && orderDataWp.ticketDetailsResponse!!.data.ticket_inventory.ticket_inventory_item.size > 0
         ) {
             activityComplaintsDetailsBinding.tabLayout.getTabAt(2)
-                ?.setText("Files" + "(" + orderDataWp.ticketDetailsResponse!!.data.ticket_inventory.ticket_inventory_item.size + ")")
+                ?.setText("Files" + "(" + orderDataWp.ticketDetailsResponse!!.data.ticket_inventory.ticket_inventory_item.size + ")")?.setIcon(R.drawable.link_files_grey)!!.icon?.setTintList(resources.getColorStateList(R.color.tab_icon_color))
         }
 
 
@@ -1550,8 +1580,8 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
                 responseList.get(position).status!!.background_color = "#047604"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(
-                    inventoryAcceptrejectModel, workFlowUpdateModel, 0
-                    ,this)
+                    inventoryAcceptrejectModel, workFlowUpdateModel, 0, this
+                )
 //                adapter.notifyDataSetChanged()
 
 
@@ -1639,8 +1669,8 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
                 responseList.get(position).status!!.background_color = "#ed001c"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(
-                    inventoryAcceptrejectModel, workFlowUpdateModel, 0
-                    ,this)
+                    inventoryAcceptrejectModel, workFlowUpdateModel, 0, this
+                )
 //                adapter.notifyDataSetChanged()
 
 //                background_color\":\"#ed001c\",\"code\":\"rejected\",\"name\":\"Rejected\",\"text_color\":\"#FFFFFF
@@ -1684,7 +1714,7 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
                     data.ticketDetailsResponse!!.data.ticket_inventory.uid,
                     userData.EMPID
                 )
-                viewModel.actionForwardToManager(forwardToManagerModel, 0,this)
+                viewModel.actionForwardToManager(forwardToManagerModel, 0, this)
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
@@ -1755,7 +1785,7 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
     }
 
     override fun onClickPreviewIconBackOther(url: String?, view: View) {
-        if(!url.isNullOrEmpty()){
+        if (!url.isNullOrEmpty()) {
             PhotoPopupWindow(applicationContext, R.layout.layout_image_fullview, view, url, null)
         }
     }

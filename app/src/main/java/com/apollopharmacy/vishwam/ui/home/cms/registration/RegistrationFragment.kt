@@ -489,6 +489,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 //            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             RefreshView()
 
+
+
             SubmitcomplaintDialog().apply {
                 arguments = SubmitcomplaintDialog().generateParsedData(it)
             }.show(childFragmentManager, "")

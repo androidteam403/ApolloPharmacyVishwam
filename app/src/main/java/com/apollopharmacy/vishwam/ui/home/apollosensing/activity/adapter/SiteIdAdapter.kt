@@ -36,7 +36,7 @@ class SiteIdAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = siteData.get(position)
         holder.adapterSiteIdBinding.itemName.setText("${item.site},${item.store_name}")
-        holder.adapterSiteIdBinding.itemName.setOnClickListener {
+        holder.itemView.setOnClickListener {
             mCallback.onItemClick(item)
         }
     }

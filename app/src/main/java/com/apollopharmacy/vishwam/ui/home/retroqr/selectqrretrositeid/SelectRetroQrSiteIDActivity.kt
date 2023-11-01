@@ -11,24 +11,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
-import com.apollopharmacy.vishwam.data.ViswamApp
-import com.apollopharmacy.vishwam.databinding.ActivitySelectChampsSiteidBinding
 import com.apollopharmacy.vishwam.databinding.ActivitySelectQrSiteBinding
-import com.apollopharmacy.vishwam.databinding.ActivitySelectSwachhSiteidBinding
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.retroqr.selectqrretrositeid.adapter.QrSiteIdListAdapter
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.adapter.SiteIdListAdapter
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.adapter.SiteIdListChampsAdapter
-import com.apollopharmacy.vishwam.util.NetworkUtil
-import com.apollopharmacy.vishwam.util.Utils
-import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.google.gson.Gson
@@ -38,7 +28,7 @@ class SelectRetroQrSiteIDActivity : AppCompatActivity(), SelectQrRetroSiteIdCall
     lateinit var viewModel: SelectQrRetroSiteIdViewModel
     private var siteIDListAdapter: QrSiteIdListAdapter? = null
     var siteDataList = ArrayList<StoreDetailsModelResponse.Row>()
-    var isSiteIdEmpty:Boolean=false
+    var isSiteIdEmpty: Boolean = false
     private lateinit var dialog: Dialog
 
     @SuppressLint("SuspiciousIndentation")
@@ -62,8 +52,8 @@ class SelectRetroQrSiteIDActivity : AppCompatActivity(), SelectQrRetroSiteIdCall
         }
 
         viewModel.commands.observeForever {
-            when(it){
-                is SelectQrRetroSiteIdViewModel.Command.ShowToast-> {
+            when (it) {
+                is SelectQrRetroSiteIdViewModel.Command.ShowToast -> {
                     hideLoading()
                     Preferences.setQrSiteIdList(Gson().toJson(viewModel.getSiteData()))
                     Preferences.setSiteIdListFetchedQrRetro(true)
@@ -76,8 +66,6 @@ class SelectRetroQrSiteIDActivity : AppCompatActivity(), SelectQrRetroSiteIdCall
         }
         searchByFulfilmentId()
     }
-
-
 
 
     private fun searchByFulfilmentId() {
@@ -100,14 +88,14 @@ class SelectRetroQrSiteIDActivity : AppCompatActivity(), SelectQrRetroSiteIdCall
     }
 
     override fun onClickCancel() {
-        if(!Preferences.getQrSiteId().isEmpty()){
-            isSiteIdEmpty=false
+        if (!Preferences.getQrSiteId().isEmpty()) {
+            isSiteIdEmpty = false
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
             setResult(Activity.RESULT_OK, intent)
             finish()
-        }else{
-            isSiteIdEmpty=true
+        } else {
+            isSiteIdEmpty = true
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
             setResult(Activity.RESULT_OK, intent)
@@ -120,14 +108,14 @@ class SelectRetroQrSiteIDActivity : AppCompatActivity(), SelectQrRetroSiteIdCall
 //        setResult(Activity.RESULT_OK, intent)
 //        finish()
 
-        if(!Preferences.getQrSiteId().isEmpty()){
-            isSiteIdEmpty=false
+        if (!Preferences.getQrSiteId().isEmpty()) {
+            isSiteIdEmpty = false
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
             setResult(Activity.RESULT_OK, intent)
             finish()
-        }else{
-            isSiteIdEmpty=true
+        } else {
+            isSiteIdEmpty = true
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
             setResult(Activity.RESULT_OK, intent)
@@ -143,12 +131,14 @@ class SelectRetroQrSiteIDActivity : AppCompatActivity(), SelectQrRetroSiteIdCall
             activitySelectQrSiteBinding.noOrderFoundText.setVisibility(View.VISIBLE)
         }
     }
-    var siteId:String?=""
-    override fun onItemClick(site: String,siteName:String) {
+
+    var siteId: String? = ""
+    override fun onItemClick(site: String, siteName: String) {
 
 
         dialog = Dialog(this)
         dialog.setContentView(R.layout.change_siteid)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val close = dialog.findViewById<TextView>(R.id.no_btnSiteChange)
         close.setOnClickListener {
             dialog.dismiss()
@@ -157,27 +147,16 @@ class SelectRetroQrSiteIDActivity : AppCompatActivity(), SelectQrRetroSiteIdCall
         ok.setOnClickListener {
             dialog.dismiss()
 //            Preferences.setSwachhSiteId(storeListItem.siteid!!)
-            siteId= site
+            siteId = site
             Preferences.setQrSiteId(site)
-
             Preferences.setQrSiteName(siteName)
-
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-
             val intent = Intent()
             intent.putExtra("siteId", site)
             intent.putExtra("sitename", siteName)
-
             setResult(Activity.RESULT_OK, intent)
             finish()
-
-
-
         }
         dialog.show()
-
-
     }
 
     override fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>) {

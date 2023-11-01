@@ -12,8 +12,8 @@
     <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#045a71">
+        android:layout_height="@dimen/vishwam_actionbar_height"
+        android:background="@color/vishwam_actionbar_color">
 
         <ImageView
             android:id="@+id/backArrow"
@@ -31,32 +31,35 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/value_10dp"
-            android:fontFamily="@font/poppin_bold"
             android:layout_toRightOf="@+id/backArrow"
+            android:fontFamily="@font/poppin_bold"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_18sp"
             android:visibility="gone" />
+
         <TextView
             android:id="@+id/locationtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/value_10dp"
             android:layout_below="@+id/headerTitle"
-            android:fontFamily="@font/poppins_medium"
+            android:layout_marginStart="@dimen/value_10dp"
             android:layout_toRightOf="@+id/backArrow"
+            android:fontFamily="@font/poppins_medium"
             android:text="Location Details"
             android:textColor="@color/colorWhite"
             android:textSize="17sp"
             android:visibility="gone" />
 
-        <ImageView
+        <TextView
             android:id="@+id/apolloLogo"
-            android:layout_width="@dimen/value_50dp"
-            android:layout_height="@dimen/value_50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/value_15dp"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/apollo_vishwam_logo_new"
+            android:text="Dashboard"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_16sp"
+            android:textStyle="bold"
             android:visibility="visible" />
 
         <LinearLayout
@@ -145,8 +148,8 @@
 
                 <ImageView
                     android:id="@+id/plusIconattendence"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center"
                     android:layout_marginEnd="15dp"
                     android:paddingTop="5dp"
@@ -235,8 +238,8 @@
                 android:visibility="gone">
 
                 <ImageView
-                    android:layout_width="@dimen/value_30dp"
-                    android:layout_height="@dimen/value_30dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:contentDescription="@string/app_name"
                     android:paddingTop="@dimen/value_6dp"
                     android:paddingBottom="@dimen/value_6dp"
@@ -270,14 +273,14 @@
 
             <RelativeLayout
                 android:id="@+id/settings_champs"
-                android:layout_width="@dimen/dimen20dp"
-                android:layout_height="@dimen/dimen20dp"
+                android:layout_width="@dimen/value_22dp"
+                android:layout_height="@dimen/value_22dp"
                 android:layout_marginStart="@dimen/value_10dp"
                 android:visibility="gone">
 
                 <ImageView
-                    android:layout_width="@dimen/dimen20dp"
-                    android:layout_height="@dimen/dimen20dp"
+                    android:layout_width="@dimen/value_22dp"
+                    android:layout_height="@dimen/value_22dp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/settings_white_champs"
                     android:visibility="visible" />
@@ -333,21 +336,21 @@
                     android:textSize="@dimen/text_dimen_12"
                     android:visibility="gone" />
             </RelativeLayout>
+
             <ImageView
                 android:id="@+id/helpBtn"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_marginEnd="5dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/help_icon"
-                android:visibility="gone"
-                tools:ignore="UseAppTint" />
+                android:src="@drawable/help"
+                android:visibility="gone" />
             <ImageView
                 android:id="@+id/logoutBtn"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_marginEnd="5dp"
                 android:layout_marginStart="@dimen/value_8dp"
+                android:layout_marginEnd="5dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/logout_icon"
                 android:tint="#FDB813"
@@ -884,10 +887,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/value_60dp"
         android:layout_alignParentBottom="true"
-        android:background="#045a71"
+        android:background="@color/vishwam_actionbar_color"
         app:itemActiveIndicatorStyle="@color/black"
         app:itemIconSize="@dimen/value_25dp"
-        app:itemIconTint="#83acb8"
+        app:itemIconTint="@color/colorWhite"
         app:itemTextAppearanceActive="@color/red"
         app:itemTextColor="@color/white"
         app:labelVisibilityMode="labeled"
