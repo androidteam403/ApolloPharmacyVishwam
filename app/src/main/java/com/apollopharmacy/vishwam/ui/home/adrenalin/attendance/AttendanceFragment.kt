@@ -482,6 +482,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
                 closeIcon.setOnClickListener {
                     dialog.dismiss()
+                    imageList.clear()
+                    imageUrls=""
                 }
                 cameraIcon.setOnClickListener {
                     handleTaskCameraFunctionality()
@@ -702,6 +704,14 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
                 signInLayout.setOnClickListener { v1: View? ->
                     if (enteredTaskName.toLowerCase().contains("marketing")) {
+                        for (i in imageList.indices) {
+                            if (imageList[i].file != null) {
+                                var fileUploadModel = AttendenceFileUploadModel()
+                                fileUploadModel.file = compresImageSize(imageList.get(i).file)
+//                            fileUploadModel.categoryId = i.categoryId
+                                fileUploadModelList.add(fileUploadModel)
+                            }
+                        }
                         AttendenceFileUpload().uploadFiles(
                             requireContext(),
                             this,
@@ -1314,14 +1324,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             imageAdapter = AttendenceImageRecycleView(requireContext(), imageList, this)
             imageRecycleView.adapter = imageAdapter
 
-            for (i in imageList.indices) {
-                if (imageList[i].file != null) {
-                    var fileUploadModel = AttendenceFileUploadModel()
-                    fileUploadModel.file = compresImageSize(imageList.get(i).file)
-//                            fileUploadModel.categoryId = i.categoryId
-                    fileUploadModelList.add(fileUploadModel)
-                }
-            }
+
 //            AttendenceFileUpload().uploadFiles(
 //                requireContext(),
 //                this,
@@ -1588,7 +1591,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
 
     override fun allFilesDownloaded(
-        fileUploadModelList: List<AttendenceFileUploadModel>?,
+        fileUploadModelList: ArrayList<AttendenceFileUploadModel>?,
         dialog: Dialog
     ) {
 
@@ -1614,7 +1617,11 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                     ), "", siteIds, doctorNAme, imageUrls, subTaskName
                 )
             )
+            imageList.clear()
+            fileUploadModelList.clear()
+            imageUrls=""
             dialog.dismiss()
+
         } else {
             Toast.makeText(
                 requireContext(),

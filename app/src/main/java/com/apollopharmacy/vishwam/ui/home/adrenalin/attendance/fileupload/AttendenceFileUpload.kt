@@ -21,17 +21,18 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.ArrayList
 
 class AttendenceFileUpload {
 
     var context: Context? = null
     var fileUploadCallback: AttendenceFileUploadCallback? = null
-    var fileUploadModelList: List<AttendenceFileUploadModel>? = null
+    var fileUploadModelList: ArrayList<AttendenceFileUploadModel>? = null
     lateinit var dialog:Dialog
     fun uploadFiles(
         context: Context,
         fileUploadCallback: AttendenceFileUploadCallback,
-        fileUploadModelList: List<AttendenceFileUploadModel>?,
+        fileUploadModelList: ArrayList<AttendenceFileUploadModel>?,
         dialog: Dialog
     ) {
         this.context = context
@@ -137,7 +138,7 @@ class AttendenceFileUpload {
     fun downloadFiles(
         context: Context,
         fileUploadCallback: AttendenceFileUploadCallback,
-        fileUploadModelList: List<AttendenceFileUploadModel>?,
+        fileUploadModelList: ArrayList<AttendenceFileUploadModel>?,
     ) {
         this.context = context
         this.fileUploadCallback = fileUploadCallback
