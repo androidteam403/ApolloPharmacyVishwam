@@ -307,6 +307,16 @@ interface ViswamAppApi {
         @Query("DEPTID") id: Int,
     ): DepartmentTaskListRes
 
+
+    @GET
+    suspend fun getDepartmentSubTaskList(
+        @Header("token") token: String,
+        @Url url: String,
+        @Query("TASKID") id: Int,
+    ): DepartmentSubTaskResponse
+
+
+
     //@GET("https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/ticket-list-by-site-id?")
     @GET
     suspend fun getTicketlist(

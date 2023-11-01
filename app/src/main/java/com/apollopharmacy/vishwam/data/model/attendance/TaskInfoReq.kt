@@ -11,5 +11,6 @@ data class TaskInfoReq(
     var Remarks: String,
     var SITEID: String,
     var DOCTORNAME: String,
-
+    var IMAGEURLS: String,
+    var SUBTASKNAME: String,
     )
