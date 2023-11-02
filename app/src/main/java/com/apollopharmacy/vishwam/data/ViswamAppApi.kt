@@ -300,6 +300,12 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Url url: String,
     ): DepartmentListRes
+    @GET
+    suspend fun getDepartmentSubTaskList(
+        @Header("token") token: String,
+        @Url url: String,
+        @Query("TASKID") id: Int,
+    ): DepartmentSubTaskResponse
 
     @GET
     suspend fun getAtdDepartmentTaskList(
