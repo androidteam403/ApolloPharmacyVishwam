@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
+    <RelativeLayout
         android:id="@+id/headerLayout"
-        android:background="@drawable/rectangular_rounded_corners_bg"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="15dp"
-        android:layout_marginEnd="10dp">
+        android:background="@drawable/rectangular_rounded_corners_bg">
 
 
         <LinearLayout
@@ -19,9 +19,10 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/value_40dp"
+                android:layout_height="@dimen/value_40dp"
                 android:layout_marginTop="5dp"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/attendance" />
 
             <TextView
@@ -29,8 +30,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="Attendance"
                 android:fontFamily="@font/roboto_bold"
+                android:text="Attendance"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="10sp" />

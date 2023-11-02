@@ -56,9 +56,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/value_15dp"
-            android:text="Dashboard"
+            android:text="@string/label_vishwam_dashboard"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_16sp"
+            android:textSize="@dimen/text_18sp"
             android:textStyle="bold"
             android:visibility="visible" />
 
@@ -345,6 +345,7 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/help"
                 android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/logoutBtn"
                 android:layout_width="22dp"
