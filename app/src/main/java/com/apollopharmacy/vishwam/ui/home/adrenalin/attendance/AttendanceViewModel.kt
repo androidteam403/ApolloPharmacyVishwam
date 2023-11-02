@@ -10,23 +10,25 @@ import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.azure.ConnectionAzure
 import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
-import com.apollopharmacy.vishwam.data.model.attendance.*
+import com.apollopharmacy.vishwam.data.model.attendance.AtdLogInOutReq
+import com.apollopharmacy.vishwam.data.model.attendance.DepartmentListRes
+import com.apollopharmacy.vishwam.data.model.attendance.DepartmentSubTaskResponse
+import com.apollopharmacy.vishwam.data.model.attendance.DepartmentTaskListRes
+import com.apollopharmacy.vishwam.data.model.attendance.GetTaskListResponse
+import com.apollopharmacy.vishwam.data.model.attendance.LoginInfoRes
+import com.apollopharmacy.vishwam.data.model.attendance.TaskInfoReq
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.AttendanceRepo
-import com.apollopharmacy.vishwam.data.network.SwachhListApiResponse
-import com.apollopharmacy.vishwam.ui.createpin.Command
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragmentCallback
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.ApproveRejectListRequest
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 class AttendanceViewModel : ViewModel() {
     var complainLiveData = MutableLiveData<ArrayList<GetTaskListResponse>>()
@@ -34,6 +36,7 @@ class AttendanceViewModel : ViewModel() {
     var command = LiveEvent<AttendanceCommand>()
     var siteLiveData = MutableLiveData<SiteListResponse>()
     var doctorLiveData = MutableLiveData<DoctorListResponse>()
+    var departmentSubTaskData = MutableLiveData<DepartmentSubTaskResponse>()
 
     val state = MutableLiveData<State>()
     var departmentData = MutableLiveData<DepartmentListRes>()
@@ -54,7 +57,48 @@ class AttendanceViewModel : ViewModel() {
                     }
                     when (response) {
                         is ApiResult.Success -> {
-                            lastLoginData.value = response.value
+                            lastLoginData.value = response.value!!
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.NetworkError -> {
+                            command.value =
+                                AttendanceCommand.ShowToast("Please Check Internet Connection")
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.GenericError -> {
+                            command.value = AttendanceCommand.ShowToast("Unknown Error")
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.UnknownError -> {
+                            command.value =
+                                AttendanceCommand.ShowToast("Something went wrong, please try again later")
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.UnknownHostException -> {
+                            command.value =
+                                AttendanceCommand.ShowToast("Something went wrong, please try again later")
+                            state.value = State.ERROR
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fun getSubTaskList(taskId: Int) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("ATTENDENCE GETALLTASKSBYDEPTID")) {
+                val token = data.APIS[i].TOKEN
+                val baseUrl = "https://viswam.apollopharmacy.org/mprodempuat/Apollo/LOGIN/GETALLSUBTASKSBYTASID?TASKID="+taskId
+                state.value = State.SUCCESS
+                viewModelScope.launch {
+                    val response = withContext(Dispatchers.IO) {
+                        AttendanceRepo.getDepartmentSubTasks(token, baseUrl, taskId)
+                    }
+                    when (response) {
+                        is ApiResult.Success -> {
+                            departmentSubTaskData.value = response.value!!
                             state.value = State.ERROR
                         }
                         is ApiResult.NetworkError -> {
@@ -96,7 +140,7 @@ class AttendanceViewModel : ViewModel() {
                     }
                     when (response) {
                         is ApiResult.Success -> {
-                            complainLiveData.value = response.value
+                            complainLiveData.value = response.value!!
                             state.value = State.ERROR
                         }
                         is ApiResult.NetworkError -> {
@@ -204,7 +248,7 @@ class AttendanceViewModel : ViewModel() {
                         is ApiResult.Success -> {
 //                            Expected BEGIN_ARRAY but was BEGIN_OBJECT at line 1 column 2 path $
                             state.value = State.ERROR
-                            siteLiveData.value = response.value
+                            siteLiveData.value = response.value!!
 
                         }
                         is ApiResult.NetworkError -> {
@@ -253,7 +297,7 @@ class AttendanceViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     state.value = State.ERROR
-                    doctorLiveData.value = response.value
+                    doctorLiveData.value = response.value!!
 
                 }
                 is ApiResult.NetworkError -> {
@@ -342,7 +386,7 @@ class AttendanceViewModel : ViewModel() {
                     }
                     when (response) {
                         is ApiResult.Success -> {
-                            departmentData.value = response.value
+                            departmentData.value = response.value!!
                             state.value = State.ERROR
                         }
                         is ApiResult.NetworkError -> {
@@ -384,7 +428,7 @@ class AttendanceViewModel : ViewModel() {
                     }
                     when (response) {
                         is ApiResult.Success -> {
-                            departmentTaskData.value = response.value
+                            departmentTaskData.value = response.value!!
                             state.value = State.ERROR
                         }
                         is ApiResult.NetworkError -> {

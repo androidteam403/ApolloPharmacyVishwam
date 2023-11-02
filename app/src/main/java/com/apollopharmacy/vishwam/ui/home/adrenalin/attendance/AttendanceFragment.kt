@@ -45,28 +45,33 @@ import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragmentCallback
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.adapter.AttendenceImageRecycleView
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.fileupload.AttendenceFileUpload
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.fileupload.AttendenceFileUploadCallback
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.fileupload.AttendenceFileUploadModel
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
+import com.apollopharmacy.vishwam.ui.home.drugmodule.model.AttendenceSubTaskDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DoctorListDialog
-import com.apollopharmacy.vishwam.ui.home.drugmodule.model.GstDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteDialogAttendence
 import com.apollopharmacy.vishwam.util.LocationUtil
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utils.*
+import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.google.android.material.textfield.TextInputLayout
 import com.waheed.location.updates.livedata.LocationViewModel
 import me.echodev.resizer.Resizer
+import org.apache.commons.lang3.StringUtils
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanceBinding>(),
     SiteDialogAttendence.NewDialogSiteClickListner, DoctorListDialog.NewDialogSiteClickListner,
-    MainActivityCallback,GstDialog.GstDialogClickListner,
+    MainActivityCallback,AttendenceSubTaskDialog.GstDialogClickListner,AttendenceFileUploadCallback,
 
     ImageClickListener, AttendanceFragmentCallback {
 
@@ -79,6 +84,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     lateinit var imageAdapter: AttendenceImageRecycleView
     private lateinit var cameraIcon: ImageView
     val MARKETING_TASK_LIST: ArrayList<String> = ArrayList()
+    var fileUploadModelList = ArrayList<AttendenceFileUploadModel>()
+    var imageUrlsList = ArrayList<String>()
 
     var lastLogDateTime: String = ""
     var taskAlreadyAvailable: Boolean = false
@@ -93,7 +100,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
     var siteIdList = ArrayList<SiteListResponse.Site>()
     var doctorList = ArrayList<DoctorListResponse.Doctor>()
-    val marketingSubTaskList: ArrayList<String> = ArrayList()
+    var marketingSubTaskList: ArrayList<DepartmentSubTaskResponse.Subtask> = ArrayList()
 
     lateinit var departmentTaskList: ArrayList<DepartmentTaskListRes.DepartmentTaskItem>
     val DEPT_TASK_LIST: ArrayList<String> = ArrayList()
@@ -106,6 +113,9 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     private lateinit var description: TextInputLayout
     private lateinit var captureLayout: LinearLayout
     private lateinit var marketingText: EditText
+    var subTaskName: String = ""
+    var imageUrls: String = ""
+    private lateinit var closeIcon: ImageView
 
     private lateinit var doctorSpecialist: EditText
     var comment: String = ""
@@ -162,6 +172,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             } else {
                 val dialog = Dialog(requireContext())
                 dialog.setContentView(R.layout.dialog_task_signin)
+                dialog.setCancelable(false)
+                dialog.setCanceledOnTouchOutside(false)
                 if (dialog.window != null) dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.show()
                 isDepartmentSelected = false
@@ -185,32 +197,24 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 description = dialog.findViewById<TextInputLayout>(R.id.description)
                 captureLayout = dialog.findViewById<LinearLayout>(R.id.capture_upload_layout)
                 marketingText = dialog.findViewById<EditText>(R.id.marketingIdSelectAttendence)
+                closeIcon = dialog.findViewById<ImageView>(R.id.close_icon)
 
 
 
 
 
-                MARKETING_TASK_LIST.add("Select Task")
-                /*MARKETING_TASK_LIST.add("Social Media")
-                MARKETING_TASK_LIST.add("Advertising")*/
-                MARKETING_TASK_LIST.add("Office work")
-                MARKETING_TASK_LIST.add("New business client visit")
-                MARKETING_TASK_LIST.add("Debtor Follow-up Client Visit")
-                MARKETING_TASK_LIST.add("Existing client relationship visit")
-                /*marketingSubTaskList.add("Select SubTask")
-                marketingSubTaskList.add("Watsapp")
-                marketingSubTaskList.add("Instagram")
-                marketingSubTaskList.add("Youtube")
-                marketingSubTaskList.distinct()*/
 
+                closeIcon.setOnClickListener {
+                    dialog.dismiss()
+                }
                 cameraIcon.setOnClickListener {
                     handleTaskCameraFunctionality()
                 }
                 marketingText.setOnClickListener {
 
 
-                    GstDialog().apply {
-                        arguments = GstDialog().generateParsedData(marketingSubTaskList)
+                    AttendenceSubTaskDialog().apply {
+                        arguments = AttendenceSubTaskDialog().generateParsedData(marketingSubTaskList)
                     }.show(childFragmentManager, "")
                 }
                 siteIdText.setOnClickListener {
@@ -232,9 +236,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
 
 
-                DEPT_LIST.add("Select Department")
-                DEPT_LIST.add("Marketing")
-                dept_List_Map.put(Integer.parseInt("1001"), "Marketing")
+
                 for (item in departmentList) {
                     dept_List_Map.put(Integer.parseInt(item.ID), item.DEPARTMENT)
                     DEPT_LIST.add(item.DEPARTMENT)
@@ -268,7 +270,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                         requireContext(),
                                         R.layout.view_spinner_item,
                                         R.id.spinner_text,
-                                        MARKETING_TASK_LIST.distinct()
+                                       DEPT_TASK_LIST
                                     )
 
                                     marketingText.visibility = View.GONE
@@ -332,51 +334,12 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
 
                         if (position != 0) {
-                            if (taskName && (MARKETING_TASK_LIST.get(position).equals("Office work")
-                                        || MARKETING_TASK_LIST.get(position)
-                                    .equals("New business client visit")
-                                        || MARKETING_TASK_LIST.get(position)
-                                    .equals("Debtor Follow-up Client Visit")
-                                        || MARKETING_TASK_LIST.get(position)
-                                    .equals("Existing client relationship visit"))
-                            ) {
-                                marketingText.visibility = View.VISIBLE
-                                marketingText.setText("")
-                                description.visibility = View.GONE
-                                captureLayout.visibility = View.GONE
-                                if (MARKETING_TASK_LIST.get(position).equals("Office work")) {
-                                    marketingSubTaskList.clear()
-                                    marketingSubTaskList.add("Discussion with RH")
-                                    marketingSubTaskList.add("New proposal working")
-                                    marketingSubTaskList.add("Discussion with Team")
-                                    marketingSubTaskList.add("Internal review")
-                                } else if (MARKETING_TASK_LIST.get(position)
-                                        .equals("New business client visit")
-                                ) {
-                                    marketingSubTaskList.clear()
-                                    marketingSubTaskList.add("Private Corp")
-                                    marketingSubTaskList.add("PSU")
-                                } else if (MARKETING_TASK_LIST.get(position)
-                                        .equals("Debtor Follow-up Client Visit")
-                                ) {
-                                    marketingSubTaskList.clear()
-                                    marketingSubTaskList.add("Long over due discussion")
-                                    marketingSubTaskList.add("Bill submission issue")
-                                    marketingSubTaskList.add("Related to current O/S")
-                                    marketingSubTaskList.add("Any other mandatory typing space")
-                                } else if (MARKETING_TASK_LIST.get(position)
-                                        .equals("Existing client relationship visit")
-                                ) {
-                                    marketingSubTaskList.clear()
-                                    marketingSubTaskList.add("General feedback visit")
-                                    marketingSubTaskList.add("Specific issue based visit")
-                                }
-                                marketingSubBranch.visibility = View.VISIBLE
+
 
                             }
 
 
-                        }
+
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>) {
@@ -396,47 +359,23 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                     ) {
 
 
-                        if (taskName &&
-                            (MARKETING_TASK_LIST.get(position).equals("Office work")
-                                    || MARKETING_TASK_LIST.get(position)
-                                .equals("New business client visit")
-                                    || MARKETING_TASK_LIST.get(position)
-                                .equals("Debtor Follow-up Client Visit")
-                                    || MARKETING_TASK_LIST.get(position)
-                                .equals("Existing client relationship visit"))
-                        ) {
+
+                            for (i in departmentTaskList.indices) {
+
+                                if (DEPT_TASK_LIST.get(position)
+                                        .equals(departmentTaskList.get(i).TASK)
+                                ) {
+
+
+                                    viewModel.getSubTaskList(departmentTaskList.get(i).ID.toInt())
+                                }
+
+
                             marketingText.visibility = View.VISIBLE
                             marketingText.setText("")
                             description.visibility = View.GONE
                             captureLayout.visibility = View.GONE
-                            if (MARKETING_TASK_LIST.get(position).equals("Office work")) {
-                                marketingSubTaskList.clear()
-                                marketingSubTaskList.add("Discussion with RH")
-                                marketingSubTaskList.add("New proposal working")
-                                marketingSubTaskList.add("Discussion with Team")
-                                marketingSubTaskList.add("Internal review")
-                            } else if (MARKETING_TASK_LIST.get(position)
-                                    .equals("New business client visit")
-                            ) {
-                                marketingSubTaskList.clear()
-                                marketingSubTaskList.add("Private Corp")
-                                marketingSubTaskList.add("PSU")
-                            } else if (MARKETING_TASK_LIST.get(position)
-                                    .equals("Debtor Follow-up Client Visit")
-                            ) {
-                                marketingSubTaskList.clear()
-                                marketingSubTaskList.add("Long over due discussion")
-                                marketingSubTaskList.add("Bill submission issue")
-                                marketingSubTaskList.add("Related to current O/S")
-                                marketingSubTaskList.add("Any other mandatory typing space")
-                            } else if (MARKETING_TASK_LIST.get(position)
-                                    .equals("Existing client relationship visit")
-                            ) {
-                                marketingSubTaskList.clear()
-                                marketingSubTaskList.add("General feedback visit")
-                                marketingSubTaskList.add("Specific issue based visit")
-                            }
-                            marketingSubBranch.visibility = View.VISIBLE
+
                         }
                         if (position != 0) {
 
@@ -500,8 +439,23 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
                 signInLayout.setOnClickListener { v1: View? ->
 
+                    if (enteredTaskName.toLowerCase().contains("marketing")&&imageList.size>0) {
 
-                    if (!isDepartmentSelected) {
+                        for (i in imageList.distinct().indices) {
+                            if (imageList[i].file != null) {
+                                var fileUploadModel = AttendenceFileUploadModel()
+                                fileUploadModel.file = compresImageSize(imageList.get(i).file)
+//                            fileUploadModel.categoryId = i.categoryId
+                                fileUploadModelList.add(fileUploadModel)
+                            }
+                        }
+                        AttendenceFileUpload().uploadFiles(
+                            requireContext(),
+                            this,
+                            fileUploadModelList, dialog
+                        )
+                    }
+                   else if (!isDepartmentSelected) {
                         Toast.makeText(
                             requireContext(),
                             "Please select any department",
@@ -535,7 +489,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                                 requireContext(),
                                                 locationLatitude.toDouble(),
                                                 locationLongitude.toDouble()
-                                            ), "", siteIds, doctorNAme
+                                            ), "", siteIds, doctorNAme,imageUrls,subTaskName
                                         )
                                     )
                                     dialog.dismiss()
@@ -609,17 +563,17 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             }
         })
 
-        viewModel.departmentData.observe(viewLifecycleOwner, {
+        viewModel.departmentData.observe(viewLifecycleOwner) {
             if (it.status) {
                 departmentList = it.DEPARTMENTLIST
             } else {
                 Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             }
-        })
+        }
 
 
 
-        viewModel.siteLiveData.observe(viewLifecycleOwner, {
+        viewModel.siteLiveData.observe(viewLifecycleOwner) {
             hideLoading()
 
             if (it.sitelist?.isEmpty()!!) {
@@ -630,9 +584,9 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
             }
 
-        })
+        }
 
-        viewModel.doctorLiveData.observe(viewLifecycleOwner, {
+        viewModel.doctorLiveData.observe(viewLifecycleOwner) {
             hideLoading()
             if (it.doctorlist?.isEmpty()!!) {
 
@@ -644,9 +598,21 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             }
 
 
-        })
+        }
+
+        viewModel.departmentSubTaskData.observe(viewLifecycleOwner) {
+            marketingSubTaskList.clear()
+            marketingText.setText("")
+
+            if (it.status!!) {
+                marketingSubTaskList =
+                    it.subtasklist as ArrayList<DepartmentSubTaskResponse.Subtask>
+            }
+
+            marketingSubBranch.visibility = View.VISIBLE
 
 
+        }
 
         viewModel.departmentTaskData.observe(viewLifecycleOwner, {
             DEPT_TASK_LIST.clear()
@@ -1108,7 +1074,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 requireContext(),
                                 locationLatitude.toDouble(),
                                 locationLongitude.toDouble()
-                            ), remarks, siteIds, doctorNAme
+                            ), remarks, siteIds, doctorNAme,imageUrls,subTaskName
                         )
                     )
                 } else {
@@ -1423,6 +1389,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             imageList.add(Image(compresImageSize(imageFromCameraFile!!), "", ""))
             imageAdapter = AttendenceImageRecycleView(requireContext(), imageList, this)
             imageRecycleView.adapter = imageAdapter
+
         }
         else  if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
             isPermissionAsked = false
@@ -1735,9 +1702,58 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
 
     override fun selectGST(gst: String) {
+        subTaskName = gst
         marketingText.setText(gst)
         description.visibility = View.VISIBLE
         captureLayout.visibility = View.VISIBLE
+    }
+
+    override fun onFailureUpload(message: String) {
+
+    }
+
+    override fun allFilesDownloaded(
+        fileUploadModelList: ArrayList<AttendenceFileUploadModel>?,
+        dialog: Dialog,
+    ) {
+
+        imageUrls = fileUploadModelList!!.mapNotNull {
+            it.fileDownloadResponse?.referenceurl
+        }.map {
+            RijndaelCipherEncryptDecrypt().decrypt(it, "blobfilesload")
+        }.joinToString(", ")
+            if (NetworkUtil.isNetworkConnected(requireContext())) {
+                showLoading()
+                viewModel.taskInsertUpdateService(
+                    TaskInfoReq(
+                        enteredTaskName,
+                        employeeID,
+                        "",
+                        locationLatitude,
+                        locationLongitude,
+                        "SIGNIN",
+                        getAttendanceCity(
+                            requireContext(),
+                            locationLatitude.toDouble(),
+                            locationLongitude.toDouble()
+                        ), "", siteIds, doctorNAme, imageUrls, subTaskName
+                    )
+                )
+                imageList.clear()
+                fileUploadModelList.clear()
+                dialog.dismiss()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    context?.resources?.getString(R.string.label_network_error),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+        }
+
+
+    override fun allFilesUploaded(fileUploadModelList: List<AttendenceFileUploadModel>?) {
     }
 }
 

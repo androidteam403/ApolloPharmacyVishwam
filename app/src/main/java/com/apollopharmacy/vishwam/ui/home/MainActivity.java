@@ -1045,8 +1045,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 break;
 
-            case "Complaint Register":
-                headerText.setText("Complaint Registration");
+            case "Register Complaint":
+                headerText.setText("Register Complaint");
                 fragment = new RegistrationFragment();
                 filterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
@@ -1075,8 +1075,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
-            case "Complaint List":
-                headerText.setText("Complaint List");
+            case "Complaints":
+                headerText.setText("Complaints");
                 fragment = new ComplainListFragment();
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1102,8 +1102,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
-            case "Approval List":
-                headerText.setText("Approval List");
+            case "Approvals":
+                headerText.setText("Approvals");
 //                fragment = new ComplainListFragment();
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
@@ -1192,7 +1192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Pending":
-                headerText.setText("Pending List");
+                headerText.setText("Pending");
                 fragment = new PendingOrderFragment();
                 refreshIconQc.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
@@ -1220,7 +1220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Approved":
-                headerText.setText("Approved List");
+                headerText.setText("Approved");
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 fragment = new ApprovedFragment();
@@ -1248,7 +1248,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Rejected":
-                headerText.setText("Rejected List");
+                headerText.setText("Rejected");
                 fragment = new RejectedFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1277,7 +1277,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
             case "Bill":
-                headerText.setText("Bill List");
+                headerText.setText("Bill");
                 fragment = new BillCompletedFragment();
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1363,7 +1363,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
-            case "Upload":
+            case "New Swachh":
                 headerText.setText("SWACHH LIST");
                 fragment = new SampleSwachUi();
                 filterIcon.setVisibility(View.VISIBLE);
@@ -1392,7 +1392,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
-            case "List":
+            case "Swachh Details":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -1423,8 +1423,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
-            case "New Drug Request":  //"Drug Request":
-                headerText.setText("New Drug Request");
+            case "Request New Drug":  //"Drug Request":
+                headerText.setText("Request New Drug");
                 fragment = new Drug();
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1455,7 +1455,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
-            case "Greetings to Chairman":
+            case "Greetings":
                 Intent i = new Intent(this, GreetingActivity.class);
                 refreshIconQc.setVisibility(View.GONE);
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
@@ -1499,8 +1499,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                isHomeScreen = false;
 //                riderNotificationLayout.setVisibility(View.GONE);
 //                break;
-            case "APNA":
-                headerText.setText("APNA Survey");
+            case "Apna Survey":
+                headerText.setText("Apna Survey");
                 fragment = new ApnaSurveyFragment();
                 filterIcon.setVisibility(View.VISIBLE);
                 plusIconApna.setVisibility(View.VISIBLE);
@@ -1530,8 +1530,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                bottomNavigationView.setBackgroundColor(Color.parseColor("#0c273a"));
                 break;
 
-            case "Apollo Sensing":
-                headerText.setText("Apollo Pharmacy");
+            case "Sensing":
+                headerText.setText("Sensing");
                 fragment = new ApolloSensingFragment();
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1560,7 +1560,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case "Retro QR":
-                headerText.setText("RETRO QR");
+                headerText.setText("Retro QR");
                 fragment = new RetroQrFragment();
                 filterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1589,8 +1589,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
                 break;
 
-            case "New Drug List":  //"Drug List":
-                headerText.setText("New Drug List");
+            case "Drug Requests":  //"Drug List":
+                headerText.setText("Drug Requests");
                 fragment = new DrugListFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1623,7 +1623,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
-            case "Qc Dashboard":
+            case "Dashboard":
                 headerText.setText("Dashboard");
                 fragment = new QcDashboard();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -1651,7 +1651,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
-            case "Out Standing":
+            case "Outstanding":
                 headerText.setText("Pending List");
                 fragment = new PendingFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
@@ -1684,8 +1684,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent j = new Intent(this, SplashScreen.class);
                 startActivity(j);
                 break;
-            case "Dashboard":
-                headerText.setText("Dashboard");
+            case "Dashboard Rider":
+                headerText.setText("Monitoring Dashboard");
                 fragment = new DashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
@@ -1712,8 +1712,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(true);
                 break;
 
-            case "Planogram Evaluation":
-                headerText.setText("Planogram Evaluation");
+            case "Evaluation":
+                headerText.setText("Evaluation");
                 fragment = new PlanogramFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -1851,7 +1851,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(true);
                 break;
-            case "Complaints":
+            case "Complaints rider":
                 headerText.setText("Complaints");
                 fragment = new ComplaintsFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -1942,7 +1942,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
                 startActivity(intent);
                 break;
-            case "Qc Approved":
+            case "QC Approved":
                 headerText.setText("Approved List");
                 fragment = new com.apollopharmacy.vishwam.ui.home.qcfail.approved.ApprovedFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
@@ -1972,7 +1972,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
-            case "Qc Rejected":
+            case "QC Rejected":
                 headerText.setText("Rejected List");
                 fragment = new com.apollopharmacy.vishwam.ui.home.qcfail.rejected.RejectedFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
@@ -2099,8 +2099,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 break;
 
-            case "Creation":
-                headerText.setText("Pre Retro");
+            case "New Retro":
+                headerText.setText("New Retro");
                 Bundle bundlePreRectro = new Bundle();
                 bundlePreRectro.putBoolean("fromPreRectro", true);
                 PreRectroFragment fragPreRectro = new PreRectroFragment();
@@ -2306,7 +2306,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
                 break;
-            case "DashboardCeo":
+            case "Monitoring Dashboard":
                 if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")) {
 //                    headerText.setText("Ceo Dashboard");
                     headerText.setText("Dashboard");

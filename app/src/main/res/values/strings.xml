@@ -501,5 +501,8 @@
     <string name="label_to_date">to date</string>
     <string name="label_search">Search</string>
     <string name="label_select_store_id">Select Store</string>
+    <string name="label_search_model">Search Model</string>
+    <string name="label_search_module">Search Module</string>
+    <string name="label_vishwam_dashboard">Vishwam Dashboard</string>
 
 </resources>
