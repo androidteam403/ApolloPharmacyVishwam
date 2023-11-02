@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Select Store ID"
+                android:text="Select Store"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_18sp"
                 android:textStyle="bold" />
@@ -57,13 +57,14 @@
                     android:id="@+id/searchSiteText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
-                    android:hint=""
                     android:inputType="text"
+                    android:hint="@string/label_search_site_id"
+                    android:drawableStart="@drawable/close_blue_new"
+                    android:drawableTint="@color/grey"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
                     android:singleLine="true"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/black"
                     android:textSize="@dimen/text_15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 

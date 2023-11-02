@@ -33,22 +33,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Select Store ID"
+                android:text="Select Store"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_18sp"
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/close_dialog"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/value_10dp"
-                android:contentDescription="@string/app_name"
+                android:id="@+id/backButton"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:layout_gravity="center"
                 android:onClick="@{()-> callback.onClickCancel()}"
-                android:src="@drawable/icon_close"
-                app:tint="@color/white" />
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/icon_back_arrow"
+                />
+
+<!--            <ImageView-->
+<!--                android:id="@+id/close_dialog"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_marginEnd="@dimen/value_10dp"-->
+<!--                android:contentDescription="@string/app_name"-->
+<!--                android:onClick="@{()-> callback.onClickCancel()}"-->
+<!--                android:src="@drawable/icon_close"-->
+<!--                app:tint="@color/white" />-->
         </RelativeLayout>
 
         <LinearLayout
@@ -76,7 +88,8 @@
                     android:singleLine="true"
                     android:gravity="center_vertical"
                     android:drawablePadding="@dimen/value_10dp"
-                    android:drawableStart="@drawable/ic_search_grey"
+                    android:drawableStart="@drawable/close_blue_new"
+                    android:drawableTint="@color/grey"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_15sp" />
             </com.google.android.material.textfield.TextInputLayout>

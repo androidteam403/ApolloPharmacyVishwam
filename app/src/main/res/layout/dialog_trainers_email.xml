@@ -91,16 +91,18 @@
                 />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:layout_marginBottom="@dimen/value_10dp"
+                android:layout_marginBottom="@dimen/value_5dp"
                 android:id="@+id/submit"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/value_35dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/value_5dp"
                 android:background="@drawable/yellow_drawable"
                 android:text="Select"
                 android:textColor="@color/black"
                 android:textAlignment="center"
                 android:textSize="@dimen/text_14sp" />
+
         </LinearLayout>
     </RelativeLayout>
 </layout>
