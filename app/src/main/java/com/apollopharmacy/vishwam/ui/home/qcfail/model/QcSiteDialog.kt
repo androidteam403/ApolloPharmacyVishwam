@@ -68,7 +68,7 @@ class QcSiteDialog : DialogFragment() {
         viewBinding.closeDialog.visibility = View.VISIBLE
         var storeIdList: List<String>
 
-        viewBinding.searchSiteText.setHint("Search Site Id or Site Name")
+//        viewBinding.searchSiteText.setHint("Search store or store name")
         storeIdList = Preferences.getQcSite().split(",")
         var uniqueStoreList = ArrayList<UniqueStoreList>()
         if (storeIdList != null) {

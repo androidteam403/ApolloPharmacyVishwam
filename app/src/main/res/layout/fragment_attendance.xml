@@ -347,9 +347,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/taskRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:layout_marginEnd="@dimen/value_10dp"
                 android:layout_height="match_parent"
                 android:layout_below="@id/headerLayout"
                 android:padding="@dimen/value_5dp"

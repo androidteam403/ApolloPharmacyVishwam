@@ -23,12 +23,24 @@
                 android:padding="@dimen/value_10dp">
 
                 <ImageView
-                    android:layout_width="@dimen/value_40dp"
-                    android:layout_height="@dimen/value_40dp"
-                    android:layout_marginTop="@dimen/value_3dp"
-                    android:contentDescription="@string/app_name"
+                    android:layout_marginEnd="@dimen/value_10dp"
                     android:onClick="@{()-> callback.onClickBack()}"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
+                    android:id="@+id/backArrow"
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/icon_back_arrow"
+                    />
+
+<!--                <ImageView-->
+<!--                    android:layout_width="@dimen/value_40dp"-->
+<!--                    android:layout_height="@dimen/value_40dp"-->
+<!--                    android:layout_marginTop="@dimen/value_3dp"-->
+<!--                    android:contentDescription="@string/app_name"-->
+<!--                    android:onClick="@{()-> callback.onClickBack()}"-->
+<!--                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />-->
 
                 <LinearLayout
                     android:layout_width="wrap_content"

@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="Select Store ID"
+                    android:text="Select Store"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/text_18sp"
                     android:textStyle="bold" />
@@ -74,7 +74,8 @@
                         android:id="@+id/searchSiteText"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_50dp"
-                        android:drawableStart="@drawable/ic_search_grey"
+                        android:drawableStart="@drawable/close_blue_new"
+                        android:drawableTint="@color/grey"
                         android:drawablePadding="@dimen/value_10dp"
                         android:gravity="center_vertical"
                         android:hint="@string/label_search_site_id"

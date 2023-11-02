@@ -127,7 +127,7 @@
 
     <string name="label_type_pharmacy">P</string>
     <string name="label_type_delivery">D</string>
-    <string name="label_select_site_id">Select Site Id  <font color='#cc0029\'></font></string>
+    <string name="label_select_site_id">Select Store  <font color='#cc0029\'></font></string>
     <string name="label_select_department">Select Department <font color='#cc0029\'>*</font></string>
     <string name="label_select_category">Select Category  <font color='#FF0000'>*</font></string>
     <string name="label_select_sub_category">Select Sub Category  <font color='#FF0000'>*</font></string>
@@ -289,7 +289,7 @@
     <string name="label_no_tasks">No Tasks Available</string>
     <string name="label_permission_denied">Permission Denied</string>
     <string name="label_select_site">Select Site ID</string>
-    <string name="label_search_site_id">Search Site Id or Site Name</string>
+    <string name="label_search_site_id">Search Store or Store Name</string>
     <string name="label_site_not_available">Site Not Available</string>
     <string name="label_sub_category_list">Sub Category List</string>
     <string name="label_reasonlist_list">Reason List</string>
@@ -500,7 +500,7 @@
     <string name="label_by_date">by date</string>
     <string name="label_to_date">to date</string>
     <string name="label_search">Search</string>
-    <string name="label_select_store_id">Select Store ID</string>
+    <string name="label_select_store_id">Select Store</string>
     <string name="label_search_model">Search Model</string>
     <string name="label_search_module">Search Module</string>
     <string name="label_vishwam_dashboard">Vishwam Dashboard</string>

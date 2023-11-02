@@ -32,14 +32,35 @@
                         android:layout_width="0dp"
                         android:layout_weight="0.1"
                         android:layout_height="wrap_content">
-
                         <ImageView
-                            android:layout_width="@dimen/value_40dp"
-                            android:layout_height="@dimen/value_40dp"
-                            android:layout_marginTop="@dimen/value_3dp"
-                            android:contentDescription="@string/app_name"
+                            android:layout_marginEnd="@dimen/value_10dp"
                             android:onClick="@{()-> callback.onClickBack()}"
-                            android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
+                            android:id="@+id/backArrow"
+                            android:layout_width="37dp"
+                            android:layout_height="37dp"
+                            android:layout_gravity="center"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/icon_back_arrow"
+                            />
+
+<!--                        <ImageView-->
+<!--                            android:onClick="@{()-> callback.onClickBack()}"-->
+<!--                            android:id="@+id/backArrow"-->
+<!--                            android:layout_width="@dimen/value_40dp"-->
+<!--                            android:layout_height="@dimen/value_40dp"-->
+<!--                            android:layout_centerVertical="true"-->
+<!--                            android:contentDescription="@string/app_name"-->
+<!--                            android:src="@drawable/icon_back_arrow"-->
+<!--                            />-->
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="@dimen/value_40dp"-->
+<!--                            android:layout_height="@dimen/value_40dp"-->
+<!--                            android:layout_marginTop="@dimen/value_3dp"-->
+<!--                            android:contentDescription="@string/app_name"-->
+<!--                            android:onClick="@{()-> callback.onClickBack()}"-->
+<!--                            android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />-->
 
                     </LinearLayout>
 
@@ -1796,25 +1817,22 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
-                                   android:id="@+id/trainer_layout"
+                                    android:id="@+id/trainerLayout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="@dimen/value_3dp"
+                                    android:background="@drawable/manual_recipients_email_bg"
                                     android:gravity="center"
-                                    android:orientation="horizontal"
+                                    android:orientation="vertical"
                                     android:padding="@dimen/value_8dp">
 
                                     <TextView
-                                        android:background="@drawable/manual_recipients_email_bg"
                                         android:id="@+id/trainer"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
                                         android:textColor="@color/darkk_blue"
                                         android:textStyle="bold" />
-
                                 </LinearLayout>
-
-
 
 
                                 <androidx.recyclerview.widget.RecyclerView
