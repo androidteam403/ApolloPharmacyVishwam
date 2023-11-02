@@ -439,7 +439,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
                 signInLayout.setOnClickListener { v1: View? ->
 
-                    if (enteredTaskName.toLowerCase().contains("marketing")) {
+                    if (enteredTaskName.toLowerCase().contains("marketing")&&imageList.size>0) {
 
                         for (i in imageList.distinct().indices) {
                             if (imageList[i].file != null) {
