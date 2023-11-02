@@ -90,6 +90,7 @@ class ApnaSurveyAdapter(
                 holder.apnaSurveyLayoutBinding.status.setText("-")
             } else {
                 holder.apnaSurveyLayoutBinding.status.setText(approvedOrders.status!!.name)
+                holder.apnaSurveyLayoutBinding.status.setTextColor(Color.parseColor(approvedOrders.status!!.backgroundColor))
             }
         }
 //        holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.surveyId)

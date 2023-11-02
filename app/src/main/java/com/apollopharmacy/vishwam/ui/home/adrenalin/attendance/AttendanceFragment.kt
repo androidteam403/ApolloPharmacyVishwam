@@ -910,12 +910,12 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         ) {
             if (items.signOutDate.isNullOrEmpty()) {
 
-                binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
+//                binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
                 binding.taskCompletedLayout.visibility = View.GONE
 //                binding.taskPendingLayout.visibility = View.VISIBLE
             } else {
 
-                binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.newtask_bgs))
+//                binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.newtask_bgs))
                 binding.taskCompletedLayout.visibility = View.VISIBLE
 //                binding.taskPendingLayout.visibility = View.GONE
                 binding.signOutTime.text =
@@ -935,17 +935,17 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             if (items.isExpanded) {
                 binding.viewExpand.visibility = View.VISIBLE
                 binding.viewCollapse.visibility = View.GONE
-               binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
+//               binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
 
                 if (items.signOutDate.isNullOrEmpty()) {
 //                    binding.taskCompletedLayout.visibility = View.GONE
 //                    binding.taskPendingLayout.visibility = View.VISIBLE
                     binding.durationLayout.visibility=View.GONE
                     binding.taskPendingLayout.visibility = View.VISIBLE
-                   binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
+//                   binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
 
                 } else {
-                   binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
+//                   binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
 //
 //                    binding.taskCompletedLayout.visibility = View.VISIBLE
                    binding.taskPendingLayout.visibility = View.GONE
@@ -955,7 +955,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             else {
                 binding.viewExpand.visibility = View.GONE
                 binding.viewCollapse.visibility = View.VISIBLE
-               binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.newtask_bgs))
+//               binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.newtask_bgs))
 
 //                binding.taskCompletedLayout.visibility = View.GONE
                 binding.taskPendingLayout.visibility = View.GONE

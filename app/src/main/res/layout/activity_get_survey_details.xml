@@ -107,6 +107,7 @@
             <!--                </LinearLayout>-->
             <!--            </LinearLayout>-->
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="@dimen/value_10dp"
                 android:layout_marginStart="@dimen/text_dimen_10"
                 android:layout_marginEnd="@dimen/text_dimen_10"
                 android:id="@+id/recyclerViewList"

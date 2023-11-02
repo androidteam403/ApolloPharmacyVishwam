@@ -83,7 +83,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/label_registered_date"
-                                    android:textColor="#3a3a3b"
+                                    android:textColor="@color/reg_date_color"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <TextView

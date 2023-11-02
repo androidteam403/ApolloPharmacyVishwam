@@ -7,7 +7,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_blue"
     tools:context=".ui.home.swach.swachuploadmodule.reviewratingactivity.RatingReviewActivity">
 
 
@@ -24,12 +23,23 @@
             android:padding="@dimen/value_10dp">
 
             <ImageView
-                android:layout_marginTop="@dimen/value_3dp"
+                android:layout_marginEnd="@dimen/value_10dp"
                 android:id="@+id/backButton"
-                android:layout_width="@dimen/value_40dp"
-                android:layout_height="@dimen/value_40dp"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
+                android:src="@drawable/icon_back_arrow"
+                />
+
+<!--            <ImageView-->
+<!--                android:layout_marginTop="@dimen/value_3dp"-->
+<!--                android:id="@+id/backButton"-->
+<!--                android:layout_width="@dimen/value_40dp"-->
+<!--                android:layout_height="@dimen/value_40dp"-->
+<!--                android:contentDescription="@string/app_name"-->
+<!--                android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />-->
 
             <LinearLayout
 
