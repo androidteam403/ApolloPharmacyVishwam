@@ -121,8 +121,8 @@ class AttendenceFileUpload {
             uploadFile(fileUploadModelTemp)
         } else {
             hideLoading()
-//            fileUploadCallback!!.allFilesUploaded(fileUploadModelList)
-            downloadFiles(context!!, fileUploadCallback!!, fileUploadModelList)
+            fileUploadCallback!!.allFilesUploaded(fileUploadModelList,dialog)
+//            downloadFiles(context!!, fileUploadCallback!!, fileUploadModelList)
         }
     }
 

@@ -78,6 +78,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     var branchName: String = ""
     var fileUploadModelList = ArrayList<AttendenceFileUploadModel>()
     var subTaskName: String = ""
+    var remarks: String = ""
+
     var lastLogDateTime: String = ""
     var imageUrls: String = ""
     var taskAlreadyAvailable: Boolean = false
@@ -124,6 +126,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     var isMarketingSelected: Boolean = false
     private lateinit var description: TextInputLayout
     private lateinit var captureLayout: LinearLayout
+    private lateinit var descriptionText: EditText
 
     var isDepartmentSelected: Boolean = false
     var isDepartmentTaskSelected: Boolean = false
@@ -473,12 +476,16 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 imageRecycleView = dialog.findViewById<RecyclerView>(R.id.imageRecyclerView)
                 marketingSubBranch = dialog.findViewById<TextInputLayout>(R.id.marketingAttendence)
                 description = dialog.findViewById<TextInputLayout>(R.id.description)
+                descriptionText = dialog.findViewById<EditText>(R.id.descriptionText)
+
                 captureLayout = dialog.findViewById<LinearLayout>(R.id.capture_upload_layout)
                 doctorId = dialog.findViewById<TextInputLayout>(R.id.doctornameAttendence)
                 doctorSpecialist = dialog.findViewById<EditText>(R.id.doctorspecialityinattendence)
                 siteIdText = dialog.findViewById<EditText>(R.id.siteIdSelectAttendence)
                 doctorText = dialog.findViewById<EditText>(R.id.doctorNameSelectAttendence)
                 marketingText = dialog.findViewById<EditText>(R.id.marketingIdSelectAttendence)
+                remarks=descriptionText.text.toString().trim()
+
 
                 closeIcon.setOnClickListener {
                     dialog.dismiss()
@@ -703,7 +710,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
 
                 signInLayout.setOnClickListener { v1: View? ->
-                    if (enteredTaskName.toLowerCase().contains("marketing")) {
+                    if (enteredTaskName.toLowerCase().contains("marketing")&&imageList.size>0) {
                         for (i in imageList.indices) {
                             if (imageList[i].file != null) {
                                 var fileUploadModel = AttendenceFileUploadModel()
@@ -751,7 +758,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                                 requireContext(),
                                                 locationLatitude.toDouble(),
                                                 locationLongitude.toDouble()
-                                            ), "", siteIds, doctorNAme, imageUrls, subTaskName
+                                            ), descriptionText.text.toString(), siteIds, doctorNAme, imageUrls, subTaskName
                                         )
                                     )
                                     dialog.dismiss()
@@ -1595,10 +1602,12 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         dialog: Dialog
     ) {
 
+
+    }
+
+    override fun allFilesUploaded(fileUploadModelList: ArrayList<AttendenceFileUploadModel>?,dialog: Dialog) {
         imageUrls = fileUploadModelList!!.mapNotNull {
-            it.fileDownloadResponse?.referenceurl
-        }.map {
-            RijndaelCipherEncryptDecrypt().decrypt(it, "blobfilesload")
+            it.sensingFileUploadResponse?.referenceurl
         }.joinToString(", ")
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             showLoading()
@@ -1614,12 +1623,14 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         requireContext(),
                         locationLatitude.toDouble(),
                         locationLongitude.toDouble()
-                    ), "", siteIds, doctorNAme, imageUrls, subTaskName
+                    ), descriptionText.text.toString(), siteIds, doctorNAme, imageUrls, subTaskName
                 )
             )
             imageList.clear()
             fileUploadModelList.clear()
             imageUrls=""
+            remarks=""
+            descriptionText.setText("")
             dialog.dismiss()
 
         } else {
@@ -1630,9 +1641,6 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             )
                 .show()
         }
-    }
-
-    override fun allFilesUploaded(fileUploadModelList: List<AttendenceFileUploadModel>?) {
     }
 }
 

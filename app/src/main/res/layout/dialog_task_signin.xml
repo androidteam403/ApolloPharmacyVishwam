@@ -123,7 +123,7 @@
         <EditText
             android:id="@+id/marketingIdSelectAttendence"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:clickable="true"
             android:drawableEnd="@drawable/spinner_arrow"
             android:editable="false"
