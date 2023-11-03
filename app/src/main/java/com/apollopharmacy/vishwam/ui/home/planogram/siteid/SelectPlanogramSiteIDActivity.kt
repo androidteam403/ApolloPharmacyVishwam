@@ -20,6 +20,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.ActivitySelectPlanogramSiteidBinding
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.siteid.adapter.SiteIdListPlanogramAdapter
+import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.google.gson.Gson
@@ -89,6 +90,7 @@ class SelectPlanogramSiteIDActivity : AppCompatActivity(), SelectPlanogramSiteId
     }
 
     override fun onClickCancel() {
+        Utlis.hideKeyPad(this)
         if (!Preferences.getPlanogramSiteId().isEmpty()) {
             isSiteIdEmpty = false
             val intent = Intent()

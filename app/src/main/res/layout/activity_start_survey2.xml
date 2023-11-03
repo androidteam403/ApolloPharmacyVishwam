@@ -15,7 +15,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/value_10dp"
+                android:layout_marginBottom="@dimen/value_1dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -26,6 +26,7 @@
                     android:padding="@dimen/value_10dp">
 
                     <ImageView
+                        android:layout_marginStart="@dimen/value_5dp"
                         android:layout_marginEnd="@dimen/value_10dp"
                         android:onClick="@{()-> callback.onClickBack()}"
                         android:id="@+id/backArrow"
@@ -53,7 +54,6 @@
 
 
                         <TextView
-                            android:layout_marginStart="@dimen/text_dimen_10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Survey Details"
@@ -71,6 +71,7 @@
                     android:layout_height="wrap_content">
 
                     <RelativeLayout
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -662,6 +663,7 @@
                         </LinearLayout>
 
                         <RelativeLayout
+
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_alignParentBottom="true">

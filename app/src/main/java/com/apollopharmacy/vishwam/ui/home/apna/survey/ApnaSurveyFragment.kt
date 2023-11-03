@@ -474,7 +474,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
             dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
             dialogComplaintListFilterBinding.isSubmitEnable = false
         } else {
-            dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.apna_project_actionbar_bg)
+            dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.search_button_bg)
             dialogComplaintListFilterBinding.isSubmitEnable = true
         }
     }

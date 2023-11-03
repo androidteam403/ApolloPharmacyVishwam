@@ -327,6 +327,7 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
     }
 
     override fun onClickCancel() {
+        Utlis.hideKeyPad(this)
 //        if(selectsiteIdList.size==0){
 //            val returnIntent = Intent()
 //            returnIntent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)

@@ -11,7 +11,7 @@
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/text_color_blue"
+            android:background="@color/vishwam_actionbar_color"
             android:paddingTop="@dimen/value_15dp"
             android:paddingBottom="@dimen/value_15dp">
 
@@ -53,19 +53,33 @@
                 android:layout_marginTop="@dimen/value_10dp"
                 android:layout_marginEnd="@dimen/value_10dp"
                 android:textColorHint="@color/black">
-
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/searchLocationListText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
                     android:hint="Search Email"
-                    android:inputType="text"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
                     android:singleLine="true"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_10dp"
+                    android:drawableStart="@drawable/close_blue_new"
+                    android:drawableTint="@color/grey"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/black"
                     android:textSize="@dimen/text_15sp" />
+
+<!--                <androidx.appcompat.widget.AppCompatEditText-->
+<!--                    android:id="@+id/searchLocationListText"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/value_50dp"-->
+<!--                    android:hint="Search Email"-->
+<!--                    android:inputType="text"-->
+<!--                    android:paddingStart="@dimen/value_10dp"-->
+<!--                    android:paddingEnd="@dimen/value_10dp"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textColorHint="@color/black"-->
+<!--                    android:textSize="@dimen/text_15sp" />-->
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -90,18 +104,44 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <RelativeLayout
+                android:layout_marginTop="@dimen/value_10dp"
                 android:layout_marginBottom="@dimen/value_5dp"
-                android:id="@+id/submit"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/value_35dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/value_5dp"
-                android:background="@drawable/yellow_drawable"
-                android:text="Select"
-                android:textColor="@color/black"
-                android:textAlignment="center"
-                android:textSize="@dimen/text_14sp" />
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/submit"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:layout_marginEnd="@dimen/value_5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/search_button_bg"
+                    android:gravity="center"
+                    android:padding="@dimen/text_dimen_7"
+                    android:text="Select"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_15sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+<!--            <androidx.appcompat.widget.AppCompatButton-->
+<!--                android:layout_marginBottom="@dimen/value_5dp"-->
+<!--                android:id="@+id/submit"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="@dimen/value_35dp"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:layout_marginTop="@dimen/value_5dp"-->
+<!--                android:background="@drawable/search_button_bg"-->
+<!--                android:text="Select"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textSize="@dimen/text_14sp" />-->
 
         </LinearLayout>
     </RelativeLayout>

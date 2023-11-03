@@ -39,7 +39,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="Compare"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_16sp" />
+                        android:textSize="@dimen/text_17sp" />
 
                     <TextView
                         android:id="@+id/rackno"
@@ -48,7 +48,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="Rack - 6"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_16sp" />
+                        android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
                 <!--<LinearLayout

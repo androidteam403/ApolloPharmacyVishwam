@@ -167,6 +167,7 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
     }
 
     override fun onClickCancel() {
+        Utlis.hideKeyPad(this)
         if (!Preferences.getApolloSensingStoreId().isEmpty()) {
             isSiteIdEmpty = false
             val intent = Intent()
