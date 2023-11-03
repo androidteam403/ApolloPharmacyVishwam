@@ -70,7 +70,7 @@ class DoctorSpecialityDialog: DialogFragment() {
 
             viewModel.fixedArrayList.observe(viewLifecycleOwner, Observer {
                 if (it.size == 0) {
-                    viewBinding.siteNotAvailable.text = "Doctor's Speciality not available"
+                    viewBinding.siteNotAvailabletext.text = "Doctor's Speciality not available"
                     viewBinding.siteNotAvailable.visibility = View.VISIBLE
                     viewBinding.fieldRecyclerView.visibility = View.GONE
                 } else {

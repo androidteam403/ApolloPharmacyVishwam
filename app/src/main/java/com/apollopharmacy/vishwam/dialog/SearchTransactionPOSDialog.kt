@@ -69,7 +69,7 @@ class SearchTransactionPOSDialog(var transactionPOSModel: TransactionPOSModel) :
         })
 
         if (transactionPOSModel.data.listData.rows.isEmpty()) {
-            viewBinding.noArticleFound.text = "No TID Found"
+            viewBinding.siteNotAvailabletext.text = "No TID Found"
             viewBinding.noArticleFound.visibility = View.VISIBLE
             viewBinding.articleCodeRecyclerView.visibility = View.GONE
         } else {

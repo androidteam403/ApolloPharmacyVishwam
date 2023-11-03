@@ -60,28 +60,45 @@
                     android:hint=""
                     android:inputType="text"
                     android:paddingStart="@dimen/value_10dp"
+                    android:drawableStart="@drawable/ic_search"
                     android:paddingEnd="@dimen/value_10dp"
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
                     android:textSize="@dimen/text_15sp" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
+            <RelativeLayout
                 android:id="@+id/siteNotAvailable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/value_40dp"
-                android:layout_marginBottom="@dimen/value_40dp"
-                android:text="@string/label_site_not_available"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_18sp"
-                android:visibility="gone" />
+                android:gravity="center"
+                android:visibility="gone">
+                <ImageView
+                    android:id="@+id/emptyImage"
+                    android:layout_width="@dimen/value_120dp"
+                    android:layout_height="@dimen/value_120dp"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/qca" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_below="@id/emptyImage"
+                    android:text="@string/label_site_not_available"
+                    android:paddingBottom="20dp"
+                    android:textColor="@color/backgroundColor"
+                    android:textSize="@dimen/text_18sp" />
+
+            </RelativeLayout>
+
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fieldRecyclerView"
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/value_5dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
