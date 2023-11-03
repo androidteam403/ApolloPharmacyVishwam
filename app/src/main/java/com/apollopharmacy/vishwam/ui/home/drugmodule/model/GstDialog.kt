@@ -51,6 +51,7 @@ class GstDialog: DialogFragment() {
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             viewBinding = DialogCustomBinding.inflate(inflater, container, false)
             viewBinding.textHead.text = context?.resources?.getString(R.string.label_select_gst)
+            viewBinding.siteNotAvailabletext.text="No Items Found"
             viewBinding.closeDialog.setOnClickListener { dismiss() }
 
             viewBinding.searchSite.visibility = View.GONE

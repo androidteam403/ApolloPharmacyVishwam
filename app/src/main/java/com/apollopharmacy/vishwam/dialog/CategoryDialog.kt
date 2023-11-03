@@ -135,7 +135,7 @@ interface OnCategorySelected {
 
         viewModel.fixedArrayList.observe(viewLifecycleOwner, Observer {
             if (it.size == 0) {
-                viewBinding.siteNotAvailable.text = "Category not available"
+                viewBinding.siteNotAvailabletext.text = "Category not available"
                 viewBinding.siteNotAvailable.visibility = View.VISIBLE
                 viewBinding.fieldRecyclerView.visibility = View.GONE
             } else {

@@ -160,20 +160,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/value_10dp"
+
                     android:layout_marginStart="@dimen/text_dimen_10"
                     android:layout_marginTop="@dimen/text_dimen_10"/>
 
-                <TextView
+                <RelativeLayout
                     android:id="@+id/noListFound"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center"
-                    android:text="No details found"
-                    android:textAlignment="center"
-                    android:textColor="@color/red"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone">
+                    <ImageView
+                        android:id="@+id/emptyImage"
+                        android:layout_width="@dimen/value_120dp"
+                        android:layout_height="@dimen/value_120dp"
+                        android:layout_centerInParent="true"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/qca" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_below="@id/emptyImage"
+                        android:text="No details found"
+                        android:textColor="@color/backgroundColor"
+                        android:textSize="@dimen/text_18sp" />
+
+                </RelativeLayout>
+
+
 
                 <!--                <androidx.cardview.widget.CardView-->
                 <!--                    android:id="@+id/cardViewStore"-->

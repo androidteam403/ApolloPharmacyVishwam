@@ -2623,7 +2623,7 @@ end*/
     var dialogComplaintListFilterBinding: DialogComplaintListFilterBinding? = null
     override fun onClickFilterIcon() {
         val complaintListStatusFilterDialog = Dialog(
-            context!!,
+            requireContext(),
             android.R.style.Theme_Translucent_NoTitleBar_Fullscreen
         )//context?.let { Dialog(it) }
         dialogComplaintListFilterBinding =

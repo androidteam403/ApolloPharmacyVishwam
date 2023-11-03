@@ -7,5 +7,5 @@ interface AttendenceFileUploadCallback {
 
     fun allFilesDownloaded(fileUploadModelList: ArrayList<AttendenceFileUploadModel>?,dialog: Dialog)
 
-    fun allFilesUploaded(fileUploadModelList: List<AttendenceFileUploadModel>?)
+    fun allFilesUploaded(fileUploadModelList: java.util.ArrayList<AttendenceFileUploadModel>?,dialog: Dialog)
 }
