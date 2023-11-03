@@ -60,7 +60,7 @@ class RejectReasonsDialog: DialogFragment() {
         var data =
             arguments?.getSerializable(KEY_DATA) as ArrayList<QcReasonList.Remarks>
         if (data.isNullOrEmpty()){
-            viewBinding.siteNotAvailable.setText("Reject Reasons not available")
+            viewBinding.siteNotAvailabletext.setText("Reject Reasons not available")
             viewBinding.fieldRecyclerView.visibility=View.GONE
             viewBinding.siteNotAvailable.visibility=View.VISIBLE
 

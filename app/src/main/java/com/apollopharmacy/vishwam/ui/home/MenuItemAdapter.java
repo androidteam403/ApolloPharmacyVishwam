@@ -263,13 +263,13 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
                 if (menuModel != null && !menuModel.isEmpty()) {
                     menuModel = (ArrayList<MenuModel>) filterResults.values;
                     try {
-//                        mvpView.noOrderFound(filteredOmsHeaderList.size());
+                        callback.noModuleFound(menuModel.size());
                         notifyDataSetChanged();
                     } catch (Exception e) {
                         Log.e("MenuItemAdapter", e.getMessage());
                     }
                 } else {
-//                    mvpView.noOrderFound(0);
+                    callback.noModuleFound(0);
                     notifyDataSetChanged();
                 }
             }

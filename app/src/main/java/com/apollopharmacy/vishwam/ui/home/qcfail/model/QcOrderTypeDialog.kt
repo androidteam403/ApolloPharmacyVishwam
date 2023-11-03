@@ -52,7 +52,7 @@ class QcOrderTypeDialog: DialogFragment() {
         viewBinding = DialogCustomBinding.inflate(inflater, container, false)
         viewBinding.textHead.text = "Select Order Type"
         viewBinding.searchSiteText.setHint("Search Order Type")
-        viewBinding.siteNotAvailable.setText("Order Type Not Available")
+        viewBinding.siteNotAvailabletext.setText("Order Type Not Available")
         viewBinding.closeDialog.setOnClickListener { dismiss() }
 
         viewBinding.searchSite.visibility = View.GONE

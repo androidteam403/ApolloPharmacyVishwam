@@ -44,9 +44,8 @@
                     android:layout_marginStart="@dimen/value_10dp"
                     android:layout_marginTop="@dimen/value_5dp"
                     android:layout_marginEnd="@dimen/value_10dp"
-                    android:background="@color/cream_color"
                     android:orientation="vertical">
-
+<!--                    android:background="@color/cream_color"-->
                     <LinearLayout
                         android:id="@+id/date_filter_layout"
                         android:layout_width="match_parent"
@@ -244,7 +243,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_45dp"
                         android:background="@drawable/search_view_pendency"
-                        android:backgroundTint="#f2f2f2"
+                        android:backgroundTint="@color/complaintlist_search_bg_color"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:weightSum="1">
@@ -452,13 +451,21 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:visibility="visible">
+                    <ImageView
+                        android:id="@+id/emptyImage"
+                        android:layout_width="@dimen/value_120dp"
+                        android:layout_height="@dimen/value_120dp"
+                        android:layout_centerInParent="true"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/qca" />
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:layout_below="@id/emptyImage"
                         android:text="@string/label_no_complaints"
-                        android:textColor="@color/black"
+                        android:textColor="@color/backgroundColor"
                         android:textSize="@dimen/text_18sp" />
 
                 </RelativeLayout>

@@ -61,7 +61,7 @@ class DiscountRegionDialog : DialogFragment(){
         viewBinding = DialogSiteListBinding.inflate(inflater, container, false)
         var viewModel = ViewModelProviders.of(requireActivity())[DiscountRegionViewModel::class.java]
         viewBinding.closeDialog.visibility = View.VISIBLE
-        viewBinding.siteNotAvailable.setText("Region Not Available")
+        viewBinding.siteNotAvailabletext.setText("Region Not Available")
         viewModel.fixedArrayList.observe(viewLifecycleOwner, Observer {
             if (it.size == 0) {
                 viewBinding.siteNotAvailable.visibility = View.VISIBLE

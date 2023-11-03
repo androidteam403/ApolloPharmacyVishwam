@@ -44,7 +44,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/value_20dp"
-                                android:background="#ecf6f8"
+                                android:background="@color/sensing_store_details_part_bg"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -146,7 +146,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="@dimen/value_20dp"
-                                android:background="#def4f2"
+                                android:background="@color/sensing_employee_details_part_bg"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -1039,7 +1039,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="#efefef"
+            android:background="@color/sensing_send_link_bg_color"
             android:gravity="center_horizontal"
             android:onClick="@{()-> callback.onClickSendLinkBtn()}"
             android:paddingVertical="@dimen/value_12dp"
@@ -1050,7 +1050,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Send Link"
-                android:textColor="#b5b5b5"
+                android:textColor="@color/grey"
                 android:textSize="@dimen/text_20sp" />
         </LinearLayout>
 
@@ -1060,7 +1060,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="#efefef"
+            android:background="@color/sensing_send_link_bg_color"
             android:gravity="center_horizontal"
             android:onClick="@{()-> callback.onClickUploadPrescription()}"
             android:paddingVertical="@dimen/value_12dp"
@@ -1071,7 +1071,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Upload Prescription"
-                android:textColor="#b5b5b5"
+                android:textColor="@color/grey"
                 android:textSize="@dimen/text_20sp" />
         </LinearLayout>
     </RelativeLayout>

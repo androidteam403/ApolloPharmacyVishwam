@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
+    <color name="purple_200">#5D506C</color>
+    <color name="purple_500">#3A0D7A</color>
+    <color name="purple_700">#341D68</color>
+    <color name="teal_200">#1A9186</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#ffffff</color>
+    <color name="black">#ffffff</color>
+    <color name="white">#000000</color>
     <color name="blueee">#4798cd</color>
     <color name="navy">#dceaf4</color>
     <color name="cement">#EFEFEF</color>
-    <color name="border_card">#01bfc0</color>
+    <color name="border_card">#1A8283</color>
     <color name="filter_color">#D1F2E7</color>
 
     <color name="splash_start_color">#173b5e</color>
@@ -18,7 +18,7 @@
     <color name="app_center_color">#1f6e90</color>
     <color name="application_bg">#1f373a</color>
     <color name="edit_text_textcolor">#b5c3c2</color>
-    <color name="colorWhite">#ffffff</color>
+    <color name="colorWhite">#000000</color>
 
     <color name="colorPrimary">#007C9D</color>
     <color name="colorPrimaryDark">#007C9D</color>
@@ -28,27 +28,27 @@
     <color name="thick_blue">#6f2da8</color>
     <color name="spots_dialog_color">@android:color/holo_blue_dark</color>
     <color name="terniary">#808080</color>
-    <color name="colorBlack">#000000</color>
+    <color name="colorBlack">#ffffff</color>
     <color name="label_color">#3f9bb3</color>
 
     <color name="customer_search_border">#d5d6d8</color>
-    <color name="pay_btn_color">#fcb815</color>
-    <color name="dark_yellow">#FDB813</color>
-    <color name="fadedTextColor">#949698</color>
+    <color name="pay_btn_color">#8F6705</color>
+    <color name="dark_yellow">#B58003</color>
+    <color name="fadedTextColor">#646667</color>
 
-    <color name="apollo_btn_color">#fdb931</color>
-    <color name="apollo_img_color">#2582a1</color>
-    <color name="rejected">#e51e32</color>
-    <color name="status_created">#FF0000</color>
+    <color name="apollo_btn_color">#AE8025</color>
+    <color name="apollo_img_color">#195568</color>
+    <color name="rejected">#67151D</color>
+    <color name="status_created">#770202</color>
     <color name="status_hold_process">#0000FF</color>
-    <color name="status_progress">#f2b115</color>
-    <color name="status_closed">#2CBA00</color>
+    <color name="status_progress">#735409</color>
+    <color name="status_closed">#134E01</color>
     <color name="status_lone">#800000</color>
     <color name="status_ltwo">#800080</color>
     <color name="status_lthree">#000080</color>
     <color name="status_reopen_request">#606060</color>
-    <color name="status_acknowledge">#00CCCC</color>
-    <color name="status_reopen_for_process">#CC0066</color>
+    <color name="status_acknowledge">#066161</color>
+    <color name="status_reopen_for_process">#670134</color>
     <color name="complaint_bg">#ecf5f8</color>
     <color name="newtask_bg">#dbf2f8</color>
     <color name="newtask_bgs">#f4f4f4</color>
@@ -58,21 +58,21 @@
     <color name="header_bg">#d5d6d8</color>
     <color name="theme_start_color">#0b9494</color>
     <color name="theme_center_color">#02b8b9</color>
-    <color name="theme_end_color">#00c2c3</color>
-    <color name="complaint_btn_color">#00a552</color>
+    <color name="theme_end_color">#026363</color>
+    <color name="complaint_btn_color">#024C27</color>
     <color name="complaint_bth_hover_color">#006331</color>
     <color name="dashboard_item_border_color">#d8d8d8</color>
     <color name="dashboard_item_bg_color">#f3f3f3</color>
     <color name="dashboard_text_color">#9b9b9b</color>
-    <color name="dashboard_pending_text_color">#ff0101</color>
-    <color name="dashboard_selected_color">#eb1c24</color>
+    <color name="dashboard_pending_text_color">#600101</color>
+    <color name="dashboard_selected_color">#8C1317</color>
     <color name="dashboard_orders_bg_color">#fee2a0</color>
     <color name="new_message_header_bg">#ebebeb</color>
     <color name="new_order_header_bg">#007e7f</color>
-    <color name="new_order_view_bg">#01b9bb</color>
-    <color name="alert_header_bg">#eb1b23</color>
-    <color name="order_header_bg">#3bb778</color>
-    <color name="notification_clear_bg">#00adef</color>
+    <color name="new_order_view_bg">#036B6C</color>
+    <color name="alert_header_bg">#5E0E11</color>
+    <color name="order_header_bg">#1D5539</color>
+    <color name="notification_clear_bg">#024B67</color>
     <color name="orders_header_bg">#e0e0e0</color>
     <color name="order_item_text_color">#c7c7c7</color>
     <color name="order_item_divider_color">#ececec</color>
@@ -108,8 +108,8 @@
     <color name="black_transperent">#88000000</color>
     <color name="textColorPrimary">#232323</color>
 
-    <color name="btn_color">#fdb813</color>
-    <color name="btn_hover_color">#f7941d</color>
+    <color name="btn_color">#A3770F</color>
+    <color name="btn_hover_color">#955911</color>
     <color name="nav_header_color">#28baba</color>
     <color name="nav_start_bottom_color">#089696</color>
     <color name="nav_center_color">#04b2b2</color>
@@ -127,13 +127,13 @@
     <color name="active_task_color_new">#dbf2f8</color>
 
     <color name="active_task_color">#c5e5c9</color>
-    <color name="green">#33cc33</color>
-    <color name="material_amber_accent_700">#FFAB00</color>
+    <color name="green">#1D711D</color>
+    <color name="material_amber_accent_700">#A36E03</color>
     <color name="pastel_orange_light">#FBE8DF</color>
     <color name="light_blue">#ecf6f8</color>
     <color name="dark_blue">#173b5f</color>
     <color name="color_ash">#f0f0f0</color>
-    <color name="greenn">#00a651</color>
+    <color name="greenn">#005A2C</color>
     <color name="light_pink">#fde8e9</color>
     <color name="header_blue">#2582a1</color>
     <color name="color_red">#ed1c24</color>
@@ -152,7 +152,7 @@
     <color name="almost_white">#f9f9f9</color>
     <color name="another_grey">#d8ddde</color>
     <color name="greyy_color">#ededed</color>
-    <color name="very_very_light_grey">#fafafa</color>
+    <color name="very_very_light_grey">#6B6A6A</color>
     <color name="dark_greyy">#818181</color>
     <color name="very_light_blue">#d7f3e7</color>
     <color name="green_dark">#009345</color>
@@ -221,30 +221,29 @@
     <color name="light_ashh">#f2f2f2</color>
     <color name="light_ashh_trans">#C0C0C0</color>
     <color name="dark_sky_blue">#00BCBE</color>
-    <color name="milkwhite">#FEFFE3</color>
+    <color name="milkwhite">#2E2E27</color>
 
     <color name="lite_grey_ceo_dashboard">#f2f2f2</color>
     <color name="dark_grey_ceo_dashboard">#e7e7e7</color>
 
-    <color name="green_color_bg">#43974f</color>
+    <color name="green_color_bg">#29492D</color>
     <color name="liight_green">#e8f7f2</color>
     <color name="lightt_ash">#cacaca</color>
-    <color name="greenY">#009244</color>
+    <color name="greenY">#116739</color>
     <color name="cream_color">#fff6e3</color>
     <color name="ver_light_blue">#edf6f8</color>
     <color name="tab_color">#035b71</color>
-    <color name="sky_bluee">#01bdbe</color>
-    <color name="red_no_plano">#ef1c23</color>
+    <color name="sky_bluee">#167677</color>
+    <color name="red_no_plano">#791115</color>
     <color name="retroqr_rack_selected_color">#e6e6e6</color>
-    <color name="vishwam_actionbar_color">#045a71</color>
-    <color name="reg_date_color">#3a3a3b</color>
-    <color name="home_search_box_bg">#F2F2F2</color>
-    <color name="sensing_store_details_part_bg">#ecf6f8</color>
-    <color name="sensing_employee_details_part_bg">#def4f2</color>
-    <color name="sensing_grey">#f4f4f4</color>
-    <color name="sensing_send_link_bg_color">#efefef</color>
-    <color name="retro_qr_item_bg_color">#e2f5fd</color>
-    <color name="very_lite_yellow">#fef7e2</color>
-    <color name="complaintlist_search_bg_color">#f2f2f2</color>
-
+    <color name="vishwam_actionbar_color">#014659</color>
+    <color name="reg_date_color">#414149</color>
+    <color name="home_search_box_bg">#393838</color>
+    <color name="sensing_store_details_part_bg">#464D4E</color>
+    <color name="sensing_employee_details_part_bg">#203A3A</color>
+    <color name="sensing_grey">#5E5E5E</color>
+    <color name="sensing_send_link_bg_color">#3F3B3B</color>
+    <color name="retro_qr_item_bg_color">#43494C</color>
+    <color name="very_lite_yellow">#6C6758</color>
+    <color name="complaintlist_search_bg_color">#595959</color>
 </resources>

@@ -147,7 +147,7 @@ class CustomDialog : DialogFragment() {
 
         viewModel.fixedArrayList.observe(viewLifecycleOwner, Observer {
             if (it.size == 0) {
-                viewBinding.siteNotAvailable.text = "Department not available"
+                viewBinding.siteNotAvailabletext.text = "Department not available"
                 viewBinding.siteNotAvailable.visibility = View.VISIBLE
                 viewBinding.fieldRecyclerView.visibility = View.GONE
             } else {

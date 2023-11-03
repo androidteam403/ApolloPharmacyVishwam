@@ -68,7 +68,7 @@ class ItemTypeDialog: DialogFragment() {
 
             viewModel.fixedArrayList.observe(viewLifecycleOwner, Observer {
                 if (it.size == 0) {
-                    viewBinding.siteNotAvailable.text = "Item type not available"
+                    viewBinding.siteNotAvailabletext.text = "Item type not available"
                     viewBinding.siteNotAvailable.visibility = View.VISIBLE
                     viewBinding.fieldRecyclerView.visibility = View.GONE
                 } else {

@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.home
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.apollopharmacy.vishwam.R
@@ -145,39 +146,28 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         if (false) {
             attendanceMenuModel.add(
                 MenuModel(
-                    "Cash Deposit",
-                    R.drawable.cash_deposite_menu,
-                    false,
-                    null, "Cash Deposit"
+                    "Cash Deposit", R.drawable.cash_deposite_menu, false, null, "Cash Deposit"
                 )
             )
         }
         if (false) {
             attendanceMenuModel.add(
                 MenuModel(
-                    "Greetings",
-                    R.drawable.greetings_menu,
-                    false, null, "Greetings"
+                    "Greetings", R.drawable.greetings_menu, false, null, "Greetings"
                 )
             )
         }
         if (isSensingRequired) {
             attendanceMenuModel.add(
                 MenuModel(
-                    "Sensing",
-                    R.drawable.apollo_sensing_menu,
-                    isSensingRequired, null, "Sensing"
+                    "Sensing", R.drawable.apollo_sensing_menu, isSensingRequired, null, "Sensing"
                 )
             )
         }
         if (true) {
             attendanceMenuModel.add(
                 MenuModel(
-                    "Retro QR",
-                    R.drawable.retro_qr_menu,
-                    true,
-                    null,
-                    "Retro QR"
+                    "Retro QR", R.drawable.retro_qr_menu, true, null, "Retro QR"
                 )
             )
         }
@@ -191,7 +181,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 MenuModel(
                     "Attendance",
                     R.drawable.attendance_menu,
-                    isAttendanceRequired, attendanceSubMenuModel, "Attendance"
+                    isAttendanceRequired,
+                    attendanceSubMenuModel,
+                    "Attendance"
                 )
             )
         }
@@ -199,10 +191,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         val cmsMenuModel = ArrayList<MenuModel>()
         cmsMenuModel.add(
             MenuModel(
-                "Register Complaint",
-                R.drawable.cms_complaint_register,
-                true,
-                null, null
+                "Register Complaint", R.drawable.cms_complaint_register, true, null, null
             )
         )
         cmsMenuModel.add(MenuModel("Complaints", R.drawable.cms_complaint_list, true, null, null))
@@ -210,10 +199,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         if (isCMSRequired) {
             attendanceMenuModel.add(
                 MenuModel(
-                    "Complaints",
-                    R.drawable.cms_menu,
-                    isCMSRequired,
-                    cmsMenuModel, "Complaints"
+                    "Complaints", R.drawable.cms_menu, isCMSRequired, cmsMenuModel, "Complaints"
                 )
             )
 
@@ -229,7 +215,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 MenuModel(
                     "Discount",
                     R.drawable.discount_menu,
-                    isDiscountRequired, discountMenuModel, "Pending"
+                    isDiscountRequired,
+                    discountMenuModel,
+                    "Pending"
                 )
             )
 
@@ -237,19 +225,12 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         val drugRequestMenuModel = ArrayList<MenuModel>()
         drugRequestMenuModel.add(
             MenuModel(
-                "Request New Drug",
-                R.drawable.new_drug_request,
-                true,
-                null, null
+                "Request New Drug", R.drawable.new_drug_request, true, null, null
             )
         )
         drugRequestMenuModel.add(
             MenuModel(
-                "Drug Requests",
-                R.drawable.new_drug_list,
-                true,
-                null,
-                null
+                "Drug Requests", R.drawable.new_drug_list, true, null, null
             )
         )
         if (isDrugRequired) {
@@ -257,7 +238,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 MenuModel(
                     "New Drug",
                     R.drawable.raise_menu,
-                    isDrugRequired, drugRequestMenuModel, "Drug Requests"
+                    isDrugRequired,
+                    drugRequestMenuModel,
+                    "Drug Requests"
                 )
             )
 
@@ -271,9 +254,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         if (isQcFailRequired) {
             attendanceMenuModel.add(
                 MenuModel(
-                    " OMS QC",
-                    R.drawable.omc_qc_menu,
-                    isQcFailRequired, omsQcMenuModel, "Dashboard"
+                    " OMS QC", R.drawable.omc_qc_menu, isQcFailRequired, omsQcMenuModel, "Dashboard"
                 )
             )
 
@@ -283,65 +264,44 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         val swachhMenuModel = ArrayList<MenuModel>()
         if (isSwachhRequired) {
             if (employeeRole.equals(
-                    "Yes",
-                    ignoreCase = true
+                    "Yes", ignoreCase = true
                 ) && MainActivity.userDesignation != null && (MainActivity.userDesignation.equals(
-                    "MANAGER",
-                    ignoreCase = true
+                    "MANAGER", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
-                    "GENERAL MANAGER",
-                    ignoreCase = true
+                    "GENERAL MANAGER", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
-                    "EXECUTIVE",
-                    ignoreCase = true
+                    "EXECUTIVE", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
-                    "CEO",
-                    ignoreCase = true
+                    "CEO", ignoreCase = true
                 ))
             ) {
                 swachhMenuModel.add(
                     MenuModel("New Swachh", R.drawable.swachh_upload, true, null, null),
-                    )
+                )
                 swachhMenuModel.add(
                     MenuModel(
-                        "Swachh Details",
-                        R.drawable.swachh_list,
-                        true,
-                        null,
-                        null
+                        "Swachh Details", R.drawable.swachh_list, true, null, null
                     )
                 )
             } else if (employeeRole.equals("Yes", ignoreCase = true)) {
                 swachhMenuModel.add(
                     MenuModel(
-                        "New Swachh",
-                        R.drawable.swachh_upload,
-                        true,
-                        null,
-                        null
+                        "New Swachh", R.drawable.swachh_upload, true, null, null
                     )
                 )
             } else if (MainActivity.userDesignation != null && MainActivity.userDesignation.equals(
-                    "MANAGER",
-                    ignoreCase = true
+                    "MANAGER", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
-                    "GENERAL MANAGER",
-                    ignoreCase = true
+                    "GENERAL MANAGER", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
-                    "EXECUTIVE",
-                    ignoreCase = true
+                    "EXECUTIVE", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
-                    "CEO",
-                    ignoreCase = true
+                    "CEO", ignoreCase = true
                 )
             ) {
                 swachhMenuModel.add(
                     MenuModel(
-                        "Swachh Details",
-                        R.drawable.swachh_list,
-                        true,
-                        null,
-                        null
+                        "Swachh Details", R.drawable.swachh_list, true, null, null
                     )
                 )
             }
@@ -349,60 +309,42 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         if (isSwachhRequired) {
             if (employeeRole.equals(
-                    "Yes",
-                    ignoreCase = true
+                    "Yes", ignoreCase = true
                 ) && MainActivity.userDesignation != null && (MainActivity.userDesignation.equals(
-                    "MANAGER",
-                    ignoreCase = true
+                    "MANAGER", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
-                    "GENERAL MANAGER",
-                    ignoreCase = true
+                    "GENERAL MANAGER", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
-                    "EXECUTIVE",
-                    ignoreCase = true
+                    "EXECUTIVE", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
-                    "CEO",
-                    ignoreCase = true
+                    "CEO", ignoreCase = true
                 ))
             ) {
 //                attendanceMenuModel.add(MenuModel("Upload", R.drawable.swachh_upload,true))
                 attendanceMenuModel.add(
                     MenuModel(
-                        "Swachh",
-                        R.drawable.swachh_menu,
-                        true,
-                        swachhMenuModel, "Swachh Details"
+                        "Swachh", R.drawable.swachh_menu, true, swachhMenuModel, "Swachh Details"
                     )
                 )
             } else if (employeeRole.equals("Yes", ignoreCase = true)) {
                 attendanceMenuModel.add(
                     MenuModel(
-                        "Swachh",
-                        R.drawable.swachh_menu,
-                        true,
-                        swachhMenuModel, "New Swachh"
+                        "Swachh", R.drawable.swachh_menu, true, swachhMenuModel, "New Swachh"
                     )
                 )
             } else if (MainActivity.userDesignation != null && MainActivity.userDesignation.equals(
-                    "MANAGER",
-                    ignoreCase = true
+                    "MANAGER", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
-                    "GENERAL MANAGER",
-                    ignoreCase = true
+                    "GENERAL MANAGER", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
-                    "EXECUTIVE",
-                    ignoreCase = true
+                    "EXECUTIVE", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
-                    "CEO",
-                    ignoreCase = true
+                    "CEO", ignoreCase = true
                 )
             ) {
                 attendanceMenuModel.add(
                     MenuModel(
-                        "Swachh",
-                        R.drawable.swachh_menu,
-                        true,
-                        swachhMenuModel, "Swachh Details"
+                        "Swachh", R.drawable.swachh_menu, true, swachhMenuModel, "Swachh Details"
                     )
                 )
             }
@@ -417,7 +359,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                     "Monitoring Dashboard",
                     R.drawable.monitoring_menu,
                     false,
-                    null, "Monitoring Dashboard"
+                    null,
+                    "Monitoring Dashboard"
                 )
             )
 
@@ -425,9 +368,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         if (isChampsRequired) {
             attendanceMenuModel.add(
                 MenuModel(
-                    "Champs",
-                    R.drawable.champs_menu,
-                    isChampsRequired, null, "Champs Survey"
+                    "Champs", R.drawable.champs_menu, isChampsRequired, null, "Champs Survey"
                 )
             )
 
@@ -435,9 +376,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         if (true) {
             attendanceMenuModel.add(
                 MenuModel(
-                    "Planogram",
-                    R.drawable.planogram_menu,
-                    false, null, "Evaluation"
+                    "Planogram", R.drawable.planogram_menu, false, null, "Evaluation"
                 )
             )
 
@@ -451,35 +390,25 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         val apnaRetroMenuModel = ArrayList<MenuModel>()
         if (isApnaRetroRequired) {
             if (MainActivity.mInstance.employeeRoleRetro.equals(
-                    "Yes",
-                    ignoreCase = true
+                    "Yes", ignoreCase = true
                 ) && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
             ) {
                 apnaRetroMenuModel.add(
                     MenuModel(
-                        "New Retro",
-                        R.drawable.apna_store_menu,
-                        true,
-                        null, null
+                        "New Retro", R.drawable.apna_store_menu, true, null, null
                     )
                 )
                 apnaRetroMenuModel.add(
                     MenuModel(
-                        "Approval",
-                        R.drawable.apna_store_menu,
-                        true,
-                        null, null
+                        "Approval", R.drawable.apna_store_menu, true, null, null
                     )
                 )
             } else if (getAppLevelDesignationApnaRetro().contains("NODATA")) {
                 apnaRetroMenuModel.add(
                     MenuModel(
-                        "New Retro",
-                        R.drawable.apna_store_menu,
-                        true,
-                        null, null
+                        "New Retro", R.drawable.apna_store_menu, true, null, null
                     )
                 )
             } else if (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
@@ -488,10 +417,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             ) {
                 apnaRetroMenuModel.add(
                     MenuModel(
-                        "Approval",
-                        R.drawable.apna_store_menu,
-                        true,
-                        null, null
+                        "Approval", R.drawable.apna_store_menu, true, null, null
                     )
                 )
             }
@@ -499,8 +425,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         if (isApnaRetroRequired) {
             if (MainActivity.mInstance.employeeRoleRetro.equals(
-                    "Yes",
-                    ignoreCase = true
+                    "Yes", ignoreCase = true
                 ) && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
@@ -511,7 +436,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                         "Apna Retro",
                         R.drawable.apna_store_menu,
                         true,
-                        apnaRetroMenuModel, "Approval"
+                        apnaRetroMenuModel,
+                        "Approval"
                     )
                 )
             } else if (getAppLevelDesignationApnaRetro().contains("NODATA")) {
@@ -520,7 +446,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                         "Apna Retro",
                         R.drawable.apna_store_menu,
                         true,
-                        apnaRetroMenuModel, "New Retro"
+                        apnaRetroMenuModel,
+                        "New Retro"
                     )
                 )
             } else if (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
@@ -532,7 +459,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                         "Apna Retro",
                         R.drawable.apna_store_menu,
                         true,
-                        apnaRetroMenuModel, "Approval"
+                        apnaRetroMenuModel,
+                        "Approval"
                     )
                 )
             }
@@ -548,7 +476,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                     "Apna Survey",
                     R.drawable.apna_menu,
                     isApnaSurveyRequired,
-                    apnaMenuModel, "Apna Survey"
+                    apnaMenuModel,
+                    "Apna Survey"
                 )
             )
 
@@ -625,11 +554,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         val monitoringMenuModel = ArrayList<MenuModel>()
         monitoringMenuModel.add(
             MenuModel(
-                "Monitoring Dashboard",
-                R.drawable.monitoring_dashboard,
-                true,
-                null,
-                null
+                "Monitoring Dashboard", R.drawable.monitoring_dashboard, true, null, null
             )
         )
 
@@ -661,35 +586,36 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 apnaRetroMenuModel.add(MenuModel("Approval", R.drawable.apna_store_menu, true))
             }
         }
-*/
-        /*val apnaMenuModel = ArrayList<MenuModel>()
+*//*val apnaMenuModel = ArrayList<MenuModel>()
         apnaMenuModel.add(MenuModel("Apna Survey", R.drawable.apna_survey, true))*/
 
 
 
 
 
-
-        viewBinding.newMenuRecycleview.layoutManager = GridLayoutManager(context, 4)
-        attendanceManagementAdapter = MenuItemAdapter(
-            context,
-            this,
-            attendanceMenuModel,
-            attendanceSubMenuModel,
-            cmsMenuModel,
-            discountMenuModel,
-            drugRequestMenuModel,
-            omsQcMenuModel,
-            swachhMenuModel,
-            monitoringMenuModel,
-            champsMenuModel,
-            planogramMenuModel,
-            apnaRetroMenuModel,
-            apnaMenuModel
-        )
-        viewBinding.newMenuRecycleview.adapter = attendanceManagementAdapter
-
-
+        if (attendanceMenuModel.size > 0) {
+            viewBinding.newMenuRecycleview.layoutManager = GridLayoutManager(context, 4)
+            attendanceManagementAdapter = MenuItemAdapter(
+                context,
+                this,
+                attendanceMenuModel,
+                attendanceSubMenuModel,
+                cmsMenuModel,
+                discountMenuModel,
+                drugRequestMenuModel,
+                omsQcMenuModel,
+                swachhMenuModel,
+                monitoringMenuModel,
+                champsMenuModel,
+                planogramMenuModel,
+                apnaRetroMenuModel,
+                apnaMenuModel
+            )
+            viewBinding.newMenuRecycleview.adapter = attendanceManagementAdapter
+            noModuleFound(attendanceMenuModel.size)
+        } else {
+            noModuleFound(0)
+        }
     }
 
     fun getDataManager(): SessionManager {
@@ -709,6 +635,16 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         } else {
             MainActivity.mInstance.displaySelectedScreen(itemName)
         }*/
+    }
+
+    override fun noModuleFound(count: Int) {
+        if (count > 0) {
+            viewBinding.noModuleFoundLayout.visibility = View.GONE
+            viewBinding.newMenuRecycleview.visibility = View.VISIBLE
+        } else {
+            viewBinding.noModuleFoundLayout.visibility = View.VISIBLE
+            viewBinding.newMenuRecycleview.visibility = View.GONE
+        }
     }
 
     fun searchByModule() {

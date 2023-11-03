@@ -65,6 +65,8 @@
                 android:layout_height="@dimen/value_50dp"
                 android:inputType="text"
                 android:paddingStart="@dimen/value_10dp"
+                android:drawableStart="@drawable/ic_search"
+
                 android:paddingEnd="@dimen/value_10dp"
                 android:singleLine="true"
                 android:textColor="@color/black"
@@ -72,18 +74,36 @@
                 android:textSize="@dimen/text_15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
+        <RelativeLayout
             android:id="@+id/noArticleFound"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/searchSite"
-            android:layout_marginTop="@dimen/value_40dp"
-            android:layout_marginBottom="@dimen/value_40dp"
+            android:layout_below="@id/searchSite"
             android:gravity="center"
-            android:text="@string/label_no_article_found"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_18sp"
-            android:visibility="gone" />
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/emptyImage"
+                android:layout_width="@dimen/value_120dp"
+                android:layout_height="@dimen/value_120dp"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/qca" />
+
+            <TextView
+                android:id="@+id/siteNotAvailabletext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emptyImage"
+
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:text="@string/label_no_article_found"
+                android:textColor="@color/backgroundColor"
+                android:textSize="@dimen/text_18sp" />
+
+        </RelativeLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/articleCodeRecyclerView"

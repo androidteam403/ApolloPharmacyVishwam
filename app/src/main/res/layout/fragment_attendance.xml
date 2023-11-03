@@ -61,7 +61,7 @@
             <LinearLayout
                 android:id="@+id/gpsInfoLayout"
                 android:layout_width="match_parent"
-                android:background="#fef7e2"
+                android:background="@color/very_lite_yellow"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:visibility="visible">
@@ -261,8 +261,7 @@
                 android:id="@+id/headerLayout"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="#fff7e3"
-
+                android:background="@color/very_lite_yellow"
                 android:padding="@dimen/value_7dp">
 
                 <LinearLayout
@@ -357,22 +356,31 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="2"
                 tools:listitem="@layout/view_task_item" />
-
             <RelativeLayout
                 android:id="@+id/emptyList"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:visibility="gone">
+                android:visibility="visible">
+                <ImageView
+                    android:id="@+id/emptyImage"
+                    android:layout_width="@dimen/value_120dp"
+                    android:layout_height="@dimen/value_120dp"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/qca" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_below="@id/emptyImage"
                     android:text="@string/label_no_tasks"
-                    android:textColor="@color/black"
+                    android:textColor="@color/backgroundColor"
                     android:textSize="@dimen/text_18sp" />
+
             </RelativeLayout>
+
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_task_fab"

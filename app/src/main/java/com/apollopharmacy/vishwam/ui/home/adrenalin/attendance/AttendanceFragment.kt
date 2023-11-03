@@ -132,6 +132,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     var taskName: Boolean = false
     val params = MainActivity.mInstance.headerText!!.layoutParams as RelativeLayout.LayoutParams
     var isMarketingSelected: Boolean = false
+    private lateinit var descriptionText: EditText
 
     val LOCATION_PERMISSION_REQUEST = 101
     private lateinit var locationViewModel: LocationViewModel
@@ -195,6 +196,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 imageRecycleView = dialog.findViewById<RecyclerView>(R.id.imageRecyclerView)
                 marketingSubBranch = dialog.findViewById<TextInputLayout>(R.id.marketingAttendence)
                 description = dialog.findViewById<TextInputLayout>(R.id.description)
+                descriptionText = dialog.findViewById<EditText>(R.id.descriptionText)
+
                 captureLayout = dialog.findViewById<LinearLayout>(R.id.capture_upload_layout)
                 marketingText = dialog.findViewById<EditText>(R.id.marketingIdSelectAttendence)
                 closeIcon = dialog.findViewById<ImageView>(R.id.close_icon)
@@ -489,7 +492,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                                 requireContext(),
                                                 locationLatitude.toDouble(),
                                                 locationLongitude.toDouble()
-                                            ), "", siteIds, doctorNAme,imageUrls,subTaskName
+                                            ), descriptionText.text.toString(), siteIds, doctorNAme,imageUrls,subTaskName
                                         )
                                     )
                                     dialog.dismiss()
@@ -1717,43 +1720,45 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         dialog: Dialog,
     ) {
 
-        imageUrls = fileUploadModelList!!.mapNotNull {
-            it.fileDownloadResponse?.referenceurl
-        }.map {
-            RijndaelCipherEncryptDecrypt().decrypt(it, "blobfilesload")
-        }.joinToString(", ")
-            if (NetworkUtil.isNetworkConnected(requireContext())) {
-                showLoading()
-                viewModel.taskInsertUpdateService(
-                    TaskInfoReq(
-                        enteredTaskName,
-                        employeeID,
-                        "",
-                        locationLatitude,
-                        locationLongitude,
-                        "SIGNIN",
-                        getAttendanceCity(
-                            requireContext(),
-                            locationLatitude.toDouble(),
-                            locationLongitude.toDouble()
-                        ), "", siteIds, doctorNAme, imageUrls, subTaskName
-                    )
-                )
-                imageList.clear()
-                fileUploadModelList.clear()
-                dialog.dismiss()
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    context?.resources?.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
+
         }
 
 
-    override fun allFilesUploaded(fileUploadModelList: List<AttendenceFileUploadModel>?) {
+    override fun allFilesUploaded(fileUploadModelList: ArrayList<AttendenceFileUploadModel>?,dialog: Dialog) {
+
+
+        imageUrls = fileUploadModelList!!.mapNotNull {
+            it.fileDownloadResponse?.referenceurl
+        }.joinToString(", ")
+        if (NetworkUtil.isNetworkConnected(requireContext())) {
+            showLoading()
+            viewModel.taskInsertUpdateService(
+                TaskInfoReq(
+                    enteredTaskName,
+                    employeeID,
+                    "",
+                    locationLatitude,
+                    locationLongitude,
+                    "SIGNIN",
+                    getAttendanceCity(
+                        requireContext(),
+                        locationLatitude.toDouble(),
+                        locationLongitude.toDouble()
+                    ), descriptionText.text.toString(), siteIds, doctorNAme, imageUrls, subTaskName
+                )
+            )
+            imageList.clear()
+            fileUploadModelList.clear()
+            descriptionText.setText("")
+            dialog.dismiss()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                context?.resources?.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
     }
 }
 
