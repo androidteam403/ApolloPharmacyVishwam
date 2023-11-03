@@ -20,6 +20,7 @@
                 android:padding="@dimen/value_10dp">
 
                 <ImageView
+                    android:layout_marginStart="@dimen/value_5dp"
                     android:layout_marginEnd="@dimen/value_10dp"
                     android:id="@+id/backButton"
                     android:layout_width="37dp"

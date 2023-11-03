@@ -22,6 +22,7 @@
                 android:padding="@dimen/four4_dp">
 
                 <ImageView
+                    android:layout_marginStart="@dimen/value_10dp"
                     android:layout_marginEnd="@dimen/value_10dp"
                     android:id="@+id/backButton"
                     android:layout_width="37dp"
@@ -72,7 +73,7 @@
                             android:layout_gravity="center"
 
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_15sp"
+                            android:textSize="@dimen/text_14sp"
                             android:textStyle="bold"
                             android:visibility="visible" />
 

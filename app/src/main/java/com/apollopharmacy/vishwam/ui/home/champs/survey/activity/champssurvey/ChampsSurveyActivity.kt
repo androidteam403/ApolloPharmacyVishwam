@@ -141,7 +141,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
     private fun setUp() {
 
-        activityChampsSurveyBinding.callback = this
+        activityChampsSurveyBinding.callback=this
         siteNameForAddress = intent.getStringExtra("siteNameForAddress")
         if(intent.getStringArrayListExtra("surveyRecManualList")!=null){
             surveyRecManualList = intent.getStringArrayListExtra("surveyRecManualList")!!
@@ -816,6 +816,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         startActivityForResult(intent, 111)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
+
 
     override fun onClickSubmit() {
 //     ChampsSurveyDialog().show(supportFragmentManager, "")

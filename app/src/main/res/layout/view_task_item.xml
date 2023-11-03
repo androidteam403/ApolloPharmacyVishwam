@@ -86,7 +86,7 @@
                                         android:paddingTop="4dp"
                                         android:text="DR Connect - Doctor Visit"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_16sp" />
+                                        android:textSize="@dimen/text_15sp" />
 
 
                                 </LinearLayout>
@@ -192,9 +192,7 @@
                                                     android:layout_height="wrap_content"
                                                     android:layout_marginEnd="@dimen/value_10dp"
                                                     android:textColor="@color/reg_date_color"
-
-
-                                                    android:textSize="@dimen/text_12sp" />
+                                                    android:textSize="@dimen/dimen11sp" />
 
 
                                             </LinearLayout>
@@ -263,7 +261,7 @@
                                                     android:layout_marginEnd="@dimen/value_10dp"
                                                     android:textColor="@color/reg_date_color"
 
-                                                    android:textSize="@dimen/text_12sp" />
+                                                    android:textSize="@dimen/dimen11sp" />
 
 
                                             </LinearLayout>
@@ -363,7 +361,7 @@
                                                     android:layout_marginEnd="@dimen/value_10dp"
                                                     android:text="12222222"
                                                     android:textColor="@color/reg_date_color"
-                                                    android:textSize="12dp" />
+                                                    android:textSize="@dimen/dimen11sp" />
 
                                                 <RelativeLayout
                                                     android:id="@+id/signOutLayout"
@@ -380,18 +378,42 @@
                                                         android:src="@drawable/ic_sign_out"
                                                         android:visibility="gone" />
 
+<!--                                                    <RelativeLayout-->
+<!--                                                        android:layout_marginTop="@dimen/value_10dp"-->
+<!--                                                        android:layout_marginBottom="@dimen/value_5dp"-->
+<!--                                                        android:layout_gravity="center"-->
+<!--                                                        android:layout_width="wrap_content"-->
+<!--                                                        android:layout_height="match_parent"-->
+<!--                                                        android:gravity="center">-->
+
+<!--                                                        <TextView-->
+<!--                                                            android:id="@+id/submit"-->
+<!--                                                            android:layout_width="wrap_content"-->
+<!--                                                            android:layout_height="wrap_content"-->
+<!--                                                            android:layout_gravity="center"-->
+<!--                                                            android:background="@drawable/search_button_bg"-->
+<!--                                                            android:gravity="center"-->
+<!--                                                            android:padding="5dp"-->
+<!--                                                            android:text="Apply"-->
+<!--                                                            android:textAlignment="center"-->
+<!--                                                            android:textColor="@color/white"-->
+<!--                                                            android:textSize="@dimen/text_15sp"-->
+<!--                                                            android:textStyle="bold" />-->
+
+<!--                                                    </RelativeLayout>-->
+
                                                     <TextView
                                                         android:layout_width="wrap_content"
                                                         android:layout_height="23dp"
                                                         android:layout_alignParentEnd="true"
                                                         android:layout_marginEnd="18dp"
-                                                        android:background="@drawable/bg_buttons"
-                                                        android:fontFamily="@font/poppin_bold"
+                                                        android:background="@drawable/search_button_bg"
                                                         android:gravity="center"
                                                         android:paddingStart="7dp"
                                                         android:paddingEnd="7dp"
+                                                        android:textStyle="bold"
                                                         android:text="@string/label_task_sign_out"
-                                                        android:textColor="@color/black"
+                                                        android:textColor="@color/white"
                                                         android:textSize="@dimen/dimen10sp" />
                                                 </RelativeLayout>
 

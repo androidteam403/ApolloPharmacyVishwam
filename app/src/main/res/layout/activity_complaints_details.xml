@@ -14,12 +14,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/vishwam_actionbar_height"
                 android:background="@color/vishwam_actionbar_color"
                 android:orientation="horizontal"
-                android:padding="@dimen/value_7dp">
+                android:padding="@dimen/value_4dp">
 
                 <ImageView
+                    android:layout_marginStart="@dimen/value_10dp"
                     android:layout_marginEnd="@dimen/value_10dp"
                     android:onClick="@{()-> callback.onClickBack()}"
                     android:id="@+id/backArrow"
@@ -61,7 +62,7 @@
                         android:layout_height="wrap_content"
                         android:text="ITHYD0823-10554373"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_16sp"
+                        android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -75,7 +76,7 @@
                             android:layout_height="wrap_content"
                             android:text="22 Aug, 2023"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_12sp"
+                            android:textSize="@dimen/text_14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 

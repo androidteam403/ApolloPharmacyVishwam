@@ -19,10 +19,12 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivitySelectChampsSiteidBinding
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.adapter.SiteIdListChampsAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.google.gson.Gson
@@ -95,6 +97,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
     }
 
     override fun onClickCancel() {
+        Utlis.hideKeyPad(this)
         if (!siteId!!.isEmpty()) {
             isSiteIdEmpty = false
             val intent = Intent()

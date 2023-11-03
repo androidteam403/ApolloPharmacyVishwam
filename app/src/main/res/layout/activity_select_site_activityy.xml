@@ -29,8 +29,8 @@
         <RelativeLayout
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/splash_start_color"
+            android:layout_height="@dimen/vishwam_actionbar_height"
+            android:background="@color/vishwam_actionbar_color"
             android:paddingTop="@dimen/value_15dp"
             android:paddingBottom="@dimen/value_15dp">
 
@@ -46,17 +46,29 @@
                 android:textSize="@dimen/text_18sp"
                 android:textStyle="bold" />
 
+
             <ImageView
-                android:onClick="@{()-> callback.onClickCancel()}"
                 android:id="@+id/close_dialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/value_10dp"
                 android:contentDescription="@string/app_name"
-                android:paddingStart="@dimen/value_10dp"
-                android:paddingEnd="@dimen/value_10dp"
-                android:src="@drawable/close_icon"
-                android:tint="@color/white" />
+                android:onClick="@{()-> callback.onClickCancel()}"
+                android:src="@drawable/icon_close"
+                app:tint="@color/white" />
+<!--            <ImageView-->
+<!--                android:onClick="@{()-> callback.onClickCancel()}"-->
+<!--                android:id="@+id/close_dialog"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:contentDescription="@string/app_name"-->
+<!--                android:paddingStart="@dimen/value_10dp"-->
+<!--                android:paddingEnd="@dimen/value_10dp"-->
+<!--                android:src="@drawable/close_icon"-->
+<!--                android:tint="@color/white" />-->
         </RelativeLayout>
 
         <LinearLayout
@@ -134,7 +146,7 @@
             android:id="@+id/completeButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
-            android:background="@color/greenn"
+            android:background="@color/vishwam_actionbar_color"
             android:gravity="center"
             android:onClick="@{()-> callback.onClickCompleted()}"
             android:orientation="horizontal"

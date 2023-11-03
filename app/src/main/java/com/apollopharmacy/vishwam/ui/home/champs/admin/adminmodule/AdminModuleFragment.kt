@@ -500,7 +500,7 @@ class AdminModuleFragment : AppCompatActivity(),
         }
         if (sumOfCategoryMaxRating == 100.0) {
             sumEquals100 = true
-            activityAdminModuleBinding.submitButtnAdmin.setBackgroundColor(applicationContext.getColor(R.color.dark_sky_blue))
+            activityAdminModuleBinding.submitButtnAdmin.setBackgroundColor(applicationContext.getColor(R.color.vishwam_actionbar_color))
         } else {
             sumEquals100 = false
             activityAdminModuleBinding.submitButtnAdmin.setBackgroundColor(applicationContext.getColor(R.color.grey))

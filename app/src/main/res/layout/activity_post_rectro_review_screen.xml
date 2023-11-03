@@ -30,6 +30,7 @@
                     android:padding="@dimen/four4_dp">
 
                     <ImageView
+                        android:layout_marginStart="@dimen/value_10dp"
                         android:layout_marginEnd="@dimen/value_10dp"
                         android:id="@+id/back_arrow"
                         android:onClick="@{()-> callback.onClickBack()}"
@@ -75,7 +76,7 @@
                             android:text="56985_APNARECTRO_06042023"
                             android:textColor="@color/white"
 
-                            android:textSize="@dimen/text_15sp"
+                            android:textSize="@dimen/text_14sp"
                             android:textStyle="bold" />
 
 
