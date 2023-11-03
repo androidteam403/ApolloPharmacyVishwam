@@ -72,7 +72,7 @@
                             android:layout_gravity="center"
                             android:text="@{imageUrlModel.categoryname}"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_15sp"
+                            android:textSize="@dimen/text_14sp"
                             android:textStyle="bold"
                             android:visibility="@{isLastPos ? view.GONE : view.VISIBLE}" />
 

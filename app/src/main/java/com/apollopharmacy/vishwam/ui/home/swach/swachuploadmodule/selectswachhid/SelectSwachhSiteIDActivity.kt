@@ -76,6 +76,7 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
     }
 
     override fun onClickCancel() {
+        Utlis.hideKeyPad(this)
         if(!Preferences.getSwachhSiteId().isEmpty()){
             isSiteIdEmpty=false
             val intent = Intent()

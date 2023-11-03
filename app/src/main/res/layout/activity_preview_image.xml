@@ -21,6 +21,7 @@
                 android:padding="@dimen/four4_dp">
 
                 <ImageView
+                    android:layout_marginStart="@dimen/value_10dp"
                     android:layout_marginEnd="@dimen/value_10dp"
                     android:onClick="@{()-> callback.onClickBack()}"
                     android:id="@+id/backArrow"
@@ -56,12 +57,11 @@
                          android:textStyle="bold" />
 
                      <TextView
-                         android:layout_marginTop="@dimen/three3_sp"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:text="@{imageUrlModel.categoryname}"
                          android:textColor="@color/white"
-                         android:textSize="@dimen/text_15sp"
+                         android:textSize="@dimen/text_14sp"
                          android:textStyle="bold" />
 
 

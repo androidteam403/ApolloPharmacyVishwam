@@ -22,15 +22,15 @@
                 android:padding="@dimen/value_10dp">
 
                 <ImageView
-                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:layout_marginStart="@dimen/value_5dp"
                     android:id="@+id/backButton"
                     android:layout_width="37dp"
-                    android:layout_height="37dp"
-                    android:layout_gravity="center"
+                    android:layout_height="47dp"
                     android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/value_10dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/icon_back_arrow"
-                    />
+                    android:src="@drawable/icon_back_arrow" />
 
 <!--                <ImageView-->
 <!--                    android:layout_width="@dimen/value_40dp"-->

@@ -27,6 +27,7 @@
                 android:padding="@dimen/four4_dp">
 
                 <ImageView
+                    android:layout_marginStart="@dimen/value_10dp"
                     android:layout_marginEnd="@dimen/value_10dp"
                     android:onClick="@{()-> callback.onClickBack()}"
                     android:layout_width="37dp"
@@ -67,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/retro_id"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_15sp"
+                        android:textSize="@dimen/text_14sp"
                         android:textStyle="bold" />
 
 

@@ -490,7 +490,7 @@ class GetSurveyDetailsListActivity :
             dialogFilterUploadBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
             dialogFilterUploadBinding.isSubmitEnable = false
         } else {
-            dialogFilterUploadBinding.submit.setBackgroundResource(R.drawable.yellow_drawable)
+            dialogFilterUploadBinding.submit.setBackgroundResource(R.drawable.search_button_bg)
             dialogFilterUploadBinding.isSubmitEnable = true
         }
     }

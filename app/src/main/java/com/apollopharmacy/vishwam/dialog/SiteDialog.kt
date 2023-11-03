@@ -18,6 +18,7 @@ import com.apollopharmacy.vishwam.databinding.DialogSiteListBinding
 import com.apollopharmacy.vishwam.databinding.ViewListItemBinding
 import com.apollopharmacy.vishwam.dialog.model.SiteViewModel
 import com.apollopharmacy.vishwam.util.Utils
+import com.apollopharmacy.vishwam.util.Utlis
 
 class SiteDialog : DialogFragment() {
     val TAG = "SiteDialog"
@@ -58,6 +59,7 @@ class SiteDialog : DialogFragment() {
         var viewModel = ViewModelProviders.of(requireActivity())[SiteViewModel::class.java]
         viewBinding.closeDialog.visibility = View.VISIBLE
         viewBinding.closeDialog.setOnClickListener {
+            Utlis.hideKeyPad(requireActivity())
             siteDataArrayList.clear()
             dismiss()
         }

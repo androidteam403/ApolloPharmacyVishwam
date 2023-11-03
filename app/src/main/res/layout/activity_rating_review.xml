@@ -20,9 +20,10 @@
             android:layout_height="@dimen/vishwam_actionbar_height"
             android:background="@color/vishwam_actionbar_color"
             android:orientation="horizontal"
-            android:padding="@dimen/value_10dp">
+            android:padding="@dimen/value_4dp">
 
             <ImageView
+                android:layout_marginStart="@dimen/value_10dp"
                 android:layout_marginEnd="@dimen/value_10dp"
                 android:id="@+id/backButton"
                 android:layout_width="37dp"
@@ -67,7 +68,6 @@
                         android:id="@+id/swach_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/three3_sp"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_14sp"
                         android:textStyle="bold" />

@@ -19,6 +19,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.ActivitySelectQrSiteBinding
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.retroqr.selectqrretrositeid.adapter.QrSiteIdListAdapter
+import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.google.gson.Gson
@@ -88,6 +89,7 @@ class SelectRetroQrSiteIDActivity : AppCompatActivity(), SelectQrRetroSiteIdCall
     }
 
     override fun onClickCancel() {
+        Utlis.hideKeyPad(this)
         if (!Preferences.getQrSiteId().isEmpty()) {
             isSiteIdEmpty = false
             val intent = Intent()

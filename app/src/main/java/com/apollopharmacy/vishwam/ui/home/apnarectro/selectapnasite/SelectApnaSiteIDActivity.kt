@@ -76,7 +76,7 @@ class SelectApnaSiteIDActivity : AppCompatActivity(), SelectApnaSiteIdCallback {
     }
 
     override fun onClickCancel() {
-
+        Utlis.hideKeyPad(this)
         if(!Preferences.getApnaSiteId().isEmpty()){
             isSiteIdEmpty=false
             val intent = Intent()
