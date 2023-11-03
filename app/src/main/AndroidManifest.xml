@@ -430,6 +430,7 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
+            android:configChanges="uiMode"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.rider.trackmap.TrackMapActivity"

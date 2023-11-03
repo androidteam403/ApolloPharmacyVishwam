@@ -6,4 +6,5 @@ interface HomeFragmentCallback {
 
     fun onFialureMessage(message: String)
     fun onClickMenuItem(itemName: String?, menuModels: ArrayList<MenuModel>)
+    fun noModuleFound(count: Int)
 }

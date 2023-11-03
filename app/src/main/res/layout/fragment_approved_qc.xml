@@ -43,7 +43,6 @@
                     android:paddingStart="@dimen/text_15sp"
 
                     android:textColor="@color/black"
-                    android:textColorHint="@android:color/black"
                     android:textSize="@dimen/text_14sp" />
 
                 <ImageView

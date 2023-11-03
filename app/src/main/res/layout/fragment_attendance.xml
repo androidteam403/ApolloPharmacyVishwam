@@ -61,7 +61,7 @@
             <LinearLayout
                 android:id="@+id/gpsInfoLayout"
                 android:layout_width="match_parent"
-                android:background="#fef7e2"
+                android:background="@color/very_lite_yellow"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:visibility="visible">
@@ -261,8 +261,7 @@
                 android:id="@+id/headerLayout"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="#fff7e3"
-
+                android:background="@color/very_lite_yellow"
                 android:padding="@dimen/value_7dp">
 
                 <LinearLayout
