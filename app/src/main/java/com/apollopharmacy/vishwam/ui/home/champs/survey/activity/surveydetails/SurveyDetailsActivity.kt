@@ -134,7 +134,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         siteName = intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
         region = intent.getStringExtra("region")!!
-        adapterTrainers = EmailAddressAdapterTrainers(listForTrainers, applicationContext, this)
+        adapterTrainers = EmailAddressAdapterTrainers(listForTrainers, this@SurveyDetailsActivity, this)
         activityStartSurvey2Binding.trainerRecyclerview.setLayoutManager(
             LinearLayoutManager(
                 this)
@@ -258,7 +258,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 //        surveyCCDetailsList.add("kkabcr@apollopharmacy.org")
 
 
-        adapterRec = EmailAddressAdapter(surveyRecManualList, applicationContext, this)
+        adapterRec = EmailAddressAdapter(surveyRecManualList, this@SurveyDetailsActivity, this)
         activityStartSurvey2Binding.emailRecRecyclerView.setLayoutManager(
             LinearLayoutManager(
                 this,
@@ -512,7 +512,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                 surveyRecDetailsList.add(getEmailAddressResponse.emailDetails!!.get(i).email!!)
                 surveyRecDetailsListTemp.add(getEmailAddressResponse.emailDetails!!.get(i).email!!)
             }
-            adapterRec = EmailAddressAdapter(surveyRecManualList, applicationContext, this)
+            adapterRec = EmailAddressAdapter(surveyRecManualList, this@SurveyDetailsActivity, this)
             activityStartSurvey2Binding.emailRecRecyclerView.setLayoutManager(
                 LinearLayoutManager(
                     this
@@ -649,7 +649,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
             dialogLocationListBinding!!.noDataAvailable.visibility=View.GONE
             dialogLocationListBinding!!.submit.visibility=View.VISIBLE
             dialogLocationListBinding!!.locationRcv.visibility=View.VISIBLE
-            trainersEmailAdapter = TrainersEmailAdapterForDialog(applicationContext, emailList, this, listForTrainers)
+            trainersEmailAdapter = TrainersEmailAdapterForDialog(this@SurveyDetailsActivity, emailList, this, listForTrainers)
             dialogLocationListBinding!!.locationRcv.adapter = trainersEmailAdapter
             dialogLocationListBinding!!.locationRcv.layoutManager =
                 LinearLayoutManager(this)

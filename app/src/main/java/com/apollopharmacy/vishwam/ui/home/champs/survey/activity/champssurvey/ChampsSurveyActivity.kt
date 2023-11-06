@@ -2984,7 +2984,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         categoryDetailsAdapter =
             CategoryDetailsAdapter(
                 getCategoryAndSubCategoryDetails!!.categoryDetails,
-                applicationContext,
+                this@ChampsSurveyActivity,
                 this, status
             )
         activityChampsSurveyBinding.categoryRecyclerView.setLayoutManager(

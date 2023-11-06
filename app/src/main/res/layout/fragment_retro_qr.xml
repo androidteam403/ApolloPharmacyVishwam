@@ -170,7 +170,7 @@
                                 android:paddingEnd="@dimen/value_15dp"
                                 android:paddingBottom="@dimen/value_3dp"
                                 android:text="Upload"
-                                android:textColor="@color/white"
+                                android:textColor="@color/white_for_both"
                                 android:textSize="@dimen/dimen11sp" />
 
                             <TextView
@@ -185,7 +185,7 @@
                                 android:paddingEnd="@dimen/value_15dp"
                                 android:paddingBottom="@dimen/value_3dp"
                                 android:text="Review"
-                                android:textColor="@color/white"
+                                android:textColor="@color/white_for_both"
                                 android:textSize="@dimen/dimen11sp" />
 
 

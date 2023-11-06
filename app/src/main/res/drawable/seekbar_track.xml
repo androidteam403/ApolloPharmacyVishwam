@@ -3,7 +3,7 @@
     <item>
         <shape>
             <corners android:radius="5dp"/>
-            <solid android:color="#11000000"/>
+            <solid android:color="@color/seekbar_bg"/>
             <!--<gradient
                 android:angle="270"
                 android:centerColor="#11000000"

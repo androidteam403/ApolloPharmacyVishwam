@@ -154,7 +154,7 @@
                     android:layout_marginTop="@dimen/text_12sp"
                     android:text="Today's Update"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_17sp"
                     android:textStyle="bold" />
 
@@ -166,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/value_7dp"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_15sp"
                     android:textStyle="bold" />
 
@@ -187,7 +187,7 @@
                         android:text="Upload Now"
                         android:id="@+id/uploadNowbtnn"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_16sp"
                         android:textStyle="bold" />
 
@@ -210,7 +210,7 @@
                         android:layout_height="wrap_content"
                         android:text="Next Upload"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
 
@@ -225,7 +225,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/value_7dp"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             android:visibility="visible" />
@@ -256,7 +256,7 @@
                         android:layout_height="wrap_content"
                         android:text="Next Upload on "
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_16sp"
                         android:textStyle="bold" />
 
@@ -267,7 +267,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_15sp"
                         android:textStyle="bold" />
 
@@ -293,7 +293,7 @@
                         android:layout_height="wrap_content"
                         android:text="Next Upload on "
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_16sp"
                         android:textStyle="bold" />
 
@@ -303,7 +303,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_15sp"
                         android:textStyle="bold" />
 

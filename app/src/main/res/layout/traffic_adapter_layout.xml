@@ -24,7 +24,7 @@
                 android:id="@+id/name"
                 android:paddingBottom="4dp"
                 android:text="Mall"
-                android:textColor="@color/black"
+                android:textColor="@color/black_for_both"
                 android:textSize="13sp" />
 
             <!--            <ImageView-->

@@ -75,7 +75,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:text="Survey Details"
-                                android:textColor="@color/white"
+                                android:textColor="@color/white_for_both"
                                 android:textSize="@dimen/text_17sp"
                                 android:textStyle="bold" />
 
@@ -99,7 +99,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_14sp"
                                     android:textStyle="bold" />
 
@@ -317,7 +317,7 @@
                                     android:background="@drawable/grey_backgroundup"
                                     android:gravity="center"
                                     android:id="@+id/category_pos"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -1066,7 +1066,7 @@
                                         android:background="@drawable/green_rectangle"
                                         android:paddingHorizontal="@dimen/value_5dp"
                                         android:src="@drawable/ic_pending_list_icons_upload_photo"
-                                        app:tint="@color/white" />
+                                        android:tint="@color/white_for_both" />
                                     <ImageButton
                                         android:visibility="gone"
                                         android:id="@+id/openGalleryAsh"
@@ -1105,7 +1105,7 @@
                                             android:layout_gravity="center_horizontal"
                                             android:gravity="center"
                                             android:onClick="@{()-> callback.onClickSubmit()}"
-                                            android:textColorHint="@color/white"
+                                            android:textColorHint="@color/white_for_both"
                                             android:textSize="@dimen/text_18sp" />
                                     </LinearLayout>
                                 </LinearLayout>

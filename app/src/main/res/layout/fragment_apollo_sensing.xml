@@ -483,7 +483,7 @@
                         android:paddingEnd="@dimen/value_15dp"
                         android:paddingBottom="@dimen/value_8dp"
                         android:text="Send OTP for Consent"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_12sp"
                         android:textStyle="bold"
                         android:visibility="visible" />
@@ -813,7 +813,7 @@
                                 android:paddingEnd="@dimen/value_15dp"
                                 android:paddingBottom="@dimen/value_8dp"
                                 android:text="Send OTP for Consent"
-                                android:textColor="@color/white"
+                                android:textColor="@color/white_for_both"
                                 android:textSize="@dimen/text_12sp"
                                 android:textStyle="bold"
                                 android:visibility="visible" />
@@ -1050,7 +1050,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Send Link"
-                android:textColor="@color/grey"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_20sp" />
         </LinearLayout>
 
@@ -1071,7 +1071,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Upload Prescription"
-                android:textColor="@color/grey"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_20sp" />
         </LinearLayout>
     </RelativeLayout>

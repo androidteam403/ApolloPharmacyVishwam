@@ -53,7 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="New Survey"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
 

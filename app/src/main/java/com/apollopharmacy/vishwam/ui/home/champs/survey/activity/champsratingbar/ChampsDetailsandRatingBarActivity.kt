@@ -494,7 +494,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             subCategoryAdapter =
                 SubCategoryAdapter(
                     getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!,
-                    applicationContext,
+                    this@ChampsDetailsandRatingBarActivity,
                     this, status
                 )
             activityChampsDetailsandRatingBarBinding.categoryRecyclerView.setLayoutManager(

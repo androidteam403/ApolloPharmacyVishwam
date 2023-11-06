@@ -23,7 +23,7 @@
             android:paddingTop="@dimen/value_10dp"
             android:paddingBottom="@dimen/value_10dp"
             android:text="@string/label_create_task"
-            android:textColor="@color/white"
+            android:textColor="@color/white_for_both"
             android:textSize="@dimen/text_16sp"
             android:textStyle="bold" />
         <ImageView
@@ -32,7 +32,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:id="@+id/close_icon"
-            android:tint="@color/white"
+            android:tint="@color/white_for_both"
             android:src="@drawable/close_icon"/>
     </LinearLayout>
 
@@ -311,6 +311,6 @@
             android:layout_marginEnd="@dimen/value_15dp"
             android:text="@string/label_task_sign_in"
             android:fontFamily="@font/poppin_bold"
-            android:textColor="@color/white" />
+            android:textColor="@color/white_for_both" />
     </LinearLayout>
 </LinearLayout>

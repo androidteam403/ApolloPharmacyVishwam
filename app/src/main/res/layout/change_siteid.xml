@@ -42,7 +42,7 @@
                 android:gravity="center"
                 android:text="No"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_15sp"
                 android:textStyle="bold" />
 
@@ -57,7 +57,7 @@
                 android:text="Yes"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_15sp"
                 android:textStyle="bold" />
         </LinearLayout>

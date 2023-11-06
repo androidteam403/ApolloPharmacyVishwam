@@ -167,7 +167,7 @@
                     android:paddingEnd="@dimen/value_12dp"
                     android:paddingBottom="@dimen/value_7dp"
                     android:text="@string/retro_qr_label_preview"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_16sp"
                     android:textStyle="bold" />
             </RelativeLayout>
