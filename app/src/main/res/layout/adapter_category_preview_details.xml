@@ -48,7 +48,7 @@
                                 android:id="@+id/category_number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/white"
+                                android:textColor="@color/white_for_both"
                                 android:textSize="@dimen/text_18sp"
                                 android:textStyle="bold" />
 

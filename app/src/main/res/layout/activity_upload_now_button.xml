@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="UPLOAD SWACHH IMAGES"
-                android:textColor="@color/white"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_17sp"
                 android:textStyle="bold" />
 
@@ -1072,7 +1072,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/text_15sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/white_for_both"
             android:textSize="@dimen/text_20sp" />
 
         <TextView
@@ -1082,7 +1082,7 @@
             android:gravity="center"
             android:text="UPLOAD NOW"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/white_for_both"
             android:textSize="@dimen/text_20sp" />
 
 
