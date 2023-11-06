@@ -64,7 +64,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     ImageClickListener, ComplaintListCalendarDialog.DateSelected, MainActivityCallback,
     SubmitticketDialog.AbstractDialogFinanceClickListner, OnTransactionSearchManagerListnier,
     ComplaintListFragmentCallback {
-
+    var isNewStatusClicked = true
+    var inProgressStatus = true
+    var rejectedStatus = true
+    var reopenStatus= true
+    var closedStatus= true
+    var resolvedStatus= true
+    var onholdStatus= true
     var isFromDateSelected: Boolean = false
     var resList = ArrayList<ResponseNewTicketlist.Row>()
     var pos: Int = 0
@@ -2619,8 +2625,10 @@ end*/
     override fun selectedDatefrom(dateSelected: String, showingDate: String) {
     }
 
-    var isNewStatusClicked = false
+
+
     var dialogComplaintListFilterBinding: DialogComplaintListFilterBinding? = null
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onClickFilterIcon() {
         val complaintListStatusFilterDialog = Dialog(
             requireContext(),
@@ -2645,58 +2653,72 @@ end*/
         dialogComplaintListFilterBinding!!.clearAllFilters.setOnClickListener {
             dialogComplaintListFilterBinding!!.selectAll.isChecked = true
             if (dialogComplaintListFilterBinding!!.selectAll.isChecked) {
-                dialogComplaintListFilterBinding!!.newStatus.isChecked = true
-                dialogComplaintListFilterBinding!!.inProgressStatus.isChecked = true
-                dialogComplaintListFilterBinding!!.rejectedStatus.isChecked = true
-                dialogComplaintListFilterBinding!!.reopenStatus.isChecked = true
-                dialogComplaintListFilterBinding!!.closedStatus.isChecked = true
-                dialogComplaintListFilterBinding!!.resolvedStatus.isChecked = true
-                dialogComplaintListFilterBinding!!.onholdStatus.isChecked = true
+                isNewStatusClicked = true
+                inProgressStatus = true
+                rejectedStatus = true
+                 reopenStatus= true
+                 closedStatus= true
+                 resolvedStatus= true
+                 onholdStatus= true
+                dialogComplaintListFilterBinding!!.newStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.inProgressStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.rejectedStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.reopenStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.closedStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.resolvedStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.onholdStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.white))
                 dialogComplaintListFilterBinding!!.selectAll.isChecked = true
             }
             dialogComplaintListFilterBinding!!.fromDateText.text = Utils.getCurrentDate()
             dialogComplaintListFilterBinding!!.toDateText.text = Utils.getCurrentDate()
 
             this.complaintListStatus = ""
-            if (dialogComplaintListFilterBinding!!.newStatus.isChecked) {
+            if (isNewStatusClicked) {
                 this.complaintListStatus = "new"
             }
-            if (dialogComplaintListFilterBinding!!.inProgressStatus.isChecked) {
+            if (inProgressStatus) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "inprogress"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},inprogress"
                 }
             }
-            if (dialogComplaintListFilterBinding!!.resolvedStatus.isChecked) {
+            if (rejectedStatus) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "solved"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},solved"
                 }
             }
-            if (dialogComplaintListFilterBinding!!.rejectedStatus.isChecked) {
+            if (reopenStatus) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "rejected"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},rejected"
                 }
             }
-            if (dialogComplaintListFilterBinding!!.reopenStatus.isChecked) {
+            if (closedStatus) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "reopened"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},reopened"
                 }
             }
-            if (dialogComplaintListFilterBinding!!.closedStatus.isChecked) {
+            if (resolvedStatus) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "closed"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},closed"
                 }
             }
-            if (dialogComplaintListFilterBinding!!.onholdStatus.isChecked) {
+            if (onholdStatus) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "onHold"
                 } else {
@@ -2732,59 +2754,240 @@ end*/
             isFromDateSelected = false
             openDateDialog()
         }
-        if (dialogComplaintListFilterBinding!!.newStatus.isChecked &&
-            dialogComplaintListFilterBinding!!.inProgressStatus.isChecked &&
-            dialogComplaintListFilterBinding!!.rejectedStatus.isChecked &&
-            dialogComplaintListFilterBinding!!.reopenStatus.isChecked &&
-            dialogComplaintListFilterBinding!!.closedStatus.isChecked &&
-            dialogComplaintListFilterBinding!!.resolvedStatus.isChecked &&
-            dialogComplaintListFilterBinding!!.onholdStatus.isChecked
+        if ( isNewStatusClicked &&
+            inProgressStatus &&
+            rejectedStatus &&
+            reopenStatus &&
+            closedStatus &&
+            resolvedStatus &&
+            onholdStatus
         ) {
             dialogComplaintListFilterBinding!!.selectAll.isChecked = true
         } else {
             dialogComplaintListFilterBinding!!.selectAll.isChecked = false
         }
-        dialogComplaintListFilterBinding!!.isNewChecked = this.complaintListStatus.contains("new")
-        dialogComplaintListFilterBinding!!.isInProgressChecked =
-            this.complaintListStatus.contains("inprogress")
-        dialogComplaintListFilterBinding!!.isResolvedChecked =
-            this.complaintListStatus.contains("solved")
-        dialogComplaintListFilterBinding!!.isRejectedChecked =
-            this.complaintListStatus.contains("rejected")
-        dialogComplaintListFilterBinding!!.isReopenChecked =
-            this.complaintListStatus.contains("reopened")
-        dialogComplaintListFilterBinding!!.isClosedChecked =
-            this.complaintListStatus.contains("closed")
-        dialogComplaintListFilterBinding!!.isOnHoldChecked =
-            this.complaintListStatus.contains("onHold")
+
+        if(isNewStatusClicked){
+            dialogComplaintListFilterBinding!!.newStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+            dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+        }else{
+            dialogComplaintListFilterBinding!!.newStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+            dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+        }
+        if(inProgressStatus){
+            dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.inProgressStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+        }else{
+            dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+            dialogComplaintListFilterBinding!!.inProgressStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+        }
+        if(resolvedStatus){
+            dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.resolvedStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+        }else{
+            dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+            dialogComplaintListFilterBinding!!.resolvedStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+        }
+        if(rejectedStatus){
+            dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.rejectedStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+        }else{
+            dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+            dialogComplaintListFilterBinding!!.rejectedStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+        }
+        if(reopenStatus){
+            dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.reopenStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+        }else{
+            dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+            dialogComplaintListFilterBinding!!.reopenStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+        }
+        if(closedStatus){
+            dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.closedStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+        }else{
+            dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+            dialogComplaintListFilterBinding!!.closedStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+        }
+        if(onholdStatus){
+            dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.onholdStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+        }else{
+            dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+            dialogComplaintListFilterBinding!!.onholdStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+        }
+//        dialogComplaintListFilterBinding!!.isNewChecked = this.complaintListStatus.contains("new")
+//        dialogComplaintListFilterBinding!!.isInProgressChecked =
+//            this.complaintListStatus.contains("inprogress")
+//        dialogComplaintListFilterBinding!!.isResolvedChecked =
+//            this.complaintListStatus.contains("solved")
+//        dialogComplaintListFilterBinding!!.isRejectedChecked =
+//            this.complaintListStatus.contains("rejected")
+//        dialogComplaintListFilterBinding!!.isReopenChecked =
+//            this.complaintListStatus.contains("reopened")
+//        dialogComplaintListFilterBinding!!.isClosedChecked =
+//            this.complaintListStatus.contains("closed")
+//        dialogComplaintListFilterBinding!!.isOnHoldChecked =
+//            this.complaintListStatus.contains("onHold")
         dialogComplaintListFilterBinding!!.isSelectAllChecked =
             this.complaintListStatus.contains("new,inprogress,solved,rejected,reopened,closed,onHold")
 
 
 
-        submitButtonEnable(dialogComplaintListFilterBinding!!)
+        submitButtonEnable(isNewStatusClicked, inProgressStatus, resolvedStatus, rejectedStatus, reopenStatus, closedStatus, onholdStatus, dialogComplaintListFilterBinding!!)
 
 
-        dialogComplaintListFilterBinding!!.newStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding!!)
+        dialogComplaintListFilterBinding!!.newStatus.setOnClickListener{
+            if(isNewStatusClicked){
+                isNewStatusClicked=false
+                dialogComplaintListFilterBinding!!.newStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+            }else{
+                isNewStatusClicked=true
+                dialogComplaintListFilterBinding!!.newStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+
+            }
+            submitButtonEnable(
+                isNewStatusClicked,
+                inProgressStatus,
+                resolvedStatus,
+                rejectedStatus,
+                reopenStatus,
+                closedStatus,
+                onholdStatus,
+                dialogComplaintListFilterBinding!!
+            )
         }
-        dialogComplaintListFilterBinding!!.inProgressStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding!!)
+        dialogComplaintListFilterBinding!!.inProgressStatus.setOnClickListener {
+            if(inProgressStatus){
+                inProgressStatus=false
+                dialogComplaintListFilterBinding!!.inProgressStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+
+            }else{
+                inProgressStatus=true
+                dialogComplaintListFilterBinding!!.inProgressStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+
+            }
+            submitButtonEnable(
+                isNewStatusClicked,
+                inProgressStatus,
+                resolvedStatus,
+                rejectedStatus,
+                reopenStatus,
+                closedStatus,
+                onholdStatus,
+                dialogComplaintListFilterBinding!!
+            )
         }
-        dialogComplaintListFilterBinding!!.resolvedStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding!!)
+        dialogComplaintListFilterBinding!!.resolvedStatus.setOnClickListener {
+            if(resolvedStatus){
+                resolvedStatus=false
+                dialogComplaintListFilterBinding!!.resolvedStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+
+            }else{
+                dialogComplaintListFilterBinding!!.resolvedStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                resolvedStatus=true
+            }
+            submitButtonEnable(
+                isNewStatusClicked,
+                inProgressStatus,
+                resolvedStatus,
+                rejectedStatus,
+                reopenStatus,
+                closedStatus,
+                onholdStatus,
+                dialogComplaintListFilterBinding!!
+            )
         }
-        dialogComplaintListFilterBinding!!.rejectedStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding!!)
+        dialogComplaintListFilterBinding!!.rejectedStatus.setOnClickListener {
+            if(rejectedStatus){
+                dialogComplaintListFilterBinding!!.rejectedStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+                rejectedStatus=false
+            }else{
+                rejectedStatus=true
+                dialogComplaintListFilterBinding!!.rejectedStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+
+            }
+            submitButtonEnable(
+                isNewStatusClicked,
+                inProgressStatus,
+                resolvedStatus,
+                rejectedStatus,
+                reopenStatus,
+                closedStatus,
+                onholdStatus,
+                dialogComplaintListFilterBinding!!
+            )
         }
-        dialogComplaintListFilterBinding!!.reopenStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding!!)
+        dialogComplaintListFilterBinding!!.reopenStatus.setOnClickListener{
+            if(reopenStatus){
+                dialogComplaintListFilterBinding!!.reopenStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+                reopenStatus=false
+            }else{
+                dialogComplaintListFilterBinding!!.reopenStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                reopenStatus=true
+            }
+            submitButtonEnable(
+                isNewStatusClicked,
+                inProgressStatus,
+                resolvedStatus,
+                rejectedStatus,
+                reopenStatus,
+                closedStatus,
+                onholdStatus,
+                dialogComplaintListFilterBinding!!
+            )
         }
-        dialogComplaintListFilterBinding!!.closedStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding!!)
+        dialogComplaintListFilterBinding!!.closedStatus.setOnClickListener {
+            if(closedStatus){
+                dialogComplaintListFilterBinding!!.closedStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+                closedStatus=false
+            }else{
+                dialogComplaintListFilterBinding!!.closedStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                closedStatus=true
+            }
+            submitButtonEnable(
+                isNewStatusClicked,
+                inProgressStatus,
+                resolvedStatus,
+                rejectedStatus,
+                reopenStatus,
+                closedStatus,
+                onholdStatus,
+                dialogComplaintListFilterBinding!!
+            )
         }
-        dialogComplaintListFilterBinding!!.onholdStatus.setOnCheckedChangeListener { compoundButton, b ->
-            submitButtonEnable(dialogComplaintListFilterBinding!!)
+        dialogComplaintListFilterBinding!!.onholdStatus.setOnClickListener{
+            if(onholdStatus){
+                dialogComplaintListFilterBinding!!.onholdStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+                onholdStatus=false
+            }else{
+                dialogComplaintListFilterBinding!!.onholdStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                onholdStatus=true
+            }
+            submitButtonEnable(
+                isNewStatusClicked,
+                inProgressStatus,
+                resolvedStatus,
+                rejectedStatus,
+                reopenStatus,
+                closedStatus,
+                onholdStatus,
+                dialogComplaintListFilterBinding!!
+            )
         }
         dialogComplaintListFilterBinding!!.selectAllCheckboxLayout.setOnClickListener {
             dialogComplaintListFilterBinding!!.selectAll.isChecked =
@@ -2792,30 +2995,76 @@ end*/
 
             if (dialogComplaintListFilterBinding!!.selectAll.isChecked) {
 
-                dialogComplaintListFilterBinding!!.newStatus.isChecked = true
-                dialogComplaintListFilterBinding!!.inProgressStatus.isChecked = true
-                dialogComplaintListFilterBinding!!.rejectedStatus.isChecked = true
-                dialogComplaintListFilterBinding!!.reopenStatus.isChecked = true
-                dialogComplaintListFilterBinding!!.closedStatus.isChecked = true
-                dialogComplaintListFilterBinding!!.resolvedStatus.isChecked = true
-                dialogComplaintListFilterBinding!!.onholdStatus.isChecked = true
+                isNewStatusClicked = true
+                inProgressStatus = true
+                rejectedStatus = true
+                reopenStatus= true
+                closedStatus= true
+                resolvedStatus= true
+                onholdStatus= true
+                dialogComplaintListFilterBinding!!.newStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.inProgressStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.rejectedStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.reopenStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.closedStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.resolvedStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.onholdStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.white))
                 dialogComplaintListFilterBinding!!.selectAll.isChecked = true
             }
 //            else{
 //                dialogComplaintListFilterBinding.selectAll.isChecked=false
 ////            }
             else {
+                isNewStatusClicked = false
+                inProgressStatus = false
+                rejectedStatus = false
+                reopenStatus= false
+                closedStatus= false
+                resolvedStatus= false
+                onholdStatus= false
+                dialogComplaintListFilterBinding!!.newStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+                dialogComplaintListFilterBinding!!.inProgressStatus.background =  requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+                dialogComplaintListFilterBinding!!.rejectedStatus.background =  requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+                dialogComplaintListFilterBinding!!.reopenStatus.background =  requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+                dialogComplaintListFilterBinding!!.closedStatus.background =  requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+                dialogComplaintListFilterBinding!!.resolvedStatus.background =  requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+                dialogComplaintListFilterBinding!!.onholdStatus.background =  requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
+                dialogComplaintListFilterBinding!!.selectAll.isChecked = true
+
 //                /                if(isNewStatusClicked)
-                dialogComplaintListFilterBinding!!.newStatus.isChecked = false
-                dialogComplaintListFilterBinding!!.inProgressStatus.isChecked = false
-                dialogComplaintListFilterBinding!!.rejectedStatus.isChecked = false
-                dialogComplaintListFilterBinding!!.reopenStatus.isChecked = false
-                dialogComplaintListFilterBinding!!.closedStatus.isChecked = false
-                dialogComplaintListFilterBinding!!.resolvedStatus.isChecked = false
-                dialogComplaintListFilterBinding!!.onholdStatus.isChecked = false
-                dialogComplaintListFilterBinding!!.selectAll.isChecked = false
+//                dialogComplaintListFilterBinding!!.newStatus.isChecked = false
+//                dialogComplaintListFilterBinding!!.inProgressStatus.isChecked = false
+//                dialogComplaintListFilterBinding!!.rejectedStatus.isChecked = false
+//                dialogComplaintListFilterBinding!!.reopenStatus.isChecked = false
+//                dialogComplaintListFilterBinding!!.closedStatus.isChecked = false
+//                dialogComplaintListFilterBinding!!.resolvedStatus.isChecked = false
+//                dialogComplaintListFilterBinding!!.onholdStatus.isChecked = false
+//                dialogComplaintListFilterBinding!!.selectAll.isChecked = false
             }
-            submitButtonEnable(dialogComplaintListFilterBinding!!)
+            submitButtonEnable(
+                isNewStatusClicked,
+                inProgressStatus,
+                resolvedStatus,
+                rejectedStatus,
+                reopenStatus,
+                closedStatus,
+                onholdStatus,
+                dialogComplaintListFilterBinding!!
+            )
         }
 
 
@@ -2868,45 +3117,45 @@ end*/
         dialogComplaintListFilterBinding!!.submit.setOnClickListener {
 //            this.complaintListStatus = complaintListStatusTemp
             this.complaintListStatus = ""
-            if (dialogComplaintListFilterBinding!!.newStatus.isChecked) {
+            if (isNewStatusClicked) {
                 this.complaintListStatus = "new"
             }
-            if (dialogComplaintListFilterBinding!!.inProgressStatus.isChecked) {
+            if (inProgressStatus) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "inprogress"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},inprogress"
                 }
             }
-            if (dialogComplaintListFilterBinding!!.resolvedStatus.isChecked) {
+            if (resolvedStatus) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "solved"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},solved"
                 }
             }
-            if (dialogComplaintListFilterBinding!!.rejectedStatus.isChecked) {
+            if (rejectedStatus) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "rejected"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},rejected"
                 }
             }
-            if (dialogComplaintListFilterBinding!!.reopenStatus.isChecked) {
+            if (reopenStatus) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "reopened"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},reopened"
                 }
             }
-            if (dialogComplaintListFilterBinding!!.closedStatus.isChecked) {
+            if (closedStatus) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "closed"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},closed"
                 }
             }
-            if (dialogComplaintListFilterBinding!!.onholdStatus.isChecked) {
+            if (onholdStatus) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "onHold"
                 } else {
@@ -3143,21 +3392,28 @@ fun checkResonDepot(
 }
 
 
-fun submitButtonEnable(dialogComplaintListFilterBinding: DialogComplaintListFilterBinding) {
-
-
-    if (!dialogComplaintListFilterBinding.newStatus.isChecked && !dialogComplaintListFilterBinding.inProgressStatus.isChecked && !dialogComplaintListFilterBinding.resolvedStatus.isChecked && !dialogComplaintListFilterBinding.rejectedStatus.isChecked && !dialogComplaintListFilterBinding.reopenStatus.isChecked && !dialogComplaintListFilterBinding.closedStatus.isChecked && !dialogComplaintListFilterBinding.onholdStatus.isChecked) {
+fun submitButtonEnable(
+    isNewStatusClicked: Boolean,
+    inProgressStatus: Boolean,
+    resolvedStatus: Boolean,
+    rejectedStatus: Boolean,
+    reopenStatus: Boolean,
+    closedStatus: Boolean,
+    onholdStatus: Boolean,
+    dialogComplaintListFilterBinding: DialogComplaintListFilterBinding
+) {
+    if (!isNewStatusClicked && !inProgressStatus && !resolvedStatus && !rejectedStatus && !reopenStatus && !closedStatus && !onholdStatus) {
         dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
         dialogComplaintListFilterBinding.isSubmitEnable = false
-        dialogComplaintListFilterBinding.selectAll.isChecked = false
-    } else if (dialogComplaintListFilterBinding.newStatus.isChecked && dialogComplaintListFilterBinding.inProgressStatus.isChecked && dialogComplaintListFilterBinding.resolvedStatus.isChecked && dialogComplaintListFilterBinding.rejectedStatus.isChecked && dialogComplaintListFilterBinding.reopenStatus.isChecked && dialogComplaintListFilterBinding.closedStatus.isChecked && dialogComplaintListFilterBinding.onholdStatus.isChecked) {
+        dialogComplaintListFilterBinding.isSelectAllChecked= false
+    } else if (isNewStatusClicked && inProgressStatus && resolvedStatus && rejectedStatus && reopenStatus && closedStatus && onholdStatus) {
         dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.dark_blue_bg_for_btn)
         dialogComplaintListFilterBinding.isSubmitEnable = true
-        dialogComplaintListFilterBinding.selectAll.isChecked = true
+        dialogComplaintListFilterBinding.isSelectAllChecked = true
     } else {
         dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.dark_blue_bg_for_btn)
         dialogComplaintListFilterBinding.isSubmitEnable = true
-        dialogComplaintListFilterBinding.selectAll.isChecked = false
+        dialogComplaintListFilterBinding.isSelectAllChecked = false
     }
 }
 

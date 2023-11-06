@@ -5,181 +5,189 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="30dp"
-    android:layout_marginEnd="30dp"
-
-    android:background="@drawable/custom_dialog_background">
+    android:layout_marginEnd="30dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="#045a71"
-            android:fontFamily="@font/poppin_bold"
-            android:gravity="start"
-            android:paddingStart="12dp"
-            android:paddingTop="@dimen/value_8dp"
-            android:paddingBottom="5dp"
-            android:text="@string/label_logout"
-            android:textColor="@color/white_for_both"
-            android:textSize="17sp" />
-
         <LinearLayout
+            android:background="@color/white"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#045a71"
+                android:fontFamily="@font/poppin_bold"
+                android:gravity="start"
+                android:paddingStart="12dp"
+                android:paddingTop="@dimen/value_8dp"
+                android:paddingBottom="5dp"
+                android:text="@string/label_logout"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:weightSum="2">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="15dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="6dp"
-                        android:src="@drawable/baseline_history_20"
-
-                        android:visibility="visible" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="15dp"
+                        android:orientation="horizontal">
 
-                        <TextView
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="6dp"
+                            android:src="@drawable/baseline_history_20"
+
+                            android:visibility="visible" />
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginEnd="@dimen/value_10dp"
+                            android:orientation="vertical">
 
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Last Sign In"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="@dimen/value_10dp"
 
-                            android:textColor="#889a9c"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Last Sign In"
 
-                            android:textSize="11sp" />
+                                android:textColor="#889a9c"
 
-                        <TextView
-                            android:id="@+id/lastLoginTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="@dimen/value_10dp"
-                            android:fontFamily="@font/poppin_bold"
+                                android:textSize="11sp" />
 
-                            android:text="09 March"
-                            android:textColor="@color/black"
+                            <TextView
+                                android:id="@+id/lastLoginTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="@dimen/value_10dp"
+                                android:fontFamily="@font/poppin_bold"
 
-                            android:textSize="11sp" />
+                                android:text="09 March"
+                                android:textColor="@color/black"
+
+                                android:textSize="11sp" />
 
 
+                        </LinearLayout>
                     </LinearLayout>
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#CCCCCC">
+
+                </View>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="15dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="6dp"
+                            android:rotation="180"
+                            android:src="@drawable/baseline_hourglass_top_24"
+                            android:visibility="visible" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="@dimen/value_10dp"
+
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Current Time"
+
+                                android:textColor="#889a9c"
+
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/currentTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="@dimen/value_10dp"
+                                android:fontFamily="@font/poppin_bold"
+
+                                android:text="09 March"
+                                android:textColor="@color/black"
+
+                                android:textSize="11sp" />
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
 
             </LinearLayout>
 
             <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:background="#CCCCCC">
 
             </View>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/text_dimen_10"
+                android:background="@color/white"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="15dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="6dp"
-                        android:rotation="180"
-                        android:src="@drawable/baseline_hourglass_top_24"
-                        android:visibility="visible" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginEnd="@dimen/value_10dp"
-
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Current Time"
-
-                            android:textColor="#889a9c"
-
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:id="@+id/currentTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="@dimen/value_10dp"
-                            android:fontFamily="@font/poppin_bold"
-
-                            android:text="09 March"
-                            android:textColor="@color/black"
-
-                            android:textSize="11sp" />
-
-
-                    </LinearLayout>
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CCCCCC">
-
-        </View>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:visibility="visible">
+                android:orientation="vertical"
+                android:visibility="visible">
 
             <TextView
                 android:layout_width="match_parent"
@@ -192,128 +200,132 @@
                 android:textAlignment="center"
                 android:textColor="#889a9c"
 
-                android:textSize="12sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="vertical">
+                    android:textSize="@dimen/text_14sp" />
 
                 <LinearLayout
-                    android:layout_width="200dp"
-                    android:layout_height="50dp"
-
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:orientation="horizontal"
-                    android:weightSum="4">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/border_grey_dialog"
-                        android:orientation="vertical">
-
-
-                        <TextView
-                            android:id="@+id/durationhrs"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppin_bold"
-                            android:paddingTop="@dimen/text_dimen_10"
-                            android:text="22"
-                            android:textAlignment="center"
-                            android:textColor="@color/black_for_both"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Hrs"
-
-                            android:textAlignment="center"
-                            android:textColor="#889a9c"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/border_grey_dialog"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
 
-                        android:orientation="vertical">
+                        android:layout_marginStart="@dimen/value_15dp"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
 
-                        <TextView
-                            android:id="@+id/durationminutes"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppin_bold"
-                            android:paddingTop="10dp"
-                            android:text="05"
-                            android:textAlignment="center"
-                            android:textColor="@color/black_for_both"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:paddingStart="2dp"
-                            android:text="Min"
-                            android:textAlignment="center"
-                            android:textColor="#889a9c"
-                            android:textSize="12sp" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/border_grey_dialog"
+                            android:orientation="vertical">
 
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/durationhrs"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppin_bold"
+                                android:paddingTop="@dimen/text_dimen_10"
+                                android:text="22"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/border_grey_dialog"
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Hrs"
 
-                        android:orientation="vertical">
+                                android:textAlignment="center"
+                                android:textColor="#889a9c"
+                                android:textSize="12sp" />
+                        </LinearLayout>
 
 
-                        <TextView
-                            android:id="@+id/durationsecs"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppin_bold"
-                            android:paddingTop="10dp"
-                            android:text="22"
-                            android:textAlignment="center"
-                            android:textColor="@color/black_for_both"
-                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/border_grey_dialog"
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Sec"
+                            android:orientation="vertical">
 
-                            android:textAlignment="center"
-                            android:textColor="#889a9c"
-                            android:textSize="12sp" />
+                            <TextView
+                                android:id="@+id/durationminutes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppin_bold"
+                                android:paddingTop="10dp"
+                                android:text="05"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:paddingStart="2dp"
+                                android:text="Min"
+                                android:textAlignment="center"
+                                android:textColor="#889a9c"
+                                android:textSize="12sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/border_grey_dialog"
+
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:id="@+id/durationsecs"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppin_bold"
+                                android:paddingTop="10dp"
+                                android:text="22"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Sec"
+
+                                android:textAlignment="center"
+                                android:textColor="#889a9c"
+                                android:textSize="12sp" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+
+
             </LinearLayout>
-
-
         </LinearLayout>
+
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/value_5dp"
-            android:background="#ffd887"
+            android:background="@drawable/dialog_yellow_corners"
             android:orientation="vertical">
 
             <TextView
@@ -344,10 +356,9 @@
                 android:gravity="center"
                 android:text="OK"
                 android:textAllCaps="false"
-                android:textColor="@color/white_for_both"
+                android:textColor="@color/white"
                 tools:ignore="ButtonStyle" />
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -384,5 +395,5 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="12dp"
         android:src="@drawable/closee_black"
-        android:tint="@color/white_for_both" />
+        android:tint="@color/white" />
 </RelativeLayout>
