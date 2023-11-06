@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#efefef"
+        android:background="@color/apna_new_survey_bg"
         tools:context=".ui.home.apna.activity.ApnaNewSurveyActivity">
 
         <!-- Header Layout -->
@@ -18,32 +18,31 @@
             android:gravity="center_vertical">
 
             <ImageView
-                android:layout_marginStart="@dimen/value_12dp"
-                android:layout_marginEnd="@dimen/value_10dp"
                 android:id="@+id/backButton"
                 android:layout_width="37dp"
                 android:layout_height="37dp"
-                android:layout_gravity="center"
                 android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/value_12dp"
+                android:layout_marginEnd="@dimen/value_10dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/icon_back_arrow"
-                />
+                android:src="@drawable/icon_back_arrow" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/backButton"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/value_15dp"-->
-<!--                android:layout_marginEnd="@dimen/value_20dp"-->
-<!--                android:contentDescription="@string/app_name"-->
-<!--                android:src="@drawable/icon_back_arrow" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/backButton"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/value_15dp"-->
+            <!--                android:layout_marginEnd="@dimen/value_20dp"-->
+            <!--                android:contentDescription="@string/app_name"-->
+            <!--                android:src="@drawable/icon_back_arrow" />-->
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="APNA New Survey"
-                android:textColor="@color/white"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_17sp" />
 
             <LinearLayout
@@ -57,7 +56,7 @@
                     android:layout_width="@dimen/value_25dp"
                     android:layout_height="@dimen/value_25dp"
                     android:src="@drawable/eye"
-                    android:tint="@color/white"
+                    android:tint="@color/white_for_both"
                     android:visibility="gone"
                     tools:ignore="UseAppTint" />
 
@@ -68,7 +67,7 @@
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/text_dimen_20"
                     android:src="@drawable/ic_baseline_tune_24"
-                    android:tint="@color/white"
+                    android:tint="@color/white_for_both"
                     tools:ignore="UseAppTint" />
             </LinearLayout>
         </LinearLayout>
@@ -121,7 +120,7 @@
                                     android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:gravity="center_vertical|center_horizontal"
                                     android:text="1"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -134,7 +133,7 @@
                                     android:gravity="center_vertical|center_horizontal"
                                     android:paddingHorizontal="7dp"
                                     android:text="1"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold"
                                     android:visibility="gone" />
@@ -605,7 +604,7 @@
                                     android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="2"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -617,7 +616,7 @@
                                     android:background="@drawable/green_background"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="2"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold"
                                     android:visibility="gone" />
@@ -1647,7 +1646,7 @@
                                     android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="3"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -1659,7 +1658,7 @@
                                     android:background="@drawable/green_rounded_background"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="3"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold"
                                     android:visibility="gone" />
@@ -2166,7 +2165,7 @@
                                         android:layout_weight=".5"
                                         android:background="@drawable/apna_project_add_btn_bg"
                                         android:hint="Add"
-                                        android:textColorHint="@color/white"
+                                        android:textColorHint="@color/white_for_both"
                                         android:textSize="@dimen/text_14sp" />
                                 </LinearLayout>
 
@@ -2450,7 +2449,7 @@
                                     android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="4"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -2462,7 +2461,7 @@
                                     android:background="@drawable/green_rounded_background"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="4"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold"
                                     android:visibility="gone" />
@@ -2707,8 +2706,8 @@
                                                 android:id="@+id/unorganisedAvgSaleText"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="@dimen/value_50dp"
-                                                android:hint="Avg sale"
                                                 android:digits="0123456789"
+                                                android:hint="Avg sale"
                                                 android:inputType="number"
                                                 android:maxLength="8"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -2732,7 +2731,7 @@
                                             android:background="@drawable/apna_project_add_btn_bg"
                                             android:fontFamily="@font/price_bold"
                                             android:hint="Add"
-                                            android:textColorHint="@color/white"
+                                            android:textColorHint="@color/white_for_both"
                                             android:textSize="@dimen/text_14sp" />
                                     </LinearLayout>
                                 </LinearLayout>
@@ -2857,7 +2856,7 @@
                                     android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="5"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -2869,7 +2868,7 @@
                                     android:background="@drawable/green_rounded_background"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="5"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold"
                                     android:visibility="gone" />
@@ -3057,7 +3056,7 @@
                                                 android:layout_height="@dimen/value_50dp"
                                                 android:background="@drawable/apna_project_add_btn_bg"
                                                 android:hint="Add"
-                                                android:textColorHint="@color/white"
+                                                android:textColorHint="@color/white_for_both"
                                                 android:textSize="@dimen/text_14sp" />
                                         </LinearLayout>
                                     </LinearLayout>
@@ -3102,7 +3101,7 @@
                                     android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="6"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -3114,7 +3113,7 @@
                                     android:background="@drawable/green_rounded_background"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="6"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold"
                                     android:visibility="gone" />
@@ -3348,7 +3347,7 @@
                                             android:layout_height="@dimen/value_50dp"
                                             android:background="@drawable/apna_project_add_btn_bg"
                                             android:hint="Add"
-                                            android:textColorHint="@color/white"
+                                            android:textColorHint="@color/white_for_both"
                                             android:textSize="@dimen/text_14sp" />
                                     </LinearLayout>
                                 </LinearLayout>
@@ -3392,7 +3391,7 @@
                                     android:backgroundTint="@color/vishwam_actionbar_color"
                                     android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="7"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -3531,7 +3530,7 @@
                                         android:background="@drawable/apna_project_add_btn_bg"
                                         android:fontFamily="@font/price_bold"
                                         android:hint="Add"
-                                        android:textColorHint="@color/white"
+                                        android:textColorHint="@color/white_for_both"
                                         android:textSize="@dimen/text_14sp" />
                                 </LinearLayout>
                             </LinearLayout>
@@ -3701,7 +3700,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Next"
-                android:textColor="@color/white"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_20sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -3723,7 +3722,7 @@
                 android:layout_weight=".5"
                 android:background="#b3b3b3"
                 android:hint="Previous"
-                android:textColorHint="@color/white"
+                android:textColorHint="@color/white_for_both"
                 android:textSize="@dimen/text_20sp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -3733,7 +3732,7 @@
                 android:layout_weight=".5"
                 android:background="@color/vishwam_actionbar_color"
                 android:hint="Submit"
-                android:textColorHint="@color/white"
+                android:textColorHint="@color/white_for_both"
                 android:textSize="@dimen/text_20sp" />
         </LinearLayout>
 
@@ -3755,7 +3754,7 @@
                 android:layout_weight=".5"
                 android:background="#b3b3b3"
                 android:hint="Previous"
-                android:textColorHint="@color/white"
+                android:textColorHint="@color/white_for_both"
                 android:textSize="@dimen/text_20sp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -3765,7 +3764,7 @@
                 android:layout_weight=".5"
                 android:background="@color/vishwam_actionbar_color"
                 android:hint="Next"
-                android:textColorHint="@color/white"
+                android:textColorHint="@color/white_for_both"
                 android:textSize="@dimen/text_20sp" />
         </LinearLayout>
 

@@ -56,7 +56,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_10dp"
                         android:text="APNA Survey Preview"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -81,7 +81,7 @@
                             android:layout_height="@dimen/value_25dp"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_baseline_tune_24"
-                            android:tint="@color/white"
+                            android:tint="@color/white_for_both"
                             tools:ignore="UseAppTint" />
                     </LinearLayout>
                 </LinearLayout>
@@ -590,7 +590,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/value_15dp"
-                            android:background="#ebebeb"
+                            android:background="@color/apna_new_survey_bg"
                             android:orientation="vertical"
                             android:visibility="visible">
 
@@ -743,7 +743,7 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:text="1"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <TextView
@@ -917,7 +917,7 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:text="2"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <TextView
@@ -1811,7 +1811,7 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:text="3"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <TextView
@@ -2068,7 +2068,7 @@
                                             android:paddingTop="@dimen/value_5dp"
                                             android:paddingBottom="@dimen/value_5dp"
                                             android:text="Location"
-                                            android:textColor="@color/white"
+                                            android:textColor="@color/white_for_both"
                                             android:textSize="@dimen/dimen11sp" />
                                     </TableLayout>
 
@@ -2086,7 +2086,7 @@
                                             android:paddingTop="@dimen/value_5dp"
                                             android:paddingBottom="@dimen/value_5dp"
                                             android:text="Store"
-                                            android:textColor="@color/white"
+                                            android:textColor="@color/white_for_both"
                                             android:textSize="@dimen/dimen11sp" />
                                     </TableLayout>
 
@@ -2104,7 +2104,7 @@
                                             android:paddingTop="@dimen/value_5dp"
                                             android:paddingBottom="@dimen/value_5dp"
                                             android:text="Rent"
-                                            android:textColor="@color/white"
+                                            android:textColor="@color/white_for_both"
                                             android:textSize="@dimen/dimen11sp" />
                                     </TableLayout>
 
@@ -2122,7 +2122,7 @@
                                             android:paddingTop="@dimen/value_5dp"
                                             android:paddingBottom="@dimen/value_5dp"
                                             android:text="Sales"
-                                            android:textColor="@color/white"
+                                            android:textColor="@color/white_for_both"
                                             android:textSize="@dimen/dimen11sp" />
                                     </TableLayout>
 
@@ -2140,7 +2140,7 @@
                                             android:paddingTop="@dimen/value_5dp"
                                             android:paddingBottom="@dimen/value_5dp"
                                             android:text="Sq.ft"
-                                            android:textColor="@color/white"
+                                            android:textColor="@color/white_for_both"
                                             android:textSize="@dimen/dimen11sp" />
                                     </TableLayout>
                                 </LinearLayout>
@@ -2433,7 +2433,7 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:text="4"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <TextView
@@ -2484,7 +2484,7 @@
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="Name"
                                                 android:textAlignment="center"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
 
@@ -2502,7 +2502,7 @@
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="ORG"
                                                 android:textAlignment="center"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
 
@@ -2520,7 +2520,7 @@
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="Avg Sale"
                                                 android:textAlignment="center"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
 
@@ -2538,7 +2538,7 @@
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="Un-ORG"
                                                 android:textAlignment="center"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
 
@@ -2556,7 +2556,7 @@
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="Avg Sale"
                                                 android:textAlignment="center"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
                                     </LinearLayout>
@@ -2789,7 +2789,7 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:text="5"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <TextView
@@ -2840,7 +2840,7 @@
                                                 android:paddingTop="@dimen/value_5dp"
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="Name"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
 
@@ -2858,7 +2858,7 @@
                                                 android:paddingTop="@dimen/value_5dp"
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="No Of Houses"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
 
@@ -2876,7 +2876,7 @@
                                                 android:paddingTop="@dimen/value_5dp"
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="Distance"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
                                     </LinearLayout>
@@ -2995,7 +2995,7 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:text="6"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <TextView
@@ -3046,7 +3046,7 @@
                                                 android:paddingTop="@dimen/value_5dp"
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="Name"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
 
@@ -3064,7 +3064,7 @@
                                                 android:paddingTop="@dimen/value_5dp"
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="BEDS"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
 
@@ -3082,7 +3082,7 @@
                                                 android:paddingTop="@dimen/value_5dp"
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="Speciality"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
 
@@ -3100,7 +3100,7 @@
                                                 android:paddingTop="@dimen/value_5dp"
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="No Of OPD"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
 
@@ -3118,7 +3118,7 @@
                                                 android:paddingTop="@dimen/value_5dp"
                                                 android:paddingBottom="@dimen/value_5dp"
                                                 android:text="Occupancy"
-                                                android:textColor="@color/white"
+                                                android:textColor="@color/white_for_both"
                                                 android:textSize="@dimen/dimen11sp" />
                                         </TableLayout>
                                     </LinearLayout>
@@ -3275,7 +3275,7 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:text="7"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <TextView
@@ -3410,7 +3410,7 @@
             android:visibility="gone"
             app:backgroundTint="@color/vishwam_actionbar_color"
             app:fabCustomSize="@dimen/value_40dp"
-            app:tint="@color/white" />
+            app:tint="@color/white_for_both" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/scroll_bottom"
@@ -3426,7 +3426,7 @@
             android:visibility="visible"
             app:backgroundTint="@color/vishwam_actionbar_color"
             app:fabCustomSize="@dimen/value_40dp"
-            app:tint="@color/white" />
+            app:tint="@color/white_for_both" />
 
         <!--<LinearLayout
             android:layout_width="wrap_content"
