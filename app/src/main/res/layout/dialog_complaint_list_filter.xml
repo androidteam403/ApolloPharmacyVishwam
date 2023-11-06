@@ -605,7 +605,7 @@
                         android:layout_marginTop="@dimen/value_15dp"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
-                        android:background="#e6e7e9"
+                        android:background="@drawable/dialog_ash_corners"
                         android:layout_height="wrap_content">
 
                         <TextView
@@ -614,7 +614,7 @@
                             android:layout_marginEnd="@dimen/value_10dp"
                             android:id="@+id/clear_all_filters"
                             android:layout_width="0dp"
-                            android:layout_weight="0.6"
+                            android:layout_weight="0.5"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/value_10dp"
@@ -630,7 +630,7 @@
                             android:layout_gravity="center"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.4">
+                            android:layout_weight="0.5">
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:gravity="center"
