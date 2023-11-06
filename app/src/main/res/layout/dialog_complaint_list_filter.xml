@@ -6,33 +6,33 @@
 
         <import type="android.view.View" />
 
-        <variable
-            name="isNewChecked"
-            type="Boolean" />
+<!--        <variable-->
+<!--            name="isNewChecked"-->
+<!--            type="Boolean" />-->
 
-        <variable
-            name="isInProgressChecked"
-            type="Boolean" />
+<!--        <variable-->
+<!--            name="isInProgressChecked"-->
+<!--            type="Boolean" />-->
 
-        <variable
-            name="isResolvedChecked"
-            type="Boolean" />
+<!--        <variable-->
+<!--            name="isResolvedChecked"-->
+<!--            type="Boolean" />-->
 
-        <variable
-            name="isRejectedChecked"
-            type="Boolean" />
+<!--        <variable-->
+<!--            name="isRejectedChecked"-->
+<!--            type="Boolean" />-->
 
-        <variable
-            name="isReopenChecked"
-            type="Boolean" />
+<!--        <variable-->
+<!--            name="isReopenChecked"-->
+<!--            type="Boolean" />-->
 
-        <variable
-            name="isClosedChecked"
-            type="Boolean" />
+<!--        <variable-->
+<!--            name="isClosedChecked"-->
+<!--            type="Boolean" />-->
 
-        <variable
-            name="isOnHoldChecked"
-            type="Boolean" />
+<!--        <variable-->
+<!--            name="isOnHoldChecked"-->
+<!--            type="Boolean" />-->
 
         <variable
             name="isSubmitEnable"
@@ -53,7 +53,7 @@
         <RelativeLayout
             android:layout_width="@dimen/dimen330dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/dialogue_bg_">
+            android:background="@drawable/dialog_bg">
 
             <RelativeLayout
                 android:id="@+id/header_layout"
@@ -86,6 +86,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:background="@drawable/dialog_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/header_layout"
@@ -98,32 +99,40 @@
                     android:layout_marginEnd="@dimen/value_10dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_3dp"
-                        android:layout_marginTop="@dimen/value_10dp"
-                        android:text="@string/label_by_status"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorBlack" />
-
-                    <RelativeLayout
-                        android:id="@+id/select_all_checkbox_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <CheckBox
-                            android:id="@+id/select_all"
-                            android:layout_width="match_parent"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="@color/vishwam_actionbar_color"
-                            android:checked="@{isSelectAllChecked}"
-                            android:clickable="false"
-                            android:text="@string/label_select_all"
-                            android:textColor="@color/grey"
-                            android:textSize="@dimen/text_16sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
+                            android:layout_marginStart="@dimen/value_3dp"
+                            android:text="@string/label_by_status"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorBlack" />
+
+                        <RelativeLayout
+                          android:gravity="end"
+                            android:id="@+id/select_all_checkbox_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:id="@+id/select_all"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/vishwam_actionbar_color"
+                                android:checked="@{isSelectAllChecked}"
+                                android:clickable="false"
+                                android:text="@string/label_select_all"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
 
                     <View
                         android:layout_width="match_parent"
@@ -138,105 +147,297 @@
                     <!--                android:layout_height="wrap_content"-->
                     <!--                android:orientation="vertical"-->
                     <!--                tools:ignore="UselessParent">-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
 
-                        <CheckBox
-                            android:id="@+id/new_status"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".5"
-                            android:buttonTint="@color/vishwam_actionbar_color"
-                            android:checked="@{isNewChecked}"
-                            android:text="@string/label_new"
-                            android:textSize="@dimen/text_16sp"
-                            android:textStyle="bold" />
+                        <LinearLayout
+                            android:layout_margin="@dimen/value_15dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                        <CheckBox
-                            android:id="@+id/reopen_status"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".5"
-                            android:buttonTint="@color/vishwam_actionbar_color"
-                            android:checked="@{isReopenChecked}"
-                            android:text="@string/label_reopen"
-                            android:textSize="@dimen/text_16sp"
-                            android:textStyle="bold" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="1">
 
-                    </LinearLayout>
+                                <LinearLayout
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.2">
 
-                        <CheckBox
-                            android:id="@+id/in_progress_status"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".5"
-                            android:buttonTint="@color/vishwam_actionbar_color"
-                            android:checked="@{isInProgressChecked}"
-                            android:text="@string/label_in_progress"
-                            android:textSize="@dimen/text_16sp"
-                            android:textStyle="bold" />
+                                    <TextView
+                                        android:id="@+id/new_status"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:textColor="#b7b7b7"
+                                        android:background="@drawable/checkbox_bgg"
+                                        android:paddingStart="@dimen/value_9dp"
+                                        android:paddingTop="@dimen/value_3dp"
+                                        android:paddingEnd="@dimen/value_9dp"
+                                        android:paddingBottom="@dimen/value_3dp"
+                                        android:text="New" />
+                                </LinearLayout>
 
-                        <CheckBox
-                            android:id="@+id/closed_status"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".5"
-                            android:buttonTint="@color/vishwam_actionbar_color"
-                            android:checked="@{isClosedChecked}"
-                            android:text="@string/label_closed"
-                            android:textSize="@dimen/text_16sp"
-                            android:textStyle="bold" />
+                                <LinearLayout
+                                    android:layout_marginStart="@dimen/text_dimen_10"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.4">
 
-                    </LinearLayout>
+                                    <TextView
+                                        android:textColor="#b7b7b7"
+                                        android:id="@+id/in_progress_status"
+                                        android:paddingStart="@dimen/value_9dp"
+                                        android:paddingEnd="@dimen/value_9dp"
+                                        android:paddingTop="@dimen/value_3dp"
+                                        android:paddingBottom="@dimen/value_3dp"
+                                        android:background="@drawable/checkbox_bgg"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="In Progress"
+                                        />
+                                </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
+                                <LinearLayout
 
-                        <CheckBox
-                            android:id="@+id/resolved_status"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".5"
-                            android:buttonTint="@color/vishwam_actionbar_color"
-                            android:checked="@{isResolvedChecked}"
-                            android:text="@string/label_resolved"
-                            android:textSize="@dimen/text_16sp"
-                            android:textStyle="bold" />
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.4">
 
-                        <CheckBox
-                            android:id="@+id/onhold_status"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".5"
-                            android:buttonTint="@color/vishwam_actionbar_color"
-                            android:checked="@{isOnHoldChecked}"
-                            android:text="@string/label_on_hold"
-                            android:textSize="@dimen/text_16sp"
-                            android:textStyle="bold" />
+                                    <TextView
+                                        android:textColor="#b7b7b7"
+                                        android:id="@+id/resolved_status"
+                                        android:paddingStart="@dimen/value_9dp"
+                                        android:paddingEnd="@dimen/value_9dp"
+                                        android:paddingTop="@dimen/value_3dp"
+                                        android:paddingBottom="@dimen/value_3dp"
+                                        android:background="@drawable/checkbox_bgg"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Resolved"
+                                        />
+                                </LinearLayout>
 
-                    </LinearLayout>
 
-                    <CheckBox
-                        android:id="@+id/rejected_status"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="@color/vishwam_actionbar_color"
-                        android:checked="@{isRejectedChecked}"
-                        android:text="@string/label_rejectedd"
-                        android:textSize="@dimen/text_16sp"
-                        android:textStyle="bold" />
+
+                                <!--                        <CheckBox-->
+                                <!--                            android:id="@+id/new_status"-->
+                                <!--                            android:layout_width="0dp"-->
+                                <!--                            android:layout_height="wrap_content"-->
+                                <!--                            android:layout_weight=".33"-->
+                                <!--                            android:buttonTint="@color/vishwam_actionbar_color"-->
+                                <!--                            android:checked="@{isNewChecked}"-->
+                                <!--                            android:text="@string/label_new"-->
+                                <!--                            android:textSize="@dimen/text_16sp"-->
+                                <!--                            android:textStyle="bold" />-->
+
+                                <!--                        <CheckBox-->
+                                <!--                            android:id="@+id/in_progress_status"-->
+                                <!--                            android:layout_width="0dp"-->
+                                <!--                            android:layout_height="wrap_content"-->
+                                <!--                            android:layout_weight=".33"-->
+                                <!--                            android:buttonTint="@color/vishwam_actionbar_color"-->
+                                <!--                            android:checked="@{isInProgressChecked}"-->
+                                <!--                            android:text="@string/label_in_progress"-->
+                                <!--                            android:textSize="@dimen/text_16sp"-->
+                                <!--                            android:textStyle="bold" />-->
+
+                                <!--                        <CheckBox-->
+                                <!--                            android:id="@+id/reopen_status"-->
+                                <!--                            android:layout_width="0dp"-->
+                                <!--                            android:layout_height="wrap_content"-->
+                                <!--                            android:layout_weight=".33"-->
+                                <!--                            android:buttonTint="@color/vishwam_actionbar_color"-->
+                                <!--                            android:checked="@{isReopenChecked}"-->
+                                <!--                            android:text="@string/label_reopen"-->
+                                <!--                            android:textSize="@dimen/text_16sp"-->
+                                <!--                            android:textStyle="bold" />-->
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="1">
+
+                                <LinearLayout
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.33">
+
+                                    <TextView
+                                        android:textColor="#b7b7b7"
+                                        android:id="@+id/rejected_status"
+                                        android:paddingStart="@dimen/value_9dp"
+                                        android:paddingEnd="@dimen/value_9dp"
+                                        android:paddingTop="@dimen/value_3dp"
+                                        android:paddingBottom="@dimen/value_3dp"
+                                        android:background="@drawable/checkbox_bgg"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Rejected"
+                                        />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_marginStart="@dimen/text_dimen_10"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.33">
+
+                                    <TextView
+                                        android:textColor="#b7b7b7"
+                                        android:id="@+id/reopen_status"
+                                        android:paddingStart="@dimen/value_9dp"
+                                        android:paddingEnd="@dimen/value_9dp"
+                                        android:paddingTop="@dimen/value_3dp"
+                                        android:paddingBottom="@dimen/value_3dp"
+                                        android:background="@drawable/checkbox_bgg"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Reopen"
+                                        />
+                                </LinearLayout>
+
+                                <LinearLayout
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.4">
+
+                                    <TextView
+                                        android:textColor="#b7b7b7"
+                                        android:id="@+id/closed_status"
+                                        android:paddingStart="@dimen/value_9dp"
+                                        android:paddingEnd="@dimen/value_9dp"
+                                        android:paddingTop="@dimen/value_3dp"
+                                        android:paddingBottom="@dimen/value_3dp"
+                                        android:background="@drawable/checkbox_bgg"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Closed"
+                                        />
+                                </LinearLayout>
+
+
+
+                                <!--                        <CheckBox-->
+                                <!--                            android:id="@+id/new_status"-->
+                                <!--                            android:layout_width="0dp"-->
+                                <!--                            android:layout_height="wrap_content"-->
+                                <!--                            android:layout_weight=".33"-->
+                                <!--                            android:buttonTint="@color/vishwam_actionbar_color"-->
+                                <!--                            android:checked="@{isNewChecked}"-->
+                                <!--                            android:text="@string/label_new"-->
+                                <!--                            android:textSize="@dimen/text_16sp"-->
+                                <!--                            android:textStyle="bold" />-->
+
+                                <!--                        <CheckBox-->
+                                <!--                            android:id="@+id/in_progress_status"-->
+                                <!--                            android:layout_width="0dp"-->
+                                <!--                            android:layout_height="wrap_content"-->
+                                <!--                            android:layout_weight=".33"-->
+                                <!--                            android:buttonTint="@color/vishwam_actionbar_color"-->
+                                <!--                            android:checked="@{isInProgressChecked}"-->
+                                <!--                            android:text="@string/label_in_progress"-->
+                                <!--                            android:textSize="@dimen/text_16sp"-->
+                                <!--                            android:textStyle="bold" />-->
+
+                                <!--                        <CheckBox-->
+                                <!--                            android:id="@+id/reopen_status"-->
+                                <!--                            android:layout_width="0dp"-->
+                                <!--                            android:layout_height="wrap_content"-->
+                                <!--                            android:layout_weight=".33"-->
+                                <!--                            android:buttonTint="@color/vishwam_actionbar_color"-->
+                                <!--                            android:checked="@{isReopenChecked}"-->
+                                <!--                            android:text="@string/label_reopen"-->
+                                <!--                            android:textSize="@dimen/text_16sp"-->
+                                <!--                            android:textStyle="bold" />-->
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:textColor="#b7b7b7"
+                                android:id="@+id/onhold_status"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:paddingStart="@dimen/value_9dp"
+                                android:paddingEnd="@dimen/value_9dp"
+                                android:paddingTop="@dimen/value_3dp"
+                                android:paddingBottom="@dimen/value_3dp"
+                                android:background="@drawable/checkbox_bgg"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="On Hold"
+                                />
+
+
+                        </LinearLayout>
+
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:weightSum="1">-->
+
+
+
+<!--                        <CheckBox-->
+<!--                            android:id="@+id/closed_status"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight=".5"-->
+<!--                            android:buttonTint="@color/vishwam_actionbar_color"-->
+<!--                            android:checked="@{isClosedChecked}"-->
+<!--                            android:text="@string/label_closed"-->
+<!--                            android:textSize="@dimen/text_16sp"-->
+<!--                            android:textStyle="bold" />-->
+
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:weightSum="1">-->
+
+<!--                        <CheckBox-->
+<!--                            android:id="@+id/resolved_status"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight=".5"-->
+<!--                            android:buttonTint="@color/vishwam_actionbar_color"-->
+<!--                            android:checked="@{isResolvedChecked}"-->
+<!--                            android:text="@string/label_resolved"-->
+<!--                            android:textSize="@dimen/text_16sp"-->
+<!--                            android:textStyle="bold" />-->
+
+<!--                        <CheckBox-->
+<!--                            android:id="@+id/onhold_status"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight=".5"-->
+<!--                            android:buttonTint="@color/vishwam_actionbar_color"-->
+<!--                            android:checked="@{isOnHoldChecked}"-->
+<!--                            android:text="@string/label_on_hold"-->
+<!--                            android:textSize="@dimen/text_16sp"-->
+<!--                            android:textStyle="bold" />-->
+
+<!--                    </LinearLayout>-->
+
+<!--                    <CheckBox-->
+<!--                        android:id="@+id/rejected_status"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:buttonTint="@color/vishwam_actionbar_color"-->
+<!--                        android:checked="@{isRejectedChecked}"-->
+<!--                        android:text="@string/label_rejectedd"-->
+<!--                        android:textSize="@dimen/text_16sp"-->
+<!--                        android:textStyle="bold" />-->
                 </LinearLayout>
 
                 <View
@@ -246,13 +447,15 @@
                     android:background="@color/grey" />
 
                 <LinearLayout
+                    android:background="@drawable/dialog_background"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_10dp"
-                    android:layout_marginEnd="@dimen/value_10dp"
+
                     android:orientation="vertical">
 
                     <TextView
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_10dp"
@@ -261,6 +464,8 @@
                         android:textColor="@color/colorBlack" />
 
                     <LinearLayout
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_5dp"
@@ -394,29 +599,56 @@
 
                     <!--            </RadioGroup>-->
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/submit"
-                        android:layout_width="@dimen/value_120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/dimen20dp"
-                        android:background="@drawable/dark_blue_bg_for_btn"
-                        android:enabled="@{isSubmitEnable}"
-                        android:text="@string/label_apply"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_16sp" />
 
-                    <TextView
-                        android:id="@+id/clear_all_filters"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/value_10dp"
-                        android:layout_marginBottom="@dimen/value_10dp"
-                        android:padding="@dimen/value_5dp"
-                        android:text="@string/label_clear_all"
-                        android:textColor="@color/sky_bluee" />
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/value_15dp"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:background="#e6e7e9"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:gravity="left"
+                            android:layout_marginStart="@dimen/value_30dp"
+                            android:layout_marginEnd="@dimen/value_10dp"
+                            android:id="@+id/clear_all_filters"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.6"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginBottom="@dimen/value_10dp"
+                            android:padding="@dimen/value_5dp"
+                            android:textSize="@dimen/text_16sp"
+                            android:text="@string/label_clear_all"
+                            android:textColor="@color/sky_bluee" />
+
+                        <LinearLayout
+                            android:layout_margin="@dimen/value_5dp"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4">
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:gravity="center"
+                                android:id="@+id/submit"
+                                android:layout_width="@dimen/value_120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@drawable/dark_blue_bg_for_btn"
+                                android:enabled="@{isSubmitEnable}"
+                                android:text="APPLY"
+                                android:textStyle="bold"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_15sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
 
                 </LinearLayout>
 
