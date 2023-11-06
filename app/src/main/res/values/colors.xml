@@ -260,5 +260,6 @@
     <color name="discount_rejected_bg">#ffe9e9</color>
     <color name="retro_qr_sub_header_bg">#f4f5f4</color>
     <color name="print_rack_sub_header_bg">#252525</color>
+    <color name="sub_menu_text">#253339</color>
 
 </resources>

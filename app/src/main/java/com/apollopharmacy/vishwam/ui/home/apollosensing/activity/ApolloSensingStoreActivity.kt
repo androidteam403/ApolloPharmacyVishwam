@@ -99,7 +99,7 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
         viewModel.fixedArrayList.observeForever {
             siteDataList = it
             siteIdAdapter = SiteIdAdapter(
-                applicationContext,
+                this@ApolloSensingStoreActivity,
                 siteDataList,
                 this@ApolloSensingStoreActivity
             )

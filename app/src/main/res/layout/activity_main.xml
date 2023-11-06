@@ -104,7 +104,8 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/value_15dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UseSwitchCompatOrMaterialXml">
 
             <LinearLayout
                 android:id="@+id/scanner"
@@ -335,6 +336,12 @@
                     android:textSize="@dimen/text_dimen_12"
                     android:visibility="gone" />
             </RelativeLayout>
+
+            <Switch
+                android:id="@+id/switchBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/helpBtn"

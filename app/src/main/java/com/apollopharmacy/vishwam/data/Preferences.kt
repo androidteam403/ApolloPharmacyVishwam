@@ -73,6 +73,7 @@ object Preferences {
     private const val APP_LEVEL_DESIGNATION_RETRO = "APP_LEVEL_DESIGNATION_RETRO"
 
     private const val PREF_KEY_VISHWAM_ACCESS = "PREF_KEY_VISHWAM_ACCESS"
+    private const val PREF_KEY_APP_THEME="PREF_KEY_APP_THEME"
 
 
     fun savingToken(userId: String) {
@@ -936,5 +937,13 @@ object Preferences {
 
     fun getPlanogramSiteCity(): String {
         return sharedPreferences.getString(KEY_PLANOGRAM_SITECITY, "")!!
+    }
+
+    fun setAppTheme(appTheme: String) {
+        sharedPreferences.edit().putString(PREF_KEY_APP_THEME, appTheme).apply()
+    }
+
+    fun getAppTheme(): String {
+        return sharedPreferences.getString(PREF_KEY_APP_THEME, "")!!
     }
 }

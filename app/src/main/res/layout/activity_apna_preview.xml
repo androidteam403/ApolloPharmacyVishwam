@@ -194,7 +194,7 @@
                                         android:layout_height="match_parent"
                                         android:fontFamily="@font/poppin_bold"
                                         android:text="Ameerpet,Hyderabad"
-                                        android:textColor="@color/black_for_both"
+                                        android:textColor="@color/black"
                                         android:textSize="11.5sp" />
                                 </LinearLayout>
 
@@ -218,7 +218,7 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppin_bold"
                                         android:text="07 Apr,2023"
-                                        android:textColor="@color/black_for_both"
+                                        android:textColor="@color/black"
                                         android:textSize="12sp" />
                                 </LinearLayout>
 
@@ -243,7 +243,7 @@
                                         android:layout_height="match_parent"
                                         android:fontFamily="@font/poppin_bold"
                                         android:text="12 Apr,2023"
-                                        android:textColor="@color/black_for_both"
+                                        android:textColor="@color/black"
                                         android:textSize="11.5sp" />
                                 </LinearLayout>
 
@@ -269,7 +269,7 @@
                                         android:layout_weight=".7"
                                         android:fontFamily="@font/poppin_bold"
                                         android:text="Anjaneyulu"
-                                        android:textColor="@color/black_for_both"
+                                        android:textColor="@color/black"
                                         android:textSize="11.5sp" />
                                 </LinearLayout>
                             </LinearLayout>
@@ -342,7 +342,7 @@
                                         android:fontFamily="@font/poppin_bold"
                                         android:paddingTop="@dimen/value_7dp"
                                         android:text="55:54:22"
-                                        android:textColor="@color/white"
+                                        android:textColor="@color/white_for_both"
                                         android:textSize="11.5sp" />
                                 </LinearLayout>
                             </LinearLayout>

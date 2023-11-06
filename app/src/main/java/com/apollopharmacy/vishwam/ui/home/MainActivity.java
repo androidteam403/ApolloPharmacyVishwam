@@ -37,6 +37,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -260,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public Dialog submenuDialog;
     public ArrayList<MenuModel> menuModels;
     public BottomNavigationView bottomNavigationView;
+    public Switch switchBtn;
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -452,6 +454,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         refreshIconQc = findViewById(R.id.refreshIconQc);
 
         helpIcon = findViewById(R.id.helpBtn);
+        switchBtn = findViewById(R.id.switchBtn);
 
         filterIconApna = findViewById(R.id.filtericonapna);
         plusIconApna = findViewById(R.id.plusIconapna);
@@ -550,6 +553,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        TextView userNameText = navigationView.getHeaderView(0).findViewById(R.id.userName);
 //        TextView idText = navigationView.getHeaderView(0).findViewById(R.id.id_for_menu);
 //        navigationView.setNavigationItemSelectedListener(this);
+
+        String appTheme = Preferences.INSTANCE.getAppTheme();
+        if (appTheme.equalsIgnoreCase("DARK")) {
+            switchBtn.setChecked(true);
+        } else {
+            switchBtn.setChecked(false);
+        }
+        switchBtn.setOnClickListener(view -> {
+            if (switchBtn.isChecked()) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                Preferences.INSTANCE.setAppTheme("DARK");
+                recreate();
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                Preferences.INSTANCE.setAppTheme("LIGHT");
+                recreate();
+            }
+        });
 
         String loginJson = Preferences.INSTANCE.getLoginJson();
         LoginDetails loginData = null;
@@ -1043,6 +1064,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 bottomNavigationView.setVisibility(View.GONE);
+                switchBtn.setVisibility(View.VISIBLE);
 
                 break;
 
@@ -1075,6 +1097,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                toolbar.setBackground(getResources().getDrawable(R.color.splash_start_color));
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Complaints":
                 headerText.setText("Complaints");
@@ -1102,6 +1125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Approvals":
                 headerText.setText("Approvals");
@@ -1134,6 +1158,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "Attendance":
@@ -1162,6 +1187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "History":
                 headerText.setText("History");
@@ -1191,6 +1217,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Pending":
                 headerText.setText("Pending");
@@ -1219,6 +1246,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Approved":
                 headerText.setText("Approved");
@@ -1247,6 +1275,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Rejected":
                 headerText.setText("Rejected");
@@ -1276,6 +1305,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Bill":
                 headerText.setText("Bill");
@@ -1303,6 +1333,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Swachh Images Upload":
                 headerText.setText("Swachh Images");
@@ -1331,6 +1362,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "Swachh List":
@@ -1362,6 +1394,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "New Swachh":
@@ -1392,6 +1425,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Swachh Details":
                 headerText.setText("SWACHH LIST");
@@ -1423,6 +1457,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Request New Drug":  //"Drug Request":
                 headerText.setText("Request New Drug");
@@ -1455,6 +1490,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Greetings":
                 Intent i = new Intent(this, GreetingActivity.class);
@@ -1488,6 +1524,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Apna Form":
 //                headerText.setText("Apna Form");
@@ -1528,6 +1565,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
 //                bottomNavigationView.setBackgroundColor(Color.parseColor("#0c273a"));
                 break;
 
@@ -1558,6 +1596,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "Retro QR":
@@ -1588,6 +1627,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "Drug Requests":  //"Drug List":
@@ -1623,6 +1663,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Dashboard":
                 headerText.setText("Dashboard");
@@ -1651,6 +1692,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Outstanding":
                 headerText.setText("Pending List");
@@ -1680,6 +1722,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Login":
                 Intent j = new Intent(this, SplashScreen.class);
@@ -1711,6 +1754,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(true);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "Evaluation":
@@ -1739,6 +1783,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Profile":
                 headerText.setText("Profile");
@@ -1767,6 +1812,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "My Orders":
                 headerText.setText("My Orders");
@@ -1795,6 +1841,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Cash Deposits":
                 headerText.setText("Cash Deposits");
@@ -1823,6 +1870,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(true);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Summary":
                 headerText.setText("Summary");
@@ -1851,6 +1899,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(true);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Complaints rider":
                 headerText.setText("Complaints");
@@ -1879,6 +1928,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(true);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Change Password":
                 headerText.setText("Dashboard");
@@ -1908,6 +1958,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Help":
                 headerText.setText("Help");
@@ -1936,6 +1987,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "LogOut":
                 getSessionManager().clearAllSharedPreferences();
@@ -1971,6 +2023,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "QC Rejected":
@@ -2001,6 +2054,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
 //            case "Select Site":
@@ -2040,6 +2094,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Champs Reports":
                 headerText.setText("CHAMPS Analysis Reports");
@@ -2068,6 +2123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "Champs Admin":
@@ -2098,6 +2154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "New Retro":
@@ -2129,6 +2186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "Post Rectro":
@@ -2159,6 +2217,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "After Completion":
@@ -2181,6 +2240,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
+                switchBtn.setVisibility(View.GONE);
 //                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
@@ -2216,6 +2276,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "Post Rectro Approval":
@@ -2246,6 +2307,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "After Completion Approval":
@@ -2276,6 +2338,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
 
@@ -2306,6 +2369,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Monitoring Dashboard":
                 if (Preferences.INSTANCE.getRoleForCeoDashboard().equals("ceo")) {
@@ -2350,6 +2414,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Dashboard Regional Head":
                 headerText.setText("Regional head Dashboard");
@@ -2377,6 +2442,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Dashboard Store Manager":
                 headerText.setText("Store Manager Dashboard");
@@ -2404,6 +2470,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Dashboard Store Executive":
                 headerText.setText("Store Executive Dashboard");
@@ -2431,6 +2498,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "Dashboard Store Supervisor":
                 headerText.setText("Store Supervisor Dashboard");
@@ -2458,6 +2526,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
             case "DashboardManager":
                 headerText.setText("Manager Dashboard");
@@ -2485,6 +2554,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logoutBtn.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
                 break;
 
             case "Logout":

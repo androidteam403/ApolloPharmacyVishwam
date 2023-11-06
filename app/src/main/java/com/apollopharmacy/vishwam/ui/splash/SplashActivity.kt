@@ -10,6 +10,7 @@ import android.view.Window
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.BuildConfig
@@ -56,6 +57,12 @@ class SplashActivity : AppCompatActivity() {
         splashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         splashViewModel = ViewModelProvider(this)[SplashViewModel::class.java]
 
+        val appTheme = Preferences.getAppTheme()
+        if (appTheme.equals("DARK", true)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
         val animZoomOut = AnimationUtils.loadAnimation(
             applicationContext, R.anim.zoom_in
         )
