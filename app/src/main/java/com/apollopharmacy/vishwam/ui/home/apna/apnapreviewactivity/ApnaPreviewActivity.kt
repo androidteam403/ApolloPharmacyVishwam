@@ -507,6 +507,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         apnaPreviewActivityBinding.hospitalsChart.axisRight.isEnabled = false
         apnaPreviewActivityBinding.hospitalsChart.xAxis.isEnabled = false
 
+        apnaPreviewActivityBinding.hospitalsChart.getAxisLeft().textColor = ContextCompat.getColor(this, R.color.black)
         apnaPreviewActivityBinding.hospitalsChart.getAxisLeft().setLabelCount(5, true)
         apnaPreviewActivityBinding.hospitalsChart.getAxisLeft().setAxisMinimum(0f)
         apnaPreviewActivityBinding.hospitalsChart.getAxisLeft().setAxisMaximum(beds.max())
@@ -604,6 +605,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         apnaPreviewActivityBinding.apartmentsChart.axisRight.isEnabled = false
         apnaPreviewActivityBinding.apartmentsChart.xAxis.isEnabled = false
 
+        apnaPreviewActivityBinding.apartmentsChart.getAxisLeft().textColor = ContextCompat.getColor(this, R.color.black)
         apnaPreviewActivityBinding.apartmentsChart.getAxisLeft().setLabelCount(5, true)
         apnaPreviewActivityBinding.apartmentsChart.getAxisLeft().setAxisMinimum(0f)
         apnaPreviewActivityBinding.apartmentsChart.getAxisLeft().setAxisMaximum(noOfHouses.max())
@@ -692,6 +694,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         apnaPreviewActivityBinding.competitorsChart.axisRight.isEnabled = false
 
+        apnaPreviewActivityBinding.competitorsChart.getAxisLeft().textColor = ContextCompat.getColor(this, R.color.black)
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setLabelCount(5, true)
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMinimum(0f)
         if(avgSales!=null && avgSales.size>0)
@@ -816,6 +819,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 //        apnaPreviewActivityBinding.neighborChart.xAxis.valueFormatter = IndexAxisValueFormatter(stores)
 //        apnaPreviewActivityBinding.neighborChart.xAxis.textSize = 0.5f
         // Set y axis values
+        apnaPreviewActivityBinding.neighborChart.axisLeft.textColor = ContextCompat.getColor(this, R.color.black)
         apnaPreviewActivityBinding.neighborChart.getAxisLeft().setLabelCount(5, true)
         apnaPreviewActivityBinding.neighborChart.getAxisLeft().setAxisMinimum(0f)
         apnaPreviewActivityBinding.neighborChart.getAxisLeft().setAxisMaximum(sales.max())
