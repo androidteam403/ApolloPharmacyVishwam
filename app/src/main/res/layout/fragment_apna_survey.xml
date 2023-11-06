@@ -96,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_45dp"
                     android:background="@drawable/search_view_pendency"
-                    android:backgroundTint="#f2f2f2"
+                    android:backgroundTint="@color/complaintlist_search_bg_color"
                     android:gravity="center_vertical"
                     android:weightSum="2">
 
