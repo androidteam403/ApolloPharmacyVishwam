@@ -39,7 +39,7 @@
                     android:layout_weight="1.6"
                     android:textAlignment="textEnd"
                     android:text="New Drug List"
-                    android:textColor="#253339"
+                    android:textColor="@color/sub_menu_text"
                     android:textSize="@dimen/text_12sp" />
 
                 <ImageView
