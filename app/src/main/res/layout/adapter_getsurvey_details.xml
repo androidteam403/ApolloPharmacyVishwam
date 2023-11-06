@@ -84,7 +84,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Site Name: "
-                                        android:textColor="#3a3a3b"
+                                        android:textColor="@color/reg_date_color"
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
@@ -128,7 +128,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="Visit Date: "
-                                            android:textColor="#3a3a3b"
+                                            android:textColor="@color/reg_date_color"
                                             android:textSize="@dimen/text_12sp" />
 
                                         <TextView
@@ -208,7 +208,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Status"
-                                        android:textColor="#3a3a3b"
+                                        android:textColor="@color/reg_date_color"
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
