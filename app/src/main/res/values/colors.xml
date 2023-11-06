@@ -237,6 +237,7 @@
     <color name="red_no_plano">#ef1c23</color>
     <color name="retroqr_rack_selected_color">#e6e6e6</color>
     <color name="vishwam_actionbar_color">#045a71</color>
+    <color name="color_primary_dark">#03485A</color>
     <color name="reg_date_color">#3a3a3b</color>
     <color name="home_search_box_bg">#F2F2F2</color>
     <color name="sensing_store_details_part_bg">#ecf6f8</color>
