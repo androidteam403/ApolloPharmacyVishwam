@@ -34,7 +34,7 @@
                 android:id="@+id/taskCompletedLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#dbf2f8"
+                android:background="@color/task_completed_bg"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -88,7 +88,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                           android:background="#d3e9da"
+                           android:background="@color/sign_in_time_bg"
                             android:orientation="horizontal">
 
                             <ImageView
@@ -142,7 +142,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="#e5cfd4"
+                            android:background="@color/sign_out_time_bg"
                             android:orientation="horizontal">
 
                             <ImageView
@@ -204,7 +204,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_width="0dp"
                         android:layout_height="65dp"
-                        android:background="#dbf2f8"
+                        android:background="@color/task_completed_bg"
                         android:layout_weight=".85"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
