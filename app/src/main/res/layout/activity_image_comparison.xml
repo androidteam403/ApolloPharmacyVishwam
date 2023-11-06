@@ -38,7 +38,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Compare"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_17sp" />
 
                     <TextView
@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Rack - 6"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
@@ -91,7 +91,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Store ID"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_for_both"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -99,7 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ameerpet, Hyderabad - 16015"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_for_both"
                         android:textSize="@dimen/text_12sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -406,6 +406,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Matching"
+                        android:textColor="@color/reg_date_color"
                         android:textSize="@dimen/dimen11sp" />
 
                     <TextView
@@ -413,7 +414,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0%"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_for_both"
                         android:textSize="@dimen/text_16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -458,7 +459,7 @@
                     android:paddingEnd="25dp"
                     android:paddingBottom="8dp"
                     android:text="Ok"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_14sp" />
             </LinearLayout>
         </LinearLayout>
