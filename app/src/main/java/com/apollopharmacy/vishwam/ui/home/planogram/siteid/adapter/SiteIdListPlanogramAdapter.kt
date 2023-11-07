@@ -25,7 +25,7 @@ class SiteIdListPlanogramAdapter(
     ): ViewHolder {
         val adapterSwachhSiteidListBinding: AdapterSwachhSiteidListBinding =
             DataBindingUtil.inflate(
-                LayoutInflater.from(applicationContext),
+                LayoutInflater.from(parent.context),
                 R.layout.adapter_swachh_siteid_list,
                 parent,
                 false
@@ -37,7 +37,6 @@ class SiteIdListPlanogramAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = siteData.get(position)
         holder.adapterSwachhSiteidListBinding.itemName.text = " ${items.site}, ${items.storeName}"
-
 //        if(siteData.get(position).isSelected!=null &&siteData.get(position).isSelected!!.equals(true)){
 //            holder.adapterSwachhSiteidListBinding.tickMark.visibility= View.VISIBLE
 //        }else if(siteData.get(position).isSelected!=null && siteData.get(position).isSelected!!.equals(false)) {
