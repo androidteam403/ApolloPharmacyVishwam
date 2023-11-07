@@ -61,7 +61,8 @@
                     android:singleLine="true"
                     android:gravity="center_vertical"
                     android:drawablePadding="@dimen/value_10dp"
-                    android:drawableStart="@drawable/ic_search"
+                    android:drawableStart="@drawable/close_blue_new"
+                    android:drawableTint="@color/grey"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_15sp" />
             </com.google.android.material.textfield.TextInputLayout>

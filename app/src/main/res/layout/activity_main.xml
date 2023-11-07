@@ -224,7 +224,7 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/value_5dp"
                 android:src="@drawable/ic_refresh_black"
-                android:tint="@color/white"
+                android:tint="@color/white_for_both"
                 android:visibility="gone"
                 tools:ignore="UseAppTint" />
 

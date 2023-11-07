@@ -106,7 +106,7 @@
                         android:layout_height="@dimen/value_22dp"
                         android:layout_marginStart="@dimen/value_10dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_search"
+                        android:src="@drawable/close_blue_new"
                         android:tint="#b8b8b8"
                         tools:ignore="UseAppTint" />
 

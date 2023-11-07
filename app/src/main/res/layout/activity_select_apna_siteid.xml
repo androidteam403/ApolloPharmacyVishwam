@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Select Store"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_18sp"
                 android:textStyle="bold" />
 
@@ -50,7 +50,7 @@
                 android:paddingStart="@dimen/value_10dp"
                 android:paddingEnd="@dimen/value_10dp"
                 android:src="@drawable/close_icon"
-                app:tint="@color/white" />
+                android:tint="@color/white_for_both" />
         </RelativeLayout>
 
         <LinearLayout
@@ -78,7 +78,7 @@
                     android:singleLine="true"
                     android:gravity="center_vertical"
                     android:drawablePadding="@dimen/value_10dp"
-                    android:src="@drawable/close_blue_new"
+                    android:drawableStart="@drawable/close_blue_new"
                     android:drawableTint="@color/grey"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_15sp" />

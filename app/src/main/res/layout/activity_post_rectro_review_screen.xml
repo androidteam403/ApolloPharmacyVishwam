@@ -64,7 +64,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Pre Rectro Review"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/text_17sp"
                             android:textStyle="bold" />
 
@@ -74,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/three3_sp"
                             android:text="56985_APNARECTRO_06042023"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
 
                             android:textSize="@dimen/text_14sp"
                             android:textStyle="bold" />
@@ -247,7 +247,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="1"
 
-                                android:textColor="@color/white"
+                                android:textColor="@color/white_for_both"
                                 android:textSize="@dimen/text_12sp"
                                 android:textStyle="bold" />
 
@@ -290,7 +290,7 @@
                             android:layout_height="wrap_content"
                             android:text="Preview Last Uploaded"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textStyle="bold" />
 
 

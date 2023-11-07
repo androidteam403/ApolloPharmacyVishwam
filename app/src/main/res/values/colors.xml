@@ -261,5 +261,7 @@
     <color name="retro_qr_sub_header_bg">#f4f5f4</color>
     <color name="print_rack_sub_header_bg">#252525</color>
     <color name="sub_menu_text">#253339</color>
+    <color name="timeline_list_bg">#d3f8d3</color>
+    <color name="create_new_rectro_layout_bg">#c6eaf7</color>
 
 </resources>

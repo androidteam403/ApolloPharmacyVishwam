@@ -77,10 +77,10 @@
 
                         <ImageView
                             android:id="@+id/quick_go_icon"
-                            android:layout_width="@dimen/value_25dp"
-                            android:layout_height="@dimen/value_25dp"
+                            android:layout_width="@dimen/value_20dp"
+                            android:layout_height="@dimen/value_20dp"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/ic_baseline_tune_24"
+                            android:src="@drawable/filter_icon"
                             android:tint="@color/white_for_both"
                             tools:ignore="UseAppTint" />
                     </LinearLayout>

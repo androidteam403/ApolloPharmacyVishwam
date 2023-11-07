@@ -44,7 +44,6 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_5dp"
                     android:layout_weight="3"
                     android:orientation="vertical">
 
@@ -67,7 +66,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/value_5dp"
-                                android:text=""
+                                android:text="APNA/SRVY/10036   "
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_16sp"
                                 android:textStyle="bold" />
@@ -96,6 +95,7 @@
 
                             <LinearLayout
                                 android:layout_marginStart="@dimen/value_5dp"
+                                android:layout_marginBottom="@dimen/value_5dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">

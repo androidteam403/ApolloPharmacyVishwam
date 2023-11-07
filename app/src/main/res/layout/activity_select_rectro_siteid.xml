@@ -25,7 +25,8 @@
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/vishwam_actionbar_height"
-            android:background="@color/vishwam_actionbar_color">
+            android:background="@color/vishwam_actionbar_color"
+            android:tint="@color/white_for_both">
 
 
             <TextView
@@ -34,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Select Store "
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_18sp"
                 android:textStyle="bold" />
 
@@ -69,8 +70,9 @@
                     android:id="@+id/searchSiteText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
-                    android:drawableStart="@drawable/ic_search_grey"
+                    android:drawableStart="@drawable/close_blue_new"
                     android:drawablePadding="@dimen/value_10dp"
+                    android:drawableTint="@color/grey"
                     android:gravity="center_vertical"
                     android:hint="@string/label_search_site_id"
                     android:paddingStart="@dimen/value_10dp"

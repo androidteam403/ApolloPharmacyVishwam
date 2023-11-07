@@ -83,7 +83,7 @@ class ApnaSelectSiteActivityy : AppCompatActivity(), ApnaSelectSiteIdCallback {
 
 
             siteIdAdapter =
-                ApnaSiteIdAdapter(applicationContext, siteDataList, this, selectsiteIdList)
+                ApnaSiteIdAdapter(this@ApnaSelectSiteActivityy, siteDataList, this, selectsiteIdList)
 //            activitySelectSiteActivityBinding.fieldRecyclerView.layoutManager = LinearLayoutManager(ViswamApp.context)
             activitySelectSiteActivityBinding.fieldRecyclerView.adapter = siteIdAdapter
 //            Utlis.hideLoading()

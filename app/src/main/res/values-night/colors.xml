@@ -259,4 +259,6 @@
     <color name="retro_qr_sub_header_bg">#1a191a</color>
     <color name="print_rack_sub_header_bg">#252525</color>
     <color name="sub_menu_text">#ffffff</color>
+    <color name="timeline_list_bg">#201917</color>
+    <color name="create_new_rectro_layout_bg">#1e1e1e</color>
 </resources>
