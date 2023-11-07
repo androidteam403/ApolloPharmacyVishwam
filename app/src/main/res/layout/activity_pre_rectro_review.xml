@@ -17,8 +17,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/splash_start_color"
+                android:layout_height="@dimen/vishwam_actionbar_height"
+                android:background="@color/vishwam_actionbar_color"
                 android:padding="@dimen/four4_dp">
 
                 <ImageView

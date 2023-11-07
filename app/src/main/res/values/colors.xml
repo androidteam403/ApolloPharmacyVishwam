@@ -200,7 +200,7 @@
     <color name="light_pink_for_reshoot_pending">#feeedb</color>
     <color name="grey_bg_for_no_status">#f4f4f4</color>
     <color name="pending_reshoot_color">#f26522</color>
-    <color name="blue">#0054a6</color>
+    <color name="blue">#000000</color>
     <color name="apna_project_actionbar_color">#5a345e</color>
     <color name="retro_qr_actionbar_color">#f7941d</color>
     <!--    <color name="apna_project_preview_section_bg">#265a345e</color>-->
@@ -263,5 +263,10 @@
     <color name="sub_menu_text">#253339</color>
     <color name="timeline_list_bg">#d3f8d3</color>
     <color name="create_new_rectro_layout_bg">#c6eaf7</color>
+    <color name="upload_photo_bg">#f2f2f2</color>
+    <color name="prerectro_layout_bg_pending">#FEEEDB</color>
+    <color name="prerectro_layout_bg_approved">#EBF7ED</color>
+    <color name="prerectro_layout_bg_reshoot">#feeedb</color>
+    <color name="prerectro_layout_bg_partially_approved">#EBF7ED</color>
 
 </resources>

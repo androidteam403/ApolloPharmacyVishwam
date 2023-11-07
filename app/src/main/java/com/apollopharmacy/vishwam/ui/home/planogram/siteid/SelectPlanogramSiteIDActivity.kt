@@ -47,7 +47,7 @@ class SelectPlanogramSiteIDActivity : AppCompatActivity(), SelectPlanogramSiteId
         viewModel.fixedArrayList.observeForever {
             siteDataList = it
             siteIDListAdapter =
-                SiteIdListPlanogramAdapter(applicationContext, siteDataList, this)
+                SiteIdListPlanogramAdapter(this@SelectPlanogramSiteIDActivity, siteDataList, this)
             activitySelectPlanogramSiteidBinding.fieldRecyclerView.adapter = siteIDListAdapter
             hideLoading()
 

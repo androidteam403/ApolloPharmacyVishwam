@@ -26,7 +26,6 @@
                 tools:listitem="@layout/retro_approval_layout" />
 
 
-
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <RelativeLayout
@@ -52,7 +51,7 @@
                 android:layout_below="@+id/emptyImage"
                 android:textAlignment="center"
                 android:text="No  List Available"
-                android:textColor="@color/backgroundColor"
+                android:textColor="#FEEEDB"
                 android:textSize="15dp" />
 
         </RelativeLayout>

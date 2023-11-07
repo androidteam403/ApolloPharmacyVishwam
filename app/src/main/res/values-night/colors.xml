@@ -195,9 +195,9 @@
     <color name="color_wish_chairmain_dialog_bg">#E6000000</color>
     <color name="baby_pink">#fde8e9</color>
     <color name="very_light_green">#e3f2e1</color>
-    <color name="green_bg_for_approved">#ebf7ed</color>
-    <color name="light_pink_for_reshoot_pending">#feeedb</color>
-    <color name="grey_bg_for_no_status">#f4f4f4</color>
+    <color name="green_bg_for_approved">#131f2d</color>
+    <color name="light_pink_for_reshoot_pending">#131f2d</color>
+    <color name="grey_bg_for_no_status">#1a1a1a</color>
     <color name="pending_reshoot_color">#f26522</color>
     <color name="blue">#0054a6</color>
     <color name="apna_project_actionbar_color">#5a345e</color>
@@ -261,4 +261,9 @@
     <color name="sub_menu_text">#ffffff</color>
     <color name="timeline_list_bg">#201917</color>
     <color name="create_new_rectro_layout_bg">#1e1e1e</color>
+    <color name="upload_photo_bg">#1b1b1b</color>
+    <color name="prerectro_layout_bg_pending">#131f2d</color>
+    <color name="prerectro_layout_bg_approved">#131f2d</color>
+    <color name="prerectro_layout_bg_reshoot">#131f2d</color>
+    <color name="prerectro_layout_bg_partially_approved">#131f2d</color>
 </resources>
