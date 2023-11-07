@@ -1,5 +1,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/listview_background_shape">
     <corners android:radius="@dimen/value_10dp" />
-    <solid android:color="#e6e7e8" />
+    <solid android:color="@color/apna_new_survey_bg" />
 </shape>

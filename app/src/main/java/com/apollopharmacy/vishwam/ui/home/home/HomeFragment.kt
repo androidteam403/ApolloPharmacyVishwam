@@ -422,6 +422,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 )
             }
         }
+        apnaRetroMenuModel.add(
+            MenuModel(
+                "New Retro", R.drawable.apna_store_menu, true, null, null
+            )
+        )
 
         if (isApnaRetroRequired) {
             if (MainActivity.mInstance.employeeRoleRetro.equals(
