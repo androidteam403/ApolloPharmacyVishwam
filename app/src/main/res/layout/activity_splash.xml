@@ -5,14 +5,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite">
+        android:background="@drawable/apollo_vishwam_bg">
         <!--        android:background="@drawable/apollo_vishwam_bg"-->
+<!--
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
             android:scaleType="fitXY"
-            android:src="@drawable/vishwam_splalsh_bg_new" />
+            android:src="@drawable/apollo_vishwam_bg" />
+-->
 
         <RelativeLayout
             android:layout_width="match_parent"
