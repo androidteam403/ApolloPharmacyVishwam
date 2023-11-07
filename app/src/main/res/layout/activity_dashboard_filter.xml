@@ -31,7 +31,7 @@
                 android:elevation="@dimen/value_5dp"
                 android:fontFamily="@font/droidsans"
                 android:text="Filters"
-                android:textColor="@color/white"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_20sp" />
 
             <RelativeLayout
@@ -190,7 +190,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/qc_reject_button"
                 android:text="RESET"
-                android:textColor="@color/white" />
+                android:textColor="@color/white_for_both" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/applybutoon"
@@ -202,7 +202,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/qc_accept_background"
                 android:text="Apply"
-                android:textColor="@color/white" />
+                android:textColor="@color/white_for_both" />
         </LinearLayout>
 
     </LinearLayout>
