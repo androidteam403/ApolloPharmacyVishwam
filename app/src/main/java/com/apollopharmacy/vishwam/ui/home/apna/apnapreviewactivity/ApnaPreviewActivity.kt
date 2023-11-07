@@ -146,7 +146,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
                 }
             }
-            apnaPreviewActivityBinding.status.setTextColor(Color.parseColor(approvedOrders.status!!.textColor!!))
+            apnaPreviewActivityBinding.status.setTextColor(Color.parseColor(approvedOrders.status!!.backgroundColor))
             if (approvedOrders.status != null) {
                 if (approvedOrders.status!!.name != null) {
                     if (approvedOrders.status!!.name.toString()
@@ -332,7 +332,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                     } else {
                         apnaPreviewActivityBinding.status.setTextColor(
                             Color.parseColor(
-                                approvedOrders.status!!.other!!.color
+                                approvedOrders.status!!.backgroundColor
                             )
                         )
 

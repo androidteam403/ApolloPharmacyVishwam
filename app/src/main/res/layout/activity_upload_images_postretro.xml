@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity">
+
         <LinearLayout
             android:id="@+id/parent_layout"
-            android:layout_above="@+id/cancel_upload_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/cancel_upload_layout"
             android:orientation="vertical">
 
             <LinearLayout
@@ -20,22 +23,21 @@
                 android:padding="@dimen/value_10dp">
 
                 <ImageView
-                    android:layout_marginStart="@dimen/value_5dp"
-                    android:layout_marginEnd="@dimen/value_10dp"
                     android:id="@+id/backButton"
                     android:layout_width="37dp"
                     android:layout_height="37dp"
-                    android:layout_gravity="center"
                     android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:layout_marginEnd="@dimen/value_10dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/icon_back_arrow"
-                    />
+                    android:src="@drawable/icon_back_arrow" />
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/backButton"-->
-<!--                    android:layout_width="@dimen/value_40dp"-->
-<!--                    android:layout_height="@dimen/value_40dp"-->
-<!--                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/backButton"-->
+                <!--                    android:layout_width="@dimen/value_40dp"-->
+                <!--                    android:layout_height="@dimen/value_40dp"-->
+                <!--                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />-->
 
                 <TextView
                     android:id="@+id/reviewName"
@@ -43,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Post Rectro Review"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_17sp"
                     android:textStyle="bold" />
 
@@ -55,9 +57,9 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -69,8 +71,9 @@
                             android:layout_margin="@dimen/value_5dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorWhite"
+                            android:background="@color/white"
                             android:orientation="vertical">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -168,12 +171,12 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="5dp"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -192,21 +195,21 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:visibility="gone"
                                 android:id="@+id/pre_retro_pending_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="8dp"
                                 android:background="@drawable/retro_background_pending"
                                 android:orientation="horizontal"
+                                android:visibility="gone"
                                 android:weightSum="3">
 
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="2"
-                                    android:visibility="gone"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -233,12 +236,13 @@
                                         android:textColor="@color/black"
                                         android:textSize="12sp" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:visibility="gone"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -264,15 +268,16 @@
 
 
                             </LinearLayout>
+
                             <LinearLayout
-                                android:onClick="@{()-> callback.onCickDownArrow()}"
+                                android:id="@+id/timeline_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:id="@+id/timeline_layout"
                                 android:layout_marginLeft="@dimen/text_dimen_10"
-                                android:layout_marginRight="@dimen/text_dimen_10"
                                 android:layout_marginTop="@dimen/text_dimen_10"
+                                android:layout_marginRight="@dimen/text_dimen_10"
                                 android:background="@drawable/bg_retro_grey"
+                                android:onClick="@{()-> callback.onCickDownArrow()}"
                                 android:orientation="horizontal"
                                 android:weightSum="3">
 
@@ -280,7 +285,8 @@
                                     android:layout_width="33dp"
                                     android:layout_height="33dp"
                                     android:layout_marginLeft="@dimen/text_dimen_10"
-                                    android:src="@drawable/ic_menu_reports" />
+                                    android:src="@drawable/ic_menu_reports"
+                                    android:tint="@color/white_for_both" />
 
                                 <TextView
                                     android:layout_width="0dp"
@@ -288,53 +294,48 @@
                                     android:layout_weight="2.9"
                                     android:fontFamily="@font/poppin_bold"
                                     android:gravity="center"
-                                    android:textAlignment="textStart"
                                     android:text="TIMELINE"
-                                    android:textColor="@color/white"
+                                    android:textAlignment="textStart"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="12sp"
                                     tools:ignore="RtlCompat" />
 
                                 <ImageView
-                                    android:onClick="@{()-> callback.onCickDownArrow()}"
                                     android:id="@+id/down_arrow"
                                     android:layout_width="@dimen/text_19sp"
                                     android:layout_height="19dp"
                                     android:layout_marginTop="5dp"
+                                    android:onClick="@{()-> callback.onCickDownArrow()}"
                                     android:src="@drawable/black_right_arroww"
-                                    android:tint="@color/white"
+                                    android:tint="@color/white_for_both"
                                     tools:ignore="UseAppTint" />
                             </LinearLayout>
 
                             <LinearLayout
                                 android:id="@+id/timeLine_details_layout"
-                                android:visibility="gone"
-
-                                android:layout_marginRight="@dimen/text_dimen_10"
-                                android:layout_marginLeft="@dimen/text_dimen_10"
                                 android:layout_width="match_parent"
+
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical">
+                                android:layout_marginLeft="@dimen/text_dimen_10"
+                                android:layout_marginRight="@dimen/text_dimen_10"
+                                android:orientation="vertical"
+                                android:visibility="gone">
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/timeLine_recycleview"
                                     android:layout_width="match_parent"
-                                    android:visibility="visible"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
-                                    android:layout_marginEnd="10dp"/>                                   />
-
-
-
-
-
+                                    android:layout_marginEnd="10dp"
+                                    android:visibility="visible" />
 
                                 <LinearLayout
-                                    android:visibility="gone"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_marginStart="10dp"
                                     android:layout_marginTop="5dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -352,73 +353,66 @@
                                 </LinearLayout>
 
 
-
-
-
                             </LinearLayout>
-
 
 
                         </LinearLayout>
                     </LinearLayout>
 
 
-
-
                     <LinearLayout
-                        android:layout_marginTop="@dimen/thirteen13_dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/thirteen13_dp"
                         android:background="@color/lightt_blue">
 
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/categoryNameApnaRecyclerView"
                             android:layout_width="match_parent"
-                            android:visibility="visible"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/text_dimen_10"
                             android:layout_marginRight="@dimen/text_dimen_10"
-                            />
-
+                            android:visibility="visible" />
 
 
                     </LinearLayout>
+
                     <TextView
-                        android:gravity="center"
-                        android:visibility="gone"
                         android:id="@+id/noOrdersFound"
-                        android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:text="No List Found"
-                        android:textColor="@color/red"
                         android:textAlignment="center"
-                        android:layout_gravity="center"/>
+                        android:textColor="@color/red"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
 
 
                     <LinearLayout
                         android:id="@+id/preRetroUpdateLayout"
-                        android:layout_marginStart="@dimen/value_15dp"
-                        android:layout_marginEnd="@dimen/value_15dp"
-                        android:layout_marginTop="@dimen/value_10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_15dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginEnd="@dimen/value_15dp"
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/stageupdate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Pre Retro Update"
-                            android:textStyle="bold"
-                            android:id="@+id/stageupdate"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/text_16sp"
-                            android:textColor="@color/black"/>
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:layout_marginTop="@dimen/text_dimen_10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_dimen_10"
                             android:text="Uploaded"
                             android:textStyle="bold" />
 
@@ -445,80 +439,77 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:visibility="visible"
                             android:id="@+id/warning_layout"
-                            android:layout_marginTop="@dimen/value_7dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_marginTop="@dimen/value_7dp"
+                            android:orientation="horizontal"
+                            android:visibility="visible">
 
                             <ImageView
                                 android:layout_width="@dimen/value_25dp"
                                 android:layout_height="@dimen/value_25dp"
-                                android:src="@drawable/red_warning"/>
+                                android:src="@drawable/red_warning" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="To upload complete all the shoots, without pending"
-                                android:textColor="@color/red"
-                                android:textStyle="bold"
-                                android:textAlignment="center"
                                 android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:text="To upload complete all the shoots, without pending"
+                                android:textAlignment="center"
+                                android:textColor="@color/red"
                                 android:textSize="@dimen/text_12sp"
-                                android:layout_marginStart="@dimen/value_5dp"/>
-
+                                android:textStyle="bold" />
 
 
                         </LinearLayout>
 
                         <LinearLayout
-                            android:visibility="gone"
                             android:id="@+id/completed_message"
-                            android:layout_marginTop="@dimen/value_7dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_marginTop="@dimen/value_7dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <ImageView
                                 android:layout_width="@dimen/twenty_three23dp"
                                 android:layout_height="@dimen/twenty_three23dp"
-                                android:src="@drawable/tick_icon_green"/>
+                                android:src="@drawable/tick_icon_green" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="You have uploaded all the images send for review"
-                                android:textColor="#39b54a"
-                                android:textStyle="bold"
-                                android:textAlignment="center"
                                 android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:text="You have uploaded all the images send for review"
+                                android:textAlignment="center"
+                                android:textColor="#39b54a"
                                 android:textSize="@dimen/text_12sp"
-                                android:layout_marginStart="@dimen/value_5dp"/>
-
+                                android:textStyle="bold" />
 
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/add_comments_layout"
-                            android:orientation="vertical"
-                            android:visibility="gone"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/regionSelect"
                                 android:layout_marginTop="@dimen/value_10dp"
-                                android:textColor="@color/black"
-                                android:textStyle="bold"
                                 android:layout_marginBottom="@dimen/value_4dp"
-                                android:text="Add Comments" />
+                                android:text="Add Comments"
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatEditText
-                                android:padding="@dimen/value_5dp"
                                 android:id="@+id/stateSelectPre"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -528,24 +519,21 @@
                                 android:drawableTint="#cacaca"
                                 android:editable="false"
                                 android:hint="Select Pre filled comment"
+                                android:padding="@dimen/value_5dp"
                                 android:paddingLeft="@dimen/value_15dp"
                                 android:textSize="@dimen/text_14sp" />
 
                         </LinearLayout>
 
 
-
-
-
-
                     </LinearLayout>
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/report_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -583,8 +571,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
-                                    android:paddingStart="12sp"
                                     android:fontFamily="@font/price_bold"
+                                    android:paddingStart="12sp"
 
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_14sp" />
@@ -673,33 +661,32 @@
                             android:id="@+id/state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_10dp"
-                            android:textColor="@color/black"
                             android:layout_marginStart="10dp"
-                            android:textStyle="bold"
-                            android:visibility="gone"
+                            android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginBottom="@dimen/value_4dp"
-                            android:text="Add Comments" />
+                            android:text="Add Comments"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
 
 
                         <androidx.appcompat.widget.AppCompatEditText
-                            android:padding="@dimen/value_5dp"
                             android:id="@+id/stateSelect"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/state"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:visibility="gone"
-                            android:layout_below="@+id/state"
                             android:background="@drawable/grey_border_bg"
                             android:drawableEnd="@drawable/bottomarrow"
                             android:drawableTint="#cacaca"
                             android:editable="false"
                             android:hint="Done all images - send feedback"
+                            android:padding="@dimen/value_5dp"
                             android:paddingLeft="@dimen/value_15dp"
                             android:textSize="@dimen/text_14sp"
+                            android:visibility="gone"
                             tools:ignore="MissingClass" />
-
 
 
                         <LinearLayout
@@ -729,6 +716,7 @@
                                 android:textColor="@color/color_red"
                                 android:textSize="@dimen/text_15sp" />
                         </LinearLayout>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
@@ -741,36 +729,34 @@
             </ScrollView>
 
 
-
-
-
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="@dimen/text_dimen_10"
             android:id="@+id/cancel_upload_layout"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:weightSum="1"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/text_dimen_10"
+            android:visibility="gone"
+            android:weightSum="1">
+
             <LinearLayout
-                android:onClick="@{()-> callback.onClickCancel()}"
-                android:layout_marginEnd="@dimen/text_dimen_10"
-                android:layout_weight="0.5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_marginEnd="@dimen/text_dimen_10"
+                android:layout_weight="0.5"
                 android:background="@drawable/yellowbackground_for_buttons"
+                android:onClick="@{()-> callback.onClickCancel()}"
                 android:orientation="horizontal"
                 android:padding="@dimen/value_9dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_20sp" />
+                    android:textSize="@dimen/text_20sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -779,24 +765,23 @@
                     android:gravity="center"
                     android:text="CANCEL"
                     android:textAlignment="center"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_20sp" />
+                    android:textSize="@dimen/text_20sp"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
 
 
-
             <LinearLayout
 
                 android:id="@+id/uploadnowbutton"
-                android:onClick="@{()-> callback.onClickUpload()}"
-                android:layout_weight="0.5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_weight="0.5"
                 android:background="@drawable/ashbackgrounf_for_buttons"
+                android:onClick="@{()-> callback.onClickUpload()}"
                 android:orientation="horizontal"
                 android:padding="@dimen/value_9dp">
 
@@ -804,50 +789,50 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/text_15sp"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_20sp" />
+                    android:textSize="@dimen/text_20sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="UPLOAD"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_20sp" />
+                    android:textSize="@dimen/text_20sp"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/reshoot_button"
-                android:onClick="@{()-> callback.onClickReshoot()}"
-                android:layout_weight="0.5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_weight="0.5"
                 android:background="@drawable/ashbackgrounf_for_buttons"
+                android:onClick="@{()-> callback.onClickReshoot()}"
                 android:orientation="horizontal"
-                android:padding="@dimen/value_9dp">
+                android:padding="@dimen/value_9dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/text_15sp"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_20sp" />
+                    android:textSize="@dimen/text_20sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="RESHOOT"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_20sp" />
+                    android:textSize="@dimen/text_20sp"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
@@ -857,6 +842,7 @@
 
 
     </RelativeLayout>
+
     <data>
 
         <variable

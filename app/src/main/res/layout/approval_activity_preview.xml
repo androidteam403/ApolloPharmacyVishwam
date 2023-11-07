@@ -22,25 +22,24 @@
                 android:padding="@dimen/value_10dp">
 
                 <ImageView
-                    android:layout_marginEnd="@dimen/value_10dp"
                     android:id="@+id/back_arrow"
                     android:layout_width="37dp"
                     android:layout_height="37dp"
-                    android:layout_gravity="center"
-                    android:onClick="@{()-> callback.onClickBackIcon()}"
                     android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/value_10dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/icon_back_arrow"
-                    />
+                    android:onClick="@{()-> callback.onClickBackIcon()}"
+                    android:src="@drawable/icon_back_arrow" />
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/back_arrow"-->
-<!--                    android:layout_width="@dimen/value_40dp"-->
-<!--                    android:layout_height="@dimen/value_40dp"-->
-<!--                    android:layout_marginTop="@dimen/value_3dp"-->
-<!--                    android:contentDescription="@string/app_name"-->
-<!--                    android:onClick="@{()-> callback.onClickBackIcon()}"-->
-<!--                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/back_arrow"-->
+                <!--                    android:layout_width="@dimen/value_40dp"-->
+                <!--                    android:layout_height="@dimen/value_40dp"-->
+                <!--                    android:layout_marginTop="@dimen/value_3dp"-->
+                <!--                    android:contentDescription="@string/app_name"-->
+                <!--                    android:onClick="@{()-> callback.onClickBackIcon()}"-->
+                <!--                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />-->
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -55,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:text="Pre Retro Preview"
 
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
 
@@ -64,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/three3_sp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
 
                         android:textSize="@dimen/text_14sp"
                         android:textStyle="bold" />
@@ -86,12 +85,26 @@
                         android:gravity="end"
                         android:orientation="vertical">
 
-                        <ImageView
+                        <TextView
+                            android:id="@+id/status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:background="@drawable/complaint_details_status_bg"
+                            android:paddingStart="@dimen/value_10dp"
+                            android:paddingTop="@dimen/value_5dp"
+                            android:paddingEnd="@dimen/value_10dp"
+                            android:paddingBottom="@dimen/value_5dp"
+                            android:text="@string/label_rejected"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
+
+                        <!--<ImageView
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_gravity="center"
                             android:onClick="@{()-> callback.onClickBackIcon()}"
-                            android:src="@drawable/closee_whitee" />
+                            android:src="@drawable/closee_whitee" />-->
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -242,7 +255,8 @@
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/ic_menu_drug_request" />
+                            android:src="@drawable/ic_menu_drug_request"
+                            android:tint="@color/white_for_both" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -254,7 +268,7 @@
 
                             android:text="TIMELINE"
                             android:textAlignment="textStart"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="13sp"
                             tools:ignore="RtlCompat" />
 
@@ -264,7 +278,7 @@
                             android:layout_height="19dp"
                             android:layout_marginTop="5dp"
                             android:src="@drawable/black_right_arroww"
-                            android:tint="@color/white"
+                            android:tint="@color/white_for_both"
                             tools:ignore="UseAppTint" />
 
                         <ImageView
@@ -274,7 +288,7 @@
                             android:layout_marginTop="5dp"
                             android:rotation="90"
                             android:src="@drawable/black_right_arroww"
-                            android:tint="@color/white"
+                            android:tint="@color/white_for_both"
                             android:visibility="gone"
                             tools:ignore="UseAppTint" />
                     </LinearLayout>
@@ -323,7 +337,7 @@
                         android:padding="@dimen/value_6dp"
                         android:text="Review"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_15sp"
                         android:textStyle="bold"
                         android:visibility="gone" />
@@ -504,7 +518,7 @@
                         android:background="@color/colorGrey"
                         android:visibility="invisible"></View>
 
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/text_12sp"
@@ -530,7 +544,7 @@
                             android:text="Re-Shoot "
                             android:textColor="@color/color_red"
                             android:textSize="@dimen/text_15sp" />
-                    </LinearLayout>
+                    </LinearLayout>-->
 
                     <View
                         android:layout_width="match_parent"
