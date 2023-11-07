@@ -2661,19 +2661,19 @@ end*/
                  resolvedStatus= true
                  onholdStatus= true
                 dialogComplaintListFilterBinding!!.newStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.inProgressStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.rejectedStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.reopenStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.closedStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.resolvedStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.onholdStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.selectAll.isChecked = true
             }
             dialogComplaintListFilterBinding!!.fromDateText.text = Utils.getCurrentDate()
@@ -2769,48 +2769,48 @@ end*/
 
         if(isNewStatusClicked){
             dialogComplaintListFilterBinding!!.newStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-            dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
         }else{
             dialogComplaintListFilterBinding!!.newStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
             dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
         }
         if(inProgressStatus){
-            dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
             dialogComplaintListFilterBinding!!.inProgressStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
         }else{
             dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
             dialogComplaintListFilterBinding!!.inProgressStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
         }
         if(resolvedStatus){
-            dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
             dialogComplaintListFilterBinding!!.resolvedStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
         }else{
             dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
             dialogComplaintListFilterBinding!!.resolvedStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
         }
         if(rejectedStatus){
-            dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
             dialogComplaintListFilterBinding!!.rejectedStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
         }else{
             dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
             dialogComplaintListFilterBinding!!.rejectedStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
         }
         if(reopenStatus){
-            dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
             dialogComplaintListFilterBinding!!.reopenStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
         }else{
             dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
             dialogComplaintListFilterBinding!!.reopenStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
         }
         if(closedStatus){
-            dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
             dialogComplaintListFilterBinding!!.closedStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
         }else{
             dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
             dialogComplaintListFilterBinding!!.closedStatus.background = requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
         }
         if(onholdStatus){
-            dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+            dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
             dialogComplaintListFilterBinding!!.onholdStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
         }else{
             dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.greyyy))
@@ -2845,7 +2845,7 @@ end*/
             }else{
                 isNewStatusClicked=true
                 dialogComplaintListFilterBinding!!.newStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
 
             }
             submitButtonEnable(
@@ -2868,7 +2868,7 @@ end*/
             }else{
                 inProgressStatus=true
                 dialogComplaintListFilterBinding!!.inProgressStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
 
             }
             submitButtonEnable(
@@ -2890,7 +2890,7 @@ end*/
 
             }else{
                 dialogComplaintListFilterBinding!!.resolvedStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 resolvedStatus=true
             }
             submitButtonEnable(
@@ -2912,7 +2912,7 @@ end*/
             }else{
                 rejectedStatus=true
                 dialogComplaintListFilterBinding!!.rejectedStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
 
             }
             submitButtonEnable(
@@ -2933,7 +2933,7 @@ end*/
                 reopenStatus=false
             }else{
                 dialogComplaintListFilterBinding!!.reopenStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 reopenStatus=true
             }
             submitButtonEnable(
@@ -2954,7 +2954,7 @@ end*/
                 closedStatus=false
             }else{
                 dialogComplaintListFilterBinding!!.closedStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 closedStatus=true
             }
             submitButtonEnable(
@@ -2975,7 +2975,7 @@ end*/
                 onholdStatus=false
             }else{
                 dialogComplaintListFilterBinding!!.onholdStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 onholdStatus=true
             }
             submitButtonEnable(
@@ -3003,19 +3003,19 @@ end*/
                 resolvedStatus= true
                 onholdStatus= true
                 dialogComplaintListFilterBinding!!.newStatus.background = requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.inProgressStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.rejectedStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.reopenStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.reopenStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.closedStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.closedStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.resolvedStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.resolvedStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.onholdStatus.background =  requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
-                dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.white))
+                dialogComplaintListFilterBinding!!.onholdStatus.setTextColor(requireContext().resources.getColor(R.color.white_for_both))
                 dialogComplaintListFilterBinding!!.selectAll.isChecked = true
             }
 //            else{

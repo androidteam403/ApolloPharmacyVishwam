@@ -70,7 +70,7 @@
                     android:layout_marginStart="@dimen/value_10dp"
                     android:gravity="start"
                     android:text="@string/label_filters"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_18sp"
                     android:textStyle="bold" />
 
@@ -81,8 +81,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/value_10dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/qc_white_close_24"
-                    app:tint="@color/white" />
+                    android:src="@drawable/qc_white_close_24"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -170,7 +169,7 @@
                                         android:id="@+id/new_status"
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
-                                        android:textColor="#b7b7b7"
+                                        android:textColor="@color/white_for_both"
                                         android:background="@drawable/checkbox_bgg"
                                         android:paddingStart="@dimen/value_9dp"
                                         android:paddingTop="@dimen/value_3dp"
