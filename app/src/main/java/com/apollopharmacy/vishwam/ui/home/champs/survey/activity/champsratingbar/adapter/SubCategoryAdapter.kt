@@ -45,10 +45,17 @@ class SubCategoryAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val subCategory = subCategoryDetails.get(position)
-        holder.adapterSubCategoryAdapterBinding.subCategoryHeading.text =
-            subCategory.subCategoryName
-        holder.adapterSubCategoryAdapterBinding.seekbar1.max =
-            ((subCategoryDetails.get(position).rating)!!.toFloat() * 2).toInt()
+//        subCategoryDetails!!.get(1).isActive=false
+        if(subCategory.isActive!!){
+            holder.adapterSubCategoryAdapterBinding.ratingBar1.visibility=View.VISIBLE
+            holder.adapterSubCategoryAdapterBinding.subCategoryHeading.text =
+                subCategory.subCategoryName
+            holder.adapterSubCategoryAdapterBinding.seekbar1.max =
+                ((subCategoryDetails.get(position).rating)!!.toFloat() * 2).toInt()
+        }else{
+            holder.adapterSubCategoryAdapterBinding.ratingBar1.visibility=View.GONE
+        }
+
         if(status.equals("COMPLETED")){
             holder.adapterSubCategoryAdapterBinding.seekbar1.isEnabled=false
         }else{

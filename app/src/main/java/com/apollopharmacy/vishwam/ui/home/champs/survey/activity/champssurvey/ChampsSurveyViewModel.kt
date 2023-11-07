@@ -17,6 +17,7 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.SaveSurveyModelRequest
+import com.apollopharmacy.vishwam.ui.home.model.SaveSurveyModelRequestt
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -588,7 +589,7 @@ class ChampsSurveyViewModel : ViewModel() {
     }
 
     fun getSaveDetailsApi(
-        saveSurveyModelRequest: SaveSurveyModelRequest,
+        saveSurveyModelRequest: SaveSurveyModelRequestt,
         champsSurveyCallBack: ChampsSurveyCallBack,
         type: String,
     ) {

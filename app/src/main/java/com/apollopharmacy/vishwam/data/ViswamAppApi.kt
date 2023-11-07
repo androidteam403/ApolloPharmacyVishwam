@@ -667,7 +667,7 @@ interface ViswamAppApi {
     suspend fun saveChampsApi(
         @Url url: String,
         @Header("token") token: String,
-        @Body saveSurveyModelRequest: SaveSurveyModelRequest,
+        @Body saveSurveyModelRequest: SaveSurveyModelRequestt,
     ): SaveSurveyModelResponse
 
     @POST("https://172.16.103.116/Apollo/Champs/saveChampsDetails")

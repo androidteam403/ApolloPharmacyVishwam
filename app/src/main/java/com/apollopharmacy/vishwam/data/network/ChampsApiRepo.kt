@@ -753,7 +753,7 @@ object ChampsApiRepo {
     suspend fun saveChampsApi(
         baseUrl: String,
         token: String,
-        saveSurveyModelRequest: SaveSurveyModelRequest,
+        saveSurveyModelRequest: SaveSurveyModelRequestt,
     ): ApiResult<SaveSurveyModelResponse> {
         return try {
 //            val response = Api.getClient().GET_SUB_CATEGORY_DETAILS_API_CALL_JSONBLOB(baseUrl)

@@ -1,16 +1,13 @@
 package com.apollopharmacy.vishwam.ui.home.model
 
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
-import com.apollopharmacy.vishwam.ui.home.champs.SampleModel
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse
 import com.apollopharmacy.vishwam.util.fileupload.FileDownloadResponse
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.File
 import java.io.Serializable
 
- class GetCategoryDetailsModelResponse : Serializable {
+class GetCategoryDetailsModelResponse : Serializable {
      @SerializedName("status")
      @Expose
      var status: Boolean? = null
@@ -89,6 +86,10 @@ import java.io.Serializable
          @SerializedName("modified_date")
          @Expose
          var modifiedDate: Any? = null
+
+         @SerializedName("IS_ACTIVE")
+         @Expose
+         var isActive: Boolean? = null
 
         var sumOfThreePicsinMb:String?=null
 

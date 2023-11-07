@@ -880,13 +880,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
     private fun saveApiRequest(type: String) {
         if (NetworkUtil.isNetworkConnected(context)) {
-//            Utlis.showLoading(this)
-            var submit = SaveSurveyModelRequest()
-            var headerDetails = SaveSurveyModelRequest.HeaderDetails()
-            headerDetails.state = activityChampsSurveyBinding.region.text.toString()
+            Utlis.showLoading(this)
+            var submit = SaveSurveyModelRequestt()
+            var headerDetails = SaveSurveyModelRequestt.HeaderDetails()
+            headerDetails.champAutoId = champsRefernceId
             headerDetails.city = activityChampsSurveyBinding.storeCity.text.toString()
+            headerDetails.createdBy = Preferences.getValidatedEmpId()
+            headerDetails.state = activityChampsSurveyBinding.region.text.toString()
             headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
-
             if (!status.equals("COMPLETED")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
                 val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
@@ -895,7 +896,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 val dateNewFormat =
                     SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
                 headerDetails.dateOfVisit = dateNewFormat
-            } else if (status.equals("PENDING")) {
+            }
+            else if (status.equals("PENDING")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
                 val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
@@ -903,7 +905,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 val dateNewFormat =
                     SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
                 headerDetails.dateOfVisit = dateNewFormat
-            } else {
+            }
+            else {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
                 val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
@@ -1015,7 +1018,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 } else {
                     headerDetails.emailIdOfCc = ""
                 }
-            } else if (status.equals("PENDING")) {
+            }
+            else if (status.equals("PENDING")) {
                 if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
                     if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfTrainer != null) {
                         headerDetails.emailIdOfTrainer =
@@ -1099,8 +1103,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             headerDetails.issuesToBeResolved =
                 activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.text.toString()
             headerDetails.total = activityChampsSurveyBinding.percentageSum.text.toString()
-            headerDetails.createdBy = Preferences.getValidatedEmpId()
-            headerDetails.site_name = Preferences.getChampsSiteName()
+//            headerDetails.site_name = Preferences.getChampsSiteName()
             if (type.equals("submit")) {
                 headerDetails.status = "1"
             } else {
@@ -1109,575 +1112,838 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
             submit.headerDetails = headerDetails
 
-            var categoryDetails = SaveSurveyModelRequest.CategoryDetails()
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                    0
-                )?.subCategoryDetails != null
-            ) {
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        0
-                    )?.subCategoryDetails!!.get(0).givenRating != null
-                ) {
-                    categoryDetails.appearanceStore =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
-                            0
-                        ).givenRating.toString()
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        0
-                    )?.subCategoryDetails!!.get(1).givenRating != null
-                ) {
-                    categoryDetails.offerDisplay =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
-                            1
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        0
-                    )?.subCategoryDetails!!.get(2).givenRating != null
-                ) {
-                    categoryDetails.storeFrontage =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
-                            2
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        0
-                    )?.subCategoryDetails!!.get(3).givenRating != null
-                ) {
-                    categoryDetails.groomingStaff =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
-                            3
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        0
-                    )?.imageDataLists != null
-                ) {
-                    var commaSeparatorUrls = ""
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.imageDataLists!!.indices) {
-                        var indiviualUrl =
-                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.imageDataLists!!.get(
-                                i
-                            ).imageUrl
-                        if (commaSeparatorUrls != "") {
-                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                        } else {
-                            commaSeparatorUrls = indiviualUrl!!
-                        }
-
+            if(getCategoryAndSubCategoryDetails!=null && getCategoryAndSubCategoryDetails!!.categoryDetails!=null
+                && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size>0){
+                var categoryDetailsList = ArrayList<SaveSurveyModelRequestt.CategoryDetail>()
+                for(i in getCategoryAndSubCategoryDetails!!.categoryDetails!!){
+                    for(j in i.subCategoryDetails!!){
+                        var categoryDetails = SaveSurveyModelRequestt.CategoryDetail()
+                        categoryDetails.subcategoryId = j.id.toString()
+                        categoryDetails.categoryId= i.id.toString()
+                        categoryDetails.value = j.givenRating.toString()
+                        categoryDetailsList.add(categoryDetails)
                     }
-                    categoryDetails.cleanlinessImages = commaSeparatorUrls
-
                 }
+                submit.categoryDetails=categoryDetailsList
 
-            }
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                    1
-                )?.subCategoryDetails != null
-            ) {
-
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        1
-                    )?.imageDataLists != null
-                ) {
-                    var commaSeparatorUrls = ""
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.imageDataLists!!.indices) {
-                        var indiviualUrl =
-                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.imageDataLists!!.get(
-                                i
-                            ).imageUrl
-                        if (commaSeparatorUrls != "") {
-                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                        } else {
-                            commaSeparatorUrls = indiviualUrl!!
-                        }
+                var imagesList = ArrayList<SaveSurveyModelRequestt.ImageDetail>()
+                for(i in getCategoryAndSubCategoryDetails!!.categoryDetails!!){
+                    for(j in i.imageDataLists!!){
+                        var imageDetails = SaveSurveyModelRequestt.ImageDetail()
+                        imageDetails.imageUrl=j.imageUrl
+                        imageDetails.categoryId=i.id.toString()
+                        imagesList.add(imageDetails)
                     }
-                    categoryDetails.hospitalityImages = commaSeparatorUrls
-
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        1
-                    )?.subCategoryDetails!!.get(0).givenRating != null
-                ) {
-                    categoryDetails.greetingCustomers =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
-                            0
-                        ).givenRating.toString()
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        1
-                    )?.subCategoryDetails!!.get(1).givenRating != null
-                ) {
-                    categoryDetails.customerEngagement =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
-                            1
-                        ).givenRating.toString()
                 }
 
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        1
-                    )?.subCategoryDetails!!.get(2).givenRating != null
-                ) {
-                    categoryDetails.customerHandling =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
-                            2
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        1
-                    )?.subCategoryDetails!!.get(3).givenRating != null
-                ) {
-                    categoryDetails.reminderCalls =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
-                            3
-                        ).givenRating.toString()
-                }
-
-//                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
-//                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
-//
-//                }
-
-            }
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                    2
-                )?.subCategoryDetails != null
-            ) {
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.imageDataLists != null
-                ) {
-                    var commaSeparatorUrls = ""
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.imageDataLists!!.indices) {
-                        var indiviualUrl =
-                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.imageDataLists!!.get(
-                                i
-                            ).imageUrl
-                        if (commaSeparatorUrls != "") {
-                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                        } else {
-                            commaSeparatorUrls = indiviualUrl!!
-                        }
-                    }
-                    categoryDetails.accuracyImages = commaSeparatorUrls
-
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(0).givenRating != null
-                ) {
-                    categoryDetails.billingSkusDispensed =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            0
-                        ).givenRating.toString()
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(1).givenRating != null
-                ) {
-                    categoryDetails.interpretationRecheckPrescription =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            1
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(2).givenRating != null
-                ) {
-                    categoryDetails.bankDeposits =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            2
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(3).givenRating != null
-                ) {
-                    categoryDetails.expiryFifoPolicy =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            3
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(4).givenRating != null
-                ) {
-                    categoryDetails.rsCheckInternalAuditing =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            4
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(5).givenRating != null
-                ) {
-                    categoryDetails.oneApolloDrConnect =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            5
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(6).givenRating != null
-                ) {
-                    categoryDetails.cashCheckingEvery2Hours =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            6
-                        ).givenRating.toString()
-                }
-
-
-//                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
-//                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
-//
-//                }
-
-            }
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                    3
-                )?.subCategoryDetails != null
-            ) {
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.imageDataLists != null
-                ) {
-                    var commaSeparatorUrls = ""
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.imageDataLists!!.indices) {
-                        var indiviualUrl =
-                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.imageDataLists!!.get(
-                                i
-                            ).imageUrl
-                        if (commaSeparatorUrls != "") {
-                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                        } else {
-                            commaSeparatorUrls = indiviualUrl!!
-                        }
-                    }
-                    categoryDetails.maintenanceImages = commaSeparatorUrls
-
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(0).givenRating != null
-                ) {
-                    if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                            4
-                        )?.imageDataLists != null
-                    ) {
-                        var commaSeparatorUrls = ""
-                        for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.indices) {
-                            var indiviualUrl =
-                                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.get(
-                                    i
-                                ).imageUrl
-                            if (commaSeparatorUrls != "") {
-                                commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                            } else {
-                                commaSeparatorUrls = indiviualUrl!!
-                            }
-                        }
-                        categoryDetails.productsImages = commaSeparatorUrls
-
-                    }
-                    categoryDetails.stockArrangementRefrigerator =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            0
-                        ).givenRating.toString()
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(1).givenRating != null
-                ) {
-                    categoryDetails.acWorkingCondition =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            1
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(2).givenRating != null
-                ) {
-                    categoryDetails.lighting =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            2
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(3).givenRating != null
-                ) {
-                    categoryDetails.planogram =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            3
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(4).givenRating != null
-                ) {
-                    categoryDetails.licensesRenewal =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            4
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(5).givenRating != null
-                ) {
-                    categoryDetails.biometric =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            5
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(6).givenRating != null
-                ) {
-                    categoryDetails.maintenanceHdRegister =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            6
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(7).givenRating != null
-                ) {
-                    categoryDetails.dutyRostersAllotment =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            7
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(8).givenRating != null
-                ) {
-                    categoryDetails.internet =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            8
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(9).givenRating != null
-                ) {
-                    categoryDetails.swipingMachineWorking =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            9
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(10).givenRating != null
-                ) {
-                    categoryDetails.theCcCamerasWorking =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            10
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(11).givenRating != null
-                ) {
-                    categoryDetails.printersWorkingCondition =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            11
-                        ).givenRating!!.toString()
-                }
-
-
-//                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
-//                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
-//
-//                }
-
-            }
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.size!! > 4 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                    4
-                )?.subCategoryDetails != null
-            ) {
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        4
-                    )?.imageDataLists != null
-                ) {
-                    var commaSeparatorUrls = ""
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.indices) {
-                        var indiviualUrl =
-                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.get(
-                                i
-                            ).imageUrl
-                        if (commaSeparatorUrls != "") {
-                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                        } else {
-                            commaSeparatorUrls = indiviualUrl!!
-                        }
-                    }
-                    categoryDetails.productsImages = commaSeparatorUrls
-
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        4
-                    )?.subCategoryDetails!!.get(0).givenRating != null
-                ) {
-                    categoryDetails.availabilityStockGood =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
-                            0
-                        ).givenRating.toString()
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        4
-                    )?.subCategoryDetails!!.get(1).givenRating != null
-                ) {
-                    categoryDetails.substitutionOfferedRegularly =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
-                            1
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        4
-                    )?.subCategoryDetails!!.get(2).givenRating != null
-                ) {
-                    categoryDetails.serviceRecoveryDone90 =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
-                            2
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        4
-                    )?.subCategoryDetails!!.get(3).givenRating != null
-                ) {
-                    categoryDetails.bounceTracking =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
-                            3
-                        ).givenRating.toString()
-                }
-
-//                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
-//                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
-//
-//                }
-
-            }
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 5 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                    5
-                )?.subCategoryDetails != null
-            ) {
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.imageDataLists != null
-                ) {
-                    var commaSeparatorUrls = ""
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.imageDataLists!!.indices) {
-                        var indiviualUrl =
-                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.imageDataLists!!.get(
-                                i
-                            ).imageUrl
-                        if (commaSeparatorUrls != "") {
-                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                        } else {
-                            commaSeparatorUrls = indiviualUrl!!
-                        }
-                    }
-                    categoryDetails.speedServiceSalesPromotionImages = commaSeparatorUrls
-
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.subCategoryDetails!!.get(0).givenRating != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.subCategoryDetails!!.size > 0
-                ) {
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!) {
-                        if (i.subCategoryName.equals("Speed of service  - 5 to 10 minutes")) {
-                            categoryDetails.speedService5To10Minutes =
-                                i.givenRating.toString()
-                            break
-                        }
-                    }
-
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.subCategoryDetails!!.size > 1 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.subCategoryDetails!!.get(1).givenRating != null
-                ) {
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!) {
-                        if (i.subCategoryName.equals("Home Delivery - commitment fulfilled on time")) {
-                            categoryDetails.homeDeliveryCommitmentFulfilledTime =
-                                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!.get(
-                                    1
-                                ).givenRating.toString()
-                            break
-                        }
-                    }
-
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.subCategoryDetails!!.size > 2 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.subCategoryDetails!!.get(2).givenRating != null
-                ) {
-
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!) {
-                        if (i.subCategoryName.equals("Sales Promotion")) {
-                            categoryDetails.salesPromotion =
-                                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!.get(
-                                    2
-                                ).givenRating.toString()
-                            break
-                        }
-                    }
-
-
-                }
-
-
-
-                submit.categoryDetails = categoryDetails
-
-
-//                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
-//                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
-//
-//                }
+                submit.imageDetails=imagesList
 
             }
             Gson().toJson(submit)
 
             champsSurveyViewModel.getSaveDetailsApi(submit, this, type)
 
+
+
         }
+//            Utlis.showLoading(this)
+//            var submit = SaveSurveyModelRequest()
+//            var headerDetails = SaveSurveyModelRequest.HeaderDetails()
+//            headerDetails.state = activityChampsSurveyBinding.region.text.toString()
+//            headerDetails.city = activityChampsSurveyBinding.storeCity.text.toString()
+//            headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
+//
+//            if (!status.equals("COMPLETED")) {
+//                val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
+//                val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
+//                val date = dateFormat.parse(strDate)
+////            023-01-23 17:32:16
+//                val dateNewFormat =
+//                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
+//                headerDetails.dateOfVisit = dateNewFormat
+//            }
+//            else if (status.equals("PENDING")) {
+//                val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
+//                val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
+//                val date = dateFormat.parse(strDate)
+////            023-01-23 17:32:16
+//                val dateNewFormat =
+//                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
+//                headerDetails.dateOfVisit = dateNewFormat
+//            }
+//            else {
+//                val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
+//                val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
+//                val date = dateFormat.parse(strDate)
+////            023-01-23 17:32:16
+//                val dateNewFormat =
+//                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
+//                headerDetails.dateOfVisit = dateNewFormat
+//            }
+//
+//            if (status.equals("NEW")) {
+//                var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+//                var employeeDetailsResponse: EmployeeDetailsResponse? = null
+//                try {
+//                    val gson = GsonBuilder().setPrettyPrinting().create()
+//                    employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+//                        empDetailsResponse, EmployeeDetailsResponse::class.java
+//                    )
+//
+//                } catch (e: JsonParseException) {
+//                    e.printStackTrace()
+//                }
+////                if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
+////                    headerDetails.emailIdOfTrainer = employeeDetailsResponse.data!!.email!!
+////                } else {
+////                    headerDetails.emailIdOfTrainer = ""
+////                }
+//                var trainerEmails: String = ""
+//                if (!listForTrainers.isNullOrEmpty()) {
+//                    for (i in listForTrainers) {
+//                        if (trainerEmails.isEmpty()) {
+//                            trainerEmails = i
+//                        } else {
+//                            trainerEmails = "$trainerEmails,$i"
+//                        }
+//                    }
+//                }
+//
+//                if (trainerEmails!=null) {
+//                    headerDetails.emailIdOfTrainer = trainerEmails
+//                } else {
+//                    headerDetails.emailIdOfTrainer = ""
+//                }
+//
+//                /*if (getStoreWiseEmpIdResponse != null &&
+//                    getStoreWiseEmpIdResponse?.storeWiseDetails != null &&
+//                    getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail != null
+//                ) {
+//                    headerDetails.emailIdOfTrainer =
+//                        getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail
+//                } else {
+//                    headerDetails.emailIdOfTrainer = ""
+//                }*/
+//                if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null &&
+//                    getStoreWiseDetails!!.data.executive != null
+//                ) {
+//                    headerDetails.emailIdOfExecutive =
+//                        getStoreWiseDetails!!.data.executive.email
+//                } else {
+//                    headerDetails.emailIdOfExecutive = ""
+//                }
+//                if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null &&
+//                    getStoreWiseDetails!!.data.manager != null
+//                ) {
+//                    headerDetails.emailIdOfManager =
+//                        getStoreWiseDetails!!.data.manager.email
+//                } else {
+//                    headerDetails.emailIdOfManager = ""
+//                }
+//
+//                if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null &&
+//                    getStoreWiseDetails!!.data.regionHead != null
+//                ) {
+//                    headerDetails.emailIdOfRegionalHead =
+//                        getStoreWiseDetails!!.data.regionHead.email
+//                } else {
+//                    headerDetails.emailIdOfRegionalHead = ""
+//                }
+//
+//                var recepientEmails: String = ""
+//                if (!surveyRecManualList.isNullOrEmpty()) {
+//                    for (i in surveyRecManualList) {
+//                        if (recepientEmails.isEmpty()) {
+//                            recepientEmails = i
+//                        } else {
+//                            recepientEmails = "$recepientEmails,$i"
+//                        }
+//                    }
+//                }
+//
+//                if (recepientEmails!=null) {
+//                    headerDetails.emailIdOfRecipients = recepientEmails
+//                } else {
+//                    headerDetails.emailIdOfRecipients = ""
+//                }
+//
+////                if (surveyRecDetailsList != null) {
+////                    if (surveyRecDetailsList.get(0) != null) {
+////                        headerDetails.emailIdOfRecipients = surveyRecDetailsList.get(0)
+////                    } else {
+////                        headerDetails.emailIdOfRecipients = ""
+////                    }
+////
+////                } else {
+////                    headerDetails.emailIdOfRecipients = ""
+////                }
+//
+//                if (surveyCCDetailsList.get(0) != null) {
+//                    headerDetails.emailIdOfCc = surveyCCDetailsList.get(0)
+//                } else {
+//                    headerDetails.emailIdOfCc = ""
+//                }
+//            }
+//            else if (status.equals("PENDING")) {
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfTrainer != null) {
+//                        headerDetails.emailIdOfTrainer =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfTrainer
+//                    } else {
+//                        headerDetails.emailIdOfTrainer = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfTrainer = ""
+//                }
+//
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfExecutive != null) {
+//                        headerDetails.emailIdOfExecutive =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfExecutive
+//                    } else {
+//                        headerDetails.emailIdOfExecutive = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfExecutive = ""
+//                }
+//
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfManager != null) {
+//                        headerDetails.emailIdOfManager =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfManager
+//                    } else {
+//                        headerDetails.emailIdOfManager = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfManager = ""
+//                }
+//
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRegionalHead != null) {
+//                        headerDetails.emailIdOfRegionalHead =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRegionalHead
+//                    } else {
+//                        headerDetails.emailIdOfRegionalHead = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfRegionalHead = ""
+//                }
+//
+//
+//
+//
+//
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients != null) {
+//                        headerDetails.emailIdOfRecipients =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients
+//                    } else {
+//                        headerDetails.emailIdOfRecipients = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfRecipients = ""
+//                }
+//
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfCc != null) {
+//                        headerDetails.emailIdOfCc =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfCc
+//                    } else {
+//                        headerDetails.emailIdOfCc = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfCc = ""
+//                }
+//            }
+//
+//
+//            headerDetails.champAutoId = champsRefernceId
+//
+//            headerDetails.techinalDetails =
+//                activityChampsSurveyBinding.enterTextTechnicalEdittext.text.toString()
+//            headerDetails.softSkills =
+//                activityChampsSurveyBinding.enterSoftSkillsEdittext.text.toString()
+//            headerDetails.otherTraining =
+//                activityChampsSurveyBinding.enterOtherTrainingEdittext.text.toString()
+//            headerDetails.issuesToBeResolved =
+//                activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.text.toString()
+//            headerDetails.total = activityChampsSurveyBinding.percentageSum.text.toString()
+//            headerDetails.createdBy = Preferences.getValidatedEmpId()
+//            headerDetails.site_name = Preferences.getChampsSiteName()
+//            if (type.equals("submit")) {
+//                headerDetails.status = "1"
+//            } else {
+//                headerDetails.status = "0"
+//            }
+//
+//            submit.headerDetails = headerDetails
+//
+//            var categoryDetails = SaveSurveyModelRequest.CategoryDetails()
+//
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                    0
+//                )?.subCategoryDetails != null
+//            ) {
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        0
+//                    )?.subCategoryDetails!!.get(0).givenRating != null
+//                ) {
+//                    categoryDetails.appearanceStore =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
+//                            0
+//                        ).givenRating.toString()
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        0
+//                    )?.subCategoryDetails!!.get(1).givenRating != null
+//                ) {
+//                    categoryDetails.offerDisplay =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
+//                            1
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        0
+//                    )?.subCategoryDetails!!.get(2).givenRating != null
+//                ) {
+//                    categoryDetails.storeFrontage =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
+//                            2
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        0
+//                    )?.subCategoryDetails!!.get(3).givenRating != null
+//                ) {
+//                    categoryDetails.groomingStaff =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
+//                            3
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        0
+//                    )?.imageDataLists != null
+//                ) {
+//                    var commaSeparatorUrls = ""
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.imageDataLists!!.indices) {
+//                        var indiviualUrl =
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.imageDataLists!!.get(
+//                                i
+//                            ).imageUrl
+//                        if (commaSeparatorUrls != "") {
+//                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                        } else {
+//                            commaSeparatorUrls = indiviualUrl!!
+//                        }
+//
+//                    }
+//                    categoryDetails.cleanlinessImages = commaSeparatorUrls
+//
+//                }
+//
+//            }
+//
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                    1
+//                )?.subCategoryDetails != null
+//            ) {
+//
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        1
+//                    )?.imageDataLists != null
+//                ) {
+//                    var commaSeparatorUrls = ""
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.imageDataLists!!.indices) {
+//                        var indiviualUrl =
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.imageDataLists!!.get(
+//                                i
+//                            ).imageUrl
+//                        if (commaSeparatorUrls != "") {
+//                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                        } else {
+//                            commaSeparatorUrls = indiviualUrl!!
+//                        }
+//                    }
+//                    categoryDetails.hospitalityImages = commaSeparatorUrls
+//
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        1
+//                    )?.subCategoryDetails!!.get(0).givenRating != null
+//                ) {
+//                    categoryDetails.greetingCustomers =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
+//                            0
+//                        ).givenRating.toString()
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        1
+//                    )?.subCategoryDetails!!.get(1).givenRating != null
+//                ) {
+//                    categoryDetails.customerEngagement =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
+//                            1
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        1
+//                    )?.subCategoryDetails!!.get(2).givenRating != null
+//                ) {
+//                    categoryDetails.customerHandling =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
+//                            2
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        1
+//                    )?.subCategoryDetails!!.get(3).givenRating != null
+//                ) {
+//                    categoryDetails.reminderCalls =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
+//                            3
+//                        ).givenRating.toString()
+//                }
+//
+////                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
+////                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
+////
+////                }
+//
+//            }
+//
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                    2
+//                )?.subCategoryDetails != null
+//            ) {
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.imageDataLists != null
+//                ) {
+//                    var commaSeparatorUrls = ""
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.imageDataLists!!.indices) {
+//                        var indiviualUrl =
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.imageDataLists!!.get(
+//                                i
+//                            ).imageUrl
+//                        if (commaSeparatorUrls != "") {
+//                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                        } else {
+//                            commaSeparatorUrls = indiviualUrl!!
+//                        }
+//                    }
+//                    categoryDetails.accuracyImages = commaSeparatorUrls
+//
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(0).givenRating != null
+//                ) {
+//                    categoryDetails.billingSkusDispensed =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            0
+//                        ).givenRating.toString()
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(1).givenRating != null
+//                ) {
+//                    categoryDetails.interpretationRecheckPrescription =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            1
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(2).givenRating != null
+//                ) {
+//                    categoryDetails.bankDeposits =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            2
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(3).givenRating != null
+//                ) {
+//                    categoryDetails.expiryFifoPolicy =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            3
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(4).givenRating != null
+//                ) {
+//                    categoryDetails.rsCheckInternalAuditing =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            4
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(5).givenRating != null
+//                ) {
+//                    categoryDetails.oneApolloDrConnect =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            5
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(6).givenRating != null
+//                ) {
+//                    categoryDetails.cashCheckingEvery2Hours =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            6
+//                        ).givenRating.toString()
+//                }
+//
+//
+////                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
+////                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
+////
+////                }
+//
+//            }
+//
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                    3
+//                )?.subCategoryDetails != null
+//            ) {
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.imageDataLists != null
+//                ) {
+//                    var commaSeparatorUrls = ""
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.imageDataLists!!.indices) {
+//                        var indiviualUrl =
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.imageDataLists!!.get(
+//                                i
+//                            ).imageUrl
+//                        if (commaSeparatorUrls != "") {
+//                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                        } else {
+//                            commaSeparatorUrls = indiviualUrl!!
+//                        }
+//                    }
+//                    categoryDetails.maintenanceImages = commaSeparatorUrls
+//
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(0).givenRating != null
+//                ) {
+//                    if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                            4
+//                        )?.imageDataLists != null
+//                    ) {
+//                        var commaSeparatorUrls = ""
+//                        for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.indices) {
+//                            var indiviualUrl =
+//                                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.get(
+//                                    i
+//                                ).imageUrl
+//                            if (commaSeparatorUrls != "") {
+//                                commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                            } else {
+//                                commaSeparatorUrls = indiviualUrl!!
+//                            }
+//                        }
+//                        categoryDetails.productsImages = commaSeparatorUrls
+//
+//                    }
+//                    categoryDetails.stockArrangementRefrigerator =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            0
+//                        ).givenRating.toString()
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(1).givenRating != null
+//                ) {
+//                    categoryDetails.acWorkingCondition =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            1
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(2).givenRating != null
+//                ) {
+//                    categoryDetails.lighting =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            2
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(3).givenRating != null
+//                ) {
+//                    categoryDetails.planogram =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            3
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(4).givenRating != null
+//                ) {
+//                    categoryDetails.licensesRenewal =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            4
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(5).givenRating != null
+//                ) {
+//                    categoryDetails.biometric =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            5
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(6).givenRating != null
+//                ) {
+//                    categoryDetails.maintenanceHdRegister =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            6
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(7).givenRating != null
+//                ) {
+//                    categoryDetails.dutyRostersAllotment =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            7
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(8).givenRating != null
+//                ) {
+//                    categoryDetails.internet =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            8
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(9).givenRating != null
+//                ) {
+//                    categoryDetails.swipingMachineWorking =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            9
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(10).givenRating != null
+//                ) {
+//                    categoryDetails.theCcCamerasWorking =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            10
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(11).givenRating != null
+//                ) {
+//                    categoryDetails.printersWorkingCondition =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            11
+//                        ).givenRating!!.toString()
+//                }
+//
+//
+////                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
+////                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
+////
+////                }
+//
+//            }
+//
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.size!! > 4 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                    4
+//                )?.subCategoryDetails != null
+//            ) {
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        4
+//                    )?.imageDataLists != null
+//                ) {
+//                    var commaSeparatorUrls = ""
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.indices) {
+//                        var indiviualUrl =
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.get(
+//                                i
+//                            ).imageUrl
+//                        if (commaSeparatorUrls != "") {
+//                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                        } else {
+//                            commaSeparatorUrls = indiviualUrl!!
+//                        }
+//                    }
+//                    categoryDetails.productsImages = commaSeparatorUrls
+//
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        4
+//                    )?.subCategoryDetails!!.get(0).givenRating != null
+//                ) {
+//                    categoryDetails.availabilityStockGood =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
+//                            0
+//                        ).givenRating.toString()
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        4
+//                    )?.subCategoryDetails!!.get(1).givenRating != null
+//                ) {
+//                    categoryDetails.substitutionOfferedRegularly =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
+//                            1
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        4
+//                    )?.subCategoryDetails!!.get(2).givenRating != null
+//                ) {
+//                    categoryDetails.serviceRecoveryDone90 =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
+//                            2
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        4
+//                    )?.subCategoryDetails!!.get(3).givenRating != null
+//                ) {
+//                    categoryDetails.bounceTracking =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
+//                            3
+//                        ).givenRating.toString()
+//                }
+//
+////                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
+////                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
+////
+////                }
+//
+//            }
+//
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 5 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                    5
+//                )?.subCategoryDetails != null
+//            ) {
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.imageDataLists != null
+//                ) {
+//                    var commaSeparatorUrls = ""
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.imageDataLists!!.indices) {
+//                        var indiviualUrl =
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.imageDataLists!!.get(
+//                                i
+//                            ).imageUrl
+//                        if (commaSeparatorUrls != "") {
+//                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                        } else {
+//                            commaSeparatorUrls = indiviualUrl!!
+//                        }
+//                    }
+//                    categoryDetails.speedServiceSalesPromotionImages = commaSeparatorUrls
+//
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.subCategoryDetails!!.get(0).givenRating != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.subCategoryDetails!!.size > 0
+//                ) {
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!) {
+//                        if (i.subCategoryName.equals("Speed of service  - 5 to 10 minutes")) {
+//                            categoryDetails.speedService5To10Minutes =
+//                                i.givenRating.toString()
+//                            break
+//                        }
+//                    }
+//
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.subCategoryDetails!!.size > 1 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.subCategoryDetails!!.get(1).givenRating != null
+//                ) {
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!) {
+//                        if (i.subCategoryName.equals("Home Delivery - commitment fulfilled on time")) {
+//                            categoryDetails.homeDeliveryCommitmentFulfilledTime =
+//                                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!.get(
+//                                    1
+//                                ).givenRating.toString()
+//                            break
+//                        }
+//                    }
+//
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.subCategoryDetails!!.size > 2 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.subCategoryDetails!!.get(2).givenRating != null
+//                ) {
+//
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!) {
+//                        if (i.subCategoryName.equals("Sales Promotion")) {
+//                            categoryDetails.salesPromotion =
+//                                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!.get(
+//                                    2
+//                                ).givenRating.toString()
+//                            break
+//                        }
+//                    }
+//
+//
+//                }
+//
+//
+//
+//                submit.categoryDetails = categoryDetails
+
+
+//                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
+//                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
+//
+//                }
+
+//            }
+
+//        }
     }
 
     override fun onClickSaveDraft() {
@@ -2191,6 +2457,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 }
 
                 var trainerEmails: String = ""
+                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
                 if (!listForTrainers.isNullOrEmpty()) {
                     for (i in listForTrainers) {
                         if (trainerEmails.isEmpty()) {
