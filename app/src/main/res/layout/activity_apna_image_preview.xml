@@ -25,7 +25,7 @@
                 android:contentDescription="@string/app_name"
                 android:rotation="-90"
                 android:src="@drawable/ic_baseline_north_24"
-                android:tint="@color/white"
+                android:tint="@color/white_for_both"
                 tools:ignore="UseAppTint" />
 
             <LinearLayout
@@ -40,7 +40,7 @@
                     android:layout_gravity="start"
                     android:layout_marginStart="@dimen/value_20dp"
                     android:text="Image Preview"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_17sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -80,7 +80,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="5"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/text_18sp"
                             android:textStyle="bold" />
 
@@ -89,7 +89,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="4"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/text_19sp"
                             android:textStyle="bold" />
                     </LinearLayout>

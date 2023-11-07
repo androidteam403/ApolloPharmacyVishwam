@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -35,7 +36,7 @@ class TrafficGeneratorAdapter(
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
             if (trafficGenerators[position].isSelected == true) {
-                holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#000000"))
+                holder.viewItemRowBinding.itemName.setTextColor(ContextCompat.getColor(mContext, R.color.black))
                 trafficGenerators[position].isSelected = false
             } else {
                 holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#00a651"))

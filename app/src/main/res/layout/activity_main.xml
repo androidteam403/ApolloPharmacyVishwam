@@ -33,7 +33,7 @@
             android:layout_marginStart="@dimen/value_10dp"
             android:layout_toRightOf="@+id/backArrow"
             android:fontFamily="@font/poppin_bold"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/white_for_both"
             android:textSize="@dimen/text_18sp"
             android:visibility="gone" />
 
@@ -57,7 +57,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/value_15dp"
             android:text="@string/label_vishwam_dashboard"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/white_for_both"
             android:textSize="@dimen/text_18sp"
             android:textStyle="bold"
             android:visibility="visible" />
@@ -104,7 +104,8 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/value_15dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UseSwitchCompatOrMaterialXml">
 
             <LinearLayout
                 android:id="@+id/scanner"
@@ -123,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="SCAN"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_10sp" />
             </LinearLayout>
 
@@ -335,6 +336,12 @@
                     android:textSize="@dimen/text_dimen_12"
                     android:visibility="gone" />
             </RelativeLayout>
+
+            <Switch
+                android:id="@+id/switchBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/helpBtn"
@@ -888,11 +895,11 @@
         android:layout_height="@dimen/value_60dp"
         android:layout_alignParentBottom="true"
         android:background="@color/vishwam_actionbar_color"
-        app:itemActiveIndicatorStyle="@color/black"
+        app:itemActiveIndicatorStyle="@color/white_for_both"
         app:itemIconSize="@dimen/value_25dp"
-        app:itemIconTint="@color/colorWhite"
-        app:itemTextAppearanceActive="@color/red"
-        app:itemTextColor="@color/white"
+        app:itemIconTint="@color/white_for_both"
+        app:itemTextAppearanceActive="@color/white_for_both"
+        app:itemTextColor="@color/white_for_both"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu" />
 

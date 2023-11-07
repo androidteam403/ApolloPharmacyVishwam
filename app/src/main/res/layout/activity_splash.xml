@@ -5,7 +5,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/apollo_vishwam_bg">
+        android:background="@color/colorWhite">
+        <!--        android:background="@drawable/apollo_vishwam_bg"-->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY"
+            android:src="@drawable/vishwam_splalsh_bg_new" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -27,9 +34,9 @@
                 android:id="@+id/end_to_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_above="@id/powered_by"
                 android:layout_marginBottom="@dimen/value_5dp"
                 android:gravity="center"
-                android:layout_above="@id/powered_by"
                 android:text="@string/label_end_to_end"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_16sp" />

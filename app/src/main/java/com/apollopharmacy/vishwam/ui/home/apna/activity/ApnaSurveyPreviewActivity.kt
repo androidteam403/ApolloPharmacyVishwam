@@ -1084,6 +1084,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.hospitalsChart.axisRight.isEnabled = false
         activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.isEnabled = false
 
+        activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.textColor = ContextCompat.getColor(this, R.color.black)
         activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.setLabelCount(5, true)
         activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.axisMinimum = 0f
         activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.axisMaximum = beds.max()
@@ -1182,6 +1183,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.apartmentsChart.axisRight.isEnabled = false
         activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.isEnabled = false
 
+        activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.textColor = ContextCompat.getColor(this, R.color.black)
         activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.setLabelCount(5, true)
         activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.axisMinimum = 0f
         activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.axisMaximum = noOfHouses.max()
@@ -1268,6 +1270,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.competitorsChart.axisRight.isEnabled = false
         activityApnaSurveyPreviewBinding.competitorsChart.xAxis.isEnabled = false
 
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().textColor = ContextCompat.getColor(this, R.color.black)
         activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setLabelCount(5, true)
         activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setAxisMinimum(0f)
         activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft()
@@ -1356,6 +1359,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.neighborChart.xAxis.isEnabled = false
 
         // Set y axis values
+        activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().textColor = ContextCompat.getColor(this, R.color.black)
         activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setLabelCount(5, true)
         activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setAxisMinimum(0f)
         activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setAxisMaximum(sales.max())

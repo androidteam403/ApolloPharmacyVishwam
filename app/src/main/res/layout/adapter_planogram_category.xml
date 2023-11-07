@@ -43,7 +43,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/value_10dp"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/text_16sp"
                             android:textStyle="bold" />
 
@@ -102,7 +102,7 @@
                 android:gravity="center"
                 android:hint="Save and Continue"
                 android:textAlignment="center"
-                android:textColorHint="@color/colorWhite"
+                android:textColorHint="@color/white_for_both"
                 android:textSize="@dimen/text_16sp"
                 android:textStyle="bold" />
         </LinearLayout>

@@ -324,7 +324,7 @@
                         android:layout_marginEnd="@dimen/value_5dp"
                         android:fontFamily="@font/price_bold"
                         android:text="Sign-Out"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_13sp" />
                 </LinearLayout>
             </RelativeLayout>

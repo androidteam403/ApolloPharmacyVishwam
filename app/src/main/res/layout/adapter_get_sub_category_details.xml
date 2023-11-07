@@ -37,7 +37,7 @@
                 android:inputType="number"
                 android:text="@{String.valueOf(model.rating)}"
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_12sp"
                 android:textStyle="bold"
                 tools:ignore="RtlCompat" />

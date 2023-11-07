@@ -238,7 +238,8 @@
     <color name="red_no_plano">#ef1c23</color>
     <color name="retroqr_rack_selected_color">#e6e6e6</color>
     <color name="vishwam_actionbar_color">#045a71</color>
-    <color name="reg_date_color">#3a3a3b</color>
+    <color name="color_primary_dark">#03485A</color>
+    <color name="reg_date_color">#B5B5B5</color>
     <color name="home_search_box_bg">#F2F2F2</color>
     <color name="sensing_store_details_part_bg">#ecf6f8</color>
     <color name="sensing_employee_details_part_bg">#def4f2</color>
@@ -247,5 +248,18 @@
     <color name="retro_qr_item_bg_color">#e2f5fd</color>
     <color name="very_lite_yellow">#fef7e2</color>
     <color name="complaintlist_search_bg_color">#f2f2f2</color>
+    <color name="white_for_both">#ffffff</color>
+    <color name="black_for_both">#000000</color>
+    <color name="task_completed_bg">#dbf2f8</color>
+    <color name="sign_in_time_bg">#d3e9da</color>
+    <color name="sign_out_time_bg">#e5cfd4</color>
+    <color name="recipients_email_bg">#EBEDF3</color>
+    <color name="apna_new_survey_bg">#efefef</color>
+    <color name="seekbar_bg">#11000000</color>
+    <color name="discount_approved_bg">#d3e9da</color>
+    <color name="discount_rejected_bg">#ffe9e9</color>
+    <color name="retro_qr_sub_header_bg">#f4f5f4</color>
+    <color name="print_rack_sub_header_bg">#252525</color>
+    <color name="sub_menu_text">#253339</color>
 
 </resources>

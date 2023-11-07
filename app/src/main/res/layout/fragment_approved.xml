@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="#d3e9da"
+            android:background="@color/discount_approved_bg"
             android:orientation="vertical">
 
             <LinearLayout
@@ -247,7 +247,7 @@
                             android:padding="5dp"
                             android:text="@string/label_search"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/text_15sp"
                             android:textStyle="bold" />
 

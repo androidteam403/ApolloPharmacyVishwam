@@ -66,7 +66,7 @@
                     android:paddingBottom="@dimen/value_8dp"
                     android:stateListAnimator="@null"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_19sp" />
                 <!--                  android:textColor="#007aff"-->
 
@@ -85,7 +85,7 @@
                     android:paddingBottom="@dimen/value_8dp"
                     android:stateListAnimator="@null"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_19sp" />
             </LinearLayout>
 

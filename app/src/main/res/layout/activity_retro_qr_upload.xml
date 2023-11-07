@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="RETRO QR UPLOAD"
-                android:textColor="@color/white"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_16sp" />
 
             <LinearLayout
@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="14001"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textStyle="bold" />
 
                     <TextView
@@ -70,7 +70,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Apollo Punjagutta"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_10sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -100,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_45dp"
                 android:layout_marginTop="@dimen/value_3dp"
-                android:background="#f4f5f4"
+                android:background="@color/retro_qr_sub_header_bg"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
@@ -219,7 +219,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="10 June, 2023"
-                                android:textColor="@color/black"
+                                android:textColor="@color/black_for_both"
                                 android:textSize="@dimen/dimen11sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -375,7 +375,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="SUBMIT"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_18sp"
                     android:textStyle="bold" />
             </LinearLayout>

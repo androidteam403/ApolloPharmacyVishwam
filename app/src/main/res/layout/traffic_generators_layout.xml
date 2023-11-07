@@ -23,7 +23,7 @@
                 android:paddingTop="@dimen/value_4dp"
                 android:paddingBottom="@dimen/value_4dp"
                 android:text="Mall"
-                android:textColor="@color/black"
+                android:textColor="@color/black_for_both"
                 android:textSize="@dimen/text_13sp" />
 
             <ImageView
@@ -32,6 +32,7 @@
                 android:layout_height="@dimen/value_20dp"
                 android:layout_marginStart="@dimen/value_15dp"
                 android:layout_marginTop="@dimen/value_3dp"
+                android:tint="#939393"
                 android:src="@drawable/close_ashh" />
         </LinearLayout>
     </LinearLayout>

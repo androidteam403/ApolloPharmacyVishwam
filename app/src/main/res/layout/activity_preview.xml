@@ -71,7 +71,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="CHAMPS Survey Preview"
-                                android:textColor="@color/white"
+                                android:textColor="@color/white_for_both"
                                 android:textSize="@dimen/text_17sp"
                                 android:textStyle="bold" />
 
@@ -95,7 +95,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_14sp"
                                     android:textStyle="bold" />
 

@@ -194,7 +194,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:paddingBottom="2dp"
                     android:text="Upload"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="10sp" />
 
             </LinearLayout>

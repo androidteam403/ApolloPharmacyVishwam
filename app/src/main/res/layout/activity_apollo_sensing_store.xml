@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Select Store"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_18sp"
                 android:textStyle="bold" />
 
@@ -60,7 +60,7 @@
                 android:contentDescription="@string/app_name"
                 android:onClick="@{()-> callback.onClickCancel()}"
                 android:src="@drawable/icon_close"
-                app:tint="@color/white" />
+                app:tint="@color/white_for_both" />
         </RelativeLayout>
 
         <LinearLayout

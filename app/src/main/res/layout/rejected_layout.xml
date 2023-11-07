@@ -20,7 +20,7 @@
                 android:id="@+id/pendingLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ffe9e9"
+                android:background="@color/discount_rejected_bg"
                 android:orientation="horizontal"
                 android:weightSum="4">
 
@@ -45,10 +45,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/storeId"
-                        android:textAlignment="center"
-
                         android:layout_marginBottom="5dp"
+
                         android:text="50001400"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         app:fontFamily="@font/poppins_medium" />

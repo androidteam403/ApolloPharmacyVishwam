@@ -38,7 +38,7 @@
 
     <color name="apollo_btn_color">#AE8025</color>
     <color name="apollo_img_color">#195568</color>
-    <color name="rejected">#67151D</color>
+    <color name="rejected">#e51e32</color>
     <color name="status_created">#770202</color>
     <color name="status_hold_process">#0000FF</color>
     <color name="status_progress">#735409</color>
@@ -130,7 +130,7 @@
     <color name="green">#1D711D</color>
     <color name="material_amber_accent_700">#A36E03</color>
     <color name="pastel_orange_light">#FBE8DF</color>
-    <color name="light_blue">#ecf6f8</color>
+    <color name="light_blue">#201917</color>
     <color name="dark_blue">#173b5f</color>
     <color name="color_ash">#f0f0f0</color>
     <color name="greenn">#005A2C</color>
@@ -156,14 +156,14 @@
     <color name="dark_greyy">#818181</color>
     <color name="very_light_blue">#d7f3e7</color>
     <color name="green_dark">#009345</color>
-    <color name="background_ash">#f2f2f2</color>
+    <color name="background_ash">#1c1c1c</color>
     <color name="water_blue">#d7f3e7</color>
-    <color name="very_very_light_blue">#e8f7f2</color>
+    <color name="very_very_light_blue">#23181c</color>
     <color name="darkk_blue">#317ba0</color>
     <color name="darkk_green">#009345</color>
     <color name="very_light_greyy">#ababab</color>
     <color name="sky_blue">#c5e5fc</color>
-    <color name="very_lightt_greyy">#f2f2f2</color>
+    <color name="very_lightt_greyy">#1c1c1c</color>
     <color name="dark_ash">#d1d1d1</color>
     <color name="darkkk_grey">#504f4f</color>
     <color name="dark_green">#009345</color>
@@ -227,7 +227,7 @@
     <color name="dark_grey_ceo_dashboard">#e7e7e7</color>
 
     <color name="green_color_bg">#29492D</color>
-    <color name="liight_green">#e8f7f2</color>
+    <color name="liight_green">#23181c</color>
     <color name="lightt_ash">#cacaca</color>
     <color name="greenY">#116739</color>
     <color name="cream_color">#fff6e3</color>
@@ -235,15 +235,28 @@
     <color name="tab_color">#035b71</color>
     <color name="sky_bluee">#167677</color>
     <color name="red_no_plano">#791115</color>
-    <color name="retroqr_rack_selected_color">#e6e6e6</color>
+    <color name="retroqr_rack_selected_color">#252525</color>
     <color name="vishwam_actionbar_color">#014659</color>
-    <color name="reg_date_color">#414149</color>
+    <color name="reg_date_color">#b6b6b5</color>
     <color name="home_search_box_bg">#393838</color>
-    <color name="sensing_store_details_part_bg">#464D4E</color>
-    <color name="sensing_employee_details_part_bg">#203A3A</color>
-    <color name="sensing_grey">#5E5E5E</color>
-    <color name="sensing_send_link_bg_color">#3F3B3B</color>
-    <color name="retro_qr_item_bg_color">#43494C</color>
-    <color name="very_lite_yellow">#6C6758</color>
+    <color name="sensing_store_details_part_bg">#201917</color>
+    <color name="sensing_employee_details_part_bg">#2a1a1c</color>
+    <color name="sensing_grey">#1a1a1a</color>
+    <color name="sensing_send_link_bg_color">#1e1e1e</color>
+    <color name="retro_qr_item_bg_color">#271913</color>
+    <color name="very_lite_yellow">#131827</color>
     <color name="complaintlist_search_bg_color">#595959</color>
+    <color name="white_for_both">#ffffff</color>
+    <color name="black_for_both">#000000</color>
+    <color name="task_completed_bg">#2d1c17</color>
+    <color name="sign_in_time_bg">#33222d</color>
+    <color name="sign_out_time_bg">#253632</color>
+    <color name="recipients_email_bg">#211f1b</color>
+    <color name="apna_new_survey_bg">#1e1e1e</color>
+    <color name="seekbar_bg">#1e1e1e</color>
+    <color name="discount_approved_bg">#33222d</color>
+    <color name="discount_rejected_bg">#122222</color>
+    <color name="retro_qr_sub_header_bg">#1a191a</color>
+    <color name="print_rack_sub_header_bg">#252525</color>
+    <color name="sub_menu_text">#ffffff</color>
 </resources>

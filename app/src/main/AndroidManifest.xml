@@ -397,6 +397,7 @@
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
+            android:configChanges="uiMode"
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".ui.login.LoginActivity"

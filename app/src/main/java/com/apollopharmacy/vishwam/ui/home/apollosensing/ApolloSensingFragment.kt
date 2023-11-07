@@ -409,8 +409,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 otp = "-1"
                 viewBinding.timer.setText("00:00")
                 viewBinding.resendOtp.visibility = View.VISIBLE
-                viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
-                viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
+                viewBinding.sendLinkBtn.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.sensing_send_link_bg_color))
+                viewBinding.sendLinkText.setTextColor(ContextCompat.getColor(requireContext(),R.color.white_for_both))
                 viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
                 viewBinding.otpView.getText()!!.clear()
             }
@@ -473,8 +473,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             viewBinding.verifiedSuccessfullyLayoutUp.visibility = View.GONE
             viewBinding.addMorePrescription.visibility = View.GONE
             viewBinding.sendOtpBtnUploadPrescription.visibility = View.VISIBLE
-            viewBinding.uploadPrescriptionBtn.setBackgroundColor(Color.parseColor("#efefef"))
-            viewBinding.uploadPrescriptionText.setTextColor(Color.parseColor("#b5b5b5"))
+            viewBinding.uploadPrescriptionBtn.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.sensing_send_link_bg_color))
+            viewBinding.uploadPrescriptionText.setTextColor(ContextCompat.getColor(requireContext(), R.color.white_for_both))
             prescriptionImageList.clear()
             isPrescriptionUpload = false
             dialog.dismiss()
@@ -678,8 +678,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     viewBinding.sendLinkBtn.visibility = View.GONE
                     viewBinding.otpVerificationLayout.visibility = View.GONE
                     viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
-                    viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
-                    viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
+                    viewBinding.sendLinkBtn.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.sensing_send_link_bg_color))
+                    viewBinding.sendLinkText.setTextColor(ContextCompat.getColor(requireContext(),R.color.white_for_both))
 
                     viewBinding.phoneNumber.getText()!!.clear()
                     viewBinding.custName.getText()!!.clear()
@@ -689,8 +689,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     viewBinding.uploadPrescriptionBtn.visibility = View.GONE
                     viewBinding.uploadCustomerPrescriptionLayout.visibility = View.VISIBLE
                     viewBinding.uploadYourPrescriptionLayout.visibility = View.GONE
-                    viewBinding.uploadPrescriptionBtn.setBackgroundColor(Color.parseColor("#efefef"))
-                    viewBinding.uploadPrescriptionText.setTextColor(Color.parseColor("#b5b5b5"))
+                    viewBinding.uploadPrescriptionBtn.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.sensing_send_link_bg_color))
+                    viewBinding.uploadPrescriptionText.setTextColor(ContextCompat.getColor(requireContext(), R.color.white_for_both))
                     prescriptionImageList.clear()
                     isPrescriptionUpload = false
 
@@ -718,7 +718,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             )
             viewBinding.uploadPrescriptionText.setTextColor(
                 ContextCompat.getColor(
-                    requireContext(), R.color.white
+                    requireContext(), R.color.white_for_both
                 )
             )
             isPrescriptionUpload = true
@@ -969,8 +969,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             viewBinding.sendLinkBtn.visibility = View.GONE
             viewBinding.otpVerificationLayout.visibility = View.GONE
             viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
-            viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
-            viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
+            viewBinding.sendLinkBtn.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.sensing_send_link_bg_color))
+            viewBinding.sendLinkText.setTextColor(ContextCompat.getColor(requireContext(),R.color.white_for_both))
             dialog.dismiss()
             isOtpVerified = false
         }
@@ -985,8 +985,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             viewBinding.prescriptionImgRcvLayout.gravity = Gravity.CENTER_HORIZONTAL
             viewBinding.prescriptionImgRcv.visibility = View.GONE
             viewBinding.uploadYourPrescriptionLayout.visibility = View.GONE
-            viewBinding.uploadPrescriptionBtn.setBackgroundColor(Color.parseColor("#efefef"))
-            viewBinding.uploadPrescriptionText.setTextColor(Color.parseColor("#b5b5b5"))
+            viewBinding.uploadPrescriptionBtn.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.sensing_send_link_bg_color))
+            viewBinding.uploadPrescriptionText.setTextColor(ContextCompat.getColor(requireContext(), R.color.white_for_both))
             isPrescriptionUpload = false
         }
         prescriptionImageAdapter.notifyDataSetChanged()
@@ -1367,8 +1367,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             viewBinding.sendLinkBtn.visibility = View.GONE
             viewBinding.otpVerificationLayout.visibility = View.GONE
             viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
-            viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
-            viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
+            viewBinding.sendLinkBtn.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.sensing_send_link_bg_color))
+            viewBinding.sendLinkText.setTextColor(ContextCompat.getColor(requireContext(),R.color.white_for_both))
             dialog.dismiss()
         }
         dialog.setCancelable(false)
@@ -1419,8 +1419,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             viewBinding.uploadPrescriptionBtn.visibility = View.GONE
             viewBinding.uploadCustomerPrescriptionLayout.visibility = View.VISIBLE
             viewBinding.uploadYourPrescriptionLayout.visibility = View.GONE
-            viewBinding.uploadPrescriptionBtn.setBackgroundColor(Color.parseColor("#efefef"))
-            viewBinding.uploadPrescriptionText.setTextColor(Color.parseColor("#b5b5b5"))
+            viewBinding.uploadPrescriptionBtn.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.sensing_send_link_bg_color))
+            viewBinding.uploadPrescriptionText.setTextColor(ContextCompat.getColor(requireContext(), R.color.white_for_both))
             prescriptionImageList.clear()
             isPrescriptionUpload = false
             dialog.dismiss()
@@ -1457,19 +1457,19 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                         )
                         viewBinding.sendLinkText.setTextColor(
                             ContextCompat.getColor(
-                                requireContext(), R.color.white
+                                requireContext(), R.color.white_for_both
                             )
                         )
                         viewBinding.verifiedSuccessfullyLayout.visibility = View.VISIBLE
                     } else {
                         Toast.makeText(context, "Invalid OTP", Toast.LENGTH_SHORT).show()
                         viewBinding.otpView.text!!.clear()
-                        viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
-                        viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
+                        viewBinding.sendLinkBtn.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.sensing_send_link_bg_color))
+                        viewBinding.sendLinkText.setTextColor(ContextCompat.getColor(requireContext(),R.color.white_for_both))
                     }
                 } else {
-                    viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
-                    viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
+                    viewBinding.sendLinkBtn.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.sensing_send_link_bg_color))
+                    viewBinding.sendLinkText.setTextColor(ContextCompat.getColor(requireContext(),R.color.white_for_both))
                     viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
                 }
             }

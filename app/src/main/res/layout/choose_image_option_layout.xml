@@ -32,7 +32,7 @@
                 android:paddingBottom="@dimen/value_10dp"
 
                 android:text="Upload Photo"
-                android:textColor="@color/white"
+                android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_16sp"
                 android:textStyle="bold" />
             <ImageView
@@ -41,7 +41,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:id="@+id/cancel"
-                android:tint="@color/white"
+                android:tint="@color/white_for_both"
                 android:src="@drawable/close_icon"/>
         </LinearLayout>
 
@@ -86,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:text="Take Photo"
                         android:fontFamily="@font/roboto_bold"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_for_both"
                         android:textSize="@dimen/dimen11sp"
                         />
                 </LinearLayout>
@@ -113,7 +113,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Choose From\n       Gallery"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_for_both"
                         android:fontFamily="@font/roboto_bold"
                         android:textSize="@dimen/dimen11sp"
                          />

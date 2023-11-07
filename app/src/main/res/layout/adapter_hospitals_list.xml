@@ -24,7 +24,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
                     android:text="BBR"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black_for_both"
                     android:textSize="@dimen/text_14sp" />
 
                 <ImageView
@@ -63,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="20"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_for_both"
                         android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
@@ -87,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Multi Speciality"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_for_both"
                         android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="20"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_for_both"
                         android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
@@ -142,7 +142,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="50%"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_for_both"
                         android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
             </LinearLayout>
