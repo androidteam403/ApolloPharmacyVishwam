@@ -81,7 +81,7 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
 
 
             siteIdAdapter =
-                SiteIdAdapter(applicationContext, siteDataList, this, selectsiteIdList)
+                SiteIdAdapter(this@SelectSiteActivityy, siteDataList, this, selectsiteIdList)
 //            activitySelectSiteActivityBinding.fieldRecyclerView.layoutManager = LinearLayoutManager(ViswamApp.context)
             activitySelectSiteActivityBinding.fieldRecyclerView.adapter = siteIdAdapter
 //            Utlis.hideLoading()

@@ -757,7 +757,7 @@
                         android:id="@+id/afterCompletionStageLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#f4f4f4"
+                        android:background="@color/grey_bg_for_no_status"
                         android:orientation="horizontal"
                         android:padding="@dimen/value_7dp"
                         android:visibility="visible">
