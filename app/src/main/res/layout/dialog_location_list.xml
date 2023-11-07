@@ -57,20 +57,17 @@
                     android:id="@+id/searchLocationListText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
+                    android:drawableStart="@drawable/close_blue_new"
+                    android:drawablePadding="@dimen/value_10dp"
+                    android:drawableTint="@color/grey"
+                    android:gravity="center_vertical"
                     android:hint="Search Region"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
                     android:singleLine="true"
-                    android:gravity="center_vertical"
-                    android:drawablePadding="@dimen/value_10dp"
-                    android:drawableStart="@drawable/ic_search"
-                    android:drawableTint="@color/grey"
-
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_15sp" />
             </com.google.android.material.textfield.TextInputLayout>
-
-
 
 
             <RelativeLayout
@@ -79,22 +76,21 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:visibility="gone">
-                <ImageView
+                <!--<ImageView
                     android:id="@+id/emptyImage"
                     android:layout_width="@dimen/value_120dp"
                     android:layout_height="@dimen/value_120dp"
                     android:layout_centerHorizontal="true"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/qca" />
+                    android:src="@drawable/qca" />-->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:layout_below="@id/emptyImage"
-                    android:text="Data Not Available"
                     android:paddingBottom="20dp"
-                    android:textColor="@color/backgroundColor"
+                    android:text="Data Not Available"
+                    android:textColor="@color/dark_grey"
                     android:textSize="@dimen/text_18sp" />
 
             </RelativeLayout>
