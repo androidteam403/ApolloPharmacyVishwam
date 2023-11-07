@@ -19,7 +19,7 @@
                 android:layout_height="@dimen/vishwam_actionbar_height"
                 android:background="@color/vishwam_actionbar_color"
                 android:orientation="horizontal"
-                android:padding="@dimen/value_10dp">
+                android:padding="5dp">
 
                 <ImageView
                     android:id="@+id/back_arrow"
