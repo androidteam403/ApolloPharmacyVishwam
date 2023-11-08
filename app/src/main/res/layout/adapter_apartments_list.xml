@@ -25,7 +25,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
                     android:text="Apartment"
-                    android:textColor="@color/black_for_both"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
                 <ImageView
@@ -64,7 +64,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="54"
-                        android:textColor="@color/black_for_both"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="100 m"
-                        android:textColor="@color/black_for_both"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
@@ -112,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Ram Leela"
-                        android:textColor="@color/black_for_both"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
             </LinearLayout>
