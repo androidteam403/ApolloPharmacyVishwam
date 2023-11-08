@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.databinding.DialogComplaintListFilterBinding
 import com.apollopharmacy.vishwam.databinding.DialogSurveyListFilterBinding
 import com.apollopharmacy.vishwam.databinding.FragmentApnaSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
@@ -31,7 +32,9 @@ import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.ApnaPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.adapter.ApnaSurveyAdapter
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.submitButtonEnable
 import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 
 
@@ -47,7 +50,10 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     var handler: Handler = Handler()
     var adapter: ApnaSurveyAdapter? = null
     val APNA_NEW_SURVEY_ACTIVITY_VALUE: Int? = 1000
-
+    var isNewStatusClicked = true
+    var inProgressStatus = true
+    var rejectedStatus = true
+    var approvedStatus = true
 
     override val layoutRes: Int
         get() = R.layout.fragment_apna_survey
@@ -366,7 +372,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         dialogSurveyListFilterBinding.closeDialog.setOnClickListener {
             surveyListStatusFilterDialog.dismiss()
         }
-        dialogSurveyListFilterBinding.isNewChecked = this.surveyStatusList.contains("new")
+        /*dialogSurveyListFilterBinding.isNewChecked = this.surveyStatusList.contains("new")
         dialogSurveyListFilterBinding.isInProgressChecked =
             this.surveyStatusList.contains("inprogress")
 
@@ -374,14 +380,286 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
         dialogSurveyListFilterBinding.isApproveChecked = this.surveyStatusList.contains("approved")
 
-        dialogSurveyListFilterBinding.isClosedChecked = this.surveyStatusList.contains("cancelled")
+        dialogSurveyListFilterBinding.isClosedChecked = this.surveyStatusList.contains("cancelled")*/
 
 
+        dialogSurveyListFilterBinding!!.clearAllFilters.setOnClickListener {
+            dialogSurveyListFilterBinding!!.selectAll.isChecked = true
+            if (dialogSurveyListFilterBinding!!.selectAll.isChecked) {
+                isNewStatusClicked = true
+                inProgressStatus = true
+                rejectedStatus = true
+                approvedStatus = true
+                dialogSurveyListFilterBinding!!.newStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogSurveyListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.white_for_both))
+                dialogSurveyListFilterBinding!!.inProgressStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogSurveyListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.white_for_both))
+                dialogSurveyListFilterBinding!!.rejectedStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogSurveyListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.white_for_both))
+                dialogSurveyListFilterBinding!!.approvedStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogSurveyListFilterBinding!!.approvedStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.white_for_both))
+                dialogSurveyListFilterBinding!!.selectAll.isChecked = true
+            }
+            this.surveyStatusList = ""
+            if (isNewStatusClicked) {
+                this.surveyStatusList = "new"
+            }
+            if (inProgressStatus) {
+                if (this.surveyStatusList.isEmpty()) {
+                    this.surveyStatusList = "inprogress"
+                } else {
+                    this.surveyStatusList = "${this.surveyStatusList},inprogress"
+                }
+            }
+            if (rejectedStatus) {
+                if (this.surveyStatusList.isEmpty()) {
+                    this.surveyStatusList = "solved"
+                } else {
+                    this.surveyStatusList = "${this.surveyStatusList},solved"
+                }
+            }
+            if (approvedStatus) {
+                if (this.surveyStatusList.isEmpty()) {
+                    this.surveyStatusList = "approved"
+                } else {
+                    this.surveyStatusList = "${this.surveyStatusList},approved"
+                }
+            }
 
-        submitButtonEnabling(dialogSurveyListFilterBinding)
+            if (dialogSurveyListFilterBinding!!.selectAll.isChecked) {
+                this.surveyStatusList = "new,inprogress,rejected,approved"
+            }
+
+            if (surveyListStatusFilterDialog != null && surveyListStatusFilterDialog.isShowing) {
+                surveyListStatusFilterDialog.dismiss()
+                callAPI(pageNo, rowSize, false)
+            }
+            setSurveyFilterIndication()
+        }
+        if (isNewStatusClicked &&
+            inProgressStatus &&
+            rejectedStatus &&
+            approvedStatus
+        ) {
+            dialogSurveyListFilterBinding!!.selectAll.isChecked = true
+        } else {
+            dialogSurveyListFilterBinding!!.selectAll.isChecked = false
+        }
+        if (isNewStatusClicked) {
+            dialogSurveyListFilterBinding!!.newStatus.background =
+                requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+            dialogSurveyListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(
+                R.color.white_for_both))
+        } else {
+            dialogSurveyListFilterBinding!!.newStatus.background =
+                requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+            dialogSurveyListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(
+                R.color.greyyy))
+        }
+        if (inProgressStatus) {
+            dialogSurveyListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(
+                R.color.white_for_both))
+            dialogSurveyListFilterBinding!!.inProgressStatus.background =
+                requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+        } else {
+            dialogSurveyListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(
+                R.color.greyyy))
+            dialogSurveyListFilterBinding!!.inProgressStatus.background =
+                requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+        }
+        if (rejectedStatus) {
+            dialogSurveyListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(
+                R.color.white_for_both))
+            dialogSurveyListFilterBinding!!.rejectedStatus.background =
+                requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+        } else {
+            dialogSurveyListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(
+                R.color.greyyy))
+            dialogSurveyListFilterBinding!!.rejectedStatus.background =
+                requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+        }
+        if (approvedStatus) {
+            dialogSurveyListFilterBinding!!.approvedStatus.setTextColor(requireContext().resources.getColor(
+                R.color.white_for_both))
+            dialogSurveyListFilterBinding!!.approvedStatus.background =
+                requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+        } else {
+            dialogSurveyListFilterBinding!!.approvedStatus.setTextColor(requireContext().resources.getColor(
+                R.color.greyyy))
+            dialogSurveyListFilterBinding!!.approvedStatus.background =
+                requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+        }
+        dialogSurveyListFilterBinding!!.isSelectAllChecked =
+            this.surveyStatusList.contains("new,inprogress,rejected,approved")
 
 
-        dialogSurveyListFilterBinding.newStatus.setOnCheckedChangeListener { compoundButton, b ->
+//        submitButtonEnabling(dialogSurveyListFilterBinding)
+        submitButtonEnabling(isNewStatusClicked,
+            inProgressStatus,
+            rejectedStatus,
+            approvedStatus,
+            dialogSurveyListFilterBinding!!)
+
+        dialogSurveyListFilterBinding!!.newStatus.setOnClickListener {
+            if (isNewStatusClicked) {
+                isNewStatusClicked = false
+                dialogSurveyListFilterBinding!!.newStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogSurveyListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.greyyy))
+            } else {
+                isNewStatusClicked = true
+                dialogSurveyListFilterBinding!!.newStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogSurveyListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.white_for_both))
+
+            }
+            submitButtonEnabling(
+                isNewStatusClicked,
+                inProgressStatus,
+                rejectedStatus,
+                approvedStatus,
+                dialogSurveyListFilterBinding
+            )
+        }
+        dialogSurveyListFilterBinding!!.inProgressStatus.setOnClickListener {
+            if (inProgressStatus) {
+                inProgressStatus = false
+                dialogSurveyListFilterBinding!!.inProgressStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogSurveyListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.greyyy))
+
+            } else {
+                inProgressStatus = true
+                dialogSurveyListFilterBinding!!.inProgressStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogSurveyListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.white_for_both))
+
+            }
+            submitButtonEnabling(
+                isNewStatusClicked,
+                inProgressStatus,
+                rejectedStatus,
+                approvedStatus,
+                dialogSurveyListFilterBinding!!
+            )
+        }
+        dialogSurveyListFilterBinding!!.rejectedStatus.setOnClickListener {
+            if (rejectedStatus) {
+                dialogSurveyListFilterBinding!!.rejectedStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogSurveyListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.greyyy))
+                rejectedStatus = false
+            } else {
+                rejectedStatus = true
+                dialogSurveyListFilterBinding!!.rejectedStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogSurveyListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.white_for_both))
+
+            }
+            submitButtonEnabling(
+                isNewStatusClicked,
+                inProgressStatus,
+                rejectedStatus,
+                approvedStatus,
+                dialogSurveyListFilterBinding!!
+            )
+        }
+        dialogSurveyListFilterBinding!!.approvedStatus.setOnClickListener {
+            if (approvedStatus) {
+                dialogSurveyListFilterBinding!!.approvedStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogSurveyListFilterBinding!!.approvedStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.greyyy))
+                approvedStatus = false
+            } else {
+                dialogSurveyListFilterBinding!!.approvedStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogSurveyListFilterBinding!!.approvedStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.white_for_both))
+                approvedStatus = true
+            }
+            submitButtonEnabling(
+                isNewStatusClicked,
+                inProgressStatus,
+                rejectedStatus,
+                approvedStatus,
+                dialogSurveyListFilterBinding!!
+            )
+        }
+        dialogSurveyListFilterBinding!!.selectAllCheckboxLayout.setOnClickListener {
+            dialogSurveyListFilterBinding!!.selectAll.isChecked =
+                !dialogSurveyListFilterBinding!!.selectAll.isChecked
+
+            if (dialogSurveyListFilterBinding!!.selectAll.isChecked) {
+                isNewStatusClicked = true
+                inProgressStatus = true
+                rejectedStatus = true
+                approvedStatus = true
+
+                dialogSurveyListFilterBinding!!.newStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogSurveyListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.white_for_both))
+                dialogSurveyListFilterBinding!!.inProgressStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogSurveyListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.white_for_both))
+                dialogSurveyListFilterBinding!!.rejectedStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogSurveyListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.white_for_both))
+                dialogSurveyListFilterBinding!!.approvedStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogSurveyListFilterBinding!!.approvedStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.white_for_both))
+                dialogSurveyListFilterBinding!!.selectAll.isChecked = true
+            } else {
+                isNewStatusClicked = false
+                inProgressStatus = false
+                rejectedStatus = false
+                approvedStatus = false
+                dialogSurveyListFilterBinding!!.newStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogSurveyListFilterBinding!!.newStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.greyyy))
+                dialogSurveyListFilterBinding!!.inProgressStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogSurveyListFilterBinding!!.inProgressStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.greyyy))
+                dialogSurveyListFilterBinding!!.rejectedStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogSurveyListFilterBinding!!.rejectedStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.greyyy))
+                dialogSurveyListFilterBinding!!.approvedStatus.background =
+                    requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogSurveyListFilterBinding!!.approvedStatus.setTextColor(requireContext().resources.getColor(
+                    R.color.greyyy))
+                dialogSurveyListFilterBinding!!.selectAll.isChecked = true
+            }
+            submitButtonEnabling(
+                isNewStatusClicked,
+                inProgressStatus,
+                rejectedStatus,
+                approvedStatus,
+                dialogSurveyListFilterBinding!!
+            )
+        }
+
+        /*dialogSurveyListFilterBinding.newStatus.setOnCheckedChangeListener { compoundButton, b ->
             submitButtonEnabling(dialogSurveyListFilterBinding)
         }
         dialogSurveyListFilterBinding.inProgressStatus.setOnCheckedChangeListener { compoundButton, b ->
@@ -396,7 +674,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         }
         dialogSurveyListFilterBinding.closedStatus.setOnCheckedChangeListener { compoundButton, b ->
             submitButtonEnabling(dialogSurveyListFilterBinding)
-        }
+        }*/
 
 
 
@@ -407,7 +685,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
 //            this.complaintListStatus = complaintListStatusTemp
             this.surveyStatusList = ""
-            if (dialogSurveyListFilterBinding.newStatus.isChecked) {
+            /*if (dialogSurveyListFilterBinding.newStatus.isChecked) {
                 this.surveyStatusList = "new"
             }
             if (dialogSurveyListFilterBinding.inProgressStatus.isChecked) {
@@ -437,8 +715,35 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 } else {
                     this.surveyStatusList = "${this.surveyStatusList},cancelled"
                 }
-            }
+            }*/
 
+            if (isNewStatusClicked) {
+                this.surveyStatusList = "new"
+            }
+            if (inProgressStatus) {
+                if (this.surveyStatusList.isEmpty()) {
+                    this.surveyStatusList = "inprogress"
+                } else {
+                    this.surveyStatusList = "${this.surveyStatusList},inprogress"
+                }
+            }
+            if (rejectedStatus) {
+                if (this.surveyStatusList.isEmpty()) {
+                    this.surveyStatusList = "rejected"
+                } else {
+                    this.surveyStatusList = "${this.surveyStatusList},rejected"
+                }
+            }
+            if (approvedStatus) {
+                if (this.surveyStatusList.isEmpty()) {
+                    this.surveyStatusList = "approved"
+                } else {
+                    this.surveyStatusList = "${this.surveyStatusList},approved"
+                }
+            }
+            if (dialogSurveyListFilterBinding!!.selectAll.isChecked) {
+                this.surveyStatusList = "new,inprogress,rejected,approved"
+            }
 
 
             if (surveyListStatusFilterDialog != null && surveyListStatusFilterDialog.isShowing) {
@@ -458,9 +763,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     fun setSurveyFilterIndication() {
         if (!this.surveyStatusList.contains("new") || !this.surveyStatusList.contains("inprogress") || !this.surveyStatusList.contains(
                 "rejected"
-            ) || !this.surveyStatusList.contains("approved") || !this.surveyStatusList.contains(
-                "cancelled"
-            )
+            ) || !this.surveyStatusList.contains("approved")
         ) {
             MainActivity.mInstance.filterIndicator.visibility = View.VISIBLE
         } else {
@@ -469,13 +772,33 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         }
     }
 
-    fun submitButtonEnabling(dialogComplaintListFilterBinding: DialogSurveyListFilterBinding) {
-        if (!dialogComplaintListFilterBinding.newStatus.isChecked && !dialogComplaintListFilterBinding.inProgressStatus.isChecked && !dialogComplaintListFilterBinding.approvedStatus.isChecked && !dialogComplaintListFilterBinding.rejectedStatus.isChecked && !dialogComplaintListFilterBinding.closedStatus.isChecked) {
+    fun submitButtonEnabling(
+        isNewStatusClicked: Boolean,
+        inProgressStatus: Boolean,
+        rejectedStatus: Boolean,
+        approvedStatus: Boolean,
+        dialogSurveyListFilterBinding: DialogSurveyListFilterBinding,
+    ) {
+        /*if (!dialogComplaintListFilterBinding.newStatus.isChecked && !dialogComplaintListFilterBinding.inProgressStatus.isChecked && !dialogComplaintListFilterBinding.approvedStatus.isChecked && !dialogComplaintListFilterBinding.rejectedStatus.isChecked && !dialogComplaintListFilterBinding.closedStatus.isChecked) {
             dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
             dialogComplaintListFilterBinding.isSubmitEnable = false
         } else {
             dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.search_button_bg)
             dialogComplaintListFilterBinding.isSubmitEnable = true
+        }*/
+
+        if (!isNewStatusClicked && !inProgressStatus && !rejectedStatus && !approvedStatus) {
+            dialogSurveyListFilterBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
+            dialogSurveyListFilterBinding.isSubmitEnable = false
+            dialogSurveyListFilterBinding.isSelectAllChecked = false
+        } else if (isNewStatusClicked && inProgressStatus && rejectedStatus && approvedStatus) {
+            dialogSurveyListFilterBinding.submit.setBackgroundResource(R.drawable.dark_blue_bg_for_btn)
+            dialogSurveyListFilterBinding.isSubmitEnable = true
+            dialogSurveyListFilterBinding.isSelectAllChecked = true
+        } else {
+            dialogSurveyListFilterBinding.submit.setBackgroundResource(R.drawable.dark_blue_bg_for_btn)
+            dialogSurveyListFilterBinding.isSubmitEnable = true
+            dialogSurveyListFilterBinding.isSelectAllChecked = false
         }
     }
 
