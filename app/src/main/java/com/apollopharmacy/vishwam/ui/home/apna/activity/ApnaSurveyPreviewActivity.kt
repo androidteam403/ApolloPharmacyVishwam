@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Point
+import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.os.Bundle
 import android.view.*
@@ -117,6 +118,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                     LayoutInflater.from(this), R.layout.apna_preview_quick_go_dialog, null, false
                 )
             val customDialog = android.app.AlertDialog.Builder(this, 0).create()
+            customDialog.window!!.setBackgroundDrawable(ColorDrawable(R.color.transparent))
             customDialog.apply {
 
                 setView(apnaPreviewQuickGoDialogBinding?.root)
