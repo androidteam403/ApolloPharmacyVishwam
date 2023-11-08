@@ -58,7 +58,7 @@ class ReasonWiseTicketCountbyRoleAdapter(
                 )
                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.setTextColor(
                     context.getColor(
-                        R.color.white
+                        R.color.white_for_both
                     )
                 )
                 if (data1.isDescending == true) {
@@ -141,7 +141,7 @@ class ReasonWiseTicketCountbyRoleAdapter(
                 )
                 holder.adapterReasonWiseTicketCountbyRoleBinding.total.setTextColor(
                     context.getColor(
-                        R.color.white
+                        R.color.white_for_both
                     )
                 )
                 if (data1.isDescending == true) {
@@ -195,7 +195,7 @@ class ReasonWiseTicketCountbyRoleAdapter(
                 )
                 holder.adapterReasonWiseTicketCountbyRoleBinding.category.setTextColor(
                     context.getColor(
-                        R.color.white
+                        R.color.white_for_both
                     )
                 )
                 if (data1.isDescending == true) {
