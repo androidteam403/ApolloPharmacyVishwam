@@ -176,9 +176,9 @@
     <color name="dark_skyblue">#29abe2</color>
     <color name="grey_bg">#f2f2f2</color>
     <color name="text_color_blue">#153b5f</color>
-    <color name="bg_blue_color">#e8f7f1</color>
+    <color name="bg_blue_color">#1e1e1e</color>
     <color name="darkest_blue">#0071bc</color>
-    <color name="bluee">#ebf6fe</color>
+    <color name="bluee">#1e1e1e</color>
     <color name="round_bg_skyblue">#01b0f0</color>
     <color name="orange_bg">#f7ad1a</color>
     <color name="pink">#f0929b</color>
@@ -266,4 +266,7 @@
     <color name="prerectro_layout_bg_approved">#131f2d</color>
     <color name="prerectro_layout_bg_reshoot">#131f2d</color>
     <color name="prerectro_layout_bg_partially_approved">#131f2d</color>
+    <color name="signout_duration_bg">#1e1e1e</color>
+    <color name="champs_formlayout_bg">#1e1e1e</color>
+    <color name="champs_survey_list_count_bg">#1e1e1e</color>
 </resources>

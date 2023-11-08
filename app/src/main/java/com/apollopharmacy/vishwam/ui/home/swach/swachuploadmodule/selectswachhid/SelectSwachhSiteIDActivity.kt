@@ -48,7 +48,7 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
 
 
             siteIDListAdapter =
-                SiteIdListAdapter(applicationContext, siteDataList, this)
+                SiteIdListAdapter(this@SelectSwachhSiteIDActivity, siteDataList, this)
 //            activitySelectSiteActivityBinding.fieldRecyclerView.layoutManager = LinearLayoutManager(ViswamApp.context)
             activitySelectSwachhSiteidBinding.fieldRecyclerView.adapter = siteIDListAdapter
             Utlis.hideLoading()

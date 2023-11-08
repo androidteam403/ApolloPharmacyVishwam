@@ -296,7 +296,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //            )
 //                .show()
 //        }
-        adapterRec = EmailAddressAdapter(surveyRecManualList, applicationContext, this)
+        adapterRec = EmailAddressAdapter(surveyRecManualList, this@ChampsSurveyActivity, this)
         activityChampsSurveyBinding.emailRecRecyclerView.setLayoutManager(
             LinearLayoutManager(
                 this)
@@ -3041,7 +3041,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             categoryDetailsAdapter =
                 CategoryDetailsAdapter(
                     getCategoryAndSubCategoryDetails!!.categoryDetails,
-                    applicationContext,
+                    this@ChampsSurveyActivity,
                     this,
                     status
                 )
@@ -3152,7 +3152,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 categoryDetailsAdapter =
                     CategoryDetailsAdapter(
                         getCategoryAndSubCategoryDetails!!.categoryDetails,
-                        applicationContext,
+                        this@ChampsSurveyActivity,
                         this,
                         status
                     )

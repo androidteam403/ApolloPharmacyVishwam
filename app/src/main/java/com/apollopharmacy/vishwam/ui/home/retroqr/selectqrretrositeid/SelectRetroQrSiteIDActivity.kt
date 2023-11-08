@@ -46,7 +46,7 @@ class SelectRetroQrSiteIDActivity : AppCompatActivity(), SelectQrRetroSiteIdCall
         viewModel.fixedArrayList.observeForever {
             siteDataList = it
             siteIDListAdapter =
-                QrSiteIdListAdapter(applicationContext, siteDataList, this)
+                QrSiteIdListAdapter(this@SelectRetroQrSiteIDActivity, siteDataList, this)
             activitySelectQrSiteBinding.fieldRecyclerView.adapter = siteIDListAdapter
             hideLoading()
 

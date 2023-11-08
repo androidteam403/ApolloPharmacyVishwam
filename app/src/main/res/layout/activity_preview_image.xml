@@ -52,7 +52,7 @@
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:text="SWACHH PREVIEW"
-                         android:textColor="@color/white"
+                         android:textColor="@color/white_for_both"
                          android:textSize="@dimen/text_17sp"
                          android:textStyle="bold" />
 
@@ -60,7 +60,7 @@
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:text="@{imageUrlModel.categoryname}"
-                         android:textColor="@color/white"
+                         android:textColor="@color/white_for_both"
                          android:textSize="@dimen/text_14sp"
                          android:textStyle="bold" />
 
@@ -283,13 +283,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Total Images"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white_for_both" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{totalImages}"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/text_18sp" />
 
                     </LinearLayout>
