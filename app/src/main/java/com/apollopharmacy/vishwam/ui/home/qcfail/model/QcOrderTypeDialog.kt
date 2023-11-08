@@ -51,7 +51,7 @@ class QcOrderTypeDialog: DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         viewBinding = DialogCustomBinding.inflate(inflater, container, false)
         viewBinding.textHead.text = "Select Order Type"
-        viewBinding.searchSiteText.setHint("Search Order Type")
+        viewBinding.searchSite.setHint("Search Order Type")
         viewBinding.siteNotAvailabletext.setText("Order Type Not Available")
         viewBinding.closeDialog.setOnClickListener { dismiss() }
 
