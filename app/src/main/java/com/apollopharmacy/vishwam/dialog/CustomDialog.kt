@@ -138,7 +138,7 @@ class CustomDialog : DialogFragment() {
 
         abstractDialogClick = parentFragment as AbstractDialogClickListner
         viewBinding.searchSite.visibility = View.VISIBLE
-        viewBinding.searchSiteText.setHint("Search Department Name")
+        viewBinding.searchSite.setHint("Search Department Name")
         viewBinding.searchSiteText.inputType = InputType.TYPE_CLASS_TEXT
         siteDataArrayList =
             arguments?.getSerializable(KEY_DATA) as ArrayList<ReasonmasterV2Response.Department>
