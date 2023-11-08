@@ -20,25 +20,24 @@
                 android:padding="@dimen/value_10dp">
 
                 <ImageView
-                    android:layout_marginStart="@dimen/value_5dp"
-                    android:layout_marginEnd="@dimen/value_10dp"
-                    android:onClick="@{()-> callback.onClickBack()}"
                     android:id="@+id/backArrow"
                     android:layout_width="37dp"
                     android:layout_height="37dp"
-                    android:layout_gravity="center"
                     android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:layout_marginEnd="@dimen/value_10dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/icon_back_arrow"
-                    />
+                    android:onClick="@{()-> callback.onClickBack()}"
+                    android:src="@drawable/icon_back_arrow" />
 
-<!--                <ImageView-->
-<!--                    android:layout_marginTop="@dimen/value_3dp"-->
-<!--                    android:layout_width="@dimen/value_40dp"-->
-<!--                    android:layout_height="@dimen/value_40dp"-->
-<!--                    android:contentDescription="@string/app_name"-->
-<!--                    android:onClick="@{()-> callback.onClickBack()}"-->
-<!--                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />-->
+                <!--                <ImageView-->
+                <!--                    android:layout_marginTop="@dimen/value_3dp"-->
+                <!--                    android:layout_width="@dimen/value_40dp"-->
+                <!--                    android:layout_height="@dimen/value_40dp"-->
+                <!--                    android:contentDescription="@string/app_name"-->
+                <!--                    android:onClick="@{()-> callback.onClickBack()}"-->
+                <!--                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />-->
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -51,7 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="SWACHH DETAILS"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
 
@@ -65,13 +64,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{model.swachhid}"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/text_14sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
-
-
 
 
                 </LinearLayout>
@@ -99,11 +96,11 @@
                             android:layout_height="wrap_content">
 
                             <LinearLayout
-                                android:layout_marginBottom="@dimen/value_5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_15dp"
                                 android:layout_marginTop="@dimen/value_10dp"
+                                android:layout_marginBottom="@dimen/value_5dp"
                                 android:orientation="horizontal">
 
                                 <LinearLayout
@@ -189,19 +186,17 @@
                         </LinearLayout>
 
 
-
-
                         <LinearLayout
-                            android:layout_marginStart="@dimen/value_15dp"
-                            android:weightSum="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_marginStart="@dimen/value_15dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
 
                             <LinearLayout
-                                android:layout_weight="0.7"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="0.7"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -296,23 +291,21 @@
                                 </LinearLayout>
 
 
-
-
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_marginTop="@dimen/value_6dp"
-                                android:layout_weight="0.3"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_6dp"
+                                android:layout_weight="0.3"
                                 android:orientation="vertical">
 
 
                                 <LinearLayout
-                                    android:layout_marginEnd="@dimen/value_10dp"
-                                    android:gravity="end"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginEnd="@dimen/value_10dp"
+                                    android:gravity="end"
                                     android:orientation="vertical">
 
 
@@ -325,375 +318,351 @@
                                         android:padding="@dimen/five5_sp"
                                         android:text="Partial"
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="@color/white_for_both"
                                         android:textSize="@dimen/text_12sp"
                                         android:textStyle="bold"
                                         android:visibility="@{status.equals(`3`) ? view.VISIBLE : view.GONE}" />
 
 
                                     <LinearLayout
-                                        android:layout_marginTop="@dimen/value_7dp"
-                                        android:layout_marginBottom="@dimen/five5_sp"
                                         android:layout_width="@dimen/value_80dp"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_7dp"
+                                        android:layout_marginBottom="@dimen/five5_sp"
+                                        android:background="@drawable/green_background"
+                                        android:gravity="center"
+
                                         android:orientation="horizontal"
                                         android:padding="4dp"
-
-                                        android:gravity="center"
-                                        android:background="@drawable/green_background"
-                                        android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}" >
+                                        android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}">
 
                                         <ImageView
-                                            android:layout_gravity="center"
                                             android:layout_width="14sp"
                                             android:layout_height="14sp"
-                                            android:src="@drawable/whitee_icon"/>
+                                            android:layout_gravity="center"
+                                            android:src="@drawable/whitee_icon" />
 
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="Approved"
-                                            android:textColor="@color/white"
+                                            android:textColor="@color/white_for_both"
                                             android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold"
-                                           />
+                                            android:textStyle="bold" />
 
                                     </LinearLayout>
 
 
+                                    <TextView
+                                        android:layout_width="@dimen/value_80dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_7dp"
+                                        android:layout_marginBottom="@dimen/five5_sp"
+                                        android:background="@drawable/red_rounded_corners"
+                                        android:padding="@dimen/five5_sp"
+                                        android:text="Re-Shoot"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/white_for_both"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold"
+                                        android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />
 
-                                        <TextView
-                                            android:layout_width="@dimen/value_80dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_7dp"
-                                            android:layout_marginBottom="@dimen/five5_sp"
-                                            android:background="@drawable/red_rounded_corners"
-                                            android:padding="@dimen/five5_sp"
-                                            android:text="Re-Shoot"
-                                            android:textAlignment="center"
-                                            android:textColor="@color/white"
-                                            android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold"
-                                            android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />
-
-                                        <TextView
-                                            android:layout_width="@dimen/value_70dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_7dp"
-                                            android:layout_marginBottom="@dimen/five5_sp"
-                                            android:background="@drawable/red_rounded_corners"
-                                            android:backgroundTint="@color/material_amber_accent_700"
-                                            android:padding="@dimen/five5_sp"
-                                            android:text="Pending"
-                                            android:textAlignment="center"
-                                            android:textColor="@color/white"
-                                            android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold"
-                                            android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />
-
-
-
-
-
-
-
-
-
+                                    <TextView
+                                        android:layout_width="@dimen/value_70dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_7dp"
+                                        android:layout_marginBottom="@dimen/five5_sp"
+                                        android:background="@drawable/red_rounded_corners"
+                                        android:backgroundTint="@color/material_amber_accent_700"
+                                        android:padding="@dimen/five5_sp"
+                                        android:text="Pending"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/white_for_both"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold"
+                                        android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />
 
 
                                 </LinearLayout>
-
-
-
 
 
                             </LinearLayout>
                         </LinearLayout>
 
 
-
                         <androidx.recyclerview.widget.RecyclerView
-                            android:elevation="@dimen/value_50dp"
-                            android:fadingEdgeLength="@dimen/value_200dp"
                             android:id="@+id/category_list_recycler"
                             android:layout_width="match_parent"
-                            android:background="@color/light_blue"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_10dp" />
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:background="@color/light_blue"
+                            android:elevation="@dimen/value_50dp"
+                            android:fadingEdgeLength="@dimen/value_200dp" />
 
 
+                        <!--                            <TextView-->
+                        <!--                                android:layout_width="wrap_content"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:layout_marginStart="@dimen/text_10sp"-->
+                        <!--                                android:layout_marginTop="@dimen/text_10sp"-->
+                        <!--                                android:text="Report"-->
+                        <!--                                android:textColor="@color/black"-->
+                        <!--                                android:textStyle="bold" />-->
+
+                        <!--                            <LinearLayout-->
+                        <!--                                android:layout_width="wrap_content"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:layout_marginStart="@dimen/value_10dp"-->
+                        <!--                                android:layout_marginTop="@dimen/value_10dp"-->
+                        <!--                                android:orientation="horizontal">-->
+
+                        <!--                                <LinearLayout-->
+                        <!--                                    android:layout_width="wrap_content"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:orientation="vertical">-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="wrap_content"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:text="@string/label_pending"-->
+                        <!--                                        android:textColor="@color/grey"-->
+                        <!--                                        android:textSize="@dimen/text_15sp"-->
+                        <!--                                        android:textStyle="bold" />-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:id="@+id/pendingCountforValid"-->
+                        <!--                                        android:layout_width="wrap_content"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:text="@{pendingCount}"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="@dimen/twenty_three23_sp"-->
+                        <!--                                        android:textStyle="bold" />-->
 
 
+                        <!--                                </LinearLayout>-->
 
-                            <!--                            <TextView-->
-                            <!--                                android:layout_width="wrap_content"-->
-                            <!--                                android:layout_height="wrap_content"-->
-                            <!--                                android:layout_marginStart="@dimen/text_10sp"-->
-                            <!--                                android:layout_marginTop="@dimen/text_10sp"-->
-                            <!--                                android:text="Report"-->
-                            <!--                                android:textColor="@color/black"-->
-                            <!--                                android:textStyle="bold" />-->
+                        <!--                                <LinearLayout-->
+                        <!--                                    android:layout_width="wrap_content"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_marginStart="@dimen/value_30dp"-->
+                        <!--                                    android:orientation="vertical">-->
 
-                            <!--                            <LinearLayout-->
-                            <!--                                android:layout_width="wrap_content"-->
-                            <!--                                android:layout_height="wrap_content"-->
-                            <!--                                android:layout_marginStart="@dimen/value_10dp"-->
-                            <!--                                android:layout_marginTop="@dimen/value_10dp"-->
-                            <!--                                android:orientation="horizontal">-->
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="wrap_content"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:text="@string/label_accepted"-->
+                        <!--                                        android:textColor="@color/grey"-->
+                        <!--                                        android:textSize="@dimen/text_15sp"-->
+                        <!--                                        android:textStyle="bold" />-->
 
-                            <!--                                <LinearLayout-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:orientation="vertical">-->
-
-                            <!--                                    <TextView-->
-                            <!--                                        android:layout_width="wrap_content"-->
-                            <!--                                        android:layout_height="wrap_content"-->
-                            <!--                                        android:text="@string/label_pending"-->
-                            <!--                                        android:textColor="@color/grey"-->
-                            <!--                                        android:textSize="@dimen/text_15sp"-->
-                            <!--                                        android:textStyle="bold" />-->
-
-                            <!--                                    <TextView-->
-                            <!--                                        android:id="@+id/pendingCountforValid"-->
-                            <!--                                        android:layout_width="wrap_content"-->
-                            <!--                                        android:layout_height="wrap_content"-->
-                            <!--                                        android:text="@{pendingCount}"-->
-                            <!--                                        android:textColor="@color/black"-->
-                            <!--                                        android:textSize="@dimen/twenty_three23_sp"-->
-                            <!--                                        android:textStyle="bold" />-->
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="wrap_content"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:text="@{acceptedCount}"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="@dimen/twenty_three23_sp"-->
+                        <!--                                        android:textStyle="bold" />-->
 
 
-                            <!--                                </LinearLayout>-->
+                        <!--                                </LinearLayout>-->
 
-                            <!--                                <LinearLayout-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginStart="@dimen/value_30dp"-->
-                            <!--                                    android:orientation="vertical">-->
+                        <!--                                <LinearLayout-->
+                        <!--                                    android:layout_width="wrap_content"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_marginStart="@dimen/value_30dp"-->
+                        <!--                                    android:orientation="vertical">-->
 
-                            <!--                                    <TextView-->
-                            <!--                                        android:layout_width="wrap_content"-->
-                            <!--                                        android:layout_height="wrap_content"-->
-                            <!--                                        android:text="@string/label_accepted"-->
-                            <!--                                        android:textColor="@color/grey"-->
-                            <!--                                        android:textSize="@dimen/text_15sp"-->
-                            <!--                                        android:textStyle="bold" />-->
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="wrap_content"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:text="@string/label_rejected"-->
+                        <!--                                        android:textColor="@color/grey"-->
+                        <!--                                        android:textSize="@dimen/text_15sp"-->
+                        <!--                                        android:textStyle="bold" />-->
 
-                            <!--                                    <TextView-->
-                            <!--                                        android:layout_width="wrap_content"-->
-                            <!--                                        android:layout_height="wrap_content"-->
-                            <!--                                        android:text="@{acceptedCount}"-->
-                            <!--                                        android:textColor="@color/black"-->
-                            <!--                                        android:textSize="@dimen/twenty_three23_sp"-->
-                            <!--                                        android:textStyle="bold" />-->
-
-
-                            <!--                                </LinearLayout>-->
-
-                            <!--                                <LinearLayout-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginStart="@dimen/value_30dp"-->
-                            <!--                                    android:orientation="vertical">-->
-
-                            <!--                                    <TextView-->
-                            <!--                                        android:layout_width="wrap_content"-->
-                            <!--                                        android:layout_height="wrap_content"-->
-                            <!--                                        android:text="@string/label_rejected"-->
-                            <!--                                        android:textColor="@color/grey"-->
-                            <!--                                        android:textSize="@dimen/text_15sp"-->
-                            <!--                                        android:textStyle="bold" />-->
-
-                            <!--                                    <TextView-->
-                            <!--                                        android:layout_width="wrap_content"-->
-                            <!--                                        android:layout_height="wrap_content"-->
-                            <!--                                        android:text="@{reShootCount}"-->
-                            <!--                                        android:textColor="@color/black"-->
-                            <!--                                        android:textSize="@dimen/twenty_three23_sp"-->
-                            <!--                                        android:textStyle="bold" />-->
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="wrap_content"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:text="@{reShootCount}"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="@dimen/twenty_three23_sp"-->
+                        <!--                                        android:textStyle="bold" />-->
 
 
-                            <!--                                </LinearLayout>-->
-                            <!--                            </LinearLayout>-->
+                        <!--                                </LinearLayout>-->
+                        <!--                            </LinearLayout>-->
 
-                            <!--                            <LinearLayout-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="wrap_content"-->
-                            <!--                                android:layout_marginStart="@dimen/value_10dp"-->
-                            <!--                                android:layout_marginTop="@dimen/value_20dp"-->
-                            <!--                                android:orientation="vertical">-->
+                        <!--                            <LinearLayout-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:layout_marginStart="@dimen/value_10dp"-->
+                        <!--                                android:layout_marginTop="@dimen/value_20dp"-->
+                        <!--                                android:orientation="vertical">-->
 
-                            <!--                                <TextView-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginStart="@dimen/value_3dp"-->
-                            <!--                                    android:text="Status"-->
-                            <!--                                    android:textColor="@color/black" />-->
+                        <!--                                <TextView-->
+                        <!--                                    android:layout_width="wrap_content"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_marginStart="@dimen/value_3dp"-->
+                        <!--                                    android:text="Status"-->
+                        <!--                                    android:textColor="@color/black" />-->
 
-                            <!--                                <LinearLayout-->
-                            <!--                                    android:layout_width="match_parent"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:orientation="horizontal">-->
+                        <!--                                <LinearLayout-->
+                        <!--                                    android:layout_width="match_parent"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:orientation="horizontal">-->
 
-                            <!--                                    <TextView-->
-                            <!--                                        android:layout_width="@dimen/value_100dp"-->
-                            <!--                                        android:layout_height="wrap_content"-->
-                            <!--                                        android:layout_marginTop="@dimen/value_7dp"-->
-                            <!--                                        android:layout_marginBottom="@dimen/five5_sp"-->
-                            <!--                                        android:background="@drawable/ash_rounded_corners"-->
-                            <!--                                        android:padding="@dimen/five5_sp"-->
-                            <!--                                        android:text="Partial"-->
-                            <!--                                        android:textAlignment="center"-->
-                            <!--                                        android:textColor="@color/white"-->
-                            <!--                                        android:textSize="@dimen/text_16sp"-->
-                            <!--                                        android:textStyle="bold"-->
-                            <!--                                        android:visibility="@{status.equals(`3`) ? view.VISIBLE : view.GONE}" />-->
-
-
-                            <!--                                    <TextView-->
-                            <!--                                        android:layout_width="@dimen/value_100dp"-->
-                            <!--                                        android:layout_height="wrap_content"-->
-                            <!--                                        android:layout_marginTop="@dimen/value_7dp"-->
-                            <!--                                        android:layout_marginBottom="@dimen/five5_sp"-->
-                            <!--                                        android:background="@drawable/green_background"-->
-                            <!--                                        android:padding="@dimen/five5_sp"-->
-                            <!--                                        android:text="Approved"-->
-                            <!--                                        android:textAlignment="center"-->
-                            <!--                                        android:textColor="@color/white"-->
-                            <!--                                        android:textSize="@dimen/text_16sp"-->
-                            <!--                                        android:textStyle="bold"-->
-                            <!--                                        android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}" />-->
-
-                            <!--                                    <TextView-->
-                            <!--                                        android:layout_width="@dimen/value_100dp"-->
-                            <!--                                        android:layout_height="wrap_content"-->
-                            <!--                                        android:layout_marginTop="@dimen/value_7dp"-->
-                            <!--                                        android:layout_marginBottom="@dimen/five5_sp"-->
-                            <!--                                        android:background="@drawable/red_rounded_corners"-->
-                            <!--                                        android:padding="@dimen/five5_sp"-->
-                            <!--                                        android:text="Re-Shoot"-->
-                            <!--                                        android:textAlignment="center"-->
-                            <!--                                        android:textColor="@color/white"-->
-                            <!--                                        android:textSize="@dimen/text_16sp"-->
-                            <!--                                        android:textStyle="bold"-->
-                            <!--                                        android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />-->
-
-                            <!--                                    <TextView-->
-                            <!--                                        android:layout_width="@dimen/value_100dp"-->
-                            <!--                                        android:layout_height="wrap_content"-->
-                            <!--                                        android:layout_marginTop="@dimen/value_7dp"-->
-                            <!--                                        android:layout_marginBottom="@dimen/five5_sp"-->
-                            <!--                                        android:background="@drawable/red_rounded_corners"-->
-                            <!--                                        android:backgroundTint="@color/material_amber_accent_700"-->
-                            <!--                                        android:padding="@dimen/five5_sp"-->
-                            <!--                                        android:text="Pending"-->
-                            <!--                                        android:textAlignment="center"-->
-                            <!--                                        android:textColor="@color/white"-->
-                            <!--                                        android:textSize="@dimen/text_16sp"-->
-                            <!--                                        android:textStyle="bold"-->
-                            <!--                                        android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />-->
-
-                            <!--                                    <LinearLayout-->
-                            <!--                                        android:layout_marginEnd="@dimen/value_10dp"-->
-                            <!--                                        android:gravity="end"-->
-                            <!--                                        android:visibility="gone"-->
-                            <!--                                        android:id="@+id/submitRating"-->
-                            <!--                                        android:onClick="@{()-> callback.onClickSubmitRatingButton()}"-->
-                            <!--                                        android:layout_marginStart="@dimen/value_10dp"-->
-                            <!--                                        android:layout_width="match_parent"-->
-                            <!--                                        android:layout_height="wrap_content">-->
-
-                            <!--                                        <TextView-->
-                            <!--                                            android:layout_width="wrap_content"-->
-                            <!--                                            android:layout_height="wrap_content"-->
-                            <!--                                            android:layout_marginTop="@dimen/value_7dp"-->
-                            <!--                                            android:layout_marginBottom="@dimen/five5_sp"-->
-                            <!--                                            android:background="@drawable/seablue_roundedcorners"-->
-                            <!--                                            android:gravity="center"-->
-                            <!--                                            android:padding="@dimen/value_6dp"-->
-                            <!--                                            android:text="Submit Rating"-->
-                            <!--                                            android:textAlignment="center"-->
-                            <!--                                            android:textColor="@color/white"-->
-                            <!--                                            android:textSize="@dimen/text_16sp"-->
-                            <!--                                            android:textStyle="bold" />-->
-
-                            <!--                                    </LinearLayout>-->
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="@dimen/value_100dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_marginTop="@dimen/value_7dp"-->
+                        <!--                                        android:layout_marginBottom="@dimen/five5_sp"-->
+                        <!--                                        android:background="@drawable/ash_rounded_corners"-->
+                        <!--                                        android:padding="@dimen/five5_sp"-->
+                        <!--                                        android:text="Partial"-->
+                        <!--                                        android:textAlignment="center"-->
+                        <!--                                        android:textColor="@color/white"-->
+                        <!--                                        android:textSize="@dimen/text_16sp"-->
+                        <!--                                        android:textStyle="bold"-->
+                        <!--                                        android:visibility="@{status.equals(`3`) ? view.VISIBLE : view.GONE}" />-->
 
 
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="@dimen/value_100dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_marginTop="@dimen/value_7dp"-->
+                        <!--                                        android:layout_marginBottom="@dimen/five5_sp"-->
+                        <!--                                        android:background="@drawable/green_background"-->
+                        <!--                                        android:padding="@dimen/five5_sp"-->
+                        <!--                                        android:text="Approved"-->
+                        <!--                                        android:textAlignment="center"-->
+                        <!--                                        android:textColor="@color/white"-->
+                        <!--                                        android:textSize="@dimen/text_16sp"-->
+                        <!--                                        android:textStyle="bold"-->
+                        <!--                                        android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}" />-->
 
-                            <!--                                </LinearLayout>-->
-                            <!--                            </LinearLayout>-->
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="@dimen/value_100dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_marginTop="@dimen/value_7dp"-->
+                        <!--                                        android:layout_marginBottom="@dimen/five5_sp"-->
+                        <!--                                        android:background="@drawable/red_rounded_corners"-->
+                        <!--                                        android:padding="@dimen/five5_sp"-->
+                        <!--                                        android:text="Re-Shoot"-->
+                        <!--                                        android:textAlignment="center"-->
+                        <!--                                        android:textColor="@color/white"-->
+                        <!--                                        android:textSize="@dimen/text_16sp"-->
+                        <!--                                        android:textStyle="bold"-->
+                        <!--                                        android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />-->
 
-                            <!--                            <LinearLayout-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="wrap_content"-->
-                            <!--                                android:orientation="horizontal"-->
-                            <!--                                android:gravity="bottom"-->
-                            <!--                                android:weightSum="1">-->
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="@dimen/value_100dp"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_marginTop="@dimen/value_7dp"-->
+                        <!--                                        android:layout_marginBottom="@dimen/five5_sp"-->
+                        <!--                                        android:background="@drawable/red_rounded_corners"-->
+                        <!--                                        android:backgroundTint="@color/material_amber_accent_700"-->
+                        <!--                                        android:padding="@dimen/five5_sp"-->
+                        <!--                                        android:text="Pending"-->
+                        <!--                                        android:textAlignment="center"-->
+                        <!--                                        android:textColor="@color/white"-->
+                        <!--                                        android:textSize="@dimen/text_16sp"-->
+                        <!--                                        android:textStyle="bold"-->
+                        <!--                                        android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />-->
 
+                        <!--                                    <LinearLayout-->
+                        <!--                                        android:layout_marginEnd="@dimen/value_10dp"-->
+                        <!--                                        android:gravity="end"-->
+                        <!--                                        android:visibility="gone"-->
+                        <!--                                        android:id="@+id/submitRating"-->
+                        <!--                                        android:onClick="@{()-> callback.onClickSubmitRatingButton()}"-->
+                        <!--                                        android:layout_marginStart="@dimen/value_10dp"-->
+                        <!--                                        android:layout_width="match_parent"-->
+                        <!--                                        android:layout_height="wrap_content">-->
 
-                            <!--                                <LinearLayout-->
-                            <!--                                    android:layout_marginEnd="@dimen/value_10dp"-->
-                            <!--                                    android:gravity="start"-->
-                            <!--                                    android:visibility="visible"-->
-                            <!--                                    android:id="@+id/submitRating"-->
-                            <!--                                    android:onClick="@{()-> callback.onClickSubmitRatingButton()}"-->
-                            <!--                                    android:layout_width="0dp"-->
-                            <!--                                    android:layout_weight="0.45"-->
-                            <!--                                    android:layout_height="wrap_content">-->
+                        <!--                                        <TextView-->
+                        <!--                                            android:layout_width="wrap_content"-->
+                        <!--                                            android:layout_height="wrap_content"-->
+                        <!--                                            android:layout_marginTop="@dimen/value_7dp"-->
+                        <!--                                            android:layout_marginBottom="@dimen/five5_sp"-->
+                        <!--                                            android:background="@drawable/seablue_roundedcorners"-->
+                        <!--                                            android:gravity="center"-->
+                        <!--                                            android:padding="@dimen/value_6dp"-->
+                        <!--                                            android:text="Submit Rating"-->
+                        <!--                                            android:textAlignment="center"-->
+                        <!--                                            android:textColor="@color/white"-->
+                        <!--                                            android:textSize="@dimen/text_16sp"-->
+                        <!--                                            android:textStyle="bold" />-->
 
-                            <!--                                    <TextView-->
-                            <!--                                        android:layout_width="match_parent"-->
-                            <!--                                        android:layout_height="match_parent"-->
-                            <!--                                        android:layout_marginBottom="@dimen/five5_sp"-->
-                            <!--                                        android:background="@color/sea_blue"-->
-                            <!--                                        android:gravity="center"-->
-                            <!--                                        android:padding="@dimen/text_12sp"-->
-                            <!--                                        android:text="SUBMIT RATING"-->
-                            <!--                                        android:textAlignment="center"-->
-                            <!--                                        android:textColor="@color/white"-->
-                            <!--                                        android:textSize="@dimen/text_16sp"-->
-                            <!--                                        android:textStyle="bold" />-->
-
-                            <!--                                </LinearLayout>-->
-
-
-
-                            <!--                            -->
-
-
-
-                            <!--                                <LinearLayout-->
-                            <!--                                    android:id="@+id/startReviewButton"-->
-                            <!--                                    android:layout_width="0dp"-->
-                            <!--                                    android:layout_weight="0.45"-->
-                            <!--                                    android:layout_height="match_parent"-->
-                            <!--                                    android:background="@color/greenn"-->
-                            <!--                                    android:orientation="horizontal"-->
-                            <!--                                    android:padding="@dimen/value_12dp"-->
-                            <!--                                    android:visibility="visible">-->
-
-
-                            <!--                                    <TextView-->
-                            <!--                                        android:layout_width="match_parent"-->
-                            <!--                                        android:layout_height="wrap_content"-->
-                            <!--                                        android:gravity="center"-->
-                            <!--                                        android:onClick="@{()-> callback.onClickStartReiew()}"-->
-                            <!--                                        android:text="Start Review"-->
-                            <!--                                        android:textAllCaps="true"-->
-                            <!--                                        android:textColor="@color/white"-->
-                            <!--                                        android:textSize="@dimen/text_17sp"-->
-                            <!--                                        android:textStyle="bold" />-->
-
-
-                            <!--                                </LinearLayout>-->
-
-
-                            <!--                            </LinearLayout>-->
+                        <!--                                    </LinearLayout>-->
 
 
+                        <!--                                </LinearLayout>-->
+                        <!--                            </LinearLayout>-->
 
+                        <!--                            <LinearLayout-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:orientation="horizontal"-->
+                        <!--                                android:gravity="bottom"-->
+                        <!--                                android:weightSum="1">-->
+
+
+                        <!--                                <LinearLayout-->
+                        <!--                                    android:layout_marginEnd="@dimen/value_10dp"-->
+                        <!--                                    android:gravity="start"-->
+                        <!--                                    android:visibility="visible"-->
+                        <!--                                    android:id="@+id/submitRating"-->
+                        <!--                                    android:onClick="@{()-> callback.onClickSubmitRatingButton()}"-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_weight="0.45"-->
+                        <!--                                    android:layout_height="wrap_content">-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="match_parent"-->
+                        <!--                                        android:layout_height="match_parent"-->
+                        <!--                                        android:layout_marginBottom="@dimen/five5_sp"-->
+                        <!--                                        android:background="@color/sea_blue"-->
+                        <!--                                        android:gravity="center"-->
+                        <!--                                        android:padding="@dimen/text_12sp"-->
+                        <!--                                        android:text="SUBMIT RATING"-->
+                        <!--                                        android:textAlignment="center"-->
+                        <!--                                        android:textColor="@color/white"-->
+                        <!--                                        android:textSize="@dimen/text_16sp"-->
+                        <!--                                        android:textStyle="bold" />-->
+
+                        <!--                                </LinearLayout>-->
+
+
+                        <!--                            -->
+
+
+                        <!--                                <LinearLayout-->
+                        <!--                                    android:id="@+id/startReviewButton"-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_weight="0.45"-->
+                        <!--                                    android:layout_height="match_parent"-->
+                        <!--                                    android:background="@color/greenn"-->
+                        <!--                                    android:orientation="horizontal"-->
+                        <!--                                    android:padding="@dimen/value_12dp"-->
+                        <!--                                    android:visibility="visible">-->
+
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="match_parent"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:gravity="center"-->
+                        <!--                                        android:onClick="@{()-> callback.onClickStartReiew()}"-->
+                        <!--                                        android:text="Start Review"-->
+                        <!--                                        android:textAllCaps="true"-->
+                        <!--                                        android:textColor="@color/white"-->
+                        <!--                                        android:textSize="@dimen/text_17sp"-->
+                        <!--                                        android:textStyle="bold" />-->
+
+
+                        <!--                                </LinearLayout>-->
+
+
+                        <!--                            </LinearLayout>-->
 
 
                         <!--                <LinearLayout-->
@@ -1343,18 +1312,6 @@
                     </LinearLayout>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
                     <!--                        <LinearLayout-->
                     <!--                            android:weightSum="1"-->
                     <!--                            android:layout_width="match_parent"-->
@@ -1478,23 +1435,17 @@
                     <!--                            </LinearLayout>-->
 
 
-
-
                     <!--                        </LinearLayout>-->
 
 
-
-
-
                     <View
-                        android:visibility="gone"
                         android:id="@+id/viewformarginBottom"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_50dp"/>
+                        android:layout_height="@dimen/value_50dp"
+                        android:visibility="gone" />
 
 
                 </LinearLayout>
-
 
 
             </ScrollView>
@@ -1503,22 +1454,21 @@
         </LinearLayout>
 
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true">
 
             <LinearLayout
-                android:layout_gravity="bottom"
-                android:gravity="bottom"
                 android:id="@+id/submitRatingButton"
                 android:layout_width="match_parent"
-                android:onClick="@{()-> callback.onClickSubmitRatingButton()}"
-                android:visibility="gone"
                 android:layout_height="@dimen/value_50dp"
+                android:layout_gravity="bottom"
                 android:background="@color/sea_blue"
-                android:orientation="horizontal">
+                android:gravity="bottom"
+                android:onClick="@{()-> callback.onClickSubmitRatingButton()}"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1526,114 +1476,105 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_marginTop="@dimen/value_1dp"
-                        android:layout_gravity="center"
                         android:layout_width="22dp"
                         android:layout_height="22dp"
-                        android:src="@drawable/comments"/>
-
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/value_1dp"
+                        android:src="@drawable/comments" />
 
 
                     <TextView
-                        android:layout_marginStart="@dimen/four_4sp"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="SUBMIT RATING"
+                        android:layout_marginStart="@dimen/four_4sp"
                         android:gravity="center"
-                        android:textSize="@dimen/text_16sp"
+                        android:text="SUBMIT RATING"
                         android:textAlignment="center"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
 
 
                 </LinearLayout>
 
 
-
             </LinearLayout>
 
 
-
-
-
             <LinearLayout
-                android:visibility="visible"
                 android:id="@+id/startReviewButton"
                 android:layout_width="match_parent"
-                android:background="@color/greenn"
                 android:layout_height="@dimen/value_50dp"
-                android:orientation="horizontal">
+                android:background="@color/greenn"
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <LinearLayout
 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_gravity="center"
                         android:layout_width="@dimen/text_20sp"
                         android:layout_height="@dimen/text_20sp"
-                        android:src="@drawable/white_review"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/white_review"
+                        android:tint="@color/white_for_both" />
 
                     <TextView
-                        android:layout_marginStart="@dimen/value_2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/value_50dp"
+                        android:layout_marginStart="@dimen/value_2dp"
                         android:layout_marginTop="@dimen/text_12sp"
-                        android:textSize="@dimen/text_16sp"
                         android:onClick="@{()-> callback.onClickStartReiew()}"
                         android:text="START REVIEW"
-                        android:visibility="visible"
                         android:textAlignment="center"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white_for_both"
+                        android:textSize="@dimen/text_16sp"
+                        android:visibility="visible" />
 
                 </LinearLayout>
-
-
 
 
             </LinearLayout>
 
 
-
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/reshootButton"
                 android:layout_width="match_parent"
-                android:background="@color/greenn"
                 android:layout_height="@dimen/value_50dp"
-                android:orientation="horizontal">
+                android:background="@color/greenn"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <LinearLayout
-                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal"
-                    android:gravity="center">
+                    android:visibility="visible">
 
                     <ImageView
-                        android:layout_gravity="center"
                         android:layout_width="@dimen/text_18sp"
                         android:layout_height="@dimen/text_18sp"
-                        android:src="@drawable/submit"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/submit" />
 
                     <TextView
-                        android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/value_50dp"
                         android:layout_marginStart="@dimen/value_5dp"
-                        android:textSize="@dimen/text_16sp"
-                        android:onClick="@{()-> callback.onClickSubmit()}"
                         android:background="@color/greenn"
+                        android:gravity="center"
+                        android:onClick="@{()-> callback.onClickSubmit()}"
                         android:text="SUBMIT REVIEW"
-                        android:visibility="visible"
                         android:textAlignment="center"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp"
+                        android:visibility="visible" />
 
                 </LinearLayout>
-
-
 
 
             </LinearLayout>
@@ -1644,194 +1585,170 @@
     </RelativeLayout>
 
 
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/reshootButton"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="@dimen/value_50dp"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:background="@color/greenn"-->
+    <!--            android:orientation="horizontal"-->
+    <!--            android:padding="@dimen/value_12dp"-->
+    <!--            android:visibility="gone">-->
 
 
-
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/reshootButton"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="@dimen/value_50dp"-->
-        <!--            android:layout_alignParentBottom="true"-->
-        <!--            android:background="@color/greenn"-->
-        <!--            android:orientation="horizontal"-->
-        <!--            android:padding="@dimen/value_12dp"-->
-        <!--            android:visibility="gone">-->
-
-
-        <!--            <TextView-->
-        <!--                android:id="@+id/submit_button"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginStart="@dimen/value_10dp"-->
-        <!--                android:gravity="center"-->
-        <!--                android:onClick="@{()-> callback.onClickSubmit()}"-->
-        <!--                android:text="@string/label_submit"-->
-        <!--                android:textAllCaps="true"-->
-        <!--                android:textColor="@color/white"-->
-        <!--                android:textSize="@dimen/text_17sp"-->
-        <!--                android:textStyle="bold" />-->
+    <!--            <TextView-->
+    <!--                android:id="@+id/submit_button"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginStart="@dimen/value_10dp"-->
+    <!--                android:gravity="center"-->
+    <!--                android:onClick="@{()-> callback.onClickSubmit()}"-->
+    <!--                android:text="@string/label_submit"-->
+    <!--                android:textAllCaps="true"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:textSize="@dimen/text_17sp"-->
+    <!--                android:textStyle="bold" />-->
 
 
-        <!--        </LinearLayout>-->
+    <!--        </LinearLayout>-->
 
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/submitReviewandRating"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="@dimen/value_50dp"-->
-        <!--            android:layout_alignParentBottom="true"-->
-        <!--            android:background="@color/greenn"-->
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/submitReviewandRating"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="@dimen/value_50dp"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:background="@color/greenn"-->
 
-        <!--            android:orientation="horizontal"-->
-        <!--            android:padding="@dimen/value_12dp"-->
-        <!--            android:visibility="gone">-->
-
-
-        <!--            <TextView-->
-        <!--                android:id="@+id/submit_review_button"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginStart="@dimen/value_10dp"-->
-        <!--                android:gravity="center"-->
-
-        <!--                android:text="SUBMIT RATING AND REVIEW"-->
-        <!--                android:textAllCaps="true"-->
-        <!--                android:textColor="@color/white"-->
-        <!--                android:textSize="@dimen/text_17sp"-->
-        <!--                android:textStyle="bold" />-->
+    <!--            android:orientation="horizontal"-->
+    <!--            android:padding="@dimen/value_12dp"-->
+    <!--            android:visibility="gone">-->
 
 
+    <!--            <TextView-->
+    <!--                android:id="@+id/submit_review_button"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginStart="@dimen/value_10dp"-->
+    <!--                android:gravity="center"-->
+
+    <!--                android:text="SUBMIT RATING AND REVIEW"-->
+    <!--                android:textAllCaps="true"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:textSize="@dimen/text_17sp"-->
+    <!--                android:textStyle="bold" />-->
 
 
+    <!--                <LinearLayout-->
+    <!--                    android:visibility="gone"-->
+    <!--                    android:id="@+id/submitRatingButtonGrey"-->
+    <!--                    android:layout_weight="0.5"-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_marginTop="@dimen/value_10dp"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    android:background="@color/grey"-->
+    <!--                    android:orientation="horizontal">-->
 
-<!--                <LinearLayout-->
-<!--                    android:visibility="gone"-->
-<!--                    android:id="@+id/submitRatingButtonGrey"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_marginTop="@dimen/value_10dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:background="@color/grey"-->
-<!--                    android:orientation="horizontal">-->
+    <!--                    <LinearLayout-->
+    <!--                        android:layout_width="match_parent"-->
+    <!--                        android:layout_height="match_parent"-->
+    <!--                        android:gravity="center">-->
 
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:gravity="center">-->
-
-<!--                        <ImageView-->
-<!--                            android:layout_marginTop="@dimen/value_1dp"-->
-<!--                            android:layout_gravity="center"-->
-<!--                            android:layout_width="22dp"-->
-<!--                            android:layout_height="22dp"-->
-<!--                            android:src="@drawable/comments"/>-->
-
+    <!--                        <ImageView-->
+    <!--                            android:layout_marginTop="@dimen/value_1dp"-->
+    <!--                            android:layout_gravity="center"-->
+    <!--                            android:layout_width="22dp"-->
+    <!--                            android:layout_height="22dp"-->
+    <!--                            android:src="@drawable/comments"/>-->
 
 
-<!--                        <TextView-->
-<!--                            android:layout_marginStart="@dimen/four_4sp"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:text="SUBMIT RATING"-->
-<!--                            android:gravity="center"-->
-<!--                            android:textSize="@dimen/text_16sp"-->
-<!--                            android:textAlignment="center"-->
-<!--                            android:textColor="@color/white" />-->
+    <!--                        <TextView-->
+    <!--                            android:layout_marginStart="@dimen/four_4sp"-->
+    <!--                            android:layout_width="wrap_content"-->
+    <!--                            android:layout_height="match_parent"-->
+    <!--                            android:text="SUBMIT RATING"-->
+    <!--                            android:gravity="center"-->
+    <!--                            android:textSize="@dimen/text_16sp"-->
+    <!--                            android:textAlignment="center"-->
+    <!--                            android:textColor="@color/white" />-->
 
 
-<!--                    </LinearLayout>-->
+    <!--                    </LinearLayout>-->
 
 
-
-<!--                </LinearLayout>-->
-
+    <!--                </LinearLayout>-->
 
 
+    <!--                <LinearLayout-->
+    <!--                    android:id="@+id/startReviewButtonGrey"-->
+    <!--                    android:layout_weight="0.5"-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:visibility="gone"-->
+    <!--                    android:layout_marginTop="@dimen/value_10dp"-->
+    <!--                    android:background="@color/grey"-->
+    <!--                    android:layout_marginStart="@dimen/value_4dp"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:orientation="horizontal">-->
+
+    <!--                    <LinearLayout-->
+
+    <!--                        android:layout_width="match_parent"-->
+    <!--                        android:layout_height="match_parent"-->
+    <!--                        android:orientation="horizontal"-->
+    <!--                        android:gravity="center">-->
+
+    <!--                        <ImageView-->
+    <!--                            android:layout_gravity="center"-->
+    <!--                            android:layout_width="@dimen/text_20sp"-->
+    <!--                            android:layout_height="@dimen/text_20sp"-->
+    <!--                            android:src="@drawable/whitee_icon"/>-->
+
+    <!--                        <TextView-->
+
+    <!--                            android:layout_width="wrap_content"-->
+    <!--                            android:layout_height="@dimen/value_50dp"-->
+    <!--                            android:textSize="@dimen/text_16sp"-->
+    <!--                            android:text="REVIEW COMPLETED"-->
+    <!--                            android:layout_gravity="center"-->
+    <!--                            android:layout_marginStart="@dimen/four_4sp"-->
+    <!--                            android:gravity="center"-->
+    <!--                            android:visibility="visible"-->
+    <!--                            android:textAlignment="center"-->
+    <!--                            android:textColor="@color/white" />-->
+
+    <!--                    </LinearLayout>-->
 
 
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/startReviewButtonGrey"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:visibility="gone"-->
-<!--                    android:layout_marginTop="@dimen/value_10dp"-->
-<!--                    android:background="@color/grey"-->
-<!--                    android:layout_marginStart="@dimen/value_4dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal">-->
-
-<!--                    <LinearLayout-->
-
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:orientation="horizontal"-->
-<!--                        android:gravity="center">-->
-
-<!--                        <ImageView-->
-<!--                            android:layout_gravity="center"-->
-<!--                            android:layout_width="@dimen/text_20sp"-->
-<!--                            android:layout_height="@dimen/text_20sp"-->
-<!--                            android:src="@drawable/whitee_icon"/>-->
-
-<!--                        <TextView-->
-
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="@dimen/value_50dp"-->
-<!--                            android:textSize="@dimen/text_16sp"-->
-<!--                            android:text="REVIEW COMPLETED"-->
-<!--                            android:layout_gravity="center"-->
-<!--                            android:layout_marginStart="@dimen/four_4sp"-->
-<!--                            android:gravity="center"-->
-<!--                            android:visibility="visible"-->
-<!--                            android:textAlignment="center"-->
-<!--                            android:textColor="@color/white" />-->
-
-<!--                    </LinearLayout>-->
+    <!--                </LinearLayout>-->
 
 
+    <!--                <LinearLayout-->
+    <!--                    android:id="@+id/reshootButton"-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_weight="0.5"-->
+    <!--                    -->
+    <!--                    android:layout_height="@dimen/value_50dp"-->
+    <!--                    android:layout_alignParentBottom="true"-->
+    <!--                    android:background="@color/greenn"-->
+    <!--                    android:orientation="horizontal"-->
+    <!--                    android:padding="@dimen/value_12dp"-->
+    <!--                    android:visibility="visible">-->
 
 
-<!--                </LinearLayout>-->
+    <!--                    <TextView-->
+    <!--                        android:id="@+id/submit_button"-->
+    <!--                        android:layout_width="match_parent"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_marginStart="@dimen/value_10dp"-->
+    <!--                        android:gravity="center"-->
+    <!--                        android:onClick="@{()-> callback.onClickSubmit()}"-->
+    <!--                        android:text="@string/label_submit"-->
+    <!--                        android:textAllCaps="true"-->
+    <!--                        android:textColor="@color/white"-->
+    <!--                        android:textSize="@dimen/text_17sp"-->
+    <!--                        android:textStyle="bold" />-->
 
 
-
-
-
-
-
-                <!--                <LinearLayout-->
-                <!--                    android:id="@+id/reshootButton"-->
-                <!--                    android:layout_width="0dp"-->
-                <!--                    android:layout_weight="0.5"-->
-                <!--                    -->
-                <!--                    android:layout_height="@dimen/value_50dp"-->
-                <!--                    android:layout_alignParentBottom="true"-->
-                <!--                    android:background="@color/greenn"-->
-                <!--                    android:orientation="horizontal"-->
-                <!--                    android:padding="@dimen/value_12dp"-->
-                <!--                    android:visibility="visible">-->
-
-
-                <!--                    <TextView-->
-                <!--                        android:id="@+id/submit_button"-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="wrap_content"-->
-                <!--                        android:layout_marginStart="@dimen/value_10dp"-->
-                <!--                        android:gravity="center"-->
-                <!--                        android:onClick="@{()-> callback.onClickSubmit()}"-->
-                <!--                        android:text="@string/label_submit"-->
-                <!--                        android:textAllCaps="true"-->
-                <!--                        android:textColor="@color/white"-->
-                <!--                        android:textSize="@dimen/text_17sp"-->
-                <!--                        android:textStyle="bold" />-->
-
-
-                <!--                </LinearLayout>-->
-
-
-
-
-
-
+    <!--                </LinearLayout>-->
 
 
     <data>

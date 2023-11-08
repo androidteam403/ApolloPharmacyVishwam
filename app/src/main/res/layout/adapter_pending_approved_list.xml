@@ -236,7 +236,7 @@
                                 android:padding="2sp"
                                 android:text="Review"
                                 android:textAlignment="center"
-                                android:textColor="@color/white"
+                                android:textColor="@color/white_for_both"
                                 android:textSize="@dimen/text_13sp"
                                 android:textStyle="bold" />
                         </RelativeLayout>

@@ -78,7 +78,7 @@ class SurveyListActivity : AppCompatActivity(), SurveyListCallback,
             "19 Dec,2022 - 03:00am"))
 
 
-        val adapter = SurveyListAdapter(surveyDetailsList, applicationContext)
+        val adapter = SurveyListAdapter(surveyDetailsList, this@SurveyListActivity)
         activitySurveyListBinding.surveyListRcv.setLayoutManager(LinearLayoutManager(this))
         activitySurveyListBinding.surveyListRcv.setAdapter(adapter)
     }

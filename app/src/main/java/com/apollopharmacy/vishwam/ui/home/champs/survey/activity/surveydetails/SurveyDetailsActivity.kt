@@ -268,7 +268,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         )
         activityStartSurvey2Binding.emailRecRecyclerView.setAdapter(adapterRec)
 
-        adapterCC = EmailAddressCCAdapter(surveyCCDetailsList, this, applicationContext)
+        adapterCC = EmailAddressCCAdapter(surveyCCDetailsList, this, this@SurveyDetailsActivity)
         activityStartSurvey2Binding.emailCCRecyclerView.setLayoutManager(LinearLayoutManager(this))
         activityStartSurvey2Binding.emailCCRecyclerView.setAdapter(adapterCC)
 
@@ -566,7 +566,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                 inputStringCC.split(",".toRegex()).dropLastWhile { it.isEmpty() }
                     .toTypedArray()
             surveyCCDetailsList.addAll(separatedStrings)
-            adapterCC = EmailAddressCCAdapter(surveyCCDetailsList, this, applicationContext)
+            adapterCC = EmailAddressCCAdapter(surveyCCDetailsList, this, this@SurveyDetailsActivity)
             activityStartSurvey2Binding.emailCCRecyclerView.setLayoutManager(
                 LinearLayoutManager(
                     this

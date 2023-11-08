@@ -66,6 +66,9 @@ class QcSiteDialog : DialogFragment() {
         viewBinding = QcDialogSiteListBinding.inflate(inflater, container, false)
         var viewModel = ViewModelProviders.of(requireActivity())[QcSiteViewModel::class.java]
         viewBinding.closeDialog.visibility = View.VISIBLE
+        viewBinding.textHead.setText("Select Store")
+        viewBinding.searchSiteText.setHint("Search Store or Store name")
+        viewBinding.siteNotAvailable.setText("Site Not Available")
         var storeIdList: List<String>
 
 //        viewBinding.searchSiteText.setHint("Search store or store name")
