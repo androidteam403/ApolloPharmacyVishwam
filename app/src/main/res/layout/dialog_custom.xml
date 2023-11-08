@@ -50,7 +50,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_10dp"
                 android:layout_marginTop="@dimen/value_10dp"
-                android:layout_marginEnd="@dimen/value_10dp">
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:theme="@style/TextLabelEditTextApnaProject">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/searchSiteText"
@@ -58,6 +59,7 @@
                     android:layout_height="@dimen/value_50dp"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
+                    android:hint=""
                     android:singleLine="true"
                     android:gravity="center_vertical"
                     android:drawablePadding="@dimen/value_10dp"

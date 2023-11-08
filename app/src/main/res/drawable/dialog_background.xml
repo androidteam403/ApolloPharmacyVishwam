@@ -1,6 +1,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid
-        android:color="@color/colorWhite"/>
+        android:color="@color/dialog_bg"/>
     <corners
         android:radius="@dimen/value_20dp" />
 </shape>
