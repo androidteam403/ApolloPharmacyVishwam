@@ -61,7 +61,7 @@ class DoctorSpecialityDialog: DialogFragment() {
 
             viewBinding.searchSite.visibility = View.VISIBLE
             var viewModel = ViewModelProviders.of(requireActivity())[DoctorSpecialityViewModel::class.java]
-            viewBinding.searchSiteText.setHint("Search Doctor's Speciality")
+            viewBinding.searchSite.setHint("Search Doctor's Speciality")
             viewBinding.searchSiteText.inputType = InputType.TYPE_CLASS_TEXT
             siteDataArrayList =
                 arguments?.getSerializable(KEY_DATA) as ArrayList<ItemTypeDropDownResponse.Rows>
