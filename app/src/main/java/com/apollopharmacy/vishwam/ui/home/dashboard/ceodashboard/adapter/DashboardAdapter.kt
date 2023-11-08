@@ -1,6 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.dashboard.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -33,19 +35,47 @@ class DashboardAdapter(
         holder.adapterDashboardCeoBinding.lessThanTwo.setText(response.lessThan2.toString())
         holder.adapterDashboardCeoBinding.greaterThanEight.setText(response.greaterThan8.toString())
         holder.adapterDashboardCeoBinding.closed.setText(response.closed.toString())
-        holder.adapterDashboardCeoBinding.pending.setText(response.pending.toString())
-        holder.adapterDashboardCeoBinding.totalQc.setText(response.total.toString())
+        holder.adapterDashboardCeoBinding.rejected.setText(response.rejected.toString())
+        if (response.employeeid.isNullOrEmpty()) {
+            holder.adapterDashboardCeoBinding.rightArrowQc.visibility = View.GONE
+        } else {
+            holder.adapterDashboardCeoBinding.rightArrowQc.visibility = View.VISIBLE
+        }
+
+        var pending = "${response.lessThan2 + response.get3To8() + response.greaterThan8}"
+        holder.adapterDashboardCeoBinding.pending.setText(pending)
+//        holder.adapterDashboardCeoBinding.pending.setText(response.pending.toString())
+
+        val total = "${response.closed + response.rejected + pending.toInt()}"
+        holder.adapterDashboardCeoBinding.totalQc.setText(total)
+//        holder.adapterDashboardCeoBinding.totalQc.setText(response.total.toString())
         holder.adapterDashboardCeoBinding.threeToEight.setText(response.get3To8().toString())
+        if (!response.storeId.isNullOrEmpty()) {
+            holder.adapterDashboardCeoBinding.name.setTextColor(Color.parseColor("#000000"))
+        } else {
+            holder.adapterDashboardCeoBinding.name.setTextColor(Color.parseColor("#005EFF"))
+
+        }
 
         holder.adapterDashboardCeoBinding.name.setOnClickListener {
-            if (!response.employeeid.isNullOrEmpty()){
-                ceoDashboardCallback.onClickEmployee(response.employeeid)
-
+            if (!response.employeeid.isNullOrEmpty()) {
+                if (!response.roleCode.isNullOrEmpty()) {
+                    if (response.storeId.isNullOrEmpty()) {
+                        ceoDashboardCallback.onClickEmployee(response.employeeid, response.roleCode)
+                    }
+                }
             }
         }
 
         holder.adapterDashboardCeoBinding.rightArrowQc.setOnClickListener {
+//            if (!response.roleCode.isNullOrEmpty()) {
             ceoDashboardCallback.onClickRightArrow(response)
+//            }
+        }
+        holder.adapterDashboardCeoBinding.totalArrowLayout.setOnClickListener {
+//            if (!response.roleCode.isNullOrEmpty()) {
+            ceoDashboardCallback.onClickRightArrow(response)
+//            }
         }
     }
 

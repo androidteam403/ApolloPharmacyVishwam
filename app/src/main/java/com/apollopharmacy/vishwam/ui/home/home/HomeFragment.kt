@@ -353,7 +353,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         }
 
-        if (false) {
+        if (true) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Monitoring Dashboard",

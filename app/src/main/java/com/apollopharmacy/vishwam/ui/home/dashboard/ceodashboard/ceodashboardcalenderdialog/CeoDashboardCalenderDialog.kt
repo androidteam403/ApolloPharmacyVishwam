@@ -74,7 +74,7 @@ class CeoDashboardCalenderDialog : DialogFragment() {
 
         selectedDate = arguments?.getString(KEY_DATA).toString()
         dataPickerBinding.cancel.setOnClickListener { dismiss() }
-        val checkVal: NumberFormat = DecimalFormat("00")
+        val checkVal: NumberFormat = DecimalFormat("00", Utils.symbols)
         val c = Calendar.getInstance()
         val year: Int
         var month: Int
@@ -142,7 +142,7 @@ class CeoDashboardCalenderDialog : DialogFragment() {
             val toDateTemp = Calendar.getInstance()
             val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             toDateTemp.time = sdf.parse(getDate)
-            var toDateTimeMills = toDateTemp.timeInMillis + 2592000000
+            var toDateTimeMills = toDateTemp.timeInMillis + 7776000000//2592000000
 
             var toDateFormatted = getToDateFormatted(toDateTimeMills, "dd-MMM-yyyy")
             dateSelectedListner!!.selectedDateTo(getDate, getDate, toDateFormatted!!)
@@ -153,7 +153,7 @@ class CeoDashboardCalenderDialog : DialogFragment() {
 
     fun getToDateFormatted(milliSeconds: Long, dateFormat: String?): String? {
         // Create a DateFormatter object for displaying date in specified format.
-        val formatter = SimpleDateFormat(dateFormat)
+        val formatter = SimpleDateFormat(dateFormat, Locale.ENGLISH)
 
         // Create a calendar object that will convert the date and time value in milliseconds to date.
         val calendar = Calendar.getInstance()

@@ -40,31 +40,31 @@ class DashboardDetailsAdapter(
     }
 
     override fun onBindViewHolder(holder: DashboardDetailsAdapter.ViewHolder, position: Int) {
-       /* if (position % 2 == 0) {
-            holder.adapterDashboardDetailsAdapterBinding.overallLayout.background =
-                (context.getDrawable(R.drawable.background_for_champs_names))
-        } else {
+        /* if (position % 2 == 0) {
+             holder.adapterDashboardDetailsAdapterBinding.overallLayout.background =
+                 (context.getDrawable(R.drawable.background_for_champs_names))
+         } else {
 
-            holder.adapterDashboardDetailsAdapterBinding.overallLayout.background =
-                (context.getDrawable(R.drawable.background_for_white))
-        }
+             holder.adapterDashboardDetailsAdapterBinding.overallLayout.background =
+                 (context.getDrawable(R.drawable.background_for_white))
+         }
 
-        holder.adapterDashboardDetailsAdapterBinding.store.text =
-            reasonWiseTicketCountByRoleResponse.data.listData.rows[position].name
-        holder.adapterDashboardDetailsAdapterBinding.total.text =
-            reasonWiseTicketCountByRoleResponse.data.listData.rows[position].total.toString()
+         holder.adapterDashboardDetailsAdapterBinding.store.text =
+             reasonWiseTicketCountByRoleResponse.data.listData.rows[position].name
+         holder.adapterDashboardDetailsAdapterBinding.total.text =
+             reasonWiseTicketCountByRoleResponse.data.listData.rows[position].total.toString()
 
-        horizantalCategoryAdapter =
-            HorizantalCategoryAdapter(context,
-                reasonWiseTicketCountByRoleResponse.data.listData.rows as ArrayList<ReasonWiseTicketCountByRoleResponse.Data.ListData.Row>,
-                reasonWiseTicketCountByRoleResponse.data.listData.zcExtra.data1 as ArrayList<ReasonWiseTicketCountByRoleResponse.Data.ListData.ZcExtra.Data1>)
-        holder.adapterDashboardDetailsAdapterBinding.childRecyclerView.layoutManager =
-            LinearLayoutManager(
-                context, LinearLayoutManager.HORIZONTAL,
-                false
-            )
-        holder.adapterDashboardDetailsAdapterBinding.childRecyclerView.adapter =
-            horizantalCategoryAdapter*/
+         horizantalCategoryAdapter =
+             HorizantalCategoryAdapter(context,
+                 reasonWiseTicketCountByRoleResponse.data.listData.rows as ArrayList<ReasonWiseTicketCountByRoleResponse.Data.ListData.Row>,
+                 reasonWiseTicketCountByRoleResponse.data.listData.zcExtra.data1 as ArrayList<ReasonWiseTicketCountByRoleResponse.Data.ListData.ZcExtra.Data1>)
+         holder.adapterDashboardDetailsAdapterBinding.childRecyclerView.layoutManager =
+             LinearLayoutManager(
+                 context, LinearLayoutManager.HORIZONTAL,
+                 false
+             )
+         holder.adapterDashboardDetailsAdapterBinding.childRecyclerView.adapter =
+             horizantalCategoryAdapter*/
 
 //        holder.adapterDashboardDetailsAdapterBinding.childRecyclerView.adapter =
 //            horizantalCategoryAdapter

@@ -23,7 +23,7 @@ class ManagerAdapter: RecyclerView.Adapter<ManagerAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-       return 7
+        return 7
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
