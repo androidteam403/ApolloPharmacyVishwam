@@ -43,6 +43,16 @@ public class TicketCountsByStatusRoleResponse implements Serializable {
         this.data = data;
     }
 
+    public String empId;
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(String empId) {
+        this.empId = empId;
+    }
+
     public class Data implements Serializable {
 
         @SerializedName("listData")
@@ -165,6 +175,11 @@ public class TicketCountsByStatusRoleResponse implements Serializable {
                 @SerializedName("name")
                 @Expose
                 private String name;
+
+                @SerializedName("store_id")
+                @Expose
+                private String storeId;
+
                 @SerializedName("employee_id")
                 @Expose
                 private String employeeid;
@@ -172,6 +187,9 @@ public class TicketCountsByStatusRoleResponse implements Serializable {
                 @SerializedName("role_code")
                 @Expose
                 private String roleCode;
+                @SerializedName("role_name")
+                @Expose
+                private String role_name;
 
                 @SerializedName("total")
                 @Expose
@@ -203,6 +221,14 @@ public class TicketCountsByStatusRoleResponse implements Serializable {
                     this.name = name;
                 }
 
+                public String getStoreId() {
+                    return storeId;
+                }
+
+                public void setStoreId(String storeId) {
+                    this.storeId = storeId;
+                }
+
                 public String getEmployeeid() {
                     return employeeid;
                 }
@@ -217,6 +243,14 @@ public class TicketCountsByStatusRoleResponse implements Serializable {
 
                 public void setRoleCode(String roleCode) {
                     this.roleCode = roleCode;
+                }
+
+                public String getRole_name() {
+                    return role_name;
+                }
+
+                public void setRole_name(String role_name) {
+                    this.role_name = role_name;
                 }
 
                 public Integer getTotal() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -23,12 +23,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_5dp"
                 android:layout_weight="0.25"
-                android:ellipsize="end"
                 android:fontFamily="@font/roboto_medium"
-                android:lines="1"
                 android:text="N.Senthil Kumar"
                 android:textAlignment="viewStart"
-                android:textColor="@color/black"
+                android:textColor="@color/label_color_ceo"
                 android:textSize="@dimen/text_12sp" />
 
             <LinearLayout
@@ -46,7 +44,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
                     android:text="32"
-                    android:textColor="@color/white_for_both"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/dimen11sp" />
             </LinearLayout>
 
@@ -65,7 +63,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
                     android:text="5"
-                    android:textColor="@color/white_for_both"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/dimen11sp" />
             </LinearLayout>
 
@@ -84,7 +82,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
                     android:text="1"
-                    android:textColor="@color/white_for_both"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/dimen11sp" />
             </LinearLayout>
 
@@ -93,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_2dp"
                 android:layout_weight="0.085"
-                android:background="@drawable/ash_background_qc"
+                android:background="@drawable/monitoring_greaterthan_eight_bg"
                 android:padding="@dimen/four4_dp">
 
                 <TextView
@@ -103,7 +101,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@color/white_for_both"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/dimen11sp" />
             </LinearLayout>
 
@@ -117,12 +115,12 @@
 
                 <TextView
                     android:id="@+id/rejected"
-                    android:layout_width="match_parent"
+                    android:layout_width="32dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@color/white_for_both"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/dimen11sp" />
             </LinearLayout>
 
@@ -141,7 +139,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
                     android:text="1"
-                    android:textColor="@color/white_for_both"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/dimen11sp" />
             </LinearLayout>
 
@@ -154,6 +152,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/total_arrow_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:weightSum="1">
@@ -166,9 +165,8 @@
                         android:gravity="center">
 
                         <LinearLayout
-                            android:layout_width="@dimen/value_25dp"
-
-                            android:layout_height="@dimen/value_25dp"
+                            android:layout_width="@dimen/value_30dp"
+                            android:layout_height="@dimen/value_30dp"
                             android:layout_centerInParent="true"
                             android:layout_gravity="center"
                             android:background="@drawable/round_bg_blue_navy"
@@ -182,10 +180,10 @@
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:padding="5dp"
-                                android:text="38"
+                                android:text="387"
                                 android:textAlignment="center"
-                                android:textColor="@color/white_for_both"
-                                android:textSize="@dimen/text_12sp"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/dimen8sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -203,9 +201,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/black_right_arroww"
-                            android:tint="@color/black"
-                            tools:ignore="UseAppTint" />
+                            android:src="@drawable/black_right_arroww" />
                     </LinearLayout>
 
 

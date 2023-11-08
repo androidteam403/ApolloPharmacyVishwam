@@ -87,7 +87,7 @@ class ManagerDashboardFragment : BaseFragment<ManagerDashboardViewModel, com.apo
                     val fragment: Fragment = ApprovedFragment()
                     val fragmentManager = activity!!.supportFragmentManager
                     val fragmentTransaction = fragmentManager.beginTransaction()
-//                    fragmentTransaction.replace(R.id.fragment_container, fragment)
+                    fragmentTransaction.replace(R.id.fragment_container, fragment)
                     fragmentTransaction.addToBackStack(null)
 //                    fragmentTransaction.setReorderingAllowed(true)
 //                    fragmentTransaction.isAddToBackStackAllowed
@@ -99,14 +99,14 @@ class ManagerDashboardFragment : BaseFragment<ManagerDashboardViewModel, com.apo
                     val fragment: Fragment = PendingFragment()
                     val fragmentManager = activity!!.supportFragmentManager
                     val fragmentTransaction = fragmentManager.beginTransaction()
-//                    fragmentTransaction.replace(R.id.fragment_container, fragment)
+                    fragmentTransaction.replace(R.id.fragment_container, fragment)
                     fragmentTransaction.addToBackStack(null)
                     fragmentTransaction.commit()
 
                 } else if (event.getData().get("x").equals("Reject")) {
                     val fragmentManager = activity!!.supportFragmentManager
                     val fragmentTransaction = fragmentManager.beginTransaction()
-//                    fragmentTransaction.replace(R.id.fragment_container, RejectedFragment())
+                    fragmentTransaction.replace(R.id.fragment_container, RejectedFragment())
                     fragmentTransaction.addToBackStack(null)
                     fragmentTransaction.commit()
                 }

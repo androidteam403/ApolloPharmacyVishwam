@@ -64,8 +64,40 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
         }
         activityDashboardDetailsBinding.name.text = row!!.name
         activityDashboardDetailsBinding.callback = this@DashboardDetailsActivity
-        empDetailsMobile()
+        role = row.roleCode
+        if (row!!.roleCode.equals("ceo")) {
+            activityDashboardDetailsBinding.empRole.text = "CEO Dashboard"
+            activityDashboardDetailsBinding.selectedEmpRole.text = "Region Head"
+        } else if (row!!.roleCode.equals("region_head")) {
+            activityDashboardDetailsBinding.empRole.text = "Region Head Dashboard"
+            activityDashboardDetailsBinding.selectedEmpRole.text = "Region Head"
+//            activityDashboardDetailsBinding.selectedEmpRole.text = "Manager"
+        } else if (row!!.roleCode.equals("store_manager")) {
+            activityDashboardDetailsBinding.empRole.text = "Manager Dashboard"
+            activityDashboardDetailsBinding.selectedEmpRole.text = "Manager"
+//            activityDashboardDetailsBinding.selectedEmpRole.text = "Executive"
+        } else if (row!!.roleCode.equals("store_executive")) {
+            activityDashboardDetailsBinding.empRole.text = "Executive Dashboard"
+            activityDashboardDetailsBinding.selectedEmpRole.text = "Executive"
+//            activityDashboardDetailsBinding.selectedEmpRole.text = "Executive"
+        }
+        /*else if (row!!.roleCode.equals("store_manager")) {
+            activityDashboardDetailsBinding.empRole.text = "Manager Dashboard"
+            activityDashboardDetailsBinding.selectedEmpRole.text = "Manager"
+//            activityDashboardDetailsBinding.selectedEmpRole.text = "Executive"
+        } else if (row!!.roleCode.equals("store_manager")) {
+            activityDashboardDetailsBinding.empRole.text = "Manager Dashboard"
+            activityDashboardDetailsBinding.selectedEmpRole.text = "Manager"
+//            activityDashboardDetailsBinding.selectedEmpRole.text = "Executive"
+        } */
+        else {
+            activityDashboardDetailsBinding.empRole.text = "Store Dashboard"
+            activityDashboardDetailsBinding.selectedEmpRole.text = "Store"
 
+        }
+
+
+//        empDetailsMobile()
 
 
         Utlis.showLoading(this@DashboardDetailsActivity)
@@ -76,7 +108,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
             this@DashboardDetailsActivity,
             Utils.getConvertedDateFormatyyyymmdd(fromDate),
             Utils.getConvertedDateFormatyyyymmdd(toDate),
-            row.employeeid, row.roleCode
+            row.employeeid, row.roleCode, if (!row.storeId.isNullOrEmpty()) row.storeId else ""
         )//Preferences.getValidatedEmpId()
 
         /* dashboardCategoryAdapter = DashboardCategoryAdapter(categoryList)

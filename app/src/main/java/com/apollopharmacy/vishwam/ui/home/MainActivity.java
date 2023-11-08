@@ -254,7 +254,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public String ceoDashboardAccessFromEmployee = "";
 
     //    private MenuItemAdapter attendanceManagementAdapter, cmsAdapter, discountAdapter, newDrugRequestAdapter, omsQcAdapter, swachhAdapter, monitoringAdapter, champsAdapter, planogramAdapter, apnaRetroAdapter, apnaAdapter;
-    private ImageView backArrow;
+    public ImageView backArrow;
+    public ImageView openDrawer;
     private ImageView logoutBtn;
     private TextView logo;
     private LinearLayout customerDetails;

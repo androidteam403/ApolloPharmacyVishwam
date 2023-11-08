@@ -31,6 +31,7 @@
     <color name="terniary">#808080</color>
     <color name="colorBlack">#000000</color>
     <color name="label_color">#3f9bb3</color>
+    <color name="label_color_ceo">#005EFF</color>
 
     <color name="customer_search_border">#d5d6d8</color>
     <color name="pay_btn_color">#fcb815</color>
@@ -271,7 +272,12 @@
     <color name="signout_duration_bg">#f4f4f4</color>
     <color name="champs_formlayout_bg">#e8f7f2</color>
     <color name="champs_survey_list_count_bg">#c5e5fc</color>
-    <color name="dialog_bg">#ffffff</color>
-    <color name="light_grey">#efefef</color>
+    <color name="monitoring_greater_than_eight_color">#5a345e</color>
+    <color name="monitoring_lessthan_two_card_color">#f4b25e</color>
+    <color name="monitoring_threeto_eight_card_color">#f08968</color>
+    <color name="monitoring_rejected_color">#4CAF50</color>
+    <color name="monitoring_pending_card_color">#65c1e6</color>
+    <color name="monitoring_total_card_color">#49586f</color>
+    <color name="monitoring_closed_card_color">#4a98c9</color>
 
 </resources>

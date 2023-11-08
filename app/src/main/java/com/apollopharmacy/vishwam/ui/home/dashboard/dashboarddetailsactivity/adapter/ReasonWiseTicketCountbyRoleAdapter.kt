@@ -80,7 +80,23 @@ class ReasonWiseTicketCountbyRoleAdapter(
                     )
                 )
             }
+
             if (role.equals("ceo")) {
+                holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
+                    "Region Head (${rows.size})"
+            } else if (role.equals("region_head")) {
+                holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
+                    "Manager (${rows.size})"
+            } else if (role.equals("store_manager")) {
+                holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
+                    "Executives (${rows.size})"
+            } else if (role.equals("store_executive")) {
+                holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
+                    "Stores (${rows.size})"
+            } else {
+                holder.adapterReasonWiseTicketCountbyRoleBinding.names.text = "- (${rows.size})"
+            }
+            /*if (role.equals("ceo")) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
                     "Manager (${rows.size})"
             } else if (role.equals("regional_head")) {
@@ -89,7 +105,7 @@ class ReasonWiseTicketCountbyRoleAdapter(
             } else {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
                     "- (${rows.size})"
-            }
+            }*/
             holder.adapterReasonWiseTicketCountbyRoleBinding.names.visibility = View.VISIBLE
             if (data1.isSelsected == true) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.arrowToindicateName.visibility =
@@ -150,8 +166,7 @@ class ReasonWiseTicketCountbyRoleAdapter(
             holder.adapterReasonWiseTicketCountbyRoleBinding.names.visibility = View.GONE
             holder.adapterReasonWiseTicketCountbyRoleBinding.arrowToindicateName.visibility =
                 View.GONE
-            holder.adapterReasonWiseTicketCountbyRoleBinding.nameParentLayout.visibility =
-                View.GONE
+            holder.adapterReasonWiseTicketCountbyRoleBinding.nameParentLayout.visibility = View.GONE
             holder.adapterReasonWiseTicketCountbyRoleBinding.total.visibility = View.VISIBLE
             if (data1.isSelsected == true) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.arrowToindicateTotal.visibility =
@@ -205,8 +220,7 @@ class ReasonWiseTicketCountbyRoleAdapter(
             holder.adapterReasonWiseTicketCountbyRoleBinding.names.visibility = View.GONE
             holder.adapterReasonWiseTicketCountbyRoleBinding.arrowToindicateName.visibility =
                 View.GONE
-            holder.adapterReasonWiseTicketCountbyRoleBinding.nameParentLayout.visibility =
-                View.GONE
+            holder.adapterReasonWiseTicketCountbyRoleBinding.nameParentLayout.visibility = View.GONE
             holder.adapterReasonWiseTicketCountbyRoleBinding.total.visibility = View.GONE
             holder.adapterReasonWiseTicketCountbyRoleBinding.arrowToindicateTotal.visibility =
                 View.GONE
