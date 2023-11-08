@@ -271,5 +271,7 @@
     <color name="signout_duration_bg">#f4f4f4</color>
     <color name="champs_formlayout_bg">#e8f7f2</color>
     <color name="champs_survey_list_count_bg">#c5e5fc</color>
+    <color name="dialog_bg">#ffffff</color>
+    <color name="light_grey">#efefef</color>
 
 </resources>
