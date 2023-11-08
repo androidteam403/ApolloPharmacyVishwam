@@ -279,5 +279,7 @@
     <color name="monitoring_pending_card_color">#65c1e6</color>
     <color name="monitoring_total_card_color">#49586f</color>
     <color name="monitoring_closed_card_color">#4a98c9</color>
+    <color name="dialog_bg">#ffffff</color>
+    <color name="light_grey">#CFCCCC</color>
 
 </resources>

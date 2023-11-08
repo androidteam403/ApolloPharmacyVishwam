@@ -216,12 +216,12 @@
     <color name="light_green">#d4f8d4</color>
     <color name="partial_green">#5EBC5E</color>
     <color name="subworkflow_details_text_color">#548985</color>
-    <color name="blue_color">#47596d</color>
-    <color name="sea_light_blue">#dff1fb</color>
+    <color name="blue_color">#1e1e1e</color>
+    <color name="sea_light_blue">#1e1e1e</color>
     <color name="light_white_color">#f4f4f4</color>
     <color name="whiteee">#ffffff</color>
     <color name="light_ashh">#f2f2f2</color>
-    <color name="light_ashh_trans">#C0C0C0</color>
+    <color name="light_ashh_trans">#1e1e1e</color>
     <color name="dark_sky_blue">#00BCBE</color>
     <color name="milkwhite">#2E2E27</color>
 
@@ -276,4 +276,6 @@
     <color name="monitoring_pending_card_color">#65c1e6</color>
     <color name="monitoring_total_card_color">#49586f</color>
     <color name="monitoring_closed_card_color">#4a98c9</color>
+    <color name="dialog_bg">#292a2c</color>
+    <color name="light_grey">#1e1e1e</color>
 </resources>

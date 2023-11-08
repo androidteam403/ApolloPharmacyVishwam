@@ -29,9 +29,9 @@
                 android:layout_height="@dimen/value_30dp"
                 android:background="@drawable/mtd_bg"
                 android:gravity="center"
-                android:textSize="@dimen/text_12sp"
                 android:text="5"
-                android:textColor="@color/white" />
+                android:textColor="@color/white_for_both"
+                android:textSize="@dimen/text_12sp" />
 
         </RelativeLayout>
 
