@@ -223,7 +223,7 @@
                     android:onClick="@{()-> callback.onClickApproved()}"
                     android:text="APPROVED"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:visibility="visible" />
 
                 <View
@@ -241,7 +241,7 @@
                     android:onClick="@{()-> callback.onClickPending()}"
                     android:text="PENDING"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:visibility="visible" />
 
             </LinearLayout>
