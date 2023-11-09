@@ -38,6 +38,7 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSurevyDetailsByChampsIdResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetSurveyDetailsByChampsIdResponsee
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewImage.PreviewImageChampsActivity
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewImage.adapter.PreviewImgViewPagerAdapter
 import com.apollopharmacy.vishwam.util.Utlis
@@ -1266,24 +1267,24 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //        startActivityForResult(gallery, 999)
     }
 
-    override fun onSuccessGetSurveyDetailsByChampsId(getSurveyDetailsByChapmpsId: GetSurevyDetailsByChampsIdResponse) {
+    override fun onSuccessGetSurveyDetailsByChampsId(getSurveyDetailsByChapmpsId: GetSurveyDetailsByChampsIdResponsee) {
         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
                 0
             )?.subCategoryDetails != null
         ) {
-            getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(0).givenRating =
-                (getSurveyDetailsByChapmpsId.categoryDetails.appearanceStore).toFloat()
-            getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(1).givenRating =
-                (getSurveyDetailsByChapmpsId.categoryDetails.offerDisplay).toFloat()
-            getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(2).givenRating =
-                (getSurveyDetailsByChapmpsId.categoryDetails.storeFrontage).toFloat()
-            getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(3).givenRating =
-                (getSurveyDetailsByChapmpsId.categoryDetails.groomingStaff).toFloat()
+//            getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(0).givenRating =
+//                (getSurveyDetailsByChapmpsId.categoryDetails.appearanceStore).toFloat()
+//            getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(1).givenRating =
+//                (getSurveyDetailsByChapmpsId.categoryDetails.offerDisplay).toFloat()
+//            getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(2).givenRating =
+//                (getSurveyDetailsByChapmpsId.categoryDetails.storeFrontage).toFloat()
+//            getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(3).givenRating =
+//                (getSurveyDetailsByChapmpsId.categoryDetails.groomingStaff).toFloat()
             subCategoryAdapter!!.notifyDataSetChanged()
         }
     }
 
-    override fun onFailureGetSurveyDetailsByChampsId(value: GetSurevyDetailsByChampsIdResponse) {
+    override fun onFailureGetSurveyDetailsByChampsId(value: GetSurveyDetailsByChampsIdResponsee) {
         if (value != null && value.message != null) {
             Toast.makeText(applicationContext, "" + value.message, Toast.LENGTH_SHORT).show()
         }

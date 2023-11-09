@@ -708,10 +708,10 @@ interface ViswamAppApi {
         @Url url: String,
         @Header("token") token: String,
         @Query("CHAMPID") id: String,
-    ): GetSurevyDetailsByChampsIdResponse
+    ): GetSurveyDetailsByChampsIdResponsee
 
     @GET("http://jsonblob.com/api/jsonBlob/1085424700242542592")
-    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(): GetSurevyDetailsByChampsIdResponse
+    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(): GetSurveyDetailsByChampsIdResponsee
 
 
     //champs admin
