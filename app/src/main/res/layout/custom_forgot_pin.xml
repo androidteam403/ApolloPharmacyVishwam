@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:text="Forgot your pincode?"
-            android:textColor="@color/white"
+            android:textColor="@color/white_for_both"
             android:textSize="@dimen/text_16sp" />
 
         <ImageView
@@ -32,7 +32,7 @@
             android:paddingStart="@dimen/value_10dp"
             android:paddingEnd="@dimen/value_10dp"
             android:src="@drawable/close_icon"
-            android:tint="@color/white" />
+            android:tint="@color/white_for_both" />
     </RelativeLayout>
 
     <LinearLayout
