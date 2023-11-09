@@ -91,7 +91,7 @@ class ReasonWiseTicketCountbyRoleValueAdapter(
                 }
                 holder.adapterReasonWiseTicketCountbyRoleValueBinding.totalText.setTextColor(
                     context.getColor(
-                        R.color.white
+                        R.color.white_for_both
                     )
                 )
             }
@@ -105,7 +105,7 @@ class ReasonWiseTicketCountbyRoleValueAdapter(
                 holder.adapterReasonWiseTicketCountbyRoleValueBinding.reasonWiseTicketCountByRoleRecyclerviewValueParentLayout.setBackgroundColor(Color.parseColor("#4CAF50"))
                 holder.adapterReasonWiseTicketCountbyRoleValueBinding.category.setTextColor(
                     context.getColor(
-                        R.color.white
+                        R.color.white_for_both
                     )
                 )
             } else {
