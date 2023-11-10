@@ -130,9 +130,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Store ID"
-                                        android:textStyle="bold"
-                                        android:textColor="@color/heading_blue"
-                                        android:textSize="@dimen/text_12sp" />
+                                        android:textColor="@color/reg_date_color"
+                                        android:textSize="@dimen/text_12sp"/>
 
                                     <TextView
                                         android:id="@+id/storeId"
@@ -169,8 +168,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Uploaded Date"
-                                        android:textStyle="bold"
-                                        android:textColor="@color/heading_blue"
+                                        android:textColor="@color/reg_date_color"
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
@@ -207,8 +205,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Status: "
-                                        android:textStyle="bold"
-                                        android:textColor="@color/heading_blue"
+                                        android:textColor="@color/reg_date_color"
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView

@@ -127,8 +127,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             viewBinding.apply.isClickable = true
 
             viewBinding.apply.setBackgroundColor(Color.parseColor("#4b9e2e"))
-           /* MainActivity.mInstance.backArrow.visibility = View.GONE
-            MainActivity.mInstance.openDrawer.visibility = View.VISIBLE*/
+            /* MainActivity.mInstance.backArrow.visibility = View.GONE
+             MainActivity.mInstance.openDrawer.visibility = View.VISIBLE*/
 
         } else {
             viewBinding.fromDate.isClickable = false
@@ -136,16 +136,18 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             viewBinding.apply.isClickable = false
             viewBinding.apply.setBackgroundColor(Color.parseColor("#a6a6a6"))
 
-           /* MainActivity.mInstance.openDrawer.visibility = View.GONE
-            MainActivity.mInstance.backArrow.visibility = View.VISIBLE*/
+            /* MainActivity.mInstance.openDrawer.visibility = View.GONE
+             MainActivity.mInstance.backArrow.visibility = View.VISIBLE*/
 
         }
 
 
 
+/*
         MainActivity.mInstance.backArrow.setOnClickListener {
             onBackPressed()
-            /* countApiCall--
+            */
+/* countApiCall--
              if (countApiCall == 0) {
                  for (i in statusRoleResponseList.indices) {
 
@@ -184,8 +186,10 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                  }
 
                  empIdList.removeAt(lastIndex)
-             }*/
+             }*//*
+
         }
+*/
     }
 
 //        viewModel.getTicketListByCountApi(this, "2023-01-01", "2023-08-02", "APL48627")//EX100011//Preferences.getValidatedEmpId()
@@ -435,8 +439,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
             viewBinding.toDate.isEnabled = true
             viewBinding.apply.isClickable = true
-           /* MainActivity.mInstance.backArrow.visibility = View.GONE
-            MainActivity.mInstance.openDrawer.visibility = View.VISIBLE*/
+            /* MainActivity.mInstance.backArrow.visibility = View.GONE
+             MainActivity.mInstance.openDrawer.visibility = View.VISIBLE*/
 
         } else {
             viewBinding.fromDate.isClickable = false
@@ -446,8 +450,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             viewBinding.apply.isClickable = false
             viewBinding.apply.setBackgroundColor(Color.parseColor("#a6a6a6"))
 
-           /* MainActivity.mInstance.openDrawer.visibility = View.GONE
-            MainActivity.mInstance.backArrow.visibility = View.VISIBLE*/
+            /* MainActivity.mInstance.openDrawer.visibility = View.GONE
+             MainActivity.mInstance.backArrow.visibility = View.VISIBLE*/
 
         }
 
@@ -914,7 +918,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     override fun onClickApplyDate() {
         showLoading()
-        if (statusRoleResponseList != null && statusRoleResponseList.size == 1){
+        if (statusRoleResponseList != null && statusRoleResponseList.size == 1) {
             for (i in statusRoleResponseList.indices) {
                 if (statusRoleResponseList[i].empId.equals(Preferences.getValidatedEmpId())) {
                     statusRoleResponseList.removeAt(i)
@@ -927,9 +931,6 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 Preferences.getValidatedEmpId(), ""//"APL67949"
             )
         }
-
-
-
 
 
         /*if (empId.isNullOrEmpty() && statusRoleResponseList.size > 0) {

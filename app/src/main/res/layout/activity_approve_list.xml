@@ -124,9 +124,8 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="Store ID"
-                                            android:textColor="@color/heading_blue"
-                                            android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold" />
+                                            android:textColor="@color/reg_date_color"
+                                            android:textSize="@dimen/text_12sp" />
 
                                         <TextView
                                             android:layout_width="wrap_content"
@@ -164,9 +163,8 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="Uploaded Date"
-                                            android:textColor="@color/heading_blue"
-                                            android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold" />
+                                            android:textColor="@color/reg_date_color"
+                                            android:textSize="@dimen/text_12sp"/>
 
                                         <TextView
                                             android:layout_width="wrap_content"
@@ -222,9 +220,8 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/label_pending"
-                                            android:textColor="@color/heading_blue"
-                                            android:textSize="@dimen/text_14sp"
-                                            android:textStyle="bold" />
+                                            android:textColor="@color/reg_date_color"
+                                            android:textSize="@dimen/text_12sp" />
 
                                         <TextView
                                             android:id="@+id/pendingCountforValid"
@@ -248,9 +245,8 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/label_accepted"
-                                            android:textColor="@color/heading_blue"
-                                            android:textSize="@dimen/text_14sp"
-                                            android:textStyle="bold" />
+                                            android:textColor="@color/reg_date_color"
+                                            android:textSize="@dimen/text_12sp" />
 
                                         <TextView
                                             android:layout_width="wrap_content"
@@ -273,10 +269,8 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/label_rejected"
-                                            android:textColor="@color/heading_blue"
-
-                                            android:textSize="@dimen/text_14sp"
-                                            android:textStyle="bold" />
+                                            android:textColor="@color/reg_date_color"
+                                            android:textSize="@dimen/text_12sp" />
 
                                         <TextView
                                             android:layout_width="wrap_content"

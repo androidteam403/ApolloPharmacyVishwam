@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginStart="@dimen/value_10dp"
+        android:layout_marginTop="@dimen/value_5dp"
+        android:layout_marginEnd="@dimen/value_10dp"
+        android:background="@drawable/editbox_bg">
 
-        app:cardCornerRadius="@dimen/value_5dp"
-        app:cardElevation="3dp"
-
-        app:strokeColor="@color/light_ash"
-        app:strokeWidth="0.10dp">
+        <!--<androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="@dimen/value_5dp"
+            app:cardElevation="3dp"
+            app:strokeColor="@color/light_ash"
+            app:strokeWidth="0.10dp">-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:background="@color/white"
+            android:layout_margin=".1dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -30,18 +32,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="5dp"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
                 android:visibility="visible"
                 android:weightSum="3">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:gravity="center_vertical"
                     android:text="Transaction ID :  "
                     android:textColor="@color/grey"
-                    android:textSize="12.5sp" />
+                    android:textSize="12.5sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/transaction_id"
@@ -49,19 +53,17 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2.9"
                     android:gravity="center_vertical"
-                    android:textStyle="bold"
                     android:text="14001_APNARETRO_060423"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp" />
+                    android:textSize="@dimen/text_16sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="@dimen/text_dimen_20"
                     android:layout_height="match_parent"
-
+                    android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_baseline_more_vert_24"
                     android:visibility="invisible" />
-
-
             </LinearLayout>
 
 
@@ -70,20 +72,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-
-
                 android:orientation="vertical"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
                 android:visibility="visible">
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_1dp"
-                    android:background="@color/color_ash" />
+                    android:background="@color/color_ash"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/text_12sp"
                     android:layout_marginTop="@dimen/value_5dp"
                     android:layout_marginBottom="8dp"
                     android:orientation="vertical">
@@ -97,17 +99,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Store ID :  "
-                            android:textColor="@color/grey"
-                            android:textSize="12.5sp" />
+                            android:textColor="@color/reg_date_color"
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/storeId"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="14001"
-                            android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp" />
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -119,18 +121,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Store Name :  "
-                            android:textColor="@color/grey"
-                            android:textSize="12.5sp" />
+                            android:text="Store Name : "
+                            android:textColor="@color/reg_date_color"
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/storeName"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="-"
-                            android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp" />
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -143,18 +145,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Uploaded On :  "
-                            android:textColor="@color/grey"
-                            android:textSize="12.5sp" />
+                            android:text="Uploaded On : "
+                            android:textColor="@color/reg_date_color"
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/uploadon"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="07 Apr,2023-12:30PM"
-                            android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp" />
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -163,15 +165,14 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="3dp"
                         android:orientation="horizontal"
-
                         android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Rating :  "
-                            android:textColor="@color/grey"
-                            android:textSize="12.5sp" />
+                            android:textColor="@color/reg_date_color"
+                            android:textSize="@dimen/text_12sp" />
 
                         <RatingBar
                             android:id="@+id/rating"
@@ -184,8 +185,6 @@
                             android:progressTint="@color/dark_yellow"
                             android:rating="4.5"
                             android:stepSize="0.5"
-
-
                             android:textSize="@dimen/text_12sp"
                             android:theme="@style/RatingBar" />
 
@@ -203,25 +202,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="3dp"
-
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Uploaded By :  "
-                            android:textColor="@color/grey"
-                            android:textSize="12.5sp" />
+                            android:text="Uploaded By : "
+                            android:textColor="@color/reg_date_color"
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/uploadby"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight=".7"
-                            android:textStyle="bold"
                             android:text="APL48627"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp" />
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -229,7 +227,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_1dp"
-                    android:background="@color/color_ash" />
+                    android:background="@color/color_ash"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -237,17 +236,17 @@
                 android:id="@+id/pre_rectro_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:background="@color/grey_bg_for_no_status"
                 android:orientation="horizontal"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
                 android:visibility="visible"
                 android:weightSum="3">
 
                 <LinearLayout
+                    android:id="@+id/pre_retro_Layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/pre_retro_Layout"
-
                     android:layout_weight="1.6"
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/value_5dp">
@@ -256,24 +255,24 @@
                         android:id="@+id/pre_rectro_green_image"
                         android:layout_width="@dimen/text_dimen_15"
                         android:layout_height="18dp"
-                        android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/greenright"
                         android:visibility="gone" />
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/pre_retro_lite_green_tick"
                         android:layout_width="@dimen/text_dimen_15"
                         android:layout_height="18dp"
-                        android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
                         android:src="@drawable/greenright"
                         android:tint="@color/partial_green"
                         android:visibility="gone" />
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/pre_retro_grey_tick"
                         android:layout_width="@dimen/text_dimen_15"
                         android:layout_height="18dp"
-                        android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
                         android:src="@drawable/greenright"
                         android:tint="@color/grey"
@@ -283,8 +282,8 @@
                         android:id="@+id/pre_rectro_clock_image"
                         android:layout_width="@dimen/text_dimen_15"
                         android:layout_height="18dp"
-                        android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/clock_small"
                         android:visibility="gone" />
 
@@ -295,8 +294,8 @@
                         android:layout_marginLeft="6dp"
                         android:paddingTop="5dp"
                         android:text="Stage : "
-                        android:textColor="@color/grey"
-                        android:textSize="12.5sp" />
+                        android:textColor="@color/reg_date_color"
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/pre_rectro_Stage"
@@ -305,20 +304,18 @@
                         android:paddingTop="5dp"
                         android:text="Pre Retro"
                         android:textAlignment="center"
-
-                        android:textColor="@color/ash_color_for_apna"
+                        android:textColor="@color/black"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
 
                 <LinearLayout
+                    android:id="@+id/pre_retro_status_Layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.4"
                     android:orientation="horizontal"
-                    android:id="@+id/pre_retro_status_Layout"
-
                     android:paddingBottom="9dp">
 
                     <TextView
@@ -328,14 +325,13 @@
                         android:layout_marginLeft="@dimen/value_10dp"
                         android:paddingTop="6dp"
                         android:text="Status : "
-                        android:textColor="@color/grey"
-                        android:textSize="12.5sp" />
+                        android:textColor="@color/reg_date_color"
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/pre_rectroStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
                         android:paddingTop="6dp"
                         android:text="---"
                         android:textSize="12sp"
@@ -351,18 +347,18 @@
                 android:id="@+id/post_rectro_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:background="@color/grey_bg_for_no_status"
                 android:orientation="horizontal"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
                 android:visibility="visible"
                 android:weightSum="3">
 
                 <LinearLayout
+                    android:id="@+id/post_retro_Layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.6"
-                    android:id="@+id/post_retro_Layout"
-
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/value_5dp">
 
@@ -370,8 +366,8 @@
                         android:id="@+id/post_rectro_green_image"
                         android:layout_width="@dimen/text_dimen_15"
                         android:layout_height="18dp"
-                        android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/greenright"
                         android:visibility="gone" />
 
@@ -379,16 +375,15 @@
                         android:id="@+id/post_retro_grey_tick"
                         android:layout_width="@dimen/text_dimen_15"
                         android:layout_height="18dp"
-                        android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
                         android:src="@drawable/greenright"
                         android:tint="@color/grey"
                         android:visibility="visible" />
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/post_retro_lite_green_tick"
                         android:layout_width="@dimen/text_dimen_15"
                         android:layout_height="18dp"
-                        android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
                         android:src="@drawable/greenright"
                         android:tint="@color/partial_green"
@@ -398,8 +393,8 @@
                         android:id="@+id/post_rectro_clock_image"
                         android:layout_width="@dimen/text_dimen_15"
                         android:layout_height="18dp"
-                        android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/clock_small"
                         android:visibility="gone" />
 
@@ -410,8 +405,8 @@
                         android:layout_marginLeft="6dp"
                         android:paddingTop="5dp"
                         android:text="Stage : "
-                        android:textColor="@color/grey"
-                        android:textSize="12.5sp" />
+                        android:textColor="@color/reg_date_color"
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/post_rectro_stage"
@@ -420,21 +415,18 @@
                         android:paddingTop="5dp"
                         android:text="Post Retro"
                         android:textAlignment="center"
-
-                        android:textColor="@color/ash_color_for_apna"
-
+                        android:textColor="@color/black"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
 
                 <LinearLayout
+                    android:id="@+id/post_retro_status_Layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.4"
                     android:orientation="horizontal"
-                    android:id="@+id/post_retro_status_Layout"
-
                     android:paddingBottom="9dp">
 
                     <TextView
@@ -444,14 +436,13 @@
                         android:layout_marginLeft="@dimen/value_10dp"
                         android:paddingTop="6dp"
                         android:text="Status : "
-                        android:textColor="@color/grey"
-                        android:textSize="12.5sp" />
+                        android:textColor="@color/reg_date_color"
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/post_rectrostatus"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
                         android:paddingTop="6dp"
                         android:text="---"
                         android:textSize="12sp"
@@ -468,18 +459,19 @@
                 android:id="@+id/approve_statusLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:background="@color/grey_bg_for_no_status"
                 android:orientation="horizontal"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
+                android:paddingBottom="@dimen/value_5dp"
                 android:visibility="visible"
                 android:weightSum="3">
 
                 <LinearLayout
+                    android:id="@+id/approved_statusLayout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.6"
-                    android:id="@+id/approved_statusLayout"
-
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/value_5dp">
 
@@ -487,15 +479,15 @@
                         android:id="@+id/approve_green_image"
                         android:layout_width="@dimen/text_dimen_15"
                         android:layout_height="18dp"
-                        android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/greenright"
                         android:visibility="gone" />
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/approve_lite_green_tick"
                         android:layout_width="@dimen/text_dimen_15"
                         android:layout_height="18dp"
-                        android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
                         android:src="@drawable/greenright"
                         android:tint="@color/partial_green"
@@ -505,7 +497,6 @@
                         android:id="@+id/approve_grey_tick"
                         android:layout_width="@dimen/text_dimen_15"
                         android:layout_height="18dp"
-                        android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
                         android:src="@drawable/greenright"
                         android:tint="@color/grey"
@@ -515,8 +506,8 @@
                         android:id="@+id/approve_clock_image"
                         android:layout_width="@dimen/text_dimen_15"
                         android:layout_height="18dp"
-                        android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/clock_small"
                         android:visibility="gone" />
 
@@ -528,8 +519,8 @@
                         android:layout_marginLeft="6dp"
                         android:paddingTop="5dp"
                         android:text="Stage : "
-                        android:textColor="@color/grey"
-                        android:textSize="12.5sp" />
+                        android:textColor="@color/reg_date_color"
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/approve_stage"
@@ -538,21 +529,18 @@
                         android:paddingTop="5dp"
                         android:text="After Completion"
                         android:textAlignment="center"
-
-                        android:textColor="@color/ash_color_for_apna"
-
+                        android:textColor="@color/black"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
 
                 <LinearLayout
+                    android:id="@+id/approval_statusLayout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.4"
                     android:orientation="horizontal"
-                    android:id="@+id/approval_statusLayout"
-
                     android:paddingBottom="9dp">
 
                     <TextView
@@ -562,14 +550,13 @@
                         android:layout_marginLeft="@dimen/value_10dp"
                         android:paddingTop="6dp"
                         android:text="Status : "
-                        android:textColor="@color/grey"
-                        android:textSize="12.5sp" />
+                        android:textColor="@color/reg_date_color"
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/approve_status"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
                         android:paddingTop="6dp"
                         android:text="---"
                         android:textSize="12sp"
@@ -584,6 +571,6 @@
         </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
-
+        <!--</androidx.cardview.widget.CardView>-->
+    </RelativeLayout>
 </layout>

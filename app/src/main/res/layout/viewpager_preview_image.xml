@@ -34,9 +34,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Swachh ID: "
-                        android:textStyle="bold"
-                        android:textColor="@color/heading_blue"
-                        android:textSize="@dimen/text_16sp"/>
+                        android:textColor="@color/reg_date_color"
+                        android:textSize="@dimen/text_12sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"

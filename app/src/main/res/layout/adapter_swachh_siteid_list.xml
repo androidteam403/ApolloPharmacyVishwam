@@ -33,7 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_baseline_done_24"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                android:contentDescription="@string/app_name" />
 
         </LinearLayout>
 
