@@ -164,9 +164,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Store ID"
-                                android:textStyle="bold"
-                                android:textColor="@color/heading_blue"
-                                android:textSize="@dimen/text_14sp" />
+                                android:textColor="@color/reg_date_color"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -203,9 +202,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Uploaded Date"
-                                android:textStyle="bold"
-                                android:textColor="@color/heading_blue"
-                                android:textSize="@dimen/text_14sp" />
+                                android:textColor="@color/reg_date_color"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -251,7 +249,6 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/preview_image_viewpager"
                     android:layout_width="match_parent"
-
                     android:visibility="visible"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/value_5dp"
@@ -360,7 +357,6 @@
 
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_60dp"
                     android:orientation="horizontal"

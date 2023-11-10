@@ -505,5 +505,6 @@
     <string name="label_search_module">Search your module</string>
     <string name="label_vishwam_dashboard">Vishwam Dashboard</string>
     <string name="label_no_module_found">No Module Found</string>
+    <string name="label_no_list_found">No List Found</string>
 
 </resources>

@@ -31,6 +31,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     var isApnaRetroRequired: Boolean = false
     var employeeRole: String = ""
     var userDesignation: String = ""
+    var isDashboardRequired: Boolean = false
+    var isRetroQrAppRequired: Boolean = false
+    var isPlanogramAppRequired: Boolean = false
     var attendanceManagementAdapter: MenuItemAdapter? = null
     var cmsAdapter: MenuItemAdapter? = null
     var discountAdapter: MenuItemAdapter? = null
@@ -103,6 +106,26 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         isApnaRetroRequired = MainActivity.isApnaRetroRequired
         employeeRole = MainActivity.mInstance.employeeRole
         userDesignation = MainActivity.userDesignation
+        isDashboardRequired = MainActivity.isDashboardRequired
+        isRetroQrAppRequired = MainActivity.isRetroQrAppRequired
+        isPlanogramAppRequired = MainActivity.isPlanogramAppRequired
+        /*
+        * isAttendanceRequired = accessDetails.getISATTENDENCEAPP(); //loginData.getIS_ATTANDENCEAPP();
+                isCMSRequired = accessDetails.getISCMSAPP(); //loginData.getIS_CMSAPP();
+                isDiscountRequired = accessDetails.getISDISCOUNTAPP(); //loginData.getIS_DISCOUNTAPP();
+                isSwachhRequired = accessDetails.getISSWACHHAPP(); //loginData.getIS_SWACHHAPP();
+                isQcFailRequired = accessDetails.getISQCFAILAPP(); //loginData.getIS_QCFAILAPP();
+                isDrugRequired = accessDetails.getISNEWDRUGAPP(); //loginData.getIS_NEWDRUGAPP();
+                isSensingRequired = accessDetails.getISSENSINGAPP(); //loginData.getIS_SENSINGAPP();
+                isChampsRequired = accessDetails.getISCHAMPAPP();
+                isApnaSurveyRequired = accessDetails.getISAPNAAPP();
+                isApnaRetroRequired = accessDetails.getISAPNARETROAPP();
+                isDashboardRequired = accessDetails.getISDASHBOARDAPP();
+                isRetroQrAppRequired = accessDetails.getISRETROQRAPP();
+                isPlanogramAppRequired = accessDetails.getISPLANAGRAMAPP();*/
+
+
+
 
         updateNavMenu(
             isAttendanceRequired,
@@ -114,7 +137,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             isSensingRequired,
             isChampsRequired,
             isApnaSurveyRequired,
-            isApnaRetroRequired
+            isApnaRetroRequired,
+            isDashboardRequired,
+            isRetroQrAppRequired,
+            isPlanogramAppRequired
         );
 
         /*updateNavMenu(true,
@@ -141,6 +167,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         isChampsRequired: Boolean,
         isApnaSurveyRequired: Boolean,
         isApnaRetroRequired: Boolean,
+        isDashboardRequired: Boolean,
+        isRetroQrAppRequired: Boolean,
+        isPlanogramAppRequired: Boolean,
     ) {
         val attendanceMenuModel = ArrayList<MenuModel>()
         if (false) {
@@ -164,7 +193,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 )
             )
         }
-        if (true) {
+        if (isRetroQrAppRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Retro QR", R.drawable.retro_qr_menu, true, null, "Retro QR"
@@ -175,8 +204,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         val attendanceSubMenuModel = ArrayList<MenuModel>()
         attendanceSubMenuModel.add(MenuModel("Attendance", R.drawable.attendance, true, null, null))
         attendanceSubMenuModel.add(MenuModel("History", R.drawable.history, true, null, null))
-        //isAttendanceRequired
-        if (true) {
+        if (isAttendanceRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Attendance",
@@ -353,7 +381,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         }
 
-        if (true) {
+        if (isDashboardRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Monitoring Dashboard",
@@ -373,7 +401,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             )
 
         }
-        if (true) {
+        if (isPlanogramAppRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Planogram", R.drawable.planogram_menu, false, null, "Evaluation"

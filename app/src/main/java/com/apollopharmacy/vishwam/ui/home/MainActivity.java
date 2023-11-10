@@ -169,6 +169,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isChampsRequired = false;
     public static boolean isApnaSurveyRequired = false;
     public static boolean isApnaRetroRequired = false;
+    public static boolean isDashboardRequired = false;
+    public static boolean isRetroQrAppRequired = false;
+    public static boolean isPlanogramAppRequired = false;
     //    private String mCurrentFrag;
     private int selectedItemPos = -1;
 

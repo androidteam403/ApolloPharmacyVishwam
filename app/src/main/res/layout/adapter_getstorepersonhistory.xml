@@ -55,8 +55,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Swachh ID: "
-                            android:textColor="@color/heading_blue"
-                            android:textSize="@dimen/text_12sp" />
+                            android:textColor="@color/reg_date_color"
+                            android:textSize="@dimen/text_12sp"/>
 
                         <TextView
                             android:id="@+id/swachidgetStore"
@@ -107,7 +107,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Created Date: "
-                            android:textColor="@color/heading_blue"
+                            android:textColor="@color/reg_date_color"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -154,7 +154,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="Created By: "
-                            android:textColor="@color/heading_blue"
+                            android:textColor="@color/reg_date_color"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
