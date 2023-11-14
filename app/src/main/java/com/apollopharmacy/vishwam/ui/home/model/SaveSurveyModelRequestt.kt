@@ -29,6 +29,10 @@ class SaveSurveyModelRequestt : Serializable {
         @SerializedName("VALUE")
         @Expose
         var value: String? = null
+
+        @SerializedName("CHAMPS_ID")
+        @Expose
+        var champsId: String? = null
     }
 
      class ImageDetail : Serializable {
@@ -39,12 +43,18 @@ class SaveSurveyModelRequestt : Serializable {
         @SerializedName("IMAGE_URL")
         @Expose
         var imageUrl: String? = null
+
+        @SerializedName("CHAMPS_ID")
+        @Expose
+        var champsId: String? = null
     }
 
      class HeaderDetails : Serializable {
         @SerializedName("champ_auto_id")
         @Expose
         var champAutoId: String? = null
+
+        var site_name:String?=null
 
         @SerializedName("city")
         @Expose

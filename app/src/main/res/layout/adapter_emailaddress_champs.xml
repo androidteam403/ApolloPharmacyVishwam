@@ -15,10 +15,7 @@
             android:background="@drawable/manual_recipients_email_bg"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/value_5dp"
-            android:paddingTop="@dimen/value_2dp"
-            android:paddingEnd="@dimen/value_5dp"
-            android:paddingBottom="@dimen/value_2dp">
+            android:padding="@dimen/value_5dp">
 
             <TextView
                 android:id="@+id/setEmailAddress"
@@ -34,7 +31,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_5dp"
                 android:contentDescription="@string/app_name"
-                android:padding="@dimen/value_5dp"
                 android:src="@drawable/close_red_champs"
                 app:tint="@color/red" />
         </LinearLayout>

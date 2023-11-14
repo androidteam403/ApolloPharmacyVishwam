@@ -106,7 +106,7 @@ class CategoryDetailsAdapter(
 
         }
         holder.adapterCategoryDetailsBinding.categoryLayout.setOnClickListener {
-            if(categoryDetails!!.get(position)!!.subCategoryDetails!!.size>0){
+            if(categoryDetails!!.get(position)!!.subCategoryDetails!=null && categoryDetails!!.get(position)!!.subCategoryDetails!!.size>0){
                 champsSurveyCallBack.onClickCategory(categoryDetailss.categoryName!!, position)
             }
 

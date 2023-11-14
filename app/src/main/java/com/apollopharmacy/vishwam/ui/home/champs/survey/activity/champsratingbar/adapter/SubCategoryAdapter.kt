@@ -117,7 +117,7 @@ class SubCategoryAdapter(
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
 
-        holder.adapterSubCategoryAdapterBinding.firstRange.setText("0")
+//        holder.adapterSubCategoryAdapterBinding.firstRange.setText("0")
         holder.adapterSubCategoryAdapterBinding.fourthRange.setText(subCategory.rating)
 
     }
