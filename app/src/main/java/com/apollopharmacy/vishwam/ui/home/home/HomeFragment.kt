@@ -1,13 +1,18 @@
 package com.apollopharmacy.vishwam.ui.home.home
 
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignationApnaRetro
+import com.apollopharmacy.vishwam.data.Preferences.getAppTheme
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.FragmentHomeBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
@@ -83,6 +88,59 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 //            )
 //        }
 
+        //        selectFilterType.setOnClickListener(v -> {
+//            if (mainActivityCallback != null) {
+//                mainActivityCallback.onClickSpinnerLayout();
+//            }
+//        });
+//        listView = findViewById(R.id.expandable_navigation);
+
+//        drawer = findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.setDrawerListener(toggle);
+//        toggle.syncState();
+
+
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+//        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
+//        navigationView = findViewById(R.id.nav_view);
+//        int colorInt = getResources().getColor(R.color.white);
+//        ColorStateList csl = ColorStateList.valueOf(colorInt);
+//        navigationView.setItemTextColor(csl);
+//        TextView userNameText = navigationView.getHeaderView(0).findViewById(R.id.userName);
+//        TextView idText = navigationView.getHeaderView(0).findViewById(R.id.id_for_menu);
+//        navigationView.setNavigationItemSelectedListener(this);
+
+        val appTheme = getAppTheme()
+        if (appTheme.equals("DARK", true)) {
+            enableDarkMode()
+        } else if (appTheme.equals("LIGHT", true)) {
+            enableLightMode()
+        } else {
+            enableDeviceMode()
+        }
+
+        viewBinding.darkModeLayout.setOnClickListener {
+            Preferences.setAppTheme("DARK")
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            enableDarkMode()
+            MainActivity.mInstance.applyTheme()
+        }
+        viewBinding.lightModeLayout.setOnClickListener {
+            Preferences.setAppTheme("LIGHT")
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            enableLightMode()
+            MainActivity.mInstance.applyTheme()
+        }
+        viewBinding.deviceModeLayout.setOnClickListener {
+            Preferences.setAppTheme("DEVICE MODE")
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            enableDeviceMode()
+            MainActivity.mInstance.applyTheme()
+        }
 
         val key = "blobfilesload"
 
@@ -154,6 +212,65 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             true,
             true);*/
         searchByModule()
+    }
+
+    private fun enableDeviceMode() {
+        viewBinding.darkModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
+        viewBinding.darkModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+            R.color.theme_setting_icon))
+        viewBinding.darkModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.grey))
+
+        viewBinding.lightModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
+//        viewBinding.lightModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+//            R.color.grey))
+        viewBinding.lightModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.grey))
+
+        viewBinding.deviceModeLayout.setBackgroundResource(R.drawable.selected_theme_bg)
+        viewBinding.deviceModeIcon.setColorFilter(Color.parseColor("#fbb831"))
+        viewBinding.deviceModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.white_for_both))
+    }
+
+    private fun enableLightMode() {
+        viewBinding.darkModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
+//        viewBinding.darkModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+//            R.color.grey))
+        viewBinding.darkModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.grey))
+
+        viewBinding.lightModeLayout.setBackgroundResource(R.drawable.selected_theme_bg)
+//        viewBinding.lightModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+//            R.color.yellow))
+        viewBinding.lightModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.white_for_both))
+
+        viewBinding.deviceModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
+//        viewBinding.deviceModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+//            R.color.grey))
+        viewBinding.deviceModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.grey))
+    }
+
+    private fun enableDarkMode() {
+        viewBinding.darkModeLayout.setBackgroundResource(R.drawable.selected_theme_bg)
+        viewBinding.darkModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+            R.color.theme_setting_icon))
+        viewBinding.darkModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.white_for_both))
+
+        viewBinding.lightModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
+//        viewBinding.lightModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+//            R.color.grey))
+        viewBinding.lightModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.grey))
+
+        viewBinding.deviceModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
+        viewBinding.deviceModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+            R.color.theme_setting_icon))
+        viewBinding.deviceModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.grey))
     }
 
     private fun updateNavMenu(
