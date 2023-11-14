@@ -171,4 +171,8 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
     @Override
     public void onClickSubmenuItem(String menuName, ArrayList<MenuModel> submenus, int position) {
     }
+
+    @Override
+    public void onclickHelpIcon() {
+    }
 }

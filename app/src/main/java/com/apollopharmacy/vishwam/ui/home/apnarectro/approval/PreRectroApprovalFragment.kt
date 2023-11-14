@@ -258,5 +258,9 @@ class PreRectroApprovalFragment() :
         TODO("Not yet implemented")
     }
 
+    override fun onclickHelpIcon() {
+        TODO("Not yet implemented")
+    }
+
 
 }

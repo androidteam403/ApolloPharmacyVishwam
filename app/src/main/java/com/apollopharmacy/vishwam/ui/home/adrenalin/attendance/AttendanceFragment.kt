@@ -1703,6 +1703,10 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         TODO("Not yet implemented")
     }
 
+    override fun onclickHelpIcon() {
+        TODO("Not yet implemented")
+    }
+
     override fun selectGST(gst: String) {
         subTaskName = gst
         marketingText.setText(gst)

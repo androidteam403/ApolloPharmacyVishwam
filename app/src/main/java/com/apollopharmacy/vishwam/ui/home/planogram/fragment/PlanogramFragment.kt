@@ -96,6 +96,10 @@ class PlanogramFragment : BaseFragment<PlanogramViewModel, FragmentPlanogramBind
         TODO("Not yet implemented")
     }
 
+    override fun onclickHelpIcon() {
+        TODO("Not yet implemented")
+    }
+
     override fun onClickContinue(uid:String) {
         this.uid =uid
         val intent = Intent(context, PlanogramEvaluationActivity::class.java)

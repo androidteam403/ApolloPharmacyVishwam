@@ -1204,6 +1204,10 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     ) {
     }
 
+    override fun onclickHelpIcon() {
+        TODO("Not yet implemented")
+    }
+
 
 //    override fun deleteSite(siteDataItem: StoreListItem) {
 //

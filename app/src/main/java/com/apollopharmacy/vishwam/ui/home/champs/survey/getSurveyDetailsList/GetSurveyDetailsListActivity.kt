@@ -483,6 +483,10 @@ class GetSurveyDetailsListActivity :
         TODO("Not yet implemented")
     }
 
+    override fun onclickHelpIcon() {
+        TODO("Not yet implemented")
+    }
+
     fun submitButtonEnable(dialogFilterUploadBinding: DialoFilterChampsBinding) {
         if (!dialogFilterUploadBinding.approvedStatus.isChecked
             && !dialogFilterUploadBinding.pendingStatus.isChecked

@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.home
 
+import android.content.Intent
 import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,6 +19,7 @@ import com.apollopharmacy.vishwam.databinding.FragmentHomeBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MenuItemAdapter
 import com.apollopharmacy.vishwam.ui.home.MenuModel
+import com.apollopharmacy.vishwam.ui.home.notification.NotificationsActivity
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
@@ -63,6 +65,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     override fun setup() {
         hideLoading()
 
+        viewBinding.callback = this
         val userData = LoginRepo.getProfile()
         if (userData != null) {
             viewBinding.designation.setText(userData.DESIGNATION)
@@ -795,6 +798,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             viewBinding.noModuleFoundLayout.visibility = View.VISIBLE
             viewBinding.newMenuRecycleview.visibility = View.GONE
         }
+    }
+
+    override fun onclickNotificationIcon() {
+        val intent = Intent(context, NotificationsActivity::class.java)
+        startActivity(intent)
     }
 
     fun searchByModule() {

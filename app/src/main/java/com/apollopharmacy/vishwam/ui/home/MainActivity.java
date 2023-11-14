@@ -474,6 +474,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         settingsWhite.setVisibility(View.GONE);
         scannerIcon = findViewById(R.id.scanner);
         spinnerLayout = findViewById(R.id.spinnerlayoutRelative);
+        helpIcon.setOnClickListener(v -> {
+            if (mainActivityCallback != null) {
+                mainActivityCallback.onclickHelpIcon();
+            }
+        });
         siteIdIcon.setOnClickListener(v -> {
             if (mainActivityCallback != null) {
                 mainActivityCallback.onClickSiteIdIcon();
@@ -3770,6 +3775,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onClickSubmenuItem(String menuName, ArrayList<MenuModel> submenus, int position) {
         displaySelectedScreen(menuName);
+    }
+
+    @Override
+    public void onclickHelpIcon() {
+        Intent intent = new Intent(this, HelpActivity.class);
+        startActivity(intent);
     }
 
     public void startService() {
