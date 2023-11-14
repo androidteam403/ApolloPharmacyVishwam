@@ -55,7 +55,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="No of Houses"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -79,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Distance"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -103,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Apartments"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView

@@ -439,7 +439,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_2dp"
                                         android:layout_weight=".9"
-                                        android:textColorHint="@color/black">
+                                        android:textColorHint="@color/black"
+                                        android:theme="@style/TextLabelEditTextApnaProject">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/enter_recipient"

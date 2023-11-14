@@ -53,7 +53,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Organised"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -77,7 +77,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Avg sale"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -108,7 +108,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Un-organised"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -132,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Avg sale"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
