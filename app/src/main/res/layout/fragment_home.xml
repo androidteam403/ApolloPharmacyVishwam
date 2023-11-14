@@ -1,5 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -8,6 +9,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/value_70dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -78,7 +80,8 @@
                         android:contentDescription="@string/app_name"
                         android:gravity="center"
                         android:src="@drawable/notification_icon"
-                        android:tint="@color/dark_grey" />
+                        android:tint="@color/dark_grey"
+                        tools:ignore="UseAppTint" />
 
                     <TextView
                         android:id="@+id/notification_text"
@@ -201,5 +204,94 @@
                     android:textSize="@dimen/text_15sp" />
             </RelativeLayout>
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/value_15dp"
+            android:layout_marginEnd="@dimen/value_15dp"
+            android:layout_marginBottom="@dimen/value_20dp"
+            android:background="@drawable/rounded_gray_bg">
+
+            <LinearLayout
+                android:id="@+id/dark_mode_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingStart="@dimen/value_12dp"
+                android:paddingEnd="@dimen/value_12dp">
+
+                <ImageView
+                    android:id="@+id/dark_mode_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_night_mode"
+                    tools:ignore="UseAppTint" />
+
+                <TextView
+                    android:id="@+id/dark_mode_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_bold"
+                    android:text="Dark Mode"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/dimen11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/light_mode_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:paddingStart="@dimen/value_12dp"
+                android:paddingEnd="@dimen/value_12dp">
+
+                <ImageView
+                    android:id="@+id/light_mode_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_day_mode"
+                    tools:ignore="UseAppTint" />
+
+                <TextView
+                    android:id="@+id/light_mode_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_bold"
+                    android:text="Light Mode"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/dimen11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/device_mode_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:paddingStart="@dimen/value_12dp"
+                android:paddingEnd="@dimen/value_12dp">
+
+                <ImageView
+                    android:id="@+id/device_mode_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/device_mode"
+                    tools:ignore="ContentDescription,UseAppTint" />
+
+                <TextView
+                    android:id="@+id/device_mode_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_bold"
+                    android:text="Device Mode"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/dimen11sp" />
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 </layout>
