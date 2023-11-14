@@ -79,6 +79,7 @@
                         android:layout_height="@dimen/twenty_five_dp"
                         android:contentDescription="@string/app_name"
                         android:gravity="center"
+                        android:onClick="@{()->callback.onclickNotificationIcon()}"
                         android:src="@drawable/notification_icon"
                         android:tint="@color/dark_grey"
                         tools:ignore="UseAppTint" />
@@ -294,4 +295,11 @@
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.home.HomeFragmentCallback" />
+    </data>
 </layout>

@@ -14,4 +14,5 @@ public interface MainActivityCallback {
     void onSelectPendingFragment();
     void onClickSpinnerLayout();
     void onClickSubmenuItem(String menuName, ArrayList<MenuModel> submenus, int position);
+    void onclickHelpIcon();
 }
