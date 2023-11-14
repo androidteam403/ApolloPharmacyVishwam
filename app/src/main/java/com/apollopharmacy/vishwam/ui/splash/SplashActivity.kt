@@ -56,8 +56,10 @@ class SplashActivity : AppCompatActivity() {
         val appTheme = Preferences.getAppTheme()
         if (appTheme.equals("DARK", true)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
+        } else if (appTheme.equals("LIGHT", true)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         splashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
