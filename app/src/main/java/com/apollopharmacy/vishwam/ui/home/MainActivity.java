@@ -88,8 +88,10 @@ import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.drugmodule.Drug;
 import com.apollopharmacy.vishwam.ui.home.drugmodule.druglist.DrugListFragment;
 import com.apollopharmacy.vishwam.ui.home.greeting.GreetingActivity;
+import com.apollopharmacy.vishwam.ui.home.help.HelpActivity;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
+import com.apollopharmacy.vishwam.ui.home.notification.NotificationsActivity;
 import com.apollopharmacy.vishwam.ui.home.planogram.fragment.PlanogramFragment;
 import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboard;
 import com.apollopharmacy.vishwam.ui.home.retroqr.RetroQrFragment;
@@ -558,13 +560,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        TextView idText = navigationView.getHeaderView(0).findViewById(R.id.id_for_menu);
 //        navigationView.setNavigationItemSelectedListener(this);
 
-        String appTheme = Preferences.INSTANCE.getAppTheme();
+        /*String appTheme = Preferences.INSTANCE.getAppTheme();
         if (appTheme.equalsIgnoreCase("DARK")) {
             switchBtn.setChecked(true);
         } else {
             switchBtn.setChecked(false);
-        }
-        switchBtn.setOnClickListener(view -> {
+        }*/
+        /*switchBtn.setOnClickListener(view -> {
             if (switchBtn.isChecked()) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 Preferences.INSTANCE.setAppTheme("DARK");
@@ -574,7 +576,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Preferences.INSTANCE.setAppTheme("LIGHT");
                 recreate();
             }
-        });
+        });*/
 
         String loginJson = Preferences.INSTANCE.getLoginJson();
         LoginDetails loginData = null;
@@ -677,8 +679,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("HOME");
                     break;
                 case R.id.help:
+                    Intent intent = new Intent(MainActivity.this, HelpActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.notification:
+                    Intent notificationIntent = new Intent(MainActivity.this, NotificationsActivity.class);
+                    startActivity(notificationIntent);
                     break;
                 case R.id.menu:
                     if (menuModels != null && menuModels.size() > 1) {
@@ -1068,7 +1074,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 bottomNavigationView.setVisibility(View.GONE);
-                switchBtn.setVisibility(View.VISIBLE);
+                switchBtn.setVisibility(View.GONE);
 
                 break;
 
@@ -3909,6 +3915,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setSubmenu(ArrayList<MenuModel> menuModels) {
         this.menuModels = menuModels;
+    }
+
+    public void applyTheme() {
+        recreate();
     }
 }
 
