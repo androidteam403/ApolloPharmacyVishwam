@@ -507,6 +507,10 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     ) {
     }
 
+    override fun onclickHelpIcon() {
+        TODO("Not yet implemented")
+    }
+
 }
 
 
