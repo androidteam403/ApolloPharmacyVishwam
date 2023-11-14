@@ -857,6 +857,11 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         position: Int
     ) {
     }
+
+    override fun onclickHelpIcon() {
+        TODO("Not yet implemented")
+    }
+
     override fun selectListSize(listSize: String) {
         Preferences.setQcRejectedPageSize(listSize.toInt());
 //        MainActivity.mInstance.updateQcListCount(listSize)
