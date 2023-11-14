@@ -7,6 +7,6 @@
         android:color="#cc0000"/>
 
     <size
-        android:width="@dimen/value_35dp"
-        android:height="@dimen/value_35dp"/>
+        android:width="33dp"
+        android:height="33dp"/>
 </shape>

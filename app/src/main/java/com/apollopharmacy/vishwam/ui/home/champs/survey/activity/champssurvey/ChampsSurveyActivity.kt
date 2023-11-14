@@ -30,7 +30,6 @@ import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.ActivityChampsSurveyBinding
 import com.apollopharmacy.vishwam.databinding.DialogDeleteRecipientEmailBinding
-import com.apollopharmacy.vishwam.databinding.DialogLocationListBinding
 import com.apollopharmacy.vishwam.databinding.DialogTrainersEmailBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.adapter.CategoryDetailsAdapter
@@ -44,7 +43,6 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest.CmsChampsSurveyQa
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.fileuploadchamps.FileUploadChamps
@@ -56,6 +54,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 
@@ -79,7 +78,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     lateinit var trainerEmailList: Dialog
     lateinit var trainersEmailAdapter: TrainersEmailAdapterForDialog
     var emailList = ArrayList<TrainersEmailIdResponse.Data.ListData.Row.TrainerEmail>()
-    var trainerEmail:String?=null
+    var trainerEmail: String? = null
+
     //    var recipientEmails: String? = ""
     var surveyRecDetailsList = ArrayList<String>()
     private var isPending: Boolean = false
@@ -87,7 +87,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     var listForTrainers = ArrayList<String>()
     public var isNewSurveyCreated = false
     private lateinit var dialogDElete: Dialog
-    var siteName: String? = ""
+//    var siteName: String? = ""
     var sumOfCategoriess: Float? = 0f
     private var storeCity: String = ""
     private var region: String = ""
@@ -111,7 +111,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     var isFirstTime = true
     var visitDate = ""
     var surveyRecManualList = ArrayList<String>()
-    var dialogLocationListBinding:DialogTrainersEmailBinding?=null
+    var dialogLocationListBinding: DialogTrainersEmailBinding? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -141,12 +141,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
     private fun setUp() {
 
-        activityChampsSurveyBinding.callback=this
+        activityChampsSurveyBinding.callback = this
         siteNameForAddress = intent.getStringExtra("siteNameForAddress")
-        if(intent.getStringArrayListExtra("surveyRecManualList")!=null){
+        if (intent.getStringArrayListExtra("surveyRecManualList") != null) {
             surveyRecManualList = intent.getStringArrayListExtra("surveyRecManualList")!!
         }
-        if(intent.getStringExtra("trainerEmail")!=null){
+        if (intent.getStringExtra("trainerEmail") != null) {
             trainerEmail = intent.getStringExtra("trainerEmail")
         }
 
@@ -154,7 +154,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             intent.getSerializableExtra("getStoreWiseEmpIdResponse") as GetStoreWiseEmpIdResponse?
         getStoreWiseDetails =
             intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
-        if(intent.getStringArrayListExtra("listForTrainers")!=null){
+        if (intent.getStringArrayListExtra("listForTrainers") != null) {
             listForTrainers = intent.getStringArrayListExtra("listForTrainers")!!
         }
 
@@ -164,7 +164,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         surveyCCDetailsList = intent.getStringArrayListExtra("surveyCCDetailsList")!!
         address = intent.getStringExtra("address")!!
         storeId = intent.getStringExtra("storeId")!!
-        siteName = intent.getStringExtra("siteName")
+//        siteName = intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
         status = intent.getStringExtra("status")
         champsRefernceId = intent.getStringExtra("champsRefernceId")
@@ -192,12 +192,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.employeeId.text = Preferences.getValidatedEmpId()
 //        activityChampsSurveyBinding.siteId.text = storeId
 
-            activityChampsSurveyBinding.storeName.text = siteName
-            if(!trainerEmail.isNullOrEmpty()){
-                activityChampsSurveyBinding.trainerLayout.visibility=View.VISIBLE
+            activityChampsSurveyBinding.storeName.text = Preferences.getSaveChampsSurveySiteName()
+            if (!trainerEmail.isNullOrEmpty()) {
+                activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
                 activityChampsSurveyBinding.trainer.text = trainerEmail
-            }else{
-                activityChampsSurveyBinding.trainerLayout.visibility=View.GONE
+            } else {
+                activityChampsSurveyBinding.trainerLayout.visibility = View.GONE
             }
 
 
@@ -209,18 +209,25 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.storeCity.text = storeCity
             activityChampsSurveyBinding.region.text = region
             activityChampsSurveyBinding.percentageSum.text = "0"
-        } else if (status.equals("PENDING")) {
-            if(!trainerEmail.isNullOrEmpty()){
-                activityChampsSurveyBinding.trainerLayout.visibility=View.VISIBLE
+        }
+        else if (status.equals("PENDING")) {
+            if (!trainerEmail.isNullOrEmpty()) {
+                activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
                 activityChampsSurveyBinding.trainer.text = trainerEmail
-            }else{
-                activityChampsSurveyBinding.trainerLayout.visibility=View.GONE
+            } else {
+                activityChampsSurveyBinding.trainerLayout.visibility = View.GONE
             }
             surveyDetailsByChampsIdForCheckBox = true
             activityChampsSurveyBinding.deleteDown.visibility = View.VISIBLE
             activityChampsSurveyBinding.previewDown.visibility = View.GONE
 
         } else {
+            if (!trainerEmail.isNullOrEmpty()) {
+                activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
+                activityChampsSurveyBinding.trainer.text = trainerEmail
+            } else {
+                activityChampsSurveyBinding.trainerLayout.visibility = View.GONE
+            }
             surveyDetailsByChampsIdForCheckBox = true
         }
 
@@ -296,20 +303,21 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //            )
 //                .show()
 //        }
-        adapterRec = EmailAddressAdapter(surveyRecManualList, this@ChampsSurveyActivity, this)
+        adapterRec = EmailAddressAdapter(surveyRecManualList, applicationContext, this, status)
         activityChampsSurveyBinding.emailRecRecyclerView.setLayoutManager(
             LinearLayoutManager(
-                this)
+                this
+            )
         )
         activityChampsSurveyBinding.emailRecRecyclerView.setAdapter(adapterRec)
         onClickAddRecipient()
-        adapterTrainers = EmailAddressAdapterTrainers(listForTrainers, applicationContext, this)
+        adapterTrainers = EmailAddressAdapterTrainers(listForTrainers, applicationContext, this, status)
         activityChampsSurveyBinding.trainerRecyclerview.setLayoutManager(
             LinearLayoutManager(
-                this)
+                this
+            )
         )
         activityChampsSurveyBinding.trainerRecyclerview.setAdapter(adapterTrainers)
-
 
 
     }
@@ -675,7 +683,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
 
     override fun onClickEyeIconForDropDown() {
-        activityChampsSurveyBinding.eyeIconForDropdown.isEnabled=false
+        activityChampsSurveyBinding.eyeIconForDropdown.isEnabled = false
         trainerEmailList = Dialog(this)
         dialogLocationListBinding = DataBindingUtil.inflate<DialogTrainersEmailBinding>(
             LayoutInflater.from(this),
@@ -687,29 +695,30 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         trainerEmailList.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         trainerEmailList.setCancelable(false)
         dialogLocationListBinding!!.closeDialog.setOnClickListener {
-            activityChampsSurveyBinding.eyeIconForDropdown.isEnabled=true
+            activityChampsSurveyBinding.eyeIconForDropdown.isEnabled = true
             trainerEmailList.dismiss()
         }
-        dialogLocationListBinding!!.submit.setOnClickListener{
-            activityChampsSurveyBinding.eyeIconForDropdown.isEnabled=true
+        dialogLocationListBinding!!.submit.setOnClickListener {
+            activityChampsSurveyBinding.eyeIconForDropdown.isEnabled = true
             trainerEmailList.dismiss()
 
         }
 //        var emailList = ArrayList<String>()
 //        emailList.add("apollopharmacy.org")
 //        emailList.add("dhanalakshmi@gmail.com")
-        if(emailList!=null && emailList.size>0){
-            dialogLocationListBinding!!.noDataAvailable.visibility=View.GONE
-            dialogLocationListBinding!!.submit.visibility=View.VISIBLE
-            dialogLocationListBinding!!.locationRcv.visibility=View.VISIBLE
-            trainersEmailAdapter = TrainersEmailAdapterForDialog(applicationContext, emailList, this, listForTrainers)
+        if (emailList != null && emailList.size > 0) {
+            dialogLocationListBinding!!.noDataAvailable.visibility = View.GONE
+            dialogLocationListBinding!!.submit.visibility = View.VISIBLE
+            dialogLocationListBinding!!.locationRcv.visibility = View.VISIBLE
+            trainersEmailAdapter =
+                TrainersEmailAdapterForDialog(applicationContext, emailList, this, listForTrainers)
             dialogLocationListBinding!!.locationRcv.adapter = trainersEmailAdapter
             dialogLocationListBinding!!.locationRcv.layoutManager =
                 LinearLayoutManager(this)
-        }else{
-            dialogLocationListBinding!!.locationRcv.visibility=View.GONE
-            dialogLocationListBinding!!.submit.visibility=View.GONE
-            dialogLocationListBinding!!.noDataAvailable.visibility=View.VISIBLE
+        } else {
+            dialogLocationListBinding!!.locationRcv.visibility = View.GONE
+            dialogLocationListBinding!!.submit.visibility = View.GONE
+            dialogLocationListBinding!!.noDataAvailable.visibility = View.VISIBLE
         }
 
         dialogLocationListBinding!!.searchLocationListText.addTextChangedListener(object :
@@ -767,15 +776,18 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     }
 
     override fun removeEmail(item: String) {
-        if(listForTrainers!=null &&  listForTrainers.contains(item)){
+        if (listForTrainers != null && listForTrainers.contains(item)) {
             listForTrainers.remove(item)
         }
     }
 
     override fun onSuccessTrainerList(response: TrainersEmailIdResponse?) {
-        if(response!=null && response.data!=null && response!!.data.listData!=null &&
-            response!!.data.listData.rows!=null &&  response!!.data.listData.rows.size>0 &&
-            response!!.data.listData.rows.get(0).trainerEmail!=null && response!!.data.listData.rows.get(0).trainerEmail.size>0){
+        if (response != null && response.data != null && response!!.data.listData != null &&
+            response!!.data.listData.rows != null && response!!.data.listData.rows.size > 0 &&
+            response!!.data.listData.rows.get(0).trainerEmail != null && response!!.data.listData.rows.get(
+                0
+            ).trainerEmail.size > 0
+        ) {
             emailList.addAll(response!!.data.listData.rows.get(0).trainerEmail)
         }
     }
@@ -785,12 +797,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     }
 
     override fun noOrdersFound(size: Int) {
-        if (size > 0 && dialogLocationListBinding!=null) {
+        if (size > 0 && dialogLocationListBinding != null) {
             dialogLocationListBinding!!.noDataAvailable.setVisibility(View.GONE)
-            dialogLocationListBinding!!.submit.visibility=View.VISIBLE
+            dialogLocationListBinding!!.submit.visibility = View.VISIBLE
         } else {
             dialogLocationListBinding!!.noDataAvailable.setVisibility(View.VISIBLE)
-            dialogLocationListBinding!!.submit.visibility=View.GONE
+            dialogLocationListBinding!!.submit.visibility = View.GONE
         }
     }
 
@@ -880,13 +892,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
     private fun saveApiRequest(type: String) {
         if (NetworkUtil.isNetworkConnected(context)) {
-//            Utlis.showLoading(this)
-            var submit = SaveSurveyModelRequest()
-            var headerDetails = SaveSurveyModelRequest.HeaderDetails()
-            headerDetails.state = activityChampsSurveyBinding.region.text.toString()
+            Utlis.showLoading(this)
+            var submit = SaveSurveyModelRequestt()
+            var headerDetails = SaveSurveyModelRequestt.HeaderDetails()
+            headerDetails.champAutoId = champsRefernceId
             headerDetails.city = activityChampsSurveyBinding.storeCity.text.toString()
+            headerDetails.createdBy = Preferences.getValidatedEmpId()
+            headerDetails.state = activityChampsSurveyBinding.region.text.toString()
             headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
-
             if (!status.equals("COMPLETED")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
                 val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
@@ -895,7 +908,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 val dateNewFormat =
                     SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
                 headerDetails.dateOfVisit = dateNewFormat
-            } else if (status.equals("PENDING")) {
+            }
+            else if (status.equals("PENDING")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
                 val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
@@ -903,7 +917,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 val dateNewFormat =
                     SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
                 headerDetails.dateOfVisit = dateNewFormat
-            } else {
+            }
+            else {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
                 val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
@@ -931,6 +946,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                    headerDetails.emailIdOfTrainer = ""
 //                }
                 var trainerEmails: String = ""
+                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
                 if (!listForTrainers.isNullOrEmpty()) {
                     for (i in listForTrainers) {
                         if (trainerEmails.isEmpty()) {
@@ -941,7 +957,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     }
                 }
 
-                if (trainerEmails!=null) {
+                if (trainerEmails != null) {
                     headerDetails.emailIdOfTrainer = trainerEmails
                 } else {
                     headerDetails.emailIdOfTrainer = ""
@@ -993,7 +1009,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     }
                 }
 
-                if (recepientEmails!=null) {
+                if (recepientEmails != null) {
                     headerDetails.emailIdOfRecipients = recepientEmails
                 } else {
                     headerDetails.emailIdOfRecipients = ""
@@ -1015,17 +1031,37 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 } else {
                     headerDetails.emailIdOfCc = ""
                 }
-            } else if (status.equals("PENDING")) {
-                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
-                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfTrainer != null) {
-                        headerDetails.emailIdOfTrainer =
-                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfTrainer
-                    } else {
-                        headerDetails.emailIdOfTrainer = ""
+            }
+            else if (status.equals("PENDING")) {
+
+                var trainerEmails: String = ""
+//                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
+                if (!listForTrainers.isNullOrEmpty()) {
+                    for (i in listForTrainers) {
+                        if (trainerEmails.isEmpty()) {
+                            trainerEmails = i
+                        } else {
+                            trainerEmails = "$trainerEmails,$i"
+                        }
                     }
+                }
+
+                if (trainerEmails != null) {
+                    headerDetails.emailIdOfTrainer = trainerEmails
                 } else {
                     headerDetails.emailIdOfTrainer = ""
                 }
+
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfTrainer != null) {
+//                        headerDetails.emailIdOfTrainer =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfTrainer
+//                    } else {
+//                        headerDetails.emailIdOfTrainer = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfTrainer = ""
+//                }
 
                 if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
                     if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfExecutive != null) {
@@ -1063,17 +1099,32 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
 
 
-
-                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
-                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients != null) {
-                        headerDetails.emailIdOfRecipients =
-                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients
-                    } else {
-                        headerDetails.emailIdOfRecipients = ""
+                var recepientEmails: String = ""
+                if (!surveyRecManualList.isNullOrEmpty()) {
+                    for (i in surveyRecManualList) {
+                        if (recepientEmails.isEmpty()) {
+                            recepientEmails = i
+                        } else {
+                            recepientEmails = "$recepientEmails,$i"
+                        }
                     }
+                }
+
+                if (recepientEmails != null) {
+                    headerDetails.emailIdOfRecipients = recepientEmails
                 } else {
                     headerDetails.emailIdOfRecipients = ""
                 }
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients != null) {
+//                        headerDetails.emailIdOfRecipients =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients
+//                    } else {
+//                        headerDetails.emailIdOfRecipients = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfRecipients = ""
+//                }
 
                 if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
                     if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfCc != null) {
@@ -1099,7 +1150,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             headerDetails.issuesToBeResolved =
                 activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.text.toString()
             headerDetails.total = activityChampsSurveyBinding.percentageSum.text.toString()
-            headerDetails.createdBy = Preferences.getValidatedEmpId()
             headerDetails.site_name = Preferences.getChampsSiteName()
             if (type.equals("submit")) {
                 headerDetails.status = "1"
@@ -1109,575 +1159,845 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
             submit.headerDetails = headerDetails
 
-            var categoryDetails = SaveSurveyModelRequest.CategoryDetails()
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                    0
-                )?.subCategoryDetails != null
+            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null
+                && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 0
             ) {
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        0
-                    )?.subCategoryDetails!!.get(0).givenRating != null
-                ) {
-                    categoryDetails.appearanceStore =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
-                            0
-                        ).givenRating.toString()
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        0
-                    )?.subCategoryDetails!!.get(1).givenRating != null
-                ) {
-                    categoryDetails.offerDisplay =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
-                            1
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        0
-                    )?.subCategoryDetails!!.get(2).givenRating != null
-                ) {
-                    categoryDetails.storeFrontage =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
-                            2
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        0
-                    )?.subCategoryDetails!!.get(3).givenRating != null
-                ) {
-                    categoryDetails.groomingStaff =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
-                            3
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        0
-                    )?.imageDataLists != null
-                ) {
-                    var commaSeparatorUrls = ""
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.imageDataLists!!.indices) {
-                        var indiviualUrl =
-                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.imageDataLists!!.get(
-                                i
-                            ).imageUrl
-                        if (commaSeparatorUrls != "") {
-                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                        } else {
-                            commaSeparatorUrls = indiviualUrl!!
-                        }
-
-                    }
-                    categoryDetails.cleanlinessImages = commaSeparatorUrls
-
-                }
-
-            }
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                    1
-                )?.subCategoryDetails != null
-            ) {
-
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        1
-                    )?.imageDataLists != null
-                ) {
-                    var commaSeparatorUrls = ""
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.imageDataLists!!.indices) {
-                        var indiviualUrl =
-                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.imageDataLists!!.get(
-                                i
-                            ).imageUrl
-                        if (commaSeparatorUrls != "") {
-                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                        } else {
-                            commaSeparatorUrls = indiviualUrl!!
-                        }
-                    }
-                    categoryDetails.hospitalityImages = commaSeparatorUrls
-
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        1
-                    )?.subCategoryDetails!!.get(0).givenRating != null
-                ) {
-                    categoryDetails.greetingCustomers =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
-                            0
-                        ).givenRating.toString()
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        1
-                    )?.subCategoryDetails!!.get(1).givenRating != null
-                ) {
-                    categoryDetails.customerEngagement =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
-                            1
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        1
-                    )?.subCategoryDetails!!.get(2).givenRating != null
-                ) {
-                    categoryDetails.customerHandling =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
-                            2
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        1
-                    )?.subCategoryDetails!!.get(3).givenRating != null
-                ) {
-                    categoryDetails.reminderCalls =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
-                            3
-                        ).givenRating.toString()
-                }
-
-//                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
-//                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
-//
-//                }
-
-            }
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                    2
-                )?.subCategoryDetails != null
-            ) {
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.imageDataLists != null
-                ) {
-                    var commaSeparatorUrls = ""
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.imageDataLists!!.indices) {
-                        var indiviualUrl =
-                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.imageDataLists!!.get(
-                                i
-                            ).imageUrl
-                        if (commaSeparatorUrls != "") {
-                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                        } else {
-                            commaSeparatorUrls = indiviualUrl!!
-                        }
-                    }
-                    categoryDetails.accuracyImages = commaSeparatorUrls
-
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(0).givenRating != null
-                ) {
-                    categoryDetails.billingSkusDispensed =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            0
-                        ).givenRating.toString()
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(1).givenRating != null
-                ) {
-                    categoryDetails.interpretationRecheckPrescription =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            1
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(2).givenRating != null
-                ) {
-                    categoryDetails.bankDeposits =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            2
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(3).givenRating != null
-                ) {
-                    categoryDetails.expiryFifoPolicy =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            3
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(4).givenRating != null
-                ) {
-                    categoryDetails.rsCheckInternalAuditing =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            4
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(5).givenRating != null
-                ) {
-                    categoryDetails.oneApolloDrConnect =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            5
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        2
-                    )?.subCategoryDetails!!.get(6).givenRating != null
-                ) {
-                    categoryDetails.cashCheckingEvery2Hours =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
-                            6
-                        ).givenRating.toString()
-                }
-
-
-//                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
-//                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
-//
-//                }
-
-            }
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                    3
-                )?.subCategoryDetails != null
-            ) {
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.imageDataLists != null
-                ) {
-                    var commaSeparatorUrls = ""
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.imageDataLists!!.indices) {
-                        var indiviualUrl =
-                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.imageDataLists!!.get(
-                                i
-                            ).imageUrl
-                        if (commaSeparatorUrls != "") {
-                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                        } else {
-                            commaSeparatorUrls = indiviualUrl!!
-                        }
-                    }
-                    categoryDetails.maintenanceImages = commaSeparatorUrls
-
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(0).givenRating != null
-                ) {
-                    if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                            4
-                        )?.imageDataLists != null
-                    ) {
-                        var commaSeparatorUrls = ""
-                        for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.indices) {
-                            var indiviualUrl =
-                                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.get(
-                                    i
-                                ).imageUrl
-                            if (commaSeparatorUrls != "") {
-                                commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                            } else {
-                                commaSeparatorUrls = indiviualUrl!!
-                            }
-                        }
-                        categoryDetails.productsImages = commaSeparatorUrls
-
-                    }
-                    categoryDetails.stockArrangementRefrigerator =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            0
-                        ).givenRating.toString()
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(1).givenRating != null
-                ) {
-                    categoryDetails.acWorkingCondition =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            1
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(2).givenRating != null
-                ) {
-                    categoryDetails.lighting =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            2
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(3).givenRating != null
-                ) {
-                    categoryDetails.planogram =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            3
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(4).givenRating != null
-                ) {
-                    categoryDetails.licensesRenewal =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            4
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(5).givenRating != null
-                ) {
-                    categoryDetails.biometric =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            5
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(6).givenRating != null
-                ) {
-                    categoryDetails.maintenanceHdRegister =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            6
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(7).givenRating != null
-                ) {
-                    categoryDetails.dutyRostersAllotment =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            7
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(8).givenRating != null
-                ) {
-                    categoryDetails.internet =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            8
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(9).givenRating != null
-                ) {
-                    categoryDetails.swipingMachineWorking =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            9
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(10).givenRating != null
-                ) {
-                    categoryDetails.theCcCamerasWorking =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            10
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        3
-                    )?.subCategoryDetails!!.get(11).givenRating != null
-                ) {
-                    categoryDetails.printersWorkingCondition =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
-                            11
-                        ).givenRating!!.toString()
-                }
-
-
-//                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
-//                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
-//
-//                }
-
-            }
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.size!! > 4 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                    4
-                )?.subCategoryDetails != null
-            ) {
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        4
-                    )?.imageDataLists != null
-                ) {
-                    var commaSeparatorUrls = ""
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.indices) {
-                        var indiviualUrl =
-                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.get(
-                                i
-                            ).imageUrl
-                        if (commaSeparatorUrls != "") {
-                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                        } else {
-                            commaSeparatorUrls = indiviualUrl!!
-                        }
-                    }
-                    categoryDetails.productsImages = commaSeparatorUrls
-
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        4
-                    )?.subCategoryDetails!!.get(0).givenRating != null
-                ) {
-                    categoryDetails.availabilityStockGood =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
-                            0
-                        ).givenRating.toString()
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        4
-                    )?.subCategoryDetails!!.get(1).givenRating != null
-                ) {
-                    categoryDetails.substitutionOfferedRegularly =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
-                            1
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        4
-                    )?.subCategoryDetails!!.get(2).givenRating != null
-                ) {
-                    categoryDetails.serviceRecoveryDone90 =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
-                            2
-                        ).givenRating.toString()
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        4
-                    )?.subCategoryDetails!!.get(3).givenRating != null
-                ) {
-                    categoryDetails.bounceTracking =
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
-                            3
-                        ).givenRating.toString()
-                }
-
-//                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
-//                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
-//
-//                }
-
-            }
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 5 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                    5
-                )?.subCategoryDetails != null
-            ) {
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.imageDataLists != null
-                ) {
-                    var commaSeparatorUrls = ""
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.imageDataLists!!.indices) {
-                        var indiviualUrl =
-                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.imageDataLists!!.get(
-                                i
-                            ).imageUrl
-                        if (commaSeparatorUrls != "") {
-                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
-                        } else {
-                            commaSeparatorUrls = indiviualUrl!!
-                        }
-                    }
-                    categoryDetails.speedServiceSalesPromotionImages = commaSeparatorUrls
-
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.subCategoryDetails!!.get(0).givenRating != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.subCategoryDetails!!.size > 0
-                ) {
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!) {
-                        if (i.subCategoryName.equals("Speed of service  - 5 to 10 minutes")) {
-                            categoryDetails.speedService5To10Minutes =
-                                i.givenRating.toString()
-                            break
+                var categoryDetailsList = ArrayList<SaveSurveyModelRequestt.CategoryDetail>()
+                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                    if(i.subCategoryDetails!=null){
+                        for (j in i.subCategoryDetails!!) {
+                            var categoryDetails = SaveSurveyModelRequestt.CategoryDetail()
+                            categoryDetails.subcategoryId = j.id.toString()
+                            categoryDetails.categoryId = i.id.toString()
+                            categoryDetails.value = j.givenRating.toString()
+                            categoryDetails.champsId=champsRefernceId
+                            categoryDetailsList.add(categoryDetails)
                         }
                     }
 
                 }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.subCategoryDetails!!.size > 1 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.subCategoryDetails!!.get(1).givenRating != null
-                ) {
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!) {
-                        if (i.subCategoryName.equals("Home Delivery - commitment fulfilled on time")) {
-                            categoryDetails.homeDeliveryCommitmentFulfilledTime =
-                                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!.get(
-                                    1
-                                ).givenRating.toString()
-                            break
+                submit.categoryDetails = categoryDetailsList
+
+                var imagesList = ArrayList<SaveSurveyModelRequestt.ImageDetail>()
+                for(i in getCategoryAndSubCategoryDetails!!.categoryDetails!!){
+                    if(i.imageDataLists!=null && i.imageDataLists!!.size>0){
+                        for(j in i.imageDataLists!!){
+                            var imageDetails = SaveSurveyModelRequestt.ImageDetail()
+                            imageDetails.imageUrl = j.imageUrl
+                            imageDetails.categoryId = i.id.toString()
+                            imageDetails.champsId=champsRefernceId
+                            imagesList.add(imageDetails)
                         }
                     }
-
-                }
-
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.subCategoryDetails!!.size > 2 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-                        5
-                    )?.subCategoryDetails!!.get(2).givenRating != null
-                ) {
-
-                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!) {
-                        if (i.subCategoryName.equals("Sales Promotion")) {
-                            categoryDetails.salesPromotion =
-                                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!.get(
-                                    2
-                                ).givenRating.toString()
-                            break
-                        }
+                    submit.imageDetails=imagesList
                     }
 
-
-                }
-
-
-
-                submit.categoryDetails = categoryDetails
-
-
-//                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
-//                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
-//
-//                }
 
             }
             Gson().toJson(submit)
 
             champsSurveyViewModel.getSaveDetailsApi(submit, this, type)
 
+
         }
+//            Utlis.showLoading(this)
+//            var submit = SaveSurveyModelRequest()
+//            var headerDetails = SaveSurveyModelRequest.HeaderDetails()
+//            headerDetails.state = activityChampsSurveyBinding.region.text.toString()
+//            headerDetails.city = activityChampsSurveyBinding.storeCity.text.toString()
+//            headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
+//
+//            if (!status.equals("COMPLETED")) {
+//                val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
+//                val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
+//                val date = dateFormat.parse(strDate)
+////            023-01-23 17:32:16
+//                val dateNewFormat =
+//                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
+//                headerDetails.dateOfVisit = dateNewFormat
+//            }
+//            else if (status.equals("PENDING")) {
+//                val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
+//                val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
+//                val date = dateFormat.parse(strDate)
+////            023-01-23 17:32:16
+//                val dateNewFormat =
+//                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
+//                headerDetails.dateOfVisit = dateNewFormat
+//            }
+//            else {
+//                val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
+//                val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
+//                val date = dateFormat.parse(strDate)
+////            023-01-23 17:32:16
+//                val dateNewFormat =
+//                    SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
+//                headerDetails.dateOfVisit = dateNewFormat
+//            }
+//
+//            if (status.equals("NEW")) {
+//                var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+//                var employeeDetailsResponse: EmployeeDetailsResponse? = null
+//                try {
+//                    val gson = GsonBuilder().setPrettyPrinting().create()
+//                    employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+//                        empDetailsResponse, EmployeeDetailsResponse::class.java
+//                    )
+//
+//                } catch (e: JsonParseException) {
+//                    e.printStackTrace()
+//                }
+////                if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.email != null && !employeeDetailsResponse.data!!.email!!.isEmpty()) {
+////                    headerDetails.emailIdOfTrainer = employeeDetailsResponse.data!!.email!!
+////                } else {
+////                    headerDetails.emailIdOfTrainer = ""
+////                }
+//                var trainerEmails: String = ""
+//                if (!listForTrainers.isNullOrEmpty()) {
+//                    for (i in listForTrainers) {
+//                        if (trainerEmails.isEmpty()) {
+//                            trainerEmails = i
+//                        } else {
+//                            trainerEmails = "$trainerEmails,$i"
+//                        }
+//                    }
+//                }
+//
+//                if (trainerEmails!=null) {
+//                    headerDetails.emailIdOfTrainer = trainerEmails
+//                } else {
+//                    headerDetails.emailIdOfTrainer = ""
+//                }
+//
+//                /*if (getStoreWiseEmpIdResponse != null &&
+//                    getStoreWiseEmpIdResponse?.storeWiseDetails != null &&
+//                    getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail != null
+//                ) {
+//                    headerDetails.emailIdOfTrainer =
+//                        getStoreWiseEmpIdResponse?.storeWiseDetails?.trainerEmail
+//                } else {
+//                    headerDetails.emailIdOfTrainer = ""
+//                }*/
+//                if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null &&
+//                    getStoreWiseDetails!!.data.executive != null
+//                ) {
+//                    headerDetails.emailIdOfExecutive =
+//                        getStoreWiseDetails!!.data.executive.email
+//                } else {
+//                    headerDetails.emailIdOfExecutive = ""
+//                }
+//                if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null &&
+//                    getStoreWiseDetails!!.data.manager != null
+//                ) {
+//                    headerDetails.emailIdOfManager =
+//                        getStoreWiseDetails!!.data.manager.email
+//                } else {
+//                    headerDetails.emailIdOfManager = ""
+//                }
+//
+//                if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null &&
+//                    getStoreWiseDetails!!.data.regionHead != null
+//                ) {
+//                    headerDetails.emailIdOfRegionalHead =
+//                        getStoreWiseDetails!!.data.regionHead.email
+//                } else {
+//                    headerDetails.emailIdOfRegionalHead = ""
+//                }
+//
+//                var recepientEmails: String = ""
+//                if (!surveyRecManualList.isNullOrEmpty()) {
+//                    for (i in surveyRecManualList) {
+//                        if (recepientEmails.isEmpty()) {
+//                            recepientEmails = i
+//                        } else {
+//                            recepientEmails = "$recepientEmails,$i"
+//                        }
+//                    }
+//                }
+//
+//                if (recepientEmails!=null) {
+//                    headerDetails.emailIdOfRecipients = recepientEmails
+//                } else {
+//                    headerDetails.emailIdOfRecipients = ""
+//                }
+//
+////                if (surveyRecDetailsList != null) {
+////                    if (surveyRecDetailsList.get(0) != null) {
+////                        headerDetails.emailIdOfRecipients = surveyRecDetailsList.get(0)
+////                    } else {
+////                        headerDetails.emailIdOfRecipients = ""
+////                    }
+////
+////                } else {
+////                    headerDetails.emailIdOfRecipients = ""
+////                }
+//
+//                if (surveyCCDetailsList.get(0) != null) {
+//                    headerDetails.emailIdOfCc = surveyCCDetailsList.get(0)
+//                } else {
+//                    headerDetails.emailIdOfCc = ""
+//                }
+//            }
+//            else if (status.equals("PENDING")) {
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfTrainer != null) {
+//                        headerDetails.emailIdOfTrainer =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfTrainer
+//                    } else {
+//                        headerDetails.emailIdOfTrainer = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfTrainer = ""
+//                }
+//
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfExecutive != null) {
+//                        headerDetails.emailIdOfExecutive =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfExecutive
+//                    } else {
+//                        headerDetails.emailIdOfExecutive = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfExecutive = ""
+//                }
+//
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfManager != null) {
+//                        headerDetails.emailIdOfManager =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfManager
+//                    } else {
+//                        headerDetails.emailIdOfManager = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfManager = ""
+//                }
+//
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRegionalHead != null) {
+//                        headerDetails.emailIdOfRegionalHead =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRegionalHead
+//                    } else {
+//                        headerDetails.emailIdOfRegionalHead = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfRegionalHead = ""
+//                }
+//
+//
+//
+//
+//
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients != null) {
+//                        headerDetails.emailIdOfRecipients =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfRecipients
+//                    } else {
+//                        headerDetails.emailIdOfRecipients = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfRecipients = ""
+//                }
+//
+//                if (getSurveyDetailsByChapmpsIdTemp != null && getSurveyDetailsByChapmpsIdTemp!!.headerDetails != null) {
+//                    if (getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfCc != null) {
+//                        headerDetails.emailIdOfCc =
+//                            getSurveyDetailsByChapmpsIdTemp!!.headerDetails.emailIdOfCc
+//                    } else {
+//                        headerDetails.emailIdOfCc = ""
+//                    }
+//                } else {
+//                    headerDetails.emailIdOfCc = ""
+//                }
+//            }
+//
+//
+//            headerDetails.champAutoId = champsRefernceId
+//
+//            headerDetails.techinalDetails =
+//                activityChampsSurveyBinding.enterTextTechnicalEdittext.text.toString()
+//            headerDetails.softSkills =
+//                activityChampsSurveyBinding.enterSoftSkillsEdittext.text.toString()
+//            headerDetails.otherTraining =
+//                activityChampsSurveyBinding.enterOtherTrainingEdittext.text.toString()
+//            headerDetails.issuesToBeResolved =
+//                activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.text.toString()
+//            headerDetails.total = activityChampsSurveyBinding.percentageSum.text.toString()
+//            headerDetails.createdBy = Preferences.getValidatedEmpId()
+//            headerDetails.site_name = Preferences.getChampsSiteName()
+//            if (type.equals("submit")) {
+//                headerDetails.status = "1"
+//            } else {
+//                headerDetails.status = "0"
+//            }
+//
+//            submit.headerDetails = headerDetails
+//
+//            var categoryDetails = SaveSurveyModelRequest.CategoryDetails()
+//
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                    0
+//                )?.subCategoryDetails != null
+//            ) {
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        0
+//                    )?.subCategoryDetails!!.get(0).givenRating != null
+//                ) {
+//                    categoryDetails.appearanceStore =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
+//                            0
+//                        ).givenRating.toString()
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        0
+//                    )?.subCategoryDetails!!.get(1).givenRating != null
+//                ) {
+//                    categoryDetails.offerDisplay =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
+//                            1
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        0
+//                    )?.subCategoryDetails!!.get(2).givenRating != null
+//                ) {
+//                    categoryDetails.storeFrontage =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
+//                            2
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        0
+//                    )?.subCategoryDetails!!.get(3).givenRating != null
+//                ) {
+//                    categoryDetails.groomingStaff =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.subCategoryDetails!!.get(
+//                            3
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        0
+//                    )?.imageDataLists != null
+//                ) {
+//                    var commaSeparatorUrls = ""
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.imageDataLists!!.indices) {
+//                        var indiviualUrl =
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.imageDataLists!!.get(
+//                                i
+//                            ).imageUrl
+//                        if (commaSeparatorUrls != "") {
+//                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                        } else {
+//                            commaSeparatorUrls = indiviualUrl!!
+//                        }
+//
+//                    }
+//                    categoryDetails.cleanlinessImages = commaSeparatorUrls
+//
+//                }
+//
+//            }
+//
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                    1
+//                )?.subCategoryDetails != null
+//            ) {
+//
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        1
+//                    )?.imageDataLists != null
+//                ) {
+//                    var commaSeparatorUrls = ""
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.imageDataLists!!.indices) {
+//                        var indiviualUrl =
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.imageDataLists!!.get(
+//                                i
+//                            ).imageUrl
+//                        if (commaSeparatorUrls != "") {
+//                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                        } else {
+//                            commaSeparatorUrls = indiviualUrl!!
+//                        }
+//                    }
+//                    categoryDetails.hospitalityImages = commaSeparatorUrls
+//
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        1
+//                    )?.subCategoryDetails!!.get(0).givenRating != null
+//                ) {
+//                    categoryDetails.greetingCustomers =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
+//                            0
+//                        ).givenRating.toString()
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        1
+//                    )?.subCategoryDetails!!.get(1).givenRating != null
+//                ) {
+//                    categoryDetails.customerEngagement =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
+//                            1
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        1
+//                    )?.subCategoryDetails!!.get(2).givenRating != null
+//                ) {
+//                    categoryDetails.customerHandling =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
+//                            2
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        1
+//                    )?.subCategoryDetails!!.get(3).givenRating != null
+//                ) {
+//                    categoryDetails.reminderCalls =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.subCategoryDetails!!.get(
+//                            3
+//                        ).givenRating.toString()
+//                }
+//
+////                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
+////                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
+////
+////                }
+//
+//            }
+//
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                    2
+//                )?.subCategoryDetails != null
+//            ) {
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.imageDataLists != null
+//                ) {
+//                    var commaSeparatorUrls = ""
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.imageDataLists!!.indices) {
+//                        var indiviualUrl =
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.imageDataLists!!.get(
+//                                i
+//                            ).imageUrl
+//                        if (commaSeparatorUrls != "") {
+//                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                        } else {
+//                            commaSeparatorUrls = indiviualUrl!!
+//                        }
+//                    }
+//                    categoryDetails.accuracyImages = commaSeparatorUrls
+//
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(0).givenRating != null
+//                ) {
+//                    categoryDetails.billingSkusDispensed =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            0
+//                        ).givenRating.toString()
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(1).givenRating != null
+//                ) {
+//                    categoryDetails.interpretationRecheckPrescription =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            1
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(2).givenRating != null
+//                ) {
+//                    categoryDetails.bankDeposits =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            2
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(3).givenRating != null
+//                ) {
+//                    categoryDetails.expiryFifoPolicy =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            3
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(4).givenRating != null
+//                ) {
+//                    categoryDetails.rsCheckInternalAuditing =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            4
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(5).givenRating != null
+//                ) {
+//                    categoryDetails.oneApolloDrConnect =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            5
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        2
+//                    )?.subCategoryDetails!!.get(6).givenRating != null
+//                ) {
+//                    categoryDetails.cashCheckingEvery2Hours =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.subCategoryDetails!!.get(
+//                            6
+//                        ).givenRating.toString()
+//                }
+//
+//
+////                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
+////                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
+////
+////                }
+//
+//            }
+//
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                    3
+//                )?.subCategoryDetails != null
+//            ) {
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.imageDataLists != null
+//                ) {
+//                    var commaSeparatorUrls = ""
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.imageDataLists!!.indices) {
+//                        var indiviualUrl =
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.imageDataLists!!.get(
+//                                i
+//                            ).imageUrl
+//                        if (commaSeparatorUrls != "") {
+//                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                        } else {
+//                            commaSeparatorUrls = indiviualUrl!!
+//                        }
+//                    }
+//                    categoryDetails.maintenanceImages = commaSeparatorUrls
+//
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(0).givenRating != null
+//                ) {
+//                    if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                            4
+//                        )?.imageDataLists != null
+//                    ) {
+//                        var commaSeparatorUrls = ""
+//                        for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.indices) {
+//                            var indiviualUrl =
+//                                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.get(
+//                                    i
+//                                ).imageUrl
+//                            if (commaSeparatorUrls != "") {
+//                                commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                            } else {
+//                                commaSeparatorUrls = indiviualUrl!!
+//                            }
+//                        }
+//                        categoryDetails.productsImages = commaSeparatorUrls
+//
+//                    }
+//                    categoryDetails.stockArrangementRefrigerator =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            0
+//                        ).givenRating.toString()
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(1).givenRating != null
+//                ) {
+//                    categoryDetails.acWorkingCondition =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            1
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(2).givenRating != null
+//                ) {
+//                    categoryDetails.lighting =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            2
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(3).givenRating != null
+//                ) {
+//                    categoryDetails.planogram =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            3
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(4).givenRating != null
+//                ) {
+//                    categoryDetails.licensesRenewal =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            4
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(5).givenRating != null
+//                ) {
+//                    categoryDetails.biometric =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            5
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(6).givenRating != null
+//                ) {
+//                    categoryDetails.maintenanceHdRegister =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            6
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(7).givenRating != null
+//                ) {
+//                    categoryDetails.dutyRostersAllotment =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            7
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(8).givenRating != null
+//                ) {
+//                    categoryDetails.internet =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            8
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(9).givenRating != null
+//                ) {
+//                    categoryDetails.swipingMachineWorking =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            9
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(10).givenRating != null
+//                ) {
+//                    categoryDetails.theCcCamerasWorking =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            10
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        3
+//                    )?.subCategoryDetails!!.get(11).givenRating != null
+//                ) {
+//                    categoryDetails.printersWorkingCondition =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.subCategoryDetails!!.get(
+//                            11
+//                        ).givenRating!!.toString()
+//                }
+//
+//
+////                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
+////                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
+////
+////                }
+//
+//            }
+//
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.size!! > 4 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                    4
+//                )?.subCategoryDetails != null
+//            ) {
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        4
+//                    )?.imageDataLists != null
+//                ) {
+//                    var commaSeparatorUrls = ""
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.indices) {
+//                        var indiviualUrl =
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists!!.get(
+//                                i
+//                            ).imageUrl
+//                        if (commaSeparatorUrls != "") {
+//                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                        } else {
+//                            commaSeparatorUrls = indiviualUrl!!
+//                        }
+//                    }
+//                    categoryDetails.productsImages = commaSeparatorUrls
+//
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        4
+//                    )?.subCategoryDetails!!.get(0).givenRating != null
+//                ) {
+//                    categoryDetails.availabilityStockGood =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
+//                            0
+//                        ).givenRating.toString()
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        4
+//                    )?.subCategoryDetails!!.get(1).givenRating != null
+//                ) {
+//                    categoryDetails.substitutionOfferedRegularly =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
+//                            1
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        4
+//                    )?.subCategoryDetails!!.get(2).givenRating != null
+//                ) {
+//                    categoryDetails.serviceRecoveryDone90 =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
+//                            2
+//                        ).givenRating.toString()
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        4
+//                    )?.subCategoryDetails!!.get(3).givenRating != null
+//                ) {
+//                    categoryDetails.bounceTracking =
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.subCategoryDetails!!.get(
+//                            3
+//                        ).givenRating.toString()
+//                }
+//
+////                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
+////                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
+////
+////                }
+//
+//            }
+//
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 5 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                    5
+//                )?.subCategoryDetails != null
+//            ) {
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.imageDataLists != null
+//                ) {
+//                    var commaSeparatorUrls = ""
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.imageDataLists!!.indices) {
+//                        var indiviualUrl =
+//                            getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.imageDataLists!!.get(
+//                                i
+//                            ).imageUrl
+//                        if (commaSeparatorUrls != "") {
+//                            commaSeparatorUrls = indiviualUrl + "," + commaSeparatorUrls
+//                        } else {
+//                            commaSeparatorUrls = indiviualUrl!!
+//                        }
+//                    }
+//                    categoryDetails.speedServiceSalesPromotionImages = commaSeparatorUrls
+//
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.subCategoryDetails!!.get(0).givenRating != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.subCategoryDetails!!.size > 0
+//                ) {
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!) {
+//                        if (i.subCategoryName.equals("Speed of service  - 5 to 10 minutes")) {
+//                            categoryDetails.speedService5To10Minutes =
+//                                i.givenRating.toString()
+//                            break
+//                        }
+//                    }
+//
+//                }
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.subCategoryDetails!!.size > 1 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.subCategoryDetails!!.get(1).givenRating != null
+//                ) {
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!) {
+//                        if (i.subCategoryName.equals("Home Delivery - commitment fulfilled on time")) {
+//                            categoryDetails.homeDeliveryCommitmentFulfilledTime =
+//                                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!.get(
+//                                    1
+//                                ).givenRating.toString()
+//                            break
+//                        }
+//                    }
+//
+//                }
+//
+//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.subCategoryDetails!!.size > 2 && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+//                        5
+//                    )?.subCategoryDetails!!.get(2).givenRating != null
+//                ) {
+//
+//                    for (i in getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!) {
+//                        if (i.subCategoryName.equals("Sales Promotion")) {
+//                            categoryDetails.salesPromotion =
+//                                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.subCategoryDetails!!.get(
+//                                    2
+//                                ).givenRating.toString()
+//                            break
+//                        }
+//                    }
+//
+//
+//                }
+//
+//
+//
+//                submit.categoryDetails = categoryDetails
+
+
+//                if(getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls!=null){
+//                    submit.categoryDetails.cleanlinessImages = getCategoryAndSubCategoryDetails!!.emailDetails?.get(0)?.imageUrls.get(0)
+//
+//                }
+
+//            }
+
+//        }
     }
 
     override fun onClickSaveDraft() {
@@ -1827,6 +2147,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     activityChampsSurveyBinding.otherTrainingCheckbox.isChecked = true
                 }
             } else {
+                activityChampsSurveyBinding.recipientsEditboxWithPlus.visibility=View.GONE
+                activityChampsSurveyBinding.eyeIconForDropdown.visibility=View.GONE
                 activityChampsSurveyBinding.warningLayout.visibility = View.GONE
                 activityChampsSurveyBinding.saveSaveDraft.visibility = View.GONE
                 activityChampsSurveyBinding.preview.visibility = View.GONE
@@ -2119,7 +2441,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                         }
                     }
                 }
-                if (recepientEmails!= null) {
+                if (recepientEmails != null) {
                     saveUpdateRequest.email = recepientEmails
                 } else {
                     saveUpdateRequest.email = ""
@@ -2142,6 +2464,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     e.printStackTrace()
                 }
                 var trainerEmails: String = ""
+                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
                 if (!listForTrainers.isNullOrEmpty()) {
                     for (i in listForTrainers) {
                         if (trainerEmails.isEmpty()) {
@@ -2156,7 +2479,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                } else {
 //                    saveUpdateRequest.trainerEmail = ""
 //                }
-                if (trainerEmails!=null) {
+                if (trainerEmails != null) {
                     saveUpdateRequest.trainerEmail = trainerEmails
                 } else {
                     saveUpdateRequest.trainerEmail = ""
@@ -2191,6 +2514,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 }
 
                 var trainerEmails: String = ""
+                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
                 if (!listForTrainers.isNullOrEmpty()) {
                     for (i in listForTrainers) {
                         if (trainerEmails.isEmpty()) {
@@ -2205,7 +2529,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                } else {
 //                    saveUpdateRequest.trainerEmail = ""
 //                }
-                if (trainerEmails!=null) {
+                if (trainerEmails != null) {
                     saveUpdateRequest.trainerEmail = trainerEmails
                 } else {
                     saveUpdateRequest.trainerEmail = ""
@@ -2436,10 +2760,10 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         Utlis.hideLoading()
     }
 
-    var getSurveyDetailsByChapmpsIdTemp: GetSurevyDetailsByChampsIdResponse? = null
+    var getSurveyDetailsByChapmpsIdTemp: GetSurveyDetailsByChampsIdResponsee? = null
 
-    @SuppressLint("SetTextI18n", "SuspiciousIndentation")
-    override fun onSuccessGetSurveyDetailsByChampsId(getSurveyDetailsByChapmpsId: GetSurevyDetailsByChampsIdResponse) {
+    @SuppressLint("SetTextI18n", "SuspiciousIndentation", "NotifyDataSetChanged")
+    override fun onSuccessGetSurveyDetailsByChampsId(getSurveyDetailsByChapmpsId: GetSurveyDetailsByChampsIdResponsee) {
         if (getSurveyDetailsByChapmpsId != null && getSurveyDetailsByChapmpsId.headerDetails != null) {
             getSurveyDetailsByChapmpsIdTemp = getSurveyDetailsByChapmpsId
             if (getSurveyDetailsByChapmpsId.headerDetails.status.equals("0")) {
@@ -2458,7 +2782,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 }
 
             }
-
 
 
 //            headerDetails.state = activityChampsSurveyBinding.region.text.toString()
@@ -2523,7 +2846,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             }
 
             activityChampsSurveyBinding.storeName.text =
-                siteName
+                getSurveyDetailsByChapmpsId.headerDetails.siteName.toString()
             activityChampsSurveyBinding.storeId.text =
                 getSurveyDetailsByChapmpsId.headerDetails.storeId
             activityChampsSurveyBinding.enterTextTechnicalEdittext.setText(
@@ -2533,16 +2856,19 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.enterOtherTrainingEdittext.setText(
                 getSurveyDetailsByChapmpsId.headerDetails.otherTraining.toString()
             )
-            if(listForTrainers.isEmpty()){
-                val commaSeparatedTrainer =  getSurveyDetailsByChapmpsId!!.headerDetails.emailIdOfTrainer
-                val items = commaSeparatedTrainer.split(",".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()
+            if (listForTrainers.isEmpty()) {
+                val commaSeparatedTrainer =
+                    getSurveyDetailsByChapmpsId!!.headerDetails.emailIdOfTrainer
+                val items =
+                    commaSeparatedTrainer.split(",".toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()
 
                 listForTrainers.addAll(items)
                 adapterTrainers!!.notifyDataSetChanged()
             }
-            if(surveyRecManualList.isEmpty()){
-                val commaSeparatedRec =  getSurveyDetailsByChapmpsId!!.headerDetails.emailIdOfRecipients
+            if (surveyRecManualList.isEmpty()) {
+                val commaSeparatedRec =
+                    getSurveyDetailsByChapmpsId!!.headerDetails.emailIdOfRecipients
                 val itemsRec = commaSeparatedRec.split(",".toRegex()).dropLastWhile { it.isEmpty() }
                     .toTypedArray()
 
@@ -2554,496 +2880,524 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             overallProgressBarCount((getSurveyDetailsByChapmpsId.headerDetails.total).toFloat())
             sumOfCategoriess = ((getSurveyDetailsByChapmpsId.headerDetails.total).toFloat())
             activityChampsSurveyBinding.employeeId.setText(getSurveyDetailsByChapmpsId.headerDetails.createdBy)
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
-                if (getSurveyDetailsByChapmpsId.categoryDetails.appearanceStore != null
-                    && getSurveyDetailsByChapmpsId.categoryDetails.appearanceStore != "null"
-                ) {
+            champsRefernceId = getSurveyDetailsByChapmpsId.headerDetails.champAutoId
 
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.sumOfSubCategoryRating =
-                        (getSurveyDetailsByChapmpsId.categoryDetails.appearanceStore).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.offerDisplay).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.storeFrontage).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.groomingStaff).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.clickedSubmit = true
-//                getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.id=getSurveyDetailsByChapmpsId!!.categoryDetails.id
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.champ_auto_id =
-                        getSurveyDetailsByChapmpsId!!.categoryDetails.champAutoId
-//                getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.type=
-//                    getSurveyDetailsByChapmpsId!!.categoryDetails.type.toString()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.subCategoryDetails?.get(
-                        0
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.appearanceStore).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.subCategoryDetails?.get(
-                        1
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.offerDisplay).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.subCategoryDetails?.get(
-                        2
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.storeFrontage).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.subCategoryDetails?.get(
-                        3
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.groomingStaff).toFloat()
+//            val categoryArrayList: Map<String, List<GetSurveyDetailsByChampsIdResponsee.CategoryDetail>> =
+//                getSurveyDetailsByChapmpsId.categoryDetails.stream()
+//                    .collect(Collectors.groupingBy { w -> w.categoryId.toString() })
+            val categoryArrayList =
+                getSurveyDetailsByChapmpsId.categoryDetails.groupBy { it.categoryId }
+            var getcategoryArrayListDummys =
+                ArrayList<ArrayList<GetSurveyDetailsByChampsIdResponsee.CategoryDetail>>()
 
-                    if (getSurveyDetailsByChapmpsId.categoryDetails.cleanlinessImages != null) {
-                        val cleanlinessImages =
-                            getSurveyDetailsByChapmpsId.categoryDetails.cleanlinessImages
-                        val cleanlinessImagesList =
-                            cleanlinessImages.split(",".toRegex()).dropLastWhile { it.isEmpty() }
-                                .toTypedArray()
-                        var imageUrlsCleanliness =
-                            ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
+            for (entry in categoryArrayList.entries) {
+                getcategoryArrayListDummys.addAll(listOf(entry.value as java.util.ArrayList<GetSurveyDetailsByChampsIdResponsee.CategoryDetail>))
+            }
 
-
-                        for (i in cleanlinessImagesList.indices) {
-                            if (!cleanlinessImagesList.get(i).isNullOrEmpty()) {
-                                var imageDatas =
-                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                                imageDatas!!.imageUrl = cleanlinessImagesList.get(i)
-                                imageDatas.file = null
-                                imageDatas.imageFilled = true
-                                imageUrlsCleanliness!!.add(imageDatas)
+//            getStorePendingApprovedListDummys.size
+            for (i in getcategoryArrayListDummys) {
+                for (j in i) {
+                    for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                        if (j.categoryId.equals(k.id)) {
+                            k.isActive = true
+                        }
+                        if (k.isActive != null && k.isActive!! && k.subCategoryDetails != null) {
+                            for (l in k.subCategoryDetails!!) {
+                                if (j.subcategoryId.equals(l.id)) {
+                                    l.isActive = true
+                                    l.givenRating = j.value.toFloat()
+                                   k.clickedSubmit = true
+                                }
                             }
 
                         }
 
-
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.imageDataLists =
-                            imageUrlsCleanliness
-
                     }
 
-                }
-                if (getSurveyDetailsByChapmpsId.categoryDetails.greetingCustomers != null
-                    && getSurveyDetailsByChapmpsId.categoryDetails.greetingCustomers != "null"
-                ) {
 
-
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(1)?.sumOfSubCategoryRating =
-                        (getSurveyDetailsByChapmpsId.categoryDetails.greetingCustomers).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.customerEngagement).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.customerHandling).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.reminderCalls).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(1)?.clickedSubmit = true
-
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(1)?.subCategoryDetails?.get(
-                        0
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.greetingCustomers).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(1)?.subCategoryDetails?.get(
-                        1
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.customerEngagement).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(1)?.subCategoryDetails?.get(
-                        2
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.customerHandling).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(1)?.subCategoryDetails?.get(
-                        3
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.reminderCalls).toFloat()
-
-                    if (getSurveyDetailsByChapmpsId.categoryDetails.hospitalityImages != null) {
-                        val hosptalityImages =
-                            getSurveyDetailsByChapmpsId.categoryDetails.hospitalityImages
-                        val hosptalityImagesList =
-                            hosptalityImages.split(",".toRegex()).dropLastWhile { it.isEmpty() }
-                                .toTypedArray()
-                        var imageUrlsHospitality =
-                            ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
-
-
-                        for (i in hosptalityImagesList.indices) {
-                            if (!hosptalityImagesList.get(i).isNullOrEmpty()) {
-                                var imageDatas =
-                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                                imageDatas!!.imageUrl = hosptalityImagesList.get(i)
-                                imageDatas.file = null
-                                imageDatas.imageFilled = true
-                                imageUrlsHospitality!!.add(imageDatas)
-                            }
-
-                        }
-
-
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.imageDataLists =
-                            imageUrlsHospitality
-
-                    }
-                }
-                if (getSurveyDetailsByChapmpsId.categoryDetails.billingSkusDispensed != null
-                    && getSurveyDetailsByChapmpsId.categoryDetails.billingSkusDispensed != "null"
-                ) {
-
-
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.sumOfSubCategoryRating =
-                        (getSurveyDetailsByChapmpsId.categoryDetails.billingSkusDispensed).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.interpretationRecheckPrescription).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.bankDeposits).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.expiryFifoPolicy).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.rsCheckInternalAuditing).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.oneApolloDrConnect).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.cashCheckingEvery2Hours).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.clickedSubmit = true
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
-                        0
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.billingSkusDispensed).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
-                        1
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.interpretationRecheckPrescription).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
-                        2
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.bankDeposits).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
-                        3
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.expiryFifoPolicy).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
-                        4
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.rsCheckInternalAuditing).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
-                        5
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.oneApolloDrConnect).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
-                        6
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.cashCheckingEvery2Hours).toFloat()
-
-
-                    if (getSurveyDetailsByChapmpsId.categoryDetails.accuracyImages != null) {
-                        val accuracyImages =
-                            getSurveyDetailsByChapmpsId.categoryDetails.accuracyImages
-                        val accuracyImagesList =
-                            accuracyImages.split(",".toRegex()).dropLastWhile { it.isEmpty() }
-                                .toTypedArray()
-                        var imageUrlsAccuracy =
-                            ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
-
-
-                        for (i in accuracyImagesList.indices) {
-                            if (!accuracyImagesList.get(i).isNullOrEmpty()) {
-                                var imageDatas =
-                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                                imageDatas!!.imageUrl = accuracyImagesList.get(i)
-                                imageDatas.file = null
-                                imageDatas.imageFilled = true
-                                imageUrlsAccuracy!!.add(imageDatas)
-                            }
-
-                        }
-
-
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.imageDataLists =
-                            imageUrlsAccuracy
-
-                    }
-                }
-                if (getSurveyDetailsByChapmpsId.categoryDetails.stockArrangementRefrigerator != null
-                    && getSurveyDetailsByChapmpsId.categoryDetails.stockArrangementRefrigerator != "null"
-                ) {
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.sumOfSubCategoryRating =
-                        (getSurveyDetailsByChapmpsId.categoryDetails.stockArrangementRefrigerator).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.acWorkingCondition).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.lighting).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.planogram).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.licensesRenewal).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.biometric).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.maintenanceHdRegister).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.dutyRostersAllotment).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.internet).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.swipingMachineWorking).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.theCcCamerasWorking).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.printersWorkingCondition).toFloat()
-
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.clickedSubmit = true
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
-                        0
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.stockArrangementRefrigerator).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
-                        1
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.acWorkingCondition).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
-                        2
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.lighting).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
-                        3
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.planogram).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
-                        4
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.licensesRenewal).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
-                        5
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.biometric).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
-                        6
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.maintenanceHdRegister).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
-                        7
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.dutyRostersAllotment).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
-                        8
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.internet).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
-                        9
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.swipingMachineWorking).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
-                        10
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.theCcCamerasWorking).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
-                        11
-                    )?.givenRating =
-                        ((getSurveyDetailsByChapmpsId!!.categoryDetails.printersWorkingCondition).toFloat())
-
-
-
-
-                    if (getSurveyDetailsByChapmpsId.categoryDetails.maintenanceImages != null) {
-                        val maintenanceImages =
-                            getSurveyDetailsByChapmpsId.categoryDetails.maintenanceImages
-                        val maintenanceImagesList =
-                            maintenanceImages.split(",".toRegex()).dropLastWhile { it.isEmpty() }
-                                .toTypedArray()
-                        var imageUrlsMaintainence =
-                            ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
-
-
-                        for (i in maintenanceImagesList.indices) {
-                            if (!maintenanceImagesList.get(i).isNullOrEmpty()) {
-                                var imageDatas =
-                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                                imageDatas!!.imageUrl = maintenanceImagesList.get(i)
-                                imageDatas.file = null
-                                imageDatas.imageFilled = true
-                                imageUrlsMaintainence!!.add(imageDatas)
-                            }
-
-                        }
-
-
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.imageDataLists =
-                            imageUrlsMaintainence
-
-                    }
-                }
-                if (getSurveyDetailsByChapmpsId.categoryDetails.availabilityStockGood != null
-                    && getSurveyDetailsByChapmpsId.categoryDetails.availabilityStockGood != "null"
-                ) {
-
-
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(4)?.sumOfSubCategoryRating =
-                        (getSurveyDetailsByChapmpsId.categoryDetails.availabilityStockGood).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.substitutionOfferedRegularly).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.serviceRecoveryDone90).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.bounceTracking).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(4)?.clickedSubmit = true
-
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(4)?.subCategoryDetails?.get(
-                        0
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.availabilityStockGood).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(4)?.subCategoryDetails?.get(
-                        1
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.substitutionOfferedRegularly).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(4)?.subCategoryDetails?.get(
-                        2
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.serviceRecoveryDone90).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(4)?.subCategoryDetails?.get(
-                        3
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.bounceTracking).toFloat()
-
-
-
-                    if (getSurveyDetailsByChapmpsId.categoryDetails.productsImages != null) {
-                        val productsImages =
-                            getSurveyDetailsByChapmpsId.categoryDetails.productsImages
-                        val productsImagesList =
-                            productsImages.split(",".toRegex()).dropLastWhile { it.isEmpty() }
-                                .toTypedArray()
-                        var imageUrlsProducts =
-                            ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
-
-
-                        for (i in productsImagesList.indices) {
-                            if (!productsImagesList.get(i).isNullOrEmpty()) {
-                                var imageDatas =
-                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                                imageDatas!!.imageUrl = productsImagesList.get(i)
-                                imageDatas.file = null
-                                imageDatas.imageFilled = true
-                                imageUrlsProducts!!.add(imageDatas)
-                            }
-
-                        }
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists =
-                            imageUrlsProducts
-                    }
 
                 }
-                if (getSurveyDetailsByChapmpsId!!.categoryDetails.speedService5To10Minutes != null
-                    && getSurveyDetailsByChapmpsId.categoryDetails.speedService5To10Minutes != "null"
-                ) {
-
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(5)?.sumOfSubCategoryRating =
-                        ((getSurveyDetailsByChapmpsId!!.categoryDetails.speedService5To10Minutes).toFloat()).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.homeDeliveryCommitmentFulfilledTime).toFloat() +
-                                (getSurveyDetailsByChapmpsId.categoryDetails.salesPromotion).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(5)?.clickedSubmit = true
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(5)?.subCategoryDetails?.get(
-                        0
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.speedService5To10Minutes).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(5)?.subCategoryDetails?.get(
-                        1
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.homeDeliveryCommitmentFulfilledTime).toFloat()
-                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(5)?.subCategoryDetails?.get(
-                        2
-                    )?.givenRating =
-                        (getSurveyDetailsByChapmpsId!!.categoryDetails.salesPromotion).toFloat()
-
-                    if (getSurveyDetailsByChapmpsId.categoryDetails.speedServiceSalesPromotionImages != null) {
-                        val speedServiceSalesPromotionImages =
-                            getSurveyDetailsByChapmpsId.categoryDetails.speedServiceSalesPromotionImages
-                        val speedServiceSalesPromotionImagesList =
-                            speedServiceSalesPromotionImages.split(",".toRegex())
-                                .dropLastWhile { it.isEmpty() }
-                                .toTypedArray()
-                        var imageUrlSpeedServiceSalesPromotion =
-                            ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
-
-
-                        for (i in speedServiceSalesPromotionImagesList.indices) {
-                            if (!speedServiceSalesPromotionImagesList.get(i).isNullOrEmpty()) {
-                                var imageDatas =
-                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
-                                imageDatas!!.imageUrl = speedServiceSalesPromotionImagesList.get(i)
-                                imageDatas.file = null
-                                imageDatas.imageFilled = true
-                                imageUrlSpeedServiceSalesPromotion!!.add(imageDatas)
-                            }
-
-                        }
-
-
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.imageDataLists =
-                            imageUrlSpeedServiceSalesPromotion
-                    }
-                }
-
-
-//                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
-//                        0
-//                    )?.subCategoryDetails != null
-//                ) {
-//                    getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(
-//                        0
-//                    ).givenRating =
-//                        (getSurveyDetailsByChapmpsId.categoryDetails.appearanceStore).toFloat()
-//                    getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(
-//                        1
-//                    ).givenRating =
-//                        (getSurveyDetailsByChapmpsId.categoryDetails.offerDisplay).toFloat()
-//                    getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(
-//                        2
-//                    ).givenRating =
-//                        (getSurveyDetailsByChapmpsId.categoryDetails.storeFrontage).toFloat()
-//                    getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(
-//                        3
-//                    ).givenRating =
-//                        (getSurveyDetailsByChapmpsId.categoryDetails.groomingStaff).toFloat()
-////                    subCategoryAdapter!!.notifyDataSetChanged()
-//                }
 
             }
+
+            for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                if (k.subCategoryDetails != null) {
+                    var sumOfSubCategories=0f
+                    for (l in k.subCategoryDetails!!) {
+                        if(l.givenRating!=null)
+                        sumOfSubCategories = sumOfSubCategories!! + l.givenRating!!
+                    }
+                    k.sumOfSubCategoryRating=sumOfSubCategories
+                }
+
+
+            }
+
+            val imagesArrayList = getSurveyDetailsByChapmpsId.imageDetails.groupBy { it.categoryId }
+            var getImagesArrayListDummys =
+                ArrayList<ArrayList<GetSurveyDetailsByChampsIdResponsee.ImageDetail>>()
+
+            for (entry in imagesArrayList.entries) {
+                getImagesArrayListDummys.addAll(listOf(entry.value as java.util.ArrayList<GetSurveyDetailsByChampsIdResponsee.ImageDetail>))
+            }
+
+
+
+            for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                var imageUrlsListForCat =
+                    ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
+                for (i in getImagesArrayListDummys) {
+                    for (j in i) {
+                        if (j.categoryId.equals(k.id)) {
+                            var imageDatas =
+                                GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+                            imageDatas!!.imageUrl = j.imageUrl
+                            imageDatas.file = null
+                            imageDatas.imageFilled = true
+                            imageUrlsListForCat!!.add(imageDatas)
+
+                        }
+
+                    }
+
+                }
+                k.imageDataLists = imageUrlsListForCat
+
+            }
+
+
+//            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
+//                if (getSurveyDetailsByChapmpsId.categoryDetails.appearanceStore != null
+//                    && getSurveyDetailsByChapmpsId.categoryDetails.appearanceStore != "null"
+//                ) {
+//
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.sumOfSubCategoryRating =
+//                        (getSurveyDetailsByChapmpsId.categoryDetails.appearanceStore).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.offerDisplay).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.storeFrontage).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.groomingStaff).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.clickedSubmit = true
+////                getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.id=getSurveyDetailsByChapmpsId!!.categoryDetails.id
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.champ_auto_id =
+//                        getSurveyDetailsByChapmpsId!!.categoryDetails.champAutoId
+////                getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.type=
+////                    getSurveyDetailsByChapmpsId!!.categoryDetails.type.toString()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.subCategoryDetails?.get(
+//                        0
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.appearanceStore).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.subCategoryDetails?.get(
+//                        1
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.offerDisplay).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.subCategoryDetails?.get(
+//                        2
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.storeFrontage).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(0)?.subCategoryDetails?.get(
+//                        3
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.groomingStaff).toFloat()
+//
+//                    if (getSurveyDetailsByChapmpsId.categoryDetails.cleanlinessImages != null) {
+//                        val cleanlinessImages =
+//                            getSurveyDetailsByChapmpsId.categoryDetails.cleanlinessImages
+//                        val cleanlinessImagesList =
+//                            cleanlinessImages.split(",".toRegex()).dropLastWhile { it.isEmpty() }
+//                                .toTypedArray()
+//                        var imageUrlsCleanliness =
+//                            ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
+//
+//
+//                        for (i in cleanlinessImagesList.indices) {
+//                            if (!cleanlinessImagesList.get(i).isNullOrEmpty()) {
+//                                var imageDatas =
+//                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+//                                imageDatas!!.imageUrl = cleanlinessImagesList.get(i)
+//                                imageDatas.file = null
+//                                imageDatas.imageFilled = true
+//                                imageUrlsCleanliness!!.add(imageDatas)
+//                            }
+//
+//                        }
+//
+//
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(0)?.imageDataLists =
+//                            imageUrlsCleanliness
+//
+//                    }
+//
+//                }
+//                if (getSurveyDetailsByChapmpsId.categoryDetails.greetingCustomers != null
+//                    && getSurveyDetailsByChapmpsId.categoryDetails.greetingCustomers != "null"
+//                ) {
+//
+//
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(1)?.sumOfSubCategoryRating =
+//                        (getSurveyDetailsByChapmpsId.categoryDetails.greetingCustomers).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.customerEngagement).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.customerHandling).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.reminderCalls).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(1)?.clickedSubmit = true
+//
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(1)?.subCategoryDetails?.get(
+//                        0
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.greetingCustomers).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(1)?.subCategoryDetails?.get(
+//                        1
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.customerEngagement).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(1)?.subCategoryDetails?.get(
+//                        2
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.customerHandling).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(1)?.subCategoryDetails?.get(
+//                        3
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.reminderCalls).toFloat()
+//
+//                    if (getSurveyDetailsByChapmpsId.categoryDetails.hospitalityImages != null) {
+//                        val hosptalityImages =
+//                            getSurveyDetailsByChapmpsId.categoryDetails.hospitalityImages
+//                        val hosptalityImagesList =
+//                            hosptalityImages.split(",".toRegex()).dropLastWhile { it.isEmpty() }
+//                                .toTypedArray()
+//                        var imageUrlsHospitality =
+//                            ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
+//
+//
+//                        for (i in hosptalityImagesList.indices) {
+//                            if (!hosptalityImagesList.get(i).isNullOrEmpty()) {
+//                                var imageDatas =
+//                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+//                                imageDatas!!.imageUrl = hosptalityImagesList.get(i)
+//                                imageDatas.file = null
+//                                imageDatas.imageFilled = true
+//                                imageUrlsHospitality!!.add(imageDatas)
+//                            }
+//
+//                        }
+//
+//
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(1)?.imageDataLists =
+//                            imageUrlsHospitality
+//
+//                    }
+//                }
+//                if (getSurveyDetailsByChapmpsId.categoryDetails.billingSkusDispensed != null
+//                    && getSurveyDetailsByChapmpsId.categoryDetails.billingSkusDispensed != "null"
+//                ) {
+//
+//
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.sumOfSubCategoryRating =
+//                        (getSurveyDetailsByChapmpsId.categoryDetails.billingSkusDispensed).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.interpretationRecheckPrescription).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.bankDeposits).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.expiryFifoPolicy).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.rsCheckInternalAuditing).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.oneApolloDrConnect).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.cashCheckingEvery2Hours).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.clickedSubmit = true
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
+//                        0
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.billingSkusDispensed).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
+//                        1
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.interpretationRecheckPrescription).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
+//                        2
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.bankDeposits).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
+//                        3
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.expiryFifoPolicy).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
+//                        4
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.rsCheckInternalAuditing).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
+//                        5
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.oneApolloDrConnect).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(2)?.subCategoryDetails?.get(
+//                        6
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.cashCheckingEvery2Hours).toFloat()
+//
+//
+//                    if (getSurveyDetailsByChapmpsId.categoryDetails.accuracyImages != null) {
+//                        val accuracyImages =
+//                            getSurveyDetailsByChapmpsId.categoryDetails.accuracyImages
+//                        val accuracyImagesList =
+//                            accuracyImages.split(",".toRegex()).dropLastWhile { it.isEmpty() }
+//                                .toTypedArray()
+//                        var imageUrlsAccuracy =
+//                            ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
+//
+//
+//                        for (i in accuracyImagesList.indices) {
+//                            if (!accuracyImagesList.get(i).isNullOrEmpty()) {
+//                                var imageDatas =
+//                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+//                                imageDatas!!.imageUrl = accuracyImagesList.get(i)
+//                                imageDatas.file = null
+//                                imageDatas.imageFilled = true
+//                                imageUrlsAccuracy!!.add(imageDatas)
+//                            }
+//
+//                        }
+//
+//
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(2)?.imageDataLists =
+//                            imageUrlsAccuracy
+//
+//                    }
+//                }
+//                if (getSurveyDetailsByChapmpsId.categoryDetails.stockArrangementRefrigerator != null
+//                    && getSurveyDetailsByChapmpsId.categoryDetails.stockArrangementRefrigerator != "null"
+//                ) {
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.sumOfSubCategoryRating =
+//                        (getSurveyDetailsByChapmpsId.categoryDetails.stockArrangementRefrigerator).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.acWorkingCondition).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.lighting).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.planogram).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.licensesRenewal).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.biometric).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.maintenanceHdRegister).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.dutyRostersAllotment).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.internet).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.swipingMachineWorking).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.theCcCamerasWorking).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.printersWorkingCondition).toFloat()
+//
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.clickedSubmit = true
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
+//                        0
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.stockArrangementRefrigerator).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
+//                        1
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.acWorkingCondition).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
+//                        2
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.lighting).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
+//                        3
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.planogram).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
+//                        4
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.licensesRenewal).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
+//                        5
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.biometric).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
+//                        6
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.maintenanceHdRegister).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
+//                        7
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.dutyRostersAllotment).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
+//                        8
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.internet).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
+//                        9
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.swipingMachineWorking).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
+//                        10
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.theCcCamerasWorking).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(3)?.subCategoryDetails?.get(
+//                        11
+//                    )?.givenRating =
+//                        ((getSurveyDetailsByChapmpsId!!.categoryDetails.printersWorkingCondition).toFloat())
+//
+//
+//
+//
+//                    if (getSurveyDetailsByChapmpsId.categoryDetails.maintenanceImages != null) {
+//                        val maintenanceImages =
+//                            getSurveyDetailsByChapmpsId.categoryDetails.maintenanceImages
+//                        val maintenanceImagesList =
+//                            maintenanceImages.split(",".toRegex()).dropLastWhile { it.isEmpty() }
+//                                .toTypedArray()
+//                        var imageUrlsMaintainence =
+//                            ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
+//
+//
+//                        for (i in maintenanceImagesList.indices) {
+//                            if (!maintenanceImagesList.get(i).isNullOrEmpty()) {
+//                                var imageDatas =
+//                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+//                                imageDatas!!.imageUrl = maintenanceImagesList.get(i)
+//                                imageDatas.file = null
+//                                imageDatas.imageFilled = true
+//                                imageUrlsMaintainence!!.add(imageDatas)
+//                            }
+//
+//                        }
+//
+//
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(3)?.imageDataLists =
+//                            imageUrlsMaintainence
+//
+//                    }
+//                }
+//                if (getSurveyDetailsByChapmpsId.categoryDetails.availabilityStockGood != null
+//                    && getSurveyDetailsByChapmpsId.categoryDetails.availabilityStockGood != "null"
+//                ) {
+//
+//
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(4)?.sumOfSubCategoryRating =
+//                        (getSurveyDetailsByChapmpsId.categoryDetails.availabilityStockGood).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.substitutionOfferedRegularly).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.serviceRecoveryDone90).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.bounceTracking).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(4)?.clickedSubmit = true
+//
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(4)?.subCategoryDetails?.get(
+//                        0
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.availabilityStockGood).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(4)?.subCategoryDetails?.get(
+//                        1
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.substitutionOfferedRegularly).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(4)?.subCategoryDetails?.get(
+//                        2
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.serviceRecoveryDone90).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(4)?.subCategoryDetails?.get(
+//                        3
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.bounceTracking).toFloat()
+//
+//
+//
+//                    if (getSurveyDetailsByChapmpsId.categoryDetails.productsImages != null) {
+//                        val productsImages =
+//                            getSurveyDetailsByChapmpsId.categoryDetails.productsImages
+//                        val productsImagesList =
+//                            productsImages.split(",".toRegex()).dropLastWhile { it.isEmpty() }
+//                                .toTypedArray()
+//                        var imageUrlsProducts =
+//                            ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
+//
+//
+//                        for (i in productsImagesList.indices) {
+//                            if (!productsImagesList.get(i).isNullOrEmpty()) {
+//                                var imageDatas =
+//                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+//                                imageDatas!!.imageUrl = productsImagesList.get(i)
+//                                imageDatas.file = null
+//                                imageDatas.imageFilled = true
+//                                imageUrlsProducts!!.add(imageDatas)
+//                            }
+//
+//                        }
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(4)?.imageDataLists =
+//                            imageUrlsProducts
+//                    }
+//
+//                }
+//                if (getSurveyDetailsByChapmpsId!!.categoryDetails.speedService5To10Minutes != null
+//                    && getSurveyDetailsByChapmpsId.categoryDetails.speedService5To10Minutes != "null"
+//                ) {
+//
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(5)?.sumOfSubCategoryRating =
+//                        ((getSurveyDetailsByChapmpsId!!.categoryDetails.speedService5To10Minutes).toFloat()).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.homeDeliveryCommitmentFulfilledTime).toFloat() +
+//                                (getSurveyDetailsByChapmpsId.categoryDetails.salesPromotion).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(5)?.clickedSubmit = true
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(5)?.subCategoryDetails?.get(
+//                        0
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.speedService5To10Minutes).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(5)?.subCategoryDetails?.get(
+//                        1
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.homeDeliveryCommitmentFulfilledTime).toFloat()
+//                    getCategoryAndSubCategoryDetails?.categoryDetails?.get(5)?.subCategoryDetails?.get(
+//                        2
+//                    )?.givenRating =
+//                        (getSurveyDetailsByChapmpsId!!.categoryDetails.salesPromotion).toFloat()
+//
+//                    if (getSurveyDetailsByChapmpsId.categoryDetails.speedServiceSalesPromotionImages != null) {
+//                        val speedServiceSalesPromotionImages =
+//                            getSurveyDetailsByChapmpsId.categoryDetails.speedServiceSalesPromotionImages
+//                        val speedServiceSalesPromotionImagesList =
+//                            speedServiceSalesPromotionImages.split(",".toRegex())
+//                                .dropLastWhile { it.isEmpty() }
+//                                .toTypedArray()
+//                        var imageUrlSpeedServiceSalesPromotion =
+//                            ArrayList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>()
+//
+//
+//                        for (i in speedServiceSalesPromotionImagesList.indices) {
+//                            if (!speedServiceSalesPromotionImagesList.get(i).isNullOrEmpty()) {
+//                                var imageDatas =
+//                                    GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
+//                                imageDatas!!.imageUrl = speedServiceSalesPromotionImagesList.get(i)
+//                                imageDatas.file = null
+//                                imageDatas.imageFilled = true
+//                                imageUrlSpeedServiceSalesPromotion!!.add(imageDatas)
+//                            }
+//
+//                        }
+//
+//
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(5)?.imageDataLists =
+//                            imageUrlSpeedServiceSalesPromotion
+//                    }
+//                }
+//
+//
+////                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
+////                        0
+////                    )?.subCategoryDetails != null
+////                ) {
+////                    getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(
+////                        0
+////                    ).givenRating =
+////                        (getSurveyDetailsByChapmpsId.categoryDetails.appearanceStore).toFloat()
+////                    getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(
+////                        1
+////                    ).givenRating =
+////                        (getSurveyDetailsByChapmpsId.categoryDetails.offerDisplay).toFloat()
+////                    getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(
+////                        2
+////                    ).givenRating =
+////                        (getSurveyDetailsByChapmpsId.categoryDetails.storeFrontage).toFloat()
+////                    getCategoryAndSubCategoryDetails?.categoryDetails!!.get(0).subCategoryDetails!!.get(
+////                        3
+////                    ).givenRating =
+////                        (getSurveyDetailsByChapmpsId.categoryDetails.groomingStaff).toFloat()
+//////                    subCategoryAdapter!!.notifyDataSetChanged()
+////                }
+//
+//            }
 
 //            LoadRecyclerView()
 
 
-        }
-        categoryDetailsAdapter =
-            CategoryDetailsAdapter(
-                getCategoryAndSubCategoryDetails!!.categoryDetails,
-                this@ChampsSurveyActivity,
-                this, status
-            )
-        activityChampsSurveyBinding.categoryRecyclerView.setLayoutManager(
-            LinearLayoutManager(this)
-        )
-        activityChampsSurveyBinding.categoryRecyclerView.setAdapter(categoryDetailsAdapter)
-        if (NetworkUtil.isNetworkConnected(this)) {
-//            Utlis.showLoading(this)
-            champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "TECH");
-
-        } else {
-            Toast.makeText(
-                context,
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        }
-//        Utlis.hideLoading()
-
-    }
-
-    override fun onFailureGetSurveyDetailsByChampsId(value: GetSurevyDetailsByChampsIdResponse) {
-        if (value != null && value.message != null) {
-            Toast.makeText(applicationContext, "" + value.message, Toast.LENGTH_SHORT).show()
-        }
-        Utlis.hideLoading()
-    }
-
-    private var getSubCategoryResponses: GetSubCategoryDetailsModelResponse? = null
-    override fun onSuccessgetSubCategoryDetails(
-        getSubCategoryResponse: GetSubCategoryDetailsModelResponse,
-        categoryName: String,
-    ) {
-        getSubCategoryResponses = getSubCategoryResponse
-
-        if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
-            for (i in getCategoryAndSubCategoryDetails?.categoryDetails?.indices!!) {
-//                if(getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails!=null &&
-//                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails?.size!=null){
-                if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).categoryName.equals(
-                        categoryName
-                    )
-                ) {
-                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).subCategoryDetails =
-                        getSubCategoryResponse.subCategoryDetails
-                }
-//                }
-
             }
-
-        }
-        if (status.equals("NEW")) {
             categoryDetailsAdapter =
                 CategoryDetailsAdapter(
                     getCategoryAndSubCategoryDetails!!.categoryDetails,
                     this@ChampsSurveyActivity,
-                    this,
-                    status
+                    this, status
                 )
             activityChampsSurveyBinding.categoryRecyclerView.setLayoutManager(
                 LinearLayoutManager(this)
@@ -3061,98 +3415,45 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 )
                     .show()
             }
-//            Utlis.hideLoading()
-        } else {
-//            Utlis.hideLoading()
-            if (champsRefernceId != null) {
-//
-//                Utlis.showLoading(this)
-                champsSurveyViewModel.getSurveyListByChampsIDApi(
-                    this,
-                    champsRefernceId!!
-                )
-//                    champsSurveyViewModel.getSurveyListByChampsID(
-//                        this
-//                    )
+//        Utlis.hideLoading()
 
+        }
 
+        override fun onFailureGetSurveyDetailsByChampsId(value: GetSurveyDetailsByChampsIdResponsee) {
+            if (value != null && value.message != null) {
+                Toast.makeText(applicationContext, "" + value.message, Toast.LENGTH_SHORT).show()
             }
+            Utlis.hideLoading()
         }
 
+        private var getSubCategoryResponses: GetSubCategoryDetailsModelResponse? = null
+        override fun onSuccessgetSubCategoryDetails(
+            getSubCategoryResponse: GetSubCategoryDetailsModelResponse,
+            categoryName: String,
+        ) {
+            getSubCategoryResponses = getSubCategoryResponse
 
-    }
+            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
+                for (i in getCategoryAndSubCategoryDetails?.categoryDetails?.indices!!) {
+//                if(getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails!=null &&
+//                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails?.size!=null){
+                    if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).categoryName.equals(
+                            categoryName
+                        )
+                    ) {
+                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).subCategoryDetails =
+                            getSubCategoryResponse.subCategoryDetails
+                    }
+//                }
 
-    override fun onFailuregetSubCategoryDetails(getSubCategoryResponse: GetSubCategoryDetailsModelResponse) {
-        Utlis.hideLoading()
-    }
-
-    override fun onSuccessSaveUpdateApi(value: SaveUpdateResponse) {
-        Preferences.setSaveChampsSurveySiteId(activityChampsSurveyBinding.storeId.text.toString())
-        Preferences.setSaveChampsSurveySiteName(activityChampsSurveyBinding.storeName.text.toString())
-//        Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
-        Utlis.hideLoading()
-    }
-
-    override fun onFailureSaveUpdateApi(value: SaveUpdateResponse) {
-        Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
-        Utlis.hideLoading()
-    }
-
-    override fun onClickDelete() {
-
-        dialogDElete = Dialog(this)
-        dialogDElete.setContentView(R.layout.change_siteid)
-        val close = dialogDElete.findViewById<TextView>(R.id.no_btnSiteChange)
-        val textForDialog = dialogDElete.findViewById<TextView>(R.id.text_for_dialog)
-        textForDialog.setText("Do you want to delete this survey?")
-        close.setOnClickListener {
-            dialogDElete.dismiss()
-        }
-        val ok = dialogDElete.findViewById<TextView>(R.id.yes_btnSiteChange)
-        ok.setOnClickListener {
-            dialogDElete.dismiss()
-//            Preferences.setSwachhSiteId(storeListItem.siteid!!)
-
-
-            dialogDElete.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//            dialog.show()
-
-//            val intent = Intent()
-//            setResult(Activity.RESULT_OK, intent)
-//            finish()
-        }
-        dialogDElete.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogDElete.show()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 111 && resultCode == Activity.RESULT_OK) {
-            getCategoryAndSubCategoryDetails =
-                data!!.getSerializableExtra("getCategoryAndSubCategoryDetails") as GetCategoryDetailsModelResponse?
-//            Toast.makeText(context, ""+ getCategoryAndSubCategoryDetails?.emailDetails?.size,Toast.LENGTH_SHORT).show()
-            categoryPosition = data!!.getIntExtra("categoryPosition", 0)
-            var sumOfRange: Float = 0f
-            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.indices) {
-                if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.get(
-                        i
-                    ).givenRating != null
-                ) {
-                    var indiviualRange: Float =
-                        (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.get(
-                            i
-                        ).givenRating)!!.toFloat()
-                    sumOfRange = indiviualRange + sumOfRange
-                    getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.sumOfSubCategoryRating =
-                        sumOfRange
                 }
 
             }
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && categoryDetailsAdapter != null) {
+            if (status.equals("NEW")) {
                 categoryDetailsAdapter =
                     CategoryDetailsAdapter(
                         getCategoryAndSubCategoryDetails!!.categoryDetails,
-                        this@ChampsSurveyActivity,
+                        applicationContext,
                         this,
                         status
                     )
@@ -3160,9 +3461,124 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     LinearLayoutManager(this)
                 )
                 activityChampsSurveyBinding.categoryRecyclerView.setAdapter(categoryDetailsAdapter)
+                if (NetworkUtil.isNetworkConnected(this)) {
+//            Utlis.showLoading(this)
+                    champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "TECH");
+
+                } else {
+                    Toast.makeText(
+                        context,
+                        resources.getString(R.string.label_network_error),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+//            Utlis.hideLoading()
+            } else {
+//            Utlis.hideLoading()
+                if (champsRefernceId != null) {
+//
+//                Utlis.showLoading(this)
+                    champsSurveyViewModel.getSurveyListByChampsIDApi(
+                        this,
+                        champsRefernceId!!
+                    )
+//                    champsSurveyViewModel.getSurveyListByChampsID(
+//                        this
+//                    )
+
+
+                }
             }
 
+
+        }
+
+        override fun onFailuregetSubCategoryDetails(getSubCategoryResponse: GetSubCategoryDetailsModelResponse) {
             Utlis.hideLoading()
+        }
+
+        override fun onSuccessSaveUpdateApi(value: SaveUpdateResponse) {
+            Preferences.setSaveChampsSurveySiteId(activityChampsSurveyBinding.storeId.text.toString())
+            Preferences.setSaveChampsSurveySiteName(activityChampsSurveyBinding.storeName.text.toString())
+//        Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
+            Utlis.hideLoading()
+        }
+
+        override fun onFailureSaveUpdateApi(value: SaveUpdateResponse) {
+            Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
+            Utlis.hideLoading()
+        }
+
+        override fun onClickDelete() {
+
+            dialogDElete = Dialog(this)
+            dialogDElete.setContentView(R.layout.change_siteid)
+            val close = dialogDElete.findViewById<TextView>(R.id.no_btnSiteChange)
+            val textForDialog = dialogDElete.findViewById<TextView>(R.id.text_for_dialog)
+            textForDialog.setText("Do you want to delete this survey?")
+            close.setOnClickListener {
+                dialogDElete.dismiss()
+            }
+            val ok = dialogDElete.findViewById<TextView>(R.id.yes_btnSiteChange)
+            ok.setOnClickListener {
+                dialogDElete.dismiss()
+//            Preferences.setSwachhSiteId(storeListItem.siteid!!)
+
+
+                dialogDElete.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//            dialog.show()
+
+//            val intent = Intent()
+//            setResult(Activity.RESULT_OK, intent)
+//            finish()
+            }
+            dialogDElete.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogDElete.show()
+        }
+
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+            if (requestCode == 111 && resultCode == Activity.RESULT_OK) {
+                getCategoryAndSubCategoryDetails =
+                    data!!.getSerializableExtra("getCategoryAndSubCategoryDetails") as GetCategoryDetailsModelResponse?
+//            Toast.makeText(context, ""+ getCategoryAndSubCategoryDetails?.emailDetails?.size,Toast.LENGTH_SHORT).show()
+                categoryPosition = data!!.getIntExtra("categoryPosition", 0)
+                var sumOfRange: Float = 0f
+                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.indices) {
+                    if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.get(
+                            i
+                        ).givenRating != null
+                    ) {
+                        var indiviualRange: Float =
+                            (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
+                                categoryPosition
+                            ).subCategoryDetails!!.get(
+                                i
+                            ).givenRating)!!.toFloat()
+                        sumOfRange = indiviualRange + sumOfRange
+                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.sumOfSubCategoryRating =
+                            sumOfRange
+                    }
+
+                }
+                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && categoryDetailsAdapter != null) {
+                    categoryDetailsAdapter =
+                        CategoryDetailsAdapter(
+                            getCategoryAndSubCategoryDetails!!.categoryDetails,
+                            applicationContext,
+                            this,
+                            status
+                        )
+                    activityChampsSurveyBinding.categoryRecyclerView.setLayoutManager(
+                        LinearLayoutManager(this)
+                    )
+                    activityChampsSurveyBinding.categoryRecyclerView.setAdapter(
+                        categoryDetailsAdapter
+                    )
+                }
+
+                Utlis.hideLoading()
 
 //
 //            if (NetworkUtil.isNetworkConnected(this)) {
@@ -3177,68 +3593,68 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                )
 //                    .show()
 //            }
-            if (NetworkUtil.isNetworkConnected(this)) {
+                if (NetworkUtil.isNetworkConnected(this)) {
 //                Utlis.showLoading(this)
-                champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "COLOUR");
+                    champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "COLOUR");
 
-            } else {
-                Toast.makeText(
-                    context,
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-
-        }
-
-    }
-
-    override fun onFailureUpload(message: String) {
-        Utlis.hideLoading()
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun allFilesUploaded(fileUploadModelList: List<FileUploadChampsModel>) {
-        for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
-            if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
-                for (l in k.imageDataLists!!) {
-                    for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
-                        if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
-                            l.imageUrl = z.sensingFileUploadResponse!!.referenceurl
-                            l.sensingUploadUrlFilled = true
-                            z.imageUrlUsed = true
-                        }
-                    }
-
+                } else {
+                    Toast.makeText(
+                        context,
+                        resources.getString(R.string.label_network_error),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
                 }
+
             }
 
         }
+
+        override fun onFailureUpload(message: String) {
+            Utlis.hideLoading()
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
+
+        override fun allFilesUploaded(fileUploadModelList: List<FileUploadChampsModel>) {
+            for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
+                    for (l in k.imageDataLists!!) {
+                        for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
+                            if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
+                                l.imageUrl = z.sensingFileUploadResponse!!.referenceurl
+                                l.sensingUploadUrlFilled = true
+                                z.imageUrlUsed = true
+                            }
+                        }
+
+                    }
+                }
+
+            }
 //        Utlis.hideLoading()
-        saveApiRequest("submit")
-    }
-
-    override fun allFilesDownloaded(fileUploadModelList: List<FileUploadChampsModel>) {
-
-        for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
-            if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
-                for (l in k.imageDataLists!!) {
-                    for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
-                        if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
-                            l.imageUrl = RijndaelCipherEncryptDecrypt().decrypt(
-                                z.fileDownloadResponse!!.referenceurl,
-                                "blobfilesload"
-                            )
-                            l.sensingUploadUrlFilled = true
-                            z.imageUrlUsed = true
-                        }
-                    }
-
-                }
-            }
-
+            saveApiRequest("submit")
         }
+
+        override fun allFilesDownloaded(fileUploadModelList: List<FileUploadChampsModel>) {
+
+            for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
+                    for (l in k.imageDataLists!!) {
+                        for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
+                            if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
+                                l.imageUrl = RijndaelCipherEncryptDecrypt().decrypt(
+                                    z.fileDownloadResponse!!.referenceurl,
+                                    "blobfilesload"
+                                )
+                                l.sensingUploadUrlFilled = true
+                                z.imageUrlUsed = true
+                            }
+                        }
+
+                    }
+                }
+
+            }
 //        Utlis.hideLoading()
 
 
@@ -3259,32 +3675,32 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                break
 //            }
 //        }
-        saveApiRequest(type)
-    }
+            saveApiRequest(type)
+        }
 
-    var mProgressDialogTemp: ProgressDialog? = null
-    fun showLoadingTemp(context: Context) {
-        hideLoadingTemp()
-        mProgressDialogTemp = showLoadingDialogTemp(context)
-    }
+        var mProgressDialogTemp: ProgressDialog? = null
+        fun showLoadingTemp(context: Context) {
+            hideLoadingTemp()
+            mProgressDialogTemp = showLoadingDialogTemp(context)
+        }
 
-    fun hideLoadingTemp() {
-        if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
-            mProgressDialogTemp!!.dismiss()
+        fun hideLoadingTemp() {
+            if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
+                mProgressDialogTemp!!.dismiss()
+            }
+        }
+
+        fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
+            val progressDialog = ProgressDialog(context)
+            progressDialog.show()
+            if (progressDialog.window != null) {
+                progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
+            progressDialog.setContentView(R.layout.progress_dialog)
+            progressDialog.isIndeterminate = true
+            progressDialog.setCancelable(false)
+            progressDialog.setCanceledOnTouchOutside(false)
+            return progressDialog
         }
     }
-
-    fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
-        val progressDialog = ProgressDialog(context)
-        progressDialog.show()
-        if (progressDialog.window != null) {
-            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
-        progressDialog.setContentView(R.layout.progress_dialog)
-        progressDialog.isIndeterminate = true
-        progressDialog.setCancelable(false)
-        progressDialog.setCanceledOnTouchOutside(false)
-        return progressDialog
-    }
-}
 

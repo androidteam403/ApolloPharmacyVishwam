@@ -170,8 +170,7 @@
                         android:background="@color/white">
 
                         <LinearLayout
-                            android:layout_marginStart="@dimen/value_12dp"
-                            android:layout_marginEnd="@dimen/value_12dp"
+
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
@@ -301,6 +300,8 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:layout_marginStart="@dimen/value_12dp"
+                                android:layout_marginEnd="@dimen/value_12dp"
                                 android:weightSum="1"
                                 android:id="@+id/layout2"
                                 android:layout_width="match_parent"
@@ -358,7 +359,7 @@
                                                 android:background="@drawable/grey_rounded_rectangle"
                                                 android:gravity="center_vertical|center_horizontal"
                                                 android:textAlignment="center"
-                                                android:textColor="#838383"
+                                                android:textColor="@color/zero_grey"
                                                 android:textSize="@dimen/text_18sp"
                                                 android:textStyle="bold" />
 
@@ -710,6 +711,8 @@
                                 android:layout_marginTop="@dimen/value_8dp" />
 
                             <LinearLayout
+                                android:layout_marginStart="@dimen/value_12dp"
+                                android:layout_marginEnd="@dimen/value_12dp"
                                 android:id="@+id/upload_image_header"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -736,6 +739,8 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:layout_marginStart="@dimen/value_12dp"
+                                android:layout_marginEnd="@dimen/value_12dp"
                                 android:id="@+id/progress_bar"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -750,7 +755,10 @@
                                     android:layout_height="wrap_content" />
                             </LinearLayout>
 
+
                             <LinearLayout
+                                android:layout_marginStart="@dimen/value_12dp"
+                                android:layout_marginEnd="@dimen/value_12dp"
                                 android:visibility="gone"
                                 android:id="@+id/zero_mb_used_text"
                                 android:layout_width="match_parent"
@@ -769,6 +777,8 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:layout_marginStart="@dimen/value_12dp"
+                                android:layout_marginEnd="@dimen/value_12dp"
                                 android:id="@+id/image_header"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -793,6 +803,8 @@
 
 
                             <LinearLayout
+                                android:layout_marginStart="@dimen/value_12dp"
+                                android:layout_marginEnd="@dimen/value_12dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:orientation="vertical">

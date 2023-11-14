@@ -25,8 +25,8 @@ interface ChampsSurveyCallBack {
      fun onFailureSaveDetailsApi(value: SaveSurveyModelResponse)
      fun onSuccessSurveyList(value: GetSurveyDetailsModelResponse)
      fun onFailureSurveyList(value: GetSurveyDetailsModelResponse)
-     fun onSuccessGetSurveyDetailsByChampsId(value: GetSurevyDetailsByChampsIdResponse)
-     fun onFailureGetSurveyDetailsByChampsId(value: GetSurevyDetailsByChampsIdResponse)
+     fun onSuccessGetSurveyDetailsByChampsId(value: GetSurveyDetailsByChampsIdResponsee)
+     fun onFailureGetSurveyDetailsByChampsId(value: GetSurveyDetailsByChampsIdResponsee)
      fun onSuccessgetSubCategoryDetails(
          value: GetSubCategoryDetailsModelResponse,
          categoryName: String

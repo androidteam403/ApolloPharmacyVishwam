@@ -219,7 +219,7 @@ object ChampsApiRepo {
         }
     }
 
-    suspend fun getSurveyDetailsByChampsId(): ApiResult<GetSurevyDetailsByChampsIdResponse> {
+    suspend fun getSurveyDetailsByChampsId(): ApiResult<GetSurveyDetailsByChampsIdResponsee> {
         return try {
             val response = Api.getClient().GET_SURVEY_DETAILS_BY_CHAMPID()
             ApiResult.Success(response)
@@ -753,7 +753,7 @@ object ChampsApiRepo {
     suspend fun saveChampsApi(
         baseUrl: String,
         token: String,
-        saveSurveyModelRequest: SaveSurveyModelRequest,
+        saveSurveyModelRequest: SaveSurveyModelRequestt,
     ): ApiResult<SaveSurveyModelResponse> {
         return try {
 //            val response = Api.getClient().GET_SUB_CATEGORY_DETAILS_API_CALL_JSONBLOB(baseUrl)
@@ -792,7 +792,7 @@ object ChampsApiRepo {
         baseUrl: String,
         token: String,
         champId: String,
-    ): ApiResult<GetSurevyDetailsByChampsIdResponse> {
+    ): ApiResult<GetSurveyDetailsByChampsIdResponsee> {
         return try {
 //            val response = Api.getClient().GET_SUB_CATEGORY_DETAILS_API_CALL_JSONBLOB(baseUrl)
             val response = Api.getClient().GET_SURVEY_DETAILS_BY_CHAMPID(baseUrl, token, champId)

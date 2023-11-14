@@ -20,7 +20,7 @@ class CategoryDetailsAdapter(
     private var status: String?,
 ) : RecyclerView.Adapter<CategoryDetailsAdapter.ViewHolder>() {
 
-
+    var idNo=0
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
@@ -38,9 +38,18 @@ class CategoryDetailsAdapter(
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: CategoryDetailsAdapter.ViewHolder, position: Int) {
         val categoryDetailss = categoryDetails!!.get(position)
-        holder.adapterCategoryDetailsBinding.categoryName.text = categoryDetailss.categoryName
-        holder.adapterCategoryDetailsBinding.categoryNumber.text = categoryDetailss.id.toString()
-        holder.adapterCategoryDetailsBinding.progressBar.isEnabled = false
+//        categoryDetails!!.get(1).isActive=false
+
+        if(categoryDetailss.isActive!!){
+            idNo=idNo+1
+            holder.adapterCategoryDetailsBinding.categoryLayout.visibility=View.VISIBLE
+            holder.adapterCategoryDetailsBinding.categoryName.text = categoryDetailss.categoryName
+            holder.adapterCategoryDetailsBinding.categoryNumber.text = idNo.toString()
+            holder.adapterCategoryDetailsBinding.progressBar.isEnabled = false
+        }else{
+            holder.adapterCategoryDetailsBinding.categoryLayout.visibility=View.GONE
+        }
+
 
 
         if (categoryDetailss.sumOfSubCategoryRating != null && categoryDetailss.clickedSubmit!!) {
@@ -97,7 +106,7 @@ class CategoryDetailsAdapter(
 
         }
         holder.adapterCategoryDetailsBinding.categoryLayout.setOnClickListener {
-            if(categoryDetails!!.get(position)!!.subCategoryDetails!!.size>0){
+            if(categoryDetails!!.get(position)!!.subCategoryDetails!=null && categoryDetails!!.get(position)!!.subCategoryDetails!!.size>0){
                 champsSurveyCallBack.onClickCategory(categoryDetailss.categoryName!!, position)
             }
 

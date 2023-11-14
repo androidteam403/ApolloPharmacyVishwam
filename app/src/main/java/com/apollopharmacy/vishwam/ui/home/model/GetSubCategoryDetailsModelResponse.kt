@@ -42,5 +42,9 @@ class GetSubCategoryDetailsModelResponse : Serializable {
         var createdDate: String? = null
 
         var givenRating: Float? = null
+
+        @SerializedName("IS_ACTIVE")
+        @Expose
+        var isActive: Boolean? = null
     }
 }

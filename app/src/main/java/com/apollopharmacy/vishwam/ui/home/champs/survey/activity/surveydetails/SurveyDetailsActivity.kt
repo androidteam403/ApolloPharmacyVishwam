@@ -27,7 +27,6 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.databinding.*
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.RegionListResponse
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressAdapterTrainers
@@ -134,7 +133,12 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         siteName = intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
         region = intent.getStringExtra("region")!!
-        adapterTrainers = EmailAddressAdapterTrainers(listForTrainers, this@SurveyDetailsActivity, this)
+        adapterTrainers = EmailAddressAdapterTrainers(
+            listForTrainers,
+            this@SurveyDetailsActivity,
+            this,
+            status
+        )
         activityStartSurvey2Binding.trainerRecyclerview.setLayoutManager(
             LinearLayoutManager(
                 this)
@@ -258,7 +262,12 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 //        surveyCCDetailsList.add("kkabcr@apollopharmacy.org")
 
 
-        adapterRec = EmailAddressAdapter(surveyRecManualList, this@SurveyDetailsActivity, this)
+        adapterRec = EmailAddressAdapter(
+            surveyRecManualList,
+            this@SurveyDetailsActivity,
+            this,
+            status
+        )
         activityStartSurvey2Binding.emailRecRecyclerView.setLayoutManager(
             LinearLayoutManager(
                 this,
@@ -512,7 +521,12 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                 surveyRecDetailsList.add(getEmailAddressResponse.emailDetails!!.get(i).email!!)
                 surveyRecDetailsListTemp.add(getEmailAddressResponse.emailDetails!!.get(i).email!!)
             }
-            adapterRec = EmailAddressAdapter(surveyRecManualList, this@SurveyDetailsActivity, this)
+            adapterRec = EmailAddressAdapter(
+                surveyRecManualList,
+                this@SurveyDetailsActivity,
+                this,
+                status
+            )
             activityStartSurvey2Binding.emailRecRecyclerView.setLayoutManager(
                 LinearLayoutManager(
                     this

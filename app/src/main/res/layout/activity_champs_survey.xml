@@ -1830,6 +1830,7 @@
                                     android:padding="@dimen/value_8dp">
 
                                     <TextView
+
                                         android:id="@+id/trainer"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
@@ -1876,6 +1877,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/recipients_editbox_withPlus"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/value_5dp"

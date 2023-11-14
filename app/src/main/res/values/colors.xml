@@ -289,5 +289,6 @@
     <color name="notifications_dialog_text">#0d2937</color>
     <color name="theme_option_bg">#f2f2f2</color>
     <color name="theme_setting_icon">#818285</color>
+    <color name="zero_grey">#838383</color>
 
 </resources>

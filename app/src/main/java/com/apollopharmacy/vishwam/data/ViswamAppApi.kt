@@ -667,7 +667,7 @@ interface ViswamAppApi {
     suspend fun saveChampsApi(
         @Url url: String,
         @Header("token") token: String,
-        @Body saveSurveyModelRequest: SaveSurveyModelRequest,
+        @Body saveSurveyModelRequest: SaveSurveyModelRequestt,
     ): SaveSurveyModelResponse
 
     @POST("https://172.16.103.116/Apollo/Champs/saveChampsDetails")
@@ -708,10 +708,10 @@ interface ViswamAppApi {
         @Url url: String,
         @Header("token") token: String,
         @Query("CHAMPID") id: String,
-    ): GetSurevyDetailsByChampsIdResponse
+    ): GetSurveyDetailsByChampsIdResponsee
 
     @GET("http://jsonblob.com/api/jsonBlob/1085424700242542592")
-    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(): GetSurevyDetailsByChampsIdResponse
+    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(): GetSurveyDetailsByChampsIdResponsee
 
 
     //champs admin
