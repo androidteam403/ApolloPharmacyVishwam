@@ -54,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="BEDS"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Speciality"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="No of OPD"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -133,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Occupancy"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView

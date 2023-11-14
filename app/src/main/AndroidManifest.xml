@@ -43,6 +43,16 @@
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".ui.home.notification.NotificationsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.help.HelpActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.qcfail.pending.QcPendingActivity"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -52,19 +62,16 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".ui.home.discount.bill.DiscountBillingActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".ui.home.discount.approved.DiscountApprovedActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".ui.home.discount.rejected.DiscountRejectActivity"
             android:exported="false"
@@ -85,8 +92,6 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
-
         <activity
             android:name=".ui.home.retroqr.activity.retroqrscanner.RetroQrScannerActivity"
             android:exported="false"
@@ -253,26 +258,21 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".ui.home.qcfail.qcfilter.QcFilterActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".ui.home.swach.swachlistmodule.previewImage.PreviewImageChampsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-
-
-        <!--        <activity-->
-        <!--            android:name=".ui.home.apna.survey.ApnaSurveyActivity"-->
-        <!--            android:exported="true"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme"-->
-        <!--            tools:ignore="MissingClass" />-->
+            android:theme="@style/AppTheme" /> <!-- <activity -->
+        <!-- android:name=".ui.home.apna.survey.ApnaSurveyActivity" -->
+        <!-- android:exported="true" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@style/AppTheme" -->
+        <!-- tools:ignore="MissingClass" /> -->
         <activity
             android:name=".ui.home.swach.swachuploadmodule.reviewratingactivity.RatingReviewActivity"
             android:exported="true"
@@ -395,9 +395,9 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.splash.SplashActivity"
+            android:configChanges="uiMode"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:configChanges="uiMode"
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".ui.login.LoginActivity"
@@ -431,7 +431,6 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:configChanges="uiMode"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.rider.trackmap.TrackMapActivity"
@@ -528,7 +527,6 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".util.bluetooth.BluetoothActivity"
             android:exported="true"
