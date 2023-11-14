@@ -155,7 +155,7 @@
     <color name="another_grey">#d8ddde</color>
     <color name="greyy_color">#ededed</color>
     <color name="very_very_light_grey">#6B6A6A</color>
-    <color name="dark_greyy">#818181</color>
+    <color name="dark_greyy">#1e1e1e</color>
     <color name="very_light_blue">#d7f3e7</color>
     <color name="green_dark">#009345</color>
     <color name="background_ash">#1c1c1c</color>
@@ -176,7 +176,7 @@
     <color name="orange">#f7931e</color>
     <color name="grey_progress_bar_color">#f2f2f2</color>
     <color name="dark_skyblue">#29abe2</color>
-    <color name="grey_bg">#f2f2f2</color>
+    <color name="grey_bg">#1e1e1e</color>
     <color name="text_color_blue">#153b5f</color>
     <color name="bg_blue_color">#1e1e1e</color>
     <color name="darkest_blue">#0071bc</color>
@@ -278,4 +278,12 @@
     <color name="monitoring_closed_card_color">#4a98c9</color>
     <color name="dialog_bg">#292a2c</color>
     <color name="light_grey">#1e1e1e</color>
+
+    <color name="help_bg">#000000</color>
+    <color name="gray">#1e1e1e</color>
+    <color name="notifications_item_bg">#1e1e1e</color>
+    <color name="notifications_item_text">#ffffff</color>
+    <color name="notifications_dialog_text">#ffffff</color>
+    <color name="theme_option_bg">#393838</color>
+    <color name="theme_setting_icon">#fbb831</color>
 </resources>
