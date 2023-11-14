@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/help_bg"
+        tools:context=".ui.home.help.HelpActivity">
+
+        <LinearLayout
+            android:id="@+id/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vishwam_actionbar_height"
+            android:background="@color/vishwam_actionbar_color"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/value_12dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->callback.onclickBackArrow()}"
+                android:src="@drawable/icon_back_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Help"
+                android:textColor="@color/white_for_both"
+                android:textSize="@dimen/text_17sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/header_layout"
+            android:layout_marginBottom="@dimen/value_50dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen65dp"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:background="@drawable/gray_border_white_bg"
+                android:padding="@dimen/value_7dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/value_7dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/value_22dp"
+                        android:layout_height="@dimen/value_22dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_contact" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Our 24X7 Customer Service"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/contact_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="9849155588"
+                        android:textColor="#3cb0e0"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen65dp"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_8dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:background="@drawable/gray_border_white_bg"
+                android:padding="@dimen/value_10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/value_7dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/value_25dp"
+                        android:layout_height="@dimen/value_25dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_email" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Write us at"
+                        android:textSize="@dimen/text_12sp" />
+
+                    <TextView
+                        android:id="@+id/email_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="info@apollovishwam.com"
+                        android:textColor="#3cb0e0"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/CustomCardViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:background="@color/white"
+                android:elevation="@dimen/eight_dp"
+                app:cardElevation="@dimen/eight_dp">
+
+                <RelativeLayout
+                    android:id="@+id/search_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/value_10dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/search_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:drawableEnd="@drawable/close_blue_new"
+                        android:drawablePadding="@dimen/dimen20dp"
+                        android:drawableTint="@color/grey"
+                        android:gravity="left|center"
+                        android:hint="Discount coupons"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="@dimen/value_5dp"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingTop="@dimen/value_5dp"
+                        android:paddingBottom="@dimen/value_5dp"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_14sp" />
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/dimen20dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:background="@color/gray"
+                android:gravity="center_vertical"
+                android:padding="@dimen/value_7dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="ATTENDANCE"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/plus"
+                    android:tint="#757575"
+                    tools:ignore="UseAppTint" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_7dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:background="@color/gray"
+                android:padding="@dimen/value_7dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="MANAGEMENT"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/plus"
+                    android:tint="#757575"
+                    tools:ignore="UseAppTint" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_7dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:background="@color/gray"
+                android:padding="@dimen/value_7dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="CMSDISCOUNT"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/plus"
+                    android:tint="#757575"
+                    tools:ignore="UseAppTint" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_7dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:background="@color/gray"
+                android:padding="@dimen/value_7dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="RAISE NEW DRUG REQUEST"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/plus"
+                    android:tint="#757575"
+                    tools:ignore="UseAppTint" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/value_10dp"
+            android:layout_marginEnd="@dimen/value_10dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Termas &amp; Conditions"
+                android:textAlignment="center"
+                android:textColor="#3cb0e0"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Privacy Policy"
+                android:textAlignment="center"
+                android:textColor="#3cb0e0"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.help.HelpActivityCallback" />
+    </data>
+</layout>

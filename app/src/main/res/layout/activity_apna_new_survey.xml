@@ -2772,7 +2772,6 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Total"
-                                            android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
                                         <TextView
@@ -2796,7 +2795,6 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Organised"
-                                            android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
                                         <TextView
