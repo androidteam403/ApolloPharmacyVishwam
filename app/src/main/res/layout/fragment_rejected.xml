@@ -165,7 +165,8 @@
                                     android:layout_width="@dimen/value_22dp"
                                     android:layout_height="@dimen/value_22dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_search"/>
+                                    android:src="@drawable/close_blue_new"
+                                    android:tint="@color/grey"/>
                             </LinearLayout>
 
 

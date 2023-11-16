@@ -110,7 +110,7 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
         categoryDetailsPreviewAdapter =
             CategoryDetailsPreviewAdapter(
                 getCategoryAndSubCategoryDetails!!.categoryDetails,
-                applicationContext,
+                this@PreviewActivity,
                 this
             )
         activityPreviewBinding.categoryRecyclerView.setLayoutManager(

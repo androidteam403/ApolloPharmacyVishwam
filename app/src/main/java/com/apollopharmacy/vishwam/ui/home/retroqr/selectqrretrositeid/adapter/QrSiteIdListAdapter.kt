@@ -28,7 +28,7 @@ class QrSiteIdListAdapter(
     ): ViewHolder {
         val adapterSwachhSiteidListBinding: AdapterSwachhSiteidListBinding =
             DataBindingUtil.inflate(
-                LayoutInflater.from(applicationContext),
+                LayoutInflater.from(parent.context),
                 R.layout.adapter_swachh_siteid_list,
                 parent,
                 false
@@ -40,7 +40,6 @@ class QrSiteIdListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = siteData.get(position)
         holder.adapterSwachhSiteidListBinding.itemName.text = " ${items.site}, ${items.storeName}"
-
 
 
         holder.itemView.setOnClickListener {

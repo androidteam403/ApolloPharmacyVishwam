@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:gravity="end">
+                android:gravity="end|center_vertical">
 
                 <ImageView
                     android:id="@+id/preview_icon"
@@ -62,11 +62,11 @@
 
                 <ImageView
                     android:id="@+id/filter_icon"
-                    android:layout_width="@dimen/value_25dp"
-                    android:layout_height="@dimen/value_25dp"
+                    android:layout_width="@dimen/value_20dp"
+                    android:layout_height="@dimen/value_20dp"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/text_dimen_20"
-                    android:src="@drawable/ic_baseline_tune_24"
+                    android:src="@drawable/filter_icon"
                     android:tint="@color/white_for_both"
                     tools:ignore="UseAppTint" />
             </LinearLayout>
@@ -747,6 +747,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_8dp"
+                                    android:textColorHint="@color/black"
                                     android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
@@ -778,6 +779,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_8dp"
                                         android:layout_weight=".5"
+                                        android:textColorHint="@color/black"
                                         android:theme="@style/TextLabelEditTextApnaProject">
 
                                         <androidx.appcompat.widget.AppCompatEditText
@@ -801,6 +803,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_10dp"
                                         android:layout_weight=".5"
+                                        android:textColorHint="@color/black"
                                         android:theme="@style/TextLabelEditTextApnaProject">
 
                                         <androidx.appcompat.widget.AppCompatEditText
@@ -834,6 +837,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_8dp"
                                         android:layout_weight=".5"
+                                        android:textColorHint="@color/black"
                                         android:theme="@style/TextLabelEditTextApnaProject">
 
                                         <androidx.appcompat.widget.AppCompatEditText
@@ -1274,6 +1278,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/value_5dp"
                                         android:layout_weight=".5"
+                                        android:textColorHint="@color/black"
                                         android:theme="@style/TextLabelEditTextApnaProject">
 
                                         <androidx.appcompat.widget.AppCompatEditText
@@ -1360,6 +1365,7 @@
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
                                     android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
@@ -1852,6 +1858,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/value_5dp"
                                         android:layout_weight=".5"
+                                        android:textColorHint="@color/black"
                                         android:theme="@style/TextLabelEditTextApnaProject">
 
                                         <androidx.appcompat.widget.AppCompatEditText
@@ -2530,6 +2537,7 @@
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
                                     android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
@@ -2764,7 +2772,6 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Total"
-                                            android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
                                         <TextView
@@ -2788,7 +2795,6 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Organised"
-                                            android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
                                         <TextView

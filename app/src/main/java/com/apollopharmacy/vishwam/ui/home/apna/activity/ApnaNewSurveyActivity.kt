@@ -477,6 +477,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 LayoutInflater.from(this), R.layout.dialog_quick_go, null, false
             )
             val customDialog = android.app.AlertDialog.Builder(this, 0).create()
+            customDialog.window!!.setBackgroundDrawable(ColorDrawable(R.color.transparent))
             customDialog.apply {
                 setView(dialogBinding?.root)
                 setCancelable(false)

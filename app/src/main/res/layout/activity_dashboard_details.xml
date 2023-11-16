@@ -15,33 +15,21 @@
             <LinearLayout
 
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/vishwam_actionbar_height"
-                android:background="@color/vishwam_actionbar_color"
+                android:layout_height="wrap_content"
+                android:background="@color/text_color_blue"
                 android:orientation="horizontal"
                 android:padding="@dimen/value_10dp"
                 android:visibility="visible">
 
                 <ImageView
-                    android:layout_marginEnd="@dimen/value_10dp"
-                    android:onClick="@{()-> callback.onClickBack()}"
-                    android:id="@+id/backArrow"
-                    android:layout_width="37dp"
-                    android:layout_height="37dp"
-                    android:layout_gravity="center"
-                    android:layout_centerVertical="true"
+                    android:layout_width="@dimen/value_32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="4dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/icon_back_arrow"
-                    />
-
-<!--                <ImageView-->
-<!--                    android:layout_width="@dimen/value_32dp"-->
-<!--                    android:layout_height="32dp"-->
-<!--                    android:layout_marginTop="4dp"-->
-<!--                    android:contentDescription="@string/app_name"-->
-<!--                    android:onClick="@{()-> callback.onClickBack()}"-->
-<!--                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24"-->
-<!--                    android:tint="@color/white"-->
-<!--                    tools:ignore="UseAppTint" />-->
+                    android:onClick="@{()-> callback.onClickBack()}"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24"
+                    android:tint="@color/white_for_both"
+                    tools:ignore="UseAppTint" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -56,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:text="CEO Dashboard"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -94,7 +82,7 @@
                         android:layout_marginStart="@dimen/value_5dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="T.MAHENDAR REDDY"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_14sp" />
 
                     <TextView
@@ -105,7 +93,7 @@
                         android:layout_marginBottom="@dimen/value_5dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Executive"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/dimen11sp" />
 
 
@@ -122,7 +110,7 @@
                         android:layout_height="@dimen/value_40dp"
                         android:layout_gravity="end"
                         android:src="@drawable/close_white_icon"
-                        android:tint="@color/white"
+                        android:tint="@color/white_for_both"
                         android:visibility="gone"
                         tools:ignore="UseAppTint" />
                 </LinearLayout>

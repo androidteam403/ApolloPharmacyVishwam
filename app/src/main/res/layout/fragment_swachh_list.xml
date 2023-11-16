@@ -41,9 +41,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="User ID"
-                            android:textColor="@color/heading_blue"
-                            android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/reg_date_color"
+                            android:textSize="@dimen/text_12sp"/>
 
                         <TextView
                             android:id="@+id/userId_swachlist"
@@ -95,9 +94,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="From"
-                            android:textColor="@color/heading_blue"
-                            android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/reg_date_color"
+                            android:textSize="@dimen/text_12sp" />
 
 
                         <TextView
@@ -141,9 +139,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="To"
-                            android:textColor="@color/heading_blue"
-                            android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/reg_date_color"
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/to_date"
@@ -223,7 +220,7 @@
                     android:onClick="@{()-> callback.onClickApproved()}"
                     android:text="APPROVED"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:visibility="visible" />
 
                 <View
@@ -241,7 +238,7 @@
                     android:onClick="@{()-> callback.onClickPending()}"
                     android:text="PENDING"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:visibility="visible" />
 
             </LinearLayout>

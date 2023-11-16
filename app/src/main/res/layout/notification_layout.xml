@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/value_8dp"
+        android:layout_marginTop="@dimen/value_5dp"
+        android:layout_marginEnd="@dimen/value_8dp">
+
+        <LinearLayout
+            android:id="@+id/parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/notifications_light_gray_bg"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/value_15dp"
+            android:paddingTop="@dimen/value_8dp"
+            android:paddingBottom="@dimen/value_8dp"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/value_3dp"
+                android:fontFamily="@font/poppin_bold"
+                android:text="New App Updating"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Today 4pm we our Apollo mobile app is upgrading\nto newer version"
+                android:textColor="@color/notifications_item_text"
+                android:textSize="@dimen/text_12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_2dp"
+                android:fontFamily="@font/poppin_bold"
+                android:text="5 min ago"
+                android:textColor="#8f8f8f"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

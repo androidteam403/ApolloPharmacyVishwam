@@ -49,7 +49,7 @@ class TrafficGeneratorAdapter(
         if (trafficGenerators[position].isSelected == true) {
             holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#00a651"))
         } else if (trafficGenerators[position].isSelected == false) {
-            holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#000000"))
+            holder.viewItemRowBinding.itemName.setTextColor(ContextCompat.getColor(mContext, R.color.black))
         }
     }
 

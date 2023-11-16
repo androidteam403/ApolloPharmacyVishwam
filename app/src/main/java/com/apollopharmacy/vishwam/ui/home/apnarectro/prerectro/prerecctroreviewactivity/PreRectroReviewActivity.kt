@@ -84,9 +84,9 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
     private fun setUp() {
 
         activityPreRectroReviewScreenBinding.callback = this
-        activityPreRectroReviewScreenBinding.closeIconWhiteRetro.setOnClickListener {
+        /*activityPreRectroReviewScreenBinding.closeIconWhiteRetro.setOnClickListener {
             super.onBackPressed()
-        }
+        }*/
 
 
         if(status == "0"){

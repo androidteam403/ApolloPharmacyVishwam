@@ -58,7 +58,7 @@ class ReasonWiseTicketCountbyRoleFixedAdapter(
                 )
                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.setTextColor(
                     context.getColor(
-                        R.color.white
+                        R.color.white_for_both
                     )
                 )
                 if (data1.isDescending == true) {
@@ -80,19 +80,35 @@ class ReasonWiseTicketCountbyRoleFixedAdapter(
                     )
                 )
             }
+
             if (role.equals("ceo")) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
-                    "Manager (${rows.size})"
+                    "Region Head (${rows.size})"
             } else if (role.equals("region_head")) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
-                    "Executives (${rows.size})"
+                    "Manager (${rows.size})"
             } else if (role.equals("store_manager")) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
-                    "Store List (${rows.size})"
-            } else {
+                    "Executives (${rows.size})"
+            } else if (role.equals("store_executive")) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
-                    "- (${rows.size})"
+                    "Stores (${rows.size})"
+            } else {
+                holder.adapterReasonWiseTicketCountbyRoleBinding.names.text = "- (${rows.size})"
             }
+            /* if (role.equals("ceo")) {
+                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
+                     "Manager (${rows.size})"
+             } else if (role.equals("region_head")) {
+                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
+                     "Executives (${rows.size})"
+             } else if (role.equals("store_manager")) {
+                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
+                     "Store List (${rows.size})"
+             } else {
+                 holder.adapterReasonWiseTicketCountbyRoleBinding.names.text =
+                     "- (${rows.size})"
+             }*/
             holder.adapterReasonWiseTicketCountbyRoleBinding.names.visibility = View.VISIBLE
             if (data1.isSelsected == true) {
                 holder.adapterReasonWiseTicketCountbyRoleBinding.arrowToindicateName.visibility =
@@ -136,7 +152,7 @@ class ReasonWiseTicketCountbyRoleFixedAdapter(
                 )
                 holder.adapterReasonWiseTicketCountbyRoleBinding.total.setTextColor(
                     context.getColor(
-                        R.color.white
+                        R.color.white_for_both
                     )
                 )
                 if (data1.isDescending == true) {

@@ -12,4 +12,6 @@
     <color name="success_color">#009688</color>
     <color name="dark_yellow">#FDB813</color>
     <color name="splash_color">#173b5e</color>
+
+    <color name="white_color">#FFFFFF</color>
 </resources>

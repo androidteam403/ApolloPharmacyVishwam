@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Point
+import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
@@ -146,7 +147,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
                 }
             }
-            apnaPreviewActivityBinding.status.setTextColor(Color.parseColor(approvedOrders.status!!.textColor!!))
+            apnaPreviewActivityBinding.status.setTextColor(Color.parseColor(approvedOrders.status!!.backgroundColor))
             if (approvedOrders.status != null) {
                 if (approvedOrders.status!!.name != null) {
                     if (approvedOrders.status!!.name.toString()
@@ -332,7 +333,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                     } else {
                         apnaPreviewActivityBinding.status.setTextColor(
                             Color.parseColor(
-                                approvedOrders.status!!.other!!.color
+                                approvedOrders.status!!.backgroundColor
                             )
                         )
 
@@ -364,6 +365,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                     LayoutInflater.from(this), R.layout.apna_preview_quick_go_dialog, null, false
                 )
             val customDialog = android.app.AlertDialog.Builder(this, 0).create()
+            customDialog.window!!.setBackgroundDrawable(ColorDrawable(R.color.transparent))
             customDialog.apply {
 
                 setView(apnaPreviewQuickGoDialogBinding?.root)

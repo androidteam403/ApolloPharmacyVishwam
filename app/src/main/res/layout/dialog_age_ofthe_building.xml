@@ -51,19 +51,21 @@
                 android:layout_marginStart="@dimen/value_10dp"
                 android:layout_marginTop="@dimen/value_10dp"
                 android:layout_marginEnd="@dimen/value_10dp"
-                android:textColorHint="@color/black">
+                android:theme="@style/TextLabelEditTextApnaProject">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/searchMonth"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
+                    android:drawableStart="@drawable/close_blue_new"
+                    android:drawableTint="@color/grey"
                     android:hint="Search Month"
                     android:inputType="text"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
                     android:singleLine="true"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/black"
+                    android:drawablePadding="@dimen/value_10dp"
                     android:textSize="@dimen/text_15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 

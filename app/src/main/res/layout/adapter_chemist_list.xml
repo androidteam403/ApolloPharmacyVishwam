@@ -24,7 +24,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
                     android:text="Hetro"
-                    android:textColor="@color/black_for_both"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
                 <ImageView
@@ -53,7 +53,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Organised"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -62,7 +62,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Yes"
-                        android:textColor="@color/black_for_both"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
@@ -77,7 +77,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Avg sale"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -86,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="10.2 Lac"
-                        android:textColor="@color/black_for_both"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -108,7 +108,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Un-organised"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -117,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="No"
-                        android:textColor="@color/black_for_both"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
@@ -132,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Avg sale"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grey"
                         android:textSize="@dimen/text_12sp" />
 
                     <TextView
@@ -141,7 +141,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="10.2 Lac"
-                        android:textColor="@color/black_for_both"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
             </LinearLayout>

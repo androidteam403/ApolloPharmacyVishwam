@@ -1,10 +1,11 @@
 package com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.TypedValue
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +18,9 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.databinding.FragmentCeoDashboardBinding
 import com.apollopharmacy.vishwam.ui.home.IOnBackPressed
+import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.XYMarkerView
 import com.apollopharmacy.vishwam.ui.home.dashboard.adapter.DashboardAdapter
 import com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard.ceodashboardcalenderdialog.CeoDashboardCalenderDialog
@@ -36,20 +40,26 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import lecho.lib.hellocharts.model.SliceValue
 import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.text.WordUtils
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDashboardBinding>(),
-    CeoDashboardCallback, CeoDashboardCalenderDialog.DateSelected, IOnBackPressed {
+    CeoDashboardCallback, CeoDashboardCalenderDialog.DateSelected, IOnBackPressed,
+    MainActivityCallback {
     private var chart: AnyChartView? = null
     var dashboardAdapter: DashboardAdapter? = null
-    private val count = listOf(257, 321, 142)
+    private var count = listOf(257, 321, 142)
+    var highlightedEntries = java.util.ArrayList<Int>()
+
+    var countApiCall: Int = 0
     val data: MutableList<String> = ArrayList()
     private val lists = listOf("Pending", "Approved", "Reject")
     var pieData: List<SliceValue> = ArrayList()
     var empIdList = java.util.ArrayList<String>()
-
+    public var isEmpty: Boolean = false
+    var ticketCountsByStatsuRoleResponses: TicketCountsByStatusRoleResponse? = null
+    var statusRoleResponseList = ArrayList<TicketCountsByStatusRoleResponse>()
     var fromDate: String = ""
     var toDate: String = ""
     var isFromDateSelected: Boolean = false
@@ -64,6 +74,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     override fun setup() {
         viewBinding.callback = this
+        MainActivity.mInstance.mainActivityCallback = this
+
         empDetailsMobile()
         val data: MutableList<Float> = ArrayList()
         data.add((10.0f))
@@ -98,29 +110,92 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 //        configChartView()
         viewBinding.greaterThan2.setText("<2")
         viewBinding.greaterThan8.setText(">8")
-//        var names = ArrayList<String>()
-//
-//        names.add("5")
-//        names.add("8")
-//        names.add("12")
 
-
-        if (empIdList.isNullOrEmpty()) {
-            empIdList.add(Preferences.getValidatedEmpId())
-        }
         showLoading()
         viewModel.getTicketListByCountApi(
             this,
             Utils.getFirstDateOfCurrentMonth(),
             Utils.getCurrentDateCeoDashboard(),
-            Preferences.getValidatedEmpId()//"APL67949"
+            Preferences.getValidatedEmpId(), ""//"APL67949"
         )
 
-//        viewModel.getTicketListByCountApi(this, "2023-01-01", "2023-08-02", "APL48627")//EX100011//Preferences.getValidatedEmpId()
+
+
+        if (countApiCall == 0) {
+            viewBinding.fromDate.isClickable = true
+            viewBinding.toDate.isClickable = true
+            viewBinding.apply.isClickable = true
+
+            viewBinding.apply.setBackgroundColor(Color.parseColor("#4b9e2e"))
+            /* MainActivity.mInstance.backArrow.visibility = View.GONE
+             MainActivity.mInstance.openDrawer.visibility = View.VISIBLE*/
+
+        } else {
+            viewBinding.fromDate.isClickable = false
+            viewBinding.toDate.isClickable = false
+            viewBinding.apply.isClickable = false
+            viewBinding.apply.setBackgroundColor(Color.parseColor("#a6a6a6"))
+
+            /* MainActivity.mInstance.openDrawer.visibility = View.GONE
+             MainActivity.mInstance.backArrow.visibility = View.VISIBLE*/
+
+        }
+
+
+
+/*
+        MainActivity.mInstance.backArrow.setOnClickListener {
+            onBackPressed()
+            */
+/* countApiCall--
+             if (countApiCall == 0) {
+                 for (i in statusRoleResponseList.indices) {
+
+                     if (Preferences.getValidatedEmpId()
+                             .equals(statusRoleResponseList.get(i).empId)
+                     ) {
+                         ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                         callAdapter()
+                     }
+
+                 }
+
+             } else {
+                 for (i in empIdList.indices) {
+                     if (empId.equals(empIdList.get(i))) {
+                         empIdList.removeAt(i)
+                     }
+
+
+                 }
+             }
+
+
+
+
+
+             if (empIdList.size > 0 && countApiCall != 0) {
+ //            showLoading()
+                 val lastIndex = empIdList.size - 1
+
+                 for (i in statusRoleResponseList.indices) {
+                     if (empIdList.get(lastIndex).equals(statusRoleResponseList.get(i).getEmpId())) {
+                         ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                         callAdapter()
+                     }
+                 }
+
+                 empIdList.removeAt(lastIndex)
+             }*//*
+
+        }
+*/
     }
 
+//        viewModel.getTicketListByCountApi(this, "2023-01-01", "2023-08-02", "APL48627")//EX100011//Preferences.getValidatedEmpId()
+
     private fun createChart(chartData: ArrayList<PieEntry>, valuesList: ArrayList<String>) {
-        val pieEntry = chartData.map { PieEntry(it.value, it.value.toString()) }
+        val pieEntry = chartData.map { PieEntry(it.value, it.label) }
         val rnd = Random()
         val colors = mutableListOf<Int>()
         for (i in chartData.indices) {
@@ -142,10 +217,11 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         dataSet.valueTextColor = ContextCompat.getColor(requireContext(), android.R.color.white)
         viewBinding.pieChart.data = PieData(dataSet)
 
-
         viewBinding.pieChart.setOnChartValueSelectedListener(object :
             OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
+
+                creatChartLabels(colors, chartData, (e as PieEntry).label, e!!.y)
 
                 val selectedValue = e?.y?.toInt() ?: 0
 //                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
@@ -162,6 +238,7 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             }
 
             override fun onNothingSelected() {
+                creatChartLabels(colors, chartData, "", 10f)
 
             }
 
@@ -178,114 +255,160 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         viewBinding.pieChart.invalidate()
         viewBinding.pieChart.animateY(1400, Easing.EaseInOutQuad);
         viewBinding.pieChart.legend.isEnabled = false
-        creatChartLabels(colors, chartData)
+        creatChartLabels(colors, chartData, "", 9999999.0f)
     }
 
-    private fun creatChartLabels(colors: List<Int>, chartData: ArrayList<PieEntry>) {
+    private fun creatChartLabels(
+        colors: List<Int>,
+        chartData: ArrayList<PieEntry>,
+        label: String,
+        value: Float,
+    ) {
+
+
         viewBinding.chartLabels.removeAllViews()
         for (i in chartData.indices) {
             val view =
                 com.apollopharmacy.vishwam.databinding.LegendLayoutBinding.inflate(layoutInflater)
             view.legendBox.setBackgroundColor(colors[i])
+            if (label.isNotEmpty()) {
+                if (label.equals(chartData.get(i).label) && value == chartData.get(i).y) {
+
+                    val desiredWidthInDp = 100 //14
+                    val desiredHeightInDp = 50 //14
+
+                    val density = resources.displayMetrics.density
+                    val desiredWidthInPx = (desiredWidthInDp * density).toInt()
+                    val desiredHeightInPx = (desiredHeightInDp * density).toInt()
+
+                    val layoutParams = view.legendBox.layoutParams
+                    layoutParams.width = desiredWidthInPx
+                    layoutParams.height = desiredHeightInPx
+                    view.legendBox.layoutParams = layoutParams
+                    view.legendBox.setText("123")
+                    view.legendBox.setTextColor(Color.WHITE)
+                    val textColor = Color.BLACK // Use any color you prefer
+
+                    view.legendTitle.setTextColor(textColor)
+
+
+                    view.legendTitle.textSize = 14F
+
+                } else {
+                    view.legendTitle.textSize = 12F
+                    view.legendTitle.setTextColor(view.legendTitle.currentTextColor)
+                    val desiredWidthInDp = 80 //10
+                    val desiredHeightInDp = 40 //10
+
+                    val density = resources.displayMetrics.density
+                    val desiredWidthInPx = (desiredWidthInDp * density).toInt()
+                    val desiredHeightInPx = (desiredHeightInDp * density).toInt()
+
+                    val layoutParams = view.legendBox.layoutParams
+                    layoutParams.width = desiredWidthInPx
+                    layoutParams.height = desiredHeightInPx
+                    view.legendBox.layoutParams = layoutParams
+                    view.legendBox.setText("123")
+                    view.legendBox.setTextColor(Color.WHITE)
+                }
+            }
             view.legendTitle.text = chartData[i].label
+            view.legendTitle.setOnClickListener {
+                for (j in chartData.indices) {
+                    if (chartData[j].label == view.legendTitle.text.toString()) {
+
+                        if (highlightedEntries.contains(j)) {
+                            highlightedEntries.remove(j)
+                            view.legendTitle.textSize = 12F
+
+
+
+                            view.legendTitle.setTextColor(Color.parseColor("#808080"))
+                            val desiredWidthInDp = 80 //10
+                            val desiredHeightInDp = 30 //10
+
+                            val density = resources.displayMetrics.density
+                            val desiredWidthInPx = (desiredWidthInDp * density).toInt()
+                            val desiredHeightInPx = (desiredHeightInDp * density).toInt()
+
+                            val layoutParams = view.legendBox.layoutParams
+                            layoutParams.width = desiredWidthInPx
+                            layoutParams.height = desiredHeightInPx
+                            view.legendBox.layoutParams = layoutParams
+                            view.legendBox.setText("123")
+                            view.legendBox.setTextColor(Color.WHITE)
+                        } else {
+                            highlightedEntries.add(j)
+                        }
+                    }
+                }
+
+                // Unhighlight all values first
+                viewBinding.pieChart.highlightValue(null)
+
+                // Then highlight the selected entries
+                for (highlightedIndex in highlightedEntries) {
+                    viewBinding.pieChart.highlightValue(highlightedIndex.toFloat(), 0)
+                }
+
+            }
+
+            view.legendBox.setText("123")
+            view.legendBox.animate()
             viewBinding.chartLabels.addView(view.root)
         }
     }
 
-//    private fun configChartView() {
-//
-//
-//        val pie: Pie = AnyChart.pie()
-//        var names = ArrayList<String>()
-//        pie.palette().itemAt(
-//            2, SolidFill(
-//                "#c7c7c7", 1
-//            )
-//        )
-//        pie.palette().itemAt(
-//            1, SolidFill(
-//                "#FF6D6A", 1
-//            )
-//        )
-//        val dataPieChart: MutableList<DataEntry> = mutableListOf()
-//        for (index in count.indices) {
-//            dataPieChart.add(ValueDataEntry(lists.elementAt(index), count.elementAt(index)))
-//        }
-//        pie.labels().format("{%value}")
-//
-//        pie.animation(true, 800)
-//        pie.data(dataPieChart)
-//
-//        pie.setOnClickListener(object :
-//            ListenersInterface.OnClickListener(arrayOf("x", "value")) {
-//            override fun onClick(event: Event) {
-//                event.getData().get("x")
-//                event.getData().get("value")
-//
-//                if (event.getData().get("x").equals("Approved")) {
-//                    //APL49396
-//
-//
-////                    findNavController().navigate(R.id.action_dashboardFragment_to_approvedFragment)
-////
-//                    val fragment: Fragment = ApprovedFragment()
-//                    val fragmentManager = activity!!.supportFragmentManager
-//                    val fragmentTransaction = fragmentManager.beginTransaction()
-//                    fragmentTransaction.replace(R.id.fragment_container, fragment)
-//                    fragmentTransaction.addToBackStack(null)
-////                    fragmentTransaction.setReorderingAllowed(true)
-////                    fragmentTransaction.isAddToBackStackAllowed
-//                    fragmentTransaction.commit()
-////                    MainActivity.mInstance.close()
-//
-//
-//                } else if (event.getData().get("x").equals("Pending")) {
-//                    val fragment: Fragment = PendingFragment()
-//                    val fragmentManager = activity!!.supportFragmentManager
-//                    val fragmentTransaction = fragmentManager.beginTransaction()
-//                    fragmentTransaction.replace(R.id.fragment_container, fragment)
-//                    fragmentTransaction.addToBackStack(null)
-//                    fragmentTransaction.commit()
-//
-//                } else if (event.getData().get("x").equals("Reject")) {
-//                    val fragmentManager = activity!!.supportFragmentManager
-//                    val fragmentTransaction = fragmentManager.beginTransaction()
-//                    fragmentTransaction.replace(R.id.fragment_container, RejectedFragment())
-//                    fragmentTransaction.addToBackStack(null)
-//                    fragmentTransaction.commit()
-//                }
-//            }
-//        })
-//        viewBinding.piechart.setChart(pie)
-//
-//    }
-
-    override fun onClickRightArrow(row: TicketCountsByStatusRoleResponse.Data.ListData.Row) {
-        if (!role.equals("store_executive")) {
-            val intent = Intent(ViswamApp.context, DashboardDetailsActivity::class.java)
-            intent.putExtra("SELECTED_ITEM", row)
-            intent.putExtra("FROM_DATE", viewBinding.fromDate.text.toString())
-            intent.putExtra("TO_DATE", viewBinding.toDate.text.toString())
-            startActivity(intent)
-        }
+    fun getDefaultTextColor(context: Context): Int {
+        val typedValue = TypedValue()
+        val theme = context.theme
+        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true)
+        return typedValue.data
     }
 
-    override fun onClickEmployee(employee: String) {
-        showLoading()
+    override fun onClickRightArrow(row: TicketCountsByStatusRoleResponse.Data.ListData.Row) {
+        val intent = Intent(ViswamApp.context, DashboardDetailsActivity::class.java)
+        intent.putExtra("SELECTED_ITEM", row)
+        intent.putExtra("FROM_DATE", viewBinding.fromDate.text.toString())
+        intent.putExtra("TO_DATE", viewBinding.toDate.text.toString())
+        startActivity(intent)
+        /* if (!role.equals("store_executive")) {
 
+         }*/
+    }
+
+    override fun onClickEmployee(employee: String, roleCode: String) {
         empId = employee
 
-        if (empIdList.contains(employee)) {
+        /* if (countApiCall < 0) {
+             countApiCall = 0
 
-        } else {
-            empIdList.add(employee)
-        }
+         }
+
+         if (empIdList.contains(employee)) {
+
+         } else {
+             countApiCall++
+
+             empIdList.add(employee)
+         }*/
+        /*if (statusRoleResponseList.filter { it.empId.equals(employee) && !empId.equals(Preferences.getValidatedEmpId())}.size > 0) {
+            for (i in statusRoleResponseList.indices) {
+                if (employee.equals(statusRoleResponseList.get(i).getEmpId())) {
+                    ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                    callAdapter()
+                }
+            }
+        } else {*/
+        showLoading()
         viewModel.getTicketListByCountApi(
             this,
-            Utils.getFirstDateOfCurrentMonth(),
-            Utils.getCurrentDateCeoDashboard(),
-            employee//"APL67949"
+            Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
+            Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
+            employee, roleCode//"APL67949"
         )
+//        }
+
     }
 
     var role = ""
@@ -306,16 +429,66 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         }
     }
 
-    var ticketCountsByStatsuRoleResponses: TicketCountsByStatusRoleResponse? = null
-    override fun onSuccessgetTicketListByCountApi(ticketCountsByStatsuRoleResponse: TicketCountsByStatusRoleResponse) {
-//        resetChart()
-        ticketCountsByStatsuRoleResponses = ticketCountsByStatsuRoleResponse
+
+    fun callAdapter() {
+        if (statusRoleResponseList.size == 1) {
+            viewBinding.fromDate.isClickable = true
+            viewBinding.toDate.isClickable = true
+            viewBinding.fromDate.isEnabled = true
+            viewBinding.apply.setBackgroundColor(Color.parseColor("#4b9e2e"))
+
+            viewBinding.toDate.isEnabled = true
+            viewBinding.apply.isClickable = true
+            /* MainActivity.mInstance.backArrow.visibility = View.GONE
+             MainActivity.mInstance.openDrawer.visibility = View.VISIBLE*/
+
+        } else {
+            viewBinding.fromDate.isClickable = false
+            viewBinding.toDate.isClickable = false
+            viewBinding.fromDate.isEnabled = false
+            viewBinding.toDate.isEnabled = false
+            viewBinding.apply.isClickable = false
+            viewBinding.apply.setBackgroundColor(Color.parseColor("#a6a6a6"))
+
+            /* MainActivity.mInstance.openDrawer.visibility = View.GONE
+             MainActivity.mInstance.backArrow.visibility = View.VISIBLE*/
+
+        }
+
         if (ticketCountsByStatsuRoleResponses != null && ticketCountsByStatsuRoleResponses!!.data != null && ticketCountsByStatsuRoleResponses!!.data.listData != null && ticketCountsByStatsuRoleResponses!!.data.listData.rows.size > 0) {
             ticketCountsByStatsuRoleResponses!!.data.listData.rows.sortBy { it.name }
 
+
+
             if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.isNullOrEmpty()) {
                 viewBinding.nameOfTheStore.text = "Stores"
+                viewBinding.dashboardName.setText("Stores Summary")
+
             } else {
+
+                viewBinding.dashboardName.setText(
+                    WordUtils.capitalize(
+                        ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.replace(
+                            "_",
+                            " "
+                        )
+                    ) + " Summary"
+                )
+
+//                if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.uppercase()
+//                        .contains("REGION")
+//                ) {
+//                    viewBinding.dashboardName.setText("Ceo Dashboard")
+//                } else if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.uppercase()
+//                        .contains("MANAGER")
+//                ) {
+//                    viewBinding.dashboardName.setText("RegionHead Dashboard")
+//                } else if (ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.uppercase()
+//                        .contains("EXECUTIVE")
+//                ) {
+//                    viewBinding.dashboardName.setText("Executive Dashboard")
+//                }
+
                 viewBinding.nameOfTheStore.text = StringUtils.capitalize(
                     ticketCountsByStatsuRoleResponses!!.data!!.listData!!.rows!!.get(0).roleCode.replace(
                         "_",
@@ -332,6 +505,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             viewBinding.dashboardCeoRecyclerview.layoutManager = layoutManager
             viewBinding.dashboardCeoRecyclerview.adapter = dashboardAdapter
 
+
+            viewBinding.monitoringReportLayout.visibility = View.VISIBLE
             viewBinding.recyclerView.visibility = View.VISIBLE
             viewBinding.noListFound.visibility = View.GONE
 
@@ -382,7 +557,9 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             valuesList.add(sumOfpending.toString())
             createChart(sumOfList, valuesList)
 
+
         } else {
+            viewBinding.monitoringReportLayout.visibility = View.GONE
             viewBinding.recyclerView.visibility = View.GONE
             viewBinding.noListFound.visibility = View.VISIBLE
 
@@ -391,6 +568,61 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             viewBinding.chartLabels.visibility = View.GONE
         }
 
+    }
+
+
+    override fun onSuccessgetTicketListByCountApi(ticketCountsByStatsuRoleResponse: TicketCountsByStatusRoleResponse) {
+        var closed: Int = 0
+        var lessthanTwo: Int = 0
+        var threetoEight: Int = 0
+        var greaterthanEight: Int = 0
+        var rejected: Int = 0
+        var pending: Int = 0
+        var total: Int = 0
+        if (ticketCountsByStatsuRoleResponse != null
+            && ticketCountsByStatsuRoleResponse!!.data != null
+            && ticketCountsByStatsuRoleResponse!!.data!!.listData != null
+            && ticketCountsByStatsuRoleResponse!!.data!!.listData!!.rows != null
+            && ticketCountsByStatsuRoleResponse!!.data!!.listData!!.rows!!.size > 0
+        ) {
+            for (i in ticketCountsByStatsuRoleResponse!!.data!!.listData!!.rows!!) {
+                closed = closed + i.closed
+                lessthanTwo = lessthanTwo + i.lessThan2
+                threetoEight = threetoEight + i.get3To8()
+                greaterthanEight = greaterthanEight + i.greaterThan8
+                var pendingRow: Int = i.lessThan2 + i.get3To8() + i.greaterThan8
+                rejected = rejected + i.rejected
+                pending = pending + pendingRow
+                total = total + i.closed + i.rejected + pendingRow
+            }
+        }
+        viewBinding.closedCard.text = "$closed"
+        viewBinding.lessthanTwoCard.text = "$lessthanTwo"
+        viewBinding.threeEightCard.text = "$threetoEight"
+        viewBinding.greaterthanEightCard.text = "$greaterthanEight"
+        viewBinding.rejectedCard.text = "$rejected"
+        viewBinding.pendingCard.text = "$pending"
+        viewBinding.totalCard.text = "$total"
+//        resetChart()
+        /* if (empId.isNullOrEmpty()) {
+             ticketCountsByStatsuRoleResponse.setEmpId(Preferences.getValidatedEmpId())
+
+         } else {
+             ticketCountsByStatsuRoleResponse.setEmpId(empId)
+
+         }*/
+        ticketCountsByStatsuRoleResponses = ticketCountsByStatsuRoleResponse
+        statusRoleResponseList.add(ticketCountsByStatsuRoleResponse)
+        /*  for (i in statusRoleResponseList.indices) {
+              if (empId.isNullOrEmpty() && statusRoleResponseList.size == 1) {
+                  ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+              } else if (empId.equals(statusRoleResponseList.get(i).getEmpId())) {
+                  ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+
+              }
+          }*/
+
+        callAdapter()
         hideLoading()
     }
 
@@ -686,23 +918,49 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
     override fun onClickApplyDate() {
         showLoading()
-
-        if (empId.isNullOrEmpty()) {
+        if (statusRoleResponseList != null && statusRoleResponseList.size == 1) {
+            for (i in statusRoleResponseList.indices) {
+                if (statusRoleResponseList[i].empId.equals(Preferences.getValidatedEmpId())) {
+                    statusRoleResponseList.removeAt(i)
+                }
+            }
             viewModel.getTicketListByCountApi(
                 this,
                 Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
                 Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-                Preferences.getValidatedEmpId()//"APL67949"
+                Preferences.getValidatedEmpId(), ""//"APL67949"
             )
+        }
+
+
+        /*if (empId.isNullOrEmpty() && statusRoleResponseList.size > 0) {
+            if (Utils.getFirstDateOfCurrentMonth()
+                    .equals(Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString())) && Utils.getCurrentDateCeoDashboard()
+                    .equals(Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()))
+            ) {
+                hideLoading()
+                callAdapter()
+            } else if (statusRoleResponseList.isNotEmpty()) {
+                for (i in statusRoleResponseList.indices) {
+                    if (statusRoleResponseList[i].empId.equals(Preferences.getValidatedEmpId())) {
+                        statusRoleResponseList.removeAt(i)
+                    }
+                }
+                viewModel.getTicketListByCountApi(
+                    this,
+                    Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
+                    Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
+                    Preferences.getValidatedEmpId(), ""//"APL67949"
+                )
+            }
         } else {
             viewModel.getTicketListByCountApi(
                 this,
                 Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
                 Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-                empId//"APL67949"
+                Preferences.getValidatedEmpId(), ""//"APL67949"
             )
-        }
-
+        }*/
     }
 
     override fun selectedDateTo(
@@ -737,30 +995,99 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     }
 
     override fun onBackPressed(): Boolean {
-
-        for (i in empIdList.indices) {
-            if (empId.equals(empIdList.get(i))) {
-                empIdList.removeAt(i)
-            }
-        }
-
-
-
-        if (empIdList.size > 0) {
-            showLoading()
-            val lastIndex = empIdList.size - 1
-
-            viewModel.getTicketListByCountApi(
-                this,
-                Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
-                Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-                empIdList.get(lastIndex)
-                //"APL67949"
-            )
-            empIdList.removeAt(lastIndex)
+        if (statusRoleResponseList.size == 1) {
+            return false
+        } else if (statusRoleResponseList.size > 1) {
+            statusRoleResponseList.remove(statusRoleResponseList.get(statusRoleResponseList.size - 1))
+            ticketCountsByStatsuRoleResponses =
+                statusRoleResponseList.get(statusRoleResponseList.size - 1)
+            callAdapter()
             return true
         } else {
             return false
         }
+
+
+        /*  countApiCall--
+          if (countApiCall == 0) {
+              for (i in statusRoleResponseList.indices) {
+
+                  if (Preferences.getValidatedEmpId().equals(statusRoleResponseList.get(i).empId)) {
+                      ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                      callAdapter()
+                  }
+
+              }
+          } else {
+              for (i in empIdList.indices) {
+                  if (empId.equals(empIdList.get(i))) {
+                      empIdList.removeAt(i)
+                  }
+
+
+              }
+          }
+
+
+
+
+
+          if (empIdList.size > 0 && countApiCall != 0) {
+  //            showLoading()
+              val lastIndex = empIdList.size - 1
+
+              for (i in statusRoleResponseList.indices) {
+                  if (empIdList.get(lastIndex).equals(statusRoleResponseList.get(i).getEmpId())) {
+                      ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                      callAdapter()
+                  }
+              }
+
+              empIdList.removeAt(lastIndex)
+              return true
+          } else if (countApiCall < 0) {
+              return false
+          }
+          return true*/
+    }
+
+    override fun onClickFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSiteIdIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickQcFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectApprovedFragment(listSize: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectRejectedFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSelectPendingFragment() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSpinnerLayout() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSubmenuItem(
+        menuName: String?,
+        submenus: ArrayList<MenuModel>?,
+        position: Int,
+    ) {
+
+    }
+
+    override fun onclickHelpIcon() {
+        TODO("Not yet implemented")
     }
 }

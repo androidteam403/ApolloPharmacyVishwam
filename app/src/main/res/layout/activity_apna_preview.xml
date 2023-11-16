@@ -24,26 +24,25 @@
                 android:visibility="visible">
 
                 <ImageView
-                    android:layout_marginStart="@dimen/value_5dp"
-                    android:layout_marginEnd="@dimen/value_10dp"
                     android:id="@+id/arrow"
                     android:layout_width="37dp"
                     android:layout_height="37dp"
-                    android:layout_gravity="center"
                     android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:layout_marginEnd="@dimen/value_10dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/icon_back_arrow"
-                    />
+                    android:src="@drawable/icon_back_arrow" />
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/arrow"-->
-<!--                    android:layout_width="@dimen/value_40dp"-->
-<!--                    android:layout_height="@dimen/value_40dp"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    android:contentDescription="@string/app_name"-->
-<!--                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24"-->
-<!--                    android:tint="@color/white"-->
-<!--                    tools:ignore="UseAppTint" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/arrow"-->
+                <!--                    android:layout_width="@dimen/value_40dp"-->
+                <!--                    android:layout_height="@dimen/value_40dp"-->
+                <!--                    android:layout_marginEnd="8dp"-->
+                <!--                    android:contentDescription="@string/app_name"-->
+                <!--                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24"-->
+                <!--                    android:tint="@color/white"-->
+                <!--                    tools:ignore="UseAppTint" />-->
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -54,7 +53,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_6dp"
                         android:text="APNA Survey Preview"
                         android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_17sp"
@@ -64,7 +62,6 @@
                         android:id="@+id/surveyId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_6dp"
                         android:text="APNA4215"
                         android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_14sp"
@@ -74,24 +71,39 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center|center_vertical"
+                    android:layout_marginStart="5dp"
                     android:gravity="end"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/complaint_details_status_bg"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingTop="@dimen/value_5dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:paddingBottom="@dimen/value_5dp"
+                        android:text="@string/label_rejected"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_12sp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:gravity="end"
                         android:orientation="horizontal"
                         android:visibility="visible">
 
                         <ImageView
                             android:id="@+id/quick_go_icon"
-                            android:layout_width="@dimen/value_25dp"
-                            android:layout_height="@dimen/value_25dp"
-                            android:layout_marginStart="@dimen/value_15dp"
-                            android:layout_marginEnd="@dimen/value_20dp"
-                            android:src="@drawable/ic_baseline_tune_24"
+                            android:layout_width="@dimen/value_20dp"
+                            android:layout_height="@dimen/value_20dp"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:src="@drawable/filter_icon"
                             android:tint="@color/white_for_both"
                             tools:ignore="UseAppTint" />
 
@@ -292,6 +304,7 @@
                                     android:layout_height="match_parent"
                                     android:layout_weight="1.6"
                                     android:orientation="horizontal"
+                                    android:visibility="gone"
                                     android:paddingBottom="@dimen/value_5dp">
 
                                     <TextView
@@ -306,7 +319,6 @@
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
-                                        android:id="@+id/status"
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:fontFamily="@font/poppin_bold"

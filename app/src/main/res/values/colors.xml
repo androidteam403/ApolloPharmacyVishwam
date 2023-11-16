@@ -31,6 +31,7 @@
     <color name="terniary">#808080</color>
     <color name="colorBlack">#000000</color>
     <color name="label_color">#3f9bb3</color>
+    <color name="label_color_ceo">#005EFF</color>
 
     <color name="customer_search_border">#d5d6d8</color>
     <color name="pay_btn_color">#fcb815</color>
@@ -200,7 +201,7 @@
     <color name="light_pink_for_reshoot_pending">#feeedb</color>
     <color name="grey_bg_for_no_status">#f4f4f4</color>
     <color name="pending_reshoot_color">#f26522</color>
-    <color name="blue">#0054a6</color>
+    <color name="blue">#000000</color>
     <color name="apna_project_actionbar_color">#5a345e</color>
     <color name="retro_qr_actionbar_color">#f7941d</color>
     <!--    <color name="apna_project_preview_section_bg">#265a345e</color>-->
@@ -221,7 +222,7 @@
     <color name="whiteee">#ffffff</color>
     <color name="light_ashh">#f2f2f2</color>
     <color name="light_ashh_trans">#C0C0C0</color>
-    <color name="dark_sky_blue">#00BCBE</color>
+    <color name="dark_sky_blue">#4CAF50</color>
     <color name="milkwhite">#FEFFE3</color>
 
     <color name="lite_grey_ceo_dashboard">#f2f2f2</color>
@@ -261,6 +262,33 @@
     <color name="retro_qr_sub_header_bg">#f4f5f4</color>
     <color name="print_rack_sub_header_bg">#252525</color>
     <color name="sub_menu_text">#253339</color>
+    <color name="timeline_list_bg">#d3f8d3</color>
+    <color name="create_new_rectro_layout_bg">#c6eaf7</color>
+    <color name="upload_photo_bg">#f2f2f2</color>
+    <color name="prerectro_layout_bg_pending">#FEEEDB</color>
+    <color name="prerectro_layout_bg_approved">#EBF7ED</color>
+    <color name="prerectro_layout_bg_reshoot">#feeedb</color>
+    <color name="prerectro_layout_bg_partially_approved">#EBF7ED</color>
+    <color name="signout_duration_bg">#f4f4f4</color>
+    <color name="champs_formlayout_bg">#e8f7f2</color>
+    <color name="champs_survey_list_count_bg">#c5e5fc</color>
+    <color name="monitoring_greater_than_eight_color">#5a345e</color>
+    <color name="monitoring_lessthan_two_card_color">#f4b25e</color>
+    <color name="monitoring_threeto_eight_card_color">#f08968</color>
+    <color name="monitoring_rejected_color">#4CAF50</color>
+    <color name="monitoring_pending_card_color">#65c1e6</color>
+    <color name="monitoring_total_card_color">#49586f</color>
+    <color name="monitoring_closed_card_color">#4a98c9</color>
+    <color name="dialog_bg">#ffffff</color>
+    <color name="light_grey">#CFCCCC</color>
+
+    <color name="help_bg">#f4f4f6</color>
+    <color name="gray">#e6e7e9</color>
+    <color name="notifications_item_bg">#f2f2f2</color>
+    <color name="notifications_item_text">#061d25</color>
+    <color name="notifications_dialog_text">#0d2937</color>
+    <color name="theme_option_bg">#f2f2f2</color>
+    <color name="theme_setting_icon">#818285</color>
     <color name="zero_grey">#838383</color>
 
 </resources>

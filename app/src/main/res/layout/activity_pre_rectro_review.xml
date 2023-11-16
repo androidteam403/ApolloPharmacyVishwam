@@ -17,8 +17,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/splash_start_color"
+                android:layout_height="@dimen/vishwam_actionbar_height"
+                android:background="@color/vishwam_actionbar_color"
                 android:padding="@dimen/four4_dp">
 
                 <ImageView
@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content"
 
                         android:text="Pre Rectro Review"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
 
@@ -68,7 +68,7 @@
                         android:layout_marginTop="@dimen/three3_sp"
 
                         android:text="56985_APNARECTRO_06042023"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_14sp"
                         android:textStyle="bold" />
 
@@ -81,13 +81,27 @@
                     android:layout_gravity="end"
                     android:gravity="end">
 
-                    <ImageView
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:background="@drawable/complaint_details_status_bg"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingTop="@dimen/value_5dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:paddingBottom="@dimen/value_5dp"
+                        android:text="@string/label_rejected"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_12sp" />
+
+                    <!--<ImageView
                         android:onClick="@{()-> callback.onClickBack()}"
                         android:id="@+id/closeIconWhiteRetro"
                         android:layout_width="@dimen/value_30dp"
                         android:layout_height="@dimen/value_30dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/closee_whitee" />
+                        android:src="@drawable/closee_whitee" />-->
 
 
                 </LinearLayout>
@@ -414,7 +428,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="1"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/white_for_both"
                                     android:textSize="@dimen/text_12sp"
                                     android:textStyle="bold" />
 
@@ -457,9 +471,9 @@
                         android:layout_marginTop="25dp"
                         android:background="@color/another_grey"
 
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/text_dimen_10"
@@ -480,12 +494,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/text_10sp"
 
-                            android:text="---"
+                            android:text="-&#45;&#45;"
                             android:textColor="@color/black"
 
                             android:textSize="12sp"
                             android:textStyle="bold" />
-                    </LinearLayout>
+                    </LinearLayout>-->
 
                     <View
                         android:layout_width="match_parent"
@@ -493,7 +507,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@color/another_grey"
 
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
 
                 </LinearLayout>
@@ -538,12 +552,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Total Images"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white_for_both" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/text_18sp" />
 
                     </LinearLayout>
@@ -604,7 +618,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppin_bold"
                         android:text="Total Images"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white_for_both" />
 
                     <TextView
                         android:id="@+id/totalimages"
@@ -613,7 +627,7 @@
                         android:fontFamily="@font/poppin_bold"
 
                         android:text="1/1"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_18sp" />
 
                 </LinearLayout>

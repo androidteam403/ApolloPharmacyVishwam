@@ -42,7 +42,7 @@ class DashboardCategoryAdapter(
         val category = categoryList.get(position)
         if (category.isSelsected == true) {
             holder.adapterCategoryDashboardBinding.parentLayout.setBackgroundResource(R.drawable.dashboard_grid_category_bg)
-            holder.adapterCategoryDashboardBinding.category.setTextColor(context.getColor(R.color.white))
+            holder.adapterCategoryDashboardBinding.category.setTextColor(context.getColor(R.color.white_for_both))
             holder.adapterCategoryDashboardBinding.arrowToindicate.visibility = View.VISIBLE
             if (category.isDescending == true) {
                 holder.adapterCategoryDashboardBinding.arrowToindicate.rotation = 180f

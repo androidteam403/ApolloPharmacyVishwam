@@ -15,7 +15,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/ten_dp"
                 android:paddingTop="@dimen/five_dp"
@@ -25,7 +25,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
+                    android:background="@color/white"
                     android:nestedScrollingEnabled="false"
                     android:orientation="horizontal"
                     android:weightSum="1">
@@ -103,6 +103,7 @@
                         android:gravity="bottom">
 
                         <TextView
+                            android:id="@+id/apply"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/thirty_dp"
                             android:background="#4b9e2e"
@@ -110,7 +111,7 @@
                             android:gravity="center"
                             android:onClick="@{()-> callback.onClickApplyDate()}"
                             android:text="@string/label_apply"
-                            android:textColor="@color/colorWhite" />
+                            android:textColor="@color/white_for_both" />
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -138,22 +139,31 @@
                 android:textSize="@dimen/text_16sp"
                 android:textStyle="bold" />
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pieChart"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/value_200dp"
-                android:layout_margin="@dimen/text_dimen_10" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_200dp"
+                    android:layout_margin="@dimen/text_dimen_10"
+                    android:visibility="gone" />
 
 
-            <com.google.android.flexbox.FlexboxLayout
-                android:id="@+id/chartLabels"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/value_10dp"
-                app:flexWrap="nowrap" />
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/chartLabels"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:visibility="gone"
+                    app:flexWrap="nowrap"
+                    tools:ignore="MissingClass" />
 
-
+            </LinearLayout>
             <!--            <include-->
             <!--                android:id="@+id/loader"-->
             <!--                android:layout_width="match_parent"-->
@@ -169,11 +179,224 @@
             <!--                        android:layout_marginTop="@dimen/text_10sp"-->
             <!--                        android:layout_marginEnd="@dimen/text_15sp"-->
             <!--                        android:layout_marginBottom="@dimen/text_10sp" />-->
+            <LinearLayout
+                android:id="@+id/monitoring_report_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:orientation="horizontal"
+                android:weightSum="7.12">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Closed"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/closed_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_35dp"
+                        android:background="@color/monitoring_closed_card_color"
+                        android:gravity="end|center_vertical"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/white_for_both"
+                        android:textSize="@dimen/text_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".02"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="&lt; 2 Days"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/lessthan_two_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_35dp"
+                        android:background="@color/monitoring_lessthan_two_card_color"
+                        android:gravity="end|center_vertical"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/white_for_both"
+                        android:textSize="@dimen/text_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".02"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="3-8 Days"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/three_eight_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_35dp"
+                        android:background="@color/monitoring_threeto_eight_card_color"
+                        android:gravity="end|center_vertical"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/white_for_both"
+                        android:textSize="@dimen/text_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".02"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="&gt; 8 Days"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/greaterthan_eight_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_35dp"
+                        android:background="@color/monitoring_greater_than_eight_color"
+                        android:gravity="end|center_vertical"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/white_for_both"
+                        android:textSize="@dimen/text_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".02"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Rejected"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/rejected_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_35dp"
+                        android:background="@color/monitoring_rejected_color"
+                        android:gravity="end|center_vertical"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/white_for_both"
+                        android:textSize="@dimen/text_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".02"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pending"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/pending_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_35dp"
+                        android:background="@color/monitoring_pending_card_color"
+                        android:gravity="end|center_vertical"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/white_for_both"
+                        android:textSize="@dimen/text_14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".02"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/total_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_35dp"
+                        android:background="@color/monitoring_total_card_color"
+                        android:gravity="end|center_vertical"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/white_for_both"
+                        android:textSize="@dimen/text_14sp" />
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -204,7 +427,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="Stores"
                             android:textAlignment="viewStart"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/dimen11sp" />
 
                         <LinearLayout
@@ -254,7 +477,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:gravity="center"
                             android:text="Closed"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/dimen10sp" />
 
                         <LinearLayout
@@ -297,7 +520,7 @@
                             android:gravity="center"
 
                             android:text="2"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/dimen10sp" />
 
 
@@ -341,7 +564,7 @@
                             android:gravity="center"
 
                             android:text="3 to 8"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/dimen10sp" />
 
 
@@ -385,7 +608,7 @@
                             android:gravity="center"
 
                             android:text="8"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/dimen10sp" />
 
 
@@ -430,7 +653,7 @@
                             android:gravity="start"
 
                             android:text="Rejected"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/dimen10sp" />
 
 
@@ -474,7 +697,7 @@
                             android:gravity="center"
 
                             android:text="Pending"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/dimen10sp" />
 
 
@@ -519,7 +742,7 @@
                             android:text="Total"
 
 
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/dimen11sp"
                             android:visibility="visible" />
 
@@ -559,13 +782,21 @@
 
             </LinearLayout>
 
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="No List Found"
+                android:textColor="@color/red"
+                android:textSize="@dimen/text_14sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
             <RelativeLayout
                 android:id="@+id/no_list_found"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:visibility="gone">
+                android:visibility="visible">
                 <ImageView
                     android:id="@+id/emptyImage"
                     android:layout_width="@dimen/value_120dp"
@@ -579,14 +810,11 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:layout_below="@id/emptyImage"
-                    android:text="No List Found"
+                    android:text="@string/label_no_list_found"
                     android:textColor="@color/backgroundColor"
                     android:textSize="@dimen/text_18sp" />
 
             </RelativeLayout>
-
-
-          >
 
 
         </LinearLayout>

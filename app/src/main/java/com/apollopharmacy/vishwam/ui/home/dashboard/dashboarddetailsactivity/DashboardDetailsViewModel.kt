@@ -27,6 +27,7 @@ class DashboardDetailsViewModel : ViewModel() {
         toDate: String,
         employeeId: String,
         roleCode: String,
+        storeId: String,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -39,12 +40,23 @@ class DashboardDetailsViewModel : ViewModel() {
                 break
             }
         }
-        //api/ticket/list/reason-wise-ticket-count-by-role
         //api/ticket/list/reason-wise-ticket-count-role-mobile
         //https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/reason-wise-ticket-count-role-mobile
-        var reasonWiseTicketCountByRoleUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/reason-wise-ticket-count-role-mobile?"
+        var reasonWiseTicketCountByRoleUrl = ""
+        //"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/reason-wise-ticket-count-role-mobile?"
+        var reasonWiseTicketCountByRoleToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("MONITORING REASON WISE TICKET COUNT ROLE MOBILE")) {
+                reasonWiseTicketCountByRoleUrl = data.APIS[i].URL
+                reasonWiseTicketCountByRoleToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+
         reasonWiseTicketCountByRoleUrl += "from_date=$fromDate&to_date=$toDate&employee_id=$employeeId&role_code=$roleCode"
+        if (roleCode.equals("store_executive")) {
+            reasonWiseTicketCountByRoleUrl = "${reasonWiseTicketCountByRoleUrl}&store_id=${storeId}"
+        }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(
@@ -57,11 +69,10 @@ class DashboardDetailsViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
                     val res = BackShlash.removeBackSlashes(resp)
-                    val reasonWiseTicketCountByRoleResponse =
-                        Gson().fromJson(
-                            BackShlash.removeSubString(res),
-                            ReasonWiseTicketCountbyRoleResponse::class.java
-                        )
+                    val reasonWiseTicketCountByRoleResponse = Gson().fromJson(
+                        BackShlash.removeSubString(res),
+                        ReasonWiseTicketCountbyRoleResponse::class.java
+                    )
                     if (reasonWiseTicketCountByRoleResponse.success!!) {
                         dashboardDetailsCallback.onSuccessGetReasonWiseTicketCountByRoleApiCall(
                             reasonWiseTicketCountByRoleResponse

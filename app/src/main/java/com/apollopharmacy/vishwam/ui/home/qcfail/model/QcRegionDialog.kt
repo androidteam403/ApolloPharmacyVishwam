@@ -73,7 +73,7 @@ class QcRegionDialog : DialogFragment() {
         var string = String()
         viewBinding.closeDialog.visibility = View.VISIBLE
         viewBinding.textHead.setText("Select Region ID")
-        viewBinding.searchSiteText.setHint("Search Region Id or Region name")
+        viewBinding.searchSite.setHint("Search Region Id or Region name")
         viewBinding.siteNotAvailable.setText("Region Not Available")
         regionIdList = Preferences.getQcRegion().split(",")
 

@@ -1442,6 +1442,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     ) {
     }
 
+    override fun onclickHelpIcon() {
+        TODO("Not yet implemented")
+    }
+
     override fun selectListSize(listSize: String) {
         Preferences.setQcPendingPageSize(listSize.toInt());
         pageSize = Preferences.getQcPendingPageSiz()

@@ -20,8 +20,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/text_color_blue"
+                    android:layout_height="@dimen/vishwam_actionbar_height"
+                    android:background="@color/vishwam_actionbar_color"
                     android:orientation="horizontal"
                     android:padding="@dimen/value_10dp">
 
@@ -55,7 +55,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="PRE RETRO "
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/text_17sp"
                             android:textStyle="bold" />
 
@@ -65,7 +65,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
                             android:text="56245_APNA_RETRO "
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/text_14sp" />
 
                     </LinearLayout>

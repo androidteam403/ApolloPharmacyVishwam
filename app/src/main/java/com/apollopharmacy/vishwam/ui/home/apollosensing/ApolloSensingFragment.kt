@@ -1511,6 +1511,10 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         TODO("Not yet implemented")
     }
 
+    override fun onclickHelpIcon() {
+        TODO("Not yet implemented")
+    }
+
     fun sendOtpListenerPrescriptionUploadFlow() {
         viewBinding.sendOtpBtnUploadPrescription!!.setOnClickListener {
             val phoneNumber = viewBinding.phoneNumber.text.toString().trim()

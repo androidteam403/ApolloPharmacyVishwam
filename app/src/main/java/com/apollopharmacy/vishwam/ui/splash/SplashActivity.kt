@@ -53,16 +53,18 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val appTheme = Preferences.getAppTheme()
+        if (appTheme.equals("DARK", true)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else if (appTheme.equals("LIGHT", true)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         splashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         splashViewModel = ViewModelProvider(this)[SplashViewModel::class.java]
 
-        val appTheme = Preferences.getAppTheme()
-        if (appTheme.equals("DARK", true)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
         val animZoomOut = AnimationUtils.loadAnimation(
             applicationContext, R.anim.zoom_in
         )

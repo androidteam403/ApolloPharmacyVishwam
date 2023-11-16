@@ -23,7 +23,7 @@
                 android:paddingTop="@dimen/value_4dp"
                 android:paddingBottom="@dimen/value_4dp"
                 android:text="Mall"
-                android:textColor="@color/black_for_both"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_13sp" />
 
             <ImageView

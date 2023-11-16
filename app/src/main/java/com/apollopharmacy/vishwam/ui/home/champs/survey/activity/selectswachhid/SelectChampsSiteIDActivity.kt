@@ -54,7 +54,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         viewModel.fixedArrayList.observeForever {
             siteDataList = it
             siteIDListAdapter =
-                SiteIdListChampsAdapter(applicationContext, siteDataList, this)
+                SiteIdListChampsAdapter(this@SelectChampsSiteIDActivity, siteDataList, this)
             activitySelectChampsSiteidBinding.fieldRecyclerView.adapter = siteIDListAdapter
             hideLoading()
 

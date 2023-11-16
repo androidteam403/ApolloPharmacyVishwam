@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="SWACHH REVIEW"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
 
@@ -71,7 +71,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="@{imageUrlModel.categoryname}"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/text_14sp"
                             android:textStyle="bold"
                             android:visibility="@{isLastPos ? view.GONE : view.VISIBLE}" />
@@ -80,7 +80,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:text="@string/label_completed_successfully"
                             android:textSize="@dimen/text_15sp"
                             android:textStyle="bold"
@@ -164,9 +164,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Store ID"
-                                android:textStyle="bold"
-                                android:textColor="@color/heading_blue"
-                                android:textSize="@dimen/text_14sp" />
+                                android:textColor="@color/reg_date_color"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -203,9 +202,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Uploaded Date"
-                                android:textStyle="bold"
-                                android:textColor="@color/heading_blue"
-                                android:textSize="@dimen/text_14sp" />
+                                android:textColor="@color/reg_date_color"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -241,7 +239,7 @@
                         android:layout_height="wrap_content"
                         android:text="Preview Last Uploaded"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_for_both"
                         android:textStyle="bold" />
 
 
@@ -251,7 +249,6 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/preview_image_viewpager"
                     android:layout_width="match_parent"
-
                     android:visibility="visible"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/value_5dp"
@@ -334,7 +331,7 @@
                     android:padding="@dimen/text_10sp"
                     android:text="RE- SHOOT"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_20sp"
                     android:textStyle="bold" />
 
@@ -348,7 +345,7 @@
                     android:padding="@dimen/text_10sp"
                     android:text="ACCEPTED"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_20sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -360,7 +357,6 @@
 
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_60dp"
                     android:orientation="horizontal"
@@ -379,13 +375,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Total Images"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white_for_both" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{totalImages}"
-                            android:textColor="@color/white"
+                            android:textColor="@color/white_for_both"
                             android:textSize="@dimen/text_18sp" />
 
                     </LinearLayout>
@@ -448,7 +444,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Submit and Review"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_17sp"
                     android:textStyle="bold" />
             </LinearLayout>

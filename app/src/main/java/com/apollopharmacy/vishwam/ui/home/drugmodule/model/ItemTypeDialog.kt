@@ -60,7 +60,7 @@ class ItemTypeDialog: DialogFragment() {
 
             viewBinding.searchSite.visibility = View.VISIBLE
             var viewModel = ViewModelProviders.of(requireActivity())[ItemTypeViewModel::class.java]
-            viewBinding.searchSiteText.setHint("Search Item Type ")
+            viewBinding.searchSite.setHint("Search Item Type ")
             viewBinding.searchSiteText.inputType = InputType.TYPE_CLASS_TEXT
             siteDataArrayList =
                 arguments?.getSerializable(KEY_DATA) as ArrayList<ItemTypeDropDownResponse.Rows>

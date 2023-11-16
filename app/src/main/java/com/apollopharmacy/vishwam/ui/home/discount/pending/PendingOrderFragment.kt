@@ -639,6 +639,10 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
         position: Int,
     ) {
     }
+
+    override fun onclickHelpIcon() {
+        TODO("Not yet implemented")
+    }
 }
 
 class PendingRecyclerView(

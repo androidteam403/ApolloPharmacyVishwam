@@ -1,18 +1,25 @@
 package com.apollopharmacy.vishwam.ui.home.home
 
+import android.content.Intent
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignationApnaRetro
+import com.apollopharmacy.vishwam.data.Preferences.getAppTheme
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.FragmentHomeBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MenuItemAdapter
 import com.apollopharmacy.vishwam.ui.home.MenuModel
+import com.apollopharmacy.vishwam.ui.home.notification.NotificationsActivity
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
@@ -31,6 +38,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     var isApnaRetroRequired: Boolean = false
     var employeeRole: String = ""
     var userDesignation: String = ""
+    var isDashboardRequired: Boolean = false
+    var isRetroQrAppRequired: Boolean = false
+    var isPlanogramAppRequired: Boolean = false
     var attendanceManagementAdapter: MenuItemAdapter? = null
     var cmsAdapter: MenuItemAdapter? = null
     var discountAdapter: MenuItemAdapter? = null
@@ -55,6 +65,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     override fun setup() {
         hideLoading()
 
+        viewBinding.callback = this
         val userData = LoginRepo.getProfile()
         if (userData != null) {
             viewBinding.designation.setText(userData.DESIGNATION)
@@ -80,6 +91,59 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 //            )
 //        }
 
+        //        selectFilterType.setOnClickListener(v -> {
+//            if (mainActivityCallback != null) {
+//                mainActivityCallback.onClickSpinnerLayout();
+//            }
+//        });
+//        listView = findViewById(R.id.expandable_navigation);
+
+//        drawer = findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.setDrawerListener(toggle);
+//        toggle.syncState();
+
+
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+//        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
+//        navigationView = findViewById(R.id.nav_view);
+//        int colorInt = getResources().getColor(R.color.white);
+//        ColorStateList csl = ColorStateList.valueOf(colorInt);
+//        navigationView.setItemTextColor(csl);
+//        TextView userNameText = navigationView.getHeaderView(0).findViewById(R.id.userName);
+//        TextView idText = navigationView.getHeaderView(0).findViewById(R.id.id_for_menu);
+//        navigationView.setNavigationItemSelectedListener(this);
+
+        val appTheme = getAppTheme()
+        if (appTheme.equals("DARK", true)) {
+            enableDarkMode()
+        } else if (appTheme.equals("LIGHT", true)) {
+            enableLightMode()
+        } else {
+            enableDeviceMode()
+        }
+
+        viewBinding.darkModeLayout.setOnClickListener {
+            Preferences.setAppTheme("DARK")
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            enableDarkMode()
+            MainActivity.mInstance.applyTheme()
+        }
+        viewBinding.lightModeLayout.setOnClickListener {
+            Preferences.setAppTheme("LIGHT")
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            enableLightMode()
+            MainActivity.mInstance.applyTheme()
+        }
+        viewBinding.deviceModeLayout.setOnClickListener {
+            Preferences.setAppTheme("DEVICE MODE")
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            enableDeviceMode()
+            MainActivity.mInstance.applyTheme()
+        }
 
         val key = "blobfilesload"
 
@@ -103,6 +167,26 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         isApnaRetroRequired = MainActivity.isApnaRetroRequired
         employeeRole = MainActivity.mInstance.employeeRole
         userDesignation = MainActivity.userDesignation
+        isDashboardRequired = MainActivity.isDashboardRequired
+        isRetroQrAppRequired = MainActivity.isRetroQrAppRequired
+        isPlanogramAppRequired = MainActivity.isPlanogramAppRequired
+        /*
+        * isAttendanceRequired = accessDetails.getISATTENDENCEAPP(); //loginData.getIS_ATTANDENCEAPP();
+                isCMSRequired = accessDetails.getISCMSAPP(); //loginData.getIS_CMSAPP();
+                isDiscountRequired = accessDetails.getISDISCOUNTAPP(); //loginData.getIS_DISCOUNTAPP();
+                isSwachhRequired = accessDetails.getISSWACHHAPP(); //loginData.getIS_SWACHHAPP();
+                isQcFailRequired = accessDetails.getISQCFAILAPP(); //loginData.getIS_QCFAILAPP();
+                isDrugRequired = accessDetails.getISNEWDRUGAPP(); //loginData.getIS_NEWDRUGAPP();
+                isSensingRequired = accessDetails.getISSENSINGAPP(); //loginData.getIS_SENSINGAPP();
+                isChampsRequired = accessDetails.getISCHAMPAPP();
+                isApnaSurveyRequired = accessDetails.getISAPNAAPP();
+                isApnaRetroRequired = accessDetails.getISAPNARETROAPP();
+                isDashboardRequired = accessDetails.getISDASHBOARDAPP();
+                isRetroQrAppRequired = accessDetails.getISRETROQRAPP();
+                isPlanogramAppRequired = accessDetails.getISPLANAGRAMAPP();*/
+
+
+
 
         updateNavMenu(
             isAttendanceRequired,
@@ -114,7 +198,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             isSensingRequired,
             isChampsRequired,
             isApnaSurveyRequired,
-            isApnaRetroRequired
+            isApnaRetroRequired,
+            isDashboardRequired,
+            isRetroQrAppRequired,
+            isPlanogramAppRequired
         );
 
         /*updateNavMenu(true,
@@ -130,6 +217,65 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         searchByModule()
     }
 
+    private fun enableDeviceMode() {
+        viewBinding.darkModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
+        viewBinding.darkModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+            R.color.theme_setting_icon))
+        viewBinding.darkModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.grey))
+
+        viewBinding.lightModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
+//        viewBinding.lightModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+//            R.color.grey))
+        viewBinding.lightModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.grey))
+
+        viewBinding.deviceModeLayout.setBackgroundResource(R.drawable.selected_theme_bg)
+        viewBinding.deviceModeIcon.setColorFilter(Color.parseColor("#fbb831"))
+        viewBinding.deviceModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.white_for_both))
+    }
+
+    private fun enableLightMode() {
+        viewBinding.darkModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
+//        viewBinding.darkModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+//            R.color.grey))
+        viewBinding.darkModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.grey))
+
+        viewBinding.lightModeLayout.setBackgroundResource(R.drawable.selected_theme_bg)
+//        viewBinding.lightModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+//            R.color.yellow))
+        viewBinding.lightModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.white_for_both))
+
+        viewBinding.deviceModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
+//        viewBinding.deviceModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+//            R.color.grey))
+        viewBinding.deviceModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.grey))
+    }
+
+    private fun enableDarkMode() {
+        viewBinding.darkModeLayout.setBackgroundResource(R.drawable.selected_theme_bg)
+        viewBinding.darkModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+            R.color.theme_setting_icon))
+        viewBinding.darkModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.white_for_both))
+
+        viewBinding.lightModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
+//        viewBinding.lightModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+//            R.color.grey))
+        viewBinding.lightModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.grey))
+
+        viewBinding.deviceModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
+        viewBinding.deviceModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
+            R.color.theme_setting_icon))
+        viewBinding.deviceModeText.setTextColor(ContextCompat.getColor(requireContext(),
+            R.color.grey))
+    }
+
     private fun updateNavMenu(
         isAttendanceRequired: Boolean,
         isCMSRequired: Boolean,
@@ -141,6 +287,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         isChampsRequired: Boolean,
         isApnaSurveyRequired: Boolean,
         isApnaRetroRequired: Boolean,
+        isDashboardRequired: Boolean,
+        isRetroQrAppRequired: Boolean,
+        isPlanogramAppRequired: Boolean,
     ) {
         val attendanceMenuModel = ArrayList<MenuModel>()
         if (false) {
@@ -164,7 +313,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 )
             )
         }
-        if (true) {
+        if (isRetroQrAppRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Retro QR", R.drawable.retro_qr_menu, true, null, "Retro QR"
@@ -175,8 +324,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         val attendanceSubMenuModel = ArrayList<MenuModel>()
         attendanceSubMenuModel.add(MenuModel("Attendance", R.drawable.attendance, true, null, null))
         attendanceSubMenuModel.add(MenuModel("History", R.drawable.history, true, null, null))
-        //isAttendanceRequired
-        if (true) {
+        if (isAttendanceRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Attendance",
@@ -353,7 +501,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         }
 
-        if (false) {
+        if (isDashboardRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Monitoring Dashboard",
@@ -373,7 +521,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             )
 
         }
-        if (true) {
+        if (isPlanogramAppRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Planogram", R.drawable.planogram_menu, false, null, "Evaluation"
@@ -422,6 +570,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 )
             }
         }
+        /*apnaRetroMenuModel.add(
+            MenuModel(
+                "New Retro", R.drawable.apna_store_menu, true, null, null
+            )
+        )*/
 
         if (isApnaRetroRequired) {
             if (MainActivity.mInstance.employeeRoleRetro.equals(
@@ -645,6 +798,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             viewBinding.noModuleFoundLayout.visibility = View.VISIBLE
             viewBinding.newMenuRecycleview.visibility = View.GONE
         }
+    }
+
+    override fun onclickNotificationIcon() {
+        val intent = Intent(context, NotificationsActivity::class.java)
+        startActivity(intent)
     }
 
     fun searchByModule() {

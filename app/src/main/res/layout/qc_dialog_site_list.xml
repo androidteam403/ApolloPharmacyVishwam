@@ -51,16 +51,17 @@
                 android:layout_marginStart="@dimen/value_10dp"
                 android:layout_marginTop="@dimen/value_10dp"
                 android:layout_marginEnd="@dimen/value_10dp"
-                android:textColorHint="@color/black">
+                android:theme="@style/TextLabelEditTextApnaProject">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/searchSiteText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
-                    android:inputType="text"
-                    android:hint="@string/label_search_site_id"
                     android:drawableStart="@drawable/close_blue_new"
+                    android:drawablePadding="@dimen/value_10dp"
                     android:drawableTint="@color/grey"
+                    android:hint=""
+                    android:inputType="text"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
                     android:singleLine="true"
@@ -76,7 +77,7 @@
                 android:layout_marginTop="@dimen/value_40dp"
                 android:layout_marginBottom="@dimen/value_40dp"
                 android:text="@string/label_site_not_available"
-                android:textColor="@color/black"
+                android:textColor="@color/grey"
                 android:textSize="@dimen/text_18sp"
                 android:visibility="gone" />
 
@@ -100,7 +101,7 @@
                 android:paddingStart="@dimen/value_50dp"
                 android:paddingEnd="@dimen/value_50dp"
                 android:text="Apply"
-                android:textColor="@color/white"
+                android:textColor="@color/white_for_both"
                 android:textStyle="bold"
                 android:visibility="gone" />
         </LinearLayout>

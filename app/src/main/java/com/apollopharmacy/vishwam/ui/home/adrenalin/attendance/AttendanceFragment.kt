@@ -233,13 +233,12 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                     }.show(childFragmentManager, "")
                 }
 
-
                 DEPT_LIST.clear()
 
 
 
 
-
+                DEPT_LIST.add("Select Department")
                 for (item in departmentList) {
                     dept_List_Map.put(Integer.parseInt(item.ID), item.DEPARTMENT)
                     DEPT_LIST.add(item.DEPARTMENT)
@@ -1701,6 +1700,10 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         submenus: ArrayList<MenuModel>?,
         position: Int,
     ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onclickHelpIcon() {
         TODO("Not yet implemented")
     }
 
