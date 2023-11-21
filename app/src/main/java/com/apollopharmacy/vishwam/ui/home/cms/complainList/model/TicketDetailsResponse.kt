@@ -19,7 +19,7 @@ data class TicketDetailsResponse(
     @SerializedName("data")
     var data: TicketData,
     var position: Int,
-):java.io.Serializable
+) : java.io.Serializable
 
 data class TicketData(
     @Expose
@@ -74,48 +74,64 @@ data class TicketData(
     @SerializedName("reason")
     val reason: Reason,
     @Expose
+    @SerializedName("override_ticket_closure")
+    val override_ticket_closure: Boolean,
+    @Expose
     @SerializedName("parent")
     val parent: ResponseNewTicketlist.Parent,
+
     @Expose
     @SerializedName("site")
     val site: TicketSite,
+
     @Expose
     @SerializedName("subcategory")
     val subcategory: Subcategory,
+
     @Expose
     @SerializedName("status")
     val status: Status,
+
     @Expose
     @SerializedName("ticket_inventory")
     val ticket_inventory: Ticket_inventory,
+
     @Expose
     @SerializedName("ticket_type")
     val ticket_type: Ticket_type,
+
     @Expose
     @SerializedName("ticket_it")
     val ticket_it: Ticket_it,
+
     @Expose
     @SerializedName("manager")
     val manager: TicketManager,
+
     @Expose
     @SerializedName("user")
     val user: TicketUser,
+
     @Expose
     @SerializedName("modified_time")
     val modified_time: String,
+
     @Expose
     @SerializedName("closed_date")
     val closed_date: String,
+
     @Expose
     @SerializedName("date_of_occurrence")
     val date_of_occurrence: String,
+
     @Expose
     @SerializedName("created_time")
     val created_time: String,
+
     @Expose
     @SerializedName("problem_images")
     val problem_images: ResponseNewTicketlist.ProblemImages? = null,
-): Serializable
+) : Serializable
 
 data class TicketUser(
     @Expose
@@ -139,7 +155,7 @@ data class TicketUser(
     @Expose
     @SerializedName("level")
     val level: Level,
-): Serializable
+) : Serializable
 
 //
 //data class Level(
@@ -218,7 +234,7 @@ data class Ticket_it(
     @Expose
     @SerializedName("acted_on")
     val acted_on: String,
-): Serializable
+) : Serializable
 
 //
 data class Acted_by(
@@ -243,7 +259,7 @@ data class Acted_by(
     @Expose
     @SerializedName("login_unique")
     val login_unique: String,
-): Serializable
+) : Serializable
 
 //
 data class Tid(
@@ -253,14 +269,14 @@ data class Tid(
     @Expose
     @SerializedName("tid")
     val tid: String,
-): Serializable
+) : Serializable
 
 //
 data class Ticket_type(
     @Expose
     @SerializedName("uid")
     val uid: String,
-): Serializable
+) : Serializable
 
 //
 //data class Status(
@@ -294,7 +310,7 @@ data class Ticket_inventory(
     @Expose
     @SerializedName("ticket_inventory_item")
     val ticket_inventory_item: List<TicketInventoryItem>,
-): Serializable
+) : Serializable
 
 //
 data class Drug_request(
@@ -370,7 +386,7 @@ data class Drug_request(
     @Expose
     @SerializedName("side")
     val side: List<String>,
-): Serializable
+) : Serializable
 
 //
 data class Item_type(
@@ -381,7 +397,7 @@ data class Item_type(
     @SerializedName("name")
     val name: String,
 
-    ): Serializable
+    ) : Serializable
 
 //
 data class Doctor_specialty(
@@ -391,14 +407,14 @@ data class Doctor_specialty(
     @Expose
     @SerializedName("name")
     val name: String,
-): Serializable
+) : Serializable
 
 //
 data class Code_batch(
     @Expose
     @SerializedName("uid")
     val uid: String,
-): Serializable
+) : Serializable
 
 //
 //data class Status(
@@ -429,7 +445,7 @@ data class Subcategory(
     @Expose
     @SerializedName("name")
     val name: String,
-): Serializable
+) : Serializable
 
 //
 data class TicketSite(
@@ -460,7 +476,7 @@ data class TicketSite(
     @Expose
     @SerializedName("manager")
     val manager: Manager,
-): Serializable
+) : Serializable
 
 //
 data class TicketManager(
@@ -485,7 +501,7 @@ data class TicketManager(
     @Expose
     @SerializedName("login_unique")
     val login_unique: String,
-): Serializable
+) : Serializable
 
 //
 data class Hod(
@@ -495,7 +511,7 @@ data class Hod(
     @Expose
     @SerializedName("first_name")
     val first_name: String,
-): Serializable
+) : Serializable
 
 //
 data class Ou(
@@ -508,7 +524,7 @@ data class Ou(
     @Expose
     @SerializedName("name")
     val name: String,
-): Serializable
+) : Serializable
 
 //
 data class Region(
@@ -518,14 +534,14 @@ data class Region(
     @Expose
     @SerializedName("name")
     val name: String,
-): Serializable
+) : Serializable
 
 //
 data class Site_type(
     @Expose
     @SerializedName("uid")
     val uid: String,
-): Serializable
+) : Serializable
 
 //
 //data class Parent(
@@ -561,7 +577,7 @@ data class Reason(
     @SerializedName("allow_manual_ticket_closure")
     val allow_manual_ticket_closure: AllowManualTicketClosure,
 
-    ): Serializable
+    ) : Serializable
 
 data class AllowManualTicketClosure(
     @Expose
@@ -579,7 +595,7 @@ data class AllowManualTicketClosure(
     @SerializedName("icon")
     val icon: String,
 
-    ): Serializable
+    ) : Serializable
 
 //
 data class Reason_sla(
@@ -589,21 +605,21 @@ data class Reason_sla(
     @Expose
     @SerializedName("sla_status")
     val sla_status: Sla_status,
-): Serializable
+) : Serializable
 
 //
 data class Sla_status(
     @Expose
     @SerializedName("uid")
     val uid: String,
-): Serializable
+) : Serializable
 
 //
 data class Sub_workflow(
     @Expose
     @SerializedName("uid")
     val uid: String,
-): Serializable
+) : Serializable
 
 //
 data class Location(
@@ -613,7 +629,7 @@ data class Location(
     @Expose
     @SerializedName("name")
     val name: String,
-): Serializable
+) : Serializable
 
 //
 //data class Ou(
@@ -650,7 +666,7 @@ data class Executive(
     @Expose
     @SerializedName("login_unique")
     val login_unique: String,
-): Serializable
+) : Serializable
 
 //
 data class Created_id(
@@ -678,7 +694,7 @@ data class Created_id(
     @Expose
     @SerializedName("role")
     val role: Role,
-): Serializable
+) : Serializable
 
 //
 //data class Role(
@@ -703,7 +719,7 @@ data class TicketDepartment(
     @Expose
     @SerializedName("name")
     val name: String,
-): Serializable
+) : Serializable
 
 //
 //data class Allocation_type(
@@ -734,7 +750,7 @@ data class Category(
     @Expose
     @SerializedName("name")
     val name: String,
-): Serializable
+) : Serializable
 //
 //data class Level(
 //    @Expose
@@ -752,16 +768,16 @@ data class Cluster(
     @Expose
     @SerializedName("name")
     val name: String,
-): Serializable
+) : Serializable
 
 data class Priority(
     @Expose
     @SerializedName("uid")
     val uid: String,
-): Serializable
+) : Serializable
 
 data class Platform(
     @Expose
     @SerializedName("uid")
     val uid: String,
-): Serializable
+) : Serializable

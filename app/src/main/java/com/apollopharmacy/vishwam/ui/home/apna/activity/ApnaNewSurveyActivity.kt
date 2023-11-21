@@ -2758,7 +2758,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             }
 
             override fun afterTextChanged(s: Editable?) {
-                if (s.toString()
+                if (!s.toString().isNullOrEmpty() && s.toString().equals(".")) {
+                    activityApnaNewSurveyBinding.lengthText.setText("")
+                } else if (s.toString()
                         .isNotEmpty() && activityApnaNewSurveyBinding.widthText.text.toString()
                         .isNotEmpty()
                 ) {
@@ -2786,32 +2788,50 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString()
-                        .isNotEmpty() && activityApnaNewSurveyBinding.lengthText.text.toString()
-                        .isNotEmpty()
-                ) {
-                    width = s.toString().toDouble()
-                    length = activityApnaNewSurveyBinding.lengthText.text.toString().toDouble()
-                    updateTotalArea(length, width)
-                } else if (s.toString()
-                        .isNotEmpty() && activityApnaNewSurveyBinding.lengthText.text.toString()
-                        .isEmpty()
-                ) {
-                    activityApnaNewSurveyBinding.totalAreaText.getText()!!.clear()
-                } else if (s.toString()
-                        .isEmpty() && activityApnaNewSurveyBinding.lengthText.text.toString()
-                        .isNotEmpty()
-                ) {
-                    activityApnaNewSurveyBinding.totalAreaText.getText()!!.clear()
-                } else {
-                    activityApnaNewSurveyBinding.totalAreaText.getText()!!.clear()
-                }
+                if (!s.toString().isNullOrEmpty() && s.toString().equals(".")) {
+                    activityApnaNewSurveyBinding.widthText.setText("")
+                } else
+                    if (s.toString()
+                            .isNotEmpty() && activityApnaNewSurveyBinding.lengthText.text.toString()
+                            .isNotEmpty()
+                    ) {
+                        width = s.toString().toDouble()
+                        length = activityApnaNewSurveyBinding.lengthText.text.toString().toDouble()
+                        updateTotalArea(length, width)
+                    } else if (s.toString()
+                            .isNotEmpty() && activityApnaNewSurveyBinding.lengthText.text.toString()
+                            .isEmpty()
+                    ) {
+                        activityApnaNewSurveyBinding.totalAreaText.getText()!!.clear()
+                    } else if (s.toString()
+                            .isEmpty() && activityApnaNewSurveyBinding.lengthText.text.toString()
+                            .isNotEmpty()
+                    ) {
+                        activityApnaNewSurveyBinding.totalAreaText.getText()!!.clear()
+                    } else {
+                        activityApnaNewSurveyBinding.totalAreaText.getText()!!.clear()
+                    }
             }
 
             override fun afterTextChanged(s: Editable?) {
             }
 
         })
+
+        activityApnaNewSurveyBinding.ceilingHeightText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (!s.toString().isNullOrEmpty() && s.toString().equals(".")) {
+                    activityApnaNewSurveyBinding.ceilingHeightText.setText("")
+                }
+            }
+        })
+
 
         activityApnaNewSurveyBinding.clear.setOnClickListener {
             activityApnaNewSurveyBinding.totalAreaText.setText("")
@@ -4841,7 +4861,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             activityApnaNewSurveyBinding.presentTrafficPatterns.requestFocus()
             siteSpecificationsErrorMessage = "Present traffic patterns should not contain all zeros"
             return false
-        } else if (!shopAddress.isEmpty() && shopAddress.all { it == '0' }) {
+        } else if(containsOnlyNumbers(presentTrafficPatterns)){
+            activityApnaNewSurveyBinding.presentTrafficPatterns.requestFocus()
+            siteSpecificationsErrorMessage = "Present traffic patterns should not contain only number"
+            return false
+        }else if (!shopAddress.isEmpty() && shopAddress.all { it == '0' }) {
             activityApnaNewSurveyBinding.shopAddress.requestFocus()
             siteSpecificationsErrorMessage = "Shop Address patterns should not contain all zeros"
             return false
@@ -4868,6 +4892,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             activityApnaNewSurveyBinding.shopNumber.requestFocus()
             siteSpecificationsErrorMessage = "Shop Number patterns should not contain all zeros"
             return false
+        } else if (!shopNumber.isEmpty() && !Regex(".*\\d+.*").matches(shopNumber)) {
+            activityApnaNewSurveyBinding.shopNumber.requestFocus()
+            siteSpecificationsErrorMessage = "Shop Number must contain ateast one digit"
+            return false
         } else if (ageOfTheBuilding.isEmpty()) {
             return true
         } else if (presentTrafficPatterns.isEmpty()) {
@@ -4877,7 +4905,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             return true
         }
     }
-
+    fun containsOnlyNumbers(input: String): Boolean {
+        return input.toDoubleOrNull() != null
+    }
     var message = ""
     fun isShopValidate(shopAddress: String): Boolean {
         val alphabet: String = "[A-Za-z]"

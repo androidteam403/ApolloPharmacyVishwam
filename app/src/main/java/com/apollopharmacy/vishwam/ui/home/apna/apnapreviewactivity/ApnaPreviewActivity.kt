@@ -509,7 +509,8 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         apnaPreviewActivityBinding.hospitalsChart.axisRight.isEnabled = false
         apnaPreviewActivityBinding.hospitalsChart.xAxis.isEnabled = false
 
-        apnaPreviewActivityBinding.hospitalsChart.getAxisLeft().textColor = ContextCompat.getColor(this, R.color.black)
+        apnaPreviewActivityBinding.hospitalsChart.getAxisLeft().textColor =
+            ContextCompat.getColor(this, R.color.black)
         apnaPreviewActivityBinding.hospitalsChart.getAxisLeft().setLabelCount(5, true)
         apnaPreviewActivityBinding.hospitalsChart.getAxisLeft().setAxisMinimum(0f)
         apnaPreviewActivityBinding.hospitalsChart.getAxisLeft().setAxisMaximum(beds.max())
@@ -607,7 +608,8 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         apnaPreviewActivityBinding.apartmentsChart.axisRight.isEnabled = false
         apnaPreviewActivityBinding.apartmentsChart.xAxis.isEnabled = false
 
-        apnaPreviewActivityBinding.apartmentsChart.getAxisLeft().textColor = ContextCompat.getColor(this, R.color.black)
+        apnaPreviewActivityBinding.apartmentsChart.getAxisLeft().textColor =
+            ContextCompat.getColor(this, R.color.black)
         apnaPreviewActivityBinding.apartmentsChart.getAxisLeft().setLabelCount(5, true)
         apnaPreviewActivityBinding.apartmentsChart.getAxisLeft().setAxisMinimum(0f)
         apnaPreviewActivityBinding.apartmentsChart.getAxisLeft().setAxisMaximum(noOfHouses.max())
@@ -696,11 +698,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         apnaPreviewActivityBinding.competitorsChart.axisRight.isEnabled = false
 
-        apnaPreviewActivityBinding.competitorsChart.getAxisLeft().textColor = ContextCompat.getColor(this, R.color.black)
+        apnaPreviewActivityBinding.competitorsChart.getAxisLeft().textColor =
+            ContextCompat.getColor(this, R.color.black)
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setLabelCount(5, true)
         apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMinimum(0f)
-        if(avgSales!=null && avgSales.size>0)
-        apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMaximum(avgSales.max())
+        if (avgSales != null && avgSales.size > 0)
+            apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMaximum(avgSales.max())
 
         apnaPreviewActivityBinding.competitorsChart.xAxis.isEnabled = false
 //        apnaPreviewActivityBinding.competitorsChart.xAxis.position =
@@ -728,9 +731,15 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
     }
 
     private fun setCompetitorsValues() {
-        if(avgSales!=null && avgSales.size>0){
+        if (avgSales != null && avgSales.size > 0) {
             for (i in avgSales.indices) {
-                competitorsEntries.add(Entry(i.toFloat(), avgSales.get(i), chemist.get(i).toString()))
+                competitorsEntries.add(
+                    Entry(
+                        i.toFloat(),
+                        avgSales.get(i),
+                        chemist.get(i).toString()
+                    )
+                )
             }
         }
 
@@ -821,7 +830,8 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 //        apnaPreviewActivityBinding.neighborChart.xAxis.valueFormatter = IndexAxisValueFormatter(stores)
 //        apnaPreviewActivityBinding.neighborChart.xAxis.textSize = 0.5f
         // Set y axis values
-        apnaPreviewActivityBinding.neighborChart.axisLeft.textColor = ContextCompat.getColor(this, R.color.black)
+        apnaPreviewActivityBinding.neighborChart.axisLeft.textColor =
+            ContextCompat.getColor(this, R.color.black)
         apnaPreviewActivityBinding.neighborChart.getAxisLeft().setLabelCount(5, true)
         apnaPreviewActivityBinding.neighborChart.getAxisLeft().setAxisMinimum(0f)
         apnaPreviewActivityBinding.neighborChart.getAxisLeft().setAxisMaximum(sales.max())
@@ -897,9 +907,11 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                 this, value.data!!.chemist as ArrayList<SurveyDetailsList.Chemist>
             )
             apnaPreviewActivityBinding.recyclerViewchemist.adapter = adapter
-            var totalOrg=0
-            if(value.data!!.chemist!!.get(0).orgAvgSale!=null)
-                totalOrg = value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }.sum()
+            var totalOrg = 0
+            if (value.data!!.chemist!!.get(0).orgAvgSale != null)
+                totalOrg =
+                    value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }
+                        .sum()
 
             val totalUnorg =
                 value.data!!.chemist!!.stream().map { it.unorgAvgSale }.mapToInt { it!!.toInt() }
@@ -924,8 +936,9 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                     total.toLong()
                 )
             )
-            if(value.data!!.chemist!!.get(0).orgAvgSale!=null)
-            avgSales = value.data!!.chemist!!.map { it.orgAvgSale!!.toFloat() } as ArrayList<Float>
+            if (value.data!!.chemist!!.get(0).orgAvgSale != null)
+                avgSales =
+                    value.data!!.chemist!!.map { it.orgAvgSale!!.toFloat() } as ArrayList<Float>
             setCompetitorsValues()
             setupCompetitorsChart()
         } else {
@@ -1329,7 +1342,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 //        }
 
         if (value.data!!.expectedRent != null) {
-            val expectedRentValue =  value.data!!.expectedRent.toString()
+            val expectedRentValue = value.data!!.expectedRent.toString()
             var expectedRent = ""
             var expectedRentSplit = "${expectedRentValue}".split(".")
             if (expectedRentSplit[1].toInt() > 0) {
@@ -1347,12 +1360,15 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         }
 
         if (value.data!!.securityDeposit != null) {
-            val securityDepositValue =  value.data!!.securityDeposit.toString()
+            val securityDepositValue = value.data!!.securityDeposit.toString()
             var securityDeposit = ""
             var securityDepositSplit = "${securityDepositValue}".split(".")
             if (securityDepositSplit[1].toInt() > 0) {
                 securityDeposit =
-                    DecimalFormat("##,##,###.0##", Utils.symbols).format(value.data!!.securityDeposit)
+                    DecimalFormat(
+                        "##,##,###.0##",
+                        Utils.symbols
+                    ).format(value.data!!.securityDeposit)
             } else {
                 securityDeposit =
                     DecimalFormat("##,##,###", Utils.symbols).format(value.data!!.securityDeposit)
@@ -1396,9 +1412,19 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         var ageofTheBuildingText = ""
         if (value.data!!.buildingAge != null) {
-            ageofTheBuildingText = "${value.data!!.buildingAge} years"
+            if (value.data!!.buildingAge!! > 1) {
+                ageofTheBuildingText = "${value.data!!.buildingAge} years"
+            } else {
+                ageofTheBuildingText = "${value.data!!.buildingAge} year"
+            }
             if (value.data!!.bldgAgeInMonth != null) {
-                ageofTheBuildingText = "$ageofTheBuildingText ${value.data!!.bldgAgeInMonth} months"
+                if (value.data!!.bldgAgeInMonth!! > 1) {
+                    ageofTheBuildingText =
+                        "$ageofTheBuildingText ${value.data!!.bldgAgeInMonth} months"
+                } else {
+                    ageofTheBuildingText =
+                        "$ageofTheBuildingText ${value.data!!.bldgAgeInMonth} month"
+                }
             }
             apnaPreviewActivityBinding.ageOfTheBuilding.text = "$ageofTheBuildingText"
         } else {
@@ -1502,16 +1528,30 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
 
         var existingOutletAge = ""
         if (value.data!!.extngOutletAge != null) {
-            existingOutletAge = "${Math.round(value.data!!.extngOutletAge!!)} years"
+            if (value.data!!.extngOutletAge!! > 1) {
+                existingOutletAge = "${Math.round(value.data!!.extngOutletAge!!)} years"
+            } else {
+                existingOutletAge = "${Math.round(value.data!!.extngOutletAge!!)} year"
+            }
             if (value.data!!.extng_outlet_age_in_month != null) {
-                existingOutletAge =
-                    "$existingOutletAge ${Math.round(value.data!!.extng_outlet_age_in_month!!)} months"
+                if (value.data!!.extng_outlet_age_in_month!! > 1) {
+                    existingOutletAge =
+                        "$existingOutletAge ${Math.round(value.data!!.extng_outlet_age_in_month!!)} months"
+                } else {
+                    existingOutletAge =
+                        "$existingOutletAge ${Math.round(value.data!!.extng_outlet_age_in_month!!)} month"
+                }
             }
             apnaPreviewActivityBinding.existingOutletAge.text = "$existingOutletAge"
         } else {
             if (value.data!!.extng_outlet_age_in_month != null) {
-                existingOutletAge =
-                    "0 years ${Math.round(value.data!!.extng_outlet_age_in_month!!)} months"
+                if (value.data!!.extng_outlet_age_in_month!! > 1) {
+                    existingOutletAge =
+                        "0 year ${Math.round(value.data!!.extng_outlet_age_in_month!!)} months"
+                } else {
+                    existingOutletAge =
+                        "0 year ${Math.round(value.data!!.extng_outlet_age_in_month!!)} month"
+                }
                 apnaPreviewActivityBinding.existingOutletAge.text = "$existingOutletAge"
             } else {
                 existingOutletAge = "-"

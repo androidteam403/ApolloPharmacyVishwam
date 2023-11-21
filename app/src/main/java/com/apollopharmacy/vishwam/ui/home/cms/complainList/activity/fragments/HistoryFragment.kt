@@ -450,6 +450,8 @@ class HistoryFragment(
                 if (orderDataWp.ticketDetailsResponse != null) {
                     if (orderDataWp.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == null
                         || orderDataWp.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == "Yes"
+                        || orderDataWp.ticketDetailsResponse!!.data!!.override_ticket_closure == true
+                        || orderDataWp.ticketDetailsResponse!!.data!!.override_ticket_closure == null
                     ) {
                         viewBinding.ticketCloseBtn.visibility = View.VISIBLE
                     } else {
