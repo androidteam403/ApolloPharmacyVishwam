@@ -1482,7 +1482,7 @@ class ComplainListViewModel : ViewModel() {
 
         val subWorkflowRejectUrl =
 //            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/subworkflow-reject"
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/subworkflow-reject"
+            "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/subworkflow-reject"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {

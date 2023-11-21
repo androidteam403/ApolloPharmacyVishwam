@@ -51,8 +51,8 @@
                 android:layout_below="@+id/emptyImage"
                 android:textAlignment="center"
                 android:text="No  List Available"
-                android:textColor="#FEEEDB"
-                android:textSize="15dp" />
+                android:textColor="@color/backgroundColor"
+                android:textSize="@dimen/text_18sp" />
 
         </RelativeLayout>
 

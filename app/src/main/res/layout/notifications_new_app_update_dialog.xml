@@ -17,7 +17,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#0d2937"
+                android:background="@color/vishwam_actionbar_color"
                 android:paddingStart="@dimen/value_15dp"
                 android:paddingTop="@dimen/value_5dp"
                 android:paddingEnd="@dimen/value_10dp"
@@ -28,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/poppins_semi_bold"
-                    android:text="New app updating"
+                    android:text="Description"
                     android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_13sp" />
 
@@ -52,15 +52,17 @@
                 android:paddingBottom="@dimen/value_15dp">
 
                 <TextView
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value_15dp"
+                    android:layout_marginBottom="@dimen/four4_dp"
                     android:fontFamily="@font/poppins_semi_bold"
                     android:text="Today 4pm we our Apollo mobile app is\n upgrading to newer version"
                     android:textColor="@color/notifications_dialog_text"
                     android:textSize="@dimen/text_12sp" />
 
                 <TextView
+                    android:id="@+id/description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
@@ -68,21 +70,36 @@
                     android:textColor="@color/black"
                     android:textSize="11sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis."
-                    android:textColor="@color/black"
-                    android:textSize="11sp" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/poppins_regular"-->
+<!--                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis."-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="11sp" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/poppins_regular"-->
+<!--                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis."-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="11sp" />-->
 
                 <TextView
+                    android:autoLink="web"
+                    android:layout_marginTop="@dimen/four4_dp"
+                    android:id="@+id/link_n"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis."
-                    android:textColor="@color/black"
-                    android:textSize="11sp" />
+                    android:layout_height="@dimen/value_30dp"
+                    android:background="@drawable/search_button_bg"
+                    android:gravity="center"
+                    android:padding="@dimen/value_4dp"
+                    android:text="More details"
+                    android:textAlignment="center"
+                    android:textColor="@color/white_for_both"
+                    android:textSize="@dimen/text_12sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

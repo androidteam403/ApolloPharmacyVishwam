@@ -42,7 +42,7 @@ class PlanogramActivityViewModel : ViewModel() {
         }
 
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/select/planogram-details-for-mobile?"
+            "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/select/planogram-details-for-mobile?"
         var token = ""
         /* for (i in data.APIS.indices) {
              if (data.APIS[i].NAME.equals("")) {
@@ -124,7 +124,7 @@ class PlanogramActivityViewModel : ViewModel() {
         }
 
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/list/planogram-survey-questions-list"
+            "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/list/planogram-survey-questions-list"
         var token = ""
         /* for (i in data.APIS.indices) {
              if (data.APIS[i].NAME.equals("")) {
@@ -208,7 +208,7 @@ class PlanogramActivityViewModel : ViewModel() {
         }
 
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/save-update/planogram-save-update"
+            "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/save-update/planogram-save-update"
         var token = ""
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("CMS SAVE UPDATE")) {

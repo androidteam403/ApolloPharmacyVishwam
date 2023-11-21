@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
+import java.util.*
 
 object Preferences {
 
@@ -69,6 +70,7 @@ object Preferences {
     private const val EMPLOYEE_ROLE_NEW_DRUG_REQUEST = "EMPLOYEE_ROLE_NEW_DRUG_REQUEST"
     private const val FCM_KEY = "FCM_KEY"
     private const val PREF_SITE_RETRO_FETCHED = "PREF_SITE_RETRO_FETCHED"
+    private const val GET_NOTIFICATION_DETAILS = "GET_NOTIFICATION_DETAILS"
     private const val APNA_RETRO_SITE = "APNA_RETRO_SITE"
     private const val APP_LEVEL_DESIGNATION_RETRO = "APP_LEVEL_DESIGNATION_RETRO"
 
@@ -216,6 +218,7 @@ object Preferences {
     private const val KEY_APNA_SITEID = "KEY_APNA_SITEID"
     private const val KEY_SAVE_CHAMPS_SURVEY_SITEID = "KEY_SAVE_CHAMPS_SURVEY_SITEID"
     private const val KEY_SAVE_CHAMPS_SURVEY_SITENAME = "KEY_SAVE_CHAMPS_SURVEY_SITENAME"
+    private const val SET_NOTIFICATION_TIME = "SET_NOTIFICATION_TIME"
     private const val KEY_PLANOGRAM_SITEID = "KEY_PLANOGRAM_SITEID"
     private const val KEY_PLANOGRAM_SITENAME = "KEY_PLANOGRAM_SITENAME"
     private const val KEY_PLANOGRAM_SITESTATE = "KEY_PLANOGRAM_SITESTATE"
@@ -946,4 +949,13 @@ object Preferences {
     fun getAppTheme(): String {
         return sharedPreferences.getString(PREF_KEY_APP_THEME, "")!!
     }
+
+    fun setNotificationTime(time: Date) {
+        sharedPreferences.edit().putString(SET_NOTIFICATION_TIME, time.toString()).apply()
+    }
+
+    fun getNotificationTime(): String {
+        return sharedPreferences.getString(SET_NOTIFICATION_TIME, "")!!
+    }
+
 }

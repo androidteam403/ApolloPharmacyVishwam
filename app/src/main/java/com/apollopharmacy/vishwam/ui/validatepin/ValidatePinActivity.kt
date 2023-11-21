@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.BuildConfig
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
@@ -17,6 +18,8 @@ import com.apollopharmacy.vishwam.data.model.MPinRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.notification.adapter.NotificationsAdapter
+import com.apollopharmacy.vishwam.ui.home.notification.model.NotificationModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
@@ -46,6 +49,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     private var serviceAppVer: Int = 0
     private var currentAppVer: Int = 0
     private var firebaseToken: String? = null
+    private var notificationResponse: NotificationModelResponse?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -296,8 +300,9 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
 //                    handlePlayStoreIntent()
                     } else {
+                        viewModel.getNotificationDetailsApi(this)
 //                    viewModel.getRole(Preferences.getValidatedEmpId())
-                        handleNextIntent()
+//                        handleNextIntent()
 
                     }
 
@@ -335,6 +340,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //emp-102//Nagapavan
         Preferences.setIsPinCreated(true)
         val homeIntent = Intent(this, MainActivity::class.java)
+        homeIntent.putExtra("notificationResponse", notificationResponse)
         startActivity(homeIntent)
         finish()
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
@@ -372,7 +378,6 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             ).show()
         }
     }
-
     private fun onCheckBuildDetails() {
         val globalRes = Preferences.getGlobalResponse()
         val data = Gson().fromJson(globalRes, ValidateResponse::class.java)
@@ -456,6 +461,35 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
     override fun onFailureAppLevelDesignationApnaRetro(value: AppLevelDesignationModelResponse) {
 
+    }
+
+    override fun onSuccessNotificationDetails(response: NotificationModelResponse) {
+        if(response!=null && response.data!=null && response.data!!.listData!=null
+            && response.data!!.listData!!.rows!=null && response.data!!.listData!!.rows!!.size>0){
+            notificationResponse= response
+//            var res = NotificationModelResponse()
+//            var data = res.Data()
+//            var listData = data.ListData()
+//            var rowssList = ArrayList<NotificationModelResponse.Data.ListData.Row>()
+//            var rows = listData.Row()
+//            rows.createdTime="2023-11-20 17:16:20"
+//            rows.description="Lorem Ipsum is simply"
+//            rows.title="SS"
+//            rows.link="https://chat.openai.com/c/0fdc32c6-982f-4df1-975c-ffec8596377a"
+//            rowssList.add(rows)
+//            listData.rows= rowssList
+//            data.listData=listData
+//            res.data=data
+        }
+        handleNextIntent()
+    }
+
+    override fun onFailureNotificationDetails(value: NotificationModelResponse) {
+        handleNextIntent()
+    }
+
+    override fun onFailureNotificationDetail() {
+        handleNextIntent()
     }
 
 }

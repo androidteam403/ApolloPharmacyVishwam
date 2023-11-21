@@ -1,10 +1,14 @@
 package com.apollopharmacy.vishwam.ui.home.home
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -20,9 +24,14 @@ import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MenuItemAdapter
 import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.notification.NotificationsActivity
+import com.apollopharmacy.vishwam.ui.home.notification.model.NotificationModelResponse
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFragmentCallback {
@@ -52,7 +61,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     var planogramAdapter: MenuItemAdapter? = null
     var apnaRetroAdapter: MenuItemAdapter? = null
     var apnaAdapter: MenuItemAdapter? = null
-
+    private var notificationResponse: NotificationModelResponse?=null
 
     override val layoutRes: Int
         get() = R.layout.fragment_home
@@ -62,11 +71,16 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         return ViewModelProvider(this).get(HomeViewModel::class.java)
     }
 
+    @SuppressLint("SuspiciousIndentation")
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
         hideLoading()
 
         viewBinding.callback = this
-        val userData = LoginRepo.getProfile()
+        if(arguments?.getSerializable("notificationModelResponse")!=null)
+        notificationResponse =  arguments?.getSerializable("notificationModelResponse") as NotificationModelResponse
+
+       val userData = LoginRepo.getProfile()
         if (userData != null) {
             viewBinding.designation.setText(userData.DESIGNATION)
             viewBinding.userName.setText(userData.EMPNAME)
@@ -74,6 +88,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         }
         Utlis.hideLoading()
         hideLoading()
+        caluclateTimeDifference()
 
 //        if (getDataManager().getRiderActiveStatus() == "Offline") {
 //            viewModel.riderUpdateStauts(
@@ -802,7 +817,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
     override fun onclickNotificationIcon() {
         val intent = Intent(context, NotificationsActivity::class.java)
-        startActivity(intent)
+        intent.putExtra("notificationResponse", notificationResponse)
+        startActivityForResult(intent, 990)
     }
 
     fun searchByModule() {
@@ -827,5 +843,64 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 //                }
             }
         })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun caluclateTimeDifference(){
+        if(!Preferences.getNotificationTime().isNullOrEmpty()){if(notificationResponse!=null && notificationResponse!!.data!=null && notificationResponse!!.data!!.listData!=null
+            && notificationResponse!!.data!!.listData!!.rows!=null && notificationResponse!!.data!!.listData!!.rows!!.size>0){
+            notificationResponse!!.data!!.listData!!.rows!!.sortedByDescending { it.createdTime }
+//            val strDate = Preferences.getNotificationTime()
+//            val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+//            val date = dateFormat.parse(strDate)
+//            val dateNewFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)
+//            val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+//            val date1: LocalDate = LocalDate.parse(dateNewFormat, formatter)
+//            val date2: LocalDate = LocalDate.parse(notificationResponse!!.data!!.listData!!.rows!!.get(0).createdTime, formatter)
+//            if (date2.isBefore(date1)) {
+//                System.out.println("date1 is before date2");
+//                viewBinding.notificationText.visibility=View.GONE
+//            } else if (date2.isAfter(date1)) {
+//                viewBinding.notificationText.visibility=View.VISIBLE
+//            } else {
+//                System.out.println("date1 and date2 are equal");
+//                viewBinding.notificationText.visibility=View.GONE
+//            }
+
+//            val currentDateTime: LocalDateTime = LocalDateTime.now()
+//            var pastDateTimeStr = notificationResponse!!.data!!.listData!!.rows!!.get(0).createdTime
+            val strDate = Preferences.getNotificationTime()
+            val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+            val date = dateFormat.parse(strDate)
+            val dateNewFormat = SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss.SSS").format(date)
+            val lastNotificationTime =  LocalDateTime.parse(dateNewFormat)
+
+            val strDates = notificationResponse!!.data!!.listData!!.rows!!.get(0).createdTime
+            val dateFormats = SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            val dates = dateFormats.parse(strDates)
+            val dateNewFormats = SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss.SSS").format(dates)
+            val firstCreatedTime =
+                LocalDateTime.parse(dateNewFormats)
+
+            if (firstCreatedTime.isBefore(lastNotificationTime)) {
+                viewBinding.notificationText.visibility=View.GONE
+                System.out.println("Current date and time is before the past date and time.");
+            } else if (firstCreatedTime.isAfter(lastNotificationTime)) {
+                System.out.println("Current date and time is after the past date and time.");
+                viewBinding.notificationText.visibility=View.VISIBLE
+            } else {
+                System.out.println("Current date and time is equal to the past date and time.");
+                viewBinding.notificationText.visibility=View.GONE
+            }
+        }
+    }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==990 && resultCode == Activity.RESULT_OK){
+            caluclateTimeDifference()
+        }
     }
 }

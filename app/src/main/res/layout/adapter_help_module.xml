@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/value_10dp"
+        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginEnd="@dimen/value_10dp"
+        android:orientation="vertical"
+        android:padding="@dimen/value_3dp"
+        android:background="@drawable/bg_for_store1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+           >
+
+            <TextView
+                android:layout_marginStart="@dimen/value_5dp"
+                android:id="@+id/module_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="ATTENDANCE"
+                android:textColor="#685D5D" />
+
+            <ImageView
+                android:layout_marginEnd="@dimen/value_5dp"
+                android:id="@+id/plus_icon"
+                android:layout_width="@dimen/value_10dp"
+                android:layout_height="@dimen/value_10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/plus"
+                android:tint="#757575"
+                tools:ignore="UseAppTint" />
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/minus_icon"
+                android:layout_marginEnd="@dimen/value_5dp"
+                android:layout_width="@dimen/value_12dp"
+                android:layout_height="@dimen/value_15dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name"
+                android:tint="#757575"
+                android:src="@drawable/minusss"
+                tools:ignore="UseAppTint" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/description_help_layout"
+            android:layout_below="@id/relative_layout"
+            android:layout_marginStart="@dimen/value_2dp"
+            android:layout_marginEnd="@dimen/text_dimen_10"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:background="@color/background_ash"
+            android:padding="@dimen/value_5dp"
+            android:layout_height="wrap_content">
+
+            <!--        <TextView-->
+            <!--            android:layout_marginBottom="@dimen/value_2dp"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:textSize="@dimen/text_12sp"-->
+            <!--            android:textColor="@color/reg_date_color"-->
+            <!--            android:text="Description: " />-->
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Lorem ipsum dolor sit amet, consectetur"
+                android:textColor="@color/black"
+                android:textSize="11sp" />
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</RelativeLayout>
+</layout>

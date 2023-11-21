@@ -274,7 +274,7 @@ fun getTrainerDetails(surveyDetailsCallback: SurveyDetailsCallback) {
         }
     }
 
-    var  baseUrl = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/champs_region_trainer/list/champs-region-trainer-list-for-mobile?zcFetchListTotal=true&region=E837547753C62FD287A5EFC47C7482C7"
+    var  baseUrl = "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/champs_region_trainer/list/champs-region-trainer-list-for-mobile?zcFetchListTotal=true&region=E837547753C62FD287A5EFC47C7482C7"
 
     var token = ""
 //    for (i in data.APIS.indices) {

@@ -37,7 +37,7 @@ class PlanogramViewModel :ViewModel() {
             }
         }
 
-        var baseUrl = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/list/planogram-list-by-site-id"
+        var baseUrl = "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/planogram/list/planogram-list-by-site-id"
         var token = ""
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("SWND employee-details-mobile")) {
