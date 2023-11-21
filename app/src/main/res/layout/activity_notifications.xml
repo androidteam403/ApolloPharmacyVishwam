@@ -72,6 +72,31 @@
                 tools:itemCount="3"
                 tools:listitem="@layout/notification_layout" />
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/emptyList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/emptyImage"
+                android:layout_width="@dimen/value_120dp"
+                android:layout_height="@dimen/value_120dp"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/qca" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_below="@id/emptyImage"
+                android:text="No list found"
+                android:textColor="@color/backgroundColor"
+                android:textSize="@dimen/text_18sp" />
+
+        </RelativeLayout>
     </RelativeLayout>
 
     <data>

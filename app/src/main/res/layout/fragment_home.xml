@@ -92,10 +92,9 @@
                         android:fontFamily="@font/roboto_regular"
                         android:paddingStart="@dimen/value_5dp"
                         android:paddingEnd="5dp"
-                        android:text="3"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/text_dimen_12"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
                 </RelativeLayout>
 
                 <!--                    <ImageView-->

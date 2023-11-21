@@ -92,6 +92,7 @@ import com.apollopharmacy.vishwam.ui.home.help.HelpActivity;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
 import com.apollopharmacy.vishwam.ui.home.notification.NotificationsActivity;
+import com.apollopharmacy.vishwam.ui.home.notification.model.NotificationModelResponse;
 import com.apollopharmacy.vishwam.ui.home.planogram.fragment.PlanogramFragment;
 import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboard;
 import com.apollopharmacy.vishwam.ui.home.retroqr.RetroQrFragment;
@@ -197,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final String TAG = "MainActivity";
     public String locationLatitude = "";
     public String locationLongitude = "";
+
     private String mLastUpdateTime = "";
     private final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000L;
     private final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = 5000L;
@@ -230,6 +232,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public RelativeLayout filterIcon;
     public RelativeLayout qcfilterIcon;
+
+    private NotificationModelResponse notificationModelResponse;
     public LinearLayout logout;
     public static Boolean isAtdLogout = false;
     private Context context;
@@ -381,6 +385,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             IS_COMPLAINT_RESOLVED = getIntent().getBooleanExtra("COMPLAINT_RESOLVED", false);
             isLanchedByPushNotification = (Boolean) getIntent().getBooleanExtra("isPushNotfication", false);
             isFromNotificaionIcon = (Boolean) getIntent().getBooleanExtra("is_from_notification", false);
+            notificationModelResponse = (NotificationModelResponse) getIntent().getSerializableExtra("notificationResponse");
         }
         LinearLayout locationDeniedLayout = (LinearLayout) findViewById(R.id.location_denied);
         locationDeniedLayout.setVisibility(View.GONE);
@@ -1054,11 +1059,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (itemName) {
             case "HOME":
                 headerText.setText("HOME");
-                fragment = new HomeFragment();
+//                fragment = new HomeFragment();
                 filterIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
-
+                Bundle bundle2 = new Bundle();
+                bundle2.putSerializable("notificationModelResponse", notificationModelResponse);
+                fragment = new HomeFragment();
+                fragment.setArguments(bundle2);
 
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);

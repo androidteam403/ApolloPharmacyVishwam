@@ -158,16 +158,14 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/search_view"
+                        android:id="@+id/search_view_h"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerVertical="true"
                         android:background="@null"
-                        android:drawableEnd="@drawable/close_blue_new"
                         android:drawablePadding="@dimen/dimen20dp"
-                        android:drawableTint="@color/grey"
                         android:gravity="left|center"
-                        android:hint="Discount coupons"
+                        android:hint="Search for module"
                         android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:maxLines="1"
@@ -175,123 +173,176 @@
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingTop="@dimen/value_5dp"
                         android:paddingBottom="@dimen/value_5dp"
-                        android:textColorHint="@color/black"
                         android:textSize="@dimen/text_14sp" />
+                    <LinearLayout
+                        android:layout_alignParentEnd="true"
+                        android:gravity="end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/search_icon_h"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/close_blue_new"
+                            app:tint="@color/grey" />
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/close_icon_h"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/close_icon_clear_text"
+                            app:tint="@color/grey"/>
+                    </LinearLayout>
+
+
+
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <RelativeLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginBottom="@dimen/value_5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/dimen20dp"
-                android:layout_marginEnd="@dimen/value_10dp"
-                android:background="@color/gray"
-                android:gravity="center_vertical"
-                android:padding="@dimen/value_7dp">
+                android:id="@+id/modulesRecyclerView"/>
+
+            <RelativeLayout
+                android:id="@+id/no_module_found_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/empty_image"
+                    android:layout_width="@dimen/value_60dp"
+                    android:layout_height="@dimen/value_60dp"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/qca" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:text="ATTENDANCE"
-                    android:textColor="@color/black" />
-
-                <ImageView
-                    android:layout_width="@dimen/value_12dp"
-                    android:layout_height="@dimen/value_12dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/plus"
-                    android:tint="#757575"
-                    tools:ignore="UseAppTint" />
+                    android:layout_below="@+id/empty_image"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/label_no_module_found"
+                    android:textColor="@color/backgroundColor"
+                    android:textSize="@dimen/text_15sp" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/value_7dp"
-                android:layout_marginEnd="@dimen/value_10dp"
-                android:background="@color/gray"
-                android:padding="@dimen/value_7dp">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                android:layout_marginTop="@dimen/dimen20dp"-->
+<!--                android:layout_marginEnd="@dimen/value_10dp"-->
+<!--                android:background="@color/gray"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:padding="@dimen/value_7dp">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:text="MANAGEMENT"
-                    android:textColor="@color/black" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:fontFamily="@font/poppins_semi_bold"-->
+<!--                    android:text="ATTENDANCE"-->
+<!--                    android:textColor="@color/black" />-->
 
-                <ImageView
-                    android:layout_width="@dimen/value_12dp"
-                    android:layout_height="@dimen/value_12dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/plus"
-                    android:tint="#757575"
-                    tools:ignore="UseAppTint" />
-            </RelativeLayout>
+<!--                <ImageView-->
+<!--                    android:layout_width="@dimen/value_12dp"-->
+<!--                    android:layout_height="@dimen/value_12dp"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:contentDescription="@string/app_name"-->
+<!--                    android:src="@drawable/plus"-->
+<!--                    android:tint="#757575"-->
+<!--                    tools:ignore="UseAppTint" />-->
+<!--            </RelativeLayout>-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/value_7dp"
-                android:layout_marginEnd="@dimen/value_10dp"
-                android:background="@color/gray"
-                android:padding="@dimen/value_7dp">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                android:layout_marginTop="@dimen/value_7dp"-->
+<!--                android:layout_marginEnd="@dimen/value_10dp"-->
+<!--                android:background="@color/gray"-->
+<!--                android:padding="@dimen/value_7dp">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:text="CMSDISCOUNT"
-                    android:textColor="@color/black" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:fontFamily="@font/poppins_semi_bold"-->
+<!--                    android:text="MANAGEMENT"-->
+<!--                    android:textColor="@color/black" />-->
 
-                <ImageView
-                    android:layout_width="@dimen/value_12dp"
-                    android:layout_height="@dimen/value_12dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/plus"
-                    android:tint="#757575"
-                    tools:ignore="UseAppTint" />
-            </RelativeLayout>
+<!--                <ImageView-->
+<!--                    android:layout_width="@dimen/value_12dp"-->
+<!--                    android:layout_height="@dimen/value_12dp"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:contentDescription="@string/app_name"-->
+<!--                    android:src="@drawable/plus"-->
+<!--                    android:tint="#757575"-->
+<!--                    tools:ignore="UseAppTint" />-->
+<!--            </RelativeLayout>-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/value_7dp"
-                android:layout_marginEnd="@dimen/value_10dp"
-                android:background="@color/gray"
-                android:padding="@dimen/value_7dp">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                android:layout_marginTop="@dimen/value_7dp"-->
+<!--                android:layout_marginEnd="@dimen/value_10dp"-->
+<!--                android:background="@color/gray"-->
+<!--                android:padding="@dimen/value_7dp">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:text="RAISE NEW DRUG REQUEST"
-                    android:textColor="@color/black" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:fontFamily="@font/poppins_semi_bold"-->
+<!--                    android:text="CMSDISCOUNT"-->
+<!--                    android:textColor="@color/black" />-->
 
-                <ImageView
-                    android:layout_width="@dimen/value_12dp"
-                    android:layout_height="@dimen/value_12dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/plus"
-                    android:tint="#757575"
-                    tools:ignore="UseAppTint" />
-            </RelativeLayout>
+<!--                <ImageView-->
+<!--                    android:layout_width="@dimen/value_12dp"-->
+<!--                    android:layout_height="@dimen/value_12dp"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:contentDescription="@string/app_name"-->
+<!--                    android:src="@drawable/plus"-->
+<!--                    android:tint="#757575"-->
+<!--                    tools:ignore="UseAppTint" />-->
+<!--            </RelativeLayout>-->
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                android:layout_marginTop="@dimen/value_7dp"-->
+<!--                android:layout_marginEnd="@dimen/value_10dp"-->
+<!--                android:background="@color/gray"-->
+<!--                android:padding="@dimen/value_7dp">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:fontFamily="@font/poppins_semi_bold"-->
+<!--                    android:text="RAISE NEW DRUG REQUEST"-->
+<!--                    android:textColor="@color/black" />-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="@dimen/value_12dp"-->
+<!--                    android:layout_height="@dimen/value_12dp"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:contentDescription="@string/app_name"-->
+<!--                    android:src="@drawable/plus"-->
+<!--                    android:tint="#757575"-->
+<!--                    tools:ignore="UseAppTint" />-->
+<!--            </RelativeLayout>-->
         </LinearLayout>
 
         <LinearLayout
@@ -307,7 +358,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:fontFamily="@font/poppins_regular"
-                android:text="Termas &amp; Conditions"
+                android:text="Terms &amp; Conditions"
                 android:textAlignment="center"
                 android:textColor="#3cb0e0"
                 android:textStyle="bold" />

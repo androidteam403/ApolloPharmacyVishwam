@@ -33,6 +33,7 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
+import com.apollopharmacy.vishwam.ui.home.notification.model.NotificationModelResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSurveyQuestionsListResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
@@ -860,6 +861,11 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: GetRetroPendindAndApproverequest,
     ): GetRetroPendingAndApproveResponse
+
+    @GET
+    suspend fun getNotificationsList(
+        @Url url: String
+    ): NotificationModelResponse
 
     @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList")
     suspend fun getStorePendingAndApprovedListApnaRetro(

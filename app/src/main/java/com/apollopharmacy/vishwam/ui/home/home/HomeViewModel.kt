@@ -3,8 +3,19 @@ package com.apollopharmacy.vishwam.ui.home.home
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.ValidateResponse
+import com.apollopharmacy.vishwam.data.network.ApiResult
+import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.network.ApiClient
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyCallBack
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyViewModel
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
 import com.apollopharmacy.vishwam.ui.rider.dashboard.model.RiderActiveStatusRequest
 import com.apollopharmacy.vishwam.ui.rider.dashboard.model.RiderActiveStatusRequest.AvailableStatus
 import com.apollopharmacy.vishwam.ui.rider.dashboard.model.RiderActiveStatusResponse
@@ -17,6 +28,9 @@ import com.apollopharmacy.vishwam.util.AppConstants
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -339,6 +353,7 @@ class HomeViewModel : ViewModel() {
             homeFragmentCallback.onFialureMessage("Something went wrong.")
         }
     }
+
 
 }
 

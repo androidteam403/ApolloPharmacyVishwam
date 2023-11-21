@@ -238,7 +238,7 @@ class UploadNowButtonViewModel : ViewModel() {
 
 
 sealed class CommandsNewSwachImp {
-    data class ShowToast(val message: String?) : CommandsNewSwachImp()
+    data class ShowToast(val message: Any?) : CommandsNewSwachImp()
     data class ImageIsUploadedInAzur(val filePath: ArrayList<SwachModelResponse>) :
         CommandsNewSwachImp()
 }
