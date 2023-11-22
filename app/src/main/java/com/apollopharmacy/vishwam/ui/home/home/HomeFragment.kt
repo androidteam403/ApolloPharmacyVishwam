@@ -29,9 +29,7 @@ import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 
 class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFragmentCallback {
@@ -61,7 +59,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     var planogramAdapter: MenuItemAdapter? = null
     var apnaRetroAdapter: MenuItemAdapter? = null
     var apnaAdapter: MenuItemAdapter? = null
-    private var notificationResponse: NotificationModelResponse?=null
+    private var notificationResponse: NotificationModelResponse? = null
 
     override val layoutRes: Int
         get() = R.layout.fragment_home
@@ -77,10 +75,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         hideLoading()
 
         viewBinding.callback = this
-        if(arguments?.getSerializable("notificationModelResponse")!=null)
-        notificationResponse =  arguments?.getSerializable("notificationModelResponse") as NotificationModelResponse
+        if (arguments?.getSerializable("notificationModelResponse") != null)
+            notificationResponse =
+                arguments?.getSerializable("notificationModelResponse") as NotificationModelResponse
 
-       val userData = LoginRepo.getProfile()
+        val userData = LoginRepo.getProfile()
         if (userData != null) {
             viewBinding.designation.setText(userData.DESIGNATION)
             viewBinding.userName.setText(userData.EMPNAME)
@@ -234,61 +233,109 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
     private fun enableDeviceMode() {
         viewBinding.darkModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
-        viewBinding.darkModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
-            R.color.theme_setting_icon))
-        viewBinding.darkModeText.setTextColor(ContextCompat.getColor(requireContext(),
-            R.color.grey))
+        viewBinding.darkModeIcon.setColorFilter(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.theme_setting_icon
+            )
+        )
+        viewBinding.darkModeText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.grey
+            )
+        )
 
         viewBinding.lightModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
 //        viewBinding.lightModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
 //            R.color.grey))
-        viewBinding.lightModeText.setTextColor(ContextCompat.getColor(requireContext(),
-            R.color.grey))
+        viewBinding.lightModeText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.grey
+            )
+        )
 
         viewBinding.deviceModeLayout.setBackgroundResource(R.drawable.selected_theme_bg)
         viewBinding.deviceModeIcon.setColorFilter(Color.parseColor("#fbb831"))
-        viewBinding.deviceModeText.setTextColor(ContextCompat.getColor(requireContext(),
-            R.color.white_for_both))
+        viewBinding.deviceModeText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.white_for_both
+            )
+        )
     }
 
     private fun enableLightMode() {
         viewBinding.darkModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
 //        viewBinding.darkModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
 //            R.color.grey))
-        viewBinding.darkModeText.setTextColor(ContextCompat.getColor(requireContext(),
-            R.color.grey))
+        viewBinding.darkModeText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.grey
+            )
+        )
 
         viewBinding.lightModeLayout.setBackgroundResource(R.drawable.selected_theme_bg)
 //        viewBinding.lightModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
 //            R.color.yellow))
-        viewBinding.lightModeText.setTextColor(ContextCompat.getColor(requireContext(),
-            R.color.white_for_both))
+        viewBinding.lightModeText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.white_for_both
+            )
+        )
 
         viewBinding.deviceModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
 //        viewBinding.deviceModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
 //            R.color.grey))
-        viewBinding.deviceModeText.setTextColor(ContextCompat.getColor(requireContext(),
-            R.color.grey))
+        viewBinding.deviceModeText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.grey
+            )
+        )
     }
 
     private fun enableDarkMode() {
         viewBinding.darkModeLayout.setBackgroundResource(R.drawable.selected_theme_bg)
-        viewBinding.darkModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
-            R.color.theme_setting_icon))
-        viewBinding.darkModeText.setTextColor(ContextCompat.getColor(requireContext(),
-            R.color.white_for_both))
+        viewBinding.darkModeIcon.setColorFilter(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.theme_setting_icon
+            )
+        )
+        viewBinding.darkModeText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.white_for_both
+            )
+        )
 
         viewBinding.lightModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
 //        viewBinding.lightModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
 //            R.color.grey))
-        viewBinding.lightModeText.setTextColor(ContextCompat.getColor(requireContext(),
-            R.color.grey))
+        viewBinding.lightModeText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.grey
+            )
+        )
 
         viewBinding.deviceModeLayout.setBackgroundResource(R.drawable.unselected_theme_bg)
-        viewBinding.deviceModeIcon.setColorFilter(ContextCompat.getColor(requireContext(),
-            R.color.theme_setting_icon))
-        viewBinding.deviceModeText.setTextColor(ContextCompat.getColor(requireContext(),
-            R.color.grey))
+        viewBinding.deviceModeIcon.setColorFilter(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.theme_setting_icon
+            )
+        )
+        viewBinding.deviceModeText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.grey
+            )
+        )
     }
 
     private fun updateNavMenu(
@@ -515,7 +562,6 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 //            attendanceMenuModel.add(MenuModel("SWACHH", R.drawable.attendance,isSwachhRequired))
 
         }
-
         if (isDashboardRequired) {
             attendanceMenuModel.add(
                 MenuModel(
@@ -846,10 +892,12 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun caluclateTimeDifference(){
-        if(!Preferences.getNotificationTime().isNullOrEmpty()){if(notificationResponse!=null && notificationResponse!!.data!=null && notificationResponse!!.data!!.listData!=null
-            && notificationResponse!!.data!!.listData!!.rows!=null && notificationResponse!!.data!!.listData!!.rows!!.size>0){
-            notificationResponse!!.data!!.listData!!.rows!!.sortedByDescending { it.createdTime }
+    fun caluclateTimeDifference() {
+        if (!Preferences.getNotificationTime().isNullOrEmpty()) {
+            if (notificationResponse != null && notificationResponse!!.data != null && notificationResponse!!.data!!.listData != null
+                && notificationResponse!!.data!!.listData!!.rows != null && notificationResponse!!.data!!.listData!!.rows!!.size > 0
+            ) {
+                notificationResponse!!.data!!.listData!!.rows!!.sortedByDescending { it.createdTime }
 //            val strDate = Preferences.getNotificationTime()
 //            val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 //            val date = dateFormat.parse(strDate)
@@ -869,37 +917,37 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
 //            val currentDateTime: LocalDateTime = LocalDateTime.now()
 //            var pastDateTimeStr = notificationResponse!!.data!!.listData!!.rows!!.get(0).createdTime
-            val strDate = Preferences.getNotificationTime()
-            val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-            val date = dateFormat.parse(strDate)
-            val dateNewFormat = SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss.SSS").format(date)
-            val lastNotificationTime =  LocalDateTime.parse(dateNewFormat)
+                val strDate = Preferences.getNotificationTime()
+                val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss.SSS").format(date)
+                val lastNotificationTime = LocalDateTime.parse(dateNewFormat)
 
-            val strDates = notificationResponse!!.data!!.listData!!.rows!!.get(0).createdTime
-            val dateFormats = SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            val dates = dateFormats.parse(strDates)
-            val dateNewFormats = SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss.SSS").format(dates)
-            val firstCreatedTime =
-                LocalDateTime.parse(dateNewFormats)
+                val strDates = notificationResponse!!.data!!.listData!!.rows!!.get(0).createdTime
+                val dateFormats = SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                val dates = dateFormats.parse(strDates)
+                val dateNewFormats = SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss.SSS").format(dates)
+                val firstCreatedTime =
+                    LocalDateTime.parse(dateNewFormats)
 
-            if (firstCreatedTime.isBefore(lastNotificationTime)) {
-                viewBinding.notificationText.visibility=View.GONE
-                System.out.println("Current date and time is before the past date and time.");
-            } else if (firstCreatedTime.isAfter(lastNotificationTime)) {
-                System.out.println("Current date and time is after the past date and time.");
-                viewBinding.notificationText.visibility=View.VISIBLE
-            } else {
-                System.out.println("Current date and time is equal to the past date and time.");
-                viewBinding.notificationText.visibility=View.GONE
+                if (firstCreatedTime.isBefore(lastNotificationTime)) {
+                    viewBinding.notificationText.visibility = View.GONE
+                    System.out.println("Current date and time is before the past date and time.");
+                } else if (firstCreatedTime.isAfter(lastNotificationTime)) {
+                    System.out.println("Current date and time is after the past date and time.");
+                    viewBinding.notificationText.visibility = View.VISIBLE
+                } else {
+                    System.out.println("Current date and time is equal to the past date and time.");
+                    viewBinding.notificationText.visibility = View.GONE
+                }
             }
         }
-    }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode==990 && resultCode == Activity.RESULT_OK){
+        if (requestCode == 990 && resultCode == Activity.RESULT_OK) {
             caluclateTimeDifference()
         }
     }

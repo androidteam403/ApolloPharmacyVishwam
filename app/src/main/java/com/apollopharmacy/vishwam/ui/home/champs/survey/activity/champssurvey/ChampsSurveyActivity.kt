@@ -54,7 +54,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 
@@ -87,7 +86,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     var listForTrainers = ArrayList<String>()
     public var isNewSurveyCreated = false
     private lateinit var dialogDElete: Dialog
-//    var siteName: String? = ""
+
+    //    var siteName: String? = ""
     var sumOfCategoriess: Float? = 0f
     private var storeCity: String = ""
     private var region: String = ""
@@ -117,8 +117,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityChampsSurveyBinding = DataBindingUtil.setContentView(
-            this,
-            R.layout.activity_champs_survey
+            this, R.layout.activity_champs_survey
 
         )
         isFirstTime = true
@@ -159,8 +158,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         }
 
 //        recipientEmails = intent.getStringExtra("RECIPIENTS_NEWLY_ADDED")!!
-        surveyRecDetailsList =
-            intent.getStringArrayListExtra("surveyRecDetailsList")!!
+        surveyRecDetailsList = intent.getStringArrayListExtra("surveyRecDetailsList")!!
         surveyCCDetailsList = intent.getStringArrayListExtra("surveyCCDetailsList")!!
         address = intent.getStringExtra("address")!!
         storeId = intent.getStringExtra("storeId")!!
@@ -178,6 +176,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         champsSurveyViewModel.getTrainerDetails(this)
 
         if (status.equals("NEW")) {
+            activityChampsSurveyBinding.deleteSurveyIcon.visibility = View.GONE
             activityChampsSurveyBinding.deleteDown.visibility = View.GONE
             activityChampsSurveyBinding.previewDown.visibility = View.VISIBLE
             surveyDetailsByChampsIdForCheckBox = false
@@ -209,8 +208,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.storeCity.text = storeCity
             activityChampsSurveyBinding.region.text = region
             activityChampsSurveyBinding.percentageSum.text = "0"
-        }
-        else if (status.equals("PENDING")) {
+        } else if (status.equals("PENDING")) {
+            activityChampsSurveyBinding.deleteSurveyIcon.visibility = View.VISIBLE
             if (!trainerEmail.isNullOrEmpty()) {
                 activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
                 activityChampsSurveyBinding.trainer.text = trainerEmail
@@ -222,6 +221,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.previewDown.visibility = View.GONE
 
         } else {
+            activityChampsSurveyBinding.deleteSurveyIcon.visibility = View.GONE
             if (!trainerEmail.isNullOrEmpty()) {
                 activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
                 activityChampsSurveyBinding.trainer.text = trainerEmail
@@ -283,11 +283,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
         } else {
             Toast.makeText(
-                context,
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
+                context, resources.getString(R.string.label_network_error), Toast.LENGTH_SHORT
+            ).show()
         }
 
 
@@ -311,7 +308,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         )
         activityChampsSurveyBinding.emailRecRecyclerView.setAdapter(adapterRec)
         onClickAddRecipient()
-        adapterTrainers = EmailAddressAdapterTrainers(listForTrainers, applicationContext, this, status)
+        adapterTrainers =
+            EmailAddressAdapterTrainers(listForTrainers, applicationContext, this, status)
         activityChampsSurveyBinding.trainerRecyclerview.setLayoutManager(
             LinearLayoutManager(
                 this
@@ -326,8 +324,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
             for (i in getCategoryAndSubCategoryDetails?.categoryDetails?.indices!!) {
                 champsSurveyViewModel.getSubCategoryDetailsChampsApi(
-                    this,
-                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).categoryName!!
+                    this, getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).categoryName!!
                 )
             }
         }
@@ -349,15 +346,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 } else if (!Patterns.EMAIL_ADDRESS.matcher(recipientEmail).matches()) {
                     activityChampsSurveyBinding.enterRecipient.requestFocus()
                     Toast.makeText(
-                        applicationContext,
-                        "Enter valid email",
-                        Toast.LENGTH_SHORT
+                        applicationContext, "Enter valid email", Toast.LENGTH_SHORT
                     ).show()
                 } else {
                     activityChampsSurveyBinding.enterRecipient.text!!.clear()
                     surveyRecManualList.add(recipientEmail)
-                    adapterRec!!.notifyDataSetChanged()
-                    /*if (!surveyRecDetailsList.isNullOrEmpty()) {
+                    adapterRec!!.notifyDataSetChanged()/*if (!surveyRecDetailsList.isNullOrEmpty()) {
                         isRecipientsEmailAdded = true
                         activityStartSurvey2Binding.enterRecipient.text!!.clear()
                         surveyRecDetailsList.set(0, "${surveyRecDetailsList.get(0)},$recipientEmail")
@@ -658,10 +652,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         var recipientEmailDialog = Dialog(this)
         var dialogDeleteRecipientEmailBinding =
             DataBindingUtil.inflate<DialogDeleteRecipientEmailBinding>(
-                LayoutInflater.from(this),
-                R.layout.dialog_delete_recipient_email,
-                null,
-                false
+                LayoutInflater.from(this), R.layout.dialog_delete_recipient_email, null, false
             )
         recipientEmailDialog.setContentView(dialogDeleteRecipientEmailBinding.root)
         recipientEmailDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -686,10 +677,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         activityChampsSurveyBinding.eyeIconForDropdown.isEnabled = false
         trainerEmailList = Dialog(this)
         dialogLocationListBinding = DataBindingUtil.inflate<DialogTrainersEmailBinding>(
-            LayoutInflater.from(this),
-            R.layout.dialog_trainers_email,
-            null,
-            false
+            LayoutInflater.from(this), R.layout.dialog_trainers_email, null, false
         )
         trainerEmailList.setContentView(dialogLocationListBinding!!.root)
         trainerEmailList.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -713,8 +701,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             trainersEmailAdapter =
                 TrainersEmailAdapterForDialog(applicationContext, emailList, this, listForTrainers)
             dialogLocationListBinding!!.locationRcv.adapter = trainersEmailAdapter
-            dialogLocationListBinding!!.locationRcv.layoutManager =
-                LinearLayoutManager(this)
+            dialogLocationListBinding!!.locationRcv.layoutManager = LinearLayoutManager(this)
         } else {
             dialogLocationListBinding!!.locationRcv.visibility = View.GONE
             dialogLocationListBinding!!.submit.visibility = View.GONE
@@ -752,10 +739,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         var recipientEmailDialog = Dialog(this)
         var dialogDeleteRecipientEmailBinding =
             DataBindingUtil.inflate<DialogDeleteRecipientEmailBinding>(
-                LayoutInflater.from(this),
-                R.layout.dialog_delete_recipient_email,
-                null,
-                false
+                LayoutInflater.from(this), R.layout.dialog_delete_recipient_email, null, false
             )
         recipientEmailDialog.setContentView(dialogDeleteRecipientEmailBinding.root)
         recipientEmailDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -782,9 +766,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     }
 
     override fun onSuccessTrainerList(response: TrainersEmailIdResponse?) {
-        if (response != null && response.data != null && response!!.data.listData != null &&
-            response!!.data.listData.rows != null && response!!.data.listData.rows.size > 0 &&
-            response!!.data.listData.rows.get(0).trainerEmail != null && response!!.data.listData.rows.get(
+        if (response != null && response.data != null && response!!.data.listData != null && response!!.data.listData.rows != null && response!!.data.listData.rows.size > 0 && response!!.data.listData.rows.get(
+                0
+            ).trainerEmail != null && response!!.data.listData.rows.get(
                 0
             ).trainerEmail.size > 0
         ) {
@@ -794,6 +778,49 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
     override fun onFailureTrainerList(response: TrainersEmailIdResponse?) {
         Toast.makeText(applicationContext, response!!.message.toString(), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onClickDeleteSurvey() {
+        dialog = Dialog(this)
+        dialog.setContentView(R.layout.savedraft_dialogue)
+        var messageText = dialog.findViewById<TextView>(R.id.message_text)
+        messageText.setText("Do you want to delete the survey?")
+        val close = dialog.findViewById<TextView>(R.id.no_btnSiteChange)
+        close.setOnClickListener {
+            dialog.dismiss()
+        }
+        val ok = dialog.findViewById<TextView>(R.id.yes_btnSiteChange)
+        ok.setOnClickListener {
+            type = "DELETE_SURVEY"
+            dialog.dismiss()
+            var fileUploadModelList = ArrayList<FileUploadChampsModel>()
+
+            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                if (i.imageDataLists != null) {
+                    for (j in i.imageDataLists!!) {
+                        if (j.file != null) {
+                            var fileUploadModel = FileUploadChampsModel()
+                            fileUploadModel.file = j.file
+                            fileUploadModel.categoryName = i.categoryName
+                            fileUploadModelList.add(fileUploadModel)
+                        }
+
+                    }
+                }
+            }
+            if (fileUploadModelList.size > 0) {
+                showLoadingTemp(this)
+                FileUploadChamps().uploadFiles(
+                    context, this, fileUploadModelList
+                )
+            } else {
+                Utlis.showLoading(this)
+                saveApiRequest("DELETE_SURVEY")
+            }
+        }
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
     }
 
     override fun noOrdersFound(size: Int) {
@@ -861,9 +888,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     if (fileUploadModelList.size > 0) {
                         showLoadingTemp(this)
                         FileUploadChamps().uploadFiles(
-                            context,
-                            this,
-                            fileUploadModelList
+                            context, this, fileUploadModelList
                         )
                     } else {
                         Utlis.showLoading(this)
@@ -874,8 +899,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                         applicationContext,
                         "Please fill all the attending points",
                         Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    ).show()
                 }
 
             }
@@ -908,8 +932,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 val dateNewFormat =
                     SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
                 headerDetails.dateOfVisit = dateNewFormat
-            }
-            else if (status.equals("PENDING")) {
+            } else if (status.equals("PENDING")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
                 val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
@@ -917,8 +940,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 val dateNewFormat =
                     SimpleDateFormat("dd-MM-yy kk:mm:ss a", Locale.ENGLISH).format(date)
                 headerDetails.dateOfVisit = dateNewFormat
-            }
-            else {
+            } else {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
                 val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
                 val date = dateFormat.parse(strDate)
@@ -972,26 +994,18 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 } else {
                     headerDetails.emailIdOfTrainer = ""
                 }*/
-                if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null &&
-                    getStoreWiseDetails!!.data.executive != null
-                ) {
-                    headerDetails.emailIdOfExecutive =
-                        getStoreWiseDetails!!.data.executive.email
+                if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null && getStoreWiseDetails!!.data.executive != null) {
+                    headerDetails.emailIdOfExecutive = getStoreWiseDetails!!.data.executive.email
                 } else {
                     headerDetails.emailIdOfExecutive = ""
                 }
-                if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null &&
-                    getStoreWiseDetails!!.data.manager != null
-                ) {
-                    headerDetails.emailIdOfManager =
-                        getStoreWiseDetails!!.data.manager.email
+                if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null && getStoreWiseDetails!!.data.manager != null) {
+                    headerDetails.emailIdOfManager = getStoreWiseDetails!!.data.manager.email
                 } else {
                     headerDetails.emailIdOfManager = ""
                 }
 
-                if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null &&
-                    getStoreWiseDetails!!.data.regionHead != null
-                ) {
+                if (getStoreWiseDetails != null && getStoreWiseDetails!!.data != null && getStoreWiseDetails!!.data.regionHead != null) {
                     headerDetails.emailIdOfRegionalHead =
                         getStoreWiseDetails!!.data.regionHead.email
                 } else {
@@ -1031,8 +1045,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 } else {
                     headerDetails.emailIdOfCc = ""
                 }
-            }
-            else if (status.equals("PENDING")) {
+            } else if (status.equals("PENDING")) {
 
                 var trainerEmails: String = ""
 //                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
@@ -1097,8 +1110,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 }
 
 
-
-
                 var recepientEmails: String = ""
                 if (!surveyRecManualList.isNullOrEmpty()) {
                     for (i in surveyRecManualList) {
@@ -1153,24 +1164,24 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             headerDetails.site_name = Preferences.getChampsSiteName()
             if (type.equals("submit")) {
                 headerDetails.status = "1"
-            } else {
+            } else if (type.equals("saveDraft")) {
                 headerDetails.status = "0"
+            } else {
+                headerDetails.status = "2"
             }
 
             submit.headerDetails = headerDetails
 
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null
-                && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 0
-            ) {
+            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 0) {
                 var categoryDetailsList = ArrayList<SaveSurveyModelRequestt.CategoryDetail>()
                 for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
-                    if(i.subCategoryDetails!=null){
+                    if (i.subCategoryDetails != null) {
                         for (j in i.subCategoryDetails!!) {
                             var categoryDetails = SaveSurveyModelRequestt.CategoryDetail()
                             categoryDetails.subcategoryId = j.id.toString()
                             categoryDetails.categoryId = i.id.toString()
                             categoryDetails.value = j.givenRating.toString()
-                            categoryDetails.champsId=champsRefernceId
+                            categoryDetails.champsId = champsRefernceId
                             categoryDetailsList.add(categoryDetails)
                         }
                     }
@@ -1179,18 +1190,18 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 submit.categoryDetails = categoryDetailsList
 
                 var imagesList = ArrayList<SaveSurveyModelRequestt.ImageDetail>()
-                for(i in getCategoryAndSubCategoryDetails!!.categoryDetails!!){
-                    if(i.imageDataLists!=null && i.imageDataLists!!.size>0){
-                        for(j in i.imageDataLists!!){
+                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                    if (i.imageDataLists != null && i.imageDataLists!!.size > 0) {
+                        for (j in i.imageDataLists!!) {
                             var imageDetails = SaveSurveyModelRequestt.ImageDetail()
                             imageDetails.imageUrl = j.imageUrl
                             imageDetails.categoryId = i.id.toString()
-                            imageDetails.champsId=champsRefernceId
+                            imageDetails.champsId = champsRefernceId
                             imagesList.add(imageDetails)
                         }
                     }
-                    submit.imageDetails=imagesList
-                    }
+                    submit.imageDetails = imagesList
+                }
 
 
             }
@@ -2030,9 +2041,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             if (fileUploadModelList.size > 0) {
                 showLoadingTemp(this)
                 FileUploadChamps().uploadFiles(
-                    context,
-                    this,
-                    fileUploadModelList
+                    context, this, fileUploadModelList
                 )
             } else {
                 Utlis.showLoading(this)
@@ -2120,11 +2129,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
             } else {
                 Toast.makeText(
-                    context,
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                    context, resources.getString(R.string.label_network_error), Toast.LENGTH_SHORT
+                ).show()
             }
 
 
@@ -2147,8 +2153,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     activityChampsSurveyBinding.otherTrainingCheckbox.isChecked = true
                 }
             } else {
-                activityChampsSurveyBinding.recipientsEditboxWithPlus.visibility=View.GONE
-                activityChampsSurveyBinding.eyeIconForDropdown.visibility=View.GONE
+                activityChampsSurveyBinding.recipientsEditboxWithPlus.visibility = View.GONE
+                activityChampsSurveyBinding.eyeIconForDropdown.visibility = View.GONE
                 activityChampsSurveyBinding.warningLayout.visibility = View.GONE
                 activityChampsSurveyBinding.saveSaveDraft.visibility = View.GONE
                 activityChampsSurveyBinding.preview.visibility = View.GONE
@@ -2281,8 +2287,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.progressBarTotalOrange.visibility = View.VISIBLE
             activityChampsSurveyBinding.percentageSum.text = sumOfCategories.toString()
         } else {
-            activityChampsSurveyBinding.progressBarTotalRed.progress =
-                sumOfCategories.roundToInt()
+            activityChampsSurveyBinding.progressBarTotalRed.progress = sumOfCategories.roundToInt()
             activityChampsSurveyBinding.progressBarTotalGreen.visibility = View.GONE
             activityChampsSurveyBinding.progressBarTotalRed.visibility = View.VISIBLE
             activityChampsSurveyBinding.progressBarTotalOrange.visibility = View.GONE
@@ -2320,6 +2325,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             message.setText("Draft Saved Successfully")
             Preferences.setSaveChampsSurveySiteId(activityChampsSurveyBinding.storeId.text.toString())
             Preferences.setSaveChampsSurveySiteName(activityChampsSurveyBinding.storeName.text.toString())
+        } else if (type.equals("DELETE_SURVEY")) {
+            message.setText("Survey has been deleted successfully.")
         } else {
             message.setText("Successful")
         }
@@ -2400,7 +2407,10 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         val elapsedSeconds = different / secondsInMilli
         System.out.printf(
             "%d days, %d hours, %d minutes, %d seconds%n",
-            elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds
+            elapsedDays,
+            elapsedHours,
+            elapsedMinutes,
+            elapsedSeconds
         );
         if (elapsedDays > 0) {
             timeTaken.text =
@@ -2414,7 +2424,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             timeTaken.text = "$elapsedSeconds seconds"
         }
 
-        if (!type.equals("saveDraft")) {
+        if (type.equals("submit")) {
 
 
             var saveUpdateRequest = SaveUpdateRequest()
@@ -2423,8 +2433,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             val dateFormats = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
             val date = dateFormats.parse(strDates)
 //            023-01-23 17:32:16
-            val dateNewFormats =
-                SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(date)
+            val dateNewFormats = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(date)
 
             saveUpdateRequest.date = dateNewFormats
             saveUpdateRequest.issue =
@@ -2574,17 +2583,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     for (j in i.subCategoryDetails!!) {
                         var cmsChampsSurveQa = CmsChampsSurveyQa()
                         cmsChampsSurveQa.categoryName = j.categoryName
-                        if (j.givenRating != null
-                        ) {
+                        if (j.givenRating != null) {
                             cmsChampsSurveQa.maxScore = j.rating
                             var givenRatingSplit = j.givenRating.toString().split(".")
                             var afterFloating = givenRatingSplit[1]
                             if (afterFloating.toInt() > 0) {
-                                cmsChampsSurveQa.answer =
-                                    j.givenRating.toString()
+                                cmsChampsSurveQa.answer = j.givenRating.toString()
                             } else {
-                                cmsChampsSurveQa.answer =
-                                    givenRatingSplit[0]
+                                cmsChampsSurveQa.answer = givenRatingSplit[0]
                             }
                         } else {
                             cmsChampsSurveQa.answer = ""
@@ -2681,8 +2687,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 } else {
                     saveUpdateRequest.cc_email = ""
                 }
-            }
-            /* if (!recipientEmails.isNullOrEmpty()) {
+            }/* if (!recipientEmails.isNullOrEmpty()) {
                  saveUpdateRequest.add_recp_email = recipientEmails
              }else{
 
@@ -2734,8 +2739,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //
 //                    Utlis.showLoading(this)
                     champsSurveyViewModel.getSurveyListByChampsIDApi(
-                        this,
-                        champsRefernceId!!
+                        this, champsRefernceId!!
                     )
 //                    champsSurveyViewModel.getSurveyListByChampsID(
 //                        this
@@ -2752,9 +2756,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     override fun onFailureSurveyList(getSurveyDetailsResponse: GetSurveyDetailsModelResponse) {
         if (getSurveyDetailsResponse != null && getSurveyDetailsResponse.message != null) {
             Toast.makeText(
-                applicationContext,
-                "" + getSurveyDetailsResponse.message,
-                Toast.LENGTH_SHORT
+                applicationContext, "" + getSurveyDetailsResponse.message, Toast.LENGTH_SHORT
             ).show()
         }
         Utlis.hideLoading()
@@ -2813,8 +2815,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                getSurveyDetailsByChapmpsId.headerDetails.storeId
 //            val currentTime: Date = Calendar.getInstance().getTime()
             if (visitDate != null) {
-                activityChampsSurveyBinding.issuedOn.text =
-                    visitDate
+                activityChampsSurveyBinding.issuedOn.text = visitDate
             }
 
 
@@ -2906,7 +2907,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                                 if (j.subcategoryId.equals(l.id)) {
                                     l.isActive = true
                                     l.givenRating = j.value.toFloat()
-                                   k.clickedSubmit = true
+                                    k.clickedSubmit = true
                                 }
                             }
 
@@ -2915,19 +2916,18 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     }
 
 
-
                 }
 
             }
 
             for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
                 if (k.subCategoryDetails != null) {
-                    var sumOfSubCategories=0f
+                    var sumOfSubCategories = 0f
                     for (l in k.subCategoryDetails!!) {
-                        if(l.givenRating!=null)
-                        sumOfSubCategories = sumOfSubCategories!! + l.givenRating!!
+                        if (l.givenRating != null) sumOfSubCategories =
+                            sumOfSubCategories!! + l.givenRating!!
                     }
-                    k.sumOfSubCategoryRating=sumOfSubCategories
+                    k.sumOfSubCategoryRating = sumOfSubCategories
                 }
 
 
@@ -3392,13 +3392,64 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //            LoadRecyclerView()
 
 
+        }
+        categoryDetailsAdapter = CategoryDetailsAdapter(
+            getCategoryAndSubCategoryDetails!!.categoryDetails,
+            this@ChampsSurveyActivity,
+            this,
+            status
+        )
+        activityChampsSurveyBinding.categoryRecyclerView.setLayoutManager(
+            LinearLayoutManager(this)
+        )
+        activityChampsSurveyBinding.categoryRecyclerView.setAdapter(categoryDetailsAdapter)
+        if (NetworkUtil.isNetworkConnected(this)) {
+//            Utlis.showLoading(this)
+            champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "TECH");
+
+        } else {
+            Toast.makeText(
+                context, resources.getString(R.string.label_network_error), Toast.LENGTH_SHORT
+            ).show()
+        }
+//        Utlis.hideLoading()
+
+    }
+
+    override fun onFailureGetSurveyDetailsByChampsId(value: GetSurveyDetailsByChampsIdResponsee) {
+        if (value != null && value.message != null) {
+            Toast.makeText(applicationContext, "" + value.message, Toast.LENGTH_SHORT).show()
+        }
+        Utlis.hideLoading()
+    }
+
+    private var getSubCategoryResponses: GetSubCategoryDetailsModelResponse? = null
+    override fun onSuccessgetSubCategoryDetails(
+        getSubCategoryResponse: GetSubCategoryDetailsModelResponse,
+        categoryName: String,
+    ) {
+        getSubCategoryResponses = getSubCategoryResponse
+
+        if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
+            for (i in getCategoryAndSubCategoryDetails?.categoryDetails?.indices!!) {
+//                if(getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails!=null &&
+//                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails?.size!=null){
+                if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).categoryName.equals(
+                        categoryName
+                    )
+                ) {
+                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).subCategoryDetails =
+                        getSubCategoryResponse.subCategoryDetails
+                }
+//                }
+
             }
-            categoryDetailsAdapter =
-                CategoryDetailsAdapter(
-                    getCategoryAndSubCategoryDetails!!.categoryDetails,
-                    this@ChampsSurveyActivity,
-                    this, status
-                )
+
+        }
+        if (status.equals("NEW")) {
+            categoryDetailsAdapter = CategoryDetailsAdapter(
+                getCategoryAndSubCategoryDetails!!.categoryDetails, applicationContext, this, status
+            )
             activityChampsSurveyBinding.categoryRecyclerView.setLayoutManager(
                 LinearLayoutManager(this)
             )
@@ -3409,176 +3460,113 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
             } else {
                 Toast.makeText(
-                    context,
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                    context, resources.getString(R.string.label_network_error), Toast.LENGTH_SHORT
+                ).show()
             }
-//        Utlis.hideLoading()
-
-        }
-
-        override fun onFailureGetSurveyDetailsByChampsId(value: GetSurveyDetailsByChampsIdResponsee) {
-            if (value != null && value.message != null) {
-                Toast.makeText(applicationContext, "" + value.message, Toast.LENGTH_SHORT).show()
-            }
-            Utlis.hideLoading()
-        }
-
-        private var getSubCategoryResponses: GetSubCategoryDetailsModelResponse? = null
-        override fun onSuccessgetSubCategoryDetails(
-            getSubCategoryResponse: GetSubCategoryDetailsModelResponse,
-            categoryName: String,
-        ) {
-            getSubCategoryResponses = getSubCategoryResponse
-
-            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
-                for (i in getCategoryAndSubCategoryDetails?.categoryDetails?.indices!!) {
-//                if(getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails!=null &&
-//                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails?.size!=null){
-                    if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).categoryName.equals(
-                            categoryName
-                        )
-                    ) {
-                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).subCategoryDetails =
-                            getSubCategoryResponse.subCategoryDetails
-                    }
-//                }
-
-                }
-
-            }
-            if (status.equals("NEW")) {
-                categoryDetailsAdapter =
-                    CategoryDetailsAdapter(
-                        getCategoryAndSubCategoryDetails!!.categoryDetails,
-                        applicationContext,
-                        this,
-                        status
-                    )
-                activityChampsSurveyBinding.categoryRecyclerView.setLayoutManager(
-                    LinearLayoutManager(this)
-                )
-                activityChampsSurveyBinding.categoryRecyclerView.setAdapter(categoryDetailsAdapter)
-                if (NetworkUtil.isNetworkConnected(this)) {
-//            Utlis.showLoading(this)
-                    champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "TECH");
-
-                } else {
-                    Toast.makeText(
-                        context,
-                        resources.getString(R.string.label_network_error),
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                }
 //            Utlis.hideLoading()
-            } else {
+        } else {
 //            Utlis.hideLoading()
-                if (champsRefernceId != null) {
+            if (champsRefernceId != null) {
 //
 //                Utlis.showLoading(this)
-                    champsSurveyViewModel.getSurveyListByChampsIDApi(
-                        this,
-                        champsRefernceId!!
-                    )
+                champsSurveyViewModel.getSurveyListByChampsIDApi(
+                    this, champsRefernceId!!
+                )
 //                    champsSurveyViewModel.getSurveyListByChampsID(
 //                        this
 //                    )
 
 
-                }
             }
-
-
         }
 
-        override fun onFailuregetSubCategoryDetails(getSubCategoryResponse: GetSubCategoryDetailsModelResponse) {
-            Utlis.hideLoading()
-        }
 
-        override fun onSuccessSaveUpdateApi(value: SaveUpdateResponse) {
-            Preferences.setSaveChampsSurveySiteId(activityChampsSurveyBinding.storeId.text.toString())
-            Preferences.setSaveChampsSurveySiteName(activityChampsSurveyBinding.storeName.text.toString())
+    }
+
+    override fun onFailuregetSubCategoryDetails(getSubCategoryResponse: GetSubCategoryDetailsModelResponse) {
+        Utlis.hideLoading()
+    }
+
+    override fun onSuccessSaveUpdateApi(value: SaveUpdateResponse) {
+        Preferences.setSaveChampsSurveySiteId(activityChampsSurveyBinding.storeId.text.toString())
+        Preferences.setSaveChampsSurveySiteName(activityChampsSurveyBinding.storeName.text.toString())
 //        Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
-            Utlis.hideLoading()
+        Utlis.hideLoading()
+    }
+
+    override fun onFailureSaveUpdateApi(value: SaveUpdateResponse) {
+        Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
+        Utlis.hideLoading()
+    }
+
+    override fun onClickDelete() {
+
+        dialogDElete = Dialog(this)
+        dialogDElete.setContentView(R.layout.change_siteid)
+        val close = dialogDElete.findViewById<TextView>(R.id.no_btnSiteChange)
+        val textForDialog = dialogDElete.findViewById<TextView>(R.id.text_for_dialog)
+        textForDialog.setText("Do you want to delete this survey?")
+        close.setOnClickListener {
+            dialogDElete.dismiss()
         }
-
-        override fun onFailureSaveUpdateApi(value: SaveUpdateResponse) {
-            Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
-            Utlis.hideLoading()
-        }
-
-        override fun onClickDelete() {
-
-            dialogDElete = Dialog(this)
-            dialogDElete.setContentView(R.layout.change_siteid)
-            val close = dialogDElete.findViewById<TextView>(R.id.no_btnSiteChange)
-            val textForDialog = dialogDElete.findViewById<TextView>(R.id.text_for_dialog)
-            textForDialog.setText("Do you want to delete this survey?")
-            close.setOnClickListener {
-                dialogDElete.dismiss()
-            }
-            val ok = dialogDElete.findViewById<TextView>(R.id.yes_btnSiteChange)
-            ok.setOnClickListener {
-                dialogDElete.dismiss()
+        val ok = dialogDElete.findViewById<TextView>(R.id.yes_btnSiteChange)
+        ok.setOnClickListener {
+            dialogDElete.dismiss()
 //            Preferences.setSwachhSiteId(storeListItem.siteid!!)
 
 
-                dialogDElete.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogDElete.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 //            dialog.show()
 
 //            val intent = Intent()
 //            setResult(Activity.RESULT_OK, intent)
 //            finish()
-            }
-            dialogDElete.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialogDElete.show()
         }
+        dialogDElete.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogDElete.show()
+    }
 
-        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            super.onActivityResult(requestCode, resultCode, data)
-            if (requestCode == 111 && resultCode == Activity.RESULT_OK) {
-                getCategoryAndSubCategoryDetails =
-                    data!!.getSerializableExtra("getCategoryAndSubCategoryDetails") as GetCategoryDetailsModelResponse?
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 111 && resultCode == Activity.RESULT_OK) {
+            getCategoryAndSubCategoryDetails =
+                data!!.getSerializableExtra("getCategoryAndSubCategoryDetails") as GetCategoryDetailsModelResponse?
 //            Toast.makeText(context, ""+ getCategoryAndSubCategoryDetails?.emailDetails?.size,Toast.LENGTH_SHORT).show()
-                categoryPosition = data!!.getIntExtra("categoryPosition", 0)
-                var sumOfRange: Float = 0f
-                for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.indices) {
-                    if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.get(
+            categoryPosition = data!!.getIntExtra("categoryPosition", 0)
+            var sumOfRange: Float = 0f
+            for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.indices) {
+                if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.get(
+                        i
+                    ).givenRating != null
+                ) {
+                    var indiviualRange: Float =
+                        (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
+                            categoryPosition
+                        ).subCategoryDetails!!.get(
                             i
-                        ).givenRating != null
-                    ) {
-                        var indiviualRange: Float =
-                            (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(
-                                categoryPosition
-                            ).subCategoryDetails!!.get(
-                                i
-                            ).givenRating)!!.toFloat()
-                        sumOfRange = indiviualRange + sumOfRange
-                        getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.sumOfSubCategoryRating =
-                            sumOfRange
-                    }
-
-                }
-                if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && categoryDetailsAdapter != null) {
-                    categoryDetailsAdapter =
-                        CategoryDetailsAdapter(
-                            getCategoryAndSubCategoryDetails!!.categoryDetails,
-                            applicationContext,
-                            this,
-                            status
-                        )
-                    activityChampsSurveyBinding.categoryRecyclerView.setLayoutManager(
-                        LinearLayoutManager(this)
-                    )
-                    activityChampsSurveyBinding.categoryRecyclerView.setAdapter(
-                        categoryDetailsAdapter
-                    )
+                        ).givenRating)!!.toFloat()
+                    sumOfRange = indiviualRange + sumOfRange
+                    getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.sumOfSubCategoryRating =
+                        sumOfRange
                 }
 
-                Utlis.hideLoading()
+            }
+            if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && categoryDetailsAdapter != null) {
+                categoryDetailsAdapter = CategoryDetailsAdapter(
+                    getCategoryAndSubCategoryDetails!!.categoryDetails,
+                    applicationContext,
+                    this,
+                    status
+                )
+                activityChampsSurveyBinding.categoryRecyclerView.setLayoutManager(
+                    LinearLayoutManager(this)
+                )
+                activityChampsSurveyBinding.categoryRecyclerView.setAdapter(
+                    categoryDetailsAdapter
+                )
+            }
+
+            Utlis.hideLoading()
 
 //
 //            if (NetworkUtil.isNetworkConnected(this)) {
@@ -3593,68 +3581,64 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                )
 //                    .show()
 //            }
-                if (NetworkUtil.isNetworkConnected(this)) {
+            if (NetworkUtil.isNetworkConnected(this)) {
 //                Utlis.showLoading(this)
-                    champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "COLOUR");
+                champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "COLOUR");
 
-                } else {
-                    Toast.makeText(
-                        context,
-                        resources.getString(R.string.label_network_error),
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                }
-
+            } else {
+                Toast.makeText(
+                    context, resources.getString(R.string.label_network_error), Toast.LENGTH_SHORT
+                ).show()
             }
 
         }
 
-        override fun onFailureUpload(message: String) {
-            Utlis.hideLoading()
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-        }
+    }
 
-        override fun allFilesUploaded(fileUploadModelList: List<FileUploadChampsModel>) {
-            for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
-                if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
-                    for (l in k.imageDataLists!!) {
-                        for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
-                            if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
-                                l.imageUrl = z.sensingFileUploadResponse!!.referenceurl
-                                l.sensingUploadUrlFilled = true
-                                z.imageUrlUsed = true
-                            }
+    override fun onFailureUpload(message: String) {
+        Utlis.hideLoading()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun allFilesUploaded(fileUploadModelList: List<FileUploadChampsModel>) {
+        for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+            if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
+                for (l in k.imageDataLists!!) {
+                    for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
+                        if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
+                            l.imageUrl = z.sensingFileUploadResponse!!.referenceurl
+                            l.sensingUploadUrlFilled = true
+                            z.imageUrlUsed = true
                         }
-
                     }
-                }
 
+                }
             }
+
+        }
 //        Utlis.hideLoading()
-            saveApiRequest("submit")
-        }
+        saveApiRequest("submit")
+    }
 
-        override fun allFilesDownloaded(fileUploadModelList: List<FileUploadChampsModel>) {
+    override fun allFilesDownloaded(fileUploadModelList: List<FileUploadChampsModel>) {
 
-            for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
-                if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
-                    for (l in k.imageDataLists!!) {
-                        for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
-                            if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
-                                l.imageUrl = RijndaelCipherEncryptDecrypt().decrypt(
-                                    z.fileDownloadResponse!!.referenceurl,
-                                    "blobfilesload"
-                                )
-                                l.sensingUploadUrlFilled = true
-                                z.imageUrlUsed = true
-                            }
+        for (k in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+            if (fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }.size > 0) {
+                for (l in k.imageDataLists!!) {
+                    for (z in fileUploadModelList.filter { it.categoryName.equals(k.categoryName) }) {
+                        if (!l.sensingUploadUrlFilled && !z.imageUrlUsed) {
+                            l.imageUrl = RijndaelCipherEncryptDecrypt().decrypt(
+                                z.fileDownloadResponse!!.referenceurl, "blobfilesload"
+                            )
+                            l.sensingUploadUrlFilled = true
+                            z.imageUrlUsed = true
                         }
-
                     }
-                }
 
+                }
             }
+
+        }
 //        Utlis.hideLoading()
 
 
@@ -3675,32 +3659,32 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                break
 //            }
 //        }
-            saveApiRequest(type)
-        }
+        saveApiRequest(type)
+    }
 
-        var mProgressDialogTemp: ProgressDialog? = null
-        fun showLoadingTemp(context: Context) {
-            hideLoadingTemp()
-            mProgressDialogTemp = showLoadingDialogTemp(context)
-        }
+    var mProgressDialogTemp: ProgressDialog? = null
+    fun showLoadingTemp(context: Context) {
+        hideLoadingTemp()
+        mProgressDialogTemp = showLoadingDialogTemp(context)
+    }
 
-        fun hideLoadingTemp() {
-            if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
-                mProgressDialogTemp!!.dismiss()
-            }
-        }
-
-        fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
-            val progressDialog = ProgressDialog(context)
-            progressDialog.show()
-            if (progressDialog.window != null) {
-                progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            }
-            progressDialog.setContentView(R.layout.progress_dialog)
-            progressDialog.isIndeterminate = true
-            progressDialog.setCancelable(false)
-            progressDialog.setCanceledOnTouchOutside(false)
-            return progressDialog
+    fun hideLoadingTemp() {
+        if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
+            mProgressDialogTemp!!.dismiss()
         }
     }
+
+    fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.show()
+        if (progressDialog.window != null) {
+            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        progressDialog.setContentView(R.layout.progress_dialog)
+        progressDialog.isIndeterminate = true
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        return progressDialog
+    }
+}
 

@@ -54,5 +54,15 @@ class MobileAccessResponse {
         @SerializedName("IS_APNA_RETRO_APP")
         var ISAPNARETROAPP: Boolean? = null
 
+        @SerializedName("IS_DASHBOARD_APP")
+        var ISDASHBOARDAPP: Boolean? = null
+
+        @SerializedName("IS_RETROQR_APP")
+        var ISRETROQRAPP: Boolean? = null
+
+        @SerializedName("IS_PLANAGRAM_APP")
+        var ISPLANAGRAMAPP: Boolean? = null
+
+
     }
 }

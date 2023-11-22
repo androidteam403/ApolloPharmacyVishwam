@@ -10,6 +10,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_home)
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
         this.finish()

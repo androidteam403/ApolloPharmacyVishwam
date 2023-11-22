@@ -42,6 +42,7 @@ import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketSubworkfl
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.UserListForSubworkflowResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.WorkFlowUpdateModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
+import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRoleResponse
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.Gson
@@ -84,6 +85,7 @@ class ComplainListViewModel : ViewModel() {
         isSearch: Boolean,
         searchQuary: String,
         isApprovalList: Boolean,
+        isDashboardtickets: Boolean, row: TicketCountsByStatusRoleResponse.Data.ListData.Row,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -119,6 +121,26 @@ class ComplainListViewModel : ViewModel() {
             // "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=${employeeDetailsResponse!!.data!!.role!!.uid}&emp_dept=${employeeDetailsResponse!!.data!!.department!!.uid}"// dept - 64D9D9BE4A621E9C13A2C73404646655  role - 498DA96C612D21956508945D24896C6D
             //"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=${employeeDetailsResponse!!.data!!.role!!.uid}&emp_dept=${employeeDetailsResponse!!.data!!.department!!.uid}"// dept - 64D9D9BE4A621E9C13A2C73404646655  role - 498DA96C612D21956508945D24896C6D
 
+        } else if (isDashboardtickets) {
+            if (!row.storeId.isNullOrEmpty()) {
+                /*baseUrl =
+                    "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ceo-dashboard-ticket-list-by-site?emp_id=Aachal&status=solved&from_date=2023-03-02&to_date=2023-08-25&site=10002&role=store_executive&page=1&rows=10&zcFetchListTotal=true"*/
+                baseUrl =
+                    "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/ceo-dashboard-ticket-list-by-site?"
+            } else {
+                /*baseUrl =
+                    "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ceo-dashboard-ticket-list-by-emp-id?emp_id=Aachal&status=solved&from_date=2023-03-02&to_date=2023-08-25&role=store_executive&page=1&rows=10&zcFetchListTotal=true"*/
+                baseUrl =
+                    "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/api/ticket/list/ceo-dashboard-ticket-list-by-emp-id?"
+            }
+            //"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ceo-dashboard-ticket-list-by-emp-id?
+            /*for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("")) {
+                    baseUrl = data.APIS[i].URL
+//                token = data.APIS[i].TOKEN
+                    break
+                }
+            }*/
         } else {
             for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("CMS mobile_ticket_list_by_emp_id")) {
@@ -156,7 +178,15 @@ class ComplainListViewModel : ViewModel() {
         val reopened = if (status.contains("reopened")) "reopened" else ""
         val closed = if (status.contains("closed")) "closed" else ""
         val onHold = if (status.contains("onHold")) "onHold" else ""
-        if (!isApprovalList) {
+        if (isDashboardtickets) {
+            if (!row.storeId.isNullOrEmpty()) {//${requestComplainList.fromDate}//${requestComplainList.fromDate}
+                 baseUrl =
+                     baseUrl +  "emp_id=${row.employeeid}&from_date=2020-11-22&to_date=${requestComplainList.toDate}&site=${row.storeId}&role=${row.roleCode}&page=${requestComplainList.page}&rows=10&zcFetchListTotal=true"
+            } else {
+                baseUrl =
+                    baseUrl +  "emp_id=${row.employeeid}&from_date=2020-11-22&to_date=${requestComplainList.toDate}&role=${row.roleCode}&page=${requestComplainList.page}&rows=10&zcFetchListTotal=true"
+            }
+        } else if (!isApprovalList) {
             baseUrl =
                 baseUrl + "employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
                     "reason_code=new_drug&"
@@ -1759,12 +1789,12 @@ class ComplainListViewModel : ViewModel() {
         }=${responseList.get(position)!!.site!!.site_type!!.uid}" + "&&${
             URLEncoder.encode("dependents[employee_id]", "utf-8")
         }=${Preferences.getValidatedEmpId()}"//SE35674  RH75774748
-       /* + "&&${
-            URLEncoder.encode(
-                "dependents[ch_role]",
-                "utf-8"
-            )
-        }=${}"*/
+        /* + "&&${
+             URLEncoder.encode(
+                 "dependents[ch_role]",
+                 "utf-8"
+             )
+         }=${}"*/
 
         var proxyBaseUrL = ""
         var proxyToken = ""
