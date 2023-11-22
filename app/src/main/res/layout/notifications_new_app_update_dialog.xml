@@ -24,6 +24,7 @@
                 android:paddingBottom="@dimen/value_5dp">
 
                 <TextView
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -52,7 +53,7 @@
                 android:paddingBottom="@dimen/value_15dp">
 
                 <TextView
-                    android:id="@+id/title"
+                    android:id="@+id/date_and_time_n"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/four4_dp"

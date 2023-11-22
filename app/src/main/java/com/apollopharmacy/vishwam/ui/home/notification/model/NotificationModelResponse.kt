@@ -59,7 +59,7 @@ class NotificationModelResponse : Serializable {
                 @Expose
                 var size: Int? = null
 
-                inner class Row : Serializable {
+                 public inner class Row : Serializable {
                     @SerializedName("uid")
                     @Expose
                     var uid: String? = null
@@ -71,6 +71,8 @@ class NotificationModelResponse : Serializable {
                     @SerializedName("link")
                     @Expose
                     var link: String? = null
+
+                     var isLoading: String? = null
 
                     @SerializedName("title")
                     @Expose

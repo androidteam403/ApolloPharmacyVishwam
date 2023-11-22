@@ -30,13 +30,20 @@ class HelpActivity : AppCompatActivity(), HelpActivityCallback {
     private fun setup() {
         modulesArrayList.add("Apna Retro")
         modulesArrayList.add("Apna Survey")
+        modulesArrayList.add("Attendance")
+        modulesArrayList.add("Assests")
+        modulesArrayList.add("Cash closer")
         modulesArrayList.add("Champs")
         modulesArrayList.add("Complaints")
+        modulesArrayList.add("Dashboard")
         modulesArrayList.add("Discount")
         modulesArrayList.add("New Drug")
         modulesArrayList.add("OMS QC")
+        modulesArrayList.add("Planogram")
+        modulesArrayList.add("Swach")
         modulesArrayList.add("Sensing")
         modulesArrayList.add("Swach")
+
 
 
 

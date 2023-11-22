@@ -7,6 +7,6 @@ interface NotificationsActivityCallback {
     fun onclickBackArrow()
     fun onSuccessNotificationDetails(saveUpdateRequestJsonResponse: NotificationModelResponse?)
     fun onFailureNotificationDetails(saveUpdateRequestJsonResponse: NotificationModelResponse?)
-    fun onClickParentLayout(get: NotificationModelResponse.Data.ListData.Row)
+    fun onClickParentLayout(get: NotificationModelResponse.Data.ListData.Row, toString: String)
 
 }

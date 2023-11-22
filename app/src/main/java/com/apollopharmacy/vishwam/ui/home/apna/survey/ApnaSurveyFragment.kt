@@ -224,7 +224,8 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
             }
 
 
-        } else {
+        }
+        else {
             isLastPage = true
             if (isLoading) {
                 isLoading = false
