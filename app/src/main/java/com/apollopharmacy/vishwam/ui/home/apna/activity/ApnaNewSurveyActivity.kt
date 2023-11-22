@@ -1033,12 +1033,20 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             dialogLocationListBinding.closeDialog.setOnClickListener {
                 locationListDialog.dismiss()
             }
-            locationListItemAdapter = LocationListItemAdapter(
-                this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, regionList
-            )
-            dialogLocationListBinding.locationRcv.adapter = locationListItemAdapter
-            dialogLocationListBinding.locationRcv.layoutManager =
-                LinearLayoutManager(this@ApnaNewSurveyActivity)
+            if(!regionList.isNullOrEmpty() && regionList.size>0){
+                dialogLocationListBinding.locationRcv.visibility=View.VISIBLE
+                dialogLocationListBinding.locationAvailable.visibility=View.GONE
+                locationListItemAdapter = LocationListItemAdapter(
+                    this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, regionList
+                )
+                dialogLocationListBinding.locationRcv.adapter = locationListItemAdapter
+                dialogLocationListBinding.locationRcv.layoutManager =
+                    LinearLayoutManager(this@ApnaNewSurveyActivity)
+            }else{
+                dialogLocationListBinding.locationRcv.visibility=View.GONE
+                dialogLocationListBinding.locationAvailable.visibility=View.VISIBLE
+            }
+
 
             dialogLocationListBinding.searchLocationListText.addTextChangedListener(object :
                 TextWatcher {
