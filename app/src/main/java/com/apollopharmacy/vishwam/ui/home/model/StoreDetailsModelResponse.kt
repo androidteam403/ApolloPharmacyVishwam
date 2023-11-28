@@ -207,6 +207,10 @@ class StoreDetailsModelResponse  : Serializable {
         @Expose
         var state: State? = null
 
+        @SerializedName("region")
+        @Expose
+        var region: Region? = null
+
         @SerializedName("address")
         @Expose
         var address: String? = null
@@ -255,6 +259,11 @@ class StoreDetailsModelResponse  : Serializable {
             return this
         }
 
+        fun withRegion(region: Region?): Row {
+            this.region = region
+            return this
+        }
+
         fun withAddress(address: String?): Row {
             this.address = address
             return this
@@ -276,6 +285,25 @@ class StoreDetailsModelResponse  : Serializable {
 
         fun withName(name: String?): State {
             this.name = name
+            return this
+        }
+    }
+
+    inner class Region : Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
+
+        @SerializedName("code")
+        @Expose
+        var code: String? = null
+        fun withUid(uid: String?): Region {
+            this.uid = uid
+            return this
+        }
+
+        fun withCode(code: String?): Region {
+            this.code = code
             return this
         }
     }

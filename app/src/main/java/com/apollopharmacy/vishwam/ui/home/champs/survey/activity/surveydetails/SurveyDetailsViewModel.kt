@@ -25,7 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SurveyDetailsViewModel:ViewModel() {
+class SurveyDetailsViewModel : ViewModel() {
     val commands = LiveEvent<Command>()
     val state = MutableLiveData<State>()
     var getEmailDetailsChamps = MutableLiveData<GetEmailAddressModelResponse>()
@@ -49,7 +49,7 @@ class SurveyDetailsViewModel:ViewModel() {
                 }
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
-                       Command.ShowToast(it)
+                        Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
@@ -69,7 +69,7 @@ class SurveyDetailsViewModel:ViewModel() {
         }
     }
 
-    fun getStoreWiseDetailsEmpIdChampsApi(newSurveyCallback: SurveyDetailsCallback,empId: String) {
+    fun getStoreWiseDetailsEmpIdChampsApi(newSurveyCallback: SurveyDetailsCallback, empId: String) {
         state.postValue(State.LOADING)
 
         val url = Preferences.getApi()
@@ -87,7 +87,7 @@ class SurveyDetailsViewModel:ViewModel() {
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getStoreWiseDetailsChampsApi(baseUrl, token,empId)
+                ChampsApiRepo.getStoreWiseDetailsChampsApi(baseUrl, token, empId)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -161,7 +161,7 @@ class SurveyDetailsViewModel:ViewModel() {
 //        }
 //    }
 
-    fun getEmailDetailsChampsApi(surveyDetailsCallback: SurveyDetailsCallback,type: String) {
+    fun getEmailDetailsChampsApi(surveyDetailsCallback: SurveyDetailsCallback, type: String) {
         state.postValue(State.LOADING)
 
         val url = Preferences.getApi()
@@ -179,15 +179,15 @@ class SurveyDetailsViewModel:ViewModel() {
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                ChampsApiRepo.getEmailDetailsChampsApi(baseUrl, token,type)
+                ChampsApiRepo.getEmailDetailsChampsApi(baseUrl, token, type)
             }
             when (result) {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        if(type.equals("RECIPIENTS")){
+                        if (type.equals("RECIPIENTS")) {
                             surveyDetailsCallback.onSuccessgetEmailDetails(result.value)
-                        }else{
+                        } else {
                             surveyDetailsCallback.onSuccessgetEmailDetailsCC(result.value)
                         }
                     } else {
@@ -218,7 +218,7 @@ class SurveyDetailsViewModel:ViewModel() {
         }
     }
 
-//    fun getEmailDetailsChampsApi(surveyDetailsCallback: SurveyDetailsCallback, type: String) {
+    //    fun getEmailDetailsChampsApi(surveyDetailsCallback: SurveyDetailsCallback, type: String) {
 //        state.postValue(State.LOADING)
 //        viewModelScope.launch {
 //            val result = withContext(Dispatchers.IO) {
@@ -261,22 +261,23 @@ class SurveyDetailsViewModel:ViewModel() {
 //            }
 //        }
 //    }
-fun getTrainerDetails(surveyDetailsCallback: SurveyDetailsCallback) {
-    val url = Preferences.getApi()
-    val data = Gson().fromJson(url, ValidateResponse::class.java)
-    var proxyBaseUrl = ""
-    var proxyToken = ""
-    for (i in data.APIS.indices) {
-        if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-            proxyBaseUrl = data.APIS[i].URL
-            proxyToken = data.APIS[i].TOKEN
-            break
+    fun getTrainerDetails(surveyDetailsCallback: SurveyDetailsCallback) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var proxyBaseUrl = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
+            }
         }
-    }
 
-    var  baseUrl = "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/champs_region_trainer/list/champs-region-trainer-list-for-mobile?zcFetchListTotal=true&region=E837547753C62FD287A5EFC47C7482C7"
-
-    var token = ""
+//        var baseUrl =
+//            "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/champs_region_trainer/list/champs-region-trainer-list-for-mobile?zcFetchListTotal=true&region=E837547753C62FD287A5EFC47C7482C7"
+        var baseUrl ="https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/champs_region_trainer/list/champs-region-trainer-list-for-mobile?zcFetchListTotal=true&region=${Preferences.getRegionUidChamps()}"
+        var token = ""
 //    for (i in data.APIS.indices) {
 //        if (data.APIS[i].NAME.equals("CHMP GET STORE USERS")) {
 //            baseUrl = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/champs_region_trainer/list/champs-region-trainer-list-for-mobile?zcFetchListTotal=true&region=E837547753C62FD287A5EFC47C7482C7"
@@ -285,74 +286,74 @@ fun getTrainerDetails(surveyDetailsCallback: SurveyDetailsCallback) {
 //        }
 //
 //    }//"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/get-store-users?
-    viewModelScope.launch {
-        state.value = State.SUCCESS
-        val response = withContext(Dispatchers.IO) {
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
 
-            RegistrationRepo.getDetails(
-                proxyBaseUrl,
-                proxyToken,
-                GetDetailsRequest(
-                    baseUrl,
-                    "GET",
-                    "The",
-                    "",
-                    ""
+                RegistrationRepo.getDetails(
+                    proxyBaseUrl,
+                    proxyToken,
+                    GetDetailsRequest(
+                        baseUrl,
+                        "GET",
+                        "The",
+                        "",
+                        ""
+                    )
                 )
-            )
 
 
-        }
-        when (response) {
-            is ApiResult.Success -> {
-                state.value = State.ERROR
-                if (response != null) {
-                    val resp: String = response.value.string()
-                    if (resp != null) {
-                        val res = BackShlash.removeBackSlashes(resp)
-                        val storeWiseDetailListResponse = Gson().fromJson(
-                            BackShlash.removeSubString(res),
-                            TrainersEmailIdResponse::class.java
-                        )
-                        if (storeWiseDetailListResponse.success) {
-                            surveyDetailsCallback.onSuccessTrainerList(
-                                storeWiseDetailListResponse
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val storeWiseDetailListResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                TrainersEmailIdResponse::class.java
                             )
+                            if (storeWiseDetailListResponse.success) {
+                                surveyDetailsCallback.onSuccessTrainerList(
+                                    storeWiseDetailListResponse
+                                )
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
-                        } else {
-                            surveyDetailsCallback.onFailureTrainerList(
-                                storeWiseDetailListResponse
-                            )
+                            } else {
+                                surveyDetailsCallback.onFailureTrainerList(
+                                    storeWiseDetailListResponse
+                                )
+
+                            }
 
                         }
 
+                    } else {
                     }
+                }
 
-                } else {
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
                 }
             }
-
-            is ApiResult.GenericError -> {
-                state.value = State.ERROR
-            }
-
-            is ApiResult.NetworkError -> {
-                state.value = State.ERROR
-            }
-
-            is ApiResult.UnknownError -> {
-                state.value = State.ERROR
-            }
-
-            is ApiResult.UnknownHostException -> {
-                state.value = State.ERROR
-            }
         }
-    }
 
-}
+    }
 
     sealed class Command {
         data class ShowToast(val message: String) : Command()

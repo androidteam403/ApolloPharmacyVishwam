@@ -40,4 +40,6 @@ interface ChampsSurveyCallBack {
      fun onClickEyeIconForDropDown()
      fun onSuccessTrainerList(storeWiseDetailListResponse: TrainersEmailIdResponse?)
      fun onFailureTrainerList(storeWiseDetailListResponse: TrainersEmailIdResponse?)
+
+     fun onClickCalender()
 }
