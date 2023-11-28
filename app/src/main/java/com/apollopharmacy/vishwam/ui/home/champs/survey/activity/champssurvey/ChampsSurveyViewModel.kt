@@ -766,8 +766,8 @@ class ChampsSurveyViewModel : ViewModel() {
             }
         }
 
-        var  baseUrl = "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/champs_region_trainer/list/champs-region-trainer-list-for-mobile?zcFetchListTotal=true&region=E837547753C62FD287A5EFC47C7482C7"
-
+//        var  baseUrl = "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/champs_region_trainer/list/champs-region-trainer-list-for-mobile?zcFetchListTotal=true&region=E837547753C62FD287A5EFC47C7482C7"
+            var baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/champs_region_trainer/list/champs-region-trainer-list-for-mobile?zcFetchListTotal=true&region=${Preferences.getRegionUidChamps()}"
         var token = ""
 //    for (i in data.APIS.indices) {
 //        if (data.APIS[i].NAME.equals("CHMP GET STORE USERS")) {
