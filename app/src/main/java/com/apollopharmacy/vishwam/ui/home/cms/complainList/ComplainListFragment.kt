@@ -221,6 +221,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString())
                     var toDate =
                         Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString())
+                    val a = TicketCountsByStatusRoleResponse()
+                    val b = a.Data()
+                    val c = b.ListData()
+                    var row = c.Row()
+                    if(arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row != null){
+                        row = arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row
+                    }
                     viewModel.getNewticketlist(
                         RequestComplainList(
                             Preferences.getSiteId(), fromDate, toDate, userData.EMPID, 1
@@ -230,7 +237,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         true,
                         viewBinding.searchView.text.toString().trim(),
                         arguments?.getBoolean("isFromApprovalList") == true,
-                        arguments?.getBoolean("IS_DASHBOARD_TICKET_LIST") == true, arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row
+                        arguments?.getBoolean("IS_DASHBOARD_TICKET_LIST") == true, row
                     )
                     return true
                 }
@@ -493,7 +500,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             var toDate =
                 Utils.getticketlistfiltersdate(toDate)//viewBinding.toDateText.text.toString()
             if (!isLoading) Utlis.showLoading(requireContext())
-
+            val a = TicketCountsByStatusRoleResponse()
+            val b = a.Data()
+            val c = b.ListData()
+            var row = c.Row()
+            if(arguments?.getSerializable("ROW") as? TicketCountsByStatusRoleResponse.Data.ListData.Row != null){
+                 row = arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row
+            }
             viewModel.getNewticketlist(
                 RequestComplainList(
                     Preferences.getSiteId(),
@@ -504,7 +517,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 false,
                 viewBinding.searchView.text.toString().trim(),
                 this.arguments?.getBoolean("isFromApprovalList") == true,
-                arguments?.getBoolean("IS_DASHBOARD_TICKET_LIST") == true, arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row
+                arguments?.getBoolean("IS_DASHBOARD_TICKET_LIST") == true, row
             )
 
         } else {

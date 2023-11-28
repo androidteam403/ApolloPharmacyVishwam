@@ -2,7 +2,12 @@ package com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.c
 
 import com.apollopharmacy.vishwam.data.model.cms.ResponseNewTicketlist
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.ComplaintsListDetailsCallback
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.*
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.model.SubworkFlowAssignedtoMeResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubworkflowConfigDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketData
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketSubworkflowActionUpdateResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.UserListForSubworkflowResponse
 
 interface HistoryCallback {
 
@@ -16,7 +21,7 @@ interface HistoryCallback {
         position: Int,
         row: SubworkflowConfigDetailsResponse.Rows,
         request: UserListForSubworkflowResponse?,
-        historyCallback: HistoryCallback
+        historyCallback: HistoryCallback,
     )
 
     fun onSuccessActionUpdate(
@@ -26,39 +31,97 @@ interface HistoryCallback {
         data1: TicketData,
         responseList: ArrayList<ResponseNewTicketlist.Row>,
         position: Int,
-        historyCallback: HistoryCallback
+        historyCallback: HistoryCallback,
     )
 
-    fun onSuccessSubworkflowConfigDetailsApi(responseSubworkflowConfigDetailsResponse: SubworkflowConfigDetailsResponse, position: Int)
+    fun onSuccessSubworkflowConfigDetailsApi(
+        responseSubworkflowConfigDetailsResponse: SubworkflowConfigDetailsResponse,
+        position: Int,
+    )
 
     fun onFailureSubworkflowConfigDetailsApi(message: String)
 
-    fun onClickTicketResolveHis(orderDataWp: ResponseNewTicketlist.Row, orderData: ArrayList<ResponseNewTicketlist.Row>, position: Int, historyCallback: HistoryCallback)
+    fun onClickTicketResolveHis(
+        orderDataWp: ResponseNewTicketlist.Row,
+        orderData: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+        historyCallback: HistoryCallback,
+    )
 
-    fun onClickCCAccept(data: TicketData, orderData: ArrayList<ResponseNewTicketlist.Row>, position: Int, historyCallback: HistoryCallback)
+    fun onClickCCAccept(
+        data: TicketData,
+        orderData: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+        historyCallback: HistoryCallback,
+    )
 
-    fun onClickCCReject(data: TicketData, orderData: ArrayList<ResponseNewTicketlist.Row>, position: Int, historyCallback: HistoryCallback)
+    fun onClickCCReject(
+        data: TicketData,
+        orderData: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+        historyCallback: HistoryCallback,
+    )
 
-    fun onClickForwardToFinance(cmsTicketRequest: CmsTicketRequest, orderData: ArrayList<ResponseNewTicketlist.Row>, position: Int, historyCallback: HistoryCallback)
+    fun onClickForwardToFinance(
+        cmsTicketRequest: CmsTicketRequest,
+        orderData: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+        historyCallback: HistoryCallback,
+    )
 
-    fun onClickInventoryAccept(orderDataWp: ResponseNewTicketlist.Row, position: Int, orderData: ArrayList<ResponseNewTicketlist.Row>, historyCallback: HistoryCallback)
+    fun onClickInventoryAccept(
+        orderDataWp: ResponseNewTicketlist.Row,
+        position: Int,
+        orderData: ArrayList<ResponseNewTicketlist.Row>,
+        historyCallback: HistoryCallback,
+    )
 
-    fun onClickInventoryReject(orderDataWp: ResponseNewTicketlist.Row, position: Int, orderData: ArrayList<ResponseNewTicketlist.Row>, historyCallback: HistoryCallback)
+    fun onClickInventoryReject(
+        orderDataWp: ResponseNewTicketlist.Row,
+        position: Int,
+        orderData: ArrayList<ResponseNewTicketlist.Row>,
+        historyCallback: HistoryCallback,
+    )
 
-    fun onClickForwardToManager(orderDataWp: ResponseNewTicketlist.Row, historyCallback: HistoryCallback)
+    fun onClickForwardToManager(
+        orderDataWp: ResponseNewTicketlist.Row,
+        historyCallback: HistoryCallback,
+    )
 
-    fun onClickForwardChangeManager(orderDataWp: ResponseNewTicketlist.Row, position: Int, orderData: ArrayList<ResponseNewTicketlist.Row>, historyCallback: HistoryCallback)
+    fun onClickForwardChangeManager(
+        orderDataWp: ResponseNewTicketlist.Row,
+        position: Int,
+        orderData: ArrayList<ResponseNewTicketlist.Row>,
+        historyCallback: HistoryCallback,
+    )
 
-    fun onClickTicketClose(orderDataWp: ResponseNewTicketlist.Row, orderData: ArrayList<ResponseNewTicketlist.Row>, position: Int, historyCallback: HistoryCallback)
+    fun onClickTicketClose(
+        orderDataWp: ResponseNewTicketlist.Row,
+        orderData: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+        historyCallback: HistoryCallback,
+    )
 
-    fun onClickTicketReopen(orderDataWp: ResponseNewTicketlist.Row, orderData: ArrayList<ResponseNewTicketlist.Row>, position: Int, historyCallback: HistoryCallback)
+    fun onClickTicketReopen(
+        orderDataWp: ResponseNewTicketlist.Row,
+        orderData: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+        historyCallback: HistoryCallback,
+    )
 
-    fun onClickAction(data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>, positionHeader: Int, row: SubworkflowConfigDetailsResponse.Rows, historyCallback: HistoryCallback)
+    fun onClickAction(
+        data: TicketData,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        positionHeader: Int,
+        row: SubworkflowConfigDetailsResponse.Rows,
+        historyCallback: HistoryCallback,
+    )
 
     fun onSuccessBack(complaintsListDetailsCallback: ComplaintsListDetailsCallback)
 
 
 //    fun onClickTicketResolveHistory()
 
+    fun onSuccessSubworkflowAssignedtoMeApiCall(subworkFlowAssignedtoMeResponse: SubworkFlowAssignedtoMeResponse)
 
 }

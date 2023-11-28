@@ -16,7 +16,30 @@ import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.ComplaintsListDetailsCallback
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.callback.HistoryCallback
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.*
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.model.SubworkFlowAssignedtoMeRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.model.SubworkFlowAssignedtoMeResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CCAcceptRejectModel
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CCAcceptRejectResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.ChangeManagerRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.ChangeManagerResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Data
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.ForwardToManagerModel
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.GetManagersModel
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.InventoryAcceptRejectResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.InventoryAcceptrejectModel
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubWorkflowAcceptRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubWorkflowAcceptResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubWorkflowRejectRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubWorkflowRejectResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubworkflowConfigDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketData
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketResolveCloseModel
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketSubworkflowActionUpdateRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketSubworkflowActionUpdateResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.UserListForSubworkflowResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.WorkFlowUpdateModel
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -102,7 +125,11 @@ class HistoryFragmentViewModel : ViewModel() {
         }
     }
 
-    fun actionCCAccept(request: CCAcceptRejectModel?, itemPos: Int, complaintsListDetailsCallback:ComplaintsListDetailsCallback) {
+    fun actionCCAccept(
+        request: CCAcceptRejectModel?,
+        itemPos: Int,
+        complaintsListDetailsCallback: ComplaintsListDetailsCallback,
+    ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -179,7 +206,7 @@ class HistoryFragmentViewModel : ViewModel() {
         request: InventoryAcceptrejectModel?,
         workFlowUpdateModel: WorkFlowUpdateModel,
         itemPos: Int,
-        complaintsListDetailsCallback: ComplaintsListDetailsCallback
+        complaintsListDetailsCallback: ComplaintsListDetailsCallback,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -260,7 +287,11 @@ class HistoryFragmentViewModel : ViewModel() {
         }
     }
 
-    fun actionForwardToManager(request: ForwardToManagerModel?, itemPos: Int, complaintsListDetailsCallback:ComplaintsListDetailsCallback) {
+    fun actionForwardToManager(
+        request: ForwardToManagerModel?,
+        itemPos: Int,
+        complaintsListDetailsCallback: ComplaintsListDetailsCallback,
+    ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -381,7 +412,7 @@ class HistoryFragmentViewModel : ViewModel() {
                                 getManagersLiveData.value =
                                     responseNewTicketlistNewTicketHistoryResponse.data
                             } else {
-                                command.value =CmsCommand.ShowToast(
+                                command.value = CmsCommand.ShowToast(
                                     responseNewTicketlistNewTicketHistoryResponse.message.toString()
                                 )
                             }
@@ -597,7 +628,7 @@ class HistoryFragmentViewModel : ViewModel() {
                                 mCallback.onSuccessSubWorkflowAcceptApiCall()
                             } else {
                                 command.value =
-                                  CmsCommand.ShowToast(subWorkflowAcceptResponse.message.toString())
+                                    CmsCommand.ShowToast(subWorkflowAcceptResponse.message.toString())
                             }
 
                         }
@@ -670,7 +701,7 @@ class HistoryFragmentViewModel : ViewModel() {
                                 mCallback.onSuccessSubWorkflowRejectApiCall()
                             } else {
                                 command.value =
-                                   CmsCommand.ShowToast(subWorkflowRejectResponse.message.toString())
+                                    CmsCommand.ShowToast(subWorkflowRejectResponse.message.toString())
                             }
 
                         }
@@ -807,9 +838,9 @@ class HistoryFragmentViewModel : ViewModel() {
         request: ChangeManagerRequest?,
         actionRequest: ChangeManagerRequest?,
         itemPos: Int,
-        complaintsListDetailsCallback:ComplaintsListDetailsCallback
+        complaintsListDetailsCallback: ComplaintsListDetailsCallback,
 
-    ) {
+        ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -855,7 +886,11 @@ class HistoryFragmentViewModel : ViewModel() {
                                 BackShlash.removeSubString(res), ChangeManagerResponse::class.java
                             )
                             if (response.success) {
-                                actionInventoryItemsRequestSave(actionRequest, itemPos, complaintsListDetailsCallback)
+                                actionInventoryItemsRequestSave(
+                                    actionRequest,
+                                    itemPos,
+                                    complaintsListDetailsCallback
+                                )
                             } else {
                                 command.value = CmsCommand.ShowToast(response.message.toString())
                             }
@@ -883,7 +918,11 @@ class HistoryFragmentViewModel : ViewModel() {
         }
     }
 
-    fun actionInventoryItemsRequestSave(request: ChangeManagerRequest?, itemPos: Int, complaintsListDetailsCallback:ComplaintsListDetailsCallback) {
+    fun actionInventoryItemsRequestSave(
+        request: ChangeManagerRequest?,
+        itemPos: Int,
+        complaintsListDetailsCallback: ComplaintsListDetailsCallback,
+    ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -1122,8 +1161,95 @@ class HistoryFragmentViewModel : ViewModel() {
                             )
                             if (request.success!!) {
                                 historyCallback.onSuccessActionUpdate(
-                                    request, row, remark, data1, responseList, position, historyCallback
+                                    request,
+                                    row,
+                                    remark,
+                                    data1,
+                                    responseList,
+                                    position,
+                                    historyCallback
                                 )
+                            } else {
+                                command.value = CmsCommand.ShowToast(request.message.toString())
+                            }
+
+                        }
+                    }
+                }
+
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+    fun subworkflowAssignedtoMeApiCall(
+        historyCallback: HistoryCallback,
+        subworkFowAssignedtoMeRequest: SubworkFlowAssignedtoMeRequest,
+    ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl =
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/subworkflow-assign-to-me-update"
+            //"https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/subworkflow-assign-to-me-update"
+        var token1 = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("")) {
+//                baseUrl = data.APIS[i].URL
+//                token1 = data.APIS[i].TOKEN
+                break
+            }
+        }
+        var proxyBaseUrL = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrL = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        val subworkFowAssignedtoMeRequestJson =
+            Gson().toJson(subworkFowAssignedtoMeRequest)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    proxyBaseUrL,
+                    proxyToken,
+                    GetDetailsRequest(baseUrl, "POST", subworkFowAssignedtoMeRequestJson, "", "")
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val request = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                SubworkFlowAssignedtoMeResponse::class.java
+                            )
+                            if (request.success!!) {
+                                if (request.success!!) {
+                                    historyCallback.onSuccessSubworkflowAssignedtoMeApiCall(request!!)
+                                } else {
+                                    command.value = CmsCommand.ShowToast(request.message.toString())
+                                }
                             } else {
                                 command.value = CmsCommand.ShowToast(request.message.toString())
                             }
