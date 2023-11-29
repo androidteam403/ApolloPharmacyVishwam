@@ -9,508 +9,112 @@
         android:background="@color/white">
 
         <LinearLayout
+            android:id="@+id/parentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/parentLayout"
+            android:background="@color/pendency_orange"
 
             android:orientation="vertical">
 
-            <TableLayout
+            <TextView
+                android:id="@+id/siteIdS"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/price_bold"
+                android:paddingStart="12dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
 
-                android:background="@drawable/dashquarebox_bottom"
+                android:text="RTO Count"
+                android:textColor="#44758d"
+                android:textSize="@dimen/dimen11sp" />
 
-                android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="4">
 
                 <TextView
-                    android:id="@+id/siteIdS"
-
-                    android:layout_width="wrap_content"
+                    android:id="@+id/rtCount"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/value_5dp"
-                    android:fontFamily="@font/price_bold"
+                    android:layout_weight=".91"
+                    android:background="@drawable/background_for_champs_green"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/roboto_medium"
                     android:paddingStart="4sp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:text="RTO Count"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:text="5"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen11sp" />
 
-
-
-            </TableLayout>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:background="@drawable/pendencysquareboxright"
-                android:orientation="horizontal"
-
-                android:weightSum="4">
-
-
-                <TableLayout
+                <TextView
+                    android:id="@+id/rtValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:layout_weight=".99"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingStart="10dp"
+                    android:paddingTop="7dp"
+                    android:drawableLeft="@drawable/qc_ic_rupee_indian"
+                    android:layout_marginLeft="8dp"
 
-                    android:background="@drawable/dashquarebox_right"
+                    android:layout_marginBottom="8dp"
+                    android:paddingBottom="7dp"
+                    android:text="12"
+                    android:background="@drawable/background_for_champs_green"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen11sp" />
 
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingStart="4sp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="RTO Count"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen11sp" />
-
-                </TableLayout>
-
-                <TableLayout
+                <TextView
+                    android:id="@+id/rrtoCount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.017"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:layout_weight=".91"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingStart="4sp"
+                    android:paddingTop="7dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:paddingBottom="7dp"
+                    android:text="221"
+                    android:background="@drawable/background_for_champs_green"
+                    android:backgroundTint="@color/white"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen11sp" />
 
-                    android:background="@drawable/site_dashquarebox_right"
-
-
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="RTO Value"
-
-                        android:paddingStart="4sp"
-                        android:textAlignment="center"
-
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen11sp" />
-
-                </TableLayout>
-
-                <TableLayout
+                <TextView
+                    android:id="@+id/rrtoValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/dashquarebox_right"
-
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingStart="4sp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="RRTO Count"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen11sp" />
-
-                </TableLayout>
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-
-                    android:background="@drawable/site_dashquarebox_right"
-
-
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="RRTO Value"
-
-                        android:paddingStart="4sp"
-                        android:textAlignment="center"
-
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen11sp" />
-
-                </TableLayout>
-
-
-
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:layout_weight=".99"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:drawableLeft="@drawable/qc_ic_rupee_indian"
+                    android:paddingTop="7dp"
+                    android:paddingStart="10dp"
+                    android:paddingBottom="7dp"
+                    android:text="45"
+                    android:background="@drawable/background_for_champs_green"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen11sp" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-
-
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/squareboxright"
-                    android:orientation="horizontal"
-
-                    android:weightSum="4">
-
-
-                    <TableLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/dashquarebox_right"
-
-                        android:orientation="vertical">
-
-
-                        <TextView
-                            android:id="@+id/rtocounts"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_5dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
-                            android:drawablePadding="5dp"
-                            android:text=""
-                            android:textAlignment="center"
-
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen11sp" />
-
-                    </TableLayout>
-
-                    <TableLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.017"
-
-                        android:background="@drawable/site_dashquarebox_right"
-
-
-                        android:orientation="vertical">
-
-
-                        <TextView
-                            android:id="@+id/rtovalues"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_5dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:paddingTop="8dp"
-                            android:drawableLeft="@drawable/qc_ic_rupee_indian"
-                            android:paddingBottom="8dp"
-                            android:drawablePadding="2dp"
-                            android:text=""
-                            android:paddingStart="10dp"
-                            android:textAlignment="textStart"
-
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen11sp" />
-
-                    </TableLayout>
-                    <TableLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/dashquarebox_right"
-
-                        android:orientation="vertical">
-
-
-                        <TextView
-                            android:id="@+id/rrtocounts"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_5dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
-                            android:drawablePadding="5dp"
-                            android:text=""
-                            android:textAlignment="center"
-
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen11sp" />
-
-                    </TableLayout>
-
-                    <TableLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-
-                        android:background="@drawable/site_dashquarebox_right"
-
-
-                        android:orientation="vertical">
-
-
-                        <TextView
-                            android:id="@+id/rrtovalues"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_5dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:paddingTop="8dp"
-                            android:drawableLeft="@drawable/qc_ic_rupee_indian"
-                            android:paddingBottom="8dp"
-                            android:drawablePadding="2dp"
-                            android:text=""
-                            android:paddingStart="10dp"
-                            android:textAlignment="textStart"
-
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/dimen11sp" />
-
-                    </TableLayout>
-
-
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-
-
-            <!--            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                android:id="@+id/rtopendencyRecycleview"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:scrollbars="vertical"-->
-            <!--                android:layout_marginBottom="@dimen/five5_sp"-->
-            <!--                android:visibility="visible"-->
-            <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-            <!--                tools:itemCount="3"-->
-            <!--                tools:listitem="@layout/rto_pendency_sites" />-->
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="wrap_content"
-                android:background="@drawable/squareboxright"
-                android:orientation="horizontal"
-
-                android:weightSum="4">
-
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/dashquarebox_right"
-
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:id="@+id/rtocount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingStart="4sp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="120"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen11sp" />
-
-                </TableLayout>
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.017"
-
-                    android:background="@drawable/site_dashquarebox_right"
-
-
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:id="@+id/rtovalue"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="300"
-                        android:paddingStart="4sp"
-                        android:textAlignment="center"
-
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen11sp" />
-
-                </TableLayout>
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/dashquarebox_right"
-
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:id="@+id/sitertocount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingStart="4sp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="120"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen11sp" />
-
-                </TableLayout>
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-
-                    android:background="@drawable/site_dashquarebox_right"
-
-
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:id="@+id/sitertovalue"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="300"
-                        android:paddingStart="4sp"
-                        android:textAlignment="center"
-
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen11sp" />
-
-                </TableLayout>
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/dashquarebox_right"
-                    android:visibility="gone"
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:id="@+id/pending_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingStart="4sp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="120"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_10sp" />
-
-                </TableLayout>
-
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-
-                    android:background="@drawable/squarebox_right"
-
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:id="@+id/manager"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:paddingStart="4sp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="240"
-
-                        android:textAlignment="center"
-                        android:textColor="#40a776"
-
-                        android:textSize="@dimen/text_10sp" />
-                </TableLayout>
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:background="@drawable/squarebox"
-
-                    android:orientation="vertical">
-
-
-
-                    <TextView
-                        android:id="@+id/generalmanager"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:paddingStart="8dp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="50"
-
-                        android:textAlignment="center"
-                        android:textColor="#663399"
-
-                        android:textSize="12sp" />
-                </TableLayout>
-            </LinearLayout>
 
         </LinearLayout>
     </RelativeLayout>

@@ -61,13 +61,13 @@ class QcApproveListAdapter(
             holder.adapterApproveListBinding.storeId.setText(approvedOrders.storeid)
         }
         if (approvedOrders.requesteddate == null) {
-            holder.adapterApproveListBinding.reqDate.setText("-")
+            holder.adapterApproveListBinding.postedDate.setText("-")
 
         } else {
             var reqDate = approvedOrders.requesteddate.toString()!!
                 .substring(0,
                     Math.min(approvedOrders.requesteddate.toString()!!.length, 10))
-            holder.adapterApproveListBinding.reqDate.text = Utlis.formatdate(reqDate)
+            holder.adapterApproveListBinding.postedDate.text = Utlis.formatdate(reqDate)
 
 //            holder.adapterApproveListBinding.reqDate.setText(approvedOrders.requesteddate.toString()!!.substring(0,
 //                Math.min(approvedOrders.requesteddate.toString()!!.length, 10)))

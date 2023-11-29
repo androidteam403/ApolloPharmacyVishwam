@@ -2,8 +2,11 @@ package com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -35,9 +38,30 @@ class DashboardSitesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val items = distintPendingCountResponseList.get(position)
-        holder.dashboardSitesBinding.storeid.setText(items.siteid)
-        holder.dashboardSitesBinding.empid.setText(items.empid)
+        holder.dashboardSitesBinding.storeid.setText(items.siteid!!.split("-").get(0))
+        holder.dashboardSitesBinding.storeName.setText(items.siteid!!.split("-").get(1))
+        if (items.designation.equals("EXECUTIVE")){
 
+            holder.dashboardSitesBinding.rtcount.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.pendency_orange))
+            holder.dashboardSitesBinding.frcount.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.pendency_orange))
+
+
+        }
+        if (items.designation.equals("MANAGER")){
+            holder.dashboardSitesBinding.rtcount.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.pendency_voilet))
+            holder.dashboardSitesBinding.frcount.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.pendency_voilet))
+
+        }
+
+        if (items.designation!!.replace(" ","").equals("GENERALMANAGER")){
+            holder.dashboardSitesBinding.rtcount.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.pendency_green))
+            holder.dashboardSitesBinding.frcount.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.pendency_green))
+
+        }
+//        holder.dashboardSitesBinding.empid.setText(items.empid)
+
+//        holder.dashboardSitesBinding.empid.setText(items.empid!!.split("-").get(0))
+//        holder.dashboardSitesBinding.empName.setText(items.empid!!.split("-").get(1))
 
         for (m in pendingCountResponseList.indices) {
             if (items.siteid.equals(pendingCountResponseList.get(m).siteid)) {

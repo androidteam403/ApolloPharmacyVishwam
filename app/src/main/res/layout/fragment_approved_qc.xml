@@ -9,20 +9,21 @@
         android:background="@color/white">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:id="@+id/search_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:weightSum="1">
+
             <LinearLayout
 
                 android:layout_width="0dp"
-                android:layout_weight="0.7"
                 android:layout_height="@dimen/value_45dp"
                 android:layout_marginStart="@dimen/five5_sp"
                 android:layout_marginTop="@dimen/value_5dp"
                 android:layout_marginEnd="@dimen/five5_sp"
-                android:background="@drawable/search_view_approved"
+                android:layout_weight="0.7"
+                android:background="@drawable/search_view_pending"
                 android:orientation="horizontal"
                 android:weightSum="2"
                 app:layout_constraintTop_toTopOf="parent">
@@ -35,14 +36,16 @@
                     android:layout_marginEnd="@dimen/value_60dp"
                     android:layout_weight="1.8"
                     android:background="@color/transparent"
+                    android:fontFamily="@font/poppins_medium"
                     android:gravity="left|center"
-                    android:hint="Search by Order ID"
+                    android:hint="Search by ID"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:paddingStart="@dimen/text_15sp"
+                    android:textColorHint="@color/dark_grey"
 
-                    android:textColor="@color/black"
+                    android:paddingStart="@dimen/text_15sp"
+                    android:textColor="@color/blackqc"
                     android:textSize="@dimen/text_14sp" />
 
                 <ImageView
@@ -54,7 +57,8 @@
                     android:layout_weight=".2"
 
 
-                    android:src="@drawable/ic_search_24" />
+                    android:src="@drawable/close_blue_new"
+                    android:tint="@color/grey" />
 
 
                 <ImageView
@@ -68,52 +72,52 @@
 
                     android:visibility="gone" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginEnd="@dimen/value_3dp"
-                android:background="@drawable/search_view_approved"
-                android:layout_marginTop="@dimen/value_5dp"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/value_45dp"
-                android:layout_weight="0.3">
+                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_marginEnd="@dimen/value_3dp"
+                android:layout_weight="0.3"
+                android:background="@drawable/search_view_pending">
 
                 <RelativeLayout
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:visibility="visible"
-
                     android:id="@+id/spinnerlayoutRelative"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    >
+
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:visibility="visible">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/filtertypes"
-                        android:gravity="center"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:focusable="true"
+                        android:gravity="center"
                         android:textColorHint="@color/white"
 
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:gravity="center"
-                            android:layout_gravity="center"
                             android:id="@+id/selectfiltertype"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
+                            android:layout_gravity="center"
                             android:clickable="true"
                             android:drawableEnd="@drawable/ic_baseline_arrow_black"
                             android:editable="false"
                             android:enabled="true"
                             android:focusable="false"
+                            android:gravity="center"
                             android:hint="Per Page"
                             android:paddingStart="@dimen/value_3dp"
                             android:paddingEnd="@dimen/value_10dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/black"
+                            android:textColor="@color/blackqc"
+                            android:textColorHint="@color/blackqc"
                             android:textSize="@dimen/text_12sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,32 +125,31 @@
             </LinearLayout>
 
 
-
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/parentLayout"
-            android:layout_below="@id/search_layout"
             android:layout_width="match_parent"
-            android:layout_marginBottom="50dp"
+            android:layout_height="match_parent"
+            android:layout_below="@id/search_layout"
             android:layout_marginTop="8dp"
 
-            android:layout_height="match_parent">
+            android:layout_marginBottom="50dp">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/refreshSwipe"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewApproved"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:itemCount="5"
-                tools:listitem="@layout/qc_approvedlayout" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewApproved"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/qc_approvedlayout" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -196,17 +199,17 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--        <View-->
-<!--            android:id="@+id/filter_indication"-->
-<!--            android:layout_width="@dimen/text_12sp"-->
-<!--            android:layout_height="@dimen/text_12sp"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_marginLeft="284dp"-->
-<!--            android:layout_marginBottom="73dp"-->
-<!--            android:background="@drawable/red_indication"-->
-<!--            android:visibility="gone"-->
+        <!--        <View-->
+        <!--            android:id="@+id/filter_indication"-->
+        <!--            android:layout_width="@dimen/text_12sp"-->
+        <!--            android:layout_height="@dimen/text_12sp"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:layout_marginLeft="284dp"-->
+        <!--            android:layout_marginBottom="73dp"-->
+        <!--            android:background="@drawable/red_indication"-->
+        <!--            android:visibility="gone"-->
 
-<!--            tools:ignore="MissingConstraints,NotSibling" />-->
+        <!--            tools:ignore="MissingConstraints,NotSibling" />-->
 
 
         <RelativeLayout
@@ -218,78 +221,78 @@
             android:gravity="center_vertical"
             android:visibility="visible">
 
-<!--            <RelativeLayout-->
-<!--                android:id="@+id/spinnerlayout"-->
-<!--                android:layout_width="@dimen/value_140dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                >-->
+            <!--            <RelativeLayout-->
+            <!--                android:id="@+id/spinnerlayout"-->
+            <!--                android:layout_width="@dimen/value_140dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                >-->
 
-<!--                <com.google.android.material.textfield.TextInputLayout-->
-<!--                    android:id="@+id/filtertype"-->
+            <!--                <com.google.android.material.textfield.TextInputLayout-->
+            <!--                    android:id="@+id/filtertype"-->
 
-<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginLeft="@dimen/value_15dp"-->
-<!--                    android:layout_marginTop="@dimen/value_10dp"-->
-<!--                    android:layout_marginRight="@dimen/value_15dp"-->
-<!--                    android:focusable="true"-->
-<!--                    android:textColorHint="@color/white"-->
+            <!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginLeft="@dimen/value_15dp"-->
+            <!--                    android:layout_marginTop="@dimen/value_10dp"-->
+            <!--                    android:layout_marginRight="@dimen/value_15dp"-->
+            <!--                    android:focusable="true"-->
+            <!--                    android:textColorHint="@color/white"-->
 
-<!--                    app:layout_constraintTop_toTopOf="parent">-->
+            <!--                    app:layout_constraintTop_toTopOf="parent">-->
 
-<!--                    <TextView-->
-<!--                        android:gravity="center"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:id="@+id/selectfiltertype"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="35dp"-->
-<!--                        android:clickable="true"-->
-<!--                        android:drawableEnd="@drawable/ic_baseline_arrow"-->
-<!--                        android:editable="false"-->
-<!--                        android:enabled="true"-->
-<!--                        android:focusable="false"-->
-<!--                        android:hint="Select Rows"-->
-<!--                        android:paddingStart="@dimen/value_10dp"-->
-<!--                        android:paddingEnd="@dimen/value_10dp"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textColorHint="@color/white"-->
-<!--                        android:textSize="@dimen/text_12sp" />-->
-<!--                </com.google.android.material.textfield.TextInputLayout>-->
+            <!--                    <TextView-->
+            <!--                        android:gravity="center"-->
+            <!--                        android:layout_gravity="center"-->
+            <!--                        android:id="@+id/selectfiltertype"-->
+            <!--                        android:layout_width="match_parent"-->
+            <!--                        android:layout_height="35dp"-->
+            <!--                        android:clickable="true"-->
+            <!--                        android:drawableEnd="@drawable/ic_baseline_arrow"-->
+            <!--                        android:editable="false"-->
+            <!--                        android:enabled="true"-->
+            <!--                        android:focusable="false"-->
+            <!--                        android:hint="Select Rows"-->
+            <!--                        android:paddingStart="@dimen/value_10dp"-->
+            <!--                        android:paddingEnd="@dimen/value_10dp"-->
+            <!--                        android:textColor="@color/white"-->
+            <!--                        android:textColorHint="@color/white"-->
+            <!--                        android:textSize="@dimen/text_12sp" />-->
+            <!--                </com.google.android.material.textfield.TextInputLayout>-->
 
-<!--            </RelativeLayout>-->
+            <!--            </RelativeLayout>-->
 
             <RelativeLayout
-                android:gravity="center"
-                android:layout_centerInParent="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center">
 
                 <ImageView
-                    android:visibility="invisible"
                     android:id="@+id/prev_page"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="5dp"
-
                     android:contentDescription="@string/app_name"
+
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
                     android:padding="@dimen/text_10sp"
                     android:rotation="180"
                     android:src="@drawable/ic_arrow__next_page"
                     android:textColor="@color/black"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    android:visibility="invisible" />
 
                 <TextView
-                    android:layout_toEndOf="@+id/prev_page"
-                    android:gravity="center"
                     android:id="@+id/pgno"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:layout_toEndOf="@+id/prev_page"
                     android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
                     android:text=""
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_13sp" />
@@ -298,9 +301,9 @@
                     android:id="@+id/next_page"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_toEndOf="@+id/pgno"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@+id/pgno"
 
                     android:contentDescription="@string/app_name"
                     android:fontFamily="@font/roboto_medium"
@@ -311,7 +314,6 @@
                     android:textColor="@color/black"
                     android:textSize="9sp" />
             </RelativeLayout>
-
 
 
         </RelativeLayout>

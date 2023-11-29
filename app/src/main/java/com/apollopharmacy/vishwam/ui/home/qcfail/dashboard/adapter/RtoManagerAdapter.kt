@@ -16,6 +16,8 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcDashBoardCallback
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.Locale
 import java.util.function.Predicate
 import java.util.stream.Collectors
 
@@ -57,19 +59,39 @@ class RtoManagerAdapter(
 
         if (qcfailDashboardList.isNotEmpty()) {
             for (i in qcfailDashboardList.indices) {
-                if (qcfailDashboardList.get(i).empid.equals(
-                        getqcfailhierarchyList.get(position).empid)
-                ) {
+                if (getqcfailhierarchyList.get(position).empid!!.contains("-")){
+                    if (qcfailDashboardList.get(i).empid.equals(
+                            getqcfailhierarchyList.get(position).empid!!.split("-").get(0))
+                    ) {
+                        holder.dashboardSiteBinding.sumOfRtValues.setText(NumberFormat.getNumberInstance(Locale.US).format(qcfailDashboardList.get(i).rtoamount!! + qcfailDashboardList.get(i).rrtoamount!!).toString())
 
-                    holder.dashboardSiteBinding.rtocounts.setText(qcfailDashboardList.get(i).rtocount.toString())
-                    holder.dashboardSiteBinding.rtovalues.setText(DecimalFormat("#,###.00").format(
-                        qcfailDashboardList.get(i).rtoamount).toString())
-                    holder.dashboardSiteBinding.rrtocounts.setText(qcfailDashboardList.get(i).rrtocount.toString())
-                    holder.dashboardSiteBinding.rrtovalues.setText(DecimalFormat("#,###.00").format(
-                        qcfailDashboardList.get(i).rrtoamount).toString())
+                        holder.dashboardSiteBinding.rtCount.setText(qcfailDashboardList.get(i).rtocount.toString())
+                        holder.dashboardSiteBinding.rtovalue.setText(DecimalFormat("#,###.00").format(
+                            qcfailDashboardList.get(i).rtoamount).toString())
+                        holder.dashboardSiteBinding.rrtoCount.setText(qcfailDashboardList.get(i).rrtocount.toString())
+                        holder.dashboardSiteBinding.rrtovalue.setText(DecimalFormat("#,###.00").format(
+                            qcfailDashboardList.get(i).rrtoamount).toString())
+                    }
 
 
                 }
+                else{
+                    if (qcfailDashboardList.get(i).empid.equals(
+                            getqcfailhierarchyList.get(position).empid)
+                    ) {
+                        holder.dashboardSiteBinding.sumOfRtValues.setText(NumberFormat.getNumberInstance(Locale.US).format(qcfailDashboardList.get(i).rtoamount!! + qcfailDashboardList.get(i).rrtoamount!!).toString())
+
+                        holder.dashboardSiteBinding.rtCount.setText(qcfailDashboardList.get(i).rtocount.toString())
+                        holder.dashboardSiteBinding.rtovalue.setText(DecimalFormat("#,###.00").format(
+                            qcfailDashboardList.get(i).rtoamount).toString())
+                        holder.dashboardSiteBinding.rrtoCount.setText(qcfailDashboardList.get(i).rrtocount.toString())
+                        holder.dashboardSiteBinding.rrtovalue.setText(DecimalFormat("#,###.00").format(
+                            qcfailDashboardList.get(i).rrtoamount).toString())
+
+
+                    }
+                }
+
             }
 
 
@@ -89,13 +111,13 @@ class RtoManagerAdapter(
 
 
             holder.dashboardSiteBinding.closeArrow.visibility = View.VISIBLE
-            holder.dashboardSiteBinding.rtoLayout.visibility = View.VISIBLE
+//            holder.dashboardSiteBinding.rtoLayout.visibility = View.VISIBLE
             holder.dashboardSiteBinding.generalmanagerArrow.visibility = View.GONE
             holder.dashboardSiteBinding.sitesRecyclerView.visibility = View.VISIBLE
             rtoExecutiveAdapter?.notifyDataSetChanged()
         } else {
             holder.dashboardSiteBinding.closeArrow.visibility = View.GONE
-            holder.dashboardSiteBinding.rtoLayout.visibility = View.GONE
+//            holder.dashboardSiteBinding.rtoLayout.visibility = View.GONE
             holder.dashboardSiteBinding.executiveRecycleview.visibility = View.GONE
 
             holder.dashboardSiteBinding.generalmanagerArrow.visibility = View.VISIBLE
@@ -125,7 +147,7 @@ class RtoManagerAdapter(
                         )
                     }
 
-                    rtoSitesAdapter = RtoSitesAdapter(mContext, mCallBack,
+                    rtoSitesAdapter = RtoSitesAdapter(mContext,
                             dashBoardList)
                     holder.dashboardSiteBinding.sitesRecyclerView.adapter = rtoSitesAdapter
                     rtoExecutiveAdapter?.notifyDataSetChanged()
@@ -227,24 +249,23 @@ class RtoManagerAdapter(
         } else {
 
             if (empId != items.empid) {
-                holder.dashboardSiteBinding.managerLayout.visibility = View.VISIBLE
 
                 if (items.designation?.replace(" ", "").equals("GENERALMANAGER", true)) {
-                    holder.dashboardSiteBinding.managerEmpname.setText(items.empid + "\n" + items.designation)
+                    holder.dashboardSiteBinding.gmEmpname.setText(items.empid!!.split("-").get(0) +" (" +items.empid!!.split("-").get(1)+")"+ "\n" + items.designation)
+                    holder.dashboardSiteBinding.managerLayout.setBackgroundColor(Color.parseColor("#00acae"))
+                    holder.dashboardSiteBinding.rtoLayout.setBackgroundColor(Color.parseColor("#00acae"))
 
 
                 } else if (items.designation?.replace(" ", "").equals("MANAGER", true)) {
-                    holder.dashboardSiteBinding.managerEmpname.setText(items.empid + "\n" + items.designation)
+                    holder.dashboardSiteBinding.gmEmpname.setText(items.empid!!.split("-").get(0) +" (" +items.empid!!.split("-").get(1)+")"+ "\n"  + items.designation)
+                    holder.dashboardSiteBinding.rtoLayout.setBackgroundColor(Color.parseColor("#606db3"))
 
-                    holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_manager)
-                    holder.dashboardSiteBinding.managerLayout.setBackgroundColor(Color.parseColor("#636fc1"))
-                    holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#7e88c7"))
+                    holder.dashboardSiteBinding.managerLayout.setBackgroundColor(Color.parseColor("#606db3"))
                 } else if (items.designation?.replace(" ", "").equals("EXECUTIVE", true)) {
-                    holder.dashboardSiteBinding.managerEmpname.setText(items.empid + "\n" + items.designation)
+                    holder.dashboardSiteBinding.gmEmpname.setText(items.empid!!.split("-").get(0) +" (" +items.empid!!.split("-").get(1)+")"+ "\n" + items.designation)
+                    holder.dashboardSiteBinding.rtoLayout.setBackgroundColor(Color.parseColor("#d48a2b"))
 
-                    holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_executive)
-                    holder.dashboardSiteBinding.managerLayout.setBackgroundColor(Color.parseColor("#f4a841"))
-                    holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#f6b968"))
+                    holder.dashboardSiteBinding.managerLayout.setBackgroundColor(Color.parseColor("#d48a2b"))
 
                 }
             }

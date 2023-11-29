@@ -25,7 +25,7 @@
                 android:layout_marginStart="@dimen/five5_sp"
                 android:layout_marginTop="@dimen/value_5dp"
                 android:layout_marginEnd="@dimen/five5_sp"
-                android:background="@drawable/search_view_reject"
+                android:background="@drawable/search_view_pending"
                 android:orientation="horizontal"
                 android:weightSum="2"
                 app:layout_constraintTop_toTopOf="parent">
@@ -39,13 +39,15 @@
                     android:layout_weight="1.8"
                     android:background="@color/transparent"
                     android:gravity="left|center"
-                    android:hint="Search by Order ID"
+                    android:hint="Search by ID"
+                    android:fontFamily="@font/poppins_medium"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingStart="@dimen/text_15sp"
+                    android:textColorHint="@color/dark_grey"
 
-                    android:textColor="@color/black"
+                    android:textColor="@color/blackqc"
                     android:textSize="@dimen/text_14sp" />
 
                 <ImageView
@@ -57,7 +59,8 @@
                     android:layout_weight=".2"
 
 
-                    android:src="@drawable/ic_search_24" />
+                    android:src="@drawable/close_blue_new"
+                    android:tint="@color/grey" />
 
 
                 <ImageView
@@ -73,7 +76,7 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_marginEnd="@dimen/value_3dp"
-                android:background="@drawable/search_view_reject"
+                android:background="@drawable/search_view_pending"
                 android:layout_marginTop="@dimen/value_5dp"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/value_45dp"
@@ -115,8 +118,8 @@
                             android:hint="Per Page"
                             android:paddingStart="@dimen/value_3dp"
                             android:paddingEnd="@dimen/value_10dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/black"
+                            android:textColor="@color/blackqc"
+                            android:textColorHint="@color/blackqc"
                             android:textSize="@dimen/text_12sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 

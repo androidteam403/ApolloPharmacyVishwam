@@ -9,6 +9,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
@@ -101,7 +102,7 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
                 activityQcPendingBinding.statusRecyleview.visibility = View.VISIBLE
                 activityQcPendingBinding.recyclerViewReject.visibility = View.GONE
 
-                activityQcPendingBinding.heaader.setBackgroundColor(Color.parseColor("#d3e9da"))
+                activityQcPendingBinding.heaader.setBackgroundColor(ContextCompat.getColor(this, R.color.approved_list_qc))
 
                 statusList = intent.getSerializableExtra("statusList") as ArrayList<ActionResponse>
                 activityQcPendingBinding.listName.setText("Approved List")
@@ -199,7 +200,8 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
                 }
 
 
-            } else if (fragment.equals("reject")) {
+            }
+            else if (fragment.equals("reject")) {
                 activityQcPendingBinding.status.visibility=View.VISIBLE
 
                 activityQcPendingBinding.actionLayout.visibility = View.GONE
@@ -208,7 +210,7 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
                 activityQcPendingBinding.recyclerViewReject.visibility = View.VISIBLE
 
                 activityQcPendingBinding.statusRecyleview.visibility = View.VISIBLE
-                activityQcPendingBinding.heaader.setBackgroundColor(Color.parseColor("#ffe9e9"))
+                activityQcPendingBinding.heaader.setBackgroundColor(ContextCompat.getColor(this, R.color.reject_list_qc))
 
                 statusList = intent.getSerializableExtra("statusList") as ArrayList<ActionResponse>
                 activityQcPendingBinding.listName.setText("Rejected List")
@@ -294,7 +296,8 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
                 }
 
 
-            } else if (fragment.equals("pending")) {
+            }
+            else if (fragment.equals("pending")) {
                 activityQcPendingBinding.status.visibility=View.GONE
                 pendingList =
                     intent.getSerializableExtra("pendingList") as ArrayList<QcListsResponse.Pending>
@@ -395,9 +398,9 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
 
                 activityQcPendingBinding.actionLayout.visibility = View.VISIBLE
                 activityQcPendingBinding.recyclerViewReject.visibility = View.GONE
+                activityQcPendingBinding.heaader.setBackgroundColor(ContextCompat.getColor(this, R.color.pendency_list_qc))
 
                 activityQcPendingBinding.listName.setText("Pending List")
-                activityQcPendingBinding.heaader.setBackgroundColor(Color.parseColor("#fcf6e4"))
                 activityQcPendingBinding.recyclerViewPending.visibility = View.VISIBLE
                 activityQcPendingBinding.recyclerViewApproved.visibility = View.GONE
                 activityQcPendingBinding.statusRecyleview.visibility = View.GONE

@@ -28,7 +28,7 @@ class RtoPendencyAdapter(
 
 
     ) :
-        RecyclerView.Adapter<RtoPendencyAdapter.ViewHolder>() {
+    RecyclerView.Adapter<RtoPendencyAdapter.ViewHolder>() {
     var rtoManagerAdapter: RtoManagerAdapter? = null
     var rtoSitesAdapter: RtoSitesAdapter? = null
     var dashBoardList = ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>()
@@ -37,12 +37,12 @@ class RtoPendencyAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val dashboardSiteBinding: RtoPendencyLayoutBinding =
-                DataBindingUtil.inflate(
-                    LayoutInflater.from(mContext),
-                    R.layout.rto_pendency_layout,
-                    parent,
-                    false
-                )
+            DataBindingUtil.inflate(
+                LayoutInflater.from(mContext),
+                R.layout.rto_pendency_layout,
+                parent,
+                false
+            )
         return ViewHolder(dashboardSiteBinding)
 
     }
@@ -104,7 +104,7 @@ class RtoPendencyAdapter(
 
 
                     rtoSitesAdapter = RtoSitesAdapter(
-                        mContext, mCallBack,
+                        mContext,
                         dashBoardList
                     )
 
@@ -128,9 +128,9 @@ class RtoPendencyAdapter(
         holder.dashboardSiteBinding.generalmanagerArrow.setOnClickListener {
             var isContain: Boolean
             val predicate =
-                    Predicate { dashboardHierarchyList: Getqcfailpendinghistoryforhierarchy ->
-                        dashboardHierarchyList.employeId.equals(items.empid)
-                    }
+                Predicate { dashboardHierarchyList: Getqcfailpendinghistoryforhierarchy ->
+                    dashboardHierarchyList.employeId.equals(items.empid)
+                }
 
 
             isContain = dashboardHierarchyList.stream().anyMatch(predicate)
@@ -191,12 +191,22 @@ class RtoPendencyAdapter(
 
         if (items.designation?.replace(" ", "").equals("GENERALMANAGER", true)) {
             if (com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignationQCFail()
-                            .replace(
-                                " ",
-                                ""
-                            )
-                            .equals("GENERALMANAGER", true)
+                    .replace(
+                        " ",
+                        ""
+                    )
+                    .equals("GENERALMANAGER", true)
             ) {
+                holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(
+                    Color.parseColor(
+                        "#00acae"
+                    )
+                )
+                holder.dashboardSiteBinding.rtoLayout.setBackgroundColor(
+                    Color.parseColor(
+                        "#00acae"
+                    )
+                )
                 holder.dashboardSiteBinding.gmEmpname.setText(items.empid + "\n" + items.designation)
                 holder.dashboardSiteBinding.parentLayout.visibility = View.VISIBLE
 
@@ -205,50 +215,58 @@ class RtoPendencyAdapter(
             }
 
 
-        } else if (items.designation?.replace(" ", "").equals("MANAGER", true)) {
+        }
+        else if (items.designation?.replace(" ", "").equals("MANAGER", true)) {
             if (com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignationQCFail()
-                            .replace(
-                                " ",
-                                ""
-                            )
-                            .equals("MANAGER", true)
+                    .replace(
+                        " ",
+                        ""
+                    )
+                    .equals("MANAGER", true)
             ) {
                 holder.dashboardSiteBinding.parentLayout.visibility = View.VISIBLE
 
                 holder.dashboardSiteBinding.gmEmpname.setText(items.empid + "\n" + items.designation)
 
-                holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_manager)
                 holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(
                     Color.parseColor(
-                        "#636fc1"
+                        "#606db3"
                     )
                 )
-                holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#7e88c7"))
+                holder.dashboardSiteBinding.rtoLayout.setBackgroundColor(
+                    Color.parseColor(
+                        "#606db3"
+                    )
+                )
             } else {
                 holder.dashboardSiteBinding.parentLayout.visibility = View.GONE
 
             }
 
 
-        } else if (items.designation?.replace(" ", "").equals("EXECUTIVE", true)) {
+        }
+        else if (items.designation?.replace(" ", "").equals("EXECUTIVE", true)) {
             if (com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignationQCFail()
-                            .replace(
-                                " ",
-                                ""
-                            )
-                            .equals("EXECUTIVE", true)
+                    .replace(
+                        " ",
+                        ""
+                    )
+                    .equals("EXECUTIVE", true)
             ) {
                 holder.dashboardSiteBinding.parentLayout.visibility = View.VISIBLE
 
                 holder.dashboardSiteBinding.gmEmpname.setText(items.empid + "\n" + items.designation)
 
-                holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_executive)
                 holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(
                     Color.parseColor(
-                        "#f4a841"
+                        "#d48a2b"
                     )
                 )
-                holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#f6b968"))
+                holder.dashboardSiteBinding.rtoLayout.setBackgroundColor(
+                    Color.parseColor(
+                        "#d48a2b"
+                    )
+                )
             } else {
                 holder.dashboardSiteBinding.parentLayout.visibility = View.GONE
 
@@ -257,11 +275,12 @@ class RtoPendencyAdapter(
         }
 
 
+        holder.dashboardSiteBinding.sumOfRtValues.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rtoamount!! + items.rrtoamount!!).toString())
 
-        holder.dashboardSiteBinding.rtocounts.setText(items.rtocount.toString())
-        holder.dashboardSiteBinding.rtovalues.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rtoamount).toString())
-        holder.dashboardSiteBinding.rrrtocounts.setText(items.rrtocount.toString())
-        holder.dashboardSiteBinding.rrrtovalues.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rrtoamount).toString())
+        holder.dashboardSiteBinding.rtCount.setText(items.rtocount.toString())
+        holder.dashboardSiteBinding.rtovalue.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rtoamount).toString())
+        holder.dashboardSiteBinding.rrtoCount.setText(items.rrtocount.toString())
+        holder.dashboardSiteBinding.rrtovalue.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rrtoamount).toString())
 
 
     }
@@ -272,7 +291,7 @@ class RtoPendencyAdapter(
     }
 
     class ViewHolder(val dashboardSiteBinding: RtoPendencyLayoutBinding) :
-            RecyclerView.ViewHolder(dashboardSiteBinding.root)
+        RecyclerView.ViewHolder(dashboardSiteBinding.root)
 }
 
 
