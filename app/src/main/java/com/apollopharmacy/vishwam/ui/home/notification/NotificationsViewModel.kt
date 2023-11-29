@@ -5,9 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ApnaRectroApiRepo
+import com.apollopharmacy.vishwam.data.network.RegistrationRepo
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.model.TrainersEmailIdResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
+import com.apollopharmacy.vishwam.ui.home.notification.model.NotificationModelResponse
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +30,15 @@ class NotificationsViewModel : ViewModel() {
 
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var proxyBaseUrl = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
+            }
+        }
         var baseUrl = "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/vishwam_notifications/list/vishwam-notifications-list-for-mobile?page=${page}&rows=${rows}&zcFetchListTotal=true"
         var token = ""
 //        for (i in data.APIS.indices) {
@@ -35,24 +49,64 @@ class NotificationsViewModel : ViewModel() {
 //            }
 //        }
         viewModelScope.launch {
+            state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.getNotificationList(
-                    baseUrl
+
+                RegistrationRepo.getDetails(
+                    proxyBaseUrl,
+                    proxyToken,
+                    GetDetailsRequest(
+                        baseUrl,
+                        "GET",
+                        "The",
+                        "",
+                        ""
+                    )
                 )
 
+
             }
+
+//            val response = withContext(Dispatchers.IO) {
+//                ApnaRectroApiRepo.getNotificationList(
+//                    baseUrl
+//                )
+
+//            }
             when (response) {
 
                 is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val storeWiseDetailListResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                NotificationModelResponse::class.java
+                            )
+                            if (storeWiseDetailListResponse.success!!) {
+                                notificationsActivityCallback.onSuccessNotificationDetails(storeWiseDetailListResponse)
 
+//                                getSurveyListResponse.value =
+//                                    surveyListResponse
+                            } else {
+                                notificationsActivityCallback.onFailureNotificationDetails(storeWiseDetailListResponse)
 
-                    if (response.value.success ?: null == true) {
-                        state.value = State.ERROR
-                        notificationsActivityCallback.onSuccessNotificationDetails(response.value)
+                            }
+
+                        }
+
                     } else {
-                        state.value = State.ERROR
-                        notificationsActivityCallback.onFailureNotificationDetails(response.value)
                     }
+
+//                    if (response.value.success ?: null == true) {
+//                        state.value = State.ERROR
+//                        notificationsActivityCallback.onSuccessNotificationDetails(response.value)
+//                    } else {
+//                        state.value = State.ERROR
+//                        notificationsActivityCallback.onFailureNotificationDetails(response.value)
+//                    }
                 }
 
                 is ApiResult.GenericError -> {

@@ -408,6 +408,7 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:onClick="@{()-> callback.onClickCalender()}"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
@@ -417,7 +418,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/value_10dp"
-                                        android:layout_weight="0.5"
+                                        android:layout_weight="0.8"
                                         android:orientation="vertical"
                                         android:visibility="visible"
                                         tools:ignore="Suspicious0dp">
@@ -436,7 +437,7 @@
 
                                             <LinearLayout
                                                 android:layout_marginStart="@dimen/text_dimen_10"
-                                                android:onClick="@{()-> callback.onClickCalender()}"
+
                                                 android:id="@+id/calender_grey_champs"
                                                 android:layout_marginTop="2dp"
                                                 android:layout_gravity="start"
@@ -1372,6 +1373,7 @@
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:theme="@style/TextLabelEditTextApnaProject"
                                 android:textColorHint="@color/black"
                                 android:visibility="gone">
 
@@ -1444,6 +1446,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColorHint="@color/black"
                                 android:visibility="gone"
+                                android:theme="@style/TextLabelEditTextApnaProject"
                                 app:counterMaxLength="250">
 
                                 <androidx.appcompat.widget.AppCompatEditText
@@ -1518,6 +1521,7 @@
                                 android:layout_marginTop="@dimen/value_10dp"
                                 android:textColorHint="@color/black"
                                 android:visibility="gone"
+                                android:theme="@style/TextLabelEditTextApnaProject"
                                 app:counterMaxLength="250">
 
                                 <androidx.appcompat.widget.AppCompatEditText
@@ -1620,6 +1624,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/value_15dp"
+                            android:theme="@style/TextLabelEditTextApnaProject"
                             android:layout_marginTop="@dimen/value_3dp"
                             android:layout_marginEnd="@dimen/value_15dp"
                             android:textColorHint="@color/black"
@@ -1933,6 +1938,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_2dp"
+                                    android:theme="@style/TextLabelEditTextApnaProject"
                                     android:layout_weight=".9"
                                     android:textColorHint="@color/black">
 

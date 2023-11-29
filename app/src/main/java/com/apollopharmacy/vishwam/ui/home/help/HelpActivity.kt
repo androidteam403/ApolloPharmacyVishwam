@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +13,8 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityHelpBinding
 import com.apollopharmacy.vishwam.ui.home.help.adapter.ModulesAdapter
+import com.apollopharmacy.vishwam.ui.home.help.model.HelpResponseModel
+import com.apollopharmacy.vishwam.util.NetworkUtil
 
 class HelpActivity : AppCompatActivity(), HelpActivityCallback {
     private lateinit var activityHelpBinding: ActivityHelpBinding
@@ -28,33 +31,38 @@ class HelpActivity : AppCompatActivity(), HelpActivityCallback {
     }
 
     private fun setup() {
-        modulesArrayList.add("Apna Retro")
-        modulesArrayList.add("Apna Survey")
-        modulesArrayList.add("Attendance")
-        modulesArrayList.add("Assests")
-        modulesArrayList.add("Cash closer")
-        modulesArrayList.add("Champs")
-        modulesArrayList.add("Complaints")
-        modulesArrayList.add("Dashboard")
-        modulesArrayList.add("Discount")
-        modulesArrayList.add("New Drug")
-        modulesArrayList.add("OMS QC")
-        modulesArrayList.add("Planogram")
-        modulesArrayList.add("Swach")
-        modulesArrayList.add("Sensing")
-        modulesArrayList.add("Swach")
+        if (NetworkUtil.isNetworkConnected(this)) {
+        helpActivityViewModel.getHelpDetailsApi(this)
+
+        } else {
+            Toast.makeText(
+                context,
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+
+//        modulesArrayList.add("Apna Retro")
+//        modulesArrayList.add("Apna Survey")
+//        modulesArrayList.add("Attendance")
+//        modulesArrayList.add("Assests")
+//        modulesArrayList.add("Cash closer")
+//        modulesArrayList.add("Champs")
+//        modulesArrayList.add("Complaints")
+//        modulesArrayList.add("Dashboard")
+//        modulesArrayList.add("Discount")
+//        modulesArrayList.add("New Drug")
+//        modulesArrayList.add("OMS QC")
+//        modulesArrayList.add("Planogram")
+//        modulesArrayList.add("Swach")
+//        modulesArrayList.add("Sensing")
+//        modulesArrayList.add("Swach")
 
 
 
 
-        modulesAdapter =
-            ModulesAdapter(this, modulesArrayList, this)
-        activityHelpBinding.modulesRecyclerView.setLayoutManager(
-            LinearLayoutManager(this)
-        )
-        activityHelpBinding.modulesRecyclerView.setAdapter(
-            modulesAdapter
-        )
+
 
         searchByModule()
 
@@ -107,5 +115,24 @@ class HelpActivity : AppCompatActivity(), HelpActivityCallback {
             activityHelpBinding.noModuleFoundLayout.visibility = View.VISIBLE
             activityHelpBinding.modulesRecyclerView.visibility = View.GONE
         }
+    }
+
+    override fun onSuccessHelpDetails(response: HelpResponseModel?) {
+        if(response!=null && response.data!=null && response!!.data!!.listData!=null && response.data!!.listData!!.rows!=null
+            && response.data!!.listData!!.rows!!.size>0){
+            modulesAdapter =
+                ModulesAdapter(this, response.data!!.listData!!.rows!!.sortedBy { it.title }, this)
+            activityHelpBinding.modulesRecyclerView.setLayoutManager(
+                LinearLayoutManager(this)
+            )
+            activityHelpBinding.modulesRecyclerView.setAdapter(
+                modulesAdapter
+            )
+        }
+
+    }
+
+    override fun onFailureHelpDetails(response: HelpResponseModel?) {
+        TODO("Not yet implemented")
     }
 }

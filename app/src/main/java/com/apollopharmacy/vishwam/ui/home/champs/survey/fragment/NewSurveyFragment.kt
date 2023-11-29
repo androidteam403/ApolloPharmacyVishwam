@@ -352,7 +352,9 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
         if (resultCode == Activity.RESULT_OK) {
             isSiteIdEmpty = data!!.getBooleanExtra("isSiteIdEmpty", isSiteIdEmpty)
             storeId = data!!.getStringExtra("siteId")
-            Preferences.setChampsSiteForEr(storeId!!)
+            if(data!!.getStringExtra("siteId")!=null){
+                Preferences.setChampsSiteForEr(storeId!!)
+            }
             siteName = data!!.getStringExtra("siteName")
             if (requestCode == 781) {
                 hideLoading()

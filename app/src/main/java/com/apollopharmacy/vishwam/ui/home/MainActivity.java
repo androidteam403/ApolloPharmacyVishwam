@@ -157,9 +157,11 @@ import java.util.Locale;
 
 import kotlin.jvm.internal.Intrinsics;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityCallback, MainActivityPlusIconCallback {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityCallback, MainActivityPlusIconCallback,MainActivityHelpIconCallback {
     public static MainActivity mInstance;
     public MainActivityCallback mainActivityCallback;
+
+    public MainActivityHelpIconCallback mainActivityHelpIconCallback;
     public MainActivityPlusIconCallback mainActivityPlusIconCallback;
     public static boolean isSuperAdmin = false;
     public static boolean isAttendanceRequired = false;
@@ -377,6 +379,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         mInstance = this;
         mainActivityCallback = this;
+        mainActivityHelpIconCallback =this;
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar = findViewById(R.id.toolbar);
         onClickRiderNotification();
@@ -480,8 +483,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         scannerIcon = findViewById(R.id.scanner);
         spinnerLayout = findViewById(R.id.spinnerlayoutRelative);
         helpIcon.setOnClickListener(v -> {
-            if (mainActivityCallback != null) {
-                mainActivityCallback.onclickHelpIcon();
+            if (mainActivityHelpIconCallback != null) {
+                mainActivityHelpIconCallback.onclickHelpIconH();
             }
         });
         siteIdIcon.setOnClickListener(v -> {
@@ -3787,8 +3790,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onclickHelpIcon() {
-        Intent intent = new Intent(this, HelpActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, HelpActivity.class);
+//        startActivity(intent);
     }
 
     public void startService() {
@@ -3938,6 +3941,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void applyTheme() {
         recreate();
+    }
+
+    @Override
+    public void onclickHelpIconH() {
+        Intent intent = new Intent(this, HelpActivity.class);
+        startActivity(intent);
     }
 }
 

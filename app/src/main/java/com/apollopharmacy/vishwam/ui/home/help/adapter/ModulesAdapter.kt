@@ -2,7 +2,8 @@ package com.apollopharmacy.vishwam.ui.home.help.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Paint
+import android.text.Html
+import android.text.Spanned
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterHelpModuleBinding
 import com.apollopharmacy.vishwam.ui.home.help.HelpActivityCallback
+import com.apollopharmacy.vishwam.ui.home.help.model.HelpResponseModel
 
 class ModulesAdapter(
     private var context: Context,
-    private var modulesArrayList: ArrayList<String>,
+    private var modulesArrayList: List<HelpResponseModel.Data.ListData.Row>,
     private var helpActivityCallback: HelpActivityCallback,
 ) : RecyclerView.Adapter<ModulesAdapter.ViewHolder>() {
-    private val filteredList = java.util.ArrayList<String>()
+    private val filteredList = java.util.ArrayList<HelpResponseModel.Data.ListData.Row>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val adapterHelpModuleBinding: AdapterHelpModuleBinding =
@@ -36,7 +38,15 @@ class ModulesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var modulesList = modulesArrayList.get(position)
 
-        holder.adapterHelpModuleBinding.moduleName.text = modulesArrayList.get(position)
+        holder.adapterHelpModuleBinding.moduleName.text = modulesArrayList.get(position).title
+//        val htmlString: String =
+//            modulesArrayList.get(position).description!!
+//        val spannedDescription: Spanned = Html.fromHtml(
+//            htmlString,
+//            Html.FROM_HTML_MODE_COMPACT
+//        ) // Use Html.FROM_HTML_MODE_LEGACY for older versions
+        holder.adapterHelpModuleBinding.description.text=modulesArrayList.get(position).description!!
+
 //        holder.adapterHelpModuleBinding.moduleName.setPaintFlags(holder.adapterHelpModuleBinding.moduleName.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
         var layoutIsShowing=false
         holder.adapterHelpModuleBinding.relativeLayout.setOnClickListener {
@@ -58,7 +68,7 @@ class ModulesAdapter(
     override fun getItemCount(): Int {
         return modulesArrayList!!.size
     }
-    val menuModelList: ArrayList<String>? = modulesArrayList
+    val menuModelList: List<HelpResponseModel.Data.ListData.Row> = modulesArrayList
     fun getFilter(): Filter? {
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence): FilterResults {
@@ -69,12 +79,12 @@ class ModulesAdapter(
                     filteredList.clear()
                     for (row in menuModelList!!) {
                         if (!filteredList.contains(row)) {
-                            if (row.toString().lowercase().contains(charString.lowercase())) {
+                            if (row.title.toString().lowercase().contains(charString.lowercase())) {
                                 filteredList.add(row)
                             } else {
                                 if (row!= null) {
 //                                boolean isItemContains = false;
-                                    for (innerRow in row) {
+                                    for (innerRow in row.title.toString()) {
                                         if (innerRow.lowercase()
                                                 .contains(charString.lowercase())
                                         ) {
@@ -99,7 +109,7 @@ class ModulesAdapter(
             @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
                 if (modulesArrayList != null && !modulesArrayList.isEmpty()) {
-                    modulesArrayList = filterResults.values as java.util.ArrayList<String>
+                    modulesArrayList = filterResults.values as List<HelpResponseModel.Data.ListData.Row>
                     try {
                         helpActivityCallback.noModuleFound(modulesArrayList.size)
                         notifyDataSetChanged()
