@@ -144,7 +144,7 @@
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:fontFamily="@font/poppin_bold"
+                                            android:fontFamily="@font/roboto_medium"
                                             android:paddingTop="4dp"
                                             android:text="FR"
                                             android:textAlignment="center"
@@ -155,14 +155,14 @@
                                             android:id="@+id/frCount"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_medium"
+                                            android:fontFamily="@font/poppin_bold"
                                             android:paddingBottom="3dp"
                                             android:text="30"
-                                            android:layout_marginTop="16dp"
+                                            android:layout_marginTop="15dp"
 
                                             android:textAlignment="center"
                                             android:textColor="@color/white"
-                                            android:textSize="12sp" />
+                                            android:textSize="13sp" />
 
 
                                     </RelativeLayout>
@@ -180,7 +180,7 @@
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:fontFamily="@font/poppin_bold"
+                                            android:fontFamily="@font/roboto_medium"
                                             android:paddingTop="4dp"
                                             android:text="RT"
                                             android:textAlignment="center"
@@ -191,14 +191,14 @@
                                             android:id="@+id/rtCount"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:layout_marginTop="16dp"
+                                            android:fontFamily="@font/poppin_bold"
+                                            android:layout_marginTop="15dp"
 
                                             android:paddingBottom="3dp"
                                             android:text="4"
                                             android:textAlignment="center"
                                             android:textColor="@color/white"
-                                            android:textSize="12sp" />
+                                            android:textSize="13sp" />
 
 
                                     </RelativeLayout>
