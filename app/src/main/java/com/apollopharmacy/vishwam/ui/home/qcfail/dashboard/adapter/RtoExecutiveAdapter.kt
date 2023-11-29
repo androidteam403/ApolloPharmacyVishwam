@@ -82,7 +82,7 @@ class RtoExecutiveAdapter(
                             o1.rtoamount!!
                         )
                     }
-                    rtoSitesAdapter = RtoSitesAdapter(mContext, mCallBack,
+                    rtoSitesAdapter = RtoSitesAdapter(mContext,
                             dashBoardList)
                     holder.executiveLayoutBinding.sitesRecyclerView.adapter = rtoSitesAdapter
                     rtoSitesAdapter!!.notifyDataSetChanged()
@@ -101,17 +101,18 @@ class RtoExecutiveAdapter(
                                 getqcfailhierarchyList.get(position).empid)
                 ) {
 
-                    holder.executiveLayoutBinding.rtocounts.setText(qcfailDashboardList.get(i).rtocount.toString())
+                    holder.executiveLayoutBinding.rtCount.setText(qcfailDashboardList.get(i).rtocount.toString())
 
                     if(qcfailDashboardList.get(i).rtoamount.toString().isNullOrEmpty()){
 
                     }else{
 
-                        holder.executiveLayoutBinding.rtovalues.setText( NumberFormat.getNumberInstance(Locale.US).format(qcfailDashboardList.get(i).rtoamount).toString())
+                        holder.executiveLayoutBinding.rtovalue.setText( NumberFormat.getNumberInstance(Locale.US).format(qcfailDashboardList.get(i).rtoamount).toString())
                     }
+                    holder.executiveLayoutBinding.sumOfRtValues.setText(NumberFormat.getNumberInstance(Locale.US).format(qcfailDashboardList.get(i).rtoamount!! + qcfailDashboardList.get(i).rrtoamount!!).toString())
 
-                    holder.executiveLayoutBinding.rrtocounts.setText(qcfailDashboardList.get(i).rrtocount.toString())
-                    holder.executiveLayoutBinding.rrtovalues.setText( NumberFormat.getNumberInstance(Locale.US).format(qcfailDashboardList.get(i).rrtoamount).toString())
+                    holder.executiveLayoutBinding.rrtoCount.setText(qcfailDashboardList.get(i).rrtocount.toString())
+                    holder.executiveLayoutBinding.rrtovalue.setText( NumberFormat.getNumberInstance(Locale.US).format(qcfailDashboardList.get(i).rrtoamount).toString())
 
 
 
@@ -215,23 +216,24 @@ class RtoExecutiveAdapter(
             if (empId!=items.empid){
             holder.executiveLayoutBinding.executiveLayout.visibility = View.VISIBLE
             if (items.designation?.replace(" ", "").equals("GENERALMANAGER", true)) {
-                holder.executiveLayoutBinding.executiveEmpname.setText(items.empid + "\n" + items.designation)
+                holder.executiveLayoutBinding.gmEmpname.setText(items.empid!!.split("-").get(0) +" (" +items.empid!!.split("-").get(1)+")"+ "\n"  + items.designation)
 
-
+                holder.executiveLayoutBinding.rtoLayout.setBackgroundColor(Color.parseColor(
+                    "#00acae"))
+                holder.executiveLayoutBinding.executiveLayout.setBackgroundColor(Color.parseColor(
+                    "#00acae"))
             } else if (items.designation?.replace(" ", "").equals("MANAGER", true)) {
-                holder.executiveLayoutBinding.executiveEmpname.setText(items.empid + "\n" + items.designation)
-
-                holder.executiveLayoutBinding.logo.setImageResource(R.drawable.qc_manager)
+                holder.executiveLayoutBinding.gmEmpname.setText(items.empid!!.split("-").get(0) +" (" +items.empid!!.split("-").get(1)+")"+ "\n"  + items.designation)
+                holder.executiveLayoutBinding.rtoLayout.setBackgroundColor(Color.parseColor(
+                    "#d48a2b"))
                 holder.executiveLayoutBinding.executiveLayout.setBackgroundColor(Color.parseColor(
-                        "#636fc1"))
-                holder.executiveLayoutBinding.arrowlayout.setBackgroundColor(Color.parseColor("#7e88c7"))
+                        "#d48a2b"))
             } else if (items.designation?.replace(" ", "").equals("EXECUTIVE", true)) {
-                holder.executiveLayoutBinding.executiveEmpname.setText(items.empid + "\n" + items.designation)
-
-                holder.executiveLayoutBinding.logo.setImageResource(R.drawable.qc_executive)
+                holder.executiveLayoutBinding.gmEmpname.setText(items.empid!!.split("-").get(0) +" (" +items.empid!!.split("-").get(1)+")"+ "\n"  + items.designation)
+                holder.executiveLayoutBinding.rtoLayout.setBackgroundColor(Color.parseColor(
+                    "#606db3"))
                 holder.executiveLayoutBinding.executiveLayout.setBackgroundColor(Color.parseColor(
-                        "#f4a841"))
-                holder.executiveLayoutBinding.arrowlayout.setBackgroundColor(Color.parseColor("#f6b968"))
+                        "#606db3"))
             }
 
             }

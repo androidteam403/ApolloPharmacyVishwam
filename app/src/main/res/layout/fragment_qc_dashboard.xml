@@ -17,38 +17,154 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/value_60dp"
+                android:layout_height="55dp"
                 android:layout_marginTop="2dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:weightSum="2">
                 <!--                android:background="#85B6B1"-->
 
-                <androidx.appcompat.widget.AppCompatButton
+                <LinearLayout
                     android:id="@+id/vishwampendency"
                     android:layout_width="0dp"
-                    android:layout_height="46dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/qc_rtopendency"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Vishwam Pendency"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_14sp" />
 
-                <androidx.appcompat.widget.AppCompatButton
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        android:gravity="center"
+                        android:text="Vishwam"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@{selectedStatus == 1 ? @color/very_light_greyy : @color/black}"
+                        android:textSize="@dimen/text_14sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@{selectedStatus == 1 ? @color/light_ash : @color/blueee}" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/rtopendency"
                     android:layout_width="0dp"
-                    android:layout_height="46dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/qc_pendency"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="RTO Pendency"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_14sp" />
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        android:gravity="center"
+                        android:text="OMS (FL &amp; RT)"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@{selectedStatus == 2 ? @color/light_greyyy : @color/black}"
+                        android:textSize="@dimen/text_14sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@{selectedStatus == 2 ? @color/light_ash : @color/blueee}" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/search_layout_vishwam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/background_for_qc"
+                    android:padding="@dimen/value_10dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="@dimen/text_10sp"
+                        android:layout_weight=".2"
+                        android:src="@drawable/close_blue_new"
+                        android:tint="@color/grey"
+
+                        android:visibility="visible" />
+
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/search_view_vishwam"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+
+                        android:fontFamily="@font/poppins_semi_bold"
+                        android:hint="Search by ID or Emp. ID"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:paddingStart="45dp"
+
+
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/no_order_found_vishwam"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/emptyImage_vishwam"
+                        android:layout_width="@dimen/value_120dp"
+                        android:layout_height="@dimen/value_120dp"
+                        android:layout_centerInParent="true"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/qca" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/emptyImage_vishwam"
+                        android:gravity="center"
+                        android:text="No Data Found"
+                        android:textColor="@color/backgroundColor"
+                        android:textSize="@dimen/text_18sp" />
+
+                </RelativeLayout>
+
+                <!--                <TextView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:background="@color/white"-->
+                <!--                    android:paddingTop="@dimen/text_10sp"-->
+                <!--                    android:paddingBottom="@dimen/text_10sp"-->
+                <!--                    android:text="No Data Found"-->
+                <!--                    android:textAlignment="center"-->
+                <!--                    android:textColor="@color/warning_color"-->
+                <!--                    android:visibility="gone" />-->
+
             </LinearLayout>
 
 
@@ -56,63 +172,51 @@
                 android:id="@+id/search_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:orientation="vertical"
-
                 android:visibility="gone">
 
-                <LinearLayout
-
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_45dp"
-                    android:layout_marginStart="@dimen/five5_sp"
-                    android:layout_marginEnd="@dimen/five5_sp"
-                    android:background="@drawable/search_view_pendency"
-                    android:orientation="horizontal"
-                    android:weightSum="2"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/background_for_qc"
+                    android:padding="@dimen/value_10dp"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <EditText
-                        android:id="@+id/search_view"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+
+                    <ImageView
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
                         android:layout_marginStart="5dp"
-                        android:layout_marginEnd="@dimen/value_60dp"
-                        android:layout_weight="1.8"
-                        android:background="@color/transparent"
-                        android:gravity="left|center"
-                        android:hint="Search by Site ID or Emp ID"
+                        android:layout_marginEnd="@dimen/text_10sp"
+                        android:layout_weight=".2"
+                        android:src="@drawable/close_blue_new"
+                        android:tint="@color/grey"
+
+                        android:visibility="visible" />
+
+
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/search_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+
+                        android:fontFamily="@font/poppins_semi_bold"
+                        android:hint="Search by ID or Emp. ID"
                         android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:paddingStart="@dimen/text_15sp"
+                        android:paddingStart="45dp"
 
-                        android:textColor="@color/black"
-                        android:textColorHint="@android:color/black"
-                        android:textSize="@dimen/text_14sp" />
+                        android:textSize="14sp" />
+                </RelativeLayout>
 
-                    <ImageView
-                        android:id="@+id/close"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-
-                        android:layout_marginEnd="@dimen/text_10sp"
-                        android:layout_weight=".2"
-
-
-                        android:src="@drawable/ic_search_24" />
-
-
-                    <ImageView
-                        android:id="@+id/close_arrow"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="@dimen/text_10sp"
-                        android:layout_weight=".2"
-                        android:src="@drawable/closee_black"
-
-
-                        android:visibility="gone" />
-                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/summaryRecycleView"
@@ -147,7 +251,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/emptyImage"
@@ -185,7 +289,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
 
@@ -193,6 +297,9 @@
                     android:id="@+id/dashboardrecycleview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="@dimen/text_20sp"
                     android:scrollbars="vertical"
                     android:visibility="visible"
@@ -204,6 +311,10 @@
                     android:id="@+id/rtodashboardrecycleview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+
                     android:layout_marginBottom="@dimen/text_20sp"
                     android:scrollbars="vertical"
                     android:visibility="gone"
@@ -244,4 +355,11 @@
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="selectedStatus"
+            type="Integer" />
+    </data>
 </layout>

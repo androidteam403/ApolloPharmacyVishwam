@@ -63,6 +63,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ui.home.qcfail.dashboard.QcDashboardActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.discount.bill.DiscountBillingActivity"
             android:exported="false"
             android:screenOrientation="portrait"

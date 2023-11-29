@@ -25,9 +25,9 @@
                     android:id="@+id/pendingLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/value_5dp"
-                    android:background="#fcf6e4"
+                    android:background="@color/pendency_list_qc"
                     android:orientation="horizontal"
+                    android:paddingTop="@dimen/value_5dp"
                     android:weightSum="1">
 
                     <RelativeLayout
@@ -45,96 +45,99 @@
                             android:visibility="visible" />
 
                     </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2"
-                        android:gravity="start">
-
-                        <TextView
-                            android:id="@+id/store"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:text="Store Id"
-                            android:textSize="@dimen/text_12sp"
-                            />
-
-                        <TextView
-                            android:id="@+id/store_id"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/store"
-                            android:fontFamily="@font/poppins_medium"
-                            android:text="50001400"
-                            android:layout_marginEnd="@dimen/value_1dp"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp"
-                         />
-                    </RelativeLayout>
-
 
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
+                        android:layout_weight="0.74"
                         android:gravity="start">
 
-                        <TextView
-                            android:id="@+id/order"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:text="Order Id"
-                            android:textSize="@dimen/text_12sp"
-                            />
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/orderid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/order"
-                            android:fontFamily="@font/poppins_medium"
-                            android:text="50001400"
-                            android:layout_marginEnd="@dimen/value_1dp"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp"
-                            />
+                            <TextView
+                                android:id="@+id/orderid"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/order"
+                                android:layout_marginEnd="@dimen/value_1dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text="50001400"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="1">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".4"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/store"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_medium"
+                                        android:text="Store ID: "
+                                        android:textSize="11sp" />
+
+                                    <TextView
+                                        android:id="@+id/store_id"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/store"
+                                        android:layout_marginEnd="@dimen/value_1dp"
+                                        android:fontFamily="@font/poppins_medium"
+                                        android:text="50001400"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".6"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/postedDateText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_medium"
+                                        android:text="Req. Date: "
+                                        android:textSize="11sp" />
+
+                                    <TextView
+                                        android:id="@+id/postedDate"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/postedDateText"
+                                        android:fontFamily="@font/poppins_medium"
+                                        android:text="25-sep-2020"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.21"
-                        android:gravity="start">
-
-                        <TextView
-                            android:id="@+id/postedDateText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:text="Req. Date"
-                            android:textSize="@dimen/text_12sp"
-                            />
-
-                        <TextView
-                            android:id="@+id/postedDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/postedDateText"
-                            android:fontFamily="@font/poppins_medium"
-                            android:text="25-sep-2020"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp"
-                           />
-                    </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.24"
-                        android:visibility="gone"
-                        android:gravity="start">
+                        android:gravity="start"
+                        android:visibility="gone">
 
 
                         <TextView
@@ -143,7 +146,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Qc Fail.Date"
-                            android:textSize="@dimen/text_12sp"
+                            android:textSize="11sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -169,17 +172,19 @@
                             android:layout_width="@dimen/text_22sp"
                             android:layout_height="@dimen/text_22sp"
                             android:contentDescription="@string/app_name"
-                            android:rotation="90"
+                            android:rotation="0"
                             android:src="@drawable/ic_baseline_arrow_forward_ios_24"
                             android:visibility="gone" />
 
 
                         <ImageView
                             android:id="@+id/arrow"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="33dp"
+                            android:layout_height="33dp"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_add_circle_outline_qc"
+                            android:rotation="180"
+                            android:src="@drawable/icon_back"
+                            android:tint="@color/dark_grey"
                             android:visibility="visible" />
 
                     </RelativeLayout>
@@ -189,7 +194,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fcf6e4"
+                    android:background="@color/pendency_list_qc"
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/value_5dp"
                     android:weightSum="1">
@@ -202,11 +207,11 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight=".88"
-                        android:visibility="gone"
                         android:layout_marginBottom="@dimen/value_5dp"
+                        android:layout_weight=".88"
+                        android:orientation="horizontal"
 
-                        android:orientation="horizontal">
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"

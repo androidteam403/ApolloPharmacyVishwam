@@ -1,5 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.dashboard
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.text.Editable
 import android.text.InputFilter
@@ -24,6 +26,8 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     private var pendingCountResponseList = ArrayList<PendingCountResponse.Pendingcount>()
     private var designationsList = ArrayList<String>()
     private var dashboardHistoryList = ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>()
+    private var distinctPendingCountResponseList = ArrayList<PendingCountResponse.Pendingcount>()
+    var dashBaordAdapter: DashBaordAdapter? = null
 
     var rtoPendencyAdapter: RtoPendencyAdapter? = null
     var desig: String = ""
@@ -54,6 +58,8 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         showLoading()
         MainActivity.mInstance.mainActivityCallback = this
         callApi()
+        viewBinding.selectedStatus = 2
+
 //        if(isVishwamPendingTab){
         viewModel.getQcPendingList(
             Preferences.getToken(),
@@ -74,30 +80,26 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val charText = s.toString()
 
-                if (charText.replace(" ", "").startsWith("AP")) {
+                if (charText.isNotEmpty() && charText.firstOrNull()?.isLetter() == true) {
                     if (charText.length > 3) {
                         viewBinding.rtodashboardrecycleview.visibility = View.GONE
                         viewBinding.noOrderFound.visibility = View.GONE
 
-                        viewBinding.close.visibility = View.GONE
-                        viewBinding.closeArrow.visibility = View.VISIBLE
 
                         if (dashboardHistoryList.isNullOrEmpty()) {
 
                         } else {
 
-                            qcDashboardList =
-                                dashboardHistoryList.distinctBy { it.empid }.stream()
-                                    .filter { dashboardHistoryList: Getqcfailpendinghistorydashboard.Pendingcount ->
-                                        dashboardHistoryList.empid?.contains(
-                                            charText.replace(
-                                                " ",
-                                                ""
-                                            ).toUpperCase()
-                                                .replace(" ", "")
-                                        )!!
-                                    }
-                                    .collect(Collectors.toList()) as ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>
+                            qcDashboardList = dashboardHistoryList.distinctBy { it.empid }.stream()
+                                .filter { dashboardHistoryList: Getqcfailpendinghistorydashboard.Pendingcount ->
+                                    dashboardHistoryList.empid?.contains(
+                                        charText.replace(
+                                            " ",
+                                            ""
+                                        ).toUpperCase().replace(" ", "")
+                                    )!!
+                                }
+                                .collect(Collectors.toList()) as ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>
 
                         }
 
@@ -136,8 +138,6 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
 
-                        viewBinding.close.visibility = View.GONE
-                        viewBinding.closeArrow.visibility = View.VISIBLE
 
 
 
@@ -177,14 +177,6 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
             override fun afterTextChanged(s: Editable?) {
-                viewBinding.closeArrow.setOnClickListener {
-                    viewBinding.searchView.setText("")
-                    viewBinding.close.visibility = View.VISIBLE
-
-                    viewBinding.noOrderFound.visibility = View.GONE
-
-                    viewBinding.closeArrow.visibility = View.GONE
-                }
 
             }
 
@@ -216,14 +208,20 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
                 for (i in designations.indices) {
                     designationsList.add(designations.get(i))
                 }
+                val sortedList = designationsList.sortedWith(compareByDescending {
+                    it == Preferences.getAppLevelDesignationQCFail() // Put items matching the condition first
+                })
 
-                viewBinding.dashboardrecycleview.adapter =
-                    context?.let { it1 ->
+// Convert the sortedList to an ArrayList
+                val arrayList: ArrayList<String> = ArrayList(sortedList)
+                distinctPendingCountResponseList = pendingCountResponseList.distinctBy { it.empid } as ArrayList<PendingCountResponse.Pendingcount>
+                    dashBaordAdapter=context?.let { it1 ->
                         DashBaordAdapter(
                             it1, pendingCountResponseList,
-                            designationsList
+                            arrayList, distinctPendingCountResponseList
                         )
                     }
+                viewBinding.dashboardrecycleview.adapter =dashBaordAdapter
 
 
             } else {
@@ -241,6 +239,15 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
             if (it.status == true) {
 
+                for (i in it.pendingcount!!.indices) {
+                    if (it.pendingcount!!.get(i).empid!!.contains("-")) {
+                        viewModel.getQcPendingDashboardHistoryList(
+                            it.pendingcount!!.get(i).empid!!.split("-").get(0),
+                            it.pendingcount!!.get(i).designation!!
+                        )
+                    }
+                }
+
 
                 val getqcfailpendinghistoryforhierarchy: Getqcfailpendinghistoryforhierarchy
                 getqcfailpendinghistoryforhierarchy = it
@@ -253,6 +260,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
                     items.pendingcount = i.pendingcount
 
                     dashboardHierarchyList.add(items)
+
                     rtoPendencyAdapter?.notifyDataSetChanged()
 
                 }
@@ -297,54 +305,71 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 //            Toast.makeText(context, "RTO refreshed", Toast.LENGTH_SHORT).show()
             if (it.status == true) {
 //                Toast.makeText(context, "Refresh done", Toast.LENGTH_SHORT).show()
+                if (desig.equals("EXECUTIVE")) {
+                    val intent = Intent(context, QcDashboardActivity::class.java)
+                    intent.putExtra("empId", employeId)
+                    intent.putExtra(
+                        "dashboardList",
+                        it.pendingcount as ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>
+                    )
+                    intent.putExtra("designation", desig)
+                    startActivityForResult(intent, 221)
+                } else {
 
 
-                val getqcfailpendinghistorydashboard: Getqcfailpendinghistorydashboard
-                getqcfailpendinghistorydashboard = it
-                getdashboardHistoryList = getqcfailpendinghistorydashboard.pendingcount
+                    val getqcfailpendinghistorydashboard: Getqcfailpendinghistorydashboard
+                    getqcfailpendinghistorydashboard = it
+                    getdashboardHistoryList = getqcfailpendinghistorydashboard.pendingcount
 
 
 
 
 
-                for (i in getdashboardHistoryList!!) {
+                    for (i in getdashboardHistoryList!!) {
 
-                    val items = Getqcfailpendinghistorydashboard.Pendingcount()
-                    items.designation = i.designation
-                    items.empid = i.empid
-                    items.rtocount = i.rtocount
-                    items.rtoamount = i.rtoamount
-                    items.rrtocount = i.rrtocount
-                    items.rrtoamount = i.rrtoamount
-                    items.setfetched(true)
-                    dashboardHistoryList!!.add(items)
+                        val items = Getqcfailpendinghistorydashboard.Pendingcount()
+                        items.designation = i.designation
+                        items.empid = i.empid
+                        items.rtocount = i.rtocount
+                        items.rtoamount = i.rtoamount
+                        items.rrtocount = i.rrtocount
+                        items.rrtoamount = i.rrtoamount
+                        items.setfetched(true)
+                        dashboardHistoryList!!.add(items)
+                        rtoPendencyAdapter?.notifyDataSetChanged()
+
+
+                    }
+
+
+                    rtoPendencyAdapter =
+                        context?.let { it1 ->
+                            dashboardHistoryList?.let { it2 ->
+                                RtoPendencyAdapter(
+                                    it1,
+                                    this, desig,
+                                    it2,
+                                    dashboardHierarchyList
+                                )
+                            }
+                        }
+
+
+                    viewBinding.rtodashboardrecycleview.adapter = rtoPendencyAdapter
                     rtoPendencyAdapter?.notifyDataSetChanged()
 
 
                 }
 
-
-
-                rtoPendencyAdapter =
-                    context?.let { it1 ->
-                        dashboardHistoryList?.let { it2 ->
-                            RtoPendencyAdapter(
-                                it1,
-                                this, desig,
-                                it2,
-                                dashboardHierarchyList
-                            )
-                        }
-                    }
-
-
-                viewBinding.rtodashboardrecycleview.adapter = rtoPendencyAdapter
-                rtoPendencyAdapter?.notifyDataSetChanged()
             }
 
         }
 
         viewBinding.rtopendency.setOnClickListener {
+            viewBinding.selectedStatus = 1
+            viewBinding.searchLayout.visibility=View.VISIBLE
+            viewBinding.searchLayoutVishwam.visibility=View.GONE
+
             isVishwamPendingTab = false
             if (getdashboardHistoryList.isNullOrEmpty()) {
                 viewBinding.noOrderFoundText.visibility = View.VISIBLE
@@ -352,48 +377,51 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
             } else {
                 viewBinding.noOrderFoundText.visibility = View.GONE
                 viewBinding.rtodashboardrecycleview.visibility = View.VISIBLE
-                viewBinding.searchLayout.visibility = View.VISIBLE
             }
 
             viewBinding.dashboardrecycleview.visibility = View.GONE
-
-            viewBinding.rtopendency.setBackgroundDrawable(context?.let { it1 ->
-                ContextCompat.getDrawable(it1, R.drawable.qc_rtopendency)
-            })
-            viewBinding.vishwampendency.setBackgroundDrawable(context?.let { it1 ->
-                ContextCompat.getDrawable(it1, R.drawable.qc_pendency)
-            })
-
-            viewBinding.vishwampendency.setTextColor(Color.parseColor("#FF000000"))
 
 
         }
 
         viewBinding.vishwampendency.setOnClickListener {
+            viewBinding.selectedStatus = 2
+            viewBinding.searchLayout.visibility=View.GONE
+            viewBinding.searchLayoutVishwam.visibility=View.VISIBLE
             isVishwamPendingTab = true
             if (pendingCountResponseList.isNullOrEmpty()) {
                 viewBinding.noOrderFoundText.visibility = View.VISIBLE
             } else {
                 viewBinding.noOrderFoundText.visibility = View.GONE
                 viewBinding.dashboardrecycleview.visibility = View.VISIBLE
-                viewBinding.searchLayout.visibility = View.GONE
 
 
             }
             viewBinding.rtodashboardrecycleview.visibility = View.GONE
 
-            viewBinding.vishwampendency.setBackgroundDrawable(context?.let { it1 ->
-                ContextCompat.getDrawable(it1, R.drawable.qc_rtopendency)
-            })
-            viewBinding.rtopendency.setBackgroundDrawable(context?.let { it1 ->
-                ContextCompat.getDrawable(it1, R.drawable.qc_pendency)
-            })
-
-
-            viewBinding.vishwampendency.setTextColor(Color.parseColor("#FF000000"))
-
 
         }
+        viewBinding.searchViewVishwam.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun afterTextChanged(editable: Editable) {
+                if (editable.length >= 2) {
+                    if (dashBaordAdapter != null) {
+                        dashBaordAdapter!!.getFilter()!!.filter(editable)
+                    }
+                } else if (viewBinding.searchViewVishwam.getText().toString()
+                        .equals("")
+                ) {
+                    if (dashBaordAdapter != null) {
+                        dashBaordAdapter!!.getFilter()!!.filter("")
+                    }
+                } else {
+                    if (dashBaordAdapter != null) {
+                        dashBaordAdapter!!.getFilter()!!.filter("")
+                    }
+                }
+            }
+        })
 
 
     }
@@ -416,9 +444,16 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         if (qcdashboardHistoryList != null) {
             desig = designation
             employeId = empId
+            if (desig.equals("EXECUTIVE")) {
+                viewModel.getQcPendingDashboardHistoryList(empId.split("-").get(0), designation)
+
+            }
+            else{
+                viewModel.getQcPendingHierarchyHistoryList(empId.split("-").get(0), designation)
+            }
 
 
-            viewModel.getQcPendingHierarchyHistoryList(empId, designation)
+//            viewModel.getQcPendingHierarchyHistoryList(empId, designation)
         }
 
 
@@ -434,11 +469,16 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         desig = designation
 
         employeId = empId
+//        if (desig.equals("EXECUTIVE")){
+//            val intent=Intent(context,QcDashboardActivity::class.java)
+//            intent.putExtra("empId", employeId)
+//            intent.putExtra("designation", desig)
+//            startActivityForResult(intent, 221)        }
 
+//        viewModel.getQcPendingHierarchyHistoryList(empId.split("-").get(0), designation)
 
-        viewModel.getQcPendingDashboardHistoryList(empId, designation)
+        viewModel.getQcPendingDashboardHistoryList(empId.split("-").get(0), designation)
 
-        viewModel.getQcPendingHierarchyHistoryList(empId, designation)
     }
 
     override fun onClickManagerHierarchy(position: Int, designation: String, empId: String) {
@@ -454,9 +494,14 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
 
-        viewModel.getQcPendingHierarchyHistoryList(empId, designation)
+        if (desig.equals("EXECUTIVE")) {
+            viewModel.getQcPendingDashboardHistoryList(empId.split("-").get(0), designation)
 
-        viewModel.getQcPendingDashboardHistoryList(empId, designation)
+        }
+        else{
+            viewModel.getQcPendingHierarchyHistoryList(empId.split("-").get(0), designation)
+        }
+//        viewModel.getQcPendingDashboardHistoryList(empId.split("-").get(0), designation)
 
     }
 
@@ -466,6 +511,27 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
     override fun onClickSiteIdIcon() {
         TODO("Not yet implemented")
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 221) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                for (i in dashboardHierarchyList.indices) {
+                    for (j in dashboardHierarchyList.get(i).pendingcount!!.indices) {
+                        if (dashboardHierarchyList.get(i).pendingcount!!.get(j).empid.equals(
+                                employeId
+                            )
+                        ) {
+                            dashboardHierarchyList.get(i).pendingcount!!.get(j).setisClick(false)
+                            rtoPendencyAdapter!!.notifyDataSetChanged()
+                        }
+                    }
+
+                }
+            }
+        }
     }
 
     override fun onClickQcFilterIcon() {
@@ -503,7 +569,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     override fun onClickSubmenuItem(
         menuName: String?,
         submenus: java.util.ArrayList<MenuModel>?,
-        position: Int
+        position: Int,
     ) {
     }
 

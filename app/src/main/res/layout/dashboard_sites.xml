@@ -7,183 +7,102 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:weightSum="1"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight=".1"
+                android:layout_height="18dp"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center"
+
+                android:src="@drawable/home"
+                android:tint="@color/grey" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight=".536"
                 android:layout_height="wrap_content"
-                android:background="@drawable/squareboxright"
-                android:orientation="horizontal"
-
-                android:weightSum="5">
-
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0185"
-                    android:background="@drawable/site_dashquarebox_right"
-
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:id="@+id/empid"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingStart="4sp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="120"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/dimen11sp" />
-
-                </TableLayout>
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2.4876"
-
-                    android:background="@drawable/dashquarebox_right"
-
-
-                    android:orientation="vertical">
-
-
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/storeid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
+                        android:fontFamily="@font/poppins_semi_bold"
                         android:text="300"
-                        android:paddingStart="4sp"
-                        android:textAlignment="center"
+                        android:textAlignment="textStart"
 
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen11sp" />
 
-                </TableLayout>
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".81"
-                    android:background="@drawable/site_dashquarebox_right"
-
-                    android:orientation="vertical">
-
-
                     <TextView
-                        android:id="@+id/frcount"
+                        android:id="@+id/storeName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingStart="4sp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="-"
-                        android:textAlignment="center"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        android:paddingBottom="4dp"
+                        android:text="Apollo Test Site"
+                        android:textAlignment="textStart"
+                        android:layout_marginTop="22dp"
+
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen11sp" />
-
-                </TableLayout>
-
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".7"
-                    android:background="@drawable/dashquarebox_right"
-
-                    android:orientation="vertical">
+                </RelativeLayout>
 
 
-                    <TextView
-                        android:id="@+id/rtcount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingStart="4sp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="-"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_10sp" />
-
-                </TableLayout>
-
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-
-                    android:background="@drawable/squarebox_right"
-
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:id="@+id/manager"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:paddingStart="4sp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="240"
-
-                        android:textAlignment="center"
-                        android:textColor="#40a776"
-
-                        android:textSize="@dimen/text_10sp" />
-                </TableLayout>
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:background="@drawable/squarebox"
-
-                    android:orientation="vertical">
-
-
-
-                    <TextView
-                        android:id="@+id/generalmanager"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:paddingStart="8dp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="50"
-
-                        android:textAlignment="center"
-                        android:textColor="#663399"
-
-                        android:textSize="12sp" />
-                </TableLayout>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/frcount"
+                android:layout_width="0dp"
+                android:layout_weight=".13"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:background="@drawable/background_for_champs_green"
+                android:backgroundTint="@color/pendency_orange"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/roboto_medium"
+                android:paddingStart="4sp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="-"
+
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen11sp" />
+
+            <TextView
+                android:id="@+id/rtcount"
+                android:layout_width="0dp"
+                android:layout_weight=".13"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="5dp"
+
+                android:layout_marginTop="@dimen/value_5dp"
+                android:background="@drawable/background_for_champs_green"
+                android:backgroundTint="@color/pendency_orange"
+                android:fontFamily="@font/roboto_medium"
+                android:paddingStart="4sp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="-"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen11sp" />
+
+
         </LinearLayout>
     </RelativeLayout>
 </layout>

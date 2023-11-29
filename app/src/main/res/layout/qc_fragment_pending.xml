@@ -10,21 +10,22 @@
         android:background="@color/white"
 
         tools:context=".ui.home.qcfail.pending">
+
         <LinearLayout
-            android:orientation="horizontal"
             android:id="@+id/search_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="1"
-            >
+            android:orientation="horizontal"
+            android:weightSum="1">
+
             <LinearLayout
 
                 android:layout_width="0dp"
-                android:layout_weight="0.7"
                 android:layout_height="@dimen/value_45dp"
                 android:layout_marginStart="@dimen/five5_sp"
                 android:layout_marginTop="@dimen/value_5dp"
                 android:layout_marginEnd="@dimen/five5_sp"
+                android:layout_weight="0.7"
                 android:background="@drawable/search_view_pending"
                 android:orientation="horizontal"
                 android:weightSum="2"
@@ -38,14 +39,16 @@
                     android:layout_marginEnd="@dimen/value_60dp"
                     android:layout_weight="1.8"
                     android:background="@color/transparent"
+                    android:fontFamily="@font/poppins_medium"
                     android:gravity="left|center"
-                    android:hint="Search by Order ID"
+                    android:hint="Search by ID"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingStart="@dimen/text_15sp"
+                    android:textColorHint="@color/dark_grey"
 
-                    android:textColor="@color/black"
+                    android:textColor="@color/blackqc"
                     android:textSize="@dimen/text_14sp" />
 
                 <ImageView
@@ -56,8 +59,8 @@
                     android:layout_marginEnd="@dimen/text_10sp"
                     android:layout_weight=".2"
 
-
-                    android:src="@drawable/ic_search_24" />
+                    android:src="@drawable/close_blue_new"
+                    android:tint="@color/grey" />
 
 
                 <ImageView
@@ -71,52 +74,52 @@
 
                     android:visibility="gone" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginEnd="@dimen/value_3dp"
-                android:background="@drawable/search_view_pending"
-                android:layout_marginTop="@dimen/value_5dp"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/value_45dp"
-                android:layout_weight="0.3">
+                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_marginEnd="@dimen/value_3dp"
+                android:layout_weight="0.3"
+                android:background="@drawable/search_view_pending">
 
                 <RelativeLayout
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:visibility="visible"
-
                     android:id="@+id/spinnerlayoutRelative"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    >
+
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:visibility="visible">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/filtertypes"
-                        android:gravity="center"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:focusable="true"
+                        android:gravity="center"
                         android:textColorHint="@color/white"
 
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:gravity="center"
-                            android:layout_gravity="center"
                             android:id="@+id/selectfiltertype"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
+                            android:layout_gravity="center"
                             android:clickable="true"
                             android:drawableEnd="@drawable/ic_baseline_arrow_black"
                             android:editable="false"
                             android:enabled="true"
                             android:focusable="false"
+                            android:gravity="center"
                             android:hint="Per Page"
                             android:paddingStart="@dimen/value_3dp"
                             android:paddingEnd="@dimen/value_10dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/black"
+                            android:textColor="@color/blackqc"
+                            android:textColorHint="@color/blackqc"
                             android:textSize="@dimen/text_12sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,17 +127,15 @@
             </LinearLayout>
 
 
-
         </LinearLayout>
-
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/parentLayout"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_below="@id/search_layout"
             android:layout_marginTop="8dp"
-            android:layout_height="match_parent"
             android:layout_marginBottom="50dp">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -146,6 +147,8 @@
                     android:id="@+id/recyclerViewPending"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="5"
                     tools:listitem="@layout/qc_pending_layout" />
@@ -216,7 +219,6 @@
             android:visibility="visible">
 
 
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -267,7 +269,6 @@
                     android:textColor="@color/black"
                     android:textSize="9sp" />
             </RelativeLayout>
-
 
 
         </RelativeLayout>
