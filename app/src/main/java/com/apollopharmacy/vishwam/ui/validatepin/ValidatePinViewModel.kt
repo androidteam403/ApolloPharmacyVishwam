@@ -19,6 +19,7 @@ import com.apollopharmacy.vishwam.network.ApiClient
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.notification.NotificationsActivityCallback
 import com.apollopharmacy.vishwam.ui.home.notification.NotificationsViewModel
+import com.apollopharmacy.vishwam.ui.home.notification.model.NotificationModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.ui.rider.login.BackSlash
@@ -107,13 +108,21 @@ class ValidatePinViewModel : ViewModel() {
             }
         }
     }
-
     fun getNotificationDetailsApi(
-        validatePinCallBack: ValidatePinCallBack
+        validatePinCallBack: ValidatePinCallBack,
     ) {
 
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var proxyBaseUrl = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
+            }
+        }
         var baseUrl = "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/vishwam_notifications/list/vishwam-notifications-list-for-mobile?page=1&rows=10&zcFetchListTotal=true"
         var token = ""
 //        for (i in data.APIS.indices) {
@@ -124,28 +133,68 @@ class ValidatePinViewModel : ViewModel() {
 //            }
 //        }
         viewModelScope.launch {
+            state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.getNotificationList(
-                    baseUrl
+
+                RegistrationRepo.getDetails(
+                    proxyBaseUrl,
+                    proxyToken,
+                    GetDetailsRequest(
+                        baseUrl,
+                        "GET",
+                        "The",
+                        "",
+                        ""
+                    )
                 )
 
+
             }
+
+//            val response = withContext(Dispatchers.IO) {
+//                ApnaRectroApiRepo.getNotificationList(
+//                    baseUrl
+//                )
+
+//            }
             when (response) {
 
                 is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val storeWiseDetailListResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                NotificationModelResponse::class.java
+                            )
+                            if (storeWiseDetailListResponse.success!!) {
+                                validatePinCallBack.onSuccessNotificationDetails(storeWiseDetailListResponse)
 
+//                                getSurveyListResponse.value =
+//                                    surveyListResponse
+                            } else {
+                                validatePinCallBack.onFailureNotificationDetails(storeWiseDetailListResponse)
 
-                    if (response.value.success ?: null == true) {
-                        state.value = State.ERROR
-                        validatePinCallBack.onSuccessNotificationDetails(response.value)
+                            }
+
+                        }
+
                     } else {
-                        state.value = State.ERROR
-                        validatePinCallBack.onFailureNotificationDetails(response.value)
                     }
+
+//                    if (response.value.success ?: null == true) {
+//                        state.value = State.ERROR
+//                        notificationsActivityCallback.onSuccessNotificationDetails(response.value)
+//                    } else {
+//                        state.value = State.ERROR
+//                        notificationsActivityCallback.onFailureNotificationDetails(response.value)
+//                    }
                 }
 
                 is ApiResult.GenericError -> {
-                    validatePinCallBack.onFailureNotificationDetail()
+//                    notificationsActivityCallback.onFailureNotificationDetail()
                     commands.postValue(response.error?.let {
                         Command.ShowToast(it)
                     })
@@ -153,21 +202,21 @@ class ValidatePinViewModel : ViewModel() {
                 }
 
                 is ApiResult.NetworkError -> {
-                    validatePinCallBack.onFailureNotificationDetail()
+//                    notificationsActivityCallback.onFailureNotificationDetail()
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
 
                 }
 
                 is ApiResult.UnknownError -> {
-                    validatePinCallBack.onFailureNotificationDetail()
+//                    notificationsActivityCallback.onFailureNotificationDetail()
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
 
                 }
 
                 else -> {
-                    validatePinCallBack.onFailureNotificationDetail()
+//                    notificationsActivityCallback.onFailureNotificationDetail()
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
 
                     state.value = State.ERROR
@@ -176,6 +225,74 @@ class ValidatePinViewModel : ViewModel() {
         }
 
     }
+//    fun getNotificationDetailsApi(
+//        validatePinCallBack: ValidatePinCallBack
+//    ) {
+//
+//        val url = Preferences.getApi()
+//        val data = Gson().fromJson(url, ValidateResponse::class.java)
+//        var baseUrl = "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/vishwam_notifications/list/vishwam-notifications-list-for-mobile?page=1&rows=10&zcFetchListTotal=true"
+//        var token = ""
+////        for (i in data.APIS.indices) {
+////            if (data.APIS[i].NAME.equals("RT PENDING APPROVED LIST")) {
+////                baseUrl = data.APIS[i].URL
+////                token = data.APIS[i].TOKEN
+////                break
+////            }
+////        }
+//        viewModelScope.launch {
+//            val response = withContext(Dispatchers.IO) {
+//                ApnaRectroApiRepo.getNotificationList(
+//                    baseUrl
+//                )
+//
+//            }
+//            when (response) {
+//
+//                is ApiResult.Success -> {
+//
+//
+//                    if (response.value.success ?: null == true) {
+//                        state.value = State.ERROR
+//                        validatePinCallBack.onSuccessNotificationDetails(response.value)
+//                    } else {
+//                        state.value = State.ERROR
+//                        validatePinCallBack.onFailureNotificationDetails(response.value)
+//                    }
+//                }
+//
+//                is ApiResult.GenericError -> {
+//                    validatePinCallBack.onFailureNotificationDetail()
+//                    commands.postValue(response.error?.let {
+//                        Command.ShowToast(it)
+//                    })
+//                    state.value = State.ERROR
+//                }
+//
+//                is ApiResult.NetworkError -> {
+//                    validatePinCallBack.onFailureNotificationDetail()
+//                    commands.postValue(Command.ShowToast("Network Error"))
+//                    state.value = State.ERROR
+//
+//                }
+//
+//                is ApiResult.UnknownError -> {
+//                    validatePinCallBack.onFailureNotificationDetail()
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                    state.value = State.ERROR
+//
+//                }
+//
+//                else -> {
+//                    validatePinCallBack.onFailureNotificationDetail()
+//                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//
+//                    state.value = State.ERROR
+//                }
+//            }
+//        }
+//
+//    }
 
     fun getApplevelDesignation(
         empId: String,
