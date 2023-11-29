@@ -156,12 +156,7 @@
 
             </LinearLayout>
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/value_10dp"
-                android:layout_height="match_parent"
-                app:cardCornerRadius="@dimen/value_5dp"
-                app:cardElevation="3dp">
+
 
                 <LinearLayout
                     android:id="@+id/heaader"
@@ -573,7 +568,6 @@
                         tools:listitem="@layout/rto_sites" />
 
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
