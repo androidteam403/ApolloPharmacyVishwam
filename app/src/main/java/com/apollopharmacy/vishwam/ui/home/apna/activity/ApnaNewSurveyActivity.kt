@@ -1843,7 +1843,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 val minute = calendar.get(Calendar.MINUTE)
                 morningFromTimePickerDialog = TimePickerDialog(
                     this@ApnaNewSurveyActivity,
-                    android.R.style.Theme_DeviceDefault_DayNight,
+                    android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     object : TimePickerDialog.OnTimeSetListener {
                         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
                             morningFromHour = hourOfDay
