@@ -636,9 +636,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             isChampsRequired = accessDetails.getISCHAMPAPP();
             isApnaSurveyRequired = accessDetails.getISAPNAAPP();
             isApnaRetroRequired = accessDetails.getISAPNARETROAPP();
-            isDashboardRequired = accessDetails.getISDASHBOARDAPP();
-            isRetroQrAppRequired = accessDetails.getISRETROQRAPP();
-            isPlanogramAppRequired = accessDetails.getISPLANAGRAMAPP();
+            if (accessDetails.getISDASHBOARDAPP() != null) {
+                isDashboardRequired = accessDetails.getISDASHBOARDAPP();
+            }
+            if (accessDetails.getISRETROQRAPP() != null) {
+                isRetroQrAppRequired = accessDetails.getISRETROQRAPP();
+            }
+            if (accessDetails.getISPLANAGRAMAPP() != null) {
+                isPlanogramAppRequired = accessDetails.getISPLANAGRAMAPP();
+            }
         }
 
         TextView version = findViewById(R.id.version);
