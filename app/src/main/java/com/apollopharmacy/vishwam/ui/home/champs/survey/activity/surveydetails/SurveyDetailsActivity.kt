@@ -63,7 +63,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
     var isNewSurveyCreated = false
     var status = ""
     lateinit var trainerEmailList: Dialog
-    lateinit var trainersEmailAdapter: TrainersEmailAdapterForDialog
+    private var trainersEmailAdapter: TrainersEmailAdapterForDialog?=null
     var listForTrainers= ArrayList<String>()
     var emailList = ArrayList<TrainersEmailIdResponse.Data.ListData.Row.TrainerEmail>()
     var dialogLocationListBinding: DialogTrainersEmailBinding?=null

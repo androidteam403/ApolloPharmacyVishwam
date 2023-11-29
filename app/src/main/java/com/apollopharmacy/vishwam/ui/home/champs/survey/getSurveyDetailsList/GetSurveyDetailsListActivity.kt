@@ -96,6 +96,7 @@ class GetSurveyDetailsListActivity :
         viewBinding.callback = this
         MainActivity.mInstance.mainActivityCallback = this
         MainActivity.mInstance.mainActivityPlusIconCallback = this
+
 //        getStoreWiseEmpIdResponse =
 //            intent.getSerializableExtra("getStoreWiseEmpIdResponse") as GetStoreWiseEmpIdResponse?
 //        getStoreWiseDetails =
@@ -815,7 +816,7 @@ class GetSurveyDetailsListActivity :
     }
 
     override fun onclickHelpIcon() {
-        TODO("Not yet implemented")
+
     }
 
     fun submitButtonEnable( isCompletedStatus: Boolean,

@@ -61,7 +61,7 @@ import kotlin.math.roundToInt
 
 
 class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUploadChampsCallback,
-    SurveyDetailsCallback,ChampsListCalenderDialog.DateSelected {
+    SurveyDetailsCallback, ChampsListCalenderDialog.DateSelected {
 
     private lateinit var activityChampsSurveyBinding: ActivityChampsSurveyBinding
     private var getStoreWiseEmpIdResponse: GetStoreWiseEmpIdResponse? = null
@@ -184,7 +184,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         champsSurveyViewModel.getTrainerDetails(this)
 
         if (status.equals("NEW")) {
-            activityChampsSurveyBinding.calenderGreyChamps.visibility=View.VISIBLE
+            activityChampsSurveyBinding.calenderGreyChamps.visibility = View.VISIBLE
             activityChampsSurveyBinding.deleteDown.visibility = View.GONE
             activityChampsSurveyBinding.previewDown.visibility = View.VISIBLE
             surveyDetailsByChampsIdForCheckBox = false
@@ -224,7 +224,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 activityChampsSurveyBinding.trainerLayout.visibility = View.GONE
             }
             surveyDetailsByChampsIdForCheckBox = true
-            activityChampsSurveyBinding.calenderGreyChamps.visibility=View.VISIBLE
+            activityChampsSurveyBinding.calenderGreyChamps.visibility = View.VISIBLE
             activityChampsSurveyBinding.deleteDown.visibility = View.VISIBLE
             activityChampsSurveyBinding.previewDown.visibility = View.GONE
 
@@ -235,7 +235,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             } else {
                 activityChampsSurveyBinding.trainerLayout.visibility = View.GONE
             }
-            activityChampsSurveyBinding.calenderGreyChamps.visibility=View.GONE
+            activityChampsSurveyBinding.calenderGreyChamps.visibility = View.GONE
             surveyDetailsByChampsIdForCheckBox = true
         }
 
@@ -833,7 +833,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         val frommdates = fromDateFormats.parse(strFromates)
         val fromDateNewFormats = SimpleDateFormat("hh:mm a").format(frommdates)
 
-        dialogFilterUploadBinding!!.durationTexthrs.text = fromDateNewFormats.toString().toUpperCase()
+        dialogFilterUploadBinding!!.durationTexthrs.text =
+            fromDateNewFormats.toString().toUpperCase()
 
         dialogFilterUploadBinding!!.fromDate.setOnClickListener {
             isFromDateSelected = true
@@ -856,7 +857,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             // Extracting the minutes and removing the AM/PM part
 
             // Extracting the minutes and removing the AM/PM part
-            var minutess = parts[1].substring(0,parts[1].length-3).toInt()
+            var minutess = parts[1].substring(0, parts[1].length - 3).toInt()
             val amPm = parts[1].substring(3)
             if (amPm.equals("PM", ignoreCase = true) && hourss < 12) {
                 hourss += 12
@@ -903,7 +904,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //dd MMM, yyyy - hh:mm a
 
 
-
         dialogFilterUploadBinding!!.submit.setOnClickListener {
             val strFromate = dialogFilterUploadBinding!!.fromDateTextChamps.text.toString()
             val fromDateFormat = SimpleDateFormat("dd-MMM-yyyy");
@@ -915,7 +915,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //            val frommdateP = fromDateFormatsP.parse(strFromatesP)
 //            val fromDateNewFormatP = SimpleDateFormat("hh:mm a").format(frommdateP)
 
-            activityChampsSurveyBinding.issuedOn.text=fromDateNewFormat + " - " + (strFromatesP.toUpperCase())
+            activityChampsSurveyBinding.issuedOn.text =
+                fromDateNewFormat + " - " + (strFromatesP.toUpperCase())
             if (uploadStatusFilterDialog != null && uploadStatusFilterDialog.isShowing) {
                 uploadStatusFilterDialog.dismiss()
 
@@ -2236,10 +2237,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                Utlis.showLoading(this)`
 //                champsSurveyViewModel.getSubCategoryDetailsChamps(this, "Cleanliness");
                 for (k in getCategoryDetails.categoryDetails!!.indices) {
-                    champsSurveyViewModel.getSubCategoryDetailsChampsApi(
-                        this,
-                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(k).categoryName!!
-                    )
+                    champsSurveyViewModel.getSubCategoryDetailsChampsApi(this, getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(k).categoryName!!)
                 }
 
 
@@ -2300,6 +2298,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         } else {
 
         }
+
+
 
 
     }
@@ -3598,14 +3598,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         getSubCategoryResponses = getSubCategoryResponse
 
         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null) {
-            for (i in getCategoryAndSubCategoryDetails?.categoryDetails?.indices!!) {
+            for (z in getCategoryAndSubCategoryDetails?.categoryDetails?.indices!!) {
 //                if(getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails!=null &&
 //                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails?.size!=null){
-                if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).categoryName.equals(
+                if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(z).categoryName.equals(
                         categoryName
                     )
                 ) {
-                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).subCategoryDetails =
+                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(z).subCategoryDetails =
                         getSubCategoryResponse.subCategoryDetails
                 }
 //                }
@@ -3613,49 +3613,171 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             }
 
         }
-        if (status.equals("NEW")) {
-            categoryDetailsAdapter =
-                CategoryDetailsAdapter(
-                    getCategoryAndSubCategoryDetails!!.categoryDetails,
-                    applicationContext,
-                    this,
-                    status
-                )
-            activityChampsSurveyBinding.categoryRecyclerView.setLayoutManager(
-                LinearLayoutManager(this)
-            )
-            activityChampsSurveyBinding.categoryRecyclerView.setAdapter(categoryDetailsAdapter)
-            if (NetworkUtil.isNetworkConnected(this)) {
-//            Utlis.showLoading(this)
-                champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "TECH");
+        updateRecyclerView()
+//        var allCategoriesHaving = true
+//        var havingNullPos = ""
+//        if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null
+//            && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 0
+//        ) {
+//            for (z in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+//                if (z.subCategoryDetails != null && z.subCategoryDetails!!.size > 0) {
+//                    havingNullPos = z.categoryName.toString()
+//                } else {
+//                    allCategoriesHaving = false
+//                }
+//            }
+//        }
+//        if (allCategoriesHaving) {
+//            if (status.equals("NEW")) {
+//                categoryDetailsAdapter =
+//                    CategoryDetailsAdapter(
+//                        getCategoryAndSubCategoryDetails!!.categoryDetails,
+//                        applicationContext,
+//                        this,
+//                        status
+//                    )
+//                activityChampsSurveyBinding.categoryRecyclerView.setLayoutManager(
+//                    LinearLayoutManager(this)
+//                )
+//                activityChampsSurveyBinding.categoryRecyclerView.setAdapter(categoryDetailsAdapter)
+//                if (NetworkUtil.isNetworkConnected(this)) {
+////            Utlis.showLoading(this)
+//                    champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "TECH");
+//
+//                } else {
+//                    Toast.makeText(
+//                        context,
+//                        resources.getString(R.string.label_network_error),
+//                        Toast.LENGTH_SHORT
+//                    )
+//                        .show()
+//                }
+////            Utlis.hideLoading()
+//            } else {
+////            Utlis.hideLoading()
+//                if (champsRefernceId != null) {
+////
+////                Utlis.showLoading(this)
+//                    champsSurveyViewModel.getSurveyListByChampsIDApi(
+//                        this,
+//                        champsRefernceId!!
+//                    )
+////                    champsSurveyViewModel.getSurveyListByChampsID(
+////                        this
+////                    )
+//
+//
+//                }
+//            }
+//        } else {
+//            if(!havingNullPos.isNullOrEmpty()){
+//                if (NetworkUtil.isNetworkConnected(this)) {
+////                Utlis.showLoading(this)`
+////                champsSurveyViewModel.getSubCategoryDetailsChamps(this, "Cleanliness");
+//
+//                    champsSurveyViewModel.getSubCategoryDetailsChampsApi(
+//                        this,
+//                        havingNullPos
+//                    )
+//
+//
+//                } else {
+//                    Toast.makeText(
+//                        context,
+//                        resources.getString(R.string.label_network_error),
+//                        Toast.LENGTH_SHORT
+//                    )
+//                        .show()
+//                }
+//            }
+//
+//        }
 
-            } else {
-                Toast.makeText(
-                    context,
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+
+    }
+
+    private fun updateRecyclerView() {
+        var allCategoriesHaving = true
+        var havingNullPos = ""
+        if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null
+            && getCategoryAndSubCategoryDetails!!.categoryDetails!!.size > 0
+        ) {
+            for (z in getCategoryAndSubCategoryDetails!!.categoryDetails!!) {
+                if (z.subCategoryDetails != null && z.subCategoryDetails!!.size > 0) {
+                    println("")
+                } else {
+                    allCategoriesHaving = false
+                    havingNullPos = z.categoryName.toString()
+                    break
+
+                }
             }
+        }
+        if (allCategoriesHaving) {
+            if (status.equals("NEW")) {
+                categoryDetailsAdapter =
+                    CategoryDetailsAdapter(
+                        getCategoryAndSubCategoryDetails!!.categoryDetails,
+                        applicationContext,
+                        this,
+                        status
+                    )
+                activityChampsSurveyBinding.categoryRecyclerView.setLayoutManager(
+                    LinearLayoutManager(this)
+                )
+                activityChampsSurveyBinding.categoryRecyclerView.setAdapter(categoryDetailsAdapter)
+                if (NetworkUtil.isNetworkConnected(this)) {
+//            Utlis.showLoading(this)
+                    champsSurveyViewModel.getTrainingAndColorDetailsApi(this, "TECH");
+
+                } else {
+                    Toast.makeText(
+                        context,
+                        resources.getString(R.string.label_network_error),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
 //            Utlis.hideLoading()
-        } else {
+            } else {
 //            Utlis.hideLoading()
-            if (champsRefernceId != null) {
+                if (champsRefernceId != null) {
 //
 //                Utlis.showLoading(this)
-                champsSurveyViewModel.getSurveyListByChampsIDApi(
-                    this,
-                    champsRefernceId!!
-                )
+                    champsSurveyViewModel.getSurveyListByChampsIDApi(
+                        this,
+                        champsRefernceId!!
+                    )
 //                    champsSurveyViewModel.getSurveyListByChampsID(
 //                        this
 //                    )
 
 
+                }
             }
+        } else {
+            if(!havingNullPos.isNullOrEmpty()){
+                if (NetworkUtil.isNetworkConnected(this)) {
+//                Utlis.showLoading(this)`
+//                champsSurveyViewModel.getSubCategoryDetailsChamps(this, "Cleanliness");
+
+                    champsSurveyViewModel.getSubCategoryDetailsChampsApi(
+                        this,
+                        havingNullPos
+                    )
+
+
+                } else {
+                    Toast.makeText(
+                        context,
+                        resources.getString(R.string.label_network_error),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
+
         }
-
-
     }
 
     override fun onFailuregetSubCategoryDetails(getSubCategoryResponse: GetSubCategoryDetailsModelResponse) {

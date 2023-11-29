@@ -52,6 +52,7 @@
                 android:layout_marginStart="@dimen/value_10dp"
                 android:layout_marginTop="@dimen/value_10dp"
                 android:layout_marginEnd="@dimen/value_10dp"
+                android:theme="@style/TextLabelEditTextApnaProject"
                 android:textColorHint="@color/black">
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/searchLocationListText"
