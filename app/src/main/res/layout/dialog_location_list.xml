@@ -77,6 +77,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:visibility="gone">
+
                 <ImageView
                     android:id="@+id/emptyImage"
                     android:layout_width="@dimen/value_120dp"
@@ -86,13 +87,13 @@
                     android:src="@drawable/qca" />
 
                 <TextView
-                    android:layout_below="@id/emptyImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/emptyImage"
                     android:gravity="center"
                     android:paddingBottom="20dp"
-                    android:text="Data Not Available"
-                    android:textColor="@color/dark_grey"
+                    android:text="No Data Found"
+                    android:textColor="@color/backgroundColor"
                     android:textSize="@dimen/text_18sp" />
 
             </RelativeLayout>
