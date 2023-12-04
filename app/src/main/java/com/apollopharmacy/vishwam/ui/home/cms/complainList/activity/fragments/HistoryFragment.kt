@@ -6,11 +6,11 @@ import android.graphics.drawable.ColorDrawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.Window
 import android.widget.*
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,10 +32,11 @@ import com.apollopharmacy.vishwam.dialog.model.SubmitticketDialog
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.ComplaintsListDetailsCallback
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.callback.HistoryCallback
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.model.SubworkFlowAssignedtoMeRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.model.SubworkFlowAssignedtoMeResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.viewmodel.HistoryFragmentViewModel
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.SubworkflowConfigDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.UserListAdapter
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.UsersListforSubworkflowSpinnerAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.*
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
@@ -61,7 +62,7 @@ class HistoryFragment(
     private var isFromApprovalList: Boolean,
     private var complaintsListDetailsCallback: ComplaintsListDetailsCallback,
 ) : BaseFragment<HistoryFragmentViewModel, FragmentHistory2Binding>(), HistoryCallback,
-    SubmitticketDialog.AbstractDialogFinanceClickListner, OnTransactionSearchManagerListnier{
+    SubmitticketDialog.AbstractDialogFinanceClickListner, OnTransactionSearchManagerListnier {
     var resList = java.util.ArrayList<ResponseNewTicketlist.Row>()
     var pos: Int = 0
     lateinit var userData: LoginDetails
@@ -74,7 +75,7 @@ class HistoryFragment(
     var userForsubworkflow = UserListForSubworkflowResponse.Rows()
 
 
-     override val layoutRes: Int
+    override val layoutRes: Int
         get() = R.layout.fragment_history2
 
     override fun retrieveViewModel(): HistoryFragmentViewModel {
@@ -108,14 +109,14 @@ class HistoryFragment(
         } catch (e: JsonParseException) {
             e.printStackTrace()
         }
-
+        onCLickAssignedToMe()
 //        if (arguments?.getBoolean("isFromApprovalList") == true) {
 //            Utlis.showLoading(requireContext())
 //            viewModel.getSubworkFlowConfigDetails(
 //                this, pos, orderDataWp
 //            )
 //        }
-
+//assigned_to_me_layout
         if (isFromApprovalList) {
             if (orderDataWp.subworkflowConfigDetailsResponse != null && orderDataWp.subworkflowConfigDetailsResponse!!.data != null && orderDataWp.subworkflowConfigDetailsResponse!!.data!!.listData != null && orderDataWp.subworkflowConfigDetailsResponse!!.data!!.listData!!.rows != null && orderDataWp.subworkflowConfigDetailsResponse!!.data!!.listData!!.rows!!.size > 0
             ) {
@@ -128,7 +129,7 @@ class HistoryFragment(
                     position
                 )
                 viewBinding.subworkflowConfigDetailsListLayout.visibility = View.VISIBLE
-                viewBinding.inventoryActionLayout.visibility=View.GONE
+                viewBinding.inventoryActionLayout.visibility = View.GONE
 
                 var layoutManager =
                     LinearLayoutManager(ViswamApp.context, LinearLayoutManager.HORIZONTAL, false)
@@ -138,7 +139,7 @@ class HistoryFragment(
                     subworkflowConfigDetailsAdapter
             } else {
                 viewBinding.subworkflowConfigDetailsListLayout.visibility = View.GONE
-                viewBinding.inventoryActionLayout.visibility=View.GONE
+                viewBinding.inventoryActionLayout.visibility = View.GONE
             }
 
 
@@ -168,7 +169,7 @@ class HistoryFragment(
               } else {
                   binding.subworkflowDetailsHistoryLayout.visibility = View.GONE
               }*/
-        }else{
+        } else {
             viewBinding.subworkflowConfigDetailsListLayout.visibility = View.GONE
         }
 
@@ -190,7 +191,7 @@ class HistoryFragment(
                     viewBinding.ccAcceptrejectLayout.visibility = View.VISIBLE;
                     viewBinding.acceptBtn.setOnClickListener {
                         imageClickListener.onClickCCAccept(
-                            orderDataWp.ticketDetailsResponse!!.data, orderData, position , this
+                            orderDataWp.ticketDetailsResponse!!.data, orderData, position, this
                         )
                     }
                     viewBinding.rejectBtn.setOnClickListener {
@@ -344,9 +345,9 @@ class HistoryFragment(
                         "forward"
                     ) && managerUid.equals(employeeDetailsResponse?.data!!.uid)
                 ) {
-                    if(!isFromApprovalList){
+                    if (!isFromApprovalList) {
                         viewBinding.inventoryActionLayout.visibility = View.VISIBLE
-                    }else{
+                    } else {
                         viewBinding.inventoryActionLayout.visibility = View.GONE
                     }
 //                    viewBinding.inventoryActionLayout.visibility = View.VISIBLE
@@ -358,9 +359,9 @@ class HistoryFragment(
                         orderDataWp.ticketDetailsResponse?.data?.user!!.uid
                     )
                 ) {
-                    if(!isFromApprovalList){
+                    if (!isFromApprovalList) {
                         viewBinding.inventoryActionLayout.visibility = View.VISIBLE
-                    }else{
+                    } else {
                         viewBinding.inventoryActionLayout.visibility = View.GONE
                     }
 //                    viewBinding.inventoryActionLayout.visibility = View.VISIBLE
@@ -370,16 +371,31 @@ class HistoryFragment(
                     viewBinding.inventoryAcceptBtn.text = "Approve"
                 }
                 viewBinding.inventoryAcceptBtn.setOnClickListener {
-                    imageClickListener.onClickInventoryAccept(orderDataWp, position, orderData, this)
+                    imageClickListener.onClickInventoryAccept(
+                        orderDataWp,
+                        position,
+                        orderData,
+                        this
+                    )
                 }
                 viewBinding.inventoryRejectBtn.setOnClickListener {
-                    imageClickListener.onClickInventoryReject(orderDataWp, position, orderData, this)
+                    imageClickListener.onClickInventoryReject(
+                        orderDataWp,
+                        position,
+                        orderData,
+                        this
+                    )
                 }
                 viewBinding.inventoryForwardManagerBtn.setOnClickListener {
                     imageClickListener.onClickForwardToManager(orderDataWp, this)
                 }
                 viewBinding.inventoryChangeForwardBtn.setOnClickListener {
-                    imageClickListener.onClickForwardChangeManager(orderDataWp, position, orderData, this)
+                    imageClickListener.onClickForwardChangeManager(
+                        orderDataWp,
+                        position,
+                        orderData,
+                        this
+                    )
                 }
             } else {
                 viewBinding.inventoryActionLayout.visibility = View.GONE
@@ -450,10 +466,26 @@ class HistoryFragment(
                 if (orderDataWp.ticketDetailsResponse != null) {
                     if (orderDataWp.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == null
                         || orderDataWp.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == "Yes"
+                        || orderDataWp.ticketDetailsResponse!!.data!!.override_ticket_closure == true
+                        || orderDataWp.ticketDetailsResponse!!.data!!.override_ticket_closure == null
                     ) {
                         viewBinding.ticketCloseBtn.visibility = View.VISIBLE
                     } else {
                         viewBinding.ticketCloseBtn.visibility = View.GONE
+                    }
+
+                    if (orderDataWp.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == null
+                        || orderDataWp.ticketDetailsResponse!!.data!!.reason!!.allow_manual_ticket_closure!!.uid == "Yes"
+                    ) {
+                        viewBinding.ticketResolveBtn.visibility = View.VISIBLE
+                        if (orderDataWp.have_subworkflow != null) {
+                            if (orderDataWp.have_subworkflow == true) {
+                                viewBinding.ticketResolveBtn.visibility = View.GONE
+                            }
+                        }
+
+                    } else {
+                        viewBinding.ticketResolveBtn.visibility = View.GONE
                     }
                 }
 
@@ -469,7 +501,9 @@ class HistoryFragment(
                 viewBinding.ticketResolveBtn.setOnClickListener {
                     imageClickListener.onClickTicketReopen(orderDataWp, orderData, position, this)
                 }
-            } else if ((orderDataWp.status!!.code.equals("inprogress") || orderDataWp.status!!.code.equals("reopened")) && employeeDetailsResponse?.data!!.uid.equals(
+            } else if ((orderDataWp.status!!.code.equals("inprogress") || orderDataWp.status!!.code.equals(
+                    "reopened"
+                )) && employeeDetailsResponse?.data!!.uid.equals(
                     orderDataWp.ticketDetailsResponse?.data?.user?.uid
                 )
             ) {
@@ -527,7 +561,12 @@ class HistoryFragment(
                     viewBinding.ticketResolveBtn.setOnClickListener {
 
 //                            items.Tickethistory!!.data.listData.rows[0].description=items.Tickethistory!!.data.listData.rows[0].description.replace("Accepted","Resolved")
-                        imageClickListener.onClickTicketResolveHis(orderDataWp, orderData, position, this)
+                        imageClickListener.onClickTicketResolveHis(
+                            orderDataWp,
+                            orderData,
+                            position,
+                            this
+                        )
                     }
                     viewBinding.ticketActionLayout.visibility = View.VISIBLE
                 }
@@ -599,8 +638,19 @@ class HistoryFragment(
         }
 
 
-
-
+        if (orderDataWp!!.ticketDetailsResponse!!.data!!.subworkflow_access == 1
+            && employeeDetailsResponse!!.data!!.assign_to_me_any_level!!.uid.equals("'Yes'")
+            && orderDataWp!!.ticketSubworkflowInfo!!.assigned_to!!.uid != null
+            && !employeeDetailsResponse!!.data!!.uid.equals(orderDataWp!!.ticketSubworkflowInfo!!.assigned_to!!.uid)
+            && !orderDataWp!!.ticketSubworkflowInfo!!.subworkflow_action!!.code.equals("change_forward_manager")
+            && !orderDataWp!!.ticketSubworkflowInfo!!.subworkflow_action!!.code.equals("forward_to_manager")
+            && !orderDataWp!!.ticketSubworkflowInfo!!.subworkflow_action!!.code.equals("closed")
+            && !orderDataWp!!.ticketSubworkflowInfo!!.subworkflow_action!!.code.equals("rejected")
+        ) {
+            viewBinding.assignedToMeLayout.visibility = View.VISIBLE
+        } else {
+            viewBinding.assignedToMeLayout.visibility = View.GONE
+        }
     }
 
 
@@ -608,7 +658,7 @@ class HistoryFragment(
         data: CmsTicketRequest,
         responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
         position: Int,
-        historyCallback: HistoryCallback
+        historyCallback: HistoryCallback,
     ) {
         showLoading()
 
@@ -618,12 +668,11 @@ class HistoryFragment(
     }
 
 
-
     override fun onClickCCAccept(
         data: TicketData,
         responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
         position: Int,
-        historyCallback: HistoryCallback
+        historyCallback: HistoryCallback,
     ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -682,7 +731,7 @@ class HistoryFragment(
         data: TicketData,
         responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
         position: Int,
-        historyCallback: HistoryCallback
+        historyCallback: HistoryCallback,
     ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -741,7 +790,7 @@ class HistoryFragment(
         data: ResponseNewTicketlist.Row,
         position: Int,
         responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
-        historyCallback: HistoryCallback
+        historyCallback: HistoryCallback,
     ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -811,8 +860,11 @@ class HistoryFragment(
                 responseList.get(position).status!!.background_color = "#047604"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(
-                    inventoryAcceptrejectModel, workFlowUpdateModel, 0
-                ,complaintsListDetailsCallback)
+                    inventoryAcceptrejectModel,
+                    workFlowUpdateModel,
+                    0,
+                    complaintsListDetailsCallback
+                )
 //                adapter.notifyDataSetChanged()
 
 
@@ -831,7 +883,7 @@ class HistoryFragment(
         data: ResponseNewTicketlist.Row,
         position: Int,
         responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
-        historyCallback: HistoryCallback
+        historyCallback: HistoryCallback,
     ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -902,8 +954,11 @@ class HistoryFragment(
                 responseList.get(position).status!!.background_color = "#ed001c"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(
-                    inventoryAcceptrejectModel, workFlowUpdateModel, 0
-                ,complaintsListDetailsCallback)
+                    inventoryAcceptrejectModel,
+                    workFlowUpdateModel,
+                    0,
+                    complaintsListDetailsCallback
+                )
 //                adapter.notifyDataSetChanged()
 
 //                background_color\":\"#ed001c\",\"code\":\"rejected\",\"name\":\"Rejected\",\"text_color\":\"#FFFFFF
@@ -915,7 +970,10 @@ class HistoryFragment(
 
     }
 
-    override fun onClickForwardToManager(data: ResponseNewTicketlist.Row,  historyCallback: HistoryCallback) {
+    override fun onClickForwardToManager(
+        data: ResponseNewTicketlist.Row,
+        historyCallback: HistoryCallback,
+    ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -948,18 +1006,23 @@ class HistoryFragment(
                     data.ticketDetailsResponse!!.data.ticket_inventory.uid,
                     userData.EMPID
                 )
-                viewModel.actionForwardToManager(forwardToManagerModel, 0,complaintsListDetailsCallback)
+                viewModel.actionForwardToManager(
+                    forwardToManagerModel,
+                    0,
+                    complaintsListDetailsCallback
+                )
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
+
     private lateinit var selectedInventeryTicket: ResponseNewTicketlist.Row
     override fun onClickForwardChangeManager(
         data: ResponseNewTicketlist.Row,
         position: Int,
         responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
-        historyCallback: HistoryCallback
+        historyCallback: HistoryCallback,
     ) {
         resListMnger = responseList
         frwdMngrPos = pos
@@ -975,7 +1038,7 @@ class HistoryFragment(
         data: ResponseNewTicketlist.Row,
         responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
         position: Int,
-        historyCallback: HistoryCallback
+        historyCallback: HistoryCallback,
     ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1034,7 +1097,11 @@ class HistoryFragment(
                 responseList.get(position).status!!.code = "closed"
 
                 data.isExpanded = false
-                viewModel.actionTicketResolveClose(inventoryAcceptrejectModel, historyCallback,complaintsListDetailsCallback)
+                viewModel.actionTicketResolveClose(
+                    inventoryAcceptrejectModel,
+                    historyCallback,
+                    complaintsListDetailsCallback
+                )
 //                adapter.notifyDataSetChanged()
 
 //                "background_color\":\"#00ba00\",\"code\":\"closed\",\"name\":\"Closed\",\"text_color\":\"#FFFFFF\
@@ -1049,7 +1116,7 @@ class HistoryFragment(
         data: ResponseNewTicketlist.Row,
         responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
         position: Int,
-        historyCallback: HistoryCallback
+        historyCallback: HistoryCallback,
     ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1104,7 +1171,6 @@ class HistoryFragment(
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
-
 
 
     //commented in list fragment
@@ -1164,7 +1230,7 @@ class HistoryFragment(
         responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
         position: Int,
         row: SubworkflowConfigDetailsResponse.Rows,
-        historyCallback: HistoryCallback
+        historyCallback: HistoryCallback,
     ) {
         if (row.action!!.code.equals("forward") && row.assignToUser!!.uid!!.equals("Yes")) {
             if (NetworkUtil.isNetworkConnected(requireContext())) {
@@ -1181,6 +1247,16 @@ class HistoryFragment(
 
     override fun onSuccessBack(complaintsListDetailsCallback: ComplaintsListDetailsCallback) {
         complaintsListDetailsCallback.onClickBack()
+    }
+
+    override fun onSuccessSubworkflowAssignedtoMeApiCall(subworkFlowAssignedtoMeResponse: SubworkFlowAssignedtoMeResponse) {
+        Utlis.hideLoading()
+        Toast.makeText(
+            requireContext(),
+            subworkFlowAssignedtoMeResponse.message,
+            Toast.LENGTH_SHORT
+        ).show()
+        requireActivity().finish()
     }
 
     override fun onSuccessSubWorkflowAcceptApiCall() {
@@ -1237,7 +1313,7 @@ class HistoryFragment(
             responseList.get(position).ticket_subworkflow_history =
                 ticketSubworkflowActionUpdateResponse.data!!.ticket_subworkflow_history!!
         }
-            orderData = responseList
+        orderData = responseList
         historyCallback.onSuccessBack(complaintsListDetailsCallback)
 //        adapter.notifyItemChanged(position)
     }
@@ -1277,7 +1353,7 @@ class HistoryFragment(
         data: ResponseNewTicketlist.Row,
         responseList: ArrayList<ResponseNewTicketlist.Row>,
         position: Int,
-        historyCallback: HistoryCallback
+        historyCallback: HistoryCallback,
     ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1711,7 +1787,12 @@ class HistoryFragment(
                     userData.EMPID,
                     CCTicket(selectedInventeryTicket.ticketDetailsResponse!!.data.uid)
                 )
-                viewModel.actionChangeForwardToManager(actionRequest, request, 0,complaintsListDetailsCallback)
+                viewModel.actionChangeForwardToManager(
+                    actionRequest,
+                    request,
+                    0,
+                    complaintsListDetailsCallback
+                )
 
                 if (resListMnger != null) {
                     resListMnger.get(frwdMngrPos).isExpanded = false
@@ -1724,5 +1805,22 @@ class HistoryFragment(
 
     }
 
+    fun onCLickAssignedToMe() {
+        viewBinding.assignedToMe.setOnClickListener {
 
+            Utlis.showLoading(requireContext())
+            var subworkFlowAssignedtoMeRequest = SubworkFlowAssignedtoMeRequest()
+            subworkFlowAssignedtoMeRequest.employee_id = Preferences.getValidatedEmpId()
+            subworkFlowAssignedtoMeRequest.uid = orderDataWp.ticketDetailsResponse!!.data!!.uid
+            subworkFlowAssignedtoMeRequest.subworkflow_seq_order =
+                orderDataWp.ticketSubworkflowInfo!!.subworkflow_seq_order
+            subworkFlowAssignedtoMeRequest.subworkflow_step_order =
+                orderDataWp.ticketSubworkflowInfo!!.subworkflow_step_order
+
+            viewModel.subworkflowAssignedtoMeApiCall(
+                this@HistoryFragment,
+                subworkFlowAssignedtoMeRequest
+            )
+        }
+    }
 }

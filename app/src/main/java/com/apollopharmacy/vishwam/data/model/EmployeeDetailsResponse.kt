@@ -150,14 +150,17 @@ class EmployeeDetailsResponse : Serializable {
         @Expose
         var swacchDefaultSite: SwacchDefaultSite? = null
 
+        @SerializedName("assign_to_me_any_level")
+        @Expose
+        var assign_to_me_any_level: AssignToMeAnyLevel? = null
+
         @SerializedName("department")
         @Expose
         var department: Department? = null
 
         @SerializedName("champs_admin")
         @Expose
-        var champs_admin: ChampsAdmin?=null
-
+        var champs_admin: ChampsAdmin? = null
 
 
         class UploadSwach : Serializable {
@@ -274,6 +277,24 @@ class EmployeeDetailsResponse : Serializable {
             @SerializedName("site")
             @Expose
             var site: String? = null
+        }
+
+        class AssignToMeAnyLevel : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+
+            @SerializedName("name_1")
+            @Expose
+            var name_1: String? = null
+
+            @SerializedName("icon")
+            @Expose
+            var icon: String? = null
         }
 
         class ChampsAdmin : Serializable {

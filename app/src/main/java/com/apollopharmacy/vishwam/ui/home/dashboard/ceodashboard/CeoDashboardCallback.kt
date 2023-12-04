@@ -34,4 +34,6 @@ interface CeoDashboardCallback {
 
     fun onClickApplyDate()
 
+    fun onCLickRowtoShowTickets(row: TicketCountsByStatusRoleResponse.Data.ListData.Row)
+
 }

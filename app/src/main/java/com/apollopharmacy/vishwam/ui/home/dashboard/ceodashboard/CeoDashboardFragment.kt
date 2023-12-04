@@ -142,51 +142,50 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         }
 
 
+        /*
+                MainActivity.mInstance.backArrow.setOnClickListener {
+                    onBackPressed()
+                    */
+        /* countApiCall--
+                     if (countApiCall == 0) {
+                         for (i in statusRoleResponseList.indices) {
 
-/*
-        MainActivity.mInstance.backArrow.setOnClickListener {
-            onBackPressed()
-            */
-/* countApiCall--
-             if (countApiCall == 0) {
-                 for (i in statusRoleResponseList.indices) {
+                             if (Preferences.getValidatedEmpId()
+                                     .equals(statusRoleResponseList.get(i).empId)
+                             ) {
+                                 ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                                 callAdapter()
+                             }
 
-                     if (Preferences.getValidatedEmpId()
-                             .equals(statusRoleResponseList.get(i).empId)
-                     ) {
-                         ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
-                         callAdapter()
+                         }
+
+                     } else {
+                         for (i in empIdList.indices) {
+                             if (empId.equals(empIdList.get(i))) {
+                                 empIdList.removeAt(i)
+                             }
+
+
+                         }
                      }
 
-                 }
-
-             } else {
-                 for (i in empIdList.indices) {
-                     if (empId.equals(empIdList.get(i))) {
-                         empIdList.removeAt(i)
-                     }
-
-
-                 }
-             }
 
 
 
 
+                     if (empIdList.size > 0 && countApiCall != 0) {
+         //            showLoading()
+                         val lastIndex = empIdList.size - 1
 
-             if (empIdList.size > 0 && countApiCall != 0) {
- //            showLoading()
-                 val lastIndex = empIdList.size - 1
+                         for (i in statusRoleResponseList.indices) {
+                             if (empIdList.get(lastIndex).equals(statusRoleResponseList.get(i).getEmpId())) {
+                                 ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
+                                 callAdapter()
+                             }
+                         }
 
-                 for (i in statusRoleResponseList.indices) {
-                     if (empIdList.get(lastIndex).equals(statusRoleResponseList.get(i).getEmpId())) {
-                         ticketCountsByStatsuRoleResponses = statusRoleResponseList.get(i)
-                         callAdapter()
-                     }
-                 }
-
-                 empIdList.removeAt(lastIndex)
-             }*//*
+                         empIdList.removeAt(lastIndex)
+                     }*//*
 
         }
 */
@@ -961,6 +960,10 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
                 Preferences.getValidatedEmpId(), ""//"APL67949"
             )
         }*/
+    }
+
+    override fun onCLickRowtoShowTickets(row: TicketCountsByStatusRoleResponse.Data.ListData.Row) {
+        MainActivity.mInstance.displaySelectedScreenFromCeoDashboard("DASHBOARD_TICKET_LIST", row)
     }
 
     override fun selectedDateTo(

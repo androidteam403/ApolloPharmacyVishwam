@@ -435,16 +435,43 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
         var ageofTheBuildingText = ""
         if (surveyCreateRequest.buildingAge != null && !surveyCreateRequest.buildingAge!!.isEmpty()) {
-            ageofTheBuildingText = "${surveyCreateRequest.buildingAge} years"
+            var years: Int? = null
+            if (!surveyCreateRequest.buildingAge.isNullOrEmpty()){
+                years = surveyCreateRequest.buildingAge!!.toInt()
+            }
+
+            var months: Int? = null
+            if (!surveyCreateRequest.bldgAgeInMonth.isNullOrEmpty()){
+                months = surveyCreateRequest.bldgAgeInMonth!!.toInt()
+            }
+            if (years!! > 1) {
+                ageofTheBuildingText = "${surveyCreateRequest.buildingAge} years"
+            }else{
+                ageofTheBuildingText = "${surveyCreateRequest.buildingAge} year"
+            }
             if (surveyCreateRequest.bldgAgeInMonth != null && !surveyCreateRequest.bldgAgeInMonth!!.isEmpty()) {
-                ageofTheBuildingText =
-                    "$ageofTheBuildingText ${surveyCreateRequest.bldgAgeInMonth} months"
+                if (months!! > 1) {
+                    ageofTheBuildingText =
+                        "$ageofTheBuildingText ${surveyCreateRequest.bldgAgeInMonth} months"
+                }else{
+                    ageofTheBuildingText =
+                        "$ageofTheBuildingText ${surveyCreateRequest.bldgAgeInMonth} month"
+                }
             }
             activityApnaSurveyPreviewBinding.ageOfTheBuilding.text = "$ageofTheBuildingText"
         } else {
             if (surveyCreateRequest.bldgAgeInMonth != null && !surveyCreateRequest.bldgAgeInMonth!!.isEmpty()) {
-                ageofTheBuildingText =
-                    "0 years ${surveyCreateRequest.bldgAgeInMonth} months"
+                var months: Int? = null
+                if (!surveyCreateRequest.bldgAgeInMonth.isNullOrEmpty()){
+                    months = surveyCreateRequest.bldgAgeInMonth!!.toInt()
+                }
+                if (months!! > 1) {
+                    ageofTheBuildingText =
+                        "0 year ${surveyCreateRequest.bldgAgeInMonth} months"
+                }else{
+                    ageofTheBuildingText =
+                        "0 year ${surveyCreateRequest.bldgAgeInMonth} month"
+                }
                 activityApnaSurveyPreviewBinding.ageOfTheBuilding.text = "$ageofTheBuildingText"
             } else {
                 ageofTheBuildingText = "-"
@@ -573,16 +600,30 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
         var existingOutletAge = ""
         if (surveyCreateRequest.extngOutletAge != null) {
-            existingOutletAge = "${Math.round(surveyCreateRequest.extngOutletAge!!)} years"
+            if (surveyCreateRequest.extngOutletAge!! > 1) {
+                existingOutletAge = "${Math.round(surveyCreateRequest.extngOutletAge!!)} years"
+            }else{
+                existingOutletAge = "${Math.round(surveyCreateRequest.extngOutletAge!!)} year"
+            }
             if (surveyCreateRequest.extng_outlet_age_in_month != null) {
-                existingOutletAge =
-                    "$existingOutletAge ${Math.round(surveyCreateRequest.extng_outlet_age_in_month!!)} months"
+                if (surveyCreateRequest.extng_outlet_age_in_month!! > 1) {
+                    existingOutletAge =
+                        "$existingOutletAge ${Math.round(surveyCreateRequest.extng_outlet_age_in_month!!)} months"
+                }else{
+                    existingOutletAge =
+                        "$existingOutletAge ${Math.round(surveyCreateRequest.extng_outlet_age_in_month!!)} month"
+                }
             }
             activityApnaSurveyPreviewBinding.existingOutletAge.text = "$existingOutletAge"
         } else {
             if (surveyCreateRequest.extng_outlet_age_in_month != null) {
-                existingOutletAge =
-                    "0 years ${Math.round(surveyCreateRequest.extng_outlet_age_in_month!!)} months"
+                if (surveyCreateRequest.extng_outlet_age_in_month!! > 1) {
+                    existingOutletAge =
+                        "0 year ${Math.round(surveyCreateRequest.extng_outlet_age_in_month!!)} months"
+                }else{
+                    existingOutletAge =
+                        "0 year ${Math.round(surveyCreateRequest.extng_outlet_age_in_month!!)} month"
+                }
                 activityApnaSurveyPreviewBinding.existingOutletAge.text = "$existingOutletAge"
             } else {
                 existingOutletAge = "-"

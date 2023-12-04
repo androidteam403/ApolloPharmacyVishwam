@@ -274,6 +274,7 @@ data class ResponseNewTicketlist(
     data class TicketSubworkflowInfo(
         @field:SerializedName("uid") val uid: String? = null,
         @field:SerializedName("assigned_to") val assigned_to: AssignedTo? = null,
+        @field:SerializedName("subworkflow_seq_order") val subworkflow_seq_order: Int? = null,
         @field:SerializedName("subworkflow_step_order") val subworkflow_step_order: Int? = null,
 
         @field:SerializedName("subworkflow_dept") val subworkflow_dept: SubworkflowDept? = null,
@@ -308,6 +309,8 @@ data class ResponseNewTicketlist(
         @field:SerializedName("uid") val uid: String? = null,
 
         @field:SerializedName("action") val action: String? = null,
+
+        @field:SerializedName("code") val code: String? = null,
     ) : Serializable
 
     data class Subcategory(

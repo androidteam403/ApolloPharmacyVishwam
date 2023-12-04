@@ -2,53 +2,67 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
 
         <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_marginBottom="@dimen/value_5dp"
+            android:background="@drawable/search_view_reject"
             android:layout_height="wrap_content">
-
-
-            <TextView
-                android:id="@+id/medicineName"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_18sp"
-                android:layout_marginLeft="@dimen/twenty20_dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="24dp"
-                android:lines="1"
-                android:text="Cirizen"
-                android:textColor="#135A6E"
+                android:id="@+id/subHeader"
+                android:orientation="horizontal">
 
-                android:textSize="@dimen/text_12sp"
-                app:fontFamily="@font/poppins_semi_bold" />
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/category_Image"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
 
-            <TextView
-                android:id="@+id/category_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                    android:src="@drawable/pharma"/>
 
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="24dp"
-                android:layout_toRightOf="@id/medicineName"
-                android:lines="1"
-                android:textColor="#135A6E"
 
-                android:text="Pharma"
-                android:textSize="@dimen/text_12sp"
-                app:fontFamily="@font/poppins_semi_bold" />
+                <TextView
+                    android:id="@+id/medicineName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:lines="1"
+                    android:text="Cirizen"
+                    android:textColor="#135A6E"
+                    android:textSize="@dimen/text_12sp"
+                    android:textStyle="bold"
+                    app:fontFamily="@font/poppins_semi_bold" />
+
+                <TextView
+                    android:id="@+id/category_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_toRightOf="@id/medicineName"
+                    android:lines="1"
+                    android:text="Pharma"
+
+                    android:textColor="#135A6E"
+                    android:textSize="@dimen/text_12sp"
+                    android:textStyle="bold"
+                    app:fontFamily="@font/poppins_semi_bold" />
+
+            </LinearLayout>
+
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/medicineName"
+                android:layout_below="@+id/subHeader"
                 android:layout_marginStart="@dimen/value_15dp"
 
                 android:orientation="horizontal"
@@ -66,7 +80,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:text="Req Qty."
+                        android:text="Qty."
                         android:textSize="@dimen/text_12sp"
 
                         app:fontFamily="@font/poppins_medium" />
@@ -81,7 +95,7 @@
                         android:text="100"
                         android:textColor="@color/black"
 
-                        android:textSize="@dimen/text_12sp"
+                        android:textSize="11sp"
                         app:fontFamily="@font/poppins_medium" />
 
 
@@ -89,7 +103,8 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/value_8dp"
                     android:layout_weight="1.5">
 
                     <TextView
@@ -121,6 +136,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/priceLayout"
+                    android:layout_marginBottom="@dimen/value_8dp"
+
                     android:layout_weight="1.5">
 
                     <TextView
@@ -133,20 +150,21 @@
 
                         app:fontFamily="@font/poppins_medium" />
 
-
                     <TextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
+                        android:fontFamily="@font/poppins_medium"
+                        android:drawableLeft="@drawable/qc_rupee_indian"
                         android:layout_below="@+id/priceHeader"
                         android:layout_centerHorizontal="true"
-                        android:drawableLeft="@drawable/qc_ic_rupee_indian"
-
 
                         android:text="100"
+
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_12sp"
-                        app:fontFamily="@font/poppins_medium" />
+                        android:textSize="@dimen/dimen11sp" />
+
 
                 </RelativeLayout>
 
@@ -155,33 +173,30 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.3"
+                    android:gravity="center"
                     android:visibility="visible">
                     <TextView
                         android:id="@+id/imageslist_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="Images "
+                        android:visibility="gone"
                         android:textSize="@dimen/text_12sp"
                         app:fontFamily="@font/poppins_medium" />
 
 
                     <ImageView
-                        android:layout_width="@dimen/value_25dp"
-                        android:layout_height="@dimen/value_25dp"
-                        android:layout_marginTop="@dimen/value_5dp"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
 
                         android:id="@+id/eyeImage"
-                        android:layout_below="@+id/imageslist_header"
-                        android:layout_centerHorizontal="true"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/eye" />                </RelativeLayout>
+                        android:src="@drawable/apollo_icon" />                </RelativeLayout>
 
             </LinearLayout>
 
         </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
 
 
 </layout>

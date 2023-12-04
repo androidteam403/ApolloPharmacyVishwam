@@ -77,6 +77,29 @@ class DashboardAdapter(
             ceoDashboardCallback.onClickRightArrow(response)
 //            }
         }
+
+        //callbacks for the row item click to show tickets list
+        holder.adapterDashboardCeoBinding.closedLayout.setOnClickListener {
+            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+        }
+        holder.adapterDashboardCeoBinding.lessthanTwoLayout.setOnClickListener {
+            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+        }
+        holder.adapterDashboardCeoBinding.threetoEightLayout.setOnClickListener {
+            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+        }
+        holder.adapterDashboardCeoBinding.greaterthanEightLayout.setOnClickListener {
+            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+        }
+        holder.adapterDashboardCeoBinding.rejectedLayout.setOnClickListener {
+            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+        }
+        holder.adapterDashboardCeoBinding.pendingLayout.setOnClickListener {
+            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+        }
+        holder.adapterDashboardCeoBinding.totalLayout.setOnClickListener {
+            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+        }
     }
 
     override fun getItemCount(): Int {

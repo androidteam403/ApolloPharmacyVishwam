@@ -35,6 +35,7 @@ import com.apollopharmacy.vishwam.dialog.SearchManagerDialog
 import com.apollopharmacy.vishwam.dialog.model.SubmitticketDialog
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ImageClickListener
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.callback.HistoryCallback
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.model.SubworkFlowAssignedtoMeResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.UserListAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.ViewPagerAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Action
@@ -1232,6 +1233,10 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
 
     override fun onSuccessBack(complaintsListDetailsCallback: ComplaintsListDetailsCallback) {
         onClickBack()
+    }
+
+    override fun onSuccessSubworkflowAssignedtoMeApiCall(subworkFlowAssignedtoMeResponse: SubworkFlowAssignedtoMeResponse) {
+
     }
 
     override fun onSuccessSubWorkflowAcceptApiCall() {

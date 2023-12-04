@@ -564,7 +564,7 @@
                                             android:id="@+id/pharmaNotAvailable"
                                             android:layout_width="35dp"
                                             android:layout_height="wrap_content"
-                                            android:src="@drawable/pharma"
+                                            android:src="@drawable/pharmanew"
                                             android:tint="@color/grey"
                                             tools:ignore="UseAppTint" />
 
@@ -590,7 +590,7 @@
                                             android:layout_width="35dp"
                                             android:layout_height="wrap_content"
                                             android:layout_centerHorizontal="true"
-                                            android:src="@drawable/pharma"
+                                            android:src="@drawable/pharmanew"
                                             android:tint="@color/greenn"
                                             tools:ignore="UseAppTint" />
 
@@ -637,7 +637,7 @@
                                             android:id="@+id/fmcgNotAvailable"
                                             android:layout_width="35dp"
                                             android:layout_height="wrap_content"
-                                            android:src="@drawable/fmcg"
+                                            android:src="@drawable/fmcgnew"
                                             android:tint="@color/grey"
                                             tools:ignore="UseAppTint" />
 
@@ -663,7 +663,7 @@
                                             android:layout_width="35dp"
                                             android:layout_height="wrap_content"
                                             android:layout_centerHorizontal="true"
-                                            android:src="@drawable/fmcg"
+                                            android:src="@drawable/fmcgnew"
                                             android:tint="@color/greenn"
                                             tools:ignore="UseAppTint" />
 

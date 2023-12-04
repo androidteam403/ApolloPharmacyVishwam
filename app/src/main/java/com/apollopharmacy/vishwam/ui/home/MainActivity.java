@@ -47,7 +47,6 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuItemCompat;
@@ -81,6 +80,7 @@ import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationFragment;
 import com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard.CeoDashboardFragment;
 import com.apollopharmacy.vishwam.ui.home.dashboard.managerdashboard.ManagerDashboardFragment;
+import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRoleResponse;
 import com.apollopharmacy.vishwam.ui.home.discount.approved.ApprovedFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.bill.BillCompletedFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
@@ -252,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private LocationManager locationManager;
     private final static int GPS_REQUEST_CODE = 2;
     private boolean isHomeScreen = true;
+    private boolean isCeoDashboard = true;
 
 //    private NavigationListAdapter adapter;
 
@@ -638,6 +639,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             isChampsRequired = accessDetails.getISCHAMPAPP();
             isApnaSurveyRequired = accessDetails.getISAPNAAPP();
             isApnaRetroRequired = accessDetails.getISAPNARETROAPP();
+            if (accessDetails.getISDASHBOARDAPP() != null) {
+                isDashboardRequired = accessDetails.getISDASHBOARDAPP();
+            }
+            if (accessDetails.getISRETROQRAPP() != null) {
+                isRetroQrAppRequired = accessDetails.getISRETROQRAPP();
+            }
+            if (accessDetails.getISPLANAGRAMAPP() != null) {
+                isPlanogramAppRequired = accessDetails.getISPLANAGRAMAPP();
+            }
         }
 
         TextView version = findViewById(R.id.version);
@@ -956,6 +966,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             if (isHomeScreen) {
                 finish();
+            } else if (frg instanceof ComplainListFragment) {
+                if (isCeoDashboard) {
+                    super.onBackPressed();
+                } else {
+                    displaySelectedScreen("HOME");
+                }
             } else {
                 displaySelectedScreen("HOME");
 //                drawer.closeDrawer(GravityCompat.START);
@@ -985,8 +1001,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean isAllowFragmentChange = false;
 
+    private TicketCountsByStatusRoleResponse.Data.ListData.Row row;
+
+    public void displaySelectedScreenFromCeoDashboard(String itemName, TicketCountsByStatusRoleResponse.Data.ListData.Row row) {
+        this.row = row;
+        displaySelectedScreen(itemName);
+    }
+
     @SuppressLint("ResourceAsColor")
     public void displaySelectedScreen(String itemName) {
+        isCeoDashboard = false;
 //        Fragment frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 //        if(isAllowFragmentChange &&(frg instanceof RegistrationFragment || frg instanceof  Drug)){
 //            showAlertDialog(itemName);
@@ -1187,6 +1211,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 switchBtn.setVisibility(View.GONE);
                 break;
 
+            case "DASHBOARD_TICKET_LIST":
+                headerText.setText("Dashboard Tickets");
+                isCeoDashboard = true;
+//                fragment = new ComplainListFragment();
+                filterIcon.setVisibility(View.GONE);
+                qcfilterIcon.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
+                plusIconApna.setVisibility(View.GONE);
+                headerTextLocation.setVisibility(View.GONE);
+                plusIconAttendence.setVisibility(View.GONE);
+                helpIcon.setVisibility(View.GONE);
+
+                filterIconApna.setVisibility(View.GONE);
+                Bundle bundleDashboardTickets = new Bundle();
+                bundleDashboardTickets.putBoolean("IS_DASHBOARD_TICKET_LIST", true);
+                bundleDashboardTickets.putSerializable("ROW", row);
+                ComplainListFragment dashboardTicketsFragmnet = new ComplainListFragment();
+                dashboardTicketsFragmnet.setArguments(bundleDashboardTickets);
+                fragment = dashboardTicketsFragmnet;
+                siteIdIcon.setVisibility(View.GONE);
+                scannerIcon.setVisibility(View.GONE);
+                spinnerLayout.setVisibility(View.GONE);
+                isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.GONE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
+                switchBtn.setVisibility(View.GONE);
+                break;
             case "Attendance":
                 headerText.setText("Attendance");
                 fragment = new AttendanceFragment();
@@ -2415,7 +2474,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     headerText.setText("Dashboard");
                 }
 
-
+                isCeoDashboard = true;
                 fragment = new CeoDashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 headerTextLocation.setVisibility(View.GONE);
@@ -2598,6 +2657,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             ft.commit();
 
+        } else if (fragment != null && itemName.equalsIgnoreCase("DASHBOARD_TICKET_LIST")) {
+            String backStateName = fragment.getClass().getName();
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.anim_enter, R.anim.anim_exit);
+            ft.add(R.id.fragment_container, fragment);
+            ft.addToBackStack(backStateName);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            ft.commit();
         } else if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.setCustomAnimations(R.anim.anim_enter, R.anim.anim_exit);

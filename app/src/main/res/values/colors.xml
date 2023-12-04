@@ -6,6 +6,8 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="blackqc">#FF000000</color>
+
     <color name="white">#ffffff</color>
     <color name = "greyyy">#b7b7b7</color>
     <color name="blueee">#4798cd</color>
@@ -13,6 +15,7 @@
     <color name="cement">#EFEFEF</color>
     <color name="border_card">#01bfc0</color>
     <color name="filter_color">#D1F2E7</color>
+    <color name="bluebg">#74BDE0</color>
 
     <color name="splash_start_color">#173b5e</color>
     <color name="splash_end_color">#269aba</color>
@@ -136,6 +139,14 @@
     <color name="dark_blue">#173b5f</color>
     <color name="color_ash">#f0f0f0</color>
     <color name="greenn">#00a651</color>
+    <color name="pendency_green">#d3e9da</color>
+    <color name="pendency_orange">#F9EBE2</color>
+    <color name="pendency_list_qc">#fcf6e4</color>
+    <color name="approved_list_qc">#d3e9da</color>
+    <color name="reject_list_qc">#ffe9e9</color>
+
+    <color name="pendency_voilet">#e8ecf8</color>
+
     <color name="light_pink">#fde8e9</color>
     <color name="header_blue">#2582a1</color>
     <color name="color_red">#ed1c24</color>
@@ -145,6 +156,7 @@
     <color name="ash_dark">#b3b3b3</color>
     <color name="ashh">#a6a6a6</color>
     <color name="light_ash">#D3D3D3</color>
+
     <color name="dark_grey">#696969</color>
     <color name="heading_blue">#1A61A6</color>
     <color name="lightt_grey">#eeeeee</color>

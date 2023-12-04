@@ -52,14 +52,14 @@ class QcRejectedListAdapter(
             holder.rejectListBinding.storeId.setText(approvedOrders.storeid)
         }
         if (approvedOrders.requesteddate == null) {
-            holder.rejectListBinding.reqDate.setText("-")
+            holder.rejectListBinding.postedDate.setText("-")
 
         } else {
             var reqDate = approvedOrders.requesteddate.toString()!!
                 .substring(0,
                     Math.min(approvedOrders.requesteddate.toString()!!.length, 10))
 
-            holder.rejectListBinding.reqDate.text = Utlis.formatdate(reqDate)
+            holder.rejectListBinding.postedDate.text = Utlis.formatdate(reqDate)
 
         }
 
