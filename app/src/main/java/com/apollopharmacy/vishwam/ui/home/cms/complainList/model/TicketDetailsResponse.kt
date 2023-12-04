@@ -77,6 +77,9 @@ data class TicketData(
     @SerializedName("override_ticket_closure")
     val override_ticket_closure: Boolean,
     @Expose
+    @SerializedName("subworkflow_access")
+    val subworkflow_access: Int,
+    @Expose
     @SerializedName("parent")
     val parent: ResponseNewTicketlist.Parent,
 

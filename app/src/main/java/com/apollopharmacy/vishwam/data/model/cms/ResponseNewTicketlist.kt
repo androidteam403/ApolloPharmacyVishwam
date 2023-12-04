@@ -309,6 +309,8 @@ data class ResponseNewTicketlist(
         @field:SerializedName("uid") val uid: String? = null,
 
         @field:SerializedName("action") val action: String? = null,
+
+        @field:SerializedName("code") val code: String? = null,
     ) : Serializable
 
     data class Subcategory(
