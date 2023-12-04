@@ -22,6 +22,7 @@ import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCate
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.GlobalConfigurationResponse
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
@@ -866,6 +867,11 @@ interface ViswamAppApi {
     suspend fun getNotificationsList(
         @Url url: String
     ): NotificationModelResponse
+
+    @GET
+    suspend fun getGlobalConfigList(
+        @Url url: String
+    ): GlobalConfigurationResponse
 
     @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList")
     suspend fun getStorePendingAndApprovedListApnaRetro(

@@ -116,7 +116,7 @@ class HistoryFragment(
 //                this, pos, orderDataWp
 //            )
 //        }
-
+//assigned_to_me_layout
         if (isFromApprovalList) {
             if (orderDataWp.subworkflowConfigDetailsResponse != null && orderDataWp.subworkflowConfigDetailsResponse!!.data != null && orderDataWp.subworkflowConfigDetailsResponse!!.data!!.listData != null && orderDataWp.subworkflowConfigDetailsResponse!!.data!!.listData!!.rows != null && orderDataWp.subworkflowConfigDetailsResponse!!.data!!.listData!!.rows!!.size > 0
             ) {
@@ -638,6 +638,19 @@ class HistoryFragment(
         }
 
 
+        if (orderDataWp!!.ticketDetailsResponse!!.data!!.subworkflow_access == 1
+            && employeeDetailsResponse!!.data!!.assign_to_me_any_level!!.uid.equals("'Yes'")
+            && orderDataWp!!.ticketSubworkflowInfo!!.assigned_to!!.uid != null
+            && !employeeDetailsResponse!!.data!!.uid.equals(orderDataWp!!.ticketSubworkflowInfo!!.assigned_to!!.uid)
+            && !orderDataWp!!.ticketSubworkflowInfo!!.subworkflow_action!!.code.equals("change_forward_manager")
+            && !orderDataWp!!.ticketSubworkflowInfo!!.subworkflow_action!!.code.equals("forward_to_manager")
+            && !orderDataWp!!.ticketSubworkflowInfo!!.subworkflow_action!!.code.equals("closed")
+            && !orderDataWp!!.ticketSubworkflowInfo!!.subworkflow_action!!.code.equals("rejected")
+        ) {
+            viewBinding.assignedToMeLayout.visibility = View.VISIBLE
+        } else {
+            viewBinding.assignedToMeLayout.visibility = View.GONE
+        }
     }
 
 

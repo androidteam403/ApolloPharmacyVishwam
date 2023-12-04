@@ -44,7 +44,13 @@ class QcApprovedOrderDetailsAdapter(
         holder.approvedorderdetailsBinding.categoryName.setText("( " + items.category+" )")
         holder.approvedorderdetailsBinding.price.setText(items.price.toString())
 
+        if (items.category.equals("FMCG")){
+            holder.approvedorderdetailsBinding.categoryImage.setImageResource(R.drawable.fmcg)
 
+        }else if (items.category.equals("PHARMA")){
+            holder.approvedorderdetailsBinding.categoryImage.setImageResource(R.drawable.pharma)
+
+        }
         if (items.approvedqty.toString().isNullOrEmpty()){
             holder.approvedorderdetailsBinding.approveQtyText.setText("-")
 

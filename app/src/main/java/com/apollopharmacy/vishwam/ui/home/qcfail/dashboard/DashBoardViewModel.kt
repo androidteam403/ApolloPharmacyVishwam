@@ -58,11 +58,11 @@ class DashBoardViewModel : ViewModel() {
                     if (result.value.status ?: null == true) {
 
                         state.value = State.ERROR
-                        qcPendingDashboardHistoryList.value = result.value
+                        qcPendingDashboardHistoryList.value = result.value!!
 
                     } else {
                         state.value = State.ERROR
-                        qcPendingDashboardHistoryList.value = result.value
+                        qcPendingDashboardHistoryList.value = result.value!!
 
                     }
                 }

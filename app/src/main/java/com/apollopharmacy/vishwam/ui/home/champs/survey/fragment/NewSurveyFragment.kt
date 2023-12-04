@@ -104,27 +104,28 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                 )
                     .show()
             }
-            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                Utlis.showLoading(this)
-                if(storeId.isNullOrEmpty()){
-                    newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
-                        this,
-                        Preferences.getSaveChampsSurveySiteId()
-                    )
-                }else{
-                    newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
-                        this,
-                        storeId!!
-                    )
-                }
-            } else {
-                Toast.makeText(
-                    applicationContext,
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
+//            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+//                Utlis.showLoading(this)
+//                if(storeId.isNullOrEmpty()){
+//                    newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
+//                        this,
+//                        Preferences.getSaveChampsSurveySiteId()
+//                    )
+//                }else{
+//                    newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
+//                        this,
+//                        storeId!!
+//                    )
+//                }
+//            }
+//            else {
+//                Toast.makeText(
+//                    applicationContext,
+//                    resources.getString(R.string.label_network_error),
+//                    Toast.LENGTH_SHORT
+//                )
+//                    .show()
+//            }
 //
 
 
@@ -170,16 +171,19 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
     }
 
     override fun onClickCardView() {
-        val intent = Intent(applicationContext, SurveyDetailsActivity::class.java)
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.putExtra("getStoreWiseDetailsResponses", getSiteDetails)
-        intent.putExtra("storeId", storeId)
-        intent.putExtra("address", address)
-        intent.putExtra("siteName", siteName)
-        intent.putExtra("storeCity", siteCity)
-        intent.putExtra("region", fragmentChampsSurveyBinding!!.region.text.toString())
-        startActivityForResult(intent, 761)
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        if(!Preferences.getChampsSiteForEr().isNullOrEmpty() && !siteCity.isNullOrEmpty()){
+            val intent = Intent(applicationContext, SurveyDetailsActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.putExtra("getStoreWiseDetailsResponses", getSiteDetails)
+            intent.putExtra("storeId", Preferences.getChampsSiteForEr())
+            intent.putExtra("address", address)
+            intent.putExtra("siteName", siteName)
+            intent.putExtra("storeCity", siteCity)
+            intent.putExtra("region", fragmentChampsSurveyBinding!!.region.text.toString())
+            startActivityForResult(intent, 761)
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        }
+
     }
 
 
@@ -197,10 +201,12 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                 }else{
                     siteForDetails= storeId!!
                 }
-                if (value.get(i).site.equals(siteForDetails)) {//viewBinding.enterStoreEdittext.text.toString()
+                if (value.get(i).site.equals(siteForDetails)) {
                     storeId = value.get(i).site
+                    Preferences.setChampsSiteForEr(storeId!!)
                     siteName = value.get(i).storeName
                     Preferences.setChampsSiteName(siteName!!)
+                    Preferences.setRegionUidChamps(value.get(i).region!!.uid!!)
                     siteCity = value.get(i).city
                     region = value.get(i).state!!.name
                     if (value.get(i).address != null)
@@ -211,7 +217,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                         value.get(i).city + ", " + value.get(i).state!!.name + ", " + value.get(i).district!!.name
 
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                        Utlis.showLoading(this)
+//                        Utlis.showLoading(this)
                         if(storeId.isNullOrEmpty()){
                             newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
                                 this,
@@ -237,30 +243,30 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
 
         }
 
-        hideLoading()
+//        hideLoading()
 
-        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-            Utlis.showLoading(this)
-            if(storeId.isNullOrEmpty()){
-                newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
-                    this,
-                    Preferences.getSaveChampsSurveySiteId()
-                )
-            }else{
-                newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
-                    this,
-                    storeId!!
-                )
-            }
-
-        } else {
-            Toast.makeText(
-                applicationContext,
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        }
+//        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+//            Utlis.showLoading(this)
+//            if(storeId.isNullOrEmpty()){
+//                newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
+//                    this,
+//                    Preferences.getSaveChampsSurveySiteId()
+//                )
+//            }else{
+//                newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
+//                    this,
+//                    storeId!!
+//                )
+//            }
+//
+//        } else {
+//            Toast.makeText(
+//                applicationContext,
+//                resources.getString(R.string.label_network_error),
+//                Toast.LENGTH_SHORT
+//            )
+//                .show()
+//        }
 
     }
 
@@ -282,7 +288,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
 //        }
 
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-            Utlis.showLoading(this)
+           Utlis.showLoading(this)
             newSurveyViewModel!!.getStoreDetailsChampsApi(
                 this
             )
@@ -346,6 +352,9 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
         if (resultCode == Activity.RESULT_OK) {
             isSiteIdEmpty = data!!.getBooleanExtra("isSiteIdEmpty", isSiteIdEmpty)
             storeId = data!!.getStringExtra("siteId")
+            if(data!!.getStringExtra("siteId")!=null){
+                Preferences.setChampsSiteForEr(storeId!!)
+            }
             siteName = data!!.getStringExtra("siteName")
             if (requestCode == 781) {
                 hideLoading()

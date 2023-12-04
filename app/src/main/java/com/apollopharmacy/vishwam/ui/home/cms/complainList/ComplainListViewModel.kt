@@ -180,11 +180,11 @@ class ComplainListViewModel : ViewModel() {
         val onHold = if (status.contains("onHold")) "onHold" else ""
         if (isDashboardtickets) {
             if (!row.storeId.isNullOrEmpty()) {//${requestComplainList.fromDate}//${requestComplainList.fromDate}
-                 baseUrl =
-                     baseUrl +  "emp_id=${row.employeeid}&from_date=2020-11-22&to_date=${requestComplainList.toDate}&site=${row.storeId}&role=${row.roleCode}&page=${requestComplainList.page}&rows=10&zcFetchListTotal=true"
+                baseUrl =
+                    baseUrl + "emp_id=${row.employeeid}&from_date=2020-11-22&to_date=${requestComplainList.toDate}&site=${row.storeId}&role=${row.roleCode}&page=${requestComplainList.page}&rows=10&zcFetchListTotal=true"
             } else {
                 baseUrl =
-                    baseUrl +  "emp_id=${row.employeeid}&from_date=2020-11-22&to_date=${requestComplainList.toDate}&role=${row.roleCode}&page=${requestComplainList.page}&rows=10&zcFetchListTotal=true"
+                    baseUrl + "emp_id=${row.employeeid}&from_date=2020-11-22&to_date=${requestComplainList.toDate}&role=${row.roleCode}&page=${requestComplainList.page}&rows=10&zcFetchListTotal=true"
             }
         } else if (!isApprovalList) {
             baseUrl =
@@ -1366,7 +1366,8 @@ class ComplainListViewModel : ViewModel() {
             }
 
         }
-        val baseUrl = "${baseUrL}ticket_id=${requestTicketHistory}"//data.APIS[i].URL
+        val baseUrl =
+            "${baseUrL}ticket_id=${requestTicketHistory}emp_id=${Preferences.getValidatedEmpId()}"//data.APIS[i].URL
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {

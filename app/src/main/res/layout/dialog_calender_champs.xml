@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isCompletedChecked"
+            type="Boolean" />
+
+        <variable
+            name="isPendingChecked"
+            type="Boolean" />
+
+
+        <!--        <variable-->
+        <!--            name="isReopenChecked"-->
+        <!--            type="Boolean" />-->
+
+        <!--        <variable-->
+        <!--            name="isClosedChecked"-->
+        <!--            type="Boolean" />-->
+
+        <variable
+            name="isSubmitEnable"
+            type="Boolean" />
+
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_background">
+
+        <RelativeLayout
+            android:id="@+id/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/vishwam_actionbar_color"
+            android:paddingTop="@dimen/value_15dp"
+            android:paddingBottom="@dimen/value_15dp">
+
+            <TextView
+                android:id="@+id/textHead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Select Date and Time "
+                android:textColor="@color/white_for_both"
+                android:textSize="@dimen/text_18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/close_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/app_name"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
+                android:src="@drawable/close_icon"
+                app:tint="@color/white_for_both" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_layout"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/value_5dp"
+            android:paddingEnd="@dimen/value_5dp"
+            android:paddingBottom="@dimen/value_5dp">
+
+            <!--            <RadioGroup-->
+            <!--                android:id="@+id/status_radio_group"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                tools:ignore="UselessParent">-->
+
+            <CheckBox
+                android:visibility="gone"
+                android:id="@+id/pending_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:buttonTint="@color/splash_start_color"
+                android:checked="@{isPendingChecked}"
+                android:text="Pending" />
+
+            <View
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/value_2dp"
+                android:background="@color/grey" />
+
+            <CheckBox
+                android:visibility="gone"
+                android:id="@+id/approved_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:buttonTint="@color/splash_start_color"
+                android:checked="@{isCompletedChecked}"
+                android:text="Completed" />
+
+
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0.5dp"-->
+<!--                android:layout_marginTop="@dimen/value_2dp"-->
+<!--                android:background="@color/grey" />-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="18dp"-->
+<!--                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                android:layout_marginTop="@dimen/value_10dp"-->
+<!--                android:layout_marginEnd="@dimen/value_10dp"-->
+<!--                android:text="Visit Date"-->
+<!--                android:textAllCaps="true"-->
+<!--                android:textColor="@color/colorBlack" />-->
+
+            <LinearLayout
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:id="@+id/from_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/value_25dp"
+                        android:layout_height="@dimen/value_25dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/calendar_gray" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Visit Date"
+                            android:textColor="@color/grey" />
+
+                        <TextView
+                            android:id="@+id/from_date_text_champs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorBlack" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginStart="5dp"
+                    android:id="@+id/duration_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="@dimen/value_22dp"
+                        android:layout_height="@dimen/value_22dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/timing_symbol" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Visit Time"
+                            android:textColor="@color/grey" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/durationTexthrs"
+                                android:layout_marginStart="@dimen/value_2dp"
+                                android:layout_gravity="start"
+                                android:layout_marginBottom="@dimen/value_5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                               />
+<!--                            <TextView-->
+<!--                                android:layout_marginStart="@dimen/value_2dp"-->
+<!--                                android:layout_gravity="start"-->
+<!--                                android:layout_marginBottom="@dimen/value_5dp"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text=" : "-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:id="@+id/durationTextminutes"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="05"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="12sp" />-->
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/to_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="@dimen/value_25dp"
+                        android:layout_height="@dimen/value_25dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/timing_symbol" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingBottom="5dp"
+                            android:text="Duration"
+                            android:textStyle="bold"
+                            android:textColor="@color/grey"
+                            android:textSize="12sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="200dp"
+                                android:layout_height="35dp"
+
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:orientation="horizontal"
+                                android:weightSum="4">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+<!--                                    <TextView-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:fontFamily="@font/roboto_medium"-->
+<!--                                        android:text="Hours"-->
+<!--                                        android:textAlignment="center"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:textSize="10sp" />-->
+
+
+<!--                                    <TextView-->
+<!--                                        android:layout_marginBottom="@dimen/value_5dp"-->
+<!--                                        android:id="@+id/durationTexthrs"-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:fontFamily="@font/poppin_bold"-->
+<!--                                        android:text="22"-->
+<!--                                        android:textAlignment="center"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:textSize="12sp" />-->
+
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+<!--                                    <TextView-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:fontFamily="@font/roboto_medium"-->
+<!--                                        android:text="Min"-->
+<!--                                        android:textAlignment="center"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:textSize="@dimen/dimen10sp" />-->
+
+
+<!--                                    <TextView-->
+<!--                                        android:id="@+id/durationTextminutes"-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:fontFamily="@font/poppin_bold"-->
+<!--                                        android:text="05"-->
+<!--                                        android:textAlignment="center"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:textSize="12sp" />-->
+
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+
+                                    android:orientation="vertical">
+
+<!--                                    <TextView-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:fontFamily="@font/roboto_medium"-->
+<!--                                        android:text="Sec"-->
+<!--                                        android:textAlignment="center"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:textSize="10sp" />-->
+
+
+<!--                                    <TextView-->
+<!--                                        android:id="@+id/durationTextsecs"-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:fontFamily="@font/poppin_bold"-->
+<!--                                        android:text="22"-->
+<!--                                        android:textAlignment="center"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:textSize="12sp" />-->
+
+
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+<!--                    <ImageView-->
+<!--                        android:layout_width="@dimen/value_25dp"-->
+<!--                        android:layout_height="@dimen/value_25dp"-->
+<!--                        android:contentDescription="@string/app_name"-->
+<!--                        android:src="@drawable/calendar_gray" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/value_5dp"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="To Date"-->
+<!--                            android:textColor="@color/grey" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/to_date_text"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="30-Oct 2023"-->
+<!--                            android:textColor="@color/colorBlack" />-->
+<!--                    </LinearLayout>-->
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:background="@color/grey"
+                android:buttonTint="@color/splash_start_color" />
+
+
+            <!--            <CheckBox-->
+            <!--                android:id="@+id/reopen_status"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/value_5dp"-->
+            <!--                android:buttonTint="@color/splash_start_color"-->
+            <!--                android:checked="@{isReopenChecked}"-->
+            <!--                android:text="@string/label_reopen" />-->
+
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.5dp"-->
+            <!--                android:layout_marginTop="@dimen/value_2dp"-->
+            <!--                android:background="@color/grey" />-->
+
+            <!--            <CheckBox-->
+            <!--                android:id="@+id/closed_status"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/value_5dp"-->
+            <!--                android:buttonTint="@color/splash_start_color"-->
+            <!--                android:checked="@{isClosedChecked}"-->
+            <!--                android:text="@string/label_closed" />-->
+
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.5dp"-->
+            <!--                android:layout_marginTop="@dimen/value_2dp"-->
+            <!--                android:background="@color/grey" />-->
+
+            <!--            </RadioGroup>-->
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/value_10dp"
+                android:layout_marginBottom="@dimen/value_5dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/search_button_bg"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Apply"
+                    android:textAlignment="center"
+                    android:textColor="@color/white_for_both"
+                    android:textSize="@dimen/text_15sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <!--            <androidx.appcompat.widget.AppCompatButton-->
+            <!--                android:layout_marginBottom="@dimen/value_5dp"-->
+            <!--                android:id="@+id/submit"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="@dimen/value_35dp"-->
+            <!--                android:layout_gravity="center_horizontal"-->
+            <!--                android:layout_marginTop="@dimen/value_5dp"-->
+            <!--                android:background="@drawable/yellow_drawable"-->
+            <!--                android:enabled="@{isSubmitEnable}"-->
+            <!--                android:text="@string/label_apply"-->
+            <!--                android:textColor="@color/white"-->
+            <!--                android:textAlignment="center"-->
+            <!--                android:textSize="@dimen/text_14sp" />-->
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</layout>

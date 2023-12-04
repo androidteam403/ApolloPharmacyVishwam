@@ -1928,7 +1928,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     morningFromMinute = 0
                                     activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
                                 }
-                            } else {
+                            }
+                            else {
                                 if (morningHours.contains(morningFromHour)) {
 //                                    if (morningFromHour == 0 && morningFromMinute == 0) {
 //                                        Toast.makeText(

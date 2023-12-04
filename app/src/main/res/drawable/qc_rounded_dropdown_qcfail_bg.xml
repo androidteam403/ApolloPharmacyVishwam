@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-
-    <solid android:color="@color/fadedTextColor" />
-    <corners android:radius="10dp" />
-    <padding android:bottom="4sp" android:left="4dp" android:right="4sp" android:top="4sp" />
-    <corners android:radius="@dimen/value_9dp"/>
-    <stroke android:color="@color/white" android:width="@dimen/value_1dp"/>
-    <corners android:radius="@dimen/value_10dp" />
+    <!--<corners android:radius="@dimen/value_9dp"/>-->
+    <!--    <stroke android:color="@color/black" android:width="@dimen/value_1dp"/>-->
+    <!--    <corners android:radius="@dimen/value_10dp" />-->
+    <gradient android:startColor="@color/grey" android:endColor="@color/grey" android:centerColor="@color/grey"/>
 </shape>

@@ -12,6 +12,7 @@
     <color name="cement">#EFEFEF</color>
     <color name="border_card">#1A8283</color>
     <color name="filter_color">#D1F2E7</color>
+    <color name="blackqc">#FF000000</color>
 
     <color name="splash_start_color">#173b5e</color>
     <color name="splash_end_color">#269aba</color>
@@ -278,7 +279,12 @@
     <color name="monitoring_closed_card_color">#4a98c9</color>
     <color name="dialog_bg">#292a2c</color>
     <color name="light_grey">#1e1e1e</color>
-
+    <color name="pendency_orange">#EAB2A0</color>
+    <color name="pendency_voilet">#c1abd4</color>
+    <color name="pendency_green">#A3C7D6</color>
+    <color name="pendency_list_qc">#FBCB7F</color>
+    <color name="approved_list_qc">#8FBC8F</color>
+    <color name="reject_list_qc">#F2ACB9</color>
     <color name="help_bg">#000000</color>
     <color name="gray">#1e1e1e</color>
     <color name="notifications_item_bg">#1e1e1e</color>

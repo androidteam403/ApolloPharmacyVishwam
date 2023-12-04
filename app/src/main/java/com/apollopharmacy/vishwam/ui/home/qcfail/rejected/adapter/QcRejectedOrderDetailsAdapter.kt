@@ -41,7 +41,13 @@ class QcRejectedOrderDetailsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = itemsList.get(position)
         if (items != null)
+            if (items.category.equals("FMCG")){
+                holder.orderdetailsBinding.categoryImage.setImageResource(R.drawable.fmcg)
 
+            }else if (items.category.equals("PHARMA")){
+                holder.orderdetailsBinding.categoryImage.setImageResource(R.drawable.pharma)
+
+            }
 
             holder.orderdetailsBinding.reason.setText(items.remarks)
             holder.orderdetailsBinding.quantityText.setText(items.qty.toString())

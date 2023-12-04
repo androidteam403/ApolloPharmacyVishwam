@@ -53,6 +53,15 @@ class QcPendingOrderDetailsAdapter(
         var qcaprqty: Int = 0
 
         val items = itemsList!!.get(position)
+
+
+        if (items.category.equals("FMCG")){
+            holder.orderdetailsBinding.categoryImage.setImageResource(R.drawable.fmcg)
+
+        }else if (items.category.equals("PHARMA")){
+            holder.orderdetailsBinding.categoryImage.setImageResource(R.drawable.pharma)
+
+        }
 //        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.color.grey)
         holder.orderdetailsBinding.reason.setText("Select")
         holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
@@ -121,6 +130,7 @@ class QcPendingOrderDetailsAdapter(
         }
         holder.orderdetailsBinding.medicineName.setText(items.itemname)
         holder.orderdetailsBinding.categoryName.setText("( " + items.category+" )")
+
         holder.orderdetailsBinding.price.setText(items.price.toString())
 
 

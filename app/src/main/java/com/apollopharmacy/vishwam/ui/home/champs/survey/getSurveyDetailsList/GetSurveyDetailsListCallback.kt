@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList
 
+import com.apollopharmacy.vishwam.ui.home.champs.survey.model.GlobalConfigurationResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSurveyDetailsModelResponse
 
 interface GetSurveyDetailsListCallback {
@@ -16,4 +17,6 @@ interface GetSurveyDetailsListCallback {
      fun onClickback()
 
      fun onClickFilterIcon()
+     fun onSuccessGlobalConfigDetails(value: GlobalConfigurationResponse)
+     fun onFailureGlobalConfigDetails(value: GlobalConfigurationResponse)
 }
