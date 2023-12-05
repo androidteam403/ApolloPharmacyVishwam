@@ -1816,7 +1816,7 @@ class HistoryFragment(
                 orderDataWp.ticketSubworkflowInfo!!.subworkflow_seq_order
             subworkFlowAssignedtoMeRequest.subworkflow_step_order =
                 orderDataWp.ticketSubworkflowInfo!!.subworkflow_step_order
-
+            subworkFlowAssignedtoMeRequest.reason = orderDataWp.reason!!.uid
             viewModel.subworkflowAssignedtoMeApiCall(
                 this@HistoryFragment,
                 subworkFlowAssignedtoMeRequest

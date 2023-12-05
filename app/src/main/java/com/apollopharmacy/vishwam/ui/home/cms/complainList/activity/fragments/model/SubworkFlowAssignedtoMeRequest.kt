@@ -20,4 +20,9 @@ class SubworkFlowAssignedtoMeRequest {
     @SerializedName("uid")
     var uid: String? = null
 
+    @Expose
+    @SerializedName("reason")
+    var reason: String? = null
+
+
 }

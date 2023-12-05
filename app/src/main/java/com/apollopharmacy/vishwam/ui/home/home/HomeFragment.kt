@@ -201,7 +201,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
 
 
-
+        isAttendanceRequired = true
         updateNavMenu(
             isAttendanceRequired,
             isCMSRequired,
