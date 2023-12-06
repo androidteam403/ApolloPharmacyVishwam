@@ -1367,7 +1367,7 @@ class ComplainListViewModel : ViewModel() {
 
         }
         val baseUrl =
-            "${baseUrL}ticket_id=${requestTicketHistory}emp_id=${Preferences.getValidatedEmpId()}"//data.APIS[i].URL
+            "${baseUrL}ticket_id=${requestTicketHistory}&emp_id=${Preferences.getValidatedEmpId()}"//data.APIS[i].URL
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
