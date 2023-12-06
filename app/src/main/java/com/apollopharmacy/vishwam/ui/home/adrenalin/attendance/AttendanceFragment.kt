@@ -71,7 +71,8 @@ import java.util.*
 
 class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanceBinding>(),
     SiteDialogAttendence.NewDialogSiteClickListner, DoctorListDialog.NewDialogSiteClickListner,
-    MainActivityCallback,AttendenceSubTaskDialog.GstDialogClickListner,AttendenceFileUploadCallback,
+    MainActivityCallback, AttendenceSubTaskDialog.GstDialogClickListner,
+    AttendenceFileUploadCallback,
 
     ImageClickListener, AttendanceFragmentCallback {
 
@@ -211,13 +212,23 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                     dialog.dismiss()
                 }
                 cameraIcon.setOnClickListener {
-                    handleTaskCameraFunctionality()
+                    if (imageList.size >= 4) {
+                        Toast.makeText(
+                            requireContext(),
+                            "You can only Capture up to 4 images",
+                            Toast.LENGTH_SHORT
+                        ).show()}
+                    else{
+                        handleTaskCameraFunctionality()
+
+                    }
                 }
                 marketingText.setOnClickListener {
 
 
                     AttendenceSubTaskDialog().apply {
-                        arguments = AttendenceSubTaskDialog().generateParsedData(marketingSubTaskList)
+                        arguments =
+                            AttendenceSubTaskDialog().generateParsedData(marketingSubTaskList)
                     }.show(childFragmentManager, "")
                 }
                 siteIdText.setOnClickListener {
@@ -272,7 +283,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                         requireContext(),
                                         R.layout.view_spinner_item,
                                         R.id.spinner_text,
-                                       DEPT_TASK_LIST
+                                        DEPT_TASK_LIST
                                     )
 
                                     marketingText.visibility = View.GONE
@@ -338,8 +349,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         if (position != 0) {
 
 
-                            }
-
+                        }
 
 
                     }
@@ -361,16 +371,15 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                     ) {
 
 
+                        for (i in departmentTaskList.indices) {
 
-                            for (i in departmentTaskList.indices) {
-
-                                if (DEPT_TASK_LIST.get(position)
-                                        .equals(departmentTaskList.get(i).TASK)
-                                ) {
+                            if (DEPT_TASK_LIST.get(position)
+                                    .equals(departmentTaskList.get(i).TASK)
+                            ) {
 
 
-                                    viewModel.getSubTaskList(departmentTaskList.get(i).ID.toInt())
-                                }
+                                viewModel.getSubTaskList(departmentTaskList.get(i).ID.toInt())
+                            }
 
 
                             marketingText.visibility = View.VISIBLE
@@ -440,82 +449,102 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
 
                 signInLayout.setOnClickListener { v1: View? ->
+                    if (marketingText.text.toString().trim().isEmpty()) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Please select a subtask",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
 
-                    if (enteredTaskName.toLowerCase().contains("marketing")&&imageList.size>0) {
-
-                        for (i in imageList.distinct().indices) {
-                            if (imageList[i].file != null) {
-                                var fileUploadModel = AttendenceFileUploadModel()
-                                fileUploadModel.file = compresImageSize(imageList.get(i).file)
+                        if (enteredTaskName.toLowerCase()
+                                .contains("marketing")) {
+                            if (imageList.size<1) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Please Capture Image",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                for (i in imageList.distinct().indices) {
+                                    if (imageList[i].file != null) {
+                                        var fileUploadModel = AttendenceFileUploadModel()
+                                        fileUploadModel.file =
+                                            compresImageSize(imageList.get(i).file)
 //                            fileUploadModel.categoryId = i.categoryId
-                                fileUploadModelList.add(fileUploadModel)
+                                        fileUploadModelList.add(fileUploadModel)
+                                    }
+                                }
+                                AttendenceFileUpload().uploadFiles(
+                                    requireContext(),
+                                    this,
+                                    fileUploadModelList, dialog
+                                )
                             }
-                        }
-                        AttendenceFileUpload().uploadFiles(
-                            requireContext(),
-                            this,
-                            fileUploadModelList, dialog
-                        )
-                    }
-                   else if (!isDepartmentSelected) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Please select any department",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@setOnClickListener
-                    } else if (DEPT_TASK_LIST.size > 0 && !isDepartmentTaskSelected) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Please select any Task name",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@setOnClickListener
-                    } else if (validationCheck()) {
+                        } else if (!isDepartmentSelected) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Please select any department",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@setOnClickListener
+                        } else if (DEPT_TASK_LIST.size > 0 && !isDepartmentTaskSelected) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Please select any Task name",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@setOnClickListener
+                        } else if (validationCheck()) {
 
-                        Utils.printMessage("TAG", "Entered Task :: " + enteredTaskName)
-                        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                            if (locationLatitude.isNotEmpty() && locationLongitude.isNotEmpty()
-                            ) {
-                                if (NetworkUtil.isNetworkConnected(requireContext())) {
-                                    showLoading()
-                                    viewModel.taskInsertUpdateService(
-                                        TaskInfoReq(
-                                            enteredTaskName,
-                                            employeeID,
-                                            "",
-                                            locationLatitude,
-                                            locationLongitude,
-                                            "SIGNIN",
-                                            getAttendanceCity(
-                                                requireContext(),
-                                                locationLatitude.toDouble(),
-                                                locationLongitude.toDouble()
-                                            ), descriptionText.text.toString(), siteIds, doctorNAme,imageUrls,subTaskName
+                            Utils.printMessage("TAG", "Entered Task :: " + enteredTaskName)
+                            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                if (locationLatitude.isNotEmpty() && locationLongitude.isNotEmpty()
+                                ) {
+                                    if (NetworkUtil.isNetworkConnected(requireContext())) {
+                                        showLoading()
+                                        viewModel.taskInsertUpdateService(
+                                            TaskInfoReq(
+                                                enteredTaskName,
+                                                employeeID,
+                                                "",
+                                                locationLatitude,
+                                                locationLongitude,
+                                                "SIGNIN",
+                                                getAttendanceCity(
+                                                    requireContext(),
+                                                    locationLatitude.toDouble(),
+                                                    locationLongitude.toDouble()
+                                                ),
+                                                descriptionText.text.toString(),
+                                                siteIds,
+                                                doctorNAme,
+                                                imageUrls,
+                                                subTaskName
+                                            )
                                         )
-                                    )
-                                    dialog.dismiss()
+                                        dialog.dismiss()
+                                    } else {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            context?.resources?.getString(R.string.label_network_error),
+                                            Toast.LENGTH_SHORT
+                                        )
+                                            .show()
+                                    }
                                 } else {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        context?.resources?.getString(R.string.label_network_error),
-                                        Toast.LENGTH_SHORT
-                                    )
-                                        .show()
+                                    (activity as MainActivity).initPermission()
+                                    (activity as MainActivity).startLocationUpdates()
                                 }
                             } else {
                                 (activity as MainActivity).initPermission()
                                 (activity as MainActivity).startLocationUpdates()
                             }
-                        } else {
-                            (activity as MainActivity).initPermission()
-                            (activity as MainActivity).startLocationUpdates()
                         }
                     }
                 }
             }
         }
-
         viewBinding.capturedImg.setOnClickListener {
             handleCameraFunctionality()
         }
@@ -616,7 +645,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
         }
 
-        viewModel.departmentTaskData.observe(viewLifecycleOwner, {
+        viewModel.departmentTaskData.observe(viewLifecycleOwner) {
             DEPT_TASK_LIST.clear()
             if (it.status) {
                 departmentTaskList = it.TASKLIST
@@ -642,7 +671,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 deptTaskSpinner.visibility = View.GONE
                 Toast.makeText(requireContext(), "Task list not found", Toast.LENGTH_SHORT).show()
             }
-        })
+        }
 
         viewBinding.singInLayout.setOnClickListener {
 //            viewBinding.singInLayout.isClickable = false
@@ -908,7 +937,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 if (items.signOutDate.isNullOrEmpty()) {
 //                    binding.taskCompletedLayout.visibility = View.GONE
 //                    binding.taskPendingLayout.visibility = View.VISIBLE
-                    binding.durationLayout.visibility=View.GONE
+                    binding.durationLayout.visibility = View.GONE
                     binding.taskPendingLayout.visibility = View.VISIBLE
 //                   binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
 
@@ -916,18 +945,17 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 //                   binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.active_task_color_new))
 //
 //                    binding.taskCompletedLayout.visibility = View.VISIBLE
-                   binding.taskPendingLayout.visibility = View.GONE
-                    binding.durationLayout.visibility=View.VISIBLE
+                    binding.taskPendingLayout.visibility = View.GONE
+                    binding.durationLayout.visibility = View.VISIBLE
                 }
-            }
-            else {
+            } else {
                 binding.viewExpand.visibility = View.GONE
                 binding.viewCollapse.visibility = View.VISIBLE
 //               binding.overAllLayout.setBackgroundColor(context.resources.getColor(R.color.newtask_bgs))
 
 //                binding.taskCompletedLayout.visibility = View.GONE
                 binding.taskPendingLayout.visibility = View.GONE
-                binding.durationLayout.visibility=View.GONE
+                binding.durationLayout.visibility = View.GONE
             }
             binding.taskName.text = items.taskName
             binding.signInTime.text = getAttendanceCustomDate(
@@ -1037,6 +1065,14 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 )
                     .show()
                 return false
+            } else if (marketingText.text.toString().trim().isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please select a subtask",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+                return false
             }
         } else if (branchName.equals("BRANCH VISIT")) {
             val siteId = siteIdText.text.toString().trim()
@@ -1044,6 +1080,14 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 Toast.makeText(
                     requireContext(),
                     "Please Select Site Id",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+                return false
+            } else if (marketingText.text.toString().trim().isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please select a subtask",
                     Toast.LENGTH_SHORT
                 )
                     .show()
@@ -1076,7 +1120,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 requireContext(),
                                 locationLatitude.toDouble(),
                                 locationLongitude.toDouble()
-                            ), remarks, siteIds, doctorNAme,imageUrls,subTaskName
+                            ), remarks, siteIds, doctorNAme, imageUrls, subTaskName
                         )
                     )
                 } else {
@@ -1374,6 +1418,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivityForResult(intent, REQUEST_CODE_CAMERA)
     }
+
     private fun compresImageSize(imageFromCameraFile: File): File {
         val resizedImage = Resizer(requireContext())
             .setTargetLength(1080)
@@ -1386,14 +1431,16 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             .resizedFile
         return resizedImage
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 221) {
             imageList.add(Image(compresImageSize(imageFromCameraFile!!), "", ""))
+            imageList.reverse()
+
             imageAdapter = AttendenceImageRecycleView(requireContext(), imageList, this)
             imageRecycleView.adapter = imageAdapter
 
-        }
-        else  if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
             isPermissionAsked = false
             fileArrayList.add(ImageDataDto(imageFromCameraFile!!, ""))
             viewBinding.capturedImageLayout.visibility = View.VISIBLE
@@ -1615,6 +1662,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             position
         )
     }
+
     private fun openTaskCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         imageFromCameraFile =
@@ -1657,7 +1705,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         }
         dialogBinding?.cancelButton?.setOnClickListener {
             customDialog.dismiss()
-        }    }
+        }
+    }
 
     override fun onClickFilterIcon() {
         TODO("Not yet implemented")
@@ -1686,6 +1735,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     override fun onClickSpinnerLayout() {
         TODO("Not yet implemented")
     }
+
     private fun handleTaskCameraFunctionality() {
         viewBinding.onCaptureClick = true
         if (!checkPermission()) {
@@ -1724,10 +1774,13 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     ) {
 
 
-        }
+    }
 
 
-    override fun allFilesUploaded(fileUploadModelList: ArrayList<AttendenceFileUploadModel>?,dialog: Dialog) {
+    override fun allFilesUploaded(
+        fileUploadModelList: ArrayList<AttendenceFileUploadModel>?,
+        dialog: Dialog,
+    ) {
 
 
         imageUrls = fileUploadModelList!!.mapNotNull {
