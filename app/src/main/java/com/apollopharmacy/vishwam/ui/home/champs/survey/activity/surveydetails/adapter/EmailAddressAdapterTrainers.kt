@@ -15,7 +15,8 @@ class EmailAddressAdapterTrainers(
     private var surveyEmailDetailsList: MutableList<String>,
     private var applicationContext: Context,
     private var surveyDetailscallback: SurveyDetailsCallback,
-    private val status: String?
+    private val status: String?,
+    private var trainerEmail: String
 ) : RecyclerView.Adapter<EmailAddressAdapterTrainers.ViewHolder>() {
 
 
@@ -33,7 +34,8 @@ class EmailAddressAdapterTrainers(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = surveyEmailDetailsList.get(position)
         holder.adapterEmailaddressChampsBinding.setEmailAddress.text = item
-        if(status.equals("COMPLETED")){
+        if(status.equals("COMPLETED") || surveyEmailDetailsList.get(position).equals(trainerEmail)
+            ||status.equals("PENDING")){
             holder.adapterEmailaddressChampsBinding.deleteRecipient.visibility=View.GONE
         }else{
             holder.adapterEmailaddressChampsBinding.deleteRecipient.visibility=View.VISIBLE

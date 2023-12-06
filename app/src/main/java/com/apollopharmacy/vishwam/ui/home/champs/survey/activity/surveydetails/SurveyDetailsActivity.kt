@@ -137,7 +137,8 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
             listForTrainers,
             this@SurveyDetailsActivity,
             this,
-            status
+            status,
+            activityStartSurvey2Binding.trainer.text.toString()
         )
         activityStartSurvey2Binding.trainerRecyclerview.setLayoutManager(
             LinearLayoutManager(
@@ -277,7 +278,12 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         )
         activityStartSurvey2Binding.emailRecRecyclerView.setAdapter(adapterRec)
 
-        adapterCC = EmailAddressCCAdapter(surveyCCDetailsList, this, this@SurveyDetailsActivity)
+        adapterCC = EmailAddressCCAdapter(
+            surveyCCDetailsList,
+            this,
+            this@SurveyDetailsActivity,
+            status
+        )
         activityStartSurvey2Binding.emailCCRecyclerView.setLayoutManager(LinearLayoutManager(this))
         activityStartSurvey2Binding.emailCCRecyclerView.setAdapter(adapterCC)
 
@@ -580,7 +586,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                 inputStringCC.split(",".toRegex()).dropLastWhile { it.isEmpty() }
                     .toTypedArray()
             surveyCCDetailsList.addAll(separatedStrings)
-            adapterCC = EmailAddressCCAdapter(surveyCCDetailsList, this, this@SurveyDetailsActivity)
+            adapterCC = EmailAddressCCAdapter(surveyCCDetailsList, this, this@SurveyDetailsActivity, status)
             activityStartSurvey2Binding.emailCCRecyclerView.setLayoutManager(
                 LinearLayoutManager(
                     this
@@ -656,6 +662,22 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
             trainerEmailList.dismiss()
 
         }
+//        var res = TrainersEmailIdResponse()
+//        var data = res.Data()
+//        var listData = data.ListData()
+//        var rowssList = java.util.ArrayList<TrainersEmailIdResponse.Data.ListData.Row>()
+//        var rows = listData.Row()
+//        var traineEmail=
+//            java.util.ArrayList<TrainersEmailIdResponse.Data.ListData.Row.TrainerEmail>()
+//        var traineeemail= rows.TrainerEmail()
+//        traineeemail.email="dhanalakshmi_v@apollopharmacy.org"
+//        traineEmail.add(traineeemail)
+//        rows.trainerEmail=traineEmail
+//        rowssList.add(rows)
+//        listData.rows= rowssList
+//        data.listData=listData
+//        emailList=traineEmail
+
 //        var emailList = ArrayList<String>()
 //        emailList.add("apollopharmacy.org")
 //        emailList.add("dhanalakshmi@gmail.com")
@@ -663,7 +685,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
             dialogLocationListBinding!!.noDataAvailable.visibility=View.GONE
             dialogLocationListBinding!!.submit.visibility=View.VISIBLE
             dialogLocationListBinding!!.locationRcv.visibility=View.VISIBLE
-            trainersEmailAdapter = TrainersEmailAdapterForDialog(this@SurveyDetailsActivity, emailList, this, listForTrainers)
+            trainersEmailAdapter = TrainersEmailAdapterForDialog(this@SurveyDetailsActivity, emailList, this, listForTrainers, activityStartSurvey2Binding.trainer.text.toString())
             dialogLocationListBinding!!.locationRcv.adapter = trainersEmailAdapter
             dialogLocationListBinding!!.locationRcv.layoutManager =
                 LinearLayoutManager(this)

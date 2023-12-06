@@ -171,14 +171,14 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
     }
 
     override fun onClickCardView() {
-        if(!Preferences.getChampsSiteForEr().isNullOrEmpty() && !siteCity.isNullOrEmpty()){
+        if(!Preferences.getChampsSiteForEr().isNullOrEmpty() && !Preferences.getChampsSiteCity().isNullOrEmpty()){
             val intent = Intent(applicationContext, SurveyDetailsActivity::class.java)
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             intent.putExtra("getStoreWiseDetailsResponses", getSiteDetails)
             intent.putExtra("storeId", Preferences.getChampsSiteForEr())
             intent.putExtra("address", address)
             intent.putExtra("siteName", siteName)
-            intent.putExtra("storeCity", siteCity)
+            intent.putExtra("storeCity", Preferences.getChampsSiteCity())
             intent.putExtra("region", fragmentChampsSurveyBinding!!.region.text.toString())
             startActivityForResult(intent, 761)
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
@@ -207,6 +207,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                     siteName = value.get(i).storeName
                     Preferences.setChampsSiteName(siteName!!)
                     Preferences.setRegionUidChamps(value.get(i).region!!.uid!!)
+                    Preferences.setChampsSiteCity(value.get(i).city!!)
                     siteCity = value.get(i).city
                     region = value.get(i).state!!.name
                     if (value.get(i).address != null)
@@ -352,10 +353,14 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
         if (resultCode == Activity.RESULT_OK) {
             isSiteIdEmpty = data!!.getBooleanExtra("isSiteIdEmpty", isSiteIdEmpty)
             storeId = data!!.getStringExtra("siteId")
-            if(data!!.getStringExtra("siteId")!=null){
+            siteName = data!!.getStringExtra("siteName")
+            if(!data!!.getStringExtra("siteId").isNullOrEmpty()){
                 Preferences.setChampsSiteForEr(storeId!!)
             }
-            siteName = data!!.getStringExtra("siteName")
+            if(!data!!.getStringExtra("siteName").isNullOrEmpty()){
+                Preferences.setChampsSiteName(siteName!!)
+            }
+
             if (requestCode == 781) {
                 hideLoading()
                 Utlis.hideLoading()

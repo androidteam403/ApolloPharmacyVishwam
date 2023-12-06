@@ -2,18 +2,19 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterCcEmailBinding
-import com.apollopharmacy.vishwam.databinding.AdapterEmailaddressChampsBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsCallback
 
 class EmailAddressCCAdapter(
     private var surveyCCDetailsList: MutableList<String>,
     private var surveyDetailscallback: SurveyDetailsCallback,
     private var applicationContext: Context,
+    private var status: String,
 ) : RecyclerView.Adapter<EmailAddressCCAdapter.ViewHolder>() {
 
 
@@ -35,6 +36,7 @@ class EmailAddressCCAdapter(
         val items = surveyCCDetailsList.get(position)
         holder.adapterCcEmailAddressCCAdapter.setEmailAddress.text =
             surveyCCDetailsList.get(position)
+
 
         holder.adapterCcEmailAddressCCAdapter.ccEmailDelete.setOnClickListener {
             surveyDetailscallback.deleteEmailAddressCC(surveyCCDetailsList.get(position))

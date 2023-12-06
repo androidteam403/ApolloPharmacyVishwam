@@ -226,6 +226,7 @@ object Preferences {
     private const val KEY_PLANOGRAM_SITESTATE = "KEY_PLANOGRAM_SITESTATE"
     private const val KEY_CHAMPS_SITENAME = "KEY_CHAMPS_SITENAME"
     private const val KEY_REGION_UID_CHAMPS = "KEY_REGION_UID_CHAMPS"
+    private const val KEY_CHAMPS_SITE_CITY = "KEY_CHAMPS_SITE_CITY"
     private const val KEY_CHAMPS_SITEID = "KEY_CHAMPS_SITEID"
     private const val KEY_APNA_SITENAME = "KEY_APNA_SITENAME"
 
@@ -708,8 +709,20 @@ object Preferences {
         sharedPreferences.edit().putString(KEY_REGION_UID_CHAMPS, regionUidChamps).apply()
     }
 
+
     fun getRegionUidChamps(): String {
         return sharedPreferences.getString(KEY_REGION_UID_CHAMPS, "")!!
+    }
+
+
+
+    fun setChampsSiteCity(regionUidChamps: String) {
+        sharedPreferences.edit().putString(KEY_CHAMPS_SITE_CITY, regionUidChamps).apply()
+    }
+
+
+    fun getChampsSiteCity(): String {
+        return sharedPreferences.getString(KEY_CHAMPS_SITE_CITY, "")!!
     }
 
 

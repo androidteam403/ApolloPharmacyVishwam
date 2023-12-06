@@ -3,17 +3,13 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
-import com.apollopharmacy.vishwam.databinding.DialogLocationListBinding
-import com.apollopharmacy.vishwam.databinding.DialogTrainersEmailBinding
 import com.apollopharmacy.vishwam.databinding.TrainersEmailItemBinding
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.RegionListResponse
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsCallback
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.model.TrainersEmailIdResponse
 
@@ -21,7 +17,8 @@ class TrainersEmailAdapterForDialog(
     private val applicationContext: Context,
     private var emailList: ArrayList<TrainersEmailIdResponse.Data.ListData.Row.TrainerEmail>,
     private val surveyDetailsCallback: SurveyDetailsCallback,
-    private val trainerEmailList: ArrayList<String>
+    private val trainerEmailList: ArrayList<String>,
+    private val trainerEmail: String,
 ) : RecyclerView.Adapter<TrainersEmailAdapterForDialog.ViewHolder>()  {
 
 
@@ -45,11 +42,18 @@ class TrainersEmailAdapterForDialog(
         }else{
             holder.trainersEmailItemBinding.itemNameTrainer.isChecked=false
         }
+
         var selectedList = ArrayList<String>()
         holder.trainersEmailItemBinding.itemNameTrainer.setOnClickListener {
             if(holder.trainersEmailItemBinding.itemNameTrainer.isChecked){
-                holder.trainersEmailItemBinding.itemNameTrainer.isChecked=true
-                selectedList.add(emailList[position].email)
+                if(trainerEmail.equals(emailList[position].email)){
+                    holder.trainersEmailItemBinding.itemNameTrainer.isChecked=false
+                    Toast.makeText(applicationContext, "Email id is already used", Toast.LENGTH_SHORT).show()
+                }else{
+                    holder.trainersEmailItemBinding.itemNameTrainer.isChecked=true
+                    selectedList.add(emailList[position].email)
+                }
+
 
             }else{
                 holder.trainersEmailItemBinding.itemNameTrainer.isChecked=false

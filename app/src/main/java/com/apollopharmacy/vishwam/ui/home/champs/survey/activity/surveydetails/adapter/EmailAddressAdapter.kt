@@ -33,7 +33,7 @@ class EmailAddressAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = surveyEmailDetailsList.get(position)
         holder.adapterEmailaddressChampsBinding.setEmailAddress.text = item
-        if(status.equals("COMPLETED")){
+        if(status.equals("COMPLETED") || status.equals("PENDING")){
             holder.adapterEmailaddressChampsBinding.deleteRecipient.visibility=View.GONE
         }else{
             holder.adapterEmailaddressChampsBinding.deleteRecipient.visibility=View.VISIBLE
