@@ -88,7 +88,7 @@
         <EditText
             android:id="@+id/siteIdSelectAttendence"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:clickable="true"
             android:drawableEnd="@drawable/spinner_arrow"
             android:editable="false"
@@ -151,7 +151,7 @@
         <EditText
             android:id="@+id/doctorNameSelectAttendence"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:clickable="true"
             android:drawableEnd="@drawable/spinner_arrow"
             android:editable="false"
@@ -168,7 +168,7 @@
     <EditText
         android:id="@+id/doctorspecialityinattendence"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/backcolor"
         android:editable="false"
         android:visibility="gone"
@@ -248,7 +248,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/value_20dp"
             android:layout_marginTop="@dimen/value_15dp"
-            android:text="@string/label_upload_image"
+            android:text="Capture Image"
             android:textColor="@color/black"
             android:textSize="@dimen/text_16sp"
             app:layout_constraintLeft_toLeftOf="parent"
