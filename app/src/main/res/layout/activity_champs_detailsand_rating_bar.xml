@@ -1059,68 +1059,73 @@
 
 
                                 <!--                                </LinearLayout>-->
-
                                 <LinearLayout
-                                    android:id="@+id/continue_layout"
-                                    android:layout_marginBottom="@dimen/value_5dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentBottom="true"
-                                    android:layout_marginTop="@dimen/value_10dp"
-                                    android:gravity="bottom">
-
-                                    <ImageButton
-                                        android:visibility="visible"
-                                        android:id="@+id/openGallery"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="40dp"
-                                        android:onClick="@{()-> callback.onClickOpenGallery()}"
-                                        android:background="@drawable/green_rectangle"
-                                        android:paddingHorizontal="@dimen/value_5dp"
-                                        android:src="@drawable/ic_pending_list_icons_upload_photo"
-                                        android:tint="@color/white_for_both" />
-                                    <ImageButton
-                                        android:visibility="gone"
-                                        android:id="@+id/openGalleryAsh"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="40dp"
-                                        android:background="@drawable/grey_rectangle"
-                                        android:paddingHorizontal="@dimen/value_5dp"
-                                        android:src="@drawable/ic_pending_list_icons_upload_photo"
-                                        app:tint="@color/white" />
+                                    android:layout_height="wrap_content">
 
                                     <LinearLayout
+                                        android:id="@+id/continue_layout"
+                                        android:layout_marginBottom="@dimen/value_5dp"
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_alignParentBottom="true"
-                                        android:layout_gravity="center_vertical"
-                                        android:gravity="end|bottom">
+                                        android:layout_marginTop="@dimen/value_10dp"
+                                        android:gravity="bottom">
 
-                                        <!--                                        <androidx.appcompat.widget.AppCompatButton-->
-                                        <!--                                            android:id="@+id/save_draft"-->
-                                        <!--                                            android:layout_width="@dimen/value_130dp"-->
-                                        <!--                                            android:layout_height="@dimen/value_40dp"-->
-                                        <!--                                            android:layout_marginRight="@dimen/value_8dp"-->
-                                        <!--                                            android:background="@drawable/grey_rectangle"-->
-                                        <!--                                            android:hint="Save Draft"-->
-                                        <!--                                            android:onClick="@{()-> callback.onClickSaveDraft()}"-->
-                                        <!--                                            android:textColorHint="@color/white"-->
-                                        <!--                                            android:textSize="@dimen/text_18sp" />-->
-
-                                        <androidx.appcompat.widget.AppCompatButton
-                                            android:id="@+id/next"
+                                        <ImageButton
+                                            android:visibility="visible"
+                                            android:id="@+id/openGallery"
                                             android:layout_width="wrap_content"
-                                            android:layout_height="@dimen/value_40dp"
+                                            android:layout_height="40dp"
+                                            android:onClick="@{()-> callback.onClickOpenGallery()}"
                                             android:background="@drawable/green_rectangle"
-                                            android:hint="Continue"
-                                            android:textAlignment="center"
-                                            android:layout_gravity="center_horizontal"
-                                            android:gravity="center"
-                                            android:onClick="@{()-> callback.onClickSubmit()}"
-                                            android:textColorHint="@color/white_for_both"
-                                            android:textSize="@dimen/text_18sp" />
+                                            android:paddingHorizontal="@dimen/value_5dp"
+                                            android:src="@drawable/ic_pending_list_icons_upload_photo"
+                                            android:tint="@color/white_for_both" />
+                                        <ImageButton
+                                            android:visibility="gone"
+                                            android:id="@+id/openGalleryAsh"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="40dp"
+                                            android:background="@drawable/grey_rectangle"
+                                            android:paddingHorizontal="@dimen/value_5dp"
+                                            android:src="@drawable/ic_pending_list_icons_upload_photo"
+                                            app:tint="@color/white" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_alignParentBottom="true"
+                                            android:layout_gravity="center_vertical"
+                                            android:gravity="end|bottom">
+
+                                            <!--                                        <androidx.appcompat.widget.AppCompatButton-->
+                                            <!--                                            android:id="@+id/save_draft"-->
+                                            <!--                                            android:layout_width="@dimen/value_130dp"-->
+                                            <!--                                            android:layout_height="@dimen/value_40dp"-->
+                                            <!--                                            android:layout_marginRight="@dimen/value_8dp"-->
+                                            <!--                                            android:background="@drawable/grey_rectangle"-->
+                                            <!--                                            android:hint="Save Draft"-->
+                                            <!--                                            android:onClick="@{()-> callback.onClickSaveDraft()}"-->
+                                            <!--                                            android:textColorHint="@color/white"-->
+                                            <!--                                            android:textSize="@dimen/text_18sp" />-->
+
+                                            <androidx.appcompat.widget.AppCompatButton
+                                                android:id="@+id/next"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="@dimen/value_40dp"
+                                                android:background="@drawable/green_rectangle"
+                                                android:hint="Continue"
+                                                android:textAlignment="center"
+                                                android:layout_gravity="center_horizontal"
+                                                android:gravity="center"
+                                                android:onClick="@{()-> callback.onClickSubmit()}"
+                                                android:textColorHint="@color/white_for_both"
+                                                android:textSize="@dimen/text_18sp" />
+                                        </LinearLayout>
                                     </LinearLayout>
                                 </LinearLayout>
+
                             </LinearLayout>
 
 

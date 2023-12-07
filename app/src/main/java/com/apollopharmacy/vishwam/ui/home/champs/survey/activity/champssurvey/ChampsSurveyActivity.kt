@@ -80,7 +80,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     lateinit var morningFromTimePickerDialog: TimePickerDialog
     private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
     lateinit var trainerEmailList: Dialog
-    lateinit var trainersEmailAdapter: TrainersEmailAdapterForDialog
+    var trainersEmailAdapter: TrainersEmailAdapterForDialog? = null
     var emailList = ArrayList<TrainersEmailIdResponse.Data.ListData.Row.TrainerEmail>()
     var trainerEmail: String? = null
     var dialogFilterUploadBinding: DialogCalenderChampsBinding? = null
@@ -92,8 +92,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     var listForTrainers = ArrayList<String>()
     public var isNewSurveyCreated = false
     private lateinit var dialogDElete: Dialog
-
-    //    var siteName: String? = ""
+    var siteName: String? = ""
     var sumOfCategoriess: Float? = 0f
     private var storeCity: String = ""
     private var region: String = ""
@@ -170,7 +169,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         surveyCCDetailsList = intent.getStringArrayListExtra("surveyCCDetailsList")!!
         address = intent.getStringExtra("address")!!
         storeId = intent.getStringExtra("storeId")!!
-//        siteName = intent.getStringExtra("siteName")
+        siteName = intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
         status = intent.getStringExtra("status")
         champsRefernceId = intent.getStringExtra("champsRefernceId")
@@ -199,7 +198,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.employeeId.text = Preferences.getValidatedEmpId()
 //        activityChampsSurveyBinding.siteId.text = storeId
 
-            activityChampsSurveyBinding.storeName.text = Preferences.getSaveChampsSurveySiteName()
+
             if (!trainerEmail.isNullOrEmpty()) {
                 activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
                 activityChampsSurveyBinding.trainer.text = trainerEmail
@@ -210,9 +209,10 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
 
             activityChampsSurveyBinding.storeId.text = storeId
+            activityChampsSurveyBinding.storeName.text = siteName
 
             activityChampsSurveyBinding.address.text =
-                storeId + ", " + Preferences.getChampsSiteName()
+                storeId + ", " + siteName
             activityChampsSurveyBinding.storeCity.text = storeCity
             activityChampsSurveyBinding.region.text = region
             activityChampsSurveyBinding.percentageSum.text = "0"
@@ -224,7 +224,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 activityChampsSurveyBinding.trainerLayout.visibility = View.GONE
             }
             surveyDetailsByChampsIdForCheckBox = true
-            activityChampsSurveyBinding.calenderGreyChamps.visibility = View.VISIBLE
+            activityChampsSurveyBinding.calenderGreyChamps.visibility = View.GONE
             activityChampsSurveyBinding.deleteDown.visibility = View.VISIBLE
             activityChampsSurveyBinding.previewDown.visibility = View.GONE
 
@@ -320,7 +320,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         activityChampsSurveyBinding.emailRecRecyclerView.setAdapter(adapterRec)
         onClickAddRecipient()
         adapterTrainers =
-            EmailAddressAdapterTrainers(listForTrainers, applicationContext, this, status)
+            EmailAddressAdapterTrainers(
+                listForTrainers,
+                applicationContext,
+                this,
+                status,
+                activityChampsSurveyBinding.trainer.text.toString()
+            )
         activityChampsSurveyBinding.trainerRecyclerview.setLayoutManager(
             LinearLayoutManager(
                 this
@@ -712,15 +718,43 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             trainerEmailList.dismiss()
 
         }
+//        emailLists.add("dhanalakshmi_v@apollopharmacy.org")
 //        var emailList = ArrayList<String>()
 //        emailList.add("apollopharmacy.org")
+//        var emailResponse = TrainersEmailIdResponse()
+//        var data =  emailResponse.data
+//        var listadata = ArrayList<data.ListData>()
+//        var rows =  listadata.rows
+//        r
+//        var res = TrainersEmailIdResponse()
+//        var data = res.Data()
+//        var listData = data.ListData()
+//        var rowssList = ArrayList<TrainersEmailIdResponse.Data.ListData.Row>()
+//        var rows = listData.Row()
+//        var traineEmail=ArrayList<TrainersEmailIdResponse.Data.ListData.Row.TrainerEmail>()
+//        var traineeemail= rows.TrainerEmail()
+//        traineeemail.email="dhanalakshmi_v@apollopharmacy.org"
+//        traineEmail.add(traineeemail)
+//        rows.trainerEmail=traineEmail
+//        rowssList.add(rows)
+//        listData.rows= rowssList
+//        data.listData=listData
+//        emailList=traineEmail
+
 //        emailList.add("dhanalakshmi@gmail.com")
         if (emailList != null && emailList.size > 0) {
             dialogLocationListBinding!!.noDataAvailable.visibility = View.GONE
             dialogLocationListBinding!!.submit.visibility = View.VISIBLE
             dialogLocationListBinding!!.locationRcv.visibility = View.VISIBLE
+
             trainersEmailAdapter =
-                TrainersEmailAdapterForDialog(applicationContext, emailList, this, listForTrainers)
+                TrainersEmailAdapterForDialog(
+                    applicationContext,
+                    emailList,
+                    this,
+                    listForTrainers,
+                    activityChampsSurveyBinding.trainer.text.toString()
+                )
             dialogLocationListBinding!!.locationRcv.adapter = trainersEmailAdapter
             dialogLocationListBinding!!.locationRcv.layoutManager =
                 LinearLayoutManager(this)
@@ -806,124 +840,125 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     }
 
     override fun onClickCalender() {
+        if (status.equals("NEW") || status.equals("PENDING")) {
+            val uploadStatusFilterDialog = this?.let { Dialog(this) }
+            dialogFilterUploadBinding =
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(this), R.layout.dialog_calender_champs, null, false
+                )
+            uploadStatusFilterDialog!!.setContentView(dialogFilterUploadBinding!!.root)
+            uploadStatusFilterDialog.getWindow()
+                ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val uploadStatusFilterDialog = this?.let { Dialog(this) }
-        dialogFilterUploadBinding =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(this), R.layout.dialog_calender_champs, null, false
-            )
-        uploadStatusFilterDialog!!.setContentView(dialogFilterUploadBinding!!.root)
-        uploadStatusFilterDialog.getWindow()
-            ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        dialogFilterUploadBinding!!.closeDialog.setOnClickListener {
-            uploadStatusFilterDialog.dismiss()
-        }
-
-
-        val strFromate = activityChampsSurveyBinding.issuedOn.text.toString()
-        val fromDateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a");
-        val frommdate = fromDateFormat.parse(strFromate)
-        val fromDateNewFormat = SimpleDateFormat("dd-MMM-yyyy").format(frommdate)
-
-        dialogFilterUploadBinding!!.fromDateTextChamps.text = fromDateNewFormat.toString()
-
-        val strFromates = activityChampsSurveyBinding.issuedOn.text.toString()
-        val fromDateFormats = SimpleDateFormat("dd MMM, yyyy - hh:mm a");
-        val frommdates = fromDateFormats.parse(strFromates)
-        val fromDateNewFormats = SimpleDateFormat("hh:mm a").format(frommdates)
-
-        dialogFilterUploadBinding!!.durationTexthrs.text =
-            fromDateNewFormats.toString().toUpperCase()
-
-        dialogFilterUploadBinding!!.fromDate.setOnClickListener {
-            isFromDateSelected = true
-            openDateDialog()
-        }
-
-        dialogFilterUploadBinding!!.durationLayout.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val hour = calendar.get(Calendar.HOUR_OF_DAY)
-            val minute = calendar.get(Calendar.MINUTE)
-            val time = dialogFilterUploadBinding!!.durationTexthrs.text.toString()
-            val parts = time.split(":".toRegex()).dropLastWhile { it.isEmpty() }
-                .toTypedArray()
-
-            // Extracting the hour
-
-            // Extracting the hour
-            var hourss = parts[0].toInt()
-
-            // Extracting the minutes and removing the AM/PM part
-
-            // Extracting the minutes and removing the AM/PM part
-            var minutess = parts[1].substring(0, parts[1].length - 3).toInt()
-            val amPm = parts[1].substring(3)
-            if (amPm.equals("PM", ignoreCase = true) && hourss < 12) {
-                hourss += 12
-            }
-            if (amPm.equals("AM", ignoreCase = true) && hourss == 12) {
-                hourss = 0
+            dialogFilterUploadBinding!!.closeDialog.setOnClickListener {
+                uploadStatusFilterDialog.dismiss()
             }
 
-            println("Hour: $hourss") // Output: 10
 
-            println("Minutes: $minutess")
-            morningFromTimePickerDialog = TimePickerDialog(
-                this,
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                object : TimePickerDialog.OnTimeSetListener {
-                    @SuppressLint("SetTextI18n")
-                    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-                        val amPm: String
-                        if (hourOfDay >= 12) {
-                            amPm = "PM"
+            val strFromate = activityChampsSurveyBinding.issuedOn.text.toString()
+            val fromDateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a");
+            val frommdate = fromDateFormat.parse(strFromate)
+            val fromDateNewFormat = SimpleDateFormat("dd-MMM-yyyy").format(frommdate)
+
+            dialogFilterUploadBinding!!.fromDateTextChamps.text = fromDateNewFormat.toString()
+
+            val strFromates = activityChampsSurveyBinding.issuedOn.text.toString()
+            val fromDateFormats = SimpleDateFormat("dd MMM, yyyy - hh:mm a");
+            val frommdates = fromDateFormats.parse(strFromates)
+            val fromDateNewFormats = SimpleDateFormat("hh:mm a").format(frommdates)
+
+            dialogFilterUploadBinding!!.durationTexthrs.text =
+                fromDateNewFormats.toString().toUpperCase()
+
+            dialogFilterUploadBinding!!.fromDate.setOnClickListener {
+                isFromDateSelected = true
+                openDateDialog()
+            }
+
+            dialogFilterUploadBinding!!.durationLayout.setOnClickListener {
+                val calendar = Calendar.getInstance()
+                val hour = calendar.get(Calendar.HOUR_OF_DAY)
+                val minute = calendar.get(Calendar.MINUTE)
+                val time = dialogFilterUploadBinding!!.durationTexthrs.text.toString()
+                val parts = time.split(":".toRegex()).dropLastWhile { it.isEmpty() }
+                    .toTypedArray()
+
+                // Extracting the hour
+
+                // Extracting the hour
+                var hourss = parts[0].toInt()
+
+                // Extracting the minutes and removing the AM/PM part
+
+                // Extracting the minutes and removing the AM/PM part
+                var minutess = parts[1].substring(0, parts[1].length - 3).toInt()
+                val amPm = parts[1].substring(3)
+                if (amPm.equals("PM", ignoreCase = true) && hourss < 12) {
+                    hourss += 12
+                }
+                if (amPm.equals("AM", ignoreCase = true) && hourss == 12) {
+                    hourss = 0
+                }
+
+                println("Hour: $hourss") // Output: 10
+
+                println("Minutes: $minutess")
+                morningFromTimePickerDialog = TimePickerDialog(
+                    this,
+                    android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                    object : TimePickerDialog.OnTimeSetListener {
+                        @SuppressLint("SetTextI18n")
+                        override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                            val amPm: String
+                            if (hourOfDay >= 12) {
+                                amPm = "PM"
 //                            hourOfDay -= 12
-                        } else {
-                            amPm = "AM"
-                        }
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                        calendar.set(Calendar.MINUTE, minute)
-                        val simpleDateFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
-                        val formattedTime = simpleDateFormat.format(calendar.time)
-                        dialogFilterUploadBinding!!.durationTexthrs.setText(
-                            formattedTime.toString()
-                        )
+                            } else {
+                                amPm = "AM"
+                            }
+                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                            calendar.set(Calendar.MINUTE, minute)
+                            val simpleDateFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+                            val formattedTime = simpleDateFormat.format(calendar.time)
+                            dialogFilterUploadBinding!!.durationTexthrs.setText(
+                                formattedTime.toString()
+                            )
 
 //                        Toast.makeText(applicationContext, dialogFilterUploadBinding!!.durationTexthrs.text.toString(), Toast.LENGTH_SHORT).show()
-                    }
+                        }
 
-                },
-                hourss,
-                minutess,
-                false
-            )
-            morningFromTimePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-            morningFromTimePickerDialog.show()
-        }
+                    },
+                    hourss,
+                    minutess,
+                    false
+                )
+                morningFromTimePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+                morningFromTimePickerDialog.show()
+            }
 //dd MMM, yyyy - hh:mm a
 
 
-        dialogFilterUploadBinding!!.submit.setOnClickListener {
-            val strFromate = dialogFilterUploadBinding!!.fromDateTextChamps.text.toString()
-            val fromDateFormat = SimpleDateFormat("dd-MMM-yyyy");
-            val frommdate = fromDateFormat.parse(strFromate)
-            val fromDateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(frommdate)
+            dialogFilterUploadBinding!!.submit.setOnClickListener {
+                val strFromate = dialogFilterUploadBinding!!.fromDateTextChamps.text.toString()
+                val fromDateFormat = SimpleDateFormat("dd-MMM-yyyy");
+                val frommdate = fromDateFormat.parse(strFromate)
+                val fromDateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(frommdate)
 //            fromdate = fromDateNewFormat
-            val strFromatesP = dialogFilterUploadBinding!!.durationTexthrs.text.toString()
+                val strFromatesP = dialogFilterUploadBinding!!.durationTexthrs.text.toString()
 //            val fromDateFormatsP = SimpleDateFormat("hh:mm");
 //            val frommdateP = fromDateFormatsP.parse(strFromatesP)
 //            val fromDateNewFormatP = SimpleDateFormat("hh:mm a").format(frommdateP)
 
-            activityChampsSurveyBinding.issuedOn.text =
-                fromDateNewFormat + " - " + (strFromatesP.toUpperCase())
-            if (uploadStatusFilterDialog != null && uploadStatusFilterDialog.isShowing) {
-                uploadStatusFilterDialog.dismiss()
+                activityChampsSurveyBinding.issuedOn.text =
+                    fromDateNewFormat + " - " + (strFromatesP.toUpperCase())
+                if (uploadStatusFilterDialog != null && uploadStatusFilterDialog.isShowing) {
+                    uploadStatusFilterDialog.dismiss()
 
+                }
             }
-        }
 
-        uploadStatusFilterDialog.show()
+            uploadStatusFilterDialog.show()
+        }
     }
 
 
@@ -997,8 +1032,25 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                             fileUploadModelList
                         )
                     } else {
-                        Utlis.showLoading(this)
-                        saveApiRequest("submit")
+                        if ((surveyRecManualList != null && surveyRecManualList.size > 0) && (listForTrainers != null && listForTrainers.size > 0)) {
+                            Utlis.showLoading(this)
+                            saveApiRequest("submit")
+                        } else {
+                            if (surveyRecManualList.size == 0) {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Please enter recipients email",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Please enter trainers email",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+
                     }
                 } else {
                     Toast.makeText(
@@ -1031,6 +1083,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             headerDetails.createdBy = Preferences.getValidatedEmpId()
             headerDetails.state = activityChampsSurveyBinding.region.text.toString()
             headerDetails.storeId = activityChampsSurveyBinding.storeId.text.toString()
+            headerDetails.site_name = activityChampsSurveyBinding.storeName.text.toString()
             if (!status.equals("COMPLETED")) {
                 val strDate = activityChampsSurveyBinding.issuedOn.text.toString()
                 val dateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH);
@@ -1276,11 +1329,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             headerDetails.issuesToBeResolved =
                 activityChampsSurveyBinding.enterIssuesTobeResolvedEdittext.text.toString()
             headerDetails.total = activityChampsSurveyBinding.percentageSum.text.toString()
-            headerDetails.site_name = Preferences.getChampsSiteName()
+
             if (type.equals("submit")) {
                 headerDetails.status = "1"
-            } else {
+            } else if (type.equals("saveDraft")) {
                 headerDetails.status = "0"
+            } else {
+                headerDetails.status = "2"
             }
 
             submit.headerDetails = headerDetails
@@ -2237,7 +2292,10 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                Utlis.showLoading(this)`
 //                champsSurveyViewModel.getSubCategoryDetailsChamps(this, "Cleanliness");
                 for (k in getCategoryDetails.categoryDetails!!.indices) {
-                    champsSurveyViewModel.getSubCategoryDetailsChampsApi(this, getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(k).categoryName!!)
+                    champsSurveyViewModel.getSubCategoryDetailsChampsApi(
+                        this,
+                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(k).categoryName!!
+                    )
                 }
 
 
@@ -2298,8 +2356,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         } else {
 
         }
-
-
 
 
     }
@@ -2444,9 +2500,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         if (type.equals("saveDraft")) {
             message.setText("Draft Saved Successfully")
             Preferences.setSaveChampsSurveySiteId(activityChampsSurveyBinding.storeId.text.toString())
-            Preferences.setSaveChampsSurveySiteName(Preferences.getChampsSiteName())
+            Preferences.setSaveChampsSurveySiteName(activityChampsSurveyBinding.storeName.text.toString())
+        } else if (type.equals("delete")) {
+            message.setText("Draft deleted Successfully")
         } else {
+
             message.setText("Successful")
+
         }
         val percentageSum =
             dialogSubmit.findViewById<TextView>(R.id.progress_percentage_display_save_)
@@ -3756,7 +3816,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 }
             }
         } else {
-            if(!havingNullPos.isNullOrEmpty()){
+            if (!havingNullPos.isNullOrEmpty()) {
                 if (NetworkUtil.isNetworkConnected(this)) {
 //                Utlis.showLoading(this)`
 //                champsSurveyViewModel.getSubCategoryDetailsChamps(this, "Cleanliness");
@@ -3786,7 +3846,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
     override fun onSuccessSaveUpdateApi(value: SaveUpdateResponse) {
         Preferences.setSaveChampsSurveySiteId(activityChampsSurveyBinding.storeId.text.toString())
-        Preferences.setSaveChampsSurveySiteName(Preferences.getChampsSiteName())
+        Preferences.setSaveChampsSurveySiteName(activityChampsSurveyBinding.storeName.text.toString())
 //        Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
         Utlis.hideLoading()
     }
@@ -3808,6 +3868,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
         }
         val ok = dialogDElete.findViewById<TextView>(R.id.yes_btnSiteChange)
         ok.setOnClickListener {
+            saveApiRequest("delete")
             dialogDElete.dismiss()
 //            Preferences.setSwachhSiteId(storeListItem.siteid!!)
 
@@ -3918,7 +3979,26 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
         }
 //        Utlis.hideLoading()
-        saveApiRequest("submit")
+        if ((surveyRecManualList != null && surveyRecManualList.size > 0) && (listForTrainers != null && listForTrainers.size > 0)) {
+            Utlis.showLoading(this)
+            saveApiRequest("submit")
+        } else {
+            if (surveyRecManualList.size == 0) {
+                Toast.makeText(
+                    applicationContext,
+                    "Please enter recipients email",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(
+                    applicationContext,
+                    "Please enter trainers email",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+        }
+//        saveApiRequest("submit")
     }
 
     override fun allFilesDownloaded(fileUploadModelList: List<FileUploadChampsModel>) {
