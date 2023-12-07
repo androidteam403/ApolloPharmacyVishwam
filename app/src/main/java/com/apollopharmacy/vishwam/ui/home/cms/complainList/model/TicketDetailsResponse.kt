@@ -112,6 +112,10 @@ data class TicketData(
     val manager: TicketManager,
 
     @Expose
+    @SerializedName("ticket_subworkflow_info")
+    val ticketSubworkflowInfo: ResponseNewTicketlist.TicketSubworkflowInfo,
+
+    @Expose
     @SerializedName("user")
     val user: TicketUser,
 

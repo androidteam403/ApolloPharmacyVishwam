@@ -209,7 +209,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
             val c = Calendar.getInstance().time
             println("Current time => $c")
-            val df = SimpleDateFormat("dd MMM yyyy",  Locale.ENGLISH)
+            val df = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
             var formattedDate = df.format(c)
             viewBinding.dateOfProblem.setText(formattedDate)
             viewBinding.dateOfProblem.isEnabled = false
@@ -392,11 +392,12 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewModel.tisketstatusresponse.observe(viewLifecycleOwner, {
             var ticketstatus: ResponseTicktResolvedapi
             ticketstatus = it
+            var deptuid = deptuid
             if (!ticketstatus.success) {
                 ticketstatusapiresponse = ticketstatus
                 AcknowledgementDialog().apply {
                     arguments = AcknowledgementDialog().generateParsedDataNew(
-                        ticketstatus.data, KEY_DATA_ACK
+                        ticketstatus.data, deptuid!!, KEY_DATA_ACK
                     )
                 }.show(childFragmentManager, "")
             }
@@ -1015,7 +1016,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
         val c = Calendar.getInstance().time
         println("Current time => $c")
-        val df = SimpleDateFormat("dd MMM yyyy",  Locale.ENGLISH)
+        val df = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
         var formattedDate = df.format(c)
         viewBinding.dateOfProblem.setText(formattedDate)
 
@@ -1144,7 +1145,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     private fun openGallery() {
         if (!checkPermission()) {
             askPermissions(REQUEST_CODE_GALLERY)
-        }else{
+        } else {
             val intent = Intent()
             intent.type = "image/*"
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -1211,7 +1212,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         clickedCamera = num
         if (num == 0) {
             notFrontView = true
-        }else{
+        } else {
             notFrontView = false
         }
         dialog = Dialog(requireContext())
@@ -1284,8 +1285,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                             if (!notFrontView) {
                                 if ((imagesFilledCount == 0 && images.itemCount == 3)
                                     || (imagesFilledCount == 1 && images.itemCount == 2)
-                                    || (imagesFilledCount == 2 && images.itemCount == 1 )
-                                    ||(imagesFilledCount == 0 && images.itemCount == 2 )
+                                    || (imagesFilledCount == 2 && images.itemCount == 1)
+                                    || (imagesFilledCount == 0 && images.itemCount == 2)
                                 ) {
                                     for (i in 0 until images.itemCount) {
                                         var imagePath =
@@ -1867,7 +1868,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     private fun submitClick() {
         val description = viewBinding.descriptionText.text.toString().trim()
-        val currentTime = SimpleDateFormat("HH:mm:ss",  Locale.ENGLISH).format(Date())
+        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(Date())
         val problemDate =
             Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
         showLoading()
@@ -1960,7 +1961,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         val storeId = Preferences.getSiteId()
 //        }
         val description = viewBinding.descriptionText.text.toString().trim()
-        val currentTime = SimpleDateFormat("HH:mm:ss",  Locale.ENGLISH).format(Date())
+        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(Date())
         val problemDate =
             Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
         var newPrice = 0.0

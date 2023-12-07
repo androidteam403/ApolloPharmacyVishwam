@@ -59,13 +59,14 @@
                         android:id="@+id/assigned_to_me"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/green_background"
+                        android:background="@drawable/bg_button"
+                        android:backgroundTint="#f7c66b"
                         android:paddingStart="@dimen/value_20dp"
                         android:paddingTop="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_20dp"
                         android:paddingBottom="@dimen/value_10dp"
-                        android:text="Assigned to me"
-                        android:textColor="@color/white"
+                        android:text="Assign To Me"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_14sp" />
 
 
@@ -366,6 +367,7 @@
                         android:id="@+id/subworkflow_config_details_list_recyclerview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/value_10dp"
                         android:layout_marginStart="@dimen/value_10dp" />
                 </LinearLayout>
             </LinearLayout>

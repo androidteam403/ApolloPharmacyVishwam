@@ -24,6 +24,7 @@ import com.apollopharmacy.vishwam.data.model.cms.ReasonDept
 import com.apollopharmacy.vishwam.data.model.cms.ResponseNewTicketlist
 import com.apollopharmacy.vishwam.data.model.cms.ResponseticketRatingApi
 import com.apollopharmacy.vishwam.data.network.LoginRepo
+import com.apollopharmacy.vishwam.databinding.DialogCustomAlertBinding
 import com.apollopharmacy.vishwam.databinding.DialogUserListBinding
 import com.apollopharmacy.vishwam.databinding.FragmentHistory2Binding
 import com.apollopharmacy.vishwam.dialog.OnTransactionSearchManagerListnier
@@ -639,17 +640,32 @@ class HistoryFragment(
 
 
         if (orderDataWp!!.ticketDetailsResponse!!.data!!.subworkflow_access == 1
-            && employeeDetailsResponse!!.data!!.assign_to_me_any_level!!.uid.equals("'Yes'")
-            && orderDataWp!!.ticketSubworkflowInfo!!.assigned_to!!.uid != null
-            && !employeeDetailsResponse!!.data!!.uid.equals(orderDataWp!!.ticketSubworkflowInfo!!.assigned_to!!.uid)
+            && employeeDetailsResponse!!.data!!.assign_to_me_any_level!!.uid.equals("Yes")
+            && orderDataWp != null
+            && orderDataWp!!.ticketDetailsResponse != null
+            && orderDataWp!!.ticketDetailsResponse!!.data != null
+            && orderDataWp!!.ticketDetailsResponse!!.data!!.ticketSubworkflowInfo != null
+            && orderDataWp!!.ticketDetailsResponse!!.data!!.ticketSubworkflowInfo!!.assigned_to != null
+            && orderDataWp!!.ticketDetailsResponse!!.data!!.ticketSubworkflowInfo!!.assigned_to!!.uid != null
+            && !employeeDetailsResponse!!.data!!.uid.equals(orderDataWp!!.ticketDetailsResponse!!.data!!.ticketSubworkflowInfo!!.assigned_to!!.uid)
             && !orderDataWp!!.ticketSubworkflowInfo!!.subworkflow_action!!.code.equals("change_forward_manager")
             && !orderDataWp!!.ticketSubworkflowInfo!!.subworkflow_action!!.code.equals("forward_to_manager")
             && !orderDataWp!!.ticketSubworkflowInfo!!.subworkflow_action!!.code.equals("closed")
             && !orderDataWp!!.ticketSubworkflowInfo!!.subworkflow_action!!.code.equals("rejected")
         ) {
             viewBinding.assignedToMeLayout.visibility = View.VISIBLE
+            viewBinding.subworkflowConfigDetailsListLayout.visibility = View.GONE
         } else {
-            viewBinding.assignedToMeLayout.visibility = View.GONE
+            if (!orderDataWp!!.status!!.code.equals("solved")
+                && !orderDataWp!!.status!!.code.equals("closed")
+                && !orderDataWp!!.status!!.code.equals("rejected")
+            ) {
+                viewBinding.assignedToMeLayout.visibility = View.GONE
+                viewBinding.subworkflowConfigDetailsListLayout.visibility = View.VISIBLE
+            }else{
+                viewBinding.assignedToMeLayout.visibility = View.GONE
+                viewBinding.subworkflowConfigDetailsListLayout.visibility = View.GONE
+            }
         }
     }
 
@@ -1259,6 +1275,22 @@ class HistoryFragment(
         requireActivity().finish()
     }
 
+    fun doActionAssignToMe() {
+        Utlis.showLoading(requireContext())
+        var subworkFlowAssignedtoMeRequest = SubworkFlowAssignedtoMeRequest()
+        subworkFlowAssignedtoMeRequest.employee_id = Preferences.getValidatedEmpId()
+        subworkFlowAssignedtoMeRequest.uid = orderDataWp.ticketDetailsResponse!!.data!!.uid
+        subworkFlowAssignedtoMeRequest.subworkflow_seq_order =
+            orderDataWp.ticketSubworkflowInfo!!.subworkflow_seq_order
+        subworkFlowAssignedtoMeRequest.subworkflow_step_order =
+            orderDataWp.ticketSubworkflowInfo!!.subworkflow_step_order
+        subworkFlowAssignedtoMeRequest.reason = orderDataWp.reason!!.uid
+        viewModel.subworkflowAssignedtoMeApiCall(
+            this@HistoryFragment,
+            subworkFlowAssignedtoMeRequest
+        )
+    }
+
     override fun onSuccessSubWorkflowAcceptApiCall() {
 
     }
@@ -1807,20 +1839,24 @@ class HistoryFragment(
 
     fun onCLickAssignedToMe() {
         viewBinding.assignedToMe.setOnClickListener {
-
-            Utlis.showLoading(requireContext())
-            var subworkFlowAssignedtoMeRequest = SubworkFlowAssignedtoMeRequest()
-            subworkFlowAssignedtoMeRequest.employee_id = Preferences.getValidatedEmpId()
-            subworkFlowAssignedtoMeRequest.uid = orderDataWp.ticketDetailsResponse!!.data!!.uid
-            subworkFlowAssignedtoMeRequest.subworkflow_seq_order =
-                orderDataWp.ticketSubworkflowInfo!!.subworkflow_seq_order
-            subworkFlowAssignedtoMeRequest.subworkflow_step_order =
-                orderDataWp.ticketSubworkflowInfo!!.subworkflow_step_order
-            subworkFlowAssignedtoMeRequest.reason = orderDataWp.reason!!.uid
-            viewModel.subworkflowAssignedtoMeApiCall(
-                this@HistoryFragment,
-                subworkFlowAssignedtoMeRequest
+            var dialog = Dialog(requireContext())
+            var dialogCustomAlertBinding: DialogCustomAlertBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(requireContext()),
+                R.layout.dialog_custom_alert,
+                null,
+                false
             )
+            dialog.setContentView(dialogCustomAlertBinding.root)
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogCustomAlertBinding.message.text =
+                "${orderDataWp!!.ticketDetailsResponse!!.data!!.ticket_id} is assigned to ${orderDataWp!!.ticketDetailsResponse!!.data!!.ticketSubworkflowInfo!!.assigned_to!!.first_name}. Are you sure you want to assign yourself?"
+            dialogCustomAlertBinding.cancelButton.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialogCustomAlertBinding.okBtn.setOnClickListener {
+                doActionAssignToMe()
+            }
+            dialog.show()
         }
     }
 }

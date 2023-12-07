@@ -27,7 +27,6 @@
             android:layout_marginTop="@dimen/value_15dp"
             android:layout_marginBottom="@dimen/value_25dp"
             android:gravity="center_horizontal"
-            android:text="@string/label_confirm_logout"
             android:textColor="@color/black"
             android:textSize="@dimen/text_18sp" />
 
@@ -53,7 +52,7 @@
                 android:textSize="@dimen/text_16sp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/sign_out_button"
+                android:id="@+id/ok_btn"
                 android:layout_width="@dimen/value_200dp"
                 android:layout_height="@dimen/value_45dp"
                 android:layout_gravity="center_horizontal"
@@ -61,7 +60,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/yellow_drawable"
                 android:gravity="center"
-                android:text="@string/label_logout"
+                android:text="@string/ok"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16sp" />
