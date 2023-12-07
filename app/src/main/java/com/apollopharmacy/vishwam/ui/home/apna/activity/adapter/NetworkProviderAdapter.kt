@@ -10,14 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ViewItemRowBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.TrafficGeneratorsResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NetworkProvidersResponse
 
-class TrafficGeneratorAdapter(
+class NetworkProviderAdapter(
     var mContext: Context,
     var mCallback: ApnaNewSurveyCallBack,
-    var trafficGenerators: ArrayList<TrafficGeneratorsResponse.Data.ListData.Row>,
-) : RecyclerView.Adapter<TrafficGeneratorAdapter.ViewHolder>() {
-
+    var networkProviders: ArrayList<NetworkProvidersResponse.Data.ListData.Row>,
+) : RecyclerView.Adapter<NetworkProviderAdapter.ViewHolder>() {
     class ViewHolder(var viewItemRowBinding: ViewItemRowBinding) :
         RecyclerView.ViewHolder(viewItemRowBinding.root)
 
@@ -32,32 +31,34 @@ class TrafficGeneratorAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.viewItemRowBinding.itemName.text = trafficGenerators[position].name
-        if (trafficGenerators[position].isSelected == true) {
+        holder.viewItemRowBinding.itemName.text = networkProviders.get(position).value
+        if (networkProviders[position].isSelected == true) {
             holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#00a651"))
-        } else if (trafficGenerators[position].isSelected == false) {
-            holder.viewItemRowBinding.itemName.setTextColor(ContextCompat.getColor(mContext, R.color.black))
+        } else if (networkProviders[position].isSelected == false) {
+            holder.viewItemRowBinding.itemName.setTextColor(ContextCompat.getColor(mContext,
+                R.color.black))
         }
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            /*if (trafficGenerators[position].isSelected == true) {
-                holder.viewItemRowBinding.itemName.setTextColor(ContextCompat.getColor(mContext, R.color.black))
-                trafficGenerators[position].isSelected = false
+            /*if (networkProviders[position].isSelected == true) {
+                holder.viewItemRowBinding.itemName.setTextColor(ContextCompat.getColor(mContext,
+                    R.color.black))
+                networkProviders[position].isSelected = false
             } else {
                 holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#00a651"))
-                trafficGenerators[position].isSelected = true
+                networkProviders[position].isSelected = true
             }*/
-            mCallback.onTrafficGeneratorItemSelect(position,
-                trafficGenerators[position],
-                trafficGenerators[position].isSelected)
+            mCallback.onNetworkProviderSelect(position,
+                networkProviders[position],
+                networkProviders[position].isSelected)
         }
     }
 
     override fun getItemCount(): Int {
-        return trafficGenerators.size
+        return networkProviders.size
     }
 
-    fun filter(filteredList: ArrayList<TrafficGeneratorsResponse.Data.ListData.Row>) {
-        this.trafficGenerators = filteredList
+    fun filter(filteredList: ArrayList<NetworkProvidersResponse.Data.ListData.Row>) {
+        this.networkProviders = filteredList
         notifyDataSetChanged()
     }
 }

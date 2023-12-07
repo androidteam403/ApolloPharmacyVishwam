@@ -11,19 +11,7 @@ import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ApartmentTypeResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ApnaSpecialityResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.CityListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.DimensionTypeResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.LocationListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringLocationResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ParkingTypeResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.RegionListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.StateListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.TrafficGeneratorsResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.TrafficStreetTypeResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.apna.utils.ConnectApnaAzure
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.google.gson.Gson
@@ -627,6 +615,82 @@ class ApnaNewSurveyViewModel : ViewModel() {
                     }
                 }
 
+                else -> {}
+            }
+        }
+    }
+
+    fun getNetworkProviderList(mCallBack: ApnaNewSurveyCallBack) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        val apnaSurveyUrl =
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/app_pick_list_value/list/apna-network-service-provider-list"
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    baseUrL, token, GetDetailsRequest(apnaSurveyUrl, "GET", "The", "", "")
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    val resp: String = response.value.string()
+                    val res = BackShlash.removeBackSlashes(resp)
+                    val networkProviderListResponse = Gson().fromJson(
+                        BackShlash.removeSubString(res), NetworkProvidersResponse::class.java
+                    )
+                    if (networkProviderListResponse.success!!) {
+                        mCallBack.onSuccessGetNetworkProviderApiCall(networkProviderListResponse)
+                    } else {
+                        mCallBack.onFailureGetNetworkProviderApiCall(networkProviderListResponse.message.toString())
+                    }
+                }
+                else -> {}
+            }
+        }
+    }
+
+    fun getInternetProviderList(mCallBack: ApnaNewSurveyCallBack) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        val apnaSurveyUrl =
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/app_pick_list_value/list/apna-internet-service-provider-list"
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    baseUrL, token, GetDetailsRequest(apnaSurveyUrl, "GET", "The", "", "")
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    val resp: String = response.value.string()
+                    val res = BackShlash.removeBackSlashes(resp)
+                    val internetProviderListResponse = Gson().fromJson(
+                        BackShlash.removeSubString(res), InternetProvidersResponse::class.java
+                    )
+                    if (internetProviderListResponse.success!!) {
+                        mCallBack.onSuccessGetInternetProviderApiCall(internetProviderListResponse)
+                    } else {
+                        mCallBack.onFailureGetInternetProviderApiCall(internetProviderListResponse.message.toString())
+                    }
+                }
                 else -> {}
             }
         }

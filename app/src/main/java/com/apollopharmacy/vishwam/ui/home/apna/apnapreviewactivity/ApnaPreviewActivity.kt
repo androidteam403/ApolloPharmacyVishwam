@@ -65,6 +65,8 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
     var trafficAdapter: PreviewTrafficAdapter? = null
     var imageAdapter: PreviewImageAdapter? = null
     var videoAdapter: PreviewVideoAdapter? = null
+    var networkProviderAdapter: PreviewNetworkProviderAdapter? = null
+    var internetProviderAdapter: PreviewInternetProviderAdapter? = null
 
     var neighbourAdapter: PreviewNeighbouringStoreAdapter? = null
     private var locationManager: LocationManager? = null
@@ -141,10 +143,8 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
             if (approvedOrders.status != null) {
                 if (approvedOrders.status!!.name.equals("null") && approvedOrders.status!!.name.isNullOrEmpty()) {
                     apnaPreviewActivityBinding.status.setText("-")
-
                 } else {
                     apnaPreviewActivityBinding.status.setText(approvedOrders.status!!.name)
-
                 }
             }
             apnaPreviewActivityBinding.status.setTextColor(Color.parseColor(approvedOrders.status!!.backgroundColor))
@@ -1686,6 +1686,28 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
             apnaPreviewActivityBinding.presentTrafficPatterns.setText(value.data!!.trafficPatterns)
         } else {
             apnaPreviewActivityBinding.presentTrafficPatterns.setText("-")
+        }
+
+        if (value.data!!.networkServiceProvider != null && value.data!!.networkServiceProvider!!.size > 0) {
+            apnaPreviewActivityBinding.networkProvidersRecyclerView.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.networkProvidersNotFound.visibility = View.GONE
+            networkProviderAdapter = PreviewNetworkProviderAdapter(this@ApnaPreviewActivity,
+                value.data!!.networkServiceProvider as ArrayList<SurveyDetailsList.NetworkServiceProvider>)
+            apnaPreviewActivityBinding.networkProvidersRecyclerView.adapter = networkProviderAdapter
+        } else {
+            apnaPreviewActivityBinding.networkProvidersRecyclerView.visibility = View.GONE
+            apnaPreviewActivityBinding.networkProvidersNotFound.visibility = View.VISIBLE
+        }
+
+        if (value.data!!.internetServiceProvider != null && value.data!!.internetServiceProvider!!.size > 0) {
+            apnaPreviewActivityBinding.internetProvidersRecyclerView.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.internetProvidersNotFound.visibility = View.GONE
+            internetProviderAdapter = PreviewInternetProviderAdapter(this@ApnaPreviewActivity,
+                value.data!!.internetServiceProvider as ArrayList<SurveyDetailsList.InternetServiceProvider>)
+            apnaPreviewActivityBinding.internetProvidersRecyclerView.adapter = internetProviderAdapter
+        } else {
+            apnaPreviewActivityBinding.internetProvidersRecyclerView.visibility = View.GONE
+            apnaPreviewActivityBinding.internetProvidersNotFound.visibility = View.VISIBLE
         }
 
         if (value.data!!.localDisbtsComments != null) {

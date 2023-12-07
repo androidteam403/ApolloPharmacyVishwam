@@ -1,20 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity
 
 import com.apollopharmacy.vishwam.ui.home.apna.activity.fileupload.FileUploadApnaSurveyModel
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ApartmentTypeResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ApnaSpecialityResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.CityListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.DimensionTypeResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ImageDto
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.LocationListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringLocationResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ParkingTypeResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.RegionListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.StateListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.TrafficGeneratorsResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.TrafficStreetTypeResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import java.io.File
 
 interface ApnaNewSurveyCallBack {
@@ -59,6 +46,28 @@ interface ApnaNewSurveyCallBack {
         position: Int,
         item: TrafficGeneratorsResponse.Data.ListData.Row,
         selected: Boolean?,
+    )
+
+    fun onNetworkProviderSelect(
+        position: Int,
+        networkProvider: NetworkProvidersResponse.Data.ListData.Row,
+        selected: Boolean?,
+    )
+
+    fun onclickNetworkProviderDelete(
+        position: Int,
+        networkProvider: NetworkProvidersResponse.Data.ListData.Row,
+    )
+
+    fun onInternetProviderSelect(
+        position: Int,
+        internetProvider: InternetProvidersResponse.Data.ListData.Row,
+        selected: Boolean?,
+    )
+
+    fun onClickInternetProviderDelete(
+        position: Int,
+        internetProvider: InternetProvidersResponse.Data.ListData.Row,
     )
 
     fun deleteSiteImage(position: Int, file: File)
@@ -158,4 +167,12 @@ interface ApnaNewSurveyCallBack {
         fileUploadApnaSurveyModelList: List<FileUploadApnaSurveyModel>?,
         isImageUpload: Boolean,
     )
+
+    fun onSuccessGetNetworkProviderApiCall(networkProvidersResponse: NetworkProvidersResponse)
+
+    fun onFailureGetNetworkProviderApiCall(message: String)
+
+    fun onSuccessGetInternetProviderApiCall(internetProvidersResponse: InternetProvidersResponse)
+
+    fun onFailureGetInternetProviderApiCall(message: String)
 }

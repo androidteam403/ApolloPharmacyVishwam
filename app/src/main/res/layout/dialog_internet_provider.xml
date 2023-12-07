@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -20,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Select Region"
+                android:text="Select Internet Provider"
                 android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_18sp"
                 android:textStyle="bold" />
@@ -42,10 +41,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_layout"
+            android:layout_marginBottom="@dimen/value_55dp"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/searchLocation"
+                android:id="@+id/searchInternetProvider"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,14 +55,14 @@
                 android:theme="@style/TextLabelEditTextApnaProject">
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/searchLocationListText"
+                    android:id="@+id/searchInternetProviderText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
                     android:drawableStart="@drawable/close_blue_new"
                     android:drawablePadding="@dimen/value_10dp"
                     android:drawableTint="@color/grey"
-                    android:gravity="center_vertical"
-                    android:hint="Search Region"
+                    android:hint="Search Internet Provider"
+                    android:inputType="text"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
                     android:singleLine="true"
@@ -70,11 +70,10 @@
                     android:textSize="@dimen/text_15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <RelativeLayout
-                android:id="@+id/locationAvailable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/internetProviderAvailable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:visibility="gone">
 
@@ -82,7 +81,7 @@
                     android:id="@+id/emptyImage"
                     android:layout_width="@dimen/value_120dp"
                     android:layout_height="@dimen/value_120dp"
-                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/qca" />
 
@@ -90,23 +89,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/emptyImage"
+                    android:layout_marginBottom="@dimen/text_dimen_10"
                     android:gravity="center"
-                    android:paddingBottom="20dp"
                     android:text="No Data Found"
                     android:textColor="@color/backgroundColor"
                     android:textSize="@dimen/text_18sp" />
-
             </RelativeLayout>
 
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/locationRcv"
+                android:id="@+id/internetProviderRcv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/value_5dp"
-                android:visibility="visible"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/view_item_row" />
+                android:layout_margin="@dimen/value_5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/vishwam_actionbar_color"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/value_12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="SUBMIT"
+                android:textColor="@color/white_for_both"
+                android:textSize="@dimen/text_17sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
 </layout>

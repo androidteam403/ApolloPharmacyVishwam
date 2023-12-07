@@ -45,7 +45,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.*
 import java.util.stream.Collectors
 
 class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback,
@@ -85,6 +85,9 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
     var beds = ArrayList<Float>()
     var hospitalNames = ArrayList<String>()
     var stringValuesList = java.util.ArrayList<String>()
+
+    var networkProviderPreviewAdapter: NetworkProviderPreviewAdapter? = null
+    var internetProviderPreviewAdapter: InternetProviderPreviewAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -299,26 +302,32 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             var length = ""
             if (surveyCreateRequest.length!!.contains(".")) {
                 length =
-                    DecimalFormat("##,##,###.0##", Utils.symbols).format(surveyCreateRequest.length!!.toDouble())
+                    DecimalFormat("##,##,###.0##",
+                        Utils.symbols).format(surveyCreateRequest.length!!.toDouble())
             } else {
-                length = DecimalFormat("##,##,###", Utils.symbols).format(surveyCreateRequest.length!!.toDouble())
+                length = DecimalFormat("##,##,###",
+                    Utils.symbols).format(surveyCreateRequest.length!!.toDouble())
             }
 
             var width = ""
             if (surveyCreateRequest.width!!.contains(".")) {
                 width =
-                    DecimalFormat("##,##,###.0##", Utils.symbols).format(surveyCreateRequest.width!!.toDouble())
+                    DecimalFormat("##,##,###.0##",
+                        Utils.symbols).format(surveyCreateRequest.width!!.toDouble())
             } else {
-                width = DecimalFormat("##,##,###", Utils.symbols).format(surveyCreateRequest.width!!.toDouble())
+                width = DecimalFormat("##,##,###",
+                    Utils.symbols).format(surveyCreateRequest.width!!.toDouble())
             }
 
             var ceilingHeight = ""
             if (surveyCreateRequest.ceilingHeight!!.contains(".")) {
                 ceilingHeight =
-                    DecimalFormat("##,##,###.0##", Utils.symbols).format(surveyCreateRequest.ceilingHeight!!.toDouble())
+                    DecimalFormat("##,##,###.0##",
+                        Utils.symbols).format(surveyCreateRequest.ceilingHeight!!.toDouble())
             } else {
                 ceilingHeight =
-                    DecimalFormat("##,##,###", Utils.symbols).format(surveyCreateRequest.ceilingHeight!!.toDouble())
+                    DecimalFormat("##,##,###",
+                        Utils.symbols).format(surveyCreateRequest.ceilingHeight!!.toDouble())
             }
 
 
@@ -354,10 +363,12 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 )
             if (totalAreaSplit[1].toInt() > 0) {
                 totalArea =
-                    DecimalFormat("##,##,###.0##", Utils.symbols).format(totalAreaFromResponse.toDouble())
+                    DecimalFormat("##,##,###.0##",
+                        Utils.symbols).format(totalAreaFromResponse.toDouble())
             } else {
                 totalArea =
-                    DecimalFormat("##,##,###", Utils.symbols).format(totalAreaFromResponse.toDouble())
+                    DecimalFormat("##,##,###",
+                        Utils.symbols).format(totalAreaFromResponse.toDouble())
             }
 
             activityApnaSurveyPreviewBinding.totalArea.setText(totalArea)
@@ -436,24 +447,24 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         var ageofTheBuildingText = ""
         if (surveyCreateRequest.buildingAge != null && !surveyCreateRequest.buildingAge!!.isEmpty()) {
             var years: Int? = null
-            if (!surveyCreateRequest.buildingAge.isNullOrEmpty()){
+            if (!surveyCreateRequest.buildingAge.isNullOrEmpty()) {
                 years = surveyCreateRequest.buildingAge!!.toInt()
             }
 
             var months: Int? = null
-            if (!surveyCreateRequest.bldgAgeInMonth.isNullOrEmpty()){
+            if (!surveyCreateRequest.bldgAgeInMonth.isNullOrEmpty()) {
                 months = surveyCreateRequest.bldgAgeInMonth!!.toInt()
             }
             if (years!! > 1) {
                 ageofTheBuildingText = "${surveyCreateRequest.buildingAge} years"
-            }else{
+            } else {
                 ageofTheBuildingText = "${surveyCreateRequest.buildingAge} year"
             }
             if (surveyCreateRequest.bldgAgeInMonth != null && !surveyCreateRequest.bldgAgeInMonth!!.isEmpty()) {
                 if (months!! > 1) {
                     ageofTheBuildingText =
                         "$ageofTheBuildingText ${surveyCreateRequest.bldgAgeInMonth} months"
-                }else{
+                } else {
                     ageofTheBuildingText =
                         "$ageofTheBuildingText ${surveyCreateRequest.bldgAgeInMonth} month"
                 }
@@ -462,13 +473,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         } else {
             if (surveyCreateRequest.bldgAgeInMonth != null && !surveyCreateRequest.bldgAgeInMonth!!.isEmpty()) {
                 var months: Int? = null
-                if (!surveyCreateRequest.bldgAgeInMonth.isNullOrEmpty()){
+                if (!surveyCreateRequest.bldgAgeInMonth.isNullOrEmpty()) {
                     months = surveyCreateRequest.bldgAgeInMonth!!.toInt()
                 }
                 if (months!! > 1) {
                     ageofTheBuildingText =
                         "0 year ${surveyCreateRequest.bldgAgeInMonth} months"
-                }else{
+                } else {
                     ageofTheBuildingText =
                         "0 year ${surveyCreateRequest.bldgAgeInMonth} month"
                 }
@@ -558,6 +569,30 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             activityApnaSurveyPreviewBinding.presentTrafficPatterns.setText("-")
         }
 
+        if (surveyCreateRequest.networkServiceProvider != null && surveyCreateRequest.networkServiceProvider!!.isNotEmpty()) {
+            activityApnaSurveyPreviewBinding.networkProviderRecyclerView.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.networkProviderNotFound.visibility = View.GONE
+            networkProviderPreviewAdapter =
+                NetworkProviderPreviewAdapter(this@ApnaSurveyPreviewActivity,
+                    surveyCreateRequest.networkServiceProvider as ArrayList<SurveyCreateRequest.NetworkServiceProvider>)
+            activityApnaSurveyPreviewBinding.networkProviderRecyclerView.adapter = networkProviderPreviewAdapter
+        } else {
+            activityApnaSurveyPreviewBinding.networkProviderRecyclerView.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.networkProviderNotFound.visibility = View.VISIBLE
+        }
+
+        if (surveyCreateRequest.internetServiceProvider != null && surveyCreateRequest.internetServiceProvider!!.isNotEmpty()) {
+            activityApnaSurveyPreviewBinding.internetProviderRecyclerView.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.internetProviderNotFound.visibility = View.GONE
+            internetProviderPreviewAdapter =
+                InternetProviderPreviewAdapter(this@ApnaSurveyPreviewActivity,
+                    surveyCreateRequest.internetServiceProvider as ArrayList<SurveyCreateRequest.InternetServiceProvider>)
+            activityApnaSurveyPreviewBinding.internetProviderRecyclerView.adapter = internetProviderPreviewAdapter
+        } else {
+            activityApnaSurveyPreviewBinding.internetProviderRecyclerView.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.internetProviderNotFound.visibility = View.VISIBLE
+        }
+
         // Market information
 
 
@@ -602,14 +637,14 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (surveyCreateRequest.extngOutletAge != null) {
             if (surveyCreateRequest.extngOutletAge!! > 1) {
                 existingOutletAge = "${Math.round(surveyCreateRequest.extngOutletAge!!)} years"
-            }else{
+            } else {
                 existingOutletAge = "${Math.round(surveyCreateRequest.extngOutletAge!!)} year"
             }
             if (surveyCreateRequest.extng_outlet_age_in_month != null) {
                 if (surveyCreateRequest.extng_outlet_age_in_month!! > 1) {
                     existingOutletAge =
                         "$existingOutletAge ${Math.round(surveyCreateRequest.extng_outlet_age_in_month!!)} months"
-                }else{
+                } else {
                     existingOutletAge =
                         "$existingOutletAge ${Math.round(surveyCreateRequest.extng_outlet_age_in_month!!)} month"
                 }
@@ -620,7 +655,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 if (surveyCreateRequest.extng_outlet_age_in_month!! > 1) {
                     existingOutletAge =
                         "0 year ${Math.round(surveyCreateRequest.extng_outlet_age_in_month!!)} months"
-                }else{
+                } else {
                     existingOutletAge =
                         "0 year ${Math.round(surveyCreateRequest.extng_outlet_age_in_month!!)} month"
                 }
@@ -1127,7 +1162,8 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.hospitalsChart.axisRight.isEnabled = false
         activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.isEnabled = false
 
-        activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.textColor = ContextCompat.getColor(this, R.color.black)
+        activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.textColor =
+            ContextCompat.getColor(this, R.color.black)
         activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.setLabelCount(5, true)
         activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.axisMinimum = 0f
         activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.axisMaximum = beds.max()
@@ -1226,7 +1262,8 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.apartmentsChart.axisRight.isEnabled = false
         activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.isEnabled = false
 
-        activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.textColor = ContextCompat.getColor(this, R.color.black)
+        activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.textColor =
+            ContextCompat.getColor(this, R.color.black)
         activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.setLabelCount(5, true)
         activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.axisMinimum = 0f
         activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.axisMaximum = noOfHouses.max()
@@ -1313,7 +1350,8 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.competitorsChart.axisRight.isEnabled = false
         activityApnaSurveyPreviewBinding.competitorsChart.xAxis.isEnabled = false
 
-        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().textColor = ContextCompat.getColor(this, R.color.black)
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().textColor =
+            ContextCompat.getColor(this, R.color.black)
         activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setLabelCount(5, true)
         activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setAxisMinimum(0f)
         activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft()
@@ -1402,7 +1440,8 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.neighborChart.xAxis.isEnabled = false
 
         // Set y axis values
-        activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().textColor = ContextCompat.getColor(this, R.color.black)
+        activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().textColor =
+            ContextCompat.getColor(this, R.color.black)
         activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setLabelCount(5, true)
         activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setAxisMinimum(0f)
         activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setAxisMaximum(sales.max())

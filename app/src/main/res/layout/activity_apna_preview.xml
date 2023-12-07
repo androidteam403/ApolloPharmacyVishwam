@@ -1920,6 +1920,77 @@
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp" />
                                 </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Network Providers:"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/networkProvidersRecyclerView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                        tools:itemCount="2"
+                                        tools:listitem="@layout/traffic_adapter_layout" />
+
+                                    <TextView
+                                        android:id="@+id/network_providers_not_found"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_10dp"
+                                        android:paddingTop="@dimen/value_5dp"
+                                        android:paddingBottom="@dimen/value_10dp"
+                                        android:text="-"
+                                        android:textColor="@color/black"
+                                        android:visibility="gone" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Internet Providers:"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/internetProvidersRecyclerView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:orientation="horizontal"
+                                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                        tools:itemCount="2"
+                                        tools:listitem="@layout/traffic_adapter_layout" />
+
+                                    <TextView
+                                        android:id="@+id/internet_providers_not_found"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_10dp"
+                                        android:paddingTop="@dimen/value_10dp"
+                                        android:paddingBottom="@dimen/value_10dp"
+                                        android:text="-"
+                                        android:textColor="@color/black"
+                                        android:visibility="gone" />
+                                </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
 
