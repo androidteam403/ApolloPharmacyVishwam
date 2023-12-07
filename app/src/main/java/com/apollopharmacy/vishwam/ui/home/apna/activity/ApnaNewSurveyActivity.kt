@@ -26,12 +26,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.Window
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.TextView
-import android.widget.TimePicker
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -79,6 +74,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.stream.Collectors
 
 class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     GoogleMap.OnMarkerDragListener {
@@ -142,6 +138,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     lateinit var neighbouringLocationDialog: Dialog
     lateinit var ageOftheBuildingDialog: Dialog
     lateinit var existingOutletDialog: Dialog
+    lateinit var networkProviderDialog: Dialog
+    lateinit var internetProviderDialog: Dialog
 
 
     lateinit var morningFromTimePickerDialog: TimePickerDialog
@@ -167,6 +165,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     var selectedTrafficGeneratorItem = ArrayList<TrafficGeneratorsResponse.Data.ListData.Row>()
     var ageOftheBuildingMonthsList = ArrayList<String>()
     var existingOutletMonthsList = ArrayList<String>()
+    var networkProviderList = ArrayList<NetworkProvidersResponse.Data.ListData.Row>()
+    var selectedNetworkProviders = ArrayList<NetworkProvidersResponse.Data.ListData.Row>()
+    var internetProviderList = ArrayList<InternetProvidersResponse.Data.ListData.Row>()
+    var selectedInternetProviders = ArrayList<InternetProvidersResponse.Data.ListData.Row>()
 
     var regionList = ArrayList<RegionListResponse.Data.ListData.Row>()
 
@@ -202,6 +204,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     lateinit var neighbouringStoreAdapter: NeighbouringStoreAdapter
     lateinit var ageoftheBuildingMonthsAdapter: AgeoftheBuildingMonthsAdapter
     lateinit var existingOutletinMonthsAdapter: ExistingOutletinMonthsAdapter
+    lateinit var networkProviderAdapter: NetworkProviderAdapter
+    lateinit var selectedNetworkProvidersAdapter: SelectedNetworkProvidersAdapter
+    lateinit var internetProviderAdapter: InternetProviderAdapter
+    lateinit var selectedInternetProviderAdapter: SelectedInternetProviderAdapter
 
 
     val REQUEST_CODE_CAMERA = 2235211
@@ -1033,18 +1039,18 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             dialogLocationListBinding.closeDialog.setOnClickListener {
                 locationListDialog.dismiss()
             }
-            if(!regionList.isNullOrEmpty() && regionList.size>0){
-                dialogLocationListBinding.locationRcv.visibility=View.VISIBLE
-                dialogLocationListBinding.locationAvailable.visibility=View.GONE
+            if (!regionList.isNullOrEmpty() && regionList.size > 0) {
+                dialogLocationListBinding.locationRcv.visibility = View.VISIBLE
+                dialogLocationListBinding.locationAvailable.visibility = View.GONE
                 locationListItemAdapter = LocationListItemAdapter(
                     this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, regionList
                 )
                 dialogLocationListBinding.locationRcv.adapter = locationListItemAdapter
                 dialogLocationListBinding.locationRcv.layoutManager =
                     LinearLayoutManager(this@ApnaNewSurveyActivity)
-            }else{
-                dialogLocationListBinding.locationRcv.visibility=View.GONE
-                dialogLocationListBinding.locationAvailable.visibility=View.VISIBLE
+            } else {
+                dialogLocationListBinding.locationRcv.visibility = View.GONE
+                dialogLocationListBinding.locationAvailable.visibility = View.VISIBLE
             }
 
 
@@ -1226,6 +1232,159 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             trafficStreetDialog.show()
         }
 
+        // Network Provider dropdown
+        activityApnaNewSurveyBinding.networkProviderSelect.setOnClickListener {
+            networkProviderDialog = Dialog(this@ApnaNewSurveyActivity)
+            val dialogNetworkProviderBinding =
+                DataBindingUtil.inflate<DialogNetworkProviderBinding>(
+                    LayoutInflater.from(this@ApnaNewSurveyActivity),
+                    R.layout.dialog_network_provider,
+                    null,
+                    false
+                )
+            networkProviderDialog.setContentView(dialogNetworkProviderBinding.root)
+            networkProviderDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            networkProviderDialog.setCancelable(false)
+            dialogNetworkProviderBinding.closeDialog.setOnClickListener {
+                networkProviderDialog.dismiss()
+                if (selectedNetworkProviders.isEmpty()) {
+                    for (i in networkProviderList.indices) {
+                        if (networkProviderList[i].isSelected == true) {
+                            networkProviderList[i].isSelected = false
+                        }
+                    }
+                    networkProviderAdapter.notifyDataSetChanged()
+                } else {
+                    networkProviderList.stream()
+                        .forEach { provider ->
+                            if (provider !in selectedNetworkProviders) {
+                                provider.isSelected = false
+                            } else {
+                                provider.isSelected = true
+                            }
+                        }
+                    networkProviderAdapter.notifyDataSetChanged()
+                }
+            }
+            networkProviderAdapter = NetworkProviderAdapter(this@ApnaNewSurveyActivity,
+                this@ApnaNewSurveyActivity,
+                networkProviderList)
+            dialogNetworkProviderBinding.networkProviderRcv.layoutManager =
+                LinearLayoutManager(this@ApnaNewSurveyActivity)
+            dialogNetworkProviderBinding.networkProviderRcv.adapter = networkProviderAdapter
+            dialogNetworkProviderBinding.searchNetworkProviderText.addTextChangedListener(object :
+                TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int,
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    networkProviderFilter(s.toString(), dialogNetworkProviderBinding)
+                }
+
+            })
+            dialogNetworkProviderBinding.submit.setOnClickListener {
+                networkProviderDialog.dismiss()
+                selectedNetworkProviders =
+                    networkProviderList.stream().filter { it.isSelected == true }
+                        .collect(Collectors.toList()) as ArrayList<NetworkProvidersResponse.Data.ListData.Row>
+                selectedNetworkProvidersAdapter =
+                    SelectedNetworkProvidersAdapter(this@ApnaNewSurveyActivity,
+                        this@ApnaNewSurveyActivity,
+                        selectedNetworkProviders)
+                activityApnaNewSurveyBinding.selectedNetworkProvidersRcv.adapter =
+                    selectedNetworkProvidersAdapter
+                activityApnaNewSurveyBinding.selectedNetworkProvidersRcv.layoutManager =
+                    LinearLayoutManager(
+                        this@ApnaNewSurveyActivity, LinearLayoutManager.HORIZONTAL, false
+                    )
+                selectedNetworkProvidersAdapter.notifyDataSetChanged()
+            }
+            networkProviderDialog.show()
+        }
+
+        // Internet Provider Dropdown
+        activityApnaNewSurveyBinding.internetProviderSelect.setOnClickListener {
+            internetProviderDialog = Dialog(this@ApnaNewSurveyActivity)
+            val dialogInternetProviderBinding =
+                DataBindingUtil.inflate<DialogInternetProviderBinding>(LayoutInflater.from(this@ApnaNewSurveyActivity),
+                    R.layout.dialog_internet_provider,
+                    null,
+                    false)
+            internetProviderDialog.setContentView(dialogInternetProviderBinding.root)
+            internetProviderDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            internetProviderDialog.setCancelable(false)
+            dialogInternetProviderBinding.closeDialog.setOnClickListener {
+                internetProviderDialog.dismiss()
+                if (selectedInternetProviders.isEmpty()) {
+                    for (i in internetProviderList.indices) {
+                        if (internetProviderList[i].isSelected == true) {
+                            internetProviderList[i].isSelected = false
+                        }
+                    }
+                    internetProviderAdapter.notifyDataSetChanged()
+                } else {
+                    internetProviderList.stream()
+                        .forEach { provider ->
+                            if (provider !in selectedInternetProviders) {
+                                provider.isSelected = false
+                            } else {
+                                provider.isSelected = true
+                            }
+                        }
+                    internetProviderAdapter.notifyDataSetChanged()
+                }
+            }
+            internetProviderAdapter = InternetProviderAdapter(this@ApnaNewSurveyActivity,
+                this@ApnaNewSurveyActivity,
+                internetProviderList)
+            dialogInternetProviderBinding.internetProviderRcv.layoutManager =
+                LinearLayoutManager(this@ApnaNewSurveyActivity)
+            dialogInternetProviderBinding.internetProviderRcv.adapter = internetProviderAdapter
+            dialogInternetProviderBinding.searchInternetProviderText.addTextChangedListener(object :
+                TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int,
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    internetProviderFilter(s.toString(), dialogInternetProviderBinding)
+                }
+            })
+            dialogInternetProviderBinding.submit.setOnClickListener {
+                internetProviderDialog.dismiss()
+                selectedInternetProviders =
+                    internetProviderList.stream().filter { it.isSelected == true }
+                        .collect(Collectors.toList()) as ArrayList<InternetProvidersResponse.Data.ListData.Row>
+                selectedInternetProviderAdapter =
+                    SelectedInternetProviderAdapter(this@ApnaNewSurveyActivity,
+                        this@ApnaNewSurveyActivity,
+                        selectedInternetProviders)
+                activityApnaNewSurveyBinding.selectedInternetProvidersRcv.adapter =
+                    selectedInternetProviderAdapter
+                activityApnaNewSurveyBinding.selectedInternetProvidersRcv.layoutManager =
+                    LinearLayoutManager(
+                        this@ApnaNewSurveyActivity, LinearLayoutManager.HORIZONTAL, false
+                    )
+                selectedInternetProviderAdapter.notifyDataSetChanged()
+            }
+            internetProviderDialog.show()
+        }
+
         // Traffic Generator dropdown
         activityApnaNewSurveyBinding.trafficGeneratorSelect.setOnClickListener {
             trafficGeneratorDialog = Dialog(this@ApnaNewSurveyActivity)
@@ -1241,6 +1400,24 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             trafficGeneratorDialog.setCancelable(false)
             dialogTrafficGeneratorBinding.closeDialog.setOnClickListener {
                 trafficGeneratorDialog.dismiss()
+                if (selectedTrafficGeneratorItem.isEmpty()) {
+                    for (i in trafficGeneratorData.indices) {
+                        if (trafficGeneratorData[i].isSelected == true) {
+                            trafficGeneratorData[i].isSelected = false
+                        }
+                    }
+                    trafficGeneratorAdapter.notifyDataSetChanged()
+                } else {
+                    trafficGeneratorData.stream()
+                        .forEach { trafficGenerator ->
+                            if (trafficGenerator !in selectedTrafficGeneratorItem) {
+                                trafficGenerator.isSelected = false
+                            } else {
+                                trafficGenerator.isSelected = true
+                            }
+                        }
+                    trafficGeneratorAdapter.notifyDataSetChanged()
+                }
             }
 
             trafficGeneratorAdapter = TrafficGeneratorAdapter(
@@ -1270,6 +1447,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
             dialogTrafficGeneratorBinding.submit.setOnClickListener {
                 trafficGeneratorDialog.dismiss()
+                selectedTrafficGeneratorItem =
+                    trafficGeneratorData.stream().filter { it.isSelected == true }
+                        .collect(Collectors.toList()) as ArrayList<TrafficGeneratorsResponse.Data.ListData.Row>
                 trafficGeneratorsItemAdapter = TrafficGeneratorsItemAdapter(
                     this@ApnaNewSurveyActivity,
                     this@ApnaNewSurveyActivity,
@@ -1928,8 +2108,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     morningFromMinute = 0
                                     activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
                                 }
-                            }
-                            else {
+                            } else {
                                 if (morningHours.contains(morningFromHour)) {
 //                                    if (morningFromHour == 0 && morningFromMinute == 0) {
 //                                        Toast.makeText(
@@ -3420,6 +3599,56 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         onClickExistingOutletinmonths()
     }
 
+    private fun internetProviderFilter(
+        searchText: String,
+        dialogInternetProviderBinding: DialogInternetProviderBinding,
+    ) {
+        val filteredList = ArrayList<InternetProvidersResponse.Data.ListData.Row>()
+        for (i in internetProviderList.indices) {
+            if (searchText.isEmpty()) {
+                filteredList.clear()
+                filteredList.addAll(internetProviderList)
+            } else {
+                if (internetProviderList[i].value!!.contains(searchText, true)) {
+                    filteredList.add(internetProviderList[i])
+                }
+            }
+        }
+        if (filteredList.size < 1) {
+            dialogInternetProviderBinding.internetProviderRcv.visibility = View.GONE
+            dialogInternetProviderBinding.internetProviderAvailable.visibility = View.VISIBLE
+        } else {
+            dialogInternetProviderBinding.internetProviderRcv.visibility = View.VISIBLE
+            dialogInternetProviderBinding.internetProviderAvailable.visibility = View.GONE
+        }
+        internetProviderAdapter.filter(filteredList)
+    }
+
+    private fun networkProviderFilter(
+        searchText: String,
+        dialogNetworkProviderBinding: DialogNetworkProviderBinding,
+    ) {
+        val filteredList = ArrayList<NetworkProvidersResponse.Data.ListData.Row>()
+        for (i in networkProviderList.indices) {
+            if (searchText.isEmpty()) {
+                filteredList.clear()
+                filteredList.addAll(networkProviderList)
+            } else {
+                if (networkProviderList[i].value!!.contains(searchText, true)) {
+                    filteredList.add(networkProviderList[i])
+                }
+            }
+        }
+        if (filteredList.size < 1) {
+            dialogNetworkProviderBinding.networkProviderRcv.visibility = View.GONE
+            dialogNetworkProviderBinding.networkProviderAvailable.visibility = View.VISIBLE
+        } else {
+            dialogNetworkProviderBinding.networkProviderRcv.visibility = View.VISIBLE
+            dialogNetworkProviderBinding.networkProviderAvailable.visibility = View.GONE
+        }
+        networkProviderAdapter.filter(filteredList)
+    }
+
     private fun validateHospitals(): Boolean {
         val name = activityApnaNewSurveyBinding.hospitalNameText.text.toString()
         if (!name.contains(Regex("[a-zA-Z]"))) {
@@ -4105,6 +4334,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     Utlis.showLoading(this@ApnaNewSurveyActivity)
                     apnaNewSurveyViewModel.getTrafficStreetType(this@ApnaNewSurveyActivity)
                 }
+                if (networkProviderList.size == 0) {
+                    Utlis.showLoading(this@ApnaNewSurveyActivity)
+                    apnaNewSurveyViewModel.getNetworkProviderList(this@ApnaNewSurveyActivity)
+                }
+                if (internetProviderList.size == 0) {
+                    Utlis.showLoading(this@ApnaNewSurveyActivity)
+                    apnaNewSurveyViewModel.getInternetProviderList(this@ApnaNewSurveyActivity)
+                }
                 activityApnaNewSurveyBinding.previewIcon.visibility = View.VISIBLE
                 activityApnaNewSurveyBinding.siteSpecificationLayout.visibility = View.VISIBLE
                 activityApnaNewSurveyBinding.locationDetailsLayout.visibility = View.GONE
@@ -4349,6 +4586,27 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 surveyCreateRequest.trafficPatterns =
                     activityApnaNewSurveyBinding.presentTrafficPatterns.text.toString().trim()
 
+                val networkServiceProviders =
+                    ArrayList<SurveyCreateRequest.NetworkServiceProvider>()
+                for (i in selectedNetworkProviders.indices) {
+                    val networkServiceProvider = SurveyCreateRequest.NetworkServiceProvider()
+                    networkServiceProvider.code = selectedNetworkProviders[i].code
+                    networkServiceProvider.name = selectedNetworkProviders[i].value
+                    networkServiceProvider.uid = selectedNetworkProviders[i].code
+                    networkServiceProviders.add(networkServiceProvider)
+                }
+                surveyCreateRequest.networkServiceProvider = networkServiceProviders
+
+                val internetServiceProviders =
+                    ArrayList<SurveyCreateRequest.InternetServiceProvider>()
+                for (i in selectedInternetProviders.indices) {
+                    val internetServiceProvider = SurveyCreateRequest.InternetServiceProvider()
+                    internetServiceProvider.code = selectedInternetProviders[i].code
+                    internetServiceProvider.name = selectedInternetProviders[i].value
+                    internetServiceProvider.uid = selectedInternetProviders[i].code
+                    internetServiceProviders.add(internetServiceProvider)
+                }
+                surveyCreateRequest.internetServiceProvider = internetServiceProviders
 
                 this.currentPosition = 2
             }
@@ -4870,11 +5128,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             activityApnaNewSurveyBinding.presentTrafficPatterns.requestFocus()
             siteSpecificationsErrorMessage = "Present traffic patterns should not contain all zeros"
             return false
-        } else if(containsOnlyNumbers(presentTrafficPatterns)){
+        } else if (containsOnlyNumbers(presentTrafficPatterns)) {
             activityApnaNewSurveyBinding.presentTrafficPatterns.requestFocus()
-            siteSpecificationsErrorMessage = "Present traffic patterns should not contain only number"
+            siteSpecificationsErrorMessage =
+                "Present traffic patterns should not contain only number"
             return false
-        }else if (!shopAddress.isEmpty() && shopAddress.all { it == '0' }) {
+        } else if (!shopAddress.isEmpty() && shopAddress.all { it == '0' }) {
             activityApnaNewSurveyBinding.shopAddress.requestFocus()
             siteSpecificationsErrorMessage = "Shop Address patterns should not contain all zeros"
             return false
@@ -4914,9 +5173,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             return true
         }
     }
+
     fun containsOnlyNumbers(input: String): Boolean {
         return input.toDoubleOrNull() != null
     }
+
     var message = ""
     fun isShopValidate(shopAddress: String): Boolean {
         val alphabet: String = "[A-Za-z]"
@@ -5207,12 +5468,76 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         item: TrafficGeneratorsResponse.Data.ListData.Row,
         selected: Boolean?,
     ) {
-
-        if (selected == true) {
+        if (trafficGeneratorData[position].isSelected == true) {
+            trafficGeneratorData[position].isSelected = false
+        } else {
+            trafficGeneratorData[position].isSelected = true
+        }
+        trafficGeneratorAdapter.notifyDataSetChanged()
+        /*if (selected == true) {
             selectedTrafficGeneratorItem.add(item)
         } else if (selected == false) {
             selectedTrafficGeneratorItem.remove(item)
+        }*/
+    }
+
+    override fun onNetworkProviderSelect(
+        position: Int,
+        networkProvider: NetworkProvidersResponse.Data.ListData.Row,
+        selected: Boolean?,
+    ) {
+        if (networkProviderList[position].isSelected == true) {
+            networkProviderList[position].isSelected = false
+        } else {
+            networkProviderList[position].isSelected = true
         }
+        networkProviderAdapter.notifyDataSetChanged()
+    }
+
+    override fun onclickNetworkProviderDelete(
+        position: Int,
+        networkProvider: NetworkProvidersResponse.Data.ListData.Row,
+    ) {
+        for (i in networkProviderList.indices) {
+            if (networkProviderList[i].value.equals(networkProvider.value, true)) {
+                networkProviderList[i].isSelected = false
+            }
+        }
+        selectedNetworkProviders.removeAt(position)
+        selectedNetworkProvidersAdapter.notifyDataSetChanged()
+        networkProviderAdapter.notifyDataSetChanged()
+    }
+
+    override fun onInternetProviderSelect(
+        position: Int,
+        internetProvider: InternetProvidersResponse.Data.ListData.Row,
+        selected: Boolean?,
+    ) {
+        if (internetProviderList[position].isSelected == true) {
+            internetProviderList[position].isSelected = false
+        } else {
+            internetProviderList[position].isSelected = true
+        }
+        internetProviderAdapter.notifyDataSetChanged()
+        /*if (selected == true) {
+            selectedInternetProviders.add(internetProvider)
+        } else if (selected == false) {
+            selectedInternetProviders.remove(internetProvider)
+        }*/
+    }
+
+    override fun onClickInternetProviderDelete(
+        position: Int,
+        internetProvider: InternetProvidersResponse.Data.ListData.Row,
+    ) {
+        for (i in internetProviderList.indices) {
+            if (internetProviderList[i].value.equals(internetProvider.value, true)) {
+                internetProviderList[i].isSelected = false
+            }
+        }
+        selectedInternetProviders.removeAt(position)
+        selectedInternetProviderAdapter.notifyDataSetChanged()
+        internetProviderAdapter.notifyDataSetChanged()
     }
 
     override fun deleteSiteImage(position: Int, file: File) {
@@ -5588,6 +5913,32 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         isImageUpload: Boolean,
     ) {
         TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetNetworkProviderApiCall(networkProvidersResponse: NetworkProvidersResponse) {
+        Utlis.hideLoading()
+        if (networkProvidersResponse != null && networkProvidersResponse.data != null && networkProvidersResponse.data!!.listData!!.rows!!.size > 0) {
+            networkProviderList =
+                networkProvidersResponse.data!!.listData!!.rows as ArrayList<NetworkProvidersResponse.Data.ListData.Row>
+        }
+    }
+
+    override fun onFailureGetNetworkProviderApiCall(message: String) {
+        Utlis.hideLoading()
+        Toast.makeText(this@ApnaNewSurveyActivity, message, Toast.LENGTH_SHORT)
+    }
+
+    override fun onSuccessGetInternetProviderApiCall(internetProvidersResponse: InternetProvidersResponse) {
+        Utlis.hideLoading()
+        if (internetProvidersResponse != null && internetProvidersResponse.data != null && internetProvidersResponse.data!!.listData!!.rows!!.size > 0) {
+            internetProviderList =
+                internetProvidersResponse.data!!.listData!!.rows as ArrayList<InternetProvidersResponse.Data.ListData.Row>
+        }
+    }
+
+    override fun onFailureGetInternetProviderApiCall(message: String) {
+        Utlis.hideLoading()
+        Toast.makeText(this@ApnaNewSurveyActivity, message, Toast.LENGTH_SHORT)
     }
 
     override fun onBackPressed() {
