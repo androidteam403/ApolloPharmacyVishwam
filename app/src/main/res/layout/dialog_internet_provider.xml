@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_background">
+
+        <RelativeLayout
+            android:id="@+id/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/vishwam_actionbar_color"
+            android:paddingTop="@dimen/value_15dp"
+            android:paddingBottom="@dimen/value_15dp">
+
+            <TextView
+                android:id="@+id/headerText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Select Internet Provider"
+                android:textColor="@color/white_for_both"
+                android:textSize="@dimen/text_18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/close_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/app_name"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
+                android:src="@drawable/close_icon"
+                android:tint="@color/white_for_both"
+                tools:ignore="UseAppTint" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_layout"
+            android:layout_marginBottom="@dimen/value_55dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/searchInternetProvider"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:theme="@style/TextLabelEditTextApnaProject">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/searchInternetProviderText"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_50dp"
+                    android:drawableStart="@drawable/close_blue_new"
+                    android:drawablePadding="@dimen/value_10dp"
+                    android:drawableTint="@color/grey"
+                    android:hint="Search Internet Provider"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/value_10dp"
+                    android:paddingEnd="@dimen/value_10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:id="@+id/internetProviderAvailable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/emptyImage"
+                    android:layout_width="@dimen/value_120dp"
+                    android:layout_height="@dimen/value_120dp"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/qca" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/emptyImage"
+                    android:layout_marginBottom="@dimen/text_dimen_10"
+                    android:gravity="center"
+                    android:text="No Data Found"
+                    android:textColor="@color/backgroundColor"
+                    android:textSize="@dimen/text_18sp" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/internetProviderRcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/value_5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/vishwam_actionbar_color"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/value_12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="SUBMIT"
+                android:textColor="@color/white_for_both"
+                android:textSize="@dimen/text_17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

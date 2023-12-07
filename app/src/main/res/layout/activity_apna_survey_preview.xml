@@ -19,31 +19,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/vishwam_actionbar_height"
                 android:background="@drawable/apna_project_actionbar_bg"
-                android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:padding="@dimen/value_10dp"
                 android:visibility="visible">
 
                 <ImageView
-                    android:layout_marginStart="@dimen/value_5dp"
-                    android:layout_marginEnd="@dimen/value_10dp"
                     android:id="@+id/back_arrow"
                     android:layout_width="37dp"
                     android:layout_height="37dp"
-                    android:layout_gravity="center"
                     android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:layout_marginEnd="@dimen/value_10dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/icon_back_arrow"
-                    />
+                    android:src="@drawable/icon_back_arrow" />
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/back_arrow"-->
-<!--                    android:layout_width="@dimen/value_40dp"-->
-<!--                    android:layout_height="@dimen/value_40dp"-->
-<!--                    android:contentDescription="@string/app_name"-->
-<!--                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24"-->
-<!--                    android:tint="@color/white"-->
-<!--                    tools:ignore="UseAppTint" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/back_arrow"-->
+                <!--                    android:layout_width="@dimen/value_40dp"-->
+                <!--                    android:layout_height="@dimen/value_40dp"-->
+                <!--                    android:contentDescription="@string/app_name"-->
+                <!--                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24"-->
+                <!--                    android:tint="@color/white"-->
+                <!--                    tools:ignore="UseAppTint" />-->
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -1783,6 +1781,80 @@
                                             android:text="Good"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_12sp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_10dp"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:text="Network Providers: "
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/networkProviderRecyclerView"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_10dp"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:orientation="horizontal"
+                                            android:visibility="visible"
+                                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                            tools:itemCount="3"
+                                            tools:listitem="@layout/provider_adapter_layout" />
+
+                                        <TextView
+                                            android:id="@+id/networkProviderNotFound"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_10dp"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:text="-"
+                                            android:textColor="@color/black"
+                                            android:visibility="gone" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_10dp"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:text="Internet Providers: "
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/internetProviderRecyclerView"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_10dp"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:orientation="horizontal"
+                                            android:visibility="visible"
+                                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                            tools:itemCount="3"
+                                            tools:listitem="@layout/provider_adapter_layout" />
+
+                                        <TextView
+                                            android:id="@+id/internetProviderNotFound"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_10dp"
+                                            android:layout_marginTop="@dimen/value_5dp"
+                                            android:text="-"
+                                            android:textColor="@color/black"
+                                            android:visibility="gone" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>

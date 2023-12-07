@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.apna.model
 
 import android.provider.MediaStore.Video
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -408,6 +409,14 @@ class SurveyDetailsList : Serializable {
         @SerializedName("traffic_generator")
         @Expose
         var trafficGenerator: List<TrafficGenerator>? = null
+
+        @SerializedName("nsp_prov")
+        @Expose
+        var networkServiceProvider: List<NetworkServiceProvider>? = null
+
+        @SerializedName("isp_prov")
+        @Expose
+        var internetServiceProvider: List<InternetServiceProvider>? = null
 
         @SerializedName("neighboring_store")
         @Expose
@@ -907,7 +916,7 @@ class SurveyDetailsList : Serializable {
         var store: String? = null
 
         @SerializedName("rent")
-        var rent : Double= 0.0
+        var rent: Double = 0.0
 
         @SerializedName("sales")
         var sales: Double? = null
@@ -1032,6 +1041,50 @@ class SurveyDetailsList : Serializable {
             this.icon = icon
             return this
         }
+    }
+
+    inner class InternetServiceProvider : Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+
+        @SerializedName("name_1")
+        @Expose
+        var name_1: String? = null
+
+        @SerializedName("other")
+        @Expose
+        var other: Other? = null
+
+        @SerializedName("icon")
+        @Expose
+        var icon: String? = null
+    }
+
+    inner class NetworkServiceProvider : Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+
+        @SerializedName("name_1")
+        @Expose
+        var name_1: String? = null
+
+        @SerializedName("other")
+        @Expose
+        var other: Other? = null
+
+        @SerializedName("icon")
+        @Expose
+        var icon: String? = null
     }
 
     inner class TrafficGenerator : Serializable {

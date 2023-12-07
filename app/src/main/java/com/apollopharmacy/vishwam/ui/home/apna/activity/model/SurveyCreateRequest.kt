@@ -29,6 +29,14 @@ class SurveyCreateRequest : Serializable {
     @Expose
     var neighboringStore: List<NeighboringStore>? = null
 
+    @SerializedName("nsp_prov")
+    @Expose
+    var networkServiceProvider: List<NetworkServiceProvider>? = null
+
+    @SerializedName("isp_prov")
+    @Expose
+    var internetServiceProvider: List<InternetServiceProvider>? = null
+
     @SerializedName("chemist")
     @Expose
     var chemist: List<Chemist>? = null
@@ -263,6 +271,34 @@ class SurveyCreateRequest : Serializable {
     }
 
     class ToiletsAvailability : Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
+    }
+
+    class NetworkServiceProvider : Serializable {
+        @SerializedName("code")
+        @Expose
+        var code: String? = null
+
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+    }
+
+    class InternetServiceProvider : Serializable {
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+
+        @SerializedName("code")
+        @Expose
+        var code: String? = null
+
         @SerializedName("uid")
         @Expose
         var uid: String? = null

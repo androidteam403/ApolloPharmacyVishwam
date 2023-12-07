@@ -1621,6 +1621,112 @@
                                         android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_8dp"
+                                android:background="@drawable/white_rounded_bg"
+                                android:orientation="vertical"
+                                android:padding="@dimen/value_10dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppin_bold"
+                                    android:text="Network providers"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_14sp" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/networkProvider"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    android:theme="@style/TextLabelEditTextApnaProject">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/networkProviderSelect"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/value_50dp"
+                                        android:layout_marginTop="@dimen/value_3dp"
+                                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                                        android:editable="false"
+                                        android:enabled="true"
+                                        android:focusable="false"
+                                        android:hint="Select from the list"
+                                        android:inputType="text"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="@dimen/text_14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/selectedNetworkProvidersRcv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_8dp"
+                                    android:orientation="horizontal"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    tools:itemCount="3"
+                                    tools:listitem="@layout/traffic_generators_layout" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_8dp"
+                                android:background="@drawable/white_rounded_bg"
+                                android:orientation="vertical"
+                                android:padding="@dimen/value_10dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppin_bold"
+                                    android:text="Internet Providers"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_14sp" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/internetProvider"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    android:theme="@style/TextLabelEditTextApnaProject">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/internetProviderSelect"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/value_50dp"
+                                        android:layout_marginTop="@dimen/value_3dp"
+                                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                                        android:editable="false"
+                                        android:enabled="true"
+                                        android:focusable="false"
+                                        android:hint="Select from the list"
+                                        android:inputType="text"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="@dimen/text_14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/selectedInternetProvidersRcv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_8dp"
+                                    android:orientation="horizontal"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    tools:itemCount="3"
+                                    tools:listitem="@layout/traffic_generators_layout" />
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
 
