@@ -205,6 +205,10 @@ class SurveyDetailsList : Serializable {
         @Expose
         var dimensionType: DimensionType? = null
 
+        @SerializedName("is_mobile")
+        @Expose
+        var isMobile:Boolean?=false
+
         @SerializedName("extng_outlet_name")
         @Expose
         var extngOutletName: String? = null
