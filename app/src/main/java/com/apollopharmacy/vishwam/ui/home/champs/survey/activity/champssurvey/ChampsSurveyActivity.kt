@@ -224,7 +224,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 activityChampsSurveyBinding.trainerLayout.visibility = View.GONE
             }
             surveyDetailsByChampsIdForCheckBox = true
-            activityChampsSurveyBinding.calenderGreyChamps.visibility = View.GONE
+            activityChampsSurveyBinding.calenderGreyChamps.visibility = View.VISIBLE
             activityChampsSurveyBinding.deleteDown.visibility = View.VISIBLE
             activityChampsSurveyBinding.previewDown.visibility = View.GONE
 
