@@ -877,6 +877,15 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                 surveyId = value.data!!.id.toString()
             }
         }
+        if (value.data!!.isMobile != null) {
+            if (value.data!!.isMobile == true) {
+                apnaPreviewActivityBinding.source.text = "VISHWAM"
+            } else {
+                apnaPreviewActivityBinding.source.text = "CMS"
+            }
+        } else {
+            apnaPreviewActivityBinding.source.text = "-"
+        }
         if (value.data!!.apartments != null && value.data!!.apartments!!.size > 0) {
 //            apnaPreviewActivityBinding.apartmentsHeader.visibility = View.VISIBLE
             apnaPreviewActivityBinding.recyclerViewapartmnet.visibility = View.VISIBLE
