@@ -22,6 +22,8 @@ import java.util.stream.Collectors
 class SearchManagerAdapter(
     val mContext: Context,
     val mCallBack: QcDashBoardCallback,
+    var dashBoardListMain: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
+
     var qcfailDashboardList: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
     val designation: String,
     var qcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy>,
@@ -55,35 +57,22 @@ class SearchManagerAdapter(
         val items = getqcfailhierarchyList.get(position)
 
 
-        if (qcfailDashboardList.isNotEmpty()) {
-            for (i in qcfailDashboardList.indices) {
-                if (qcfailDashboardList.get(i).empid.equals(
-                        getqcfailhierarchyList.get(position).empid!!.split("-").get(0)
-                    )
-                ) {
+        if (dashBoardListMain.isNotEmpty()) {
+            for (i in dashBoardListMain.indices) {
+                if (dashBoardListMain.get(i).empid.equals(getqcfailhierarchyList.get(position).empid!!.split("-").get(0))) {
 
-
-                        holder.dashboardSiteBinding.sumOfRtValues.visibility=View.VISIBLE
-
-                    holder.dashboardSiteBinding.sumOfRtValues.setText(
-                        NumberFormat.getNumberInstance(
-                            Locale.US
-                        ).format(
-                            qcfailDashboardList.get(i).rtoamount!! + qcfailDashboardList.get(
-                                i
-                            ).rrtoamount!!
-                        ).toString()
-                    )
-                    holder.dashboardSiteBinding.rtCount.setText(qcfailDashboardList.get(i).rtocount.toString())
+                    holder.dashboardSiteBinding.sumOfRtValues.visibility=View.VISIBLE
+                    holder.dashboardSiteBinding.sumOfRtValues.setText(NumberFormat.getNumberInstance(Locale.US).format(dashBoardListMain.get(i).rtoamount!! + dashBoardListMain.get(i).rrtoamount!!).toString())
+                    holder.dashboardSiteBinding.rtCount.setText(dashBoardListMain.get(i).rtocount.toString())
                     holder.dashboardSiteBinding.rtovalue.setText(
                         DecimalFormat("#,###.00").format(
-                            qcfailDashboardList.get(i).rtoamount
+                            dashBoardListMain.get(i).rtoamount
                         ).toString()
                     )
-                    holder.dashboardSiteBinding.rrtoCount.setText(qcfailDashboardList.get(i).rrtocount.toString())
+                    holder.dashboardSiteBinding.rrtoCount.setText(dashBoardListMain.get(i).rrtocount.toString())
                     holder.dashboardSiteBinding.rrtovalue.setText(
                         DecimalFormat("#,###.00").format(
-                            qcfailDashboardList.get(i).rrtoamount
+                            dashBoardListMain.get(i).rrtoamount
                         ).toString()
                     )
 
@@ -165,7 +154,7 @@ class SearchManagerAdapter(
                     if (getqcfailhierarchyList.filter { it.siteid!=null }.size>0){
                         rtoExecutiveAdapter = SearchExecutiveAdapter(
                             mContext,
-                            mCallBack,
+                            mCallBack,dashBoardListMain,
                             qcfailDashboardList, designation,
                             qcfailhierarchyList,
                             item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>

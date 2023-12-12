@@ -27,6 +27,8 @@ class DashboardSummaryAdapter(
     val designation: String,
 
     var dashBoardList: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
+    var dashBoardListMain: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
+
     var dashboardHierarchyList: java.util.ArrayList<Getqcfailpendinghistoryforhierarchy>,
 
 
@@ -205,7 +207,7 @@ class DashboardSummaryAdapter(
                     }else{
                         rtoManagerAdapter = SearchManagerAdapter(
                             mContext,
-                            mCallBack,
+                            mCallBack,dashBoardListMain,
                             dashBoardList, designation,
                             dashboardHierarchyList,
                             item.pendingcount as java.util.ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>

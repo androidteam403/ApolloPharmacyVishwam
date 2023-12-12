@@ -246,15 +246,63 @@
                 </RelativeLayout>
 
 
+
+
+                <RelativeLayout
+                    android:id="@+id/no_order_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/emptyImage"
+                        android:layout_width="@dimen/value_120dp"
+                        android:layout_height="@dimen/value_120dp"
+                        android:layout_centerInParent="true"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/qca" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/emptyImage"
+                        android:gravity="center"
+                        android:text="No Data Found"
+                        android:textColor="@color/backgroundColor"
+                        android:textSize="@dimen/text_18sp" />
+
+                </RelativeLayout>
+
+                <!--                <TextView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:background="@color/white"-->
+                <!--                    android:paddingTop="@dimen/text_10sp"-->
+                <!--                    android:paddingBottom="@dimen/text_10sp"-->
+                <!--                    android:text="No Data Found"-->
+                <!--                    android:textAlignment="center"-->
+                <!--                    android:textColor="@color/warning_color"-->
+                <!--                    android:visibility="gone" />-->
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/summaryRecycleView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:scrollbars="vertical"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="1dp"
+
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"                    android:scrollbars="vertical"
                     android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="1"
@@ -264,11 +312,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#F9EBE2"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:orientation="horizontal"
                     android:visibility="gone"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginTop="5dp"
 
                     android:weightSum="4">
 
@@ -342,62 +390,15 @@
                     android:id="@+id/searchrecycleview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+
+                    android:layout_marginBottom="1dp"
                     android:scrollbars="vertical"
                     android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="1"
                     tools:listitem="@layout/search_site" />
-
-                <RelativeLayout
-                    android:id="@+id/no_order_found"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:id="@+id/emptyImage"
-                        android:layout_width="@dimen/value_120dp"
-                        android:layout_height="@dimen/value_120dp"
-                        android:layout_centerInParent="true"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/qca" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/emptyImage"
-                        android:gravity="center"
-                        android:text="No Data Found"
-                        android:textColor="@color/backgroundColor"
-                        android:textSize="@dimen/text_18sp" />
-
-                </RelativeLayout>
-
-                <!--                <TextView-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:background="@color/white"-->
-                <!--                    android:paddingTop="@dimen/text_10sp"-->
-                <!--                    android:paddingBottom="@dimen/text_10sp"-->
-                <!--                    android:text="No Data Found"-->
-                <!--                    android:textAlignment="center"-->
-                <!--                    android:textColor="@color/warning_color"-->
-                <!--                    android:visibility="gone" />-->
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
-
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/dashboardrecycleview"
                     android:layout_width="match_parent"

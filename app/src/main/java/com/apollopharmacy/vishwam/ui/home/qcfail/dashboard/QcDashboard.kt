@@ -97,6 +97,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         viewBinding.close.setOnClickListener {
             viewBinding.searchView.text!!.clear()
             viewBinding.searchView.setText("")
+            viewBinding.rtoHeader.visibility=View.GONE
 //            rtoPendencyAdapter?.rtoManagerAdapter!!.getFilter()!!.filter("")
 
             viewBinding.close.visibility = View.GONE
@@ -158,7 +159,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 //                                    )
 //                                }
 //                            }
-                       rtoSummaryAdapter=     context?.let { DashboardSummaryAdapter(it,this@QcDashboard,desig, qcDashboardList,dashboardHierarchyList) }
+                       rtoSummaryAdapter=     context?.let { DashboardSummaryAdapter(it,this@QcDashboard,desig, qcDashboardList,dashboardHistoryList,dashboardHierarchyList) }
 
                             viewBinding.summaryRecycleView.adapter =rtoSummaryAdapter
                         }
@@ -166,7 +167,8 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
                     }
 
 
-                } else {
+                }
+                else {
                     if (charText.length > 3) {
                         viewBinding.rtodashboardrecycleview.visibility = View.GONE
                         viewBinding.close.visibility = View.VISIBLE
@@ -190,12 +192,14 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
                         if (qcList.isNullOrEmpty()) {
                             viewBinding.noOrderFound.visibility = View.VISIBLE
+                            viewBinding.rtoHeader.visibility=View.GONE
 
                             viewBinding.searchrecycleview.visibility = View.GONE
 
 
                         } else {
                             viewBinding.searchrecycleview.visibility = View.VISIBLE
+                            viewBinding.rtoHeader.visibility=View.VISIBLE
                             viewBinding.noOrderFound.visibility = View.GONE
                             viewBinding.searchrecycleview.adapter = context?.let {
                                 DashboardSearchSitesAdapter(
@@ -215,6 +219,8 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
                     viewBinding.noOrderFound.visibility = View.GONE
                     viewBinding.rtodashboardrecycleview.visibility = View.VISIBLE
                     viewBinding.summaryRecycleView.visibility = View.GONE
+                    viewBinding.rtoHeader.visibility=View.GONE
+
                     viewBinding.close.visibility = View.GONE
                     viewBinding.searchrecycleview.visibility = View.GONE
 

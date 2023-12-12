@@ -24,6 +24,8 @@ import kotlin.collections.ArrayList
 class SearchExecutiveAdapter(
     val mContext: Context,
     val mCallBack: QcDashBoardCallback,
+    var dashBoardListMain: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
+
     var qcfailDashboardList: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
     val designation: String,
     var qcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy>,
@@ -97,24 +99,24 @@ class SearchExecutiveAdapter(
         }
 
 
-        if (qcfailDashboardList.isNotEmpty()) {
-            for (i in qcfailDashboardList.indices) {
-                if (qcfailDashboardList.get(i).designation.equals(getqcfailhierarchyList.get(
-                        position).designation) && qcfailDashboardList.get(i).empid.equals(
+        if (dashBoardListMain.isNotEmpty()) {
+            for (i in dashBoardListMain.indices) {
+                if (dashBoardListMain.get(i).designation.equals(getqcfailhierarchyList.get(
+                        position).designation) && dashBoardListMain.get(i).empid.equals(
                         getqcfailhierarchyList.get(position).empid)
                 ) {
 
-                    holder.executiveLayoutBinding.rtCount.setText(qcfailDashboardList.get(i).rtocount.toString())
-                    holder.executiveLayoutBinding.sumOfRtValues.setText(NumberFormat.getNumberInstance(Locale.US).format(qcfailDashboardList.get(i).rtoamount!! + qcfailDashboardList.get(i).rrtoamount!!).toString())
-                    if(qcfailDashboardList.get(i).rtoamount.toString().isNullOrEmpty()){
+                    holder.executiveLayoutBinding.rtCount.setText(dashBoardListMain.get(i).rtocount.toString())
+                    holder.executiveLayoutBinding.sumOfRtValues.setText(NumberFormat.getNumberInstance(Locale.US).format(dashBoardListMain.get(i).rtoamount!! + dashBoardListMain.get(i).rrtoamount!!).toString())
+                    if(dashBoardListMain.get(i).rtoamount.toString().isNullOrEmpty()){
 
                     }else{
 
-                        holder.executiveLayoutBinding.rtovalue.setText( NumberFormat.getNumberInstance(Locale.US).format(qcfailDashboardList.get(i).rtoamount).toString())
+                        holder.executiveLayoutBinding.rtovalue.setText( NumberFormat.getNumberInstance(Locale.US).format(dashBoardListMain.get(i).rtoamount).toString())
                     }
 
-                    holder.executiveLayoutBinding.rrtoCount.setText(qcfailDashboardList.get(i).rrtocount.toString())
-                    holder.executiveLayoutBinding.rrtovalue.setText( NumberFormat.getNumberInstance(Locale.US).format(qcfailDashboardList.get(i).rrtoamount).toString())
+                    holder.executiveLayoutBinding.rrtoCount.setText(dashBoardListMain.get(i).rrtocount.toString())
+                    holder.executiveLayoutBinding.rrtovalue.setText( NumberFormat.getNumberInstance(Locale.US).format(dashBoardListMain.get(i).rrtoamount).toString())
 
 
 
