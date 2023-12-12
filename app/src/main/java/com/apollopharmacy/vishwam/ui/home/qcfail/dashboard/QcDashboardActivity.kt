@@ -73,7 +73,7 @@ class QcDashboardActivity : AppCompatActivity() {
             dashBoardHistoryList= intent.getSerializableExtra("dashboardList") as ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>
             Utlis.showLoading(this)
             if (dashBoardList.isNullOrEmpty()){
-                viewModel.getQcPendingHierarchyHistoryList(empId.split("-").get(0), designation)
+//                viewModel.getQcPendingHierarchyHistoryList(empId.split("-").get(0), designation,this)
 
             }
             for (i in dashBoardHistoryList!!.indices) {
@@ -91,7 +91,7 @@ class QcDashboardActivity : AppCompatActivity() {
                 if (dashBoardList.isNullOrEmpty()){
                     Utlis.showLoading(this)
 
-                    viewModel.getQcPendingHierarchyHistoryList(empId.split("-").get(0), designation)
+//                    viewModel.getQcPendingHierarchyHistoryList(empId.split("-").get(0), designation)
 
                 }else{
                     activityQcDashboardBinding.rtoHeader.visibility=View.VISIBLE
@@ -99,10 +99,10 @@ class QcDashboardActivity : AppCompatActivity() {
                     activityQcDashboardBinding.generalmanagerArrow.visibility=View.GONE
                     activityQcDashboardBinding.gmsitesRecyclerView.visibility=View.VISIBLE
 
-                    rtoSitesAdapter = RtoSitesAdapter(
-                        this,dashBoardList
-
-                    )
+//                    rtoSitesAdapter = RtoSitesAdapter(
+//                        this,dashBoardList
+//
+//                    )
 
                     activityQcDashboardBinding.gmsitesRecyclerView.adapter = rtoSitesAdapter
                 }
@@ -126,10 +126,10 @@ class QcDashboardActivity : AppCompatActivity() {
                 if (dashBoardList.isNullOrEmpty()){
 
                 }else{
-                    rtoSitesAdapter = RtoSitesAdapter(
-                        this,dashBoardList
-
-                    )
+//                    rtoSitesAdapter = RtoSitesAdapter(
+//                        this,dashBoardList
+//
+//                    )
 
                     activityQcDashboardBinding.gmsitesRecyclerView.adapter = rtoSitesAdapter
                 }

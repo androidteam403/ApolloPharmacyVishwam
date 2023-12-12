@@ -210,6 +210,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                 val intent= Intent(context, QcPendingActivity::class.java)
                 intent.putExtra("itemsList", itemsList)
                 intent.putExtra("statusList", statusList)
+                intent.putExtra("rejectList",rejectedListMain)
+
                 intent.putExtra("orderNo",orderId)
                 intent.putExtra("fragment","reject")
                 startActivity(intent)

@@ -43,7 +43,7 @@ class DashboardSearchSitesAdapter(
         val items = pendingCountResponseList.get(position)
 
 
-        holder.searchSiteBinding.sitedname.setText(items.siteid.toString())
+        holder.searchSiteBinding.siteIdS.setText(items.siteid.toString())
 
 
 //        if (items.designation.equals("executive", true)) {
@@ -60,32 +60,32 @@ class DashboardSearchSitesAdapter(
 //        }
 
         if(items.rtocount==null){
-            holder.searchSiteBinding.rtocount.setText("-")
+            holder.searchSiteBinding.rtCount.setText("-")
 
         }else{
-            holder.searchSiteBinding.rtocount.setText(items.rtocount.toString())
+            holder.searchSiteBinding.rtCount.setText(items.rtocount.toString())
 
         }
         if(items.rrtocount==null){
-            holder.searchSiteBinding.rrtocount.setText("-")
+            holder.searchSiteBinding.rrtoCount.setText("-")
 
         }else{
-            holder.searchSiteBinding.rrtocount.setText(items.rrtocount.toString())
+            holder.searchSiteBinding.rrtoCount.setText(items.rrtocount.toString())
 
         }
         if(items.rtoamount==null){
-            holder.searchSiteBinding.rtovalue.setText("-")
+            holder.searchSiteBinding.rtValue.setText("-")
 
         }else{
-            holder.searchSiteBinding.rtovalue.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rtoamount).toString())
+            holder.searchSiteBinding.rtValue.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rtoamount).toString())
 
         }
         if(items.rrtoamount==null){
-            holder.searchSiteBinding.rrtovalue.setText("-")
+            holder.searchSiteBinding.rrtoValue.setText("-")
 
         }else{
 
-            holder.searchSiteBinding.rrtovalue.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rrtoamount).toString())
+            holder.searchSiteBinding.rrtoValue.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rrtoamount).toString())
 
         }
 

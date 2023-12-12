@@ -6,8 +6,6 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -15,17 +13,17 @@ import com.apollopharmacy.vishwam.databinding.ManagerLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistorydashboard
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryforhierarchy
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcDashBoardCallback
-import com.apollopharmacy.vishwam.util.Utlis.hideLoading
-import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Locale
 import java.util.function.Predicate
 import java.util.stream.Collectors
 
-class RtoManagerAdapter(
+class SearchManagerAdapter(
     val mContext: Context,
     val mCallBack: QcDashBoardCallback,
+    var dashBoardListMain: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
+
     var qcfailDashboardList: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
     val designation: String,
     var qcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy>,
@@ -33,9 +31,9 @@ class RtoManagerAdapter(
     var getqcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>,
 
     ) :
-    RecyclerView.Adapter<RtoManagerAdapter.ViewHolder>() {
+    RecyclerView.Adapter<SearchManagerAdapter.ViewHolder>() {
     var rtoSitesAdapter: RtoSitesAdapter? = null
-    var rtoExecutiveAdapter: RtoExecutiveAdapter? = null
+    var rtoExecutiveAdapter: SearchExecutiveAdapter? = null
     var dashBoardList = ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>()
     var empId: String = ""
 
@@ -59,35 +57,22 @@ class RtoManagerAdapter(
         val items = getqcfailhierarchyList.get(position)
 
 
-        if (qcfailDashboardList.isNotEmpty()) {
-            for (i in qcfailDashboardList.indices) {
-                if (qcfailDashboardList.get(i).empid.equals(
-                        getqcfailhierarchyList.get(position).empid!!.split("-").get(0)
-                    )
-                ) {
+        if (dashBoardListMain.isNotEmpty()) {
+            for (i in dashBoardListMain.indices) {
+                if (dashBoardListMain.get(i).empid.equals(getqcfailhierarchyList.get(position).empid!!.split("-").get(0))) {
 
-                    if (qcfailDashboardList.get(i).rtoamount?.toInt()!! + qcfailDashboardList.get(i).rrtoamount?.toInt()!! !=0){
-                        holder.dashboardSiteBinding.sumOfRtValues.visibility=View.VISIBLE
-                    }
-                    holder.dashboardSiteBinding.sumOfRtValues.setText(
-                        NumberFormat.getNumberInstance(
-                            Locale.US
-                        ).format(
-                            qcfailDashboardList.get(i).rtoamount!! + qcfailDashboardList.get(
-                                i
-                            ).rrtoamount!!
-                        ).toString()
-                    )
-                    holder.dashboardSiteBinding.rtCount.setText(qcfailDashboardList.get(i).rtocount.toString())
+                    holder.dashboardSiteBinding.sumOfRtValues.visibility=View.VISIBLE
+                    holder.dashboardSiteBinding.sumOfRtValues.setText(NumberFormat.getNumberInstance(Locale.US).format(dashBoardListMain.get(i).rtoamount!! + dashBoardListMain.get(i).rrtoamount!!).toString())
+                    holder.dashboardSiteBinding.rtCount.setText(dashBoardListMain.get(i).rtocount.toString())
                     holder.dashboardSiteBinding.rtovalue.setText(
                         DecimalFormat("#,###.00").format(
-                            qcfailDashboardList.get(i).rtoamount
+                            dashBoardListMain.get(i).rtoamount
                         ).toString()
                     )
-                    holder.dashboardSiteBinding.rrtoCount.setText(qcfailDashboardList.get(i).rrtocount.toString())
+                    holder.dashboardSiteBinding.rrtoCount.setText(dashBoardListMain.get(i).rrtocount.toString())
                     holder.dashboardSiteBinding.rrtovalue.setText(
                         DecimalFormat("#,###.00").format(
-                            qcfailDashboardList.get(i).rrtoamount
+                            dashBoardListMain.get(i).rrtoamount
                         ).toString()
                     )
 
@@ -99,7 +84,7 @@ class RtoManagerAdapter(
         }
 
 
-        if (getqcfailhierarchyList[position].isClick) {
+        if (getqcfailhierarchyList[position].isSearchClick) {
 
             if (getqcfailhierarchyList[position].designation.equals("EXECUTIVE")) {
 
@@ -135,8 +120,8 @@ class RtoManagerAdapter(
 
         if (qcfailhierarchyList.isNotEmpty()) {
             for (i in qcfailhierarchyList.indices) {
-                if (qcfailhierarchyList.get(i).employeId.equals(
-                        getqcfailhierarchyList.get(position).empid
+                if (qcfailhierarchyList.get(i).employeId!!.split("-").get(0).equals(
+                        getqcfailhierarchyList.get(position).empid!!.split("-").get(0)
                     )
                 ) {
 
@@ -167,9 +152,9 @@ class RtoManagerAdapter(
 
 
                     if (getqcfailhierarchyList.filter { it.siteid!=null }.size>0){
-                        rtoExecutiveAdapter = RtoExecutiveAdapter(
+                        rtoExecutiveAdapter = SearchExecutiveAdapter(
                             mContext,
-                            mCallBack,
+                            mCallBack,dashBoardListMain,
                             qcfailDashboardList, designation,
                             qcfailhierarchyList,
                             item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>
@@ -195,65 +180,66 @@ class RtoManagerAdapter(
 
 
         holder.dashboardSiteBinding.generalmanagerArrow.setOnClickListener {
+            mCallBack.onClickManagerHierarchy(position,getqcfailhierarchyList)
 
-            for (i in getqcfailhierarchyList.indices) {
-                if (getqcfailhierarchyList[position] == getqcfailhierarchyList[i]) {
-                    getqcfailhierarchyList[position].setisClick(true)
-
-                } else {
-                    getqcfailhierarchyList[i].setisClick(false)
-
-                }
-            }
-
-
-            var isContain: Boolean
-            if (items.empid!!.contains("-")){
-                val predicate =
-                    Predicate { qcfailDashboardList: Getqcfailpendinghistorydashboard.Pendingcount ->
-                        qcfailDashboardList.empid.equals(items.empid!!.split("-").get(0))
-                    }
-
-
-                isContain = qcfailDashboardList.stream().anyMatch(predicate)
-
-            }else{
-                val predicate =
-                    Predicate { qcfailDashboardList: Getqcfailpendinghistorydashboard.Pendingcount ->
-                        qcfailDashboardList.empid.equals(items.empid)
-                    }
-
-
-                isContain = qcfailDashboardList.stream().anyMatch(predicate)
-
-            }
-
-
-            if (isContain) {
-                mCallBack.notify(position, false)
-                notifyDataSetChanged()
-
-
-            } else {
-
-                items.designation?.let { it1 ->
-                    items.empid?.let { it2 ->
-                        mCallBack.onClickManagerDashBoard(
-                            position,
-                            it1,
-                            it2
-                        )
-                    }
-                }
-
-                notifyDataSetChanged()
-            }
+//            for (i in getqcfailhierarchyList.indices) {
+//                if (getqcfailhierarchyList[position] == getqcfailhierarchyList[i]) {
+//                    getqcfailhierarchyList[position].setiisSearchClick(true)
+//
+//                } else {
+//                    getqcfailhierarchyList[i].setiisSearchClick(false)
+//
+//                }
+//            }
+//
+//
+//            var isContain: Boolean
+//            if (items.empid!!.contains("-")){
+//                val predicate =
+//                    Predicate { qcfailDashboardList: Getqcfailpendinghistorydashboard.Pendingcount ->
+//                        qcfailDashboardList.empid.equals(items.empid!!.split("-").get(0))
+//                    }
+//
+//
+//                isContain = qcfailDashboardList.stream().anyMatch(predicate)
+//
+//            }else{
+//                val predicate =
+//                    Predicate { qcfailDashboardList: Getqcfailpendinghistorydashboard.Pendingcount ->
+//                        qcfailDashboardList.empid.equals(items.empid)
+//                    }
+//
+//
+//                isContain = qcfailDashboardList.stream().anyMatch(predicate)
+//
+//            }
+//
+//
+//            if (isContain) {
+//                mCallBack.notify(position, false)
+//                notifyDataSetChanged()
+//
+//
+//            } else {
+//
+////                items.designation?.let { it1 ->
+////                    items.empid?.let { it2 ->
+////                        mCallBack.onClickManagerDashBoard(
+////                            position,
+////                            it1,
+////                            it2
+////                        )
+////                    }
+////                }
+//
+//                notifyDataSetChanged()
+//            }
 
         }
 
         holder.dashboardSiteBinding.closeArrow.setOnClickListener {
-            getqcfailhierarchyList[position].setisClick(false)
-            notifyDataSetChanged()
+            mCallBack.onClickManagerHierarchy(position,getqcfailhierarchyList)
+
         }
 
 

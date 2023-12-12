@@ -50,7 +50,7 @@ class QcListsResponse : Serializable {
         return this
     }
 
-    class Approved {
+    class Approved :Serializable{
         @SerializedName("CUSTNAME")
         @Expose
         var custname: String? = null
@@ -338,7 +338,7 @@ class QcListsResponse : Serializable {
         }
     }
 
-    class Reject {
+    class Reject:Serializable {
         @SerializedName("CUSTNAME")
         @Expose
         var custname: String? = null

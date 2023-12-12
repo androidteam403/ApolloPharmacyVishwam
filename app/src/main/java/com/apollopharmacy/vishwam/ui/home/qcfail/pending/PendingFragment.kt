@@ -1485,16 +1485,19 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
             @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-                if (qcListsResponse!!.pendinglist != null && !qcListsResponse!!.pendinglist!!.isEmpty()) {
-                    qcListsResponse!!.pendinglist =
-                        filterResults.values as java.util.ArrayList<QcListsResponse.Pending>
+                val filteredList = filterResults.values as? ArrayList<QcListsResponse.Pending>
+
+                if (filteredList != null && filteredList.isNotEmpty()) {
                     try {
-                        setQcPedningListResponse(qcListsResponse!!.pendinglist!!)
+                        qcListsResponse?.pendinglist = filteredList
+                        setQcPedningListResponse(filteredList)
                     } catch (e: Exception) {
-                        Log.e("FullfilmentAdapter", e.message!!)
+                        Log.e("FullfilmentAdapter", e.message ?: "Unknown error")
                     }
                 } else {
-                    setQcPedningListResponse(qcListsResponse!!.pendinglist!!)
+                    // Handle the case where filteredList is null or empty
+                    Log.e("FullfilmentAdapter", "Filter result is null or empty")
+                    setQcPedningListResponse(qcListsResponse!!.pendinglist!!) // or handle it accordingly
                 }
             }
         }

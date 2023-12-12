@@ -39,6 +39,9 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
     var itemsList = ArrayList<QcItemListResponse>()
     var statusList = ArrayList<ActionResponse>()
     var pendingList = ArrayList<QcListsResponse.Pending>()
+    var approveList = ArrayList<QcListsResponse.Approved>()
+    var rejectList = ArrayList<QcListsResponse.Reject>()
+
     var qcAcceptItemsList = ArrayList<QcAcceptRejectRequest.Item>()
     var TIME = (1 * 6000).toLong()
     var qcAccepttList = ArrayList<QcAcceptRejectRequest.Order>()
@@ -79,7 +82,6 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
             itemsList = intent.getSerializableExtra("itemsList") as ArrayList<QcItemListResponse>
             orderId = intent.getStringExtra("orderNo").toString()
             fragment = intent.getStringExtra("fragment").toString()
-            activityQcPendingBinding.orderid.setText(orderId)
 
             if (itemsList!=null){
                 for (k in itemsList) {
@@ -105,6 +107,9 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
                 activityQcPendingBinding.heaader.setBackgroundColor(ContextCompat.getColor(this, R.color.approved_list_qc))
 
                 statusList = intent.getSerializableExtra("statusList") as ArrayList<ActionResponse>
+                approveList = intent.getSerializableExtra("approveList") as ArrayList<QcListsResponse.Approved>
+                activityQcPendingBinding.orderid.setText(approveList.filter { it.orderno.equals(orderId) }.get(0).omsorderno.toString())
+
                 activityQcPendingBinding.listName.setText("Approved List")
 
                 if (itemsList != null) {
@@ -211,6 +216,8 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
 
                 activityQcPendingBinding.statusRecyleview.visibility = View.VISIBLE
                 activityQcPendingBinding.heaader.setBackgroundColor(ContextCompat.getColor(this, R.color.reject_list_qc))
+                rejectList = intent.getSerializableExtra("rejectList") as ArrayList<QcListsResponse.Reject>
+                activityQcPendingBinding.orderid.setText(rejectList.filter { it.orderno.equals(orderId) }.get(0).omsorderno.toString())
 
                 statusList = intent.getSerializableExtra("statusList") as ArrayList<ActionResponse>
                 activityQcPendingBinding.listName.setText("Rejected List")
@@ -299,8 +306,9 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
             }
             else if (fragment.equals("pending")) {
                 activityQcPendingBinding.status.visibility=View.GONE
-                pendingList =
-                    intent.getSerializableExtra("pendingList") as ArrayList<QcListsResponse.Pending>
+                pendingList = intent.getSerializableExtra("pendingList") as ArrayList<QcListsResponse.Pending>
+                activityQcPendingBinding.orderid.setText(pendingList.filter { it.orderno.equals(orderId) }.get(0).omsorderno.toString())
+
                 if (pendingList != null) {
                     for (i in pendingList.indices) {
                         if (orderId.equals(pendingList.get(i).orderno)) {

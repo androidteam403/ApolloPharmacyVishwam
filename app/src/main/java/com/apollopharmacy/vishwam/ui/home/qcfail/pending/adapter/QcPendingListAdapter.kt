@@ -260,13 +260,13 @@ class QcPendingListAdapter(
             imageClicklistner.isChecked(pendingList, position, pendingOrders)
         }
         if (pendingOrders.isOrderExpanded) {
-            holder.pendingLayoutBinding.arrowClose.visibility = View.VISIBLE
-            holder.pendingLayoutBinding.arrow.visibility = View.GONE
-            holder.pendingLayoutBinding.extraData.visibility = View.VISIBLE
+//            holder.pendingLayoutBinding.arrowClose.visibility = View.VISIBLE
+//            holder.pendingLayoutBinding.arrow.visibility = View.GONE
+//            holder.pendingLayoutBinding.extraData.visibility = View.VISIBLE
         } else {
-            holder.pendingLayoutBinding.arrowClose.visibility = View.GONE
-            holder.pendingLayoutBinding.arrow.visibility = View.VISIBLE
-            holder.pendingLayoutBinding.extraData.visibility = View.GONE
+//            holder.pendingLayoutBinding.arrowClose.visibility = View.GONE
+//            holder.pendingLayoutBinding.arrow.visibility = View.VISIBLE
+//            holder.pendingLayoutBinding.extraData.visibility = View.GONE
         }
         holder.itemView.setOnClickListener {
             if (pendingOrders.isOrderExpanded) {
