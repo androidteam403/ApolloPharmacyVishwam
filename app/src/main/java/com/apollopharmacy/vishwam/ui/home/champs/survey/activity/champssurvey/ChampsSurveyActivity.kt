@@ -2748,7 +2748,23 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             saveUpdateRequest.trimpTech =
                 activityChampsSurveyBinding.enterTextTechnicalEdittext.text.toString()
             saveUpdateRequest.store = activityChampsSurveyBinding.storeId.text.toString()
-            saveUpdateRequest.totalScore = activityChampsSurveyBinding.percentageSum.text.toString()
+            var totalScore: String = ""
+            if (!activityChampsSurveyBinding.percentageSum.text.toString().isNullOrEmpty()) {
+                if (activityChampsSurveyBinding.percentageSum.text.toString().contains(".")) {
+                    var splitScrore =
+                        activityChampsSurveyBinding.percentageSum.text.toString().split(".")
+                    if (splitScrore.size > 1) {
+                        var splitScopeAfterDot: Int = splitScrore[1].toInt()
+                        if (splitScopeAfterDot > 0) {
+                            totalScore = activityChampsSurveyBinding.percentageSum.text.toString()
+                        } else {
+                            totalScore = splitScrore[0]
+                        }
+                    }
+                }
+            }
+            saveUpdateRequest.totalScore =
+                totalScore //activityChampsSurveyBinding.percentageSum.text.toString()
 
             var cmsChampsSurveQaList = ArrayList<CmsChampsSurveyQa>()
 

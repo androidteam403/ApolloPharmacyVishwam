@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.eposmobileapp.ui.dashboard.ConfirmSiteDialog
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
@@ -47,6 +48,8 @@ import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.databinding.ChooseImageOptionLayoutBinding
+import com.apollopharmacy.vishwam.databinding.DialogAllowDuplicateStCreationBinding
+import com.apollopharmacy.vishwam.databinding.DialogHavedubworkflowTicketresolvedBinding
 import com.apollopharmacy.vishwam.databinding.FragmentRegistrationBinding
 import com.apollopharmacy.vishwam.databinding.ViewImageItemBinding
 import com.apollopharmacy.vishwam.dialog.*
@@ -55,13 +58,17 @@ import com.apollopharmacy.vishwam.dialog.CategoryDialog.Companion.KEY_DATA_SUBCA
 import com.apollopharmacy.vishwam.dialog.CustomDialog.Companion.KEY_DATA
 import com.apollopharmacy.vishwam.dialog.model.Row
 import com.apollopharmacy.vishwam.ui.home.IOnBackPressed
+import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivity.isSuperAdmin
 import com.apollopharmacy.vishwam.ui.home.cms.cmsfileupload.CmsFileUpload
 import com.apollopharmacy.vishwam.ui.home.cms.cmsfileupload.CmsFileUploadCallback
 import com.apollopharmacy.vishwam.ui.home.cms.cmsfileupload.CmsFileUploadModel
+import com.apollopharmacy.vishwam.ui.home.cms.registration.adapter.AllowDuplicateStCreationAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
 import com.apollopharmacy.vishwam.util.Utils
+import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.signaturepad.NetworkUtils
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
@@ -81,7 +88,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     SubmitcomplaintDialog.AbstractDialogSubmitClickListner, ConfirmSiteDialog.OnSiteClickListener,
     ReasonsDialog.ReasonsDialogClickListner,
     SearchArticleCodeDialog.SearchArticleDialogClickListner, CalendarFutureDate.DateSelectedFuture,
-    OnTransactionPOSSelectedListnier, IOnBackPressed, CmsFileUploadCallback {
+    OnTransactionPOSSelectedListnier, IOnBackPressed, CmsFileUploadCallback,
+    RegistrationFragmentCallback {
     var imagesFilledCount = 0
     var clickedCamera = 0
     var notFrontView = false
@@ -141,7 +149,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     lateinit var selectedCategory: ReasonmasterV2Response.TicketCategory
     lateinit var selectedSubCategory: ReasonmasterV2Response.TicketSubCategory
     lateinit var selectedReasonDto: ReasonmasterV2Response.Row
-
+    var isBackPressAllow = ""
+    var siteUid = ""
     override val layoutRes: Int
         get() = R.layout.fragment_registration
 
@@ -178,6 +187,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 employeeDetailsResponse!!.data!!.site!!.site,
                 employeeDetailsResponse!!.data!!.site!!.dcCode!!.code
             )
+            siteUid = employeeDetailsResponse!!.data!!.site!!.uid!!
             Preferences.setRegistrationSiteId(employeeDetailsResponse!!.data!!.site!!.site.toString())
             Preferences.saveSiteId(employeeDetailsResponse!!.data!!.site!!.site.toString())
 
@@ -390,17 +400,17 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
         //ticket status api response..................
         viewModel.tisketstatusresponse.observe(viewLifecycleOwner, {
-            var ticketstatus: ResponseTicktResolvedapi
-            ticketstatus = it
-            var deptuid = deptuid
-            if (!ticketstatus.success) {
-                ticketstatusapiresponse = ticketstatus
-                AcknowledgementDialog().apply {
-                    arguments = AcknowledgementDialog().generateParsedDataNew(
-                        ticketstatus.data, deptuid!!, KEY_DATA_ACK
-                    )
-                }.show(childFragmentManager, "")
-            }
+            /* var ticketstatus: ResponseTicktResolvedapi
+             ticketstatus = it
+             var deptuid = deptuid
+             if (!ticketstatus.success) {
+                 ticketstatusapiresponse = ticketstatus
+                 AcknowledgementDialog().apply {
+                     arguments = AcknowledgementDialog().generateParsedDataNew(
+                         ticketstatus.data, deptuid!!, KEY_DATA_ACK
+                     )
+                 }.show(childFragmentManager, "")
+             }*/
         })
 
         //close ticket Response........
@@ -661,6 +671,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.transactionDetailsLayout.tidEdit.setOnClickListener {
             viewModel.fetchTransactionPOSDetails(viewModel.tisketstatusresponse.value!!.data.uid)
         }
+        siteTicketbyReasonSuccess()
     }
 
 
@@ -750,6 +761,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 } else if (statusInventory.equals("NEWBATCH")) {
                     if (mrpPrice.toDouble() < purchasePrice.toDouble()) {
                         showErrorMsg(context?.resources?.getString(R.string.err_msg_purchace_price_diff))
+                        return false
+                    } else if (mrpPrice.toDouble() > 200000) {
+                        showErrorMsg(context?.resources?.getString(R.string.err_msg_mrp_price_validation))
                         return false
                     }
                 } else {
@@ -846,7 +860,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 //        }
         //Ticket status Api calling function................
 
-        viewModel.getTicketstatus(Preferences.getSiteId(), deptuid)
+        viewModel.getTicketstatus(Preferences.getSiteId(), deptuid, this)
 
 
         var cateorylist = departmentDto.uid?.let { viewModel.getCategoriesfromReasons(it) }
@@ -874,6 +888,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.selectRemarksText.visibility = View.GONE
         viewBinding.titleName.text = resources.getString(R.string.label_upload_image)
         viewBinding.transactionDetailsLayout.transactionDetails.visibility = View.GONE
+        viewBinding.barcodeEdt.isEnabled = true
         subCategoryListSelected.clear()
         if (departmentDto.name.equals("New Batch")) {
             statusInventory = "NEWBATCH"
@@ -885,6 +900,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewBinding.oldMrp.visibility = View.GONE
             viewBinding.newMrpInputLayout.visibility = View.GONE
             viewBinding.captureUploadLayout.visibility = View.GONE
+            viewBinding.barcodeEdt.isEnabled = false
         } else if (departmentDto.name.equals("MRP Change Request")) {
             statusInventory = "MRP Change Request"
             viewBinding.description.visibility = View.VISIBLE
@@ -895,6 +911,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewBinding.mrp.visibility = View.GONE
             viewBinding.newMrpInputLayout.visibility = View.VISIBLE
             viewBinding.captureUploadLayout.visibility = View.GONE
+            viewBinding.barcodeEdt.isEnabled = false
         } else {
             for (i in maintanceArrayList.indices) {
                 if (maintanceArrayList[i].equals(departmentDto.name)) {
@@ -967,6 +984,27 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewBinding.titleName.text = "${resources.getString(R.string.label_upload_image)} *"
 
         }
+        if (departmentDto != null && departmentDto!!.allow_duplicate_st_creation != null && departmentDto!!.allow_duplicate_st_creation!!.uid != null && departmentDto!!.allow_duplicate_st_creation!!.uid!!.equals(
+                "No"
+            )
+        ) {
+            if (NetworkUtils.isNetworkConnected(requireContext())) {
+                showLoading()
+                viewModel.siteTicketbyReason(
+                    siteUid,
+                    departmentDto!!.uid!!,
+                    departmentDto!!.allow_duplicate_st_creation!!.uid!!
+                )
+            } else {
+                Toast.makeText(
+                    requireContext(), "Check your internet connection", Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        /*if (reasonmasterV2Response != null
+            && reasonmasterV2Response!!.data != null
+            && reasonmasterV2Response!!.data!!.)*/
     }
 
 
@@ -1822,6 +1860,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     @SuppressLint("SetTextI18n")
     fun onSuccessUserWithSiteID(selectedStoreItem: StoreListItem) {
+        siteUid = selectedStoreItem!!.uid!!
         hideLoading()
         RefreshView()
         if (selectedStoreItem.site.isNullOrEmpty()) {
@@ -2169,6 +2208,40 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             }
         }
     */
+    fun siteTicketbyReasonSuccess() {
+        viewModel.siteTicketbyReasonResponseLive.observe(viewLifecycleOwner) {
+            hideLoading()
+            if (it.data!!.listData!!.records!!.toInt() > 0) {
+                var allowDuplicateStCreationDialog = Dialog(requireContext())
+                var dialogAllowDuplicateStCreationBinding =
+                    DataBindingUtil.inflate<DialogAllowDuplicateStCreationBinding>(
+                        LayoutInflater.from(requireContext()),
+                        R.layout.dialog_allow_duplicate_st_creation,
+                        null,
+                        false
+                    )
+                allowDuplicateStCreationDialog.setContentView(dialogAllowDuplicateStCreationBinding.root)
+                allowDuplicateStCreationDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                allowDuplicateStCreationDialog.setCancelable(false)
+                if (it.data != null && it.data!!.listData != null && it.data!!.listData!!.rows != null && it.data!!.listData!!.rows!!.size > 0) {
+                    var allowDuplicateStCreationAdapter =
+                        AllowDuplicateStCreationAdapter(it.data!!.listData!!.rows!!)
+                    var mLayoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                    dialogAllowDuplicateStCreationBinding.ticketListRecyclerView.layoutManager =
+                        mLayoutManager
+                    dialogAllowDuplicateStCreationBinding.ticketListRecyclerView.adapter =
+                        allowDuplicateStCreationAdapter
+                }
+                dialogAllowDuplicateStCreationBinding.dilogaClose.setOnClickListener {
+                    allowDuplicateStCreationDialog.dismiss()
+                    isBackPressAllow = "GO_BACK"
+                    MainActivity.mInstance.onBackPressed()
+                }
+                allowDuplicateStCreationDialog.show()
+            }
+        }
+    }
 
     private fun callSubmitNewComplaintRegApi(
         description: String,
@@ -2196,7 +2269,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     override fun onBackPressed(): Boolean {
-        if (viewBinding.selectDepartment.text.toString()
+        if (isBackPressAllow.equals("GO_BACK")) {
+            return false
+        } else if (viewBinding.selectDepartment.text.toString()
                 .isNotEmpty() || viewBinding.descriptionText.text.toString()
                 .isNotEmpty() || fileArrayList.isNotEmpty()
         ) {
@@ -2218,6 +2293,73 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     override fun allFilesUploaded(cmsfileUploadModelList: List<CmsFileUploadModel>?, tag: String) {
 
+    }
+
+    override fun onSuccessTicketStatus(responseTicktResolvedapi: ResponseTicktResolvedapi) {
+        var ticketstatus: ResponseTicktResolvedapi
+        ticketstatus = responseTicktResolvedapi
+        var deptuid = deptuid
+        if (!ticketstatus.success) {
+            ticketstatusapiresponse = ticketstatus
+            if ((ticketstatusapiresponse!!.data!!.have_subworkflow == null || ticketstatusapiresponse!!.data!!.allow_manual_ticket_closure!!.isNullOrEmpty() || ticketstatusapiresponse!!.data!!.have_subworkflow == false) && (ticketstatusapiresponse!!.data!!.allow_manual_ticket_closure == null || ticketstatusapiresponse!!.data!!.allow_manual_ticket_closure!! == "Yes")) {
+                AcknowledgementDialog().apply {
+                    arguments = AcknowledgementDialog().generateParsedDataNew(
+                        ticketstatus.data, deptuid!!, this@RegistrationFragment, KEY_DATA_ACK
+                    )
+                }.show(childFragmentManager, "")
+            } else {
+                var dialog = Dialog(requireContext())
+                val dialogHavedubworkflowTicketresolvedBinding =
+                    DataBindingUtil.inflate<DialogHavedubworkflowTicketresolvedBinding>(
+                        LayoutInflater.from(requireContext()),
+                        R.layout.dialog_havedubworkflow_ticketresolved,
+                        null,
+                        false
+                    )
+                dialog.setContentView(dialogHavedubworkflowTicketresolvedBinding.root)
+                dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                if (ticketstatusapiresponse!!.data != null && ticketstatusapiresponse!!.data!!.override_ticket_creation != null && ticketstatusapiresponse!!.data!!.override_ticket_creation.equals(
+                        "No"
+                    )
+                ) {
+                    dialog.setCancelable(false)
+                    dialogHavedubworkflowTicketresolvedBinding.message.text =
+                        "To this selected Department & Store, this ticket has been resolved. Please close the ticket and create new one."
+                }
+                var override_ticket_creation: Boolean = false
+                if (ticketstatusapiresponse!!.data != null && ticketstatusapiresponse!!.data!!.override_ticket_creation != null && ticketstatusapiresponse!!.data!!.override_ticket_creation!!.isEmpty() && ticketstatusapiresponse!!.data!!.override_ticket_creation.equals(
+                        "No"
+                    )
+                ) {
+                    override_ticket_creation = true
+                } else {
+                    override_ticket_creation = false
+                }
+
+                dialogHavedubworkflowTicketresolvedBinding.ticketNo.setText(
+                    ticketstatusapiresponse!!.data.ticket_id
+                )
+                if (ticketstatusapiresponse!!.data.ticket_created_time != null) {
+                    dialogHavedubworkflowTicketresolvedBinding.regDate.setText(
+                        "${Utlis.convertCmsDate(ticketstatusapiresponse!!.data.ticket_created_time.toString())}"
+                    )
+                }
+                dialogHavedubworkflowTicketresolvedBinding.dilogaClose.setOnClickListener {
+                    if (ticketstatusapiresponse!!.data != null && ticketstatusapiresponse!!.data!!.override_ticket_creation != null && !ticketstatusapiresponse!!.data!!.override_ticket_creation!!.isEmpty() && ticketstatusapiresponse!!.data!!.override_ticket_creation.equals(
+                            "No"
+                        )
+                    ) {
+                        isBackPressAllow = "GO_BACK"
+                        dialog!!.dismiss()
+                        MainActivity.mInstance.onBackPressed()
+                    } else {
+                        dialog!!.dismiss()
+                    }
+                }
+                dialog.show()
+
+            }
+        }
     }
 }
 

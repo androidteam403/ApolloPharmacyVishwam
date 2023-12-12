@@ -25,6 +25,7 @@ import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Feedback
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Rating
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketResolveCloseModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
+import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationFragmentCallback
 import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationViewModel
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis.convertCmsDate
@@ -34,7 +35,7 @@ class AcknowledgementDialog : DialogFragment() {
     lateinit var viewBinding: DialogAcknowledgementBinding
     lateinit var viewModel: RegistrationViewModel
     val TAG = "AcknowledgementDialog"
-
+    lateinit var callback: RegistrationFragmentCallback
     var cmsloginresponse: ResponseCMSLogin.Data? = null
     var ticketstatusapiresponse: ResponseTicktResolvedapi.Data? = null
     var ticketratingapiresponse: ResponseticketRatingApi.Data? = null
@@ -66,13 +67,14 @@ class AcknowledgementDialog : DialogFragment() {
 
     fun generateParsedDataNew(
         data: ResponseTicktResolvedapi.Data,
-        deptuid: String,
+        deptuid: String, callback: RegistrationFragmentCallback,
         tag: String,
     ): Bundle {
         // ticketstatusapiresponse=data
         return Bundle().apply {
             putSerializable(SiteDialog.KEY_DATA, data)
             putString("deptuid", deptuid)
+            putSerializable("callback", callback)
         }
     }
 
@@ -91,7 +93,7 @@ class AcknowledgementDialog : DialogFragment() {
         viewModel = ViewModelProviders.of(requireActivity())[RegistrationViewModel::class.java]
         viewBinding.viewModel = viewModel
         deptuid = arguments?.getString("deptuid") as String
-
+        callback = arguments?.getSerializable("callback") as RegistrationFragmentCallback
         // val data = arguments?.getSerializable(SiteDialog.KEY_DATA) as ArrayList<DataItem>
         datanew = arguments?.getSerializable(SiteDialog.KEY_DATA) as ResponseTicktResolvedapi.Data
         if (datanew.department_code.equals("IN") && (datanew.category_code.equals("mrp_cr") || datanew.category_code.equals(
@@ -146,7 +148,7 @@ class AcknowledgementDialog : DialogFragment() {
                 hideLoading()
                 Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 dismiss()
-                viewModel.getTicketstatus(Preferences.getSiteId(), deptuid)
+                viewModel.getTicketstatus(Preferences.getSiteId(), deptuid, callback)
             }
             // viewModel.cmsticketclosingapiresponse.removeObserver(viewLifecycleOwner,{})
         })
