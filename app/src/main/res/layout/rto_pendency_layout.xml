@@ -6,16 +6,17 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:id="@+id/header"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        >
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
             android:id="@+id/cardView"
-
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="3dp">
+            app:strokeColor="#606db3"
+            app:strokeWidth="4dp"
+            app:cardCornerRadius="5dp">
 
             <LinearLayout
                 android:id="@+id/parentLayout"
@@ -58,22 +59,22 @@
                             <LinearLayout
                                 android:id="@+id/arrowlayout"
                                 android:layout_width="wrap_content"
-                                android:orientation="horizontal"
+                                android:layout_height="match_parent"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginEnd="10dp"
-                                android:layout_height="match_parent"
-                                >
+                                android:orientation="horizontal">
+
                                 <TextView
                                     android:id="@+id/sumOfRtValues"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:drawableLeft="@drawable/rupee_indian"
+                                    android:drawablePadding="1dp"
+                                    android:drawableTint="@color/white"
+
                                     android:fontFamily="@font/roboto_medium"
                                     android:paddingStart="10dp"
-                                    android:layout_gravity="center"
-                                    android:drawablePadding="1dp"
-
-                                    android:drawableLeft="@drawable/rupee_indian"
-                                    android:drawableTint="@color/white"
                                     android:text="22755"
                                     android:textColor="@color/white"
                                     android:textSize="13sp" />
@@ -108,8 +109,8 @@
                     android:id="@+id/rto_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:background="#00acae"
+                    android:orientation="vertical"
 
                     android:visibility="visible">
 
@@ -140,8 +141,8 @@
                                 android:fontFamily="@font/poppin_bold"
                                 android:paddingTop="5dp"
                                 android:text="Sum of RTO"
-                                android:textColor="#959595"
                                 android:textAlignment="center"
+                                android:textColor="#959595"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -177,19 +178,19 @@
                                 android:fontFamily="@font/poppin_bold"
                                 android:paddingTop="5dp"
                                 android:text="RTO Value"
-                                android:textColor="#959595"
-
                                 android:textAlignment="center"
+
+                                android:textColor="#959595"
                                 android:textSize="10sp" />
 
                             <TextView
                                 android:id="@+id/rtovalue"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_medium"
-                                android:paddingStart="10dp"
-
                                 android:drawableLeft="@drawable/qc_ic_rupee_indian"
+                                android:fontFamily="@font/roboto_medium"
+
+                                android:paddingStart="10dp"
                                 android:paddingBottom="7dp"
                                 android:text="0"
                                 android:textColor="@color/black"
@@ -215,10 +216,10 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppin_bold"
                                 android:paddingTop="5dp"
-                                android:textColor="#959595"
-
                                 android:text="Sum of RRTO"
+
                                 android:textAlignment="center"
+                                android:textColor="#959595"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -254,19 +255,20 @@
                                 android:fontFamily="@font/poppin_bold"
                                 android:paddingTop="5dp"
                                 android:text="RRTO Value"
-                                android:textColor="#959595"
-
                                 android:textAlignment="center"
+
+                                android:textColor="#959595"
                                 android:textSize="10sp" />
 
                             <TextView
                                 android:id="@+id/rrtovalue"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/qc_ic_rupee_indian"
                                 android:fontFamily="@font/roboto_medium"
-                                android:paddingStart="10dp"
 
-                                android:drawableLeft="@drawable/qc_ic_rupee_indian"                                android:paddingBottom="7dp"
+                                android:paddingStart="10dp"
+                                android:paddingBottom="7dp"
                                 android:text="0"
                                 android:textColor="@color/black"
                                 android:textSize="12sp" />
@@ -280,6 +282,82 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/rtoHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#F9EBE2"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+
+                    android:weightSum="4">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight=".91"
+                        android:fontFamily="@font/poppin_bold"
+                        android:paddingStart="4sp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="4dp"
+
+                        android:text="RTO Count"
+                        android:textAlignment="center"
+                        android:textColor="#959595"
+                        android:textSize="@dimen/dimen11sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight=".99"
+                        android:fontFamily="@font/poppin_bold"
+                        android:paddingStart="4sp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="4dp"
+
+                        android:text="RTO Value"
+                        android:textAlignment="center"
+
+                        android:textColor="#959595"
+                        android:textSize="@dimen/dimen11sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight=".91"
+                        android:fontFamily="@font/poppin_bold"
+                        android:paddingStart="4sp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="4dp"
+                        android:text="RRTO Count"
+                        android:textAlignment="center"
+                        android:textColor="#959595"
+                        android:textSize="@dimen/dimen11sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight=".99"
+                        android:fontFamily="@font/poppin_bold"
+                        android:paddingStart="4sp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="4dp"
+
+                        android:text="RRTO Value"
+                        android:textAlignment="center"
+
+                        android:textColor="#959595"
+                        android:textSize="@dimen/dimen11sp" />
+                </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/gmsitesRecyclerView"
                     android:layout_width="match_parent"
@@ -291,9 +369,19 @@
                     tools:itemCount="1"
                     tools:listitem="@layout/rto_sites" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/managerRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
 
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/manager_layout" />
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/no_order_found_text"
@@ -310,18 +398,12 @@
                     android:textAlignment="center"
                     android:textColor="@color/black" />
             </LinearLayout>
+
+
+
+
         </com.google.android.material.card.MaterialCardView>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/managerRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cardView"
-            android:layout_marginTop="8dp"
-            android:scrollbars="vertical"
-            android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="1"
-            tools:listitem="@layout/manager_layout" />
+
 
 
     </RelativeLayout>

@@ -222,6 +222,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 val intent= Intent(context, QcPendingActivity::class.java)
                 intent.putExtra("itemsList", itemsList)
                 intent.putExtra("statusList", statusList)
+                intent.putExtra("approveList",approvedListMain)
 
 
                 intent.putExtra("orderNo",orderId)

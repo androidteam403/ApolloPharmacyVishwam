@@ -11,6 +11,7 @@ import com.apollopharmacy.vishwam.data.network.QcApiRepo
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistorydashboard
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryforhierarchy
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.PendingCountResponse
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcDashBoardCallback
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -27,7 +28,7 @@ class DashBoardViewModel : ViewModel() {
     val qcPendingHierarchyHistoryList = MutableLiveData<Getqcfailpendinghistoryforhierarchy>()
 
 
-    fun getQcPendingDashboardHistoryList(empId: String, designation: String) {
+    fun getQcPendingDashboardHistoryList(empId: String, designation: String,mcallBack: QcDashBoardCallback) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -58,11 +59,12 @@ class DashBoardViewModel : ViewModel() {
                     if (result.value.status ?: null == true) {
 
                         state.value = State.ERROR
-                        qcPendingDashboardHistoryList.value = result.value!!
+                        mcallBack.onSuccessDashboardHistoryResponse(result.value)
+//                        qcPendingDashboardHistoryList.value = result.value!!
 
                     } else {
                         state.value = State.ERROR
-                        qcPendingDashboardHistoryList.value = result.value!!
+//                        qcPendingDashboardHistoryList.value = result.value!!
 
                     }
                 }
@@ -93,7 +95,7 @@ class DashBoardViewModel : ViewModel() {
         }
     }
 
-    fun getQcPendingHierarchyHistoryList(empId: String, designation: String) {
+    fun getQcPendingHierarchyHistoryList(empId: String, designation: String,mcallBack: QcDashBoardCallback) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -116,11 +118,12 @@ class DashBoardViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcPendingHierarchyHistoryList.value = result.value
+                        mcallBack.onSuccessDashboardHierarchyResponse(result.value)
+//                        qcPendingHierarchyHistoryList.value = result.value
 
                     } else {
                         state.value = State.ERROR
-                        qcPendingHierarchyHistoryList.value = result.value
+//                        qcPendingHierarchyHistoryList.value = result.value
 
                     }
                 }

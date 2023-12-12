@@ -1403,8 +1403,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        imageFromCameraFile =
-            File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+        imageFromCameraFile = File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
         } else {
@@ -1420,20 +1419,24 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
 
     private fun compresImageSize(imageFromCameraFile: File): File {
-        val resizedImage = Resizer(requireContext())
-            .setTargetLength(1080)
-            .setQuality(100)
-            .setOutputFormat("JPG")
-            .setOutputDirPath(
-                ViswamApp.context.cacheDir.toString()
-            )
-            .setSourceImage(imageFromCameraFile)
-            .resizedFile
-        return resizedImage
+            val resizedImage = Resizer(requireContext())
+                .setTargetLength(1080)
+                .setQuality(100)
+                .setOutputFormat("JPG")
+                .setOutputDirPath(
+                    ViswamApp.context.cacheDir.toString()
+                )
+                .setSourceImage(imageFromCameraFile)
+                .resizedFile
+            return resizedImage
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 221) {
+
+
             imageList.add(Image(compresImageSize(imageFromCameraFile!!), "", ""))
             imageList.reverse()
 

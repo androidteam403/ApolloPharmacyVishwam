@@ -126,6 +126,9 @@ class QcItemListResponse : Serializable {
 
         var reason: String? = null
 
+        var approveQtyText: Int? =0
+        var count: Int? = 0
+
         var isClick: Boolean = false
 
         fun setisClick(pos: Boolean) {

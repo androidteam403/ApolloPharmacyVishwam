@@ -6,15 +6,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:background="@color/white">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cardView"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="3dp">
+        app:cardCornerRadius="5dp">
 
 
         <LinearLayout
@@ -68,6 +66,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_medium"
                                 android:paddingStart="10dp"
+                                android:visibility="gone"
                                 android:layout_gravity="center"
                                 android:drawablePadding="1dp"
 
@@ -277,6 +276,81 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F9EBE2"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:id="@+id/rtoHeader"
+
+                android:weightSum="4">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight=".91"
+                    android:fontFamily="@font/poppin_bold"
+                    android:paddingStart="4sp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginStart="5dp"
+
+                    android:text="RTO Count"
+                    android:textAlignment="center"
+                    android:textColor="#959595"
+                    android:textSize="@dimen/dimen11sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight=".99"
+                    android:fontFamily="@font/poppin_bold"
+                    android:paddingStart="4sp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginStart="5dp"
+
+                    android:text="RTO Value"
+                    android:textAlignment="center"
+
+                    android:textColor="#959595"
+                    android:textSize="@dimen/dimen11sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight=".91"
+                    android:fontFamily="@font/poppin_bold"
+                    android:paddingStart="4sp"
+                    android:layout_marginStart="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="4dp"
+                    android:text="RRTO Count"
+                    android:textAlignment="center"
+                    android:textColor="#959595"
+                    android:textSize="@dimen/dimen11sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight=".99"
+                    android:fontFamily="@font/poppin_bold"
+                    android:paddingStart="4sp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginStart="5dp"
+
+                    android:text="RRTO Value"
+                    android:textAlignment="center"
+
+                    android:textColor="#959595"
+                    android:textSize="@dimen/dimen11sp" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/sitesRecyclerView"
@@ -317,9 +391,7 @@
         android:id="@+id/executiveRecycleview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_below="@id/cardView"
-
         android:scrollbars="vertical"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

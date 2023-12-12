@@ -21,7 +21,7 @@ import java.util.function.Predicate
 import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
-class RtoExecutiveAdapter(
+class SearchExecutiveAdapter(
     val mContext: Context,
     val mCallBack: QcDashBoardCallback,
     var qcfailDashboardList: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
@@ -31,7 +31,7 @@ class RtoExecutiveAdapter(
     var getqcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>,
 
     ) :
-    RecyclerView.Adapter<RtoExecutiveAdapter.ViewHolder>() {
+    RecyclerView.Adapter<SearchExecutiveAdapter.ViewHolder>() {
     var rtoSitesAdapter: RtoSitesAdapter? = null
     var dashBoardList = ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>()
 
@@ -131,67 +131,69 @@ class RtoExecutiveAdapter(
 
 
         holder.executiveLayoutBinding.generalmanagerArrow.setOnClickListener {
-
-            for ( i in getqcfailhierarchyList.indices){
-                if (getqcfailhierarchyList[position]==getqcfailhierarchyList[i]){
-                    getqcfailhierarchyList[position].setisexecutiveClick(true)
-
-                }else{
-                    getqcfailhierarchyList[i].setisexecutiveClick(false)
-
-                }
-            }
-
-            var isContain: Boolean
-            if (items.empid!!.contains("-")){
-                val predicate =
-                    Predicate { qcfailDashboardList: Getqcfailpendinghistorydashboard.Pendingcount ->
-                        qcfailDashboardList.empid.equals(items.empid!!.split("-").get(0))
-                    }
-
-
-                isContain = qcfailDashboardList.stream().anyMatch(predicate)
-
-            }else{
-                val predicate =
-                    Predicate { qcfailDashboardList: Getqcfailpendinghistorydashboard.Pendingcount ->
-                        qcfailDashboardList.empid.equals(items.empid)
-                    }
-
-
-                isContain = qcfailDashboardList.stream().anyMatch(predicate)
-
-            }
-            if (isContain) {
-//                getqcfailhierarchyList[position].setisexecutiveClick(true)
-
-                mCallBack.notify(position, false)
-                notifyDataSetChanged()
-            } else {
-//                getqcfailhierarchyList[position].setisexecutiveClick(true)
-                items.designation?.let { it1 ->
-                    items.empid?.let { it2 ->
-                        mCallBack.onClickExecutive(position,
-                            it1,
-                            it2)
-                    }
-                }
-
-                notifyDataSetChanged()
-            }
+            mCallBack.onClickExecutiveHierarchy(position,getqcfailhierarchyList)
+//
+//            for ( i in getqcfailhierarchyList.indices){
+//                if (getqcfailhierarchyList[position]==getqcfailhierarchyList[i]){
+//                    getqcfailhierarchyList[position].setsearchexecutiveClick(true)
+//
+//                }else{
+//                    getqcfailhierarchyList[i].setsearchexecutiveClick(false)
+//
+//                }
+//            }
+//
+//            var isContain: Boolean
+//            if (items.empid!!.contains("-")){
+//                val predicate =
+//                    Predicate { qcfailDashboardList: Getqcfailpendinghistorydashboard.Pendingcount ->
+//                        qcfailDashboardList.empid.equals(items.empid!!.split("-").get(0))
+//                    }
+//
+//
+//                isContain = qcfailDashboardList.stream().anyMatch(predicate)
+//
+//            }else{
+//                val predicate =
+//                    Predicate { qcfailDashboardList: Getqcfailpendinghistorydashboard.Pendingcount ->
+//                        qcfailDashboardList.empid.equals(items.empid)
+//                    }
+//
+//
+//                isContain = qcfailDashboardList.stream().anyMatch(predicate)
+//
+//            }
+//            if (isContain) {
+////                getqcfailhierarchyList[position].setisexecutiveClick(true)
+//
+//                mCallBack.notify(position, false)
+//                notifyDataSetChanged()
+//            } else {
+////                getqcfailhierarchyList[position].setisexecutiveClick(true)
+////                items.designation?.let { it1 ->
+////                    items.empid?.let { it2 ->
+////                        mCallBack.onClickExecutive(position,
+////                            it1,
+////                            it2)
+////                    }
+////                }
+//
+//                notifyDataSetChanged()
+//            }
 
         }
 
         holder.executiveLayoutBinding.closeArrow.setOnClickListener {
-            getqcfailhierarchyList[position].setisexecutiveClick(false)
-            notifyDataSetChanged()
+            mCallBack.onClickExecutiveHierarchy(position,getqcfailhierarchyList)
+//            getqcfailhierarchyList[position].setsearchexecutiveClick(false)
+//            notifyDataSetChanged()
         }
 
 
 
 
 
-        if (getqcfailhierarchyList[position].isexecutiveClick) {
+        if (getqcfailhierarchyList[position].searchexecutiveClick) {
 
 
             holder.executiveLayoutBinding.closeArrow.visibility = View.VISIBLE

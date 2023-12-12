@@ -77,10 +77,10 @@ class Getqcfailpendinghistorydashboard : Serializable {
             fetched = empId
         }
 
-        var isExecutiveClick: Boolean = false
+        var isSearchClick: Boolean = false
 
-        fun setisExecutiveClick(pos: Boolean) {
-            isClick = pos
+        fun setisSearchClick(pos: Boolean) {
+            isSearchClick = pos
         }
         fun withEmpid(empid: String?): Pendingcount {
             this.empid = empid

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.RtoSitesBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryforhierarchy
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcDashBoardCallback
 import java.text.NumberFormat
 import java.util.*
 
@@ -21,7 +22,7 @@ var pendingCountResponseListList = ArrayList<Getqcfailpendinghistoryforhierarchy
 class RtoSitesAdapter(
     val mContext: Context,
     var pendingCountResponseList: ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>,
-
+    qcDashBoardCallback: QcDashBoardCallback,
     ) :
     RecyclerView.Adapter<RtoSitesAdapter.ViewHolder>(), Filterable {
     var charString: String? = ""

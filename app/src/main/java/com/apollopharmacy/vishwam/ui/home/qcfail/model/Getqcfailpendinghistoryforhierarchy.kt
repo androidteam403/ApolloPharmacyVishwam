@@ -54,11 +54,20 @@ class Getqcfailpendinghistoryforhierarchy : Serializable {
         fun setisClick(pos: Boolean) {
             isClick = pos
         }
+        var isSearchClick: Boolean = false
 
+        fun setiisSearchClick(pos: Boolean) {
+            isSearchClick = pos
+        }
         var isexecutiveClick: Boolean = false
 
         fun setisexecutiveClick(pos: Boolean) {
             isexecutiveClick = pos
+        }
+        var searchexecutiveClick: Boolean = false
+
+        fun setsearchexecutiveClick(pos: Boolean) {
+            searchexecutiveClick = pos
         }
         @SerializedName("EMPID")
         @Expose

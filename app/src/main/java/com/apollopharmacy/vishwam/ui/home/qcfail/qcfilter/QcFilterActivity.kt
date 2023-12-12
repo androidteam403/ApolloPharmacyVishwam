@@ -19,6 +19,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.Gson
 import org.apache.commons.lang3.StringUtils
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -430,104 +431,243 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun fromDate(fromDate: String, showingDate: String) {
+    override fun fromDate(fromDateText: String, showingDate: String) {
 //        activityQcFilterBinding.fromDateText.setText(fromDate)
-        fromQcDate = fromDate
+        fromQcDate = fromDateText
+        val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+
 
         if (toQcDate.isEmpty()) {
-            activityQcFilterBinding.fromDateText.setText(fromDate)
-
-        } else if (toQcDate.isNotEmpty()) {
-
-            val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
 
             try {
-                val cal = Calendar.getInstance()
-                cal.time = sdf.parse(toQcDate)
+                // Parse the fromDate string to a Date object
+                val fromDateParsed = sdf.parse(fromDateText)
 
-                // Add 30 days to the parsed date
-                cal.add(Calendar.DATE, -30)
+                if (fromDateParsed != null) {
+                    // Create a Calendar instance and set it to the parsed fromDate
+                    val cal = Calendar.getInstance()
+                    cal.time = fromDateParsed
 
-                val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
-                qcDate = sdf1.format(cal.time)
+                    // Add thirty days to the fromDate
+                    cal.add(Calendar.DATE, 30)
 
-                // Now, you can use qcDate for further comparisons or display
-                println("Parsed date: $qcDate")
-            } catch (e: Exception) {
+                    // Get the resulting date
+                    val toDate = cal.time
+
+                    // Get the current date
+                    val currentDate = Calendar.getInstance().time
+
+                    if (toDate.equals(currentDate) || toDate.before(currentDate)) {
+                        // toDate is equal to or less than the current date
+                        // Your logic here
+                        activityQcFilterBinding.fromDateText.setText(fromDateText)
+                        toQcDate=sdf.format(toDate)
+                        activityQcFilterBinding.toDateText.setText(sdf.format(toDate))
+                    } else {
+                        activityQcFilterBinding.fromDateText.setText(fromDateText)
+                        activityQcFilterBinding.toDateText.setText(sdf.format(Date()))
+
+                        // toDate is greater than the current date
+                        // Handle the case accordingly
+//                        Toast.makeText(
+//                            context,
+//                            "To Date should be equal to or less than the current date",
+//                            Toast.LENGTH_LONG
+//                        ).show()
+                    }
+                } else {
+                    // Handle the case where parsing fails
+                    Toast.makeText(context, "Invalid date format", Toast.LENGTH_LONG).show()
+                }
+            } catch (e: ParseException) {
+                // Handle the case where parsing fails
                 e.printStackTrace()
+                Toast.makeText(context, "Invalid date format", Toast.LENGTH_LONG).show()
             }
 
 
-
-            if (Utlis.filterDateFormate(fromDate)
-                    .after(Utlis.filterDateFormate(qcDate)) || Utlis.filterDateFormate(fromDate)
-                    .equals(Utlis.filterDateFormate(qcDate))
-            ) {
-
-                activityQcFilterBinding.fromDateText.setText(fromDate)
-
-            } else {
-                fromQcDate=""
-                activityQcFilterBinding.fromDateText.setText("")
-
-                Toast.makeText(
-                    context,
-                    "From Date should not be less than 30 Days from To Date ",
-                    Toast.LENGTH_LONG
-                ).show()
-
-            }
         }
+        else if (toQcDate.isNotEmpty()) {
+            val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+
+
+
+            try {
+                val calFrom = Calendar.getInstance()
+
+                // Parse the "to" date
+                calFrom.time = sdf.parse(toQcDate)
+
+                // Subtract 30 days from the "to" date
+                calFrom.add(Calendar.DATE, -30)
+
+                // Format the calculated date as a string
+                val qcDate = sdf.format(calFrom.time)
+
+                // Parse the "from" and "to" dates for comparison
+                val fromDate = Utlis.filterDateFormate(fromDateText)
+                val toDate = Utlis.filterDateFormate(qcDate)
+
+                if (fromDate.before(toDate)) {
+
+                    fromQcDate = ""
+                    activityQcFilterBinding.fromDateText.setText("")
+
+                    Toast.makeText(context, "From Date should not be less than 30 Days from To Date", Toast.LENGTH_LONG).show()
+                }  else if (fromDate.after(Utlis.filterDateFormate(toQcDate))){
+                    // "From" date is more than 30 days before the "to" date
+                    // Reset "to" date and display an error message
+                    fromQcDate=""
+                    activityQcFilterBinding.fromDateText.setText("")
+                    Toast.makeText(context, " From Date should not be greater than To Date", Toast.LENGTH_LONG).show()
+                }
+                else if (fromDate.before(Utlis.filterDateFormate(toQcDate)) || toDate == Utlis.filterDateFormate(qcDate)) {
+                    // Valid date range
+                    // Set the "from" date in the UI
+                    activityQcFilterBinding.fromDateText.setText(fromQcDate)
+                }
+            } catch (e: ParseException) {
+                e.printStackTrace()
+                // Handle the parsing exception if needed
+            }
+            // Handle parsing exception if needed
+        }
+
+
+
+//        else if (toQcDate.isNotEmpty()) {
+//
+//            val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+//
+//            try {
+//                val cal = Calendar.getInstance()
+//                cal.time = sdf.parse(toQcDate)
+//
+//                // Add 30 days to the parsed date
+//                cal.add(Calendar.DATE, -30)
+//
+//                val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+//                qcDate = sdf1.format(cal.time)
+//
+//                // Now, you can use qcDate for further comparisons or display
+//                println("Parsed date: $qcDate")
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//
+//
+//            if (Utlis.filterDateFormate(fromDate).after(Utlis.filterDateFormate(qcDate))||Utlis.filterDateFormate(fromDate).equals(Utlis.filterDateFormate(qcDate))) {
+//                activityQcFilterBinding.fromDateText.setText("")
+//                toQcDate = ""
+//                Toast.makeText(context, "From Date should not be less than 30 Days from To Date", Toast.LENGTH_LONG).show()
+//            }
+//            else {
+//                fromQcDate=""
+//                activityQcFilterBinding.fromDateText.setText("")
+//
+//                Toast.makeText(
+//                    context,
+//                    "From Date should not be less than 30 Days from To Date ",
+//                    Toast.LENGTH_LONG
+//                ).show()
+//
+//            }
+//        }
     }
 
     override fun toDate(dateSelected: String, showingDate: String) {
-        toQcDate=dateSelected
-
+        toQcDate = dateSelected
+        val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
 
         if (fromQcDate.isEmpty()) {
+            try {
+                // Parse the fromDate string to a Date object
+                val fromDateParsed = sdf.parse(dateSelected)
+
+                if (fromDateParsed != null) {
+                    // Create a Calendar instance and set it to the parsed fromDate
+                    val cal = Calendar.getInstance()
+                    cal.time = fromDateParsed
+
+                    // Add thirty days to the fromDate
+                    cal.add(Calendar.DATE, -30)
+
+                    // Get the resulting date
+                    val toDate = cal.time
+
+                    // Get the current date
+                    val currentDate = Calendar.getInstance().time
+
+                    if (toDate.equals(currentDate) || toDate.before(currentDate)) {
+                        // toDate is equal to or less than the current date
+                        // Your logic here
+                        activityQcFilterBinding.toDateText.setText(dateSelected)
+                        fromQcDate=sdf.format(toDate)
+                        activityQcFilterBinding.fromDateText.setText(sdf.format(toDate))
+                    } else {
+                        // toDate is greater than the current date
+                        // Handle the case accordingly
+                        Toast.makeText(
+                            context,
+                            "To Date should be equal to or less than the current date",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } else {
+                    // Handle the case where parsing fails
+                    Toast.makeText(context, "Invalid date format", Toast.LENGTH_LONG).show()
+                }
+            } catch (e: ParseException) {
+                // Handle the case where parsing fails
+                e.printStackTrace()
+                Toast.makeText(context, "Invalid date format", Toast.LENGTH_LONG).show()
+            }
+
+
+
+
             activityQcFilterBinding.toDateText.setText(dateSelected)
-
-        } else if (fromQcDate.isNotEmpty()) {
-
-
+        }
+        else if (fromQcDate.isNotEmpty()) {
             val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
 
             try {
-                val cal = Calendar.getInstance()
-                cal.time = sdf.parse(fromQcDate)
+                val calFrom = Calendar.getInstance()
+                calFrom.time = sdf.parse(fromQcDate)
 
-                // Add 30 days to the parsed date
-                cal.add(Calendar.DATE, 30)
+                // Add 30 days to the "from date"
+                calFrom.add(Calendar.DATE, 30)
 
-                val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
-                qcDate = sdf1.format(cal.time)
+                val qcDate = sdf.format(calFrom.time)
 
-                // Now, you can use qcDate for further comparisons or display
-                println("Parsed date: $qcDate")
+                val fromDate = Utlis.filterDateFormate(fromQcDate)
+                val toDate = Utlis.filterDateFormate(dateSelected)
+
+                // Check if "To Date" is not before "From Date"
+                if (toDate.before(fromDate)) {
+                    activityQcFilterBinding.toDateText.setText("")
+                    toQcDate = ""
+                    Toast.makeText(
+                        context,
+                        "To Date should not be before From Date",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else if (toDate.before(Utlis.filterDateFormate(qcDate)) || toDate == Utlis.filterDateFormate(qcDate)) {
+                    // Now, you can use qcDate for further comparisons or display
+                    activityQcFilterBinding.toDateText.setText(dateSelected)
+                } else {
+                    activityQcFilterBinding.toDateText.setText("")
+                    toQcDate = ""
+
+                    Toast.makeText(
+                        context,
+                        "To Date should not be before 30 Days from From Date",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
-
-            if (Utlis.filterDateFormate(dateSelected)
-                    .before(Utlis.filterDateFormate(qcDate)) || Utlis.filterDateFormate(dateSelected)
-                    .equals(Utlis.filterDateFormate(qcDate))
-            ) {
-
-                activityQcFilterBinding.toDateText.setText(dateSelected)
-
-            } else {
-                activityQcFilterBinding.toDateText.setText("")
-                toQcDate=""
-
-                Toast.makeText(
-                    context,
-                    "From Date should not be less than 30 Days from To Date ",
-                    Toast.LENGTH_LONG
-                ).show()
-
-            }
-
 
         }
     }
