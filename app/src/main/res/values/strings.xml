@@ -208,7 +208,9 @@
     <string name="err_msg_old_new_price_should_not_same">Old MRP and New MRP should not be same</string>
 
     <string name="err_msg_purchace_price_diff">Purchase rate should be Less than MRP</string>
-    <string name="err_msg_mrp_price_validation">MRP should be les than 2,00,000</string>
+    <string name="err_msg_mrp_price_validation">MRP should be les than 5,00,000</string>
+    <string name="err_msg_purchase_rate_validation">Purchase rate should be les than 5,00,000</string>
+
     <string name="err_msg_purchace_price_old_new">Purchase rate should be Less than Old MRP and new MRP</string>
     <string name="err_msg_select_expiry_date">Please enter Expiry Date</string>
     <string name="err_msg_upload_front_image">Please upload front image</string>

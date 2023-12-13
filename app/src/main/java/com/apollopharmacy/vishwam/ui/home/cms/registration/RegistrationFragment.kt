@@ -690,6 +690,26 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         val expiryDate = viewBinding.expireDateExpire.text.toString().trim()
         val reason = viewBinding.selectRemarks.text.toString().trim()
 
+        var vmMrp = 200000
+        var purchaseRate = 200000
+        if (employeeDetailsResponse != null
+            && employeeDetailsResponse!!.data != null
+            && employeeDetailsResponse!!.data!!.vmGlobalConfig != null
+            && employeeDetailsResponse!!.data!!.vmGlobalConfig!!.size > 0
+        ) {
+            for (i in employeeDetailsResponse!!.data!!.vmGlobalConfig!!) {
+                if (i.key.equals("vm_mrp")) {
+                    if (!i.value.isNullOrEmpty()) {
+                        vmMrp = i.value!!.toInt()
+                    }
+                }
+                if (i.key.equals("vm_purchase_rate")) {
+                    if (!i.value.isNullOrEmpty()) {
+                        purchaseRate = i.value!!.toInt()
+                    }
+                }
+            }
+        }
 
         if (departmentName.isEmpty()) {
             showErrorMsg(context?.resources?.getString(R.string.err_msg_select_department))
@@ -762,13 +782,16 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     if (mrpPrice.toDouble() < purchasePrice.toDouble()) {
                         showErrorMsg(context?.resources?.getString(R.string.err_msg_purchace_price_diff))
                         return false
-                    } else if (mrpPrice.toDouble() > 200000) {
-                        showErrorMsg(context?.resources?.getString(R.string.err_msg_mrp_price_validation))
+                    } else if (mrpPrice.toDouble() > vmMrp) {
+                        showErrorMsg("MRP should be les than ${vmMrp}")
                         return false
                     }
                 } else {
                     if (purchasePrice.toDouble() > mrpPrice.toDouble()) {
                         showErrorMsg(context?.resources?.getString(R.string.err_msg_price_diff))
+                        return false
+                    } else if (purchasePrice.toDouble() > purchaseRate) {
+                        showErrorMsg("Purchase rate should be les than ${purchaseRate}")
                         return false
                     }
                 }

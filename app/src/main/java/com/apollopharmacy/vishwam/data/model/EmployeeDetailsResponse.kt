@@ -51,7 +51,23 @@ class EmployeeDetailsResponse : Serializable {
         @Expose
         var enableMarketingDashboard: EnableMarketingDashboard? = null
 
+        @SerializedName("vm_global_config")
+        @Expose
+        var vmGlobalConfig: List<VmGlobalConfig>? = null
 
+        /*"vm_global_config": [
+        {
+            "uid": "E837547753C62FD287A5EFC47C7482C7",
+            "key": "vm_purchase_rate",
+            "name": "Purchase Rate",
+            "value": "500000"
+        },
+        {
+            "uid": "64D9D9BE4A621E9C13A2C73404646655",
+            "key": "vm_mrp",
+            "name": "MRP",
+            "value": "500000"
+        }*/
         /* "enable_marketing_dashboard": {
              "uid": "No",
              "name": "No",
@@ -262,6 +278,38 @@ class EmployeeDetailsResponse : Serializable {
 
         }
 
+        class VmGlobalConfig {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+
+            @SerializedName("key")
+            @Expose
+            var key: String? = null
+
+            @SerializedName("value")
+            @Expose
+            var value: String? = null
+
+        }
+
+        /*"vm_global_config": [
+                {
+                    "uid": "E837547753C62FD287A5EFC47C7482C7",
+                    "key": "vm_purchase_rate",
+                    "name": "Purchase Rate",
+                    "value": "500000"
+                },
+                {
+                    "uid": "64D9D9BE4A621E9C13A2C73404646655",
+                    "key": "vm_mrp",
+                    "name": "MRP",
+                    "value": "500000"
+                }*/
         class Other {
             @SerializedName("color")
             @Expose
