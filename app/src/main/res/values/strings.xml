@@ -509,5 +509,10 @@
     <string name="label_vishwam_dashboard">Vishwam Dashboard</string>
     <string name="label_no_module_found">No Module Found</string>
     <string name="label_no_list_found">No List Found</string>
+    <string name="stringservices">Services</string>
+    <string name="stringcustomer_interaction">Customer Interaction</string>
+    <string name="stringsearch_by_request_id">Search by request ID</string>
+    <string name="stringid">ID:</string>
+    <string name="string32564">32564</string>
 
 </resources>
