@@ -87,7 +87,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     val MARKETING_TASK_LIST: ArrayList<String> = ArrayList()
     var fileUploadModelList = ArrayList<AttendenceFileUploadModel>()
     var imageUrlsList = ArrayList<String>()
-
+    val MARKETING_SUBTASK_LIST: ArrayList<String> = ArrayList()
     var lastLogDateTime: String = ""
     var taskAlreadyAvailable: Boolean = false
     var taskAvailableId: String = ""
@@ -110,10 +110,9 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     private lateinit var siteId: TextInputLayout
     private lateinit var marketingTaskSpinner: Spinner
     private lateinit var imageRecycleView: RecyclerView
-    private lateinit var marketingSubBranch: TextInputLayout
+    private lateinit var marketingSubBranchSpinner: Spinner
     private lateinit var description: TextInputLayout
     private lateinit var captureLayout: LinearLayout
-    private lateinit var marketingText: EditText
     var subTaskName: String = ""
     var imageUrls: String = ""
     private lateinit var closeIcon: ImageView
@@ -193,18 +192,38 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 marketingTaskSpinner = dialog.findViewById<Spinner>(R.id.marketing_spinner)
                 doctorId = dialog.findViewById<TextInputLayout>(R.id.doctornameAttendence)
                 cameraIcon = dialog.findViewById<ImageView>(R.id.addImage)
-                siteId = dialog.findViewById<TextInputLayout>(R.id.siteIdAttendence)
                 imageRecycleView = dialog.findViewById<RecyclerView>(R.id.imageRecyclerView)
-                marketingSubBranch = dialog.findViewById<TextInputLayout>(R.id.marketingAttendence)
+                marketingSubBranchSpinner = dialog.findViewById<Spinner>(R.id.sub_marketing_spinner)
                 description = dialog.findViewById<TextInputLayout>(R.id.description)
                 descriptionText = dialog.findViewById<EditText>(R.id.descriptionText)
 
                 captureLayout = dialog.findViewById<LinearLayout>(R.id.capture_upload_layout)
-                marketingText = dialog.findViewById<EditText>(R.id.marketingIdSelectAttendence)
                 closeIcon = dialog.findViewById<ImageView>(R.id.close_icon)
 
 
+                marketingSubBranchSpinner.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            parentView: AdapterView<*>?,
+                            selectedItemView: View?,
+                            position: Int,
+                            id: Long,
+                        ) {
+                            // Get the selected item from the Spinner and update the TextView
+                            subTaskName = MARKETING_SUBTASK_LIST[position]!!
+                            if (subTaskName.equals("Select SubTask")){
 
+                            }else{
+                                captureLayout.visibility=View.VISIBLE
+                                description.visibility=View.VISIBLE
+                            }
+
+                        }
+
+                        override fun onNothingSelected(parentView: AdapterView<*>?) {
+                            // Do nothing if nothing is selected
+                        }
+                    }
 
 
 
@@ -217,20 +236,13 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                             requireContext(),
                             "You can only Capture up to 4 images",
                             Toast.LENGTH_SHORT
-                        ).show()}
-                    else{
+                        ).show()
+                    } else {
                         handleTaskCameraFunctionality()
 
                     }
                 }
-                marketingText.setOnClickListener {
 
-
-                    AttendenceSubTaskDialog().apply {
-                        arguments =
-                            AttendenceSubTaskDialog().generateParsedData(marketingSubTaskList)
-                    }.show(childFragmentManager, "")
-                }
                 siteIdText.setOnClickListener {
                     SiteDialogAttendence().apply {
                         arguments =
@@ -286,7 +298,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                         DEPT_TASK_LIST
                                     )
 
-                                    marketingText.visibility = View.GONE
+                                    marketingSubBranchSpinner.visibility = View.GONE
                                     description.visibility = View.GONE
                                     captureLayout.visibility = View.GONE
                                     marketingTaskSpinner.adapter = adapter
@@ -301,7 +313,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                     description.visibility = View.GONE
                                     captureLayout.visibility = View.GONE
 
-                                    marketingSubBranch.visibility = View.GONE
+                                    marketingSubBranchSpinner.visibility = View.GONE
                                     taskName = true
                                 } else {
                                     branchName = ""
@@ -312,7 +324,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                     description.visibility = View.GONE
                                     captureLayout.visibility = View.GONE
 
-                                    marketingSubBranch.visibility = View.GONE
+                                    marketingSubBranchSpinner.visibility = View.GONE
                                     marketingTaskSpinner.visibility = View.GONE
 
                                     doctorSpecialist.visibility = View.GONE
@@ -382,8 +394,6 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                             }
 
 
-                            marketingText.visibility = View.VISIBLE
-                            marketingText.setText("")
                             description.visibility = View.GONE
                             captureLayout.visibility = View.GONE
 
@@ -449,39 +459,9 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
 
                 signInLayout.setOnClickListener { v1: View? ->
-                    if (marketingText.text.toString().trim().isEmpty()) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Please select a subtask",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
 
-                        if (enteredTaskName.toLowerCase()
-                                .contains("marketing")) {
-                            if (imageList.size<1) {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Please Capture Image",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                for (i in imageList.distinct().indices) {
-                                    if (imageList[i].file != null) {
-                                        var fileUploadModel = AttendenceFileUploadModel()
-                                        fileUploadModel.file =
-                                            compresImageSize(imageList.get(i).file)
-//                            fileUploadModel.categoryId = i.categoryId
-                                        fileUploadModelList.add(fileUploadModel)
-                                    }
-                                }
-                                AttendenceFileUpload().uploadFiles(
-                                    requireContext(),
-                                    this,
-                                    fileUploadModelList, dialog
-                                )
-                            }
-                        } else if (!isDepartmentSelected) {
+
+                         if (!isDepartmentSelected) {
                             Toast.makeText(
                                 requireContext(),
                                 "Please select any department",
@@ -495,7 +475,44 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 Toast.LENGTH_SHORT
                             ).show()
                             return@setOnClickListener
-                        } else if (validationCheck()) {
+                        }
+
+                         else if (enteredTaskName.toLowerCase().contains("marketing")) {
+                             if (subTaskName.isEmpty()||subTaskName.equals("Select SubTask")) {
+                                 Toast.makeText(
+                                     requireContext(),
+                                     "Please select a subtask",
+                                     Toast.LENGTH_SHORT
+                                 ).show()
+                             }
+
+                             else if (imageList.size < 1) {
+                                 Toast.makeText(
+                                     requireContext(),
+                                     "Please Capture Image",
+                                     Toast.LENGTH_SHORT
+                                 ).show()
+                             }
+                             else {
+                                 for (i in imageList.distinct().indices) {
+                                     if (imageList[i].file != null) {
+                                         var fileUploadModel = AttendenceFileUploadModel()
+                                         fileUploadModel.file =
+                                             compresImageSize(imageList.get(i).file)
+//                            fileUploadModel.categoryId = i.categoryId
+                                         fileUploadModelList.add(fileUploadModel)
+                                     }
+                                 }
+                                 AttendenceFileUpload().uploadFiles(
+                                     requireContext(),
+                                     this,
+                                     fileUploadModelList, dialog
+                                 )
+                             }
+                         }
+
+
+                         else if (validationCheck()) {
 
                             Utils.printMessage("TAG", "Entered Task :: " + enteredTaskName)
                             if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -543,7 +560,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         }
                     }
                 }
-            }
+
         }
         viewBinding.capturedImg.setOnClickListener {
             handleCameraFunctionality()
@@ -632,17 +649,32 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         }
 
         viewModel.departmentSubTaskData.observe(viewLifecycleOwner) {
-            marketingSubTaskList.clear()
-            marketingText.setText("")
-
+            MARKETING_SUBTASK_LIST.clear()
             if (it.status!!) {
                 marketingSubTaskList =
-                    it.subtasklist as ArrayList<DepartmentSubTaskResponse.Subtask>
+                    it.subtasklist as java.util.ArrayList<DepartmentSubTaskResponse.Subtask>
+                MARKETING_SUBTASK_LIST.add("Select SubTask")
+                if (marketingSubTaskList.size > 0) {
+                    for (item in marketingSubTaskList) {
+                        MARKETING_SUBTASK_LIST.add(item.subtask!!)
+                    }
+
+                    marketingSubBranchSpinner.visibility = View.VISIBLE
+                    val adapter = ArrayAdapter(
+                        requireContext(),
+                        R.layout.view_spinner_item, R.id.spinner_text, MARKETING_SUBTASK_LIST
+                    )
+                    marketingSubBranchSpinner.adapter = adapter
+                } else {
+
+
+                    marketingSubBranchSpinner.visibility = View.GONE
+                }
+            } else {
+
+                marketingSubBranchSpinner.visibility = View.GONE
+                Toast.makeText(requireContext(), "Task list not found", Toast.LENGTH_SHORT).show()
             }
-
-            marketingSubBranch.visibility = View.VISIBLE
-
-
         }
 
         viewModel.departmentTaskData.observe(viewLifecycleOwner) {
@@ -1065,14 +1097,6 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 )
                     .show()
                 return false
-            } else if (marketingText.text.toString().trim().isEmpty()) {
-                Toast.makeText(
-                    requireContext(),
-                    "Please select a subtask",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-                return false
             }
         } else if (branchName.equals("BRANCH VISIT")) {
             val siteId = siteIdText.text.toString().trim()
@@ -1080,14 +1104,6 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 Toast.makeText(
                     requireContext(),
                     "Please Select Site Id",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-                return false
-            } else if (marketingText.text.toString().trim().isEmpty()) {
-                Toast.makeText(
-                    requireContext(),
-                    "Please select a subtask",
                     Toast.LENGTH_SHORT
                 )
                     .show()
@@ -1215,22 +1231,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             )
         dialogCurrentTime.text =
             getAttendanceCurrentDateNewFormat() + "\n" + getAttendanceCurrentDateNewFormatTime()
-//        Log.e("vaseem", timeCoversion12to24(lastLogDateTime.split(" ").get(1)).split(":").get(0))
 
-//        val simpleDateFormat = SimpleDateFormat("dd MMM yyyy, hh:mm a")
-//
-//        try {
-//            val date1 = simpleDateFormat.parse(getLastLoginDate(
-//                lastLogDateTime
-//            ))
-//            val date2 = simpleDateFormat.parse(getAttendanceCurrentDate())
-//            printDifference(date1, date2)
-//        } catch (e: ParseException) {
-//            e.printStackTrace()
-//        }
-//        getDurationTimeSec(getAttendanceCurrentDate(), getLastLoginDate(
-//            lastLogDateTime
-//        ))
         var timeDuration =
             printDifferenceNav(
                 getAttendanceCurrentDateNew(), getLastLoginDateNewinSec(
@@ -1241,18 +1242,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         dialogDurationHrs.text = split[0] //lastLogDateTime.split(" ").get(1).split(":").get(0)
         dialogDurationMins.text = split[1] // lastLogDateTime.split(" ").get(1).split(":").get(1)
         dialogDurationSecs.text = split[2] //lastLogDateTime.split(" ").get(1).split(":").get(2)
-//        dialogDurationHrs.text = lastLogDateTime.split(" ").get(1).split(":").get(0)
-//        dialogDurationMins.text = lastLogDateTime.split(" ").get(1).split(":").get(1)
-//        dialogDurationSecs.text = lastLogDateTime.split(" ").get(1).split(":").get(2)
 
-//        dialogDurationTime.text =
-//            " " + lastLogDateTime.trimSubstring(9, 19).trimSubstring(
-//                0,
-//                2) + "   " + "   " + lastLogDateTime.trimSubstring(9,
-//                19).trimSubstring(3,
-//                5) + "    " + "   " + lastLogDateTime.trimSubstring(9,
-//                19).trimSubstring(6,
-//                8)
         dialogTitleText.text = resources.getString(R.string.label_logout_alert)
         okButton.text = resources.getString(R.string.label_ok)
 //        declineButton.text = resources.getString(R.string.label_cancel_text)
@@ -1419,22 +1409,22 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
 
     private fun compresImageSize(imageFromCameraFile: File): File {
-            val resizedImage = Resizer(requireContext())
-                .setTargetLength(1080)
-                .setQuality(100)
-                .setOutputFormat("JPG")
-                .setOutputDirPath(
-                    ViswamApp.context.cacheDir.toString()
-                )
-                .setSourceImage(imageFromCameraFile)
-                .resizedFile
-            return resizedImage
+        val resizedImage = Resizer(requireContext())
+            .setTargetLength(1080)
+            .setQuality(100)
+            .setOutputFormat("JPG")
+            .setOutputDirPath(
+                ViswamApp.context.cacheDir.toString()
+            )
+            .setSourceImage(imageFromCameraFile)
+            .resizedFile
+        return resizedImage
 
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 221) {
+        if (requestCode == 221&& imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
 
 
             imageList.add(Image(compresImageSize(imageFromCameraFile!!), "", ""))
@@ -1761,10 +1751,9 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
 
     override fun selectGST(gst: String) {
-        subTaskName = gst
-        marketingText.setText(gst)
-        description.visibility = View.VISIBLE
-        captureLayout.visibility = View.VISIBLE
+//        subTaskName = gst
+//        description.visibility = View.VISIBLE
+//        captureLayout.visibility = View.VISIBLE
     }
 
     override fun onFailureUpload(message: String) {
@@ -1787,7 +1776,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
 
         imageUrls = fileUploadModelList!!.mapNotNull {
-            it.fileDownloadResponse?.referenceurl
+            it.sensingFileUploadResponse?.referenceurl
         }.joinToString(", ")
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             showLoading()
