@@ -82,6 +82,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     var employeeID: String = ""
     var branchName: String = ""
     var imageList = ArrayList<Image>()
+    var reversedImageArrayList = ArrayList<Image>()
+
     lateinit var imageAdapter: AttendenceImageRecycleView
     private lateinit var cameraIcon: ImageView
     val MARKETING_TASK_LIST: ArrayList<String> = ArrayList()
@@ -92,6 +94,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     var taskAlreadyAvailable: Boolean = false
     var taskAvailableId: String = ""
     var REQUEST_CODE_CAMERA = 2234243
+    var REQUEST_CODE_MARKETING = 2234241
+
     var imageFromCameraFile: File? = null
     private var fileArrayList = ArrayList<ImageDataDto>()
     var imagePathToServer: String = ""
@@ -125,6 +129,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     private lateinit var siteIdText: EditText
     private lateinit var doctorId: TextInputLayout
     private lateinit var doctorText: EditText
+    var isFirstTime: Boolean = false
 
     var isDepartmentSelected: Boolean = false
     var isDepartmentTaskSelected: Boolean = false
@@ -211,11 +216,11 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         ) {
                             // Get the selected item from the Spinner and update the TextView
                             subTaskName = MARKETING_SUBTASK_LIST[position]!!
-                            if (subTaskName.equals("Select SubTask")){
+                            if (subTaskName.equals("Select SubTask")) {
 
-                            }else{
-                                captureLayout.visibility=View.VISIBLE
-                                description.visibility=View.VISIBLE
+                            } else {
+                                captureLayout.visibility = View.VISIBLE
+                                description.visibility = View.VISIBLE
                             }
 
                         }
@@ -464,41 +469,36 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                     if (!isDepartmentSelected) {
                         Toast.makeText(
                             requireContext(),
-                            "Please select any department",
+                            "Please Select Department",
                             Toast.LENGTH_SHORT
                         ).show()
                         return@setOnClickListener
                     } else if (DEPT_TASK_LIST.size > 0 && !isDepartmentTaskSelected) {
                         Toast.makeText(
                             requireContext(),
-                            "Please select any Task name",
+                            "Please Select Task",
                             Toast.LENGTH_SHORT
                         ).show()
                         return@setOnClickListener
-                    }
-
-                    else if (enteredTaskName.toLowerCase().contains("marketing")) {
-                        if (subTaskName.isEmpty()||subTaskName.equals("Select SubTask")) {
+                    } else if (enteredTaskName.toLowerCase().contains("marketing")) {
+                        if (subTaskName.isEmpty() || subTaskName.equals("Select SubTask")) {
                             Toast.makeText(
                                 requireContext(),
-                                "Please select a subtask",
+                                "Please Select Subtask",
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }
-
-                        else if (imageList.size < 1) {
+                        } else if (reversedImageArrayList.size < 1) {
                             Toast.makeText(
                                 requireContext(),
                                 "Please Capture Image",
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }
-                        else {
-                            for (i in imageList.distinct().indices) {
-                                if (imageList[i].file != null) {
+                        } else {
+                            for (i in reversedImageArrayList.distinct().indices) {
+                                if (reversedImageArrayList[i].file != null) {
                                     var fileUploadModel = AttendenceFileUploadModel()
                                     fileUploadModel.file =
-                                        compresImageSize(imageList.get(i).file)
+                                        compresImageSize(reversedImageArrayList.get(i).file)
 //                            fileUploadModel.categoryId = i.categoryId
                                     fileUploadModelList.add(fileUploadModel)
                                 }
@@ -509,10 +509,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 fileUploadModelList, dialog
                             )
                         }
-                    }
-
-
-                    else if (validationCheck()) {
+                    } else if (validationCheck()) {
 
                         Utils.printMessage("TAG", "Entered Task :: " + enteredTaskName)
                         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -600,6 +597,19 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
         viewModel.lastLoginData.observe(viewLifecycleOwner, Observer {
             if (it.status) {
+                if (isFirstTime){
+                    if (it.lastLoginDate!!.isNotEmpty()&& it.lastLogoutDate!!.isNotEmpty()){
+                        Toast.makeText(requireContext(), "Sucessfully Logout", Toast.LENGTH_SHORT).show()
+
+                    }else if (it.lastLogoutDate.isNullOrEmpty()){
+                        Toast.makeText(requireContext(), "Sucessfully Login", Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+                else{
+                    isFirstTime=true
+                }
+
                 if (it.lastLogoutDate.isNullOrEmpty()) {
                     lastLogDateTime = it.lastLoginDate.toString()
                     handleLogInOutStatus(true)
@@ -1231,22 +1241,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             )
         dialogCurrentTime.text =
             getAttendanceCurrentDateNewFormat() + "\n" + getAttendanceCurrentDateNewFormatTime()
-//        Log.e("vaseem", timeCoversion12to24(lastLogDateTime.split(" ").get(1)).split(":").get(0))
 
-//        val simpleDateFormat = SimpleDateFormat("dd MMM yyyy, hh:mm a")
-//
-//        try {
-//            val date1 = simpleDateFormat.parse(getLastLoginDate(
-//                lastLogDateTime
-//            ))
-//            val date2 = simpleDateFormat.parse(getAttendanceCurrentDate())
-//            printDifference(date1, date2)
-//        } catch (e: ParseException) {
-//            e.printStackTrace()
-//        }
-//        getDurationTimeSec(getAttendanceCurrentDate(), getLastLoginDate(
-//            lastLogDateTime
-//        ))
         var timeDuration =
             printDifferenceNav(
                 getAttendanceCurrentDateNew(), getLastLoginDateNewinSec(
@@ -1449,49 +1444,115 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 221&& imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
-
-
-            imageList.add(Image(compresImageSize(imageFromCameraFile!!), "", ""))
-            imageList.reverse()
-
-            imageAdapter = AttendenceImageRecycleView(requireContext(), imageList, this)
-            imageRecycleView.adapter = imageAdapter
-
-        } else if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
-            isPermissionAsked = false
-            fileArrayList.add(ImageDataDto(imageFromCameraFile!!, ""))
-            viewBinding.capturedImageLayout.visibility = View.VISIBLE
-            viewBinding.capturedImg.setImageURI(Uri.fromFile(imageFromCameraFile!!))
-            viewBinding.captureBtnLayout.visibility = View.GONE
-            viewBinding.submitBtnLayout.visibility = View.VISIBLE
-            viewBinding.cameraIcon.visibility = View.GONE
-            viewBinding.deleteImage.visibility = View.VISIBLE
-            viewBinding.submitBtnLayout.setBackgroundColor(Color.parseColor("#045a71"))
-
-//            if (imageFromCameraFile == null) {
-//                // Image is null, set button color to grey
-//                viewBinding.submitBtnLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey))
-//            } else {
-//                // Image is not null, set button color to blue
-//                viewBinding.submitBtnLayout.setBackgroundColor(Color.parseColor("#045a71"))
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        if (requestCode == REQUEST_CODE_MARKETING) {
+//            if (requestCode == REQUEST_CODE_MARKETING && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
+//
+//                // Assuming that the compresImageSize function returns the correct data
+//                imageList.add(Image(compresImageSize(imageFromCameraFile!!), "", ""))
+//
+//                // Reverse the order of images in the list
+//                val reversedImageList = imageList.reversed()
+//
+//                // Convert the reversed list to ArrayList
+//                reversedImageArrayList = ArrayList(reversedImageList)
+//                // Create or update the adapter with the reversed list
+//                imageAdapter =
+//                    AttendenceImageRecycleView(requireContext(), reversedImageArrayList, this)
+//
+//                // Set the adapter to the RecyclerView
+//                imageRecycleView.adapter = imageAdapter
 //            }
-
-//            viewBinding.signInOutParentLayout.visibility = View.VISIBLE
-//            viewBinding.taskInfoLayout.visibility = View.GONE
-//            viewBinding.submitBtnLayout.visibility = View.GONE
-            viewBinding.singInLayout.visibility = View.GONE
-        } else if (requestCode == LOCATION_PERMISSION_REQUEST) {
+//
+//        } else if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
+//            isPermissionAsked = false
+//            fileArrayList.add(ImageDataDto(imageFromCameraFile!!, ""))
+//            viewBinding.capturedImageLayout.visibility = View.VISIBLE
+//            viewBinding.capturedImg.setImageURI(Uri.fromFile(imageFromCameraFile!!))
+//            viewBinding.captureBtnLayout.visibility = View.GONE
+//            viewBinding.submitBtnLayout.visibility = View.VISIBLE
+//            viewBinding.cameraIcon.visibility = View.GONE
+//            viewBinding.deleteImage.visibility = View.VISIBLE
+//            viewBinding.submitBtnLayout.setBackgroundColor(Color.parseColor("#045a71"))
+//
+////            if (imageFromCameraFile == null) {
+////                // Image is null, set button color to grey
+////                viewBinding.submitBtnLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey))
+////            } else {
+////                // Image is not null, set button color to blue
+////                viewBinding.submitBtnLayout.setBackgroundColor(Color.parseColor("#045a71"))
+////            }
+//
+////            viewBinding.signInOutParentLayout.visibility = View.VISIBLE
+////            viewBinding.taskInfoLayout.visibility = View.GONE
+////            viewBinding.submitBtnLayout.visibility = View.GONE
+//            viewBinding.singInLayout.visibility = View.GONE
+//        } else if (requestCode == LOCATION_PERMISSION_REQUEST) {
+//            if (resultCode == Activity.RESULT_OK) {
+//                isGPSEnabled = true
+//                startLocationUpdates()
+//            }
+//        } else {
+//            // viewBinding.singInLayout.visibility = View.VISIBLE
+//        }
+//        // super.onActivityResult(requestCode, resultCode, data)
+//
+//    }
+override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    when (requestCode) {
+        REQUEST_CODE_MARKETING -> handleMarketingResult(resultCode)
+        REQUEST_CODE_CAMERA -> handleCameraResult(resultCode)
+         LOCATION_PERMISSION_REQUEST->
             if (resultCode == Activity.RESULT_OK) {
                 isGPSEnabled = true
                 startLocationUpdates()
             }
-        } else {
-            // viewBinding.singInLayout.visibility = View.VISIBLE
+               // Add more cases if needed
+        else -> {
+            // Handle other cases or remove this block if not needed
         }
-        // super.onActivityResult(requestCode, resultCode, data)
+    }
+}
 
+    private fun handleMarketingResult(resultCode: Int) {
+        if (resultCode == Activity.RESULT_OK && imageFromCameraFile != null) {
+            // Assuming that the compresImageSize function returns the correct data
+            imageList.add(Image(compresImageSize(imageFromCameraFile!!), "", ""))
+
+            // Reverse the order of images in the list
+            val reversedImageList = imageList.reversed()
+
+            // Convert the reversed list to ArrayList
+            reversedImageArrayList = ArrayList(reversedImageList)
+
+            // Create or update the adapter with the reversed list
+            imageAdapter = AttendenceImageRecycleView(requireContext(), reversedImageArrayList, this)
+
+            // Set the adapter to the RecyclerView
+            imageRecycleView.adapter = imageAdapter
+
+            // Move the UI update code inside this block
+            updateUIForCapturedImage()
+        }
+    }
+
+    private fun handleCameraResult(resultCode: Int) {
+        if (resultCode == Activity.RESULT_OK && imageFromCameraFile != null) {
+            isPermissionAsked = false
+            fileArrayList.add(ImageDataDto(imageFromCameraFile!!, ""))
+            updateUIForCapturedImage()
+        }
+    }
+
+    private fun updateUIForCapturedImage() {
+        viewBinding.capturedImageLayout.visibility = View.VISIBLE
+        viewBinding.capturedImg.setImageURI(Uri.fromFile(imageFromCameraFile!!))
+        viewBinding.captureBtnLayout.visibility = View.GONE
+        viewBinding.submitBtnLayout.visibility = View.VISIBLE
+        viewBinding.cameraIcon.visibility = View.GONE
+        viewBinding.deleteImage.visibility = View.VISIBLE
+        viewBinding.submitBtnLayout.setBackgroundColor(Color.parseColor("#045a71"))
+        viewBinding.singInLayout.visibility = View.GONE
     }
 
     private fun handleCameraFunctionality() {
@@ -1512,6 +1573,11 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         if (requestCode == REQUEST_CODE_CAMERA) {
             if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCamera()
+            }
+        }
+        else if (requestCode == REQUEST_CODE_MARKETING) {
+            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openTaskCamera()
             }
         }
     }
@@ -1697,7 +1763,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivityForResult(intent, 221)
+        startActivityForResult(intent, REQUEST_CODE_MARKETING)
     }
 
     override fun deleteImage(position: Int) {
@@ -1717,7 +1783,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         dialogBinding?.yesBtn?.setOnClickListener {
 
 
-            imageList.removeAt(position)
+            reversedImageArrayList.removeAt(position)
 
             imageAdapter.notifyDataSetChanged()
             customDialog.dismiss()
@@ -1758,7 +1824,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     private fun handleTaskCameraFunctionality() {
         viewBinding.onCaptureClick = true
         if (!checkPermission()) {
-            askPermissions(REQUEST_CODE_CAMERA)
+            askPermissions(REQUEST_CODE_MARKETING)
             return
         } else
             openTaskCamera()
@@ -1822,6 +1888,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 )
             )
             imageList.clear()
+            reversedImageArrayList.clear()
             fileUploadModelList.clear()
             descriptionText.setText("")
             dialog.dismiss()

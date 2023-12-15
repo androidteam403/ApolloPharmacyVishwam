@@ -351,7 +351,7 @@
     <string name="label_close_task">Close existing task, before creating new task.</string>
     <string name="err_task">Task should not be empty</string>
     <string name="label_logout">Logout</string>
-    <string name="label_logout_alert">Are you sure want to Logout?</string>
+    <string name="label_logout_alert">Are you sure want to Sign Out?</string>
     <string name="label_ok">OK</string>
 
     <string name="label_task">Task:</string>

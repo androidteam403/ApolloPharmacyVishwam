@@ -1,8 +1,13 @@
 package com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.adrenalin.attendance
 
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config.CONTAINER_NAME
 import com.apollopharmacy.vishwam.data.Config.STORAGE_CONNECTION_FOR_CCR_APP
 import com.apollopharmacy.vishwam.data.Preferences
@@ -466,3 +471,5 @@ sealed class AttendanceCommand {
 
     data class RefreshPageOnSuccess(val status: Boolean, val message: String) : AttendanceCommand()
 }
+
+

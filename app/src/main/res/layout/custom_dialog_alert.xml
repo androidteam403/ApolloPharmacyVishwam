@@ -28,7 +28,7 @@
                 android:paddingStart="12dp"
                 android:paddingTop="@dimen/value_8dp"
                 android:paddingBottom="5dp"
-                android:text="@string/label_logout"
+                android:text="Sign Out"
                 android:textColor="@color/white_for_both"
                 android:textSize="17sp" />
 
@@ -341,7 +341,7 @@
                 android:paddingTop="@dimen/value_5dp"
                 android:paddingEnd="@dimen/value_30dp"
                 android:paddingBottom="@dimen/value_10dp"
-                android:text="Are you sure want to logout?"
+                android:text="Are you sure want to Sign Out?"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_12sp" />
 
