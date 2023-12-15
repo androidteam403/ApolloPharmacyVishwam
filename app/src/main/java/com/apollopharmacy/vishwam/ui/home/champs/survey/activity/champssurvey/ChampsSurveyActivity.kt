@@ -368,6 +368,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                         "Enter valid email",
                         Toast.LENGTH_SHORT
                     ).show()
+                } else if(surveyRecManualList.contains(recipientEmail)){
+                    Toast.makeText(
+                        applicationContext,
+                        "Email id is already used",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
                     activityChampsSurveyBinding.enterRecipient.text!!.clear()
                     surveyRecManualList.add(recipientEmail)
@@ -840,7 +846,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     }
 
     override fun onClickCalender() {
-        if (status.equals("NEW") || status.equals("PENDING")) {
+        if (status.equals("NEW")) {
             val uploadStatusFilterDialog = this?.let { Dialog(this) }
             dialogFilterUploadBinding =
                 DataBindingUtil.inflate(
@@ -909,20 +915,39 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     object : TimePickerDialog.OnTimeSetListener {
                         @SuppressLint("SetTextI18n")
                         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-                            val amPm: String
-                            if (hourOfDay >= 12) {
-                                amPm = "PM"
-//                            hourOfDay -= 12
+                                val selectedTime = Calendar.getInstance()
+                            selectedTime[Calendar.HOUR_OF_DAY] = hourOfDay
+                            selectedTime[Calendar.MINUTE] = minute
+
+                            val currentTime = Calendar.getInstance()
+
+                            if (selectedTime.after(currentTime)) {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Cannot select future time.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                // Optionally reset to current time or handle accordingly
                             } else {
-                                amPm = "AM"
+                                val amPm = if (hourOfDay >= 12) "PM" else "AM"
+                                val simpleDateFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+                                val formattedTime = simpleDateFormat.format(selectedTime.time)
+                                dialogFilterUploadBinding!!.durationTexthrs.text = formattedTime
                             }
-                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                            calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
-                            val formattedTime = simpleDateFormat.format(calendar.time)
-                            dialogFilterUploadBinding!!.durationTexthrs.setText(
-                                formattedTime.toString()
-                            )
+//                            val amPm: String
+//                            if (hourOfDay >= 12) {
+//                                amPm = "PM"
+////                            hourOfDay -= 12
+//                            } else {
+//                                amPm = "AM"
+//                            }
+//                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+//                            calendar.set(Calendar.MINUTE, minute)
+//                            val simpleDateFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+//                            val formattedTime = simpleDateFormat.format(calendar.time)
+//                            dialogFilterUploadBinding!!.durationTexthrs.setText(
+//                                formattedTime.toString()
+//                            )
 
 //                        Toast.makeText(applicationContext, dialogFilterUploadBinding!!.durationTexthrs.text.toString(), Toast.LENGTH_SHORT).show()
                         }
