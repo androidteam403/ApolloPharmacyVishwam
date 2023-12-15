@@ -5,16 +5,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.apollopharmacy.vishwam.R;
-import com.apollopharmacy.vishwam.ui.rider.listeners.DialogMangerCallback;
 
 public class DialogManager {
 
@@ -32,34 +27,7 @@ public class DialogManager {
 
 
 
-    public static void showSingleBtnPopup(final Context mContext,
-                                          final DialogMangerCallback mDialoginterface, String mTitle,
-                                          String mMessage, String mBtnTxt) {
 
-        mDialog = getDialog(mContext, R.layout.popup_single_btn);
-        mDialog.setCancelable(false);
-        mDialog.setCanceledOnTouchOutside(false);
-
-        ViewGroup root = mDialog.findViewById(R.id.parent_view_for_font);
-
-        mDialogAlertTxt = mDialog.findViewById(R.id.alert_text);
-        mDialogTitleTxt = mDialog.findViewById(R.id.header_txt);
-
-        mDialogBtn = mDialog.findViewById(R.id.process_btn);
-        mDialogCancelBtn = mDialog.findViewById(R.id.cancel_btn);
-        mDialogCancelBtn.setVisibility(View.GONE);
-        mDialogTitleTxt.setText(mTitle);
-        mDialogAlertTxt.setText(getMessage(mMessage));
-        mDialogBtn.setText(mBtnTxt);
-
-        mDialogBtn.setOnClickListener(v -> {
-            mDialog.dismiss();
-            if(mDialoginterface != null)
-                mDialoginterface.onOkClick(v);
-        });
-
-        mDialog.show();
-    }
 
     public static Dialog getDialog(Context mContext, int mLayout) {
         Dialog mDialog = new Dialog(mContext);

@@ -25,7 +25,6 @@ import com.apollopharmacy.vishwam.ui.home.MenuItemAdapter
 import com.apollopharmacy.vishwam.ui.home.MenuModel
 import com.apollopharmacy.vishwam.ui.home.notification.NotificationsActivity
 import com.apollopharmacy.vishwam.ui.home.notification.model.NotificationModelResponse
-import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import java.text.SimpleDateFormat
@@ -832,9 +831,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         }
     }
 
-    fun getDataManager(): SessionManager {
-        return SessionManager(context);
-    }
+
 
     override fun onFialureMessage(message: String) {
 
