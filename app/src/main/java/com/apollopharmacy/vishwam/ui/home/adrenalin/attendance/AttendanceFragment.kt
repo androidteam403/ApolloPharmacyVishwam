@@ -461,105 +461,105 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 signInLayout.setOnClickListener { v1: View? ->
 
 
-                         if (!isDepartmentSelected) {
+                    if (!isDepartmentSelected) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Please select any department",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setOnClickListener
+                    } else if (DEPT_TASK_LIST.size > 0 && !isDepartmentTaskSelected) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Please select any Task name",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setOnClickListener
+                    }
+
+                    else if (enteredTaskName.toLowerCase().contains("marketing")) {
+                        if (subTaskName.isEmpty()||subTaskName.equals("Select SubTask")) {
                             Toast.makeText(
                                 requireContext(),
-                                "Please select any department",
+                                "Please select a subtask",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            return@setOnClickListener
-                        } else if (DEPT_TASK_LIST.size > 0 && !isDepartmentTaskSelected) {
-                            Toast.makeText(
-                                requireContext(),
-                                "Please select any Task name",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            return@setOnClickListener
                         }
 
-                         else if (enteredTaskName.toLowerCase().contains("marketing")) {
-                             if (subTaskName.isEmpty()||subTaskName.equals("Select SubTask")) {
-                                 Toast.makeText(
-                                     requireContext(),
-                                     "Please select a subtask",
-                                     Toast.LENGTH_SHORT
-                                 ).show()
-                             }
-
-                             else if (imageList.size < 1) {
-                                 Toast.makeText(
-                                     requireContext(),
-                                     "Please Capture Image",
-                                     Toast.LENGTH_SHORT
-                                 ).show()
-                             }
-                             else {
-                                 for (i in imageList.distinct().indices) {
-                                     if (imageList[i].file != null) {
-                                         var fileUploadModel = AttendenceFileUploadModel()
-                                         fileUploadModel.file =
-                                             compresImageSize(imageList.get(i).file)
+                        else if (imageList.size < 1) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Please Capture Image",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else {
+                            for (i in imageList.distinct().indices) {
+                                if (imageList[i].file != null) {
+                                    var fileUploadModel = AttendenceFileUploadModel()
+                                    fileUploadModel.file =
+                                        compresImageSize(imageList.get(i).file)
 //                            fileUploadModel.categoryId = i.categoryId
-                                         fileUploadModelList.add(fileUploadModel)
-                                     }
-                                 }
-                                 AttendenceFileUpload().uploadFiles(
-                                     requireContext(),
-                                     this,
-                                     fileUploadModelList, dialog
-                                 )
-                             }
-                         }
+                                    fileUploadModelList.add(fileUploadModel)
+                                }
+                            }
+                            AttendenceFileUpload().uploadFiles(
+                                requireContext(),
+                                this,
+                                fileUploadModelList, dialog
+                            )
+                        }
+                    }
 
 
-                         else if (validationCheck()) {
+                    else if (validationCheck()) {
 
-                            Utils.printMessage("TAG", "Entered Task :: " + enteredTaskName)
-                            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                                if (locationLatitude.isNotEmpty() && locationLongitude.isNotEmpty()
-                                ) {
-                                    if (NetworkUtil.isNetworkConnected(requireContext())) {
-                                        showLoading()
-                                        viewModel.taskInsertUpdateService(
-                                            TaskInfoReq(
-                                                enteredTaskName,
-                                                employeeID,
-                                                "",
-                                                locationLatitude,
-                                                locationLongitude,
-                                                "SIGNIN",
-                                                getAttendanceCity(
-                                                    requireContext(),
-                                                    locationLatitude.toDouble(),
-                                                    locationLongitude.toDouble()
-                                                ),
-                                                descriptionText.text.toString(),
-                                                siteIds,
-                                                doctorNAme,
-                                                imageUrls,
-                                                subTaskName
-                                            )
+                        Utils.printMessage("TAG", "Entered Task :: " + enteredTaskName)
+                        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                            if (locationLatitude.isNotEmpty() && locationLongitude.isNotEmpty()
+                            ) {
+                                if (NetworkUtil.isNetworkConnected(requireContext())) {
+                                    showLoading()
+                                    viewModel.taskInsertUpdateService(
+                                        TaskInfoReq(
+                                            enteredTaskName,
+                                            employeeID,
+                                            "",
+                                            locationLatitude,
+                                            locationLongitude,
+                                            "SIGNIN",
+                                            getAttendanceCity(
+                                                requireContext(),
+                                                locationLatitude.toDouble(),
+                                                locationLongitude.toDouble()
+                                            ),
+                                            descriptionText.text.toString(),
+                                            siteIds,
+                                            doctorNAme,
+                                            imageUrls,
+                                            subTaskName
                                         )
-                                        dialog.dismiss()
-                                    } else {
-                                        Toast.makeText(
-                                            requireContext(),
-                                            context?.resources?.getString(R.string.label_network_error),
-                                            Toast.LENGTH_SHORT
-                                        )
-                                            .show()
-                                    }
+                                    )
+                                    dialog.dismiss()
                                 } else {
-                                    (activity as MainActivity).initPermission()
-                                    (activity as MainActivity).startLocationUpdates()
+                                    Toast.makeText(
+                                        requireContext(),
+                                        context?.resources?.getString(R.string.label_network_error),
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
                                 }
                             } else {
                                 (activity as MainActivity).initPermission()
                                 (activity as MainActivity).startLocationUpdates()
                             }
+                        } else {
+                            (activity as MainActivity).initPermission()
+                            (activity as MainActivity).startLocationUpdates()
                         }
                     }
                 }
+            }
 
         }
         viewBinding.capturedImg.setOnClickListener {
@@ -1231,7 +1231,22 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             )
         dialogCurrentTime.text =
             getAttendanceCurrentDateNewFormat() + "\n" + getAttendanceCurrentDateNewFormatTime()
+//        Log.e("vaseem", timeCoversion12to24(lastLogDateTime.split(" ").get(1)).split(":").get(0))
 
+//        val simpleDateFormat = SimpleDateFormat("dd MMM yyyy, hh:mm a")
+//
+//        try {
+//            val date1 = simpleDateFormat.parse(getLastLoginDate(
+//                lastLogDateTime
+//            ))
+//            val date2 = simpleDateFormat.parse(getAttendanceCurrentDate())
+//            printDifference(date1, date2)
+//        } catch (e: ParseException) {
+//            e.printStackTrace()
+//        }
+//        getDurationTimeSec(getAttendanceCurrentDate(), getLastLoginDate(
+//            lastLogDateTime
+//        ))
         var timeDuration =
             printDifferenceNav(
                 getAttendanceCurrentDateNew(), getLastLoginDateNewinSec(
@@ -1242,7 +1257,18 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         dialogDurationHrs.text = split[0] //lastLogDateTime.split(" ").get(1).split(":").get(0)
         dialogDurationMins.text = split[1] // lastLogDateTime.split(" ").get(1).split(":").get(1)
         dialogDurationSecs.text = split[2] //lastLogDateTime.split(" ").get(1).split(":").get(2)
+//        dialogDurationHrs.text = lastLogDateTime.split(" ").get(1).split(":").get(0)
+//        dialogDurationMins.text = lastLogDateTime.split(" ").get(1).split(":").get(1)
+//        dialogDurationSecs.text = lastLogDateTime.split(" ").get(1).split(":").get(2)
 
+//        dialogDurationTime.text =
+//            " " + lastLogDateTime.trimSubstring(9, 19).trimSubstring(
+//                0,
+//                2) + "   " + "   " + lastLogDateTime.trimSubstring(9,
+//                19).trimSubstring(3,
+//                5) + "    " + "   " + lastLogDateTime.trimSubstring(9,
+//                19).trimSubstring(6,
+//                8)
         dialogTitleText.text = resources.getString(R.string.label_logout_alert)
         okButton.text = resources.getString(R.string.label_ok)
 //        declineButton.text = resources.getString(R.string.label_cancel_text)

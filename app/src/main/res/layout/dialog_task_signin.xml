@@ -71,17 +71,17 @@
         android:layout_marginBottom="@dimen/value_15dp"
         android:background="@drawable/spinner_border"
         android:visibility="gone" />
-<!--    <Spinner-->
+    <!--    <Spinner-->
 
     <!--        android:id="@+id/site_spinner"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="@dimen/value_40dp"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="@dimen/value_40dp"-->
 
-<!--        android:layout_marginStart="@dimen/value_15dp"-->
-<!--        android:layout_marginEnd="@dimen/value_15dp"-->
-<!--        android:layout_marginBottom="@dimen/value_15dp"-->
-<!--        android:background="@drawable/spinner_border"-->
-<!--        android:visibility="visible" />-->
+    <!--        android:layout_marginStart="@dimen/value_15dp"-->
+    <!--        android:layout_marginEnd="@dimen/value_15dp"-->
+    <!--        android:layout_marginBottom="@dimen/value_15dp"-->
+    <!--        android:background="@drawable/spinner_border"-->
+    <!--        android:visibility="visible" />-->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/siteIdAttendence"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
