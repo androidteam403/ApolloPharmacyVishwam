@@ -312,6 +312,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                 }
                 else if(separatedStrings.size>0){
                     var allValid=true
+                    var noDuplicates=true
                     for(i in separatedStrings){
                         if(!Patterns.EMAIL_ADDRESS.matcher(i).matches()){
                             allValid=false
@@ -321,9 +322,12 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                                 "Enter valid email",
                                 Toast.LENGTH_SHORT
                             ).show()
+                        }else if(surveyRecManualList.contains(i)){
+                            noDuplicates=false
+                            Toast.makeText(this@SurveyDetailsActivity, "Email id is already used", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    if(allValid){
+                    if(allValid && noDuplicates){
                         activityStartSurvey2Binding.enterRecipient.text!!.clear()
                         surveyRecManualList.addAll(separatedStrings)
                         adapterRec!!.notifyDataSetChanged()
