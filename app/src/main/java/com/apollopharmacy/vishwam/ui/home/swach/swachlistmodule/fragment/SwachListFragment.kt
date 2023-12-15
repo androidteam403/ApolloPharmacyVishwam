@@ -55,7 +55,6 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     //    var pendingApprovedListAdapter: PendingApprovedListAdapter? = null
     private var pendingApprovedListAdapter: PendingApprovedListAdapter? = null
     private lateinit var pendingListAdapter: PendingListAdapter
-
     //    var pendingListAdapter: PendingListAdapter? = null
     var isFromDateSelected: Boolean = false
     var fromDate = String()
