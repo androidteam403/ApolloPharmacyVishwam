@@ -1332,39 +1332,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
 
 
-    private fun durationBetweenTwoDates(start: String, endDate: String) {
-        try {
-            val format = SimpleDateFormat("dd MMM yyyy, hh:mm a")
-            val date1 = format.parse(endDate)
-            val date2 = format.parse(start)
-            val mills = date1.time - date2.time
-            Log.v("Data1", "" + date1.time)
-            Log.v("Data2", "" + date2.time)
-            val hours = (mills / (1000 * 60 * 60)).toInt()
-            val mins = (mills % (1000 * 60 * 60)).toInt()
-
-            val diff = "$hours:$mins"
-        } catch (e: Exception) {
-
-        }
-
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun printDifference(startDate: Date, endDate: Date): String {
-        var different = endDate.time - startDate.time
-
-        val diff: Long = different //date1.getTime() - date2.getTime()
-        val seconds = diff / 1000
-        val minutes = seconds / 60
-        val hours = minutes / 60
-        val days = hours / 24
 
 
-        return "$hours-$minutes-$seconds"
-
-
-    }
 
 
     @SuppressLint("ObsoleteSdkInt")
@@ -1444,60 +1413,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        if (requestCode == REQUEST_CODE_MARKETING) {
-//            if (requestCode == REQUEST_CODE_MARKETING && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
-//
-//                // Assuming that the compresImageSize function returns the correct data
-//                imageList.add(Image(compresImageSize(imageFromCameraFile!!), "", ""))
-//
-//                // Reverse the order of images in the list
-//                val reversedImageList = imageList.reversed()
-//
-//                // Convert the reversed list to ArrayList
-//                reversedImageArrayList = ArrayList(reversedImageList)
-//                // Create or update the adapter with the reversed list
-//                imageAdapter =
-//                    AttendenceImageRecycleView(requireContext(), reversedImageArrayList, this)
-//
-//                // Set the adapter to the RecyclerView
-//                imageRecycleView.adapter = imageAdapter
-//            }
-//
-//        } else if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
-//            isPermissionAsked = false
-//            fileArrayList.add(ImageDataDto(imageFromCameraFile!!, ""))
-//            viewBinding.capturedImageLayout.visibility = View.VISIBLE
-//            viewBinding.capturedImg.setImageURI(Uri.fromFile(imageFromCameraFile!!))
-//            viewBinding.captureBtnLayout.visibility = View.GONE
-//            viewBinding.submitBtnLayout.visibility = View.VISIBLE
-//            viewBinding.cameraIcon.visibility = View.GONE
-//            viewBinding.deleteImage.visibility = View.VISIBLE
-//            viewBinding.submitBtnLayout.setBackgroundColor(Color.parseColor("#045a71"))
-//
-////            if (imageFromCameraFile == null) {
-////                // Image is null, set button color to grey
-////                viewBinding.submitBtnLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.grey))
-////            } else {
-////                // Image is not null, set button color to blue
-////                viewBinding.submitBtnLayout.setBackgroundColor(Color.parseColor("#045a71"))
-////            }
-//
-////            viewBinding.signInOutParentLayout.visibility = View.VISIBLE
-////            viewBinding.taskInfoLayout.visibility = View.GONE
-////            viewBinding.submitBtnLayout.visibility = View.GONE
-//            viewBinding.singInLayout.visibility = View.GONE
-//        } else if (requestCode == LOCATION_PERMISSION_REQUEST) {
-//            if (resultCode == Activity.RESULT_OK) {
-//                isGPSEnabled = true
-//                startLocationUpdates()
-//            }
-//        } else {
-//            // viewBinding.singInLayout.visibility = View.VISIBLE
-//        }
-//        // super.onActivityResult(requestCode, resultCode, data)
-//
-//    }
+
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     when (requestCode) {
         REQUEST_CODE_MARKETING -> handleMarketingResult(resultCode)
