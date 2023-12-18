@@ -884,7 +884,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
                 apnaPreviewActivityBinding.source.text = "CMS"
             }
         } else {
-            apnaPreviewActivityBinding.source.text = "-"
+            apnaPreviewActivityBinding.source.text = "CMS"
         }
         if (value.data!!.apartments != null && value.data!!.apartments!!.size > 0) {
 //            apnaPreviewActivityBinding.apartmentsHeader.visibility = View.VISIBLE
