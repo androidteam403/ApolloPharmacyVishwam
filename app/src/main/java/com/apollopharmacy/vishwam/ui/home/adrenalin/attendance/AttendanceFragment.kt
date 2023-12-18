@@ -82,7 +82,6 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     var employeeID: String = ""
     var branchName: String = ""
     var imageList = ArrayList<Image>()
-    var reversedImageArrayList = ArrayList<Image>()
 
     lateinit var imageAdapter: AttendenceImageRecycleView
     private lateinit var cameraIcon: ImageView
@@ -234,9 +233,11 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
                 closeIcon.setOnClickListener {
                     dialog.dismiss()
+                    imageList.clear()
                 }
                 cameraIcon.setOnClickListener {
-                    if (imageList.size >= 4) {
+                    if (imageList.size>= 4) {
+
                         Toast.makeText(
                             requireContext(),
                             "You can only Capture up to 4 images",
@@ -313,6 +314,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                     doctorId.visibility = View.GONE
 
                                 } else if (DEPT_LIST[position].equals("DR CONNECT")) {
+                                    imageList.clear()
+
                                     siteIdText.setText("")
                                     marketingTaskSpinner.visibility = View.GONE
                                     description.visibility = View.GONE
@@ -328,6 +331,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                     doctorId.visibility = View.GONE
                                     description.visibility = View.GONE
                                     captureLayout.visibility = View.GONE
+                                    imageList.clear()
 
                                     marketingSubBranchSpinner.visibility = View.GONE
                                     marketingTaskSpinner.visibility = View.GONE
@@ -412,6 +416,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 siteIdText.setText("")
                                 doctorText.setText("")
                                 doctorSpecialist.setText("")
+                                imageList.clear()
 
                                 doctorSpecialist.visibility = View.GONE
 
@@ -487,18 +492,18 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 "Please Select Subtask",
                                 Toast.LENGTH_SHORT
                             ).show()
-                        } else if (reversedImageArrayList.size < 1) {
+                        } else if (imageList.size < 1) {
                             Toast.makeText(
                                 requireContext(),
                                 "Please Capture Image",
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
-                            for (i in reversedImageArrayList.distinct().indices) {
-                                if (reversedImageArrayList[i].file != null) {
+                            for (i in imageList.distinct().indices) {
+                                if (imageList[i].file != null) {
                                     var fileUploadModel = AttendenceFileUploadModel()
                                     fileUploadModel.file =
-                                        compresImageSize(reversedImageArrayList.get(i).file)
+                                        compresImageSize(imageList.get(i).file)
 //                            fileUploadModel.categoryId = i.categoryId
                                     fileUploadModelList.add(fileUploadModel)
                                 }
@@ -1433,16 +1438,13 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
     private fun handleMarketingResult(resultCode: Int) {
         if (resultCode == Activity.RESULT_OK && imageFromCameraFile != null) {
             // Assuming that the compresImageSize function returns the correct data
-            imageList.add(Image(compresImageSize(imageFromCameraFile!!), "", ""))
+            val capturedImage = Image(compresImageSize(imageFromCameraFile!!), "", "")
 
-            // Reverse the order of images in the list
-            val reversedImageList = imageList.reversed()
-
-            // Convert the reversed list to ArrayList
-            reversedImageArrayList = ArrayList(reversedImageList)
+            // Add the captured image to the beginning of the list
+            imageList.add(0, capturedImage)
 
             // Create or update the adapter with the reversed list
-            imageAdapter = AttendenceImageRecycleView(requireContext(), reversedImageArrayList, this)
+            imageAdapter = AttendenceImageRecycleView(requireContext(), imageList, this)
 
             // Set the adapter to the RecyclerView
             imageRecycleView.adapter = imageAdapter
@@ -1699,7 +1701,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
         dialogBinding?.yesBtn?.setOnClickListener {
 
 
-            reversedImageArrayList.removeAt(position)
+            imageList.removeAt(position)
 
             imageAdapter.notifyDataSetChanged()
             customDialog.dismiss()
@@ -1804,7 +1806,6 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                 )
             )
             imageList.clear()
-            reversedImageArrayList.clear()
             fileUploadModelList.clear()
             descriptionText.setText("")
             dialog.dismiss()
