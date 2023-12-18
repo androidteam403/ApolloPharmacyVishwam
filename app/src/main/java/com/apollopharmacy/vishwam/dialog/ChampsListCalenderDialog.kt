@@ -45,9 +45,10 @@ class ChampsListCalenderDialog : DialogFragment() {
             putString(KEY_FROM_DATE,fromDate)
             putBoolean(KEY_IS_TO,isToDate)
             if(!visitDateValueChamps.isNullOrEmpty()){
-                putString(KEY_VISIT_DATE, visitDateValueChamps)
+                var modifiedValue = visitDateValueChamps.toInt()-1
+                putString(KEY_VISIT_DATE, modifiedValue.toString())
             }else{
-                putString(KEY_VISIT_DATE, "7")
+                putString(KEY_VISIT_DATE, "6")
             }
 
         }

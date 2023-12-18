@@ -28,7 +28,7 @@
                 android:paddingStart="12dp"
                 android:paddingTop="@dimen/value_8dp"
                 android:paddingBottom="5dp"
-                android:text="SignOut"
+                android:text="Sign Out"
                 android:textColor="@color/white_for_both"
                 android:textSize="17sp" />
 
