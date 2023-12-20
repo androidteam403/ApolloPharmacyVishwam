@@ -38,7 +38,7 @@ class ChampsListCalenderDialog : DialogFragment() {
         data: String,
         isToDate: Boolean,
         fromDate: String,
-        visitDateValueChamps: String
+        visitDateValueChamps: String,
     ): Bundle {
         return Bundle().apply {
             putString(KEY_DATA, data)
@@ -74,6 +74,11 @@ class ChampsListCalenderDialog : DialogFragment() {
 
 
         val calendar = Calendar.getInstance()
+        calendar[Calendar.HOUR_OF_DAY] = 0
+        calendar[Calendar.MINUTE] = 0
+        calendar[Calendar.SECOND] = 0
+        calendar[Calendar.MILLISECOND] = 0
+//        dataPickerBinding.datePicker.maxDate = calendar.timeInMillis
 //        calendar.add(Calendar.DATE, -PROBLEM_SINCE_DAYS);
         dataPickerBinding.datePicker.setMaxDate(calendar.getTimeInMillis());
         calendar.add(Calendar.DAY_OF_MONTH, -arguments?.getString(KEY_VISIT_DATE)!!.toInt());

@@ -1057,7 +1057,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                             fileUploadModelList
                         )
                     } else {
-                        if ((surveyRecManualList != null && surveyRecManualList.size > 0) && (listForTrainers != null && listForTrainers.size > 0)) {
+                        if ((surveyRecManualList != null && surveyRecManualList.size > 0) && (!activityChampsSurveyBinding.trainer.text.toString().isNullOrEmpty())) {
                             Utlis.showLoading(this)
                             saveApiRequest("submit")
                         } else {
@@ -1068,11 +1068,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } else {
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Please enter trainers email",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                if(activityChampsSurveyBinding.trainer.text.toString().isNullOrEmpty()){
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Please enter trainers email",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
                             }
                         }
 
