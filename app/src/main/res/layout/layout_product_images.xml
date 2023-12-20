@@ -30,13 +30,13 @@
         android:layout_marginTop="@dimen/text_dimen_10"
         android:layout_marginBottom="@dimen/text_dimen_15"
         android:gravity="center"
-        android:layout_marginStart="@dimen/value_15dp"
+        android:layout_marginStart="@dimen/value_10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/front_image_layout"
-            android:layout_width="110dp"
+            android:layout_width="100dp"
             android:background="@drawable/grey_rectangle_cap"
             android:layout_height="@dimen/value_85dp"
             android:orientation="vertical"
@@ -48,8 +48,8 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_gravity="center"
                 android:id="@+id/product_front_image_preview"
-                android:layout_width="@dimen/value_40dp"
-                android:layout_height="@dimen/value_40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginTop="@dimen/value_15dp"
                 android:orientation="horizontal"
                 android:src="@drawable/cam_ash"
@@ -88,7 +88,7 @@
         <LinearLayout
             android:layout_marginStart="@dimen/text_dimen_10"
             android:id="@+id/back_image_layout"
-            android:layout_width="110dp"
+            android:layout_width="100dp"
             android:background="@drawable/grey_rectangle_cap"
             android:layout_height="@dimen/value_85dp"
             android:orientation="vertical"
@@ -100,8 +100,8 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_gravity="center"
                 android:id="@+id/product_back_image_preview"
-                android:layout_width="@dimen/value_40dp"
-                android:layout_height="@dimen/value_40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginTop="@dimen/value_15dp"
                 android:orientation="horizontal"
                 android:src="@drawable/cam_ash"
@@ -142,7 +142,7 @@
         <LinearLayout
             android:layout_marginStart="@dimen/value_10dp"
             android:id="@+id/other_image_layout"
-            android:layout_width="110dp"
+            android:layout_width="100dp"
             android:background="@drawable/grey_rectangle_cap"
             android:layout_height="@dimen/value_85dp"
             android:orientation="vertical"
@@ -154,8 +154,8 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_gravity="center"
                 android:id="@+id/product_other_image_preview"
-                android:layout_width="@dimen/value_40dp"
-                android:layout_height="@dimen/value_40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginTop="@dimen/value_15dp"
                 android:orientation="horizontal"
                 android:src="@drawable/cam_ash"
