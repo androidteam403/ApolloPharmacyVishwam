@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.dialog
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.provider.ContactsContract.ProfileSyncState.set
 import android.view.LayoutInflater
@@ -41,6 +42,7 @@ class ComplaintListCalendarDialog : DialogFragment() {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
