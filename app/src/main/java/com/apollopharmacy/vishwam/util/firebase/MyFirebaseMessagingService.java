@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -37,6 +38,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        Log.d("FireBase", "Message Received");
         super.onMessageReceived(remoteMessage);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             sendNotification1(remoteMessage);

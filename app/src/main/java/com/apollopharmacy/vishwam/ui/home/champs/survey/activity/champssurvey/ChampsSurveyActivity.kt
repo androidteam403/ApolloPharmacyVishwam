@@ -200,8 +200,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
 
             if (!trainerEmail.isNullOrEmpty()) {
-                activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
-                activityChampsSurveyBinding.trainer.text = trainerEmail
+//                activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
+//                activityChampsSurveyBinding.trainer.text = trainerEmail
+                listForTrainers.add(trainerEmail!!)
             } else {
                 activityChampsSurveyBinding.trainerLayout.visibility = View.GONE
             }
@@ -218,8 +219,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.percentageSum.text = "0"
         } else if (status.equals("PENDING")) {
             if (!trainerEmail.isNullOrEmpty()) {
-                activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
-                activityChampsSurveyBinding.trainer.text = trainerEmail
+//                activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
+//                activityChampsSurveyBinding.trainer.text = trainerEmail
+                listForTrainers.add(trainerEmail!!)
             } else {
                 activityChampsSurveyBinding.trainerLayout.visibility = View.GONE
             }
@@ -1057,24 +1059,23 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                             fileUploadModelList
                         )
                     } else {
-                        if ((surveyRecManualList != null && surveyRecManualList.size > 0) && (!activityChampsSurveyBinding.trainer.text.toString().isNullOrEmpty())) {
+                        if ((surveyRecManualList != null && surveyRecManualList.size > 0) && (listForTrainers != null && listForTrainers.size > 0)) {
                             Utlis.showLoading(this)
                             saveApiRequest("submit")
                         } else {
-                            if (surveyRecManualList.size == 0) {
+                            if (surveyRecManualList.size == 0 || surveyRecManualList==null) {
                                 Toast.makeText(
                                     applicationContext,
                                     "Please enter recipients email",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                            } else {
-                                if(activityChampsSurveyBinding.trainer.text.toString().isNullOrEmpty()){
-                                    Toast.makeText(
+                            } else if(listForTrainers ==null || listForTrainers.size == 0){
+                                Toast.makeText(
                                         applicationContext,
                                         "Please enter trainers email",
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                }
+
 
                             }
                         }
@@ -1156,7 +1157,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                    headerDetails.emailIdOfTrainer = ""
 //                }
                 var trainerEmails: String = ""
-                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
                 if (!listForTrainers.isNullOrEmpty()) {
                     for (i in listForTrainers) {
                         if (trainerEmails.isEmpty()) {
@@ -1235,16 +1235,32 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                } else {
 //                    headerDetails.emailIdOfRecipients = ""
 //                }
+//
+//                if (surveyCCDetailsList.get(0) != null) {
+//                    headerDetails.emailIdOfCc = surveyCCDetailsList.get(0)
+//                } else {
+//                    headerDetails.emailIdOfCc = ""
+//                }
+                var ccEmails: String = ""
+//                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
+                if (!surveyCCDetailsList.isNullOrEmpty()) {
+                    for (i in surveyCCDetailsList) {
+                        if (ccEmails.isEmpty()) {
+                            ccEmails = i
+                        } else {
+                            ccEmails = "$ccEmails,$i"
+                        }
+                    }
+                }
 
-                if (surveyCCDetailsList.get(0) != null) {
-                    headerDetails.emailIdOfCc = surveyCCDetailsList.get(0)
+                if (ccEmails != null) {
+                    headerDetails.emailIdOfCc = ccEmails
                 } else {
                     headerDetails.emailIdOfCc = ""
                 }
             } else if (status.equals("PENDING")) {
 
                 var trainerEmails: String = ""
-//                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
                 if (!listForTrainers.isNullOrEmpty()) {
                     for (i in listForTrainers) {
                         if (trainerEmails.isEmpty()) {
@@ -2677,7 +2693,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     e.printStackTrace()
                 }
                 var trainerEmails: String = ""
-                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
+//                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
                 if (!listForTrainers.isNullOrEmpty()) {
                     for (i in listForTrainers) {
                         if (trainerEmails.isEmpty()) {
@@ -2727,7 +2743,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 }
 
                 var trainerEmails: String = ""
-                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
+//                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
                 if (!listForTrainers.isNullOrEmpty()) {
                     for (i in listForTrainers) {
                         if (trainerEmails.isEmpty()) {
@@ -4027,13 +4043,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             Utlis.showLoading(this)
             saveApiRequest("submit")
         } else {
-            if (surveyRecManualList.size == 0) {
+            if ((surveyRecManualList == null || surveyRecManualList.size == 0)) {
                 Toast.makeText(
                     applicationContext,
                     "Please enter recipients email",
                     Toast.LENGTH_SHORT
                 ).show()
-            } else {
+            } else if(listForTrainers == null || listForTrainers.size == 0) {
                 Toast.makeText(
                     applicationContext,
                     "Please enter trainers email",
