@@ -9,7 +9,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
-import java.util.*
+import java.util.Date
 
 object Preferences {
 
@@ -46,7 +46,8 @@ object Preferences {
     //    private const val PREF_KEY_SITE_ID_LIST_CHAMPS = "PREF_KEY_SITE_ID_LIST_CHAMPS"
     private const val KEY_STORE_LIST_QCFAIL = "KEY_STORE_LIST_QCFAIL"
 
-
+    private const val PREF_SITE_ID_FETCHED_COMMUNITY_ADVISOR =
+        "PREF_SITE_ID_FETCHED_COMMUNITY_ADVISOR"
     private const val PREF_KEY_SITE_ID_LIST_QCFAIL = "PREF_KEY_SITE_ID_LIST_QCFAIL"
     private const val PREF_KEY_REGION_ID_LIST_QCFAIL = "PREF_KEY_REGION_ID_LIST_QCFAIL"
     private const val PREF_SITE_ID_FETCHED = "PREF_SITE_ID_FETCHED"
@@ -75,7 +76,11 @@ object Preferences {
     private const val APP_LEVEL_DESIGNATION_RETRO = "APP_LEVEL_DESIGNATION_RETRO"
 
     private const val PREF_KEY_VISHWAM_ACCESS = "PREF_KEY_VISHWAM_ACCESS"
-    private const val PREF_KEY_APP_THEME="PREF_KEY_APP_THEME"
+    private const val PREF_KEY_APP_THEME = "PREF_KEY_APP_THEME"
+
+    private const val KEY_COMMUNITY_ADVISOR_SITEID = "KEY_COMMUNITY_ADVISOR_SITEID"
+    private const val KEY_COMMUNITY_ADVISOR_STORENAME = "KEY_COMMUNITY_ADVISOR_STORENAME"
+
 
 
     fun savingToken(userId: String) {
@@ -229,7 +234,6 @@ object Preferences {
     private const val KEY_CHAMPS_SITE_CITY = "KEY_CHAMPS_SITE_CITY"
     private const val KEY_CHAMPS_SITEID = "KEY_CHAMPS_SITEID"
     private const val KEY_APNA_SITENAME = "KEY_APNA_SITENAME"
-
     private const val KEY_PLANOGRAM_SITECITY = "KEY_PLANOGRAM_SITECITY"
     private const val KEY_SWACHH_SITENAME = "KEY_SWACHH_SITENAME"
 
@@ -441,6 +445,7 @@ object Preferences {
     fun isSiteIdListFetchedChamps(): Boolean {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_CHAMPS, false)
     }
+
     fun setSiteIdListFetchedPlanogram(isSiteIdListFetchedPlanogram: Boolean) {
         sharedPreferences.edit()
             .putBoolean(PREF_SITE_ID_FETCHED_PLANOGRAM, isSiteIdListFetchedPlanogram).apply()
@@ -449,6 +454,7 @@ object Preferences {
     fun isSiteIdListFetchedPlanogram(): Boolean {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_PLANOGRAM, false)
     }
+
     fun setRegionIdListFetchedQcFail(isRegionIdListFetchedQcfail: Boolean) {
         sharedPreferences.edit()
             .putBoolean(PREF_REGION_ID_FETCHED_QC_FAIL, isRegionIdListFetchedQcfail).apply()
@@ -465,13 +471,29 @@ object Preferences {
     fun getSiteIdListJson(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
     }
+
     fun setSiteIdListPlanogram(siteIdList: String) {
         sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST, siteIdList).apply()
     }
 
+    fun setSiteIdListCommunityAdvisor(siteIdList: String) {
+        sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST, siteIdList).apply()
+    }
+
+    fun isSiteIdListFetchedCommunityAdvisor(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_COMMUNITY_ADVISOR, false)
+    }
+
+    fun setSiteIdListFetchedCommunityAdvisor(isSiteIdListFetchedCommunityAdvisor: Boolean) {
+        sharedPreferences.edit()
+            .putBoolean(PREF_SITE_ID_FETCHED_PLANOGRAM, isSiteIdListFetchedCommunityAdvisor).apply()
+    }
+
+
     fun getSiteIdListJsonPlanogram(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
     }
+
     fun setItemTypeList(siteIdList: String) {
         sharedPreferences.edit().putString(PREF_ITEMTYPE_LIST_FETCHED, siteIdList).apply()
     }
@@ -664,6 +686,7 @@ object Preferences {
     fun getApnaSiteId(): String {
         return sharedPreferences.getString(KEY_APNA_SITEID, "")!!
     }
+
     fun setVisitDateValueChamps(visitDateValue: String) {
         sharedPreferences.edit().putString(VISIT_DATE_VALUE_CHAMPS, visitDateValue).apply()
     }
@@ -715,7 +738,6 @@ object Preferences {
     }
 
 
-
     fun setChampsSiteCity(regionUidChamps: String) {
         sharedPreferences.edit().putString(KEY_CHAMPS_SITE_CITY, regionUidChamps).apply()
     }
@@ -726,7 +748,7 @@ object Preferences {
     }
 
 
-//KEY_CHAMPS_SITEID
+    //KEY_CHAMPS_SITEID
     fun setSwachSiteName(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_SWACHH_SITENAME, swachhSiteId).apply()
     }
@@ -965,6 +987,7 @@ object Preferences {
     fun getPlanogramSiteName(): String {
         return sharedPreferences.getString(KEY_PLANOGRAM_SITENAME, "")!!
     }
+
     fun setPlanogramSiteState(planogramSiteId: String) {
         sharedPreferences.edit().putString(KEY_PLANOGRAM_SITESTATE, planogramSiteId).apply()
     }
@@ -980,6 +1003,7 @@ object Preferences {
     fun getPlanogramSiteCity(): String {
         return sharedPreferences.getString(KEY_PLANOGRAM_SITECITY, "")!!
     }
+
 
     fun setAppTheme(appTheme: String) {
         sharedPreferences.edit().putString(PREF_KEY_APP_THEME, appTheme).apply()
@@ -997,4 +1021,19 @@ object Preferences {
         return sharedPreferences.getString(SET_NOTIFICATION_TIME, "")!!
     }
 
+    fun setCommunityAdvisorSiteId(siteId: String) {
+        sharedPreferences.edit().putString(KEY_COMMUNITY_ADVISOR_SITEID, siteId).apply()
+    }
+
+
+    fun getCommunityAdvisorSiteId(): String {
+        return sharedPreferences.getString(KEY_COMMUNITY_ADVISOR_SITEID, "")!!
+    }
+    fun setCommunityAdvisorStoreName(storeName:String){
+        sharedPreferences.edit().putString(KEY_COMMUNITY_ADVISOR_STORENAME, storeName).apply()
+
+    }
+    fun getCommunityAdvisorStoreName(): String {
+        return sharedPreferences.getString(KEY_COMMUNITY_ADVISOR_STORENAME, "")!!
+    }
 }

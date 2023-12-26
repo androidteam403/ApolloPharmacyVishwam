@@ -79,6 +79,7 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.Get
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationFragment;
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.CommunityAdvisorFragment;
+import com.apollopharmacy.vishwam.ui.home.communityadvisor.CommunityAdvisorFragmentCallback;
 import com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard.CeoDashboardFragment;
 import com.apollopharmacy.vishwam.ui.home.dashboard.managerdashboard.ManagerDashboardFragment;
 import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRoleResponse;
@@ -224,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationListView listView;
     public ImageView siteIdIcon;
     public ImageView plusIconAttendence;
+
     public RelativeLayout spinnerLayout;
     public ImageView plusIconApna;
     public ImageView filterIconApna;
@@ -372,6 +374,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void setComplaintsFragmentCallback(ComplaintsFragmentCallback complaintsFragmentCallback) {
         this.complaintsFragmentCallback = complaintsFragmentCallback;
     }
+
 
 
     @SuppressLint({"MissingInflatedId", "SetTextI18n"})
@@ -2648,7 +2651,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             filterIcon.setVisibility(View.GONE);
             onClickPlusIcon.setVisibility(View.GONE);
             settingsWhite.setVisibility(View.GONE);
-            plusIconApna.setVisibility(View.GONE);
+            plusIconApna.setVisibility(View.VISIBLE);
             filterIconApna.setVisibility(View.GONE);
             refreshIconQc.setVisibility(View.GONE);
             logo.setVisibility(View.GONE);

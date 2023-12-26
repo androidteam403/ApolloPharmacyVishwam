@@ -124,4 +124,6 @@
     <dimen name="dimen48dp">48dp</dimen>
     <dimen name="dimen1dp">1dp</dimen>
     <dimen name="dimen15dp">15dp</dimen>
+    <dimen name="dimen500dp">500dp</dimen>
+    <dimen name="dimen600dp">600dp</dimen>
 </resources>

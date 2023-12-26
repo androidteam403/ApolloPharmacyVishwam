@@ -1,31 +1,61 @@
 package com.apollopharmacy.vishwam.ui.home.communityadvisor.adapter
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterServicesListBinding
-import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.ServicesList
+import com.apollopharmacy.vishwam.ui.home.communityadvisor.CommunityAdvisorFragmentCallback
+import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServiceDetailsResponse
 
-class ServicesListAdapter(var serviceList: List<ServicesList>) :
+class ServicesListAdapter(
+    var mClickListener: CommunityAdvisorFragmentCallback,
+    var servicesList: ArrayList<HomeServiceDetailsResponse.Detlist>,
+) :
     RecyclerView.Adapter<ServicesListAdapter.ViewHolder>() {
-  /*  fun updatedServiceList(newList: List<ServicesList>) {
-        serviceList = newList
-        notifyDataSetChanged()
-    }*/
+    lateinit var intent: Intent
+    var isServicesTab = true
+    private var filteredList: List<HomeServiceDetailsResponse.Detlist> = servicesList
+    fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val query = constraint.toString().toLowerCase().trim()
+                val results = FilterResults()
 
-    /*  fun servicesData(newServiceList: List<ServicesList>) {
-          serviceList = newServiceList
-          notifyDataSetChanged()
-      }
-      companion object {
-          @BindingAdapter("android:clickable")
-          @JvmStatic
-          fun setClickable(textView: TextView, clickable: () -> Unit) {
-              textView.setOnClickListener { clickable.invoke() }
-          }
-      }*/
+                if (query.isEmpty()) {
+                    results.values = servicesList
+                } else {
+                    val filtered = servicesList.filter { item ->
+                        item.uniqueId!!.contains(query, ignoreCase = true)
+                    }
+                    results.values = filtered
+                }
+
+                return results
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filteredList = results?.values as List<HomeServiceDetailsResponse.Detlist>
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun filterList(query: String) {
+        val filteredList = servicesList.filter { item ->
+            item.uniqueId!!.contains(query, ignoreCase = true)
+        }
+        this.filteredList = filteredList
+        notifyDataSetChanged()
+    }
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -38,23 +68,29 @@ class ServicesListAdapter(var serviceList: List<ServicesList>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = serviceList.get(position)
-        holder.adapterServicesListBinding.idServiceValue.text =
-            currentItem.servicesCustomerInteractionId
-        holder.adapterServicesListBinding.customerServices.text =
-            currentItem.servicesCustomerInteractionName
+        val currentItem = filteredList.get(position)
+        if (currentItem.serviceType!!.equals("CUSTOMER")) {
+            holder.adapterServicesListBinding.idServiceValue.text =
+                currentItem.uniqueId
+            holder.adapterServicesListBinding.customerServices.text =
+                currentItem.serviceDate
+        } else if (currentItem.serviceType!!.equals("SERVICE")) {
+            holder.adapterServicesListBinding.idServiceValue.text =
+                currentItem.uniqueId
+            holder.adapterServicesListBinding.customerServices.text =
+                currentItem.serviceDate
+
+        }
         holder.itemView.setOnClickListener {
-            //  mClickListener.onClickServicesCommunityAdvisor(position,currentItem)
+            mClickListener.onClickServicesItems(currentItem)
         }
 
     }
 
     override fun getItemCount(): Int {
-        return serviceList.size
+        return filteredList.size
     }
 
     class ViewHolder(val adapterServicesListBinding: AdapterServicesListBinding) :
         RecyclerView.ViewHolder(adapterServicesListBinding.root)
-
-
 }

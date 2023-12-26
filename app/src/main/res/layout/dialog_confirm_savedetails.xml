@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/value_10dp"
+            android:background="@drawable/dialog_background"
+            android:orientation="vertical"
+            android:padding="@dimen/value_20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="@string/stringare_you_sure_you_want_to_submit"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    tools:ignore="RelativeOverlap" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:layout_marginBottom="@dimen/value_5dp"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/yes_btn"
+                    android:layout_width="@dimen/value_90dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:background="@drawable/yellow_drawable"
+                    android:gravity="center_horizontal"
+                    android:text="@string/stringok"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_16sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

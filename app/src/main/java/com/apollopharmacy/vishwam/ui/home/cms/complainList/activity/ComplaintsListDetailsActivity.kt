@@ -94,8 +94,6 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
     //    private lateinit var imageClickListener: ImageClickListener
 //    private lateinit var viewPager2:ViewPager2
     var ticketratingapiresponse: ResponseticketRatingApi.Data? = null
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityComplaintsDetailsBinding = DataBindingUtil.setContentView(

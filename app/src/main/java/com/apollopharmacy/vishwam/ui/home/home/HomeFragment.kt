@@ -65,7 +65,6 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         get() = R.layout.fragment_home
 
     override fun retrieveViewModel(): HomeViewModel {
-
         return ViewModelProvider(this).get(HomeViewModel::class.java)
     }
 
