@@ -400,9 +400,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
 
-
-
-
         });
 
         String loginJson = Preferences.INSTANCE.getLoginJson();
@@ -430,7 +427,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             username.setText(loginData.getEMPNAME());
             TextView userId = findViewById(R.id.userId);
             userId.setText("ID: " + loginData.getEMPID());
-
 
 
             MobileAccessResponse.AccessDetails accessDetails = Preferences.INSTANCE.getVishwamAccessResponse().getAccessDetails();
@@ -798,9 +794,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean isAllowFragmentChange = false;
 
     private TicketCountsByStatusRoleResponse.Data.ListData.Row row;
+    private String status;
+    private String fromDate;
+    private String toDate;
 
-    public void displaySelectedScreenFromCeoDashboard(String itemName, TicketCountsByStatusRoleResponse.Data.ListData.Row row) {
+    public void displaySelectedScreenFromCeoDashboard(String itemName, TicketCountsByStatusRoleResponse.Data.ListData.Row row, String status, String fromDate, String toDate) {
         this.row = row;
+        this.status = status;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
         displaySelectedScreen(itemName);
     }
 
@@ -1020,6 +1022,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Bundle bundleDashboardTickets = new Bundle();
                 bundleDashboardTickets.putBoolean("IS_DASHBOARD_TICKET_LIST", true);
                 bundleDashboardTickets.putSerializable("ROW", row);
+                bundleDashboardTickets.putString("STATUS", status);
+                bundleDashboardTickets.putString("FROM_DATE", fromDate);
+                bundleDashboardTickets.putString("TO_DATE", toDate);
+
                 ComplainListFragment dashboardTicketsFragmnet = new ComplainListFragment();
                 dashboardTicketsFragmnet.setArguments(bundleDashboardTickets);
                 fragment = dashboardTicketsFragmnet;

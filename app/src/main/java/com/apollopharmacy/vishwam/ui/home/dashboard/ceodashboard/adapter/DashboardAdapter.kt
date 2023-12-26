@@ -80,25 +80,25 @@ class DashboardAdapter(
 
         //callbacks for the row item click to show tickets list
         holder.adapterDashboardCeoBinding.closedLayout.setOnClickListener {
-            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+            ceoDashboardCallback.onCLickRowtoShowTickets(response, "closed")
         }
         holder.adapterDashboardCeoBinding.lessthanTwoLayout.setOnClickListener {
-            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+            ceoDashboardCallback.onCLickRowtoShowTickets(response, "lessthantwo")
         }
         holder.adapterDashboardCeoBinding.threetoEightLayout.setOnClickListener {
-            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+            ceoDashboardCallback.onCLickRowtoShowTickets(response, "threetoeight")
         }
         holder.adapterDashboardCeoBinding.greaterthanEightLayout.setOnClickListener {
-            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+            ceoDashboardCallback.onCLickRowtoShowTickets(response, "greaterthaneight")
         }
         holder.adapterDashboardCeoBinding.rejectedLayout.setOnClickListener {
-            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+            ceoDashboardCallback.onCLickRowtoShowTickets(response, "rejected")
         }
         holder.adapterDashboardCeoBinding.pendingLayout.setOnClickListener {
-            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+            ceoDashboardCallback.onCLickRowtoShowTickets(response, "pending")
         }
         holder.adapterDashboardCeoBinding.totalLayout.setOnClickListener {
-            ceoDashboardCallback.onCLickRowtoShowTickets(response)
+            ceoDashboardCallback.onCLickRowtoShowTickets(response, "total")
         }
     }
 
