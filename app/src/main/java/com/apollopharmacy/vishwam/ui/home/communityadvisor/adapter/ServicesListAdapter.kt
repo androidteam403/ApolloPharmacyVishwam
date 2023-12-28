@@ -30,7 +30,9 @@ class ServicesListAdapter(
                     results.values = servicesList
                 } else {
                     val filtered = servicesList.filter { item ->
-                        item.uniqueId!!.contains(query, ignoreCase = true)
+                        item.uniqueId!!.contains(query, ignoreCase = true) ||
+                                item.customerName!!.contains(query, ignoreCase = true) ||
+                                item.customerMobileno!!.contains(query, ignoreCase = true)
                     }
                     results.values = filtered
                 }
@@ -50,7 +52,9 @@ class ServicesListAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun filterList(query: String) {
         val filteredList = servicesList.filter { item ->
-            item.uniqueId!!.contains(query, ignoreCase = true)
+            item.uniqueId!!.contains(query, ignoreCase = true) ||
+                    item.customerName!!.contains(query, ignoreCase = true) ||
+                    item.customerMobileno!!.contains(query, ignoreCase = true)
         }
         this.filteredList = filteredList
         notifyDataSetChanged()

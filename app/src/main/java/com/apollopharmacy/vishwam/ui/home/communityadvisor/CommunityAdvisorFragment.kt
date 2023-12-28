@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.communityadvisor
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -31,6 +32,10 @@ import java.util.stream.Collectors
 class CommunityAdvisorFragment :
     BaseFragment<CommunityAdvisorFragmentViewModel, FragmentCommunityAdvisorBinding>(),
     CommunityAdvisorFragmentCallback {
+    companion object {
+        private const val API_REQUEST_CODE = 123
+    }
+
     var mInstance: MainActivity? = null
     private lateinit var servicesList: ArrayList<HomeServiceDetailsResponse.Detlist>
     lateinit var homeServiceDetailsResponse: HomeServiceDetailsResponse
@@ -49,10 +54,33 @@ class CommunityAdvisorFragment :
         }
 
 
+
         viewBinding.customerInteractionButton.setOnClickListener {
             onClickCustomerInteractionTab()
         }
         setup()
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == API_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            refreshApiData()
+        }
+    }
+
+    private fun refreshApiData() {
+        if (NetworkUtils.isNetworkConnected(requireContext())) {
+            Utlis.showLoading(requireContext())
+            viewModel.getHomeServiceDetails(homeServiceDetailsRequest, this)
+        } else {
+            Toast.makeText(
+                context,
+                "No Internet Connection.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun retrieveViewModel(): CommunityAdvisorFragmentViewModel {
@@ -60,8 +88,9 @@ class CommunityAdvisorFragment :
         return viewModel
     }
 
-    private lateinit var servicesListAdapter: ServicesListAdapter
+      var servicesListAdapter: ServicesListAdapter?=null
     override fun setup() {
+        viewBinding.noListFound.visibility=View.GONE
         viewBinding.callback = this
         homeServiceDetailsRequest = HomeServiceDetailsRequest()
         homeServiceDetailsRequest.userId = Preferences.getValidatedEmpId()
@@ -69,14 +98,14 @@ class CommunityAdvisorFragment :
         servicesList = ArrayList()
         viewBinding.searchIcon.setOnClickListener {
             viewBinding.searchView.text!!.clear()
-            servicesListAdapter.filterList("")
+            servicesListAdapter?.filterList("")
         }
 
         viewBinding.searchView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                servicesListAdapter.filterList(s.toString())
+                servicesListAdapter?.filterList(s.toString())
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -84,6 +113,7 @@ class CommunityAdvisorFragment :
 
         if (NetworkUtils.isNetworkConnected(requireContext())) {
             Utlis.showLoading(requireContext())
+            viewBinding.noListFound.visibility=View.GONE
             viewModel.getHomeServiceDetails(homeServiceDetailsRequest, this)
 
         } else {
@@ -142,6 +172,12 @@ class CommunityAdvisorFragment :
                     .filter { o -> o.serviceType.equals("CUSTOMER") }
                     .collect(Collectors.toList()) as ArrayList<HomeServiceDetailsResponse.Detlist>
             }
+            /* if (servicesList.isNotEmpty()) {
+                 val latestItem = servicesList[0]
+                 servicesList.add(0, latestItem)
+             }*/
+            servicesList.reverse()
+
             viewBinding.noListFound.visibility = View.GONE
             servicesListAdapter =
                 ServicesListAdapter(communityAdvisorFragmentCallback, servicesList)
@@ -174,49 +210,75 @@ class CommunityAdvisorFragment :
         servicesDialog.setContentView(dialogServicesBinding.root)
         servicesDialog.window!!.setBackgroundDrawable(
             ColorDrawable(
-                Color.WHITE
+                Color.TRANSPARENT
             )
         )
         servicesDialog.setCanceledOnTouchOutside(false)
         dialogServicesBinding.closeWindow.setOnClickListener {
             servicesDialog.dismiss()
         }
-        if (serviceItem.serviceType.equals("SERVICE", ignoreCase = true)) {
-            dialogServicesBinding.siteId.text = serviceItem.siteId
+        if (serviceItem.serviceType.equals("Service", ignoreCase = true)) {
+            dialogServicesBinding.siteId.text = "(" + serviceItem.siteId + ")"
             dialogServicesBinding.customerName.text = serviceItem.customerName
             dialogServicesBinding.createdBy.text = serviceItem.createdBy
-            dialogServicesBinding.serviceName.text = serviceItem.serviceName
+            dialogServicesBinding.serviceName.text =
+                generateFormattedServiceNames(serviceItem.serviceName)
             dialogServicesBinding.others.text = serviceItem.others
             dialogServicesBinding.servicesId.text = serviceItem.uniqueId
-            dialogServicesBinding.customerMobile.text = serviceItem.customerMobileno
+            dialogServicesBinding.customerMobile.text = "(+91 ${serviceItem.customerMobileno})"
+            //  "(+91) ${serviceItem.customerMobileno}"//"("+serviceItem.customerMobileno+")"
             dialogServicesBinding.customerDate.text = serviceItem.serviceDate
             dialogServicesBinding.type.text = "(" + serviceItem.serviceType + ")"
         } else {
-            dialogServicesBinding.siteId.text = serviceItem.siteId
+            dialogServicesBinding.siteId.text = "(" + serviceItem.siteId + ")"
             dialogServicesBinding.customerName.text = serviceItem.customerName
             dialogServicesBinding.createdBy.text = serviceItem.createdBy
-            dialogServicesBinding.serviceName.text = serviceItem.serviceName
+            dialogServicesBinding.serviceName.text =
+                generateFormattedServiceNames(serviceItem.serviceName)
             dialogServicesBinding.others.text = serviceItem.customerInteractionremarks
             dialogServicesBinding.customerDate.text = serviceItem.serviceDate
-            dialogServicesBinding.customerMobile.text = serviceItem.customerMobileno
+            dialogServicesBinding.customerMobile.text = "(+91 ${serviceItem.customerMobileno})"
+            //  "(+91) ${serviceItem.customerMobileno}" //"("+serviceItem.customerMobileno+")"
             dialogServicesBinding.servicesId.text = serviceItem.uniqueId
             dialogServicesBinding.type.text = "(" + serviceItem.serviceType + ")"
         }
+
         servicesDialog.show()
+
+    }
+
+    private fun generateFormattedServiceNames(serviceNames: String?): CharSequence? {
+        val stringBuilder = StringBuilder()
+
+        if (!serviceNames.isNullOrBlank()) {
+            val serviceList = serviceNames.split(",").map { it.trim() }
+
+            for ((index, serviceName) in serviceList.withIndex()) {
+                stringBuilder.append("${index + 1}. $serviceName")
+
+                if (index < serviceList.size - 1) {
+                    stringBuilder.append("\n")
+                }
+            }
+        }
+
+        return stringBuilder.toString()
     }
 
     private fun navigatetoServiceCustomerActivity() {
         MainActivity.mInstance.plusIconApna.setOnClickListener {
             val intent = Intent(activity, ServicesCustomerInteractionActivity::class.java)
             intent.putExtra("IS_SERVICES", isServicesTab)
-            startActivity(intent)
+            startActivityForResult(intent, API_REQUEST_CODE)
         }
     }
 
     private fun filterList(query: String) {
-        servicesListAdapter.filterList(query)
+        servicesListAdapter?.filterList(query)
         val filteredList = servicesList.filter { item ->
-            item.uniqueId!!.contains(query, ignoreCase = true)
+            item.uniqueId!!.contains(query, ignoreCase = true)||
+                    item.customerName!!.contains(query,ignoreCase = true)||
+                    item.customerMobileno!!.contains(query,ignoreCase = true)
         }
         servicesList.clear()
         servicesList.addAll(filteredList)

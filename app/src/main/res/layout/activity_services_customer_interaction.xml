@@ -41,7 +41,7 @@
                     android:layout_marginStart="@dimen/value_5dp"
                     android:layout_toEndOf="@+id/left_arrow"
                     android:text="@string/stringnew_service_request"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_18sp"
                     android:textStyle="bold"
                     android:visibility="visible" />
@@ -54,7 +54,7 @@
                     android:layout_marginStart="@dimen/value_5dp"
                     android:layout_toEndOf="@+id/left_arrow"
                     android:text="@string/stringcustomer_interaction"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_18sp"
                     android:textStyle="bold"
                     android:visibility="gone" />
@@ -81,13 +81,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_50dp"
                         android:cursorVisible="false"
-                        android:digits="0123456789"
                         android:drawableEnd="@drawable/edit"
                         android:editable="false"
                         android:focusable="false"
                         android:hint="@string/stringsite"
-                        android:inputType="number"
-                        android:maxLength="20"
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
                         android:textColor="@color/black"
@@ -142,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/value_10dp"
                     android:text="@string/string_services_"
-                    android:textColor="@color/vishwam_actionbar_color"
+                    android:textColor="@color/backgroundColor"
                     android:textSize="@dimen/twenty20_sp" />
 
                 <LinearLayout
@@ -199,7 +196,7 @@
             android:background="@color/vishwam_actionbar_color"
             android:gravity="center"
             android:text="@string/stringsubmit"
-            android:textColor="@color/white"
+            android:textColor="@color/white_for_both"
             android:textSize="@dimen/text_18sp"
             android:textStyle="bold" />
 

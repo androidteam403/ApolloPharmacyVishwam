@@ -19,8 +19,10 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.ActivitySelectCommunityAdvisorSiteidBinding
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.siteid.adapter.SiteIdListCommunityAdvisorAdapter
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.google.gson.Gson
 
 class SelectCommunityAdvisorSiteIdActivity : AppCompatActivity(),
@@ -41,10 +43,12 @@ class SelectCommunityAdvisorSiteIdActivity : AppCompatActivity(),
         )
         viewModel = ViewModelProvider(this)[SelectCommunityAdvisorSiteIdViewModel::class.java]
         activitySelectCommunityAdvisorSiteidBinding.callback = this
-        Utlis.showLoading(this)
+        showLoading(this)
         viewModel.getProxySiteListResponse(this)
         viewModel.fixedArrayList.observeForever {
             siteDataList = it
+            Preferences.setSiteIdListFetchedChamps(true)
+            Preferences.setSiteIdListChamps(Gson().toJson(siteDataList))
             siteIdListCommunityAdvisorAdapter =
                 SiteIdListCommunityAdvisorAdapter(
                     this@SelectCommunityAdvisorSiteIdActivity,
@@ -56,18 +60,18 @@ class SelectCommunityAdvisorSiteIdActivity : AppCompatActivity(),
             Utlis.hideLoading()
         }
 
-        viewModel.commands.observeForever {
+       /* viewModel.commands.observeForever {
             when (it) {
                 is SelectCommunityAdvisorSiteIdViewModel.Command.ShowToast -> {
                     Utlis.hideLoading()
-                    Preferences.setSiteIdListCommunityAdvisor(Gson().toJson(viewModel.getSiteData()))
-                    Preferences.setSiteIdListFetchedCommunityAdvisor(true)
+                    Preferences.setSiteIdListChamps(Gson().toJson(siteDataList))
+                    Preferences.setSiteIdListFetchedChamps(true)
                 }
 
                 else -> {}
             }
 
-        }
+        }*/
         searchByFulfilmentId()
     }
 
@@ -90,36 +94,35 @@ class SelectCommunityAdvisorSiteIdActivity : AppCompatActivity(),
         })
     }
 
-
     override fun onClickCancel() {
         Utlis.hideKeyPad(this)
-        if (!Preferences.getPlanogramSiteId().isEmpty()) {
+        if (!siteId!!.isEmpty()) {
             isSiteIdEmpty = false
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
-            setResult(Activity.RESULT_OK, intent)
+            //setResult(Activity.RESULT_OK, intent)
             finish()
         } else {
             isSiteIdEmpty = true
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
-            setResult(Activity.RESULT_OK, intent)
+            //  setResult(Activity.RESULT_OK, intent)
             finish()
         }
     }
 
     override fun onBackPressed() {
-        if (!Preferences.getPlanogramSiteId().isEmpty()) {
+        if (!siteId!!.isEmpty()) {
             isSiteIdEmpty = false
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
-            setResult(Activity.RESULT_OK, intent)
+            // setResult(Activity.RESULT_OK, intent)
             finish()
         } else {
             isSiteIdEmpty = true
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
-            setResult(Activity.RESULT_OK, intent)
+            //  setResult(Activity.RESULT_OK, intent)
             finish()
         }
     }
@@ -148,8 +151,8 @@ class SelectCommunityAdvisorSiteIdActivity : AppCompatActivity(),
             dialog.dismiss()
             siteId = site.site
             this.siteName = site.storeName;
-            Preferences.setCommunityAdvisorSiteId(siteId!!)
-            Preferences.setCommunityAdvisorStoreName(siteName!!)
+            Preferences.setCommunityAdvisorSiteId(siteId.orEmpty())
+            Preferences.setCommunityAdvisorStoreName(siteName.orEmpty())
             val intent = Intent()
             setResult(Activity.RESULT_OK, intent)
             finish()
@@ -164,6 +167,28 @@ class SelectCommunityAdvisorSiteIdActivity : AppCompatActivity(),
     override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
         Toast.makeText(applicationContext, "" + value.message, Toast.LENGTH_SHORT).show()
         Utlis.hideLoading()
+    }
+
+    override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
+        if (true && getStoreWiseDetailsResponses.success && getStoreWiseDetailsResponses.data.executive != null) {
+            Preferences.setApnaSite(siteId!!)
+            Preferences.setChampsSiteName(siteName!!)
+            val intent = Intent()
+            intent.putExtra("siteId", siteId)
+            intent.putExtra("siteName", siteName)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        } else {
+            Toast.makeText(applicationContext, "No data found", Toast.LENGTH_SHORT).show()
+        }
+        Utlis.hideLoading()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::dialog.isInitialized && dialog.isShowing) {
+            dialog.dismiss()
+        }
     }
 
 }

@@ -511,17 +511,17 @@
     <string name="label_no_list_found">No List Found</string>
     <string name="stringservices">Services</string>
     <string name="stringcustomer_interaction">Customer Interaction</string>
-    <string name="stringsearch_by_request_id">Search by request ID</string>
+    <string name="stringsearch_by_request_id">Search by Request ID</string>
     <string name="stringid">ID:</string>
     <string name="string32564">32564</string>
     <string name="string_services">(services)</string>
     <string name="stringsite_id">Site ID</string>
-    <string name="string16001_apollo_jubileehills">16001(Apollo Jubileehills)</string>
+    <string name="string16001_apollo_jubileehills">(16001)</string>
     <string name="stringcustomer_name">Customer Name</string>
     <string name="stringkrishna">Krishna</string>
     <string name="stringcreated_by">Created by</string>
-    <string name="stringmadhusudhan_apl4936">Madhusudhan(APL4936)</string>
-    <string name="stringservice_name">Service Name</string>
+    <string name="stringmadhusudhan_apl4936">Madhusudhan</string>
+    <string name="stringservice_name">Services</string>
     <string name="stringfirst_aid_sugar_check">First Aid, Sugar Check</string>
     <string name="stringothers">Others</string>
     <string name="stringcreated_date">Created Date</string>
@@ -553,4 +553,7 @@
     <string name="stringservices_details">ID</string>
     <string name="stringok">Ok</string>
     <string name="err_msg_invalid_customer_name">Name should not contain special characters</string>
+    <string name="stringcustomer_details">Customer Details</string>
+   <string name="err_msg_enter_services">Please select at least one service</string>
+    <string name="err_msg_contains_numbers">Name should not contain Numbers</string>
 </resources>

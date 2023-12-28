@@ -27,6 +27,7 @@ import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServicesSav
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.siteid.SelectCommunityAdvisorSiteIdActivity
 import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
 import com.apollopharmacy.vishwam.util.Utlis
+import java.util.regex.Pattern
 import java.util.stream.Collectors
 
 class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustomerCallback {
@@ -81,7 +82,7 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
         }
         activityServicesCustomerInteractionBinding.siteId.setOnClickListener {
             val i = Intent(this, SelectCommunityAdvisorSiteIdActivity::class.java)
-            i.putExtra("modulename", "COMMUNITY_ADVISOR")
+            // i.putExtra("modulename", "COMMUNITY_ADVISOR")
             startActivityForResult(i, 781)
         }
 
@@ -187,11 +188,22 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
             showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_customer_name))
             activityServicesCustomerInteractionBinding.customerName.requestFocus()
             return false
-        } else if (!isValidCustomerName(customerName)) {
+        } /*else if (!isValidCustomerName(customerName)) {
             showErrorMsg(context?.resources?.getString(R.string.err_msg_invalid_customer_name))
             activityServicesCustomerInteractionBinding.customerName.requestFocus()
             return false
-        } else if (mobNumber.isEmpty()) {
+        }*/
+        else if (!isValidCustomerName(customerName)) {
+          //  if (customerName.matches(".*\\d+.*")) {
+            if (Regex("\\d").containsMatchIn(customerName)){
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_contains_numbers))
+            } else {
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_invalid_customer_name))
+            }
+            activityServicesCustomerInteractionBinding.customerName.requestFocus()
+            return false
+        }
+        else if (mobNumber.isEmpty()) {
             showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_mob_number))
             activityServicesCustomerInteractionBinding.mobileNumber.requestFocus()
             return false
@@ -199,7 +211,11 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
             showErrorMsg(context?.resources?.getString(R.string.err_msg_mob_number_tendigits))
             activityServicesCustomerInteractionBinding.mobileNumber.requestFocus()
             return false
-        } else if (comments.isEmpty()) {
+        } else if (!isAtLeastOneServiceSelected()) {
+            showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_services))
+            return false
+        }
+        else if (comments.isEmpty()) {
             showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_comments))
             activityServicesCustomerInteractionBinding.commentsText.requestFocus()
             return false
@@ -207,10 +223,15 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
             return true
         }
     }
+    private fun isAtLeastOneServiceSelected(): Boolean {
+        return servicesCustomerReqList.any { it.isSelected == true }
+    }
 
     private fun isValidCustomerName(name: String): Boolean {
-        val custName = Regex("^[a-zA-Z]+\$")
-        return custName.matches(name)
+       // val pattern = Pattern.compile("^(?![\\p{Punct}\\s.0-9]+\$)[A-Za-z.]+\$")   //("^(?![\\p{Punct}\\s.]+\$)[a-zA-Z.]+\$")     //("^[a-zA-Z.]+\$")
+        //return pattern.matcher(name).matches()
+        val regex="^(?![\\p{Punct}\\s.0-9]+\$)[A-Za-z.]+\$"
+        return name.matches(regex.toRegex())
     }
 
     private fun showErrorMsg(errMsg: String?) {
@@ -241,10 +262,10 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
                 this.serviceDate =
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         java.time.LocalDateTime.now()
-                            .format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+                            .format(java.time.format.DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a"))
                     } else {
                         java.text.SimpleDateFormat(
-                            "dd-MM-yyyy",
+                            "dd MMM yyyy hh:mm a",
                             java.util.Locale.getDefault()
                         ).format(java.util.Calendar.getInstance().time)
                     }
@@ -325,6 +346,7 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
         confirm.setCanceledOnTouchOutside(false)
         dialogConfirmSavedetailsBinding.yesBtn.setOnClickListener {
             confirm.dismiss()
+            setResult(Activity.RESULT_OK)
             finish()
         }
         confirm.show()

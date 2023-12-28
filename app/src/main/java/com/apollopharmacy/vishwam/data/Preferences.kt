@@ -81,7 +81,7 @@ object Preferences {
     private const val KEY_COMMUNITY_ADVISOR_SITEID = "KEY_COMMUNITY_ADVISOR_SITEID"
     private const val KEY_COMMUNITY_ADVISOR_STORENAME = "KEY_COMMUNITY_ADVISOR_STORENAME"
 
-
+    private const val KEY_INTEGRATION_DONE = "KEY_INTEGRATION_DONE"
 
     fun savingToken(userId: String) {
         sharedPreferences.edit().putString(KEY_SAVING_TOKEN, userId).apply()
@@ -1029,11 +1029,15 @@ object Preferences {
     fun getCommunityAdvisorSiteId(): String {
         return sharedPreferences.getString(KEY_COMMUNITY_ADVISOR_SITEID, "")!!
     }
-    fun setCommunityAdvisorStoreName(storeName:String){
+
+    fun setCommunityAdvisorStoreName(storeName: String) {
         sharedPreferences.edit().putString(KEY_COMMUNITY_ADVISOR_STORENAME, storeName).apply()
 
     }
+
     fun getCommunityAdvisorStoreName(): String {
         return sharedPreferences.getString(KEY_COMMUNITY_ADVISOR_STORENAME, "")!!
     }
+
+
 }

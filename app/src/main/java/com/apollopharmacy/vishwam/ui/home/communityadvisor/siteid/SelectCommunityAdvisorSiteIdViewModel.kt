@@ -12,8 +12,6 @@ import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.home.planogram.siteid.SelectPlangramSiteIdViewModel
-import com.apollopharmacy.vishwam.ui.home.planogram.siteid.SelectPlanogramSiteIdCallback
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hadilq.liveevent.LiveEvent
@@ -21,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SelectCommunityAdvisorSiteIdViewModel: ViewModel() {
+class SelectCommunityAdvisorSiteIdViewModel : ViewModel() {
     val commands = LiveEvent<SelectCommunityAdvisorSiteIdViewModel.Command>()
     var siteLiveData = ArrayList<StoreDetailsModelResponse.Row>()
     val state = MutableLiveData<State>()
@@ -31,7 +29,7 @@ class SelectCommunityAdvisorSiteIdViewModel: ViewModel() {
 
 
     fun getProxySiteListResponse(selectCommunityAdvisorSiteIdCallback: SelectCommunityAdvisorSiteIdCallback) {
-        if (Preferences.isSiteIdListFetchedCommunityAdvisor()) {
+        if (Preferences.isSiteIdListFetchedChamps()) {
             siteLiveData.clear()
             val gson = Gson()
             val siteIdList = Preferences.getSiteIdListJsonChamps()
@@ -41,7 +39,7 @@ class SelectCommunityAdvisorSiteIdViewModel: ViewModel() {
                 siteIdList,
                 type
             ) as ArrayList<StoreDetailsModelResponse.Row>
-            commands.value = Command.ShowToast("")
+//            commands.value = Command.ShowToast("")
             fixedArrayList.value = siteLiveData
         } else {
 
@@ -98,9 +96,9 @@ class SelectCommunityAdvisorSiteIdViewModel: ViewModel() {
                                     siteLiveData.clear()
                                     storeListResponse.data!!.listData!!.rows!!.map {
                                         siteLiveData.add(it)
-                                        fixedArrayList.value = siteLiveData
                                     }
-                                    commands.value = Command.ShowToast("")
+                                    fixedArrayList.value = siteLiveData
+//                                    commands.value = Command.ShowToast("")
                                 } else {
                                     selectCommunityAdvisorSiteIdCallback.onFailuregetStoreDetails(
                                         storeListResponse
@@ -132,10 +130,10 @@ class SelectCommunityAdvisorSiteIdViewModel: ViewModel() {
 
     }
 
-
     fun getSiteData(): ArrayList<StoreDetailsModelResponse.Row> {
         return siteLiveData
     }
+
     sealed class Command {
         data class ShowToast(val message: String) : Command()
     }
