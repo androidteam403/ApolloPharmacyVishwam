@@ -614,7 +614,7 @@
                                         android:layout_marginStart="@dimen/value_8dp"
                                         android:layout_marginTop="@dimen/value_8dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Neighboring Store"
+                                        android:text="Neighbouring Store"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp" />
 

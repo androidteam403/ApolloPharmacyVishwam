@@ -4,11 +4,11 @@
 4
 5    <uses-sdk
 6        android:minSdkVersion="15"
-6-->C:\Users\pc\Vishwam13_12_23\cusotmloader\src\main\AndroidManifest.xml
+6-->D:\NewUiWorkspace\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml
 7        android:targetSdkVersion="33" />
-7-->C:\Users\pc\Vishwam13_12_23\cusotmloader\src\main\AndroidManifest.xml
+7-->D:\NewUiWorkspace\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml
 8
 9    <application />
-9-->C:\Users\pc\Vishwam13_12_23\cusotmloader\src\main\AndroidManifest.xml:3:5-19
+9-->D:\NewUiWorkspace\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:3:5-19
 10
 11</manifest>

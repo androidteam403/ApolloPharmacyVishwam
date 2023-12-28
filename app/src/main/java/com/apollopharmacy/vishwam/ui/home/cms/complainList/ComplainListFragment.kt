@@ -114,6 +114,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     lateinit var layoutManager: LinearLayoutManager
     var handler: Handler = Handler()
     var ticketratingapiresponse: ResponseticketRatingApi.Data? = null
+
+    var status: String? = ""
+    var fromDateCeoDashboard: String? = ""
+    var toDateCeoDashboard: String? = ""
+
+    var uniqueId: String? = ""
     override fun retrieveViewModel(): ComplainListViewModel {
         return ViewModelProvider(this).get(ComplainListViewModel::class.java)
     }
@@ -137,6 +143,17 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
         viewBinding.viewmodel = viewModel
+        if (arguments != null) {
+            if (arguments?.getString("STATUS") != null)
+                this.status = arguments?.getString("STATUS") as String
+            if (arguments?.getString("FROM_DATE") != null)
+                this.fromDateCeoDashboard = arguments?.getString("FROM_DATE")
+            if (arguments?.getString("TO_DATE") != null)
+                this.toDateCeoDashboard = arguments?.getString("TO_DATE")
+            if (!arguments?.getString("UNIQUE_ID").isNullOrEmpty())
+                this.uniqueId = arguments?.getString("UNIQUE_ID") as String
+        }
+
         if (arguments?.getBoolean("isFromApprovalList") == true) {
             viewBinding.dateFilterLayout.visibility = View.GONE
 //            viewBinding.dateSelectionLayout.visibility = View.GONE
@@ -190,7 +207,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //            } else {
             Utlis.hideLoading()
             ticketratingapiresponse = it.data;
-            callAPI(1)
+            if (uniqueId.isNullOrEmpty()) {
+                callAPI(1)
+            } else {
+                Utlis.showLoading(requireContext())
+                fetchTicketIdDetaitslFromNotification()
+            }
 //            }
         }
 
@@ -225,8 +247,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     val b = a.Data()
                     val c = b.ListData()
                     var row = c.Row()
-                    if(arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row != null){
-                        row = arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row
+                    if (arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row != null) {
+                        row =
+                            arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row
                     }
                     viewModel.getNewticketlist(
                         RequestComplainList(
@@ -237,7 +260,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         true,
                         viewBinding.searchView.text.toString().trim(),
                         arguments?.getBoolean("isFromApprovalList") == true,
-                        arguments?.getBoolean("IS_DASHBOARD_TICKET_LIST") == true, row
+                        arguments?.getBoolean("IS_DASHBOARD_TICKET_LIST") == true,
+                        row,
+                        status!!,
+                        fromDateCeoDashboard!!,
+                        toDateCeoDashboard!!,
+                        uniqueId!!
                     )
                     return true
                 }
@@ -305,9 +333,18 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         arguments?.getBoolean("isFromApprovalList") == true
                     )
                     viewBinding.recyclerViewApproved.adapter = adapter
+
+                    if (!uniqueId.isNullOrEmpty()) {
+                        onComplaintItemClick(
+                            0,
+                            it.data.listData.rows,
+                            it.data.listData.rows.get(0)
+                        )
+                    }
                 }
             }
-            Utlis.hideLoading()
+            if (uniqueId.isNullOrEmpty())
+                Utlis.hideLoading()
         }
         //tickethistory api response...............................................................
         viewModel.newtickethistoryLiveData.observe(viewLifecycleOwner, Observer {
@@ -331,6 +368,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     }
                 }
             }
+            Utlis.showLoading(requireContext())
             viewModel.getTicketFullDetails(
                 adapter!!.orderData[selectedPostion].ticket_id, selectedPostion
             )
@@ -440,6 +478,37 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         })
     }
 
+    fun fetchTicketIdDetaitslFromNotification() {
+        var fromDate =
+            Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString())
+        var toDate =
+            Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString())
+        val a = TicketCountsByStatusRoleResponse()
+        val b = a.Data()
+        val c = b.ListData()
+        var row = c.Row()
+        /* if (arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row != null) {
+             row =
+                 arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row
+         }*/
+        viewModel.getNewticketlist(
+            RequestComplainList(
+                Preferences.getSiteId(), fromDate, toDate, userData.EMPID, 1
+            ),
+            complaintListStatus,
+            arguments?.getBoolean("isFromDrugList") ?: false,
+            true,
+            uniqueId!!,
+            arguments?.getBoolean("isFromApprovalList") == true,
+            arguments?.getBoolean("IS_DASHBOARD_TICKET_LIST") == true,
+            row,
+            status!!,
+            fromDateCeoDashboard!!,
+            toDateCeoDashboard!!,
+            uniqueId!!
+        )
+    }
+
     fun setFilterIndication() {
         if (!this.complaintListStatus.contains("new") || !this.complaintListStatus.contains("inprogress") || !this.complaintListStatus.contains(
                 "solved"
@@ -504,8 +573,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             val b = a.Data()
             val c = b.ListData()
             var row = c.Row()
-            if(arguments?.getSerializable("ROW") as? TicketCountsByStatusRoleResponse.Data.ListData.Row != null){
-                 row = arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row
+            if (arguments?.getSerializable("ROW") as? TicketCountsByStatusRoleResponse.Data.ListData.Row != null) {
+                row =
+                    arguments?.getSerializable("ROW") as TicketCountsByStatusRoleResponse.Data.ListData.Row
             }
             viewModel.getNewticketlist(
                 RequestComplainList(
@@ -517,7 +587,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 false,
                 viewBinding.searchView.text.toString().trim(),
                 this.arguments?.getBoolean("isFromApprovalList") == true,
-                arguments?.getBoolean("IS_DASHBOARD_TICKET_LIST") == true, row
+                arguments?.getBoolean("IS_DASHBOARD_TICKET_LIST") == true, row,
+                status!!,
+                fromDateCeoDashboard!!,
+                toDateCeoDashboard!!,
+                uniqueId!!
             )
 
         } else {
@@ -3601,6 +3675,7 @@ end*/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 979 && resultCode == Activity.RESULT_OK) {
+            uniqueId = ""
             callAPI(1)
         }
     }

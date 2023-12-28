@@ -53,7 +53,7 @@ object Utlis {
                 } else if (nowTime[Calendar.DATE] == neededTime[Calendar.DATE]) {
                     //here return like "Today at 12:00"
                     val time =
-                        SimpleDateFormat("hh:mm a",  Locale.ENGLISH).format(neededTime.time)
+                        SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(neededTime.time)
                     val ampm: String
                     var times: String? = null
                     if (time.endsWith("a.m.") || time.endsWith("am")) {
@@ -521,11 +521,81 @@ object Utlis {
     fun getCurrentTimeStampFormat(): String? {
         return try {
             val dateFormat =
-                SimpleDateFormat("yyyyMMddHHmmss")
+                SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH)
             dateFormat.format(Date())
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
             null
         }
     }
+
+    fun getDatefewEarlierDaysEarlier(pattern: String?, count: Int): String? {
+        val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
+
+//        Date date = new Date();
+//        String todate = sdf.format(date);
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -count)
+        val todate1 = cal.time
+        return sdf.format(todate1)
+    }
+
+    fun getFewDayMinusFromgivenDate(pattern: String?, givenDate: String, daysEarlier: Int): String {
+//        val givenDate = "01-Dec-2023"
+
+        val dateFormat = SimpleDateFormat(pattern, Locale.ENGLISH)
+        try {
+            val date = dateFormat.parse(givenDate)
+
+            val calendar = Calendar.getInstance()
+            calendar.time = date
+
+            calendar.add(Calendar.DAY_OF_MONTH, -daysEarlier)
+
+            val resultDate = calendar.time
+
+            val resultDateString = dateFormat.format(resultDate)
+
+            println("Given Date: $givenDate")
+            println("Subtracted 2 Days: $resultDateString")
+            return resultDateString
+        } catch (e: ParseException) {
+            e.printStackTrace()
+            return ""
+        }
+    }
+
+
+    /* // Given date string
+         String givenDate = "01-Dec-2023";
+
+         // Define the date format
+         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+
+         try {
+             // Parse the given date string
+             Date date = dateFormat . parse (dateString);
+
+             // Create a Calendar instance and set it to the parsed date
+             Calendar calendar = Calendar . getInstance ();
+             calendar.setTime(date);
+
+             // Subtract 2 days
+             calendar.add(Calendar.DAY_OF_MONTH, -2);
+
+             // Get the result date
+             Date resultDate = calendar . getTime ();
+
+             // Format the result date as a string
+             String resultDateString = dateFormat . format (resultDate);
+
+             // Print the result
+             System.out.println("Given Date: " + dateString);
+             System.out.println("Subtracted 2 Days: " + resultDateString);
+
+         } catch (ParseException e) {
+             e.printStackTrace();
+         }*/
+
+
 }
