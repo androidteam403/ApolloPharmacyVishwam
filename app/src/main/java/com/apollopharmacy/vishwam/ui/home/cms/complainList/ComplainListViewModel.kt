@@ -89,6 +89,7 @@ class ComplainListViewModel : ViewModel() {
         statusCeoDasboard: String,
         fromDateCeodashboard: String,
         toDateCeodashboard: String,
+        uniqueId: String,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -257,7 +258,13 @@ class ComplainListViewModel : ViewModel() {
             }
         } else if (!isApprovalList) {
             baseUrl =
-                baseUrl + "employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
+                baseUrl + "employee_id=${requestComplainList.empid}" +
+                        if (uniqueId.isEmpty()) {
+                            "&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}"
+                        } else {
+                            ""
+                        } +
+                        "&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
                     "reason_code=new_drug&"
                 } else {
                     ""

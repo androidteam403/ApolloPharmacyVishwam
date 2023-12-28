@@ -205,7 +205,8 @@ class SplashActivity : AppCompatActivity() {
                         .setAllowAssetPackDeletion(true)
                         .build(),
                     // Include a request code to later monitor this update request.
-                    1)
+                    1
+                )
             } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                 // This example applies an immediate update. To apply a flexible update
                 // instead, pass in AppUpdateType.FLEXIBLE
@@ -222,7 +223,8 @@ class SplashActivity : AppCompatActivity() {
                         .setAllowAssetPackDeletion(true)
                         .build(),
                     // Include a request code to later monitor this update request.
-                    1)
+                    1
+                )
             } else {
                 handleNextIntentnew()
             }
@@ -232,30 +234,45 @@ class SplashActivity : AppCompatActivity() {
     fun handleNextIntentnew() {
         if (!Preferences.getIsFCMKeyUpdated()) {
             Preferences.setIsUserValidated(false)
-            val homeIntent = Intent(this, VerifyUserActivity::class.java)
-            startActivity(homeIntent)
-            finish()
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+            if (intent != null) {
+                val bundle = intent.extras
+                bundle?.let { setNotificationDatatoValidatePin(it, false, true) }
+            }
+
+            /* val homeIntent = Intent(this, VerifyUserActivity::class.java)
+             startActivity(homeIntent)
+             finish()
+             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)*/
         } else {
             if (Preferences.getIsPinCreated()) {
                 if (Preferences.getLoginDate().isEmpty()) {
                     Preferences.setLoginDate(Utils.getCurrentDate())
-                    val homeIntent = Intent(this, ValidatePinActivity::class.java)
-                    startActivity(homeIntent)
-                    finish()
-                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                    if (intent != null) {
+                        val bundle = intent.extras
+                        bundle?.let { setNotificationDatatoValidatePin(it, true, false) }
+                    }
+                    /*val homeIntent = Intent(this, ValidatePinActivity::class.java)
+                        startActivity(homeIntent)
+                        finish()
+                        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)*/
                 } else {
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                         val datePattern =
                             android.icu.text.SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
-                        val dateDifference = Utils.getDateDiff(datePattern,
+                        val dateDifference = Utils.getDateDiff(
+                            datePattern,
                             Preferences.getLoginDate(),
-                            Utils.getCurrentDate()).toInt()
+                            Utils.getCurrentDate()
+                        ).toInt()
                         if (dateDifference < 30) {
-                            val homeIntent = Intent(this, ValidatePinActivity::class.java)
-                            startActivity(homeIntent)
-                            finish()
-                            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                            if (intent != null) {
+                                val bundle = intent.extras
+                                bundle?.let { setNotificationDatatoValidatePin(it, true, false) }
+                            }
+                            /*val homeIntent = Intent(this, ValidatePinActivity::class.java)
+                                startActivity(homeIntent)
+                                finish()
+                                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)*/
                         } else {
                             println("Login" + "129")
                             val homeIntent = Intent(this, LoginActivity::class.java)
@@ -302,10 +319,72 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun handleMainActivityIntent() {
-        val homeIntent = Intent(this, MainActivity::class.java)
-        startActivity(homeIntent)
-        finish()
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        if (intent != null) {
+            val bundle = intent.extras
+            bundle?.let { setNotificationData(it) }
+        }
+
+
+        /* val homeIntent = Intent(this, MainActivity::class.java)
+         startActivity(homeIntent)
+         finish()
+         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)*/
+    }
+
+    private fun setNotificationData(bundle: Bundle) {
+        val requestType = bundle["requesttype"] as String?
+        if (requestType != null && !requestType.isEmpty()) {
+            val module = bundle["Module"] as String?
+            val uniqueId = bundle["UniqueId"] as String?
+
+            val homeIntent = Intent(this, MainActivity::class.java)
+            homeIntent.putExtra("MODULE", module)
+            homeIntent.putExtra("UNIQUE_ID", uniqueId)
+
+            startActivity(homeIntent)
+            finish()
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        }
+    }
+
+    private fun setNotificationDatatoValidatePin(
+        bundle: Bundle,
+        isValidatePinActivity: Boolean,
+        isVerifyUserActivity: Boolean,
+    ) {
+        val module = bundle["Module"] as String?
+        if (module != null && !module.isEmpty()) {
+            val uniqueId = bundle["UniqueId"] as String?
+            if (isVerifyUserActivity) {
+                val homeIntent = Intent(this, VerifyUserActivity::class.java)
+                homeIntent.putExtra("MODULE", module)
+                homeIntent.putExtra("UNIQUE_ID", uniqueId)
+
+                startActivity(homeIntent)
+                finish()
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+            } else if (isValidatePinActivity) {
+                val homeIntent = Intent(this, ValidatePinActivity::class.java)
+                homeIntent.putExtra("MODULE", module)
+                homeIntent.putExtra("UNIQUE_ID", uniqueId)
+
+                startActivity(homeIntent)
+                finish()
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+            }
+        } else {
+            if (isVerifyUserActivity) {
+                val homeIntent = Intent(this, VerifyUserActivity::class.java)
+                startActivity(homeIntent)
+                finish()
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+            } else if (isValidatePinActivity) {
+                val homeIntent = Intent(this, ValidatePinActivity::class.java)
+                startActivity(homeIntent)
+                finish()
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+            }
+        }
     }
 
     private fun onCheckBuildDetails() {
@@ -332,7 +411,7 @@ class SplashActivity : AppCompatActivity() {
                             buildDetailsEntity.DOWNLOADURL
                         )
                     }
-                }else{
+                } else {
                     handleNextIntentnew()
                 }
             } else {
@@ -355,8 +434,10 @@ class SplashActivity : AppCompatActivity() {
             dialogView.setPositiveLabel(positiveBtn)
             dialogView.setPositiveListener(View.OnClickListener {
 //                dialogView.dismiss()
-                val viewIntent = Intent("android.intent.action.VIEW",
-                    Uri.parse(downloadUrl))
+                val viewIntent = Intent(
+                    "android.intent.action.VIEW",
+                    Uri.parse(downloadUrl)
+                )
                 startActivity(viewIntent)
             })
         }
