@@ -45,7 +45,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/value_10dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()-> callback.onClickQrCodePrint()}"
                     android:src="@drawable/ic_print_qr" />
