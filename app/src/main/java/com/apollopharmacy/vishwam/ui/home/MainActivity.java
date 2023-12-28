@@ -68,6 +68,8 @@ import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsF
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationFragment;
+import com.apollopharmacy.vishwam.ui.home.communityadvisor.CommunityAdvisorFragment;
+import com.apollopharmacy.vishwam.ui.home.communityadvisor.CommunityAdvisorFragmentCallback;
 import com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard.CeoDashboardFragment;
 import com.apollopharmacy.vishwam.ui.home.dashboard.managerdashboard.ManagerDashboardFragment;
 import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRoleResponse;
@@ -195,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationListView listView;
     public ImageView siteIdIcon;
     public ImageView plusIconAttendence;
+
     public RelativeLayout spinnerLayout;
     public ImageView plusIconApna;
     public ImageView filterIconApna;
@@ -2187,7 +2190,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 switchBtn.setVisibility(View.GONE);
                 break;
+            case "Community Advisor":
+            headerText.setText("Community Advisor");
+            fragment = new CommunityAdvisorFragment();
+            filterIcon.setVisibility(View.GONE);
+            onClickPlusIcon.setVisibility(View.GONE);
+            settingsWhite.setVisibility(View.GONE);
+            plusIconApna.setVisibility(View.VISIBLE);
+            filterIconApna.setVisibility(View.GONE);
+            refreshIconQc.setVisibility(View.GONE);
+            logo.setVisibility(View.GONE);
+            customerDetails.setVisibility(View.GONE);
+            backArrow.setVisibility(View.VISIBLE);
+            headerText.setVisibility(View.VISIBLE);
+            logoutBtn.setVisibility(View.GONE);
+            headerTextLocation.setVisibility(View.GONE);
+            plusIconAttendence.setVisibility(View.GONE);
+            helpIcon.setVisibility(View.GONE);
 
+            qcfilterIcon.setVisibility(View.GONE);
+            siteIdIcon.setVisibility(View.GONE);
+            scannerIcon.setVisibility(View.GONE);
+            spinnerLayout.setVisibility(View.GONE);
+            isHomeScreen = false;
+            riderNotificationLayout.setVisibility(View.GONE);
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+            bottomNavigationView.setVisibility(View.VISIBLE);
+            bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
+            switchBtn.setVisibility(View.GONE);
+            break;
             case "Logout":
                 dialogExit();
                 break;

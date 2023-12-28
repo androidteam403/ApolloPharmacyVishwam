@@ -15,4 +15,6 @@ public interface MainActivityCallback {
     void onClickSpinnerLayout();
     void onClickSubmenuItem(String menuName, ArrayList<MenuModel> submenus, int position);
     void onclickHelpIcon();
+
+
 }

@@ -28,6 +28,11 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
+import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.GetServicesCustomerResponse
+import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServiceDetailsRequest
+import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServiceDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServicesSaveDetailsRequest
+import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServicesSaveDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRoleResponse
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
@@ -986,4 +991,22 @@ interface ViswamAppApi {
 
     @GET
     fun PLANOGRAM_SURVEY_QUESTIONS_LIST_API_CALL(@Url url: String): Call<PlanogramSurveyQuestionsListResponse>
+    @GET
+    suspend fun getCategoryDetails(
+        @Url url: String,
+        @Header("token") token: String,
+    ): GetServicesCustomerResponse
+
+    @POST
+    suspend fun getHomeServiceDetails(
+        @Url url: String, @Header("token") token: String,
+        @Body homeServiceDetailsRequest: HomeServiceDetailsRequest,
+    ): HomeServiceDetailsResponse
+
+
+    @POST
+    suspend fun getHomeServicesSaveDetails(
+        @Url url:String, @Header("token") token: String,
+        @Body homeServicesSaveDetailsRequest: HomeServicesSaveDetailsRequest,
+    ):HomeServicesSaveDetailsResponse
 }

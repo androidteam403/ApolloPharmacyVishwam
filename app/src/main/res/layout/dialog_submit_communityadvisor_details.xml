@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/value_10dp"
+        android:background="@drawable/dialog_background"
+        android:orientation="vertical"
+        android:padding="@dimen/value_20dp">
+
+        <ImageButton
+            android:id="@+id/close"
+            android:layout_width="@dimen/value_40dp"
+            android:layout_height="@dimen/value_40dp"
+            android:layout_gravity="end"
+            android:background="@drawable/close_icon"
+            android:contentDescription="@string/app_name"
+            android:scaleType="center"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/value_15dp"
+            android:layout_marginBottom="@dimen/value_25dp"
+            android:gravity="center_horizontal"
+            android:text="@string/stringare_you_sure_you_want_to_submit_details"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/value_5dp"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/cancel_button"
+                android:layout_width="@dimen/value_200dp"
+                android:layout_height="@dimen/value_45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:layout_weight="1"
+                android:background="@drawable/red_rectangle"
+                android:gravity="center"
+                android:text="@string/label_cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp" />
+
+            <TextView
+                android:id="@+id/submit_button"
+                android:layout_width="@dimen/value_200dp"
+                android:layout_height="@dimen/value_45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_weight="1"
+                android:background="@drawable/blue_drawable"
+                android:gravity="center"
+                android:text="@string/string_submit"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
