@@ -25,8 +25,8 @@ import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.GetServicesCust
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServicesSaveDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServicesSaveDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.siteid.SelectCommunityAdvisorSiteIdActivity
-import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.signaturepad.NetworkUtils
 import java.util.regex.Pattern
 import java.util.stream.Collectors
 

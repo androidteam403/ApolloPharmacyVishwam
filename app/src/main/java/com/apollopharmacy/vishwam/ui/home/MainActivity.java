@@ -2213,7 +2213,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             scannerIcon.setVisibility(View.GONE);
             spinnerLayout.setVisibility(View.GONE);
             isHomeScreen = false;
-            riderNotificationLayout.setVisibility(View.GONE);
+//            riderNotificationLayout.setVisibility(View.GONE);
 //                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
             bottomNavigationView.setVisibility(View.VISIBLE);
             bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
