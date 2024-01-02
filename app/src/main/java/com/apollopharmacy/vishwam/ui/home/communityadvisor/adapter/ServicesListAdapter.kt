@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.communityadvisor.adapter
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import androidx.databinding.DataBindingUtil
@@ -11,6 +12,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterServicesListBinding
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.CommunityAdvisorFragmentCallback
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServiceDetailsResponse
+import java.util.Locale
 
 class ServicesListAdapter(
     var mClickListener: CommunityAdvisorFragmentCallback,
@@ -18,15 +20,14 @@ class ServicesListAdapter(
 ) :
     RecyclerView.Adapter<ServicesListAdapter.ViewHolder>() {
     lateinit var intent: Intent
-    var isServicesTab = true
     private var filteredList: List<HomeServiceDetailsResponse.Detlist> = servicesList
+    var adapterServicesListBinding: AdapterServicesListBinding? = null
     fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val query = constraint.toString().toLowerCase().trim()
+                val query = constraint.toString().toLowerCase(Locale.ROOT).trim()
                 val results = FilterResults()
-
-                if (query.isEmpty()) {
+                if (query.isEmpty() && servicesList.isEmpty() && filteredList.isEmpty()) {
                     results.values = servicesList
                 } else {
                     val filtered = servicesList.filter { item ->
@@ -45,11 +46,16 @@ class ServicesListAdapter(
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 filteredList = results?.values as List<HomeServiceDetailsResponse.Detlist>
                 notifyDataSetChanged()
+                if (filteredList.size > 0) {
+                    mClickListener.noListFound(filteredList.size)
+                } else {
+                    mClickListener.noListFound(0)
+                }
             }
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    /*@SuppressLint("NotifyDataSetChanged")
     fun filterList(query: String) {
         val filteredList = servicesList.filter { item ->
             item.uniqueId!!.contains(query, ignoreCase = true) ||
@@ -58,7 +64,7 @@ class ServicesListAdapter(
         }
         this.filteredList = filteredList
         notifyDataSetChanged()
-    }
+    }*/
 
 
     override fun onCreateViewHolder(
