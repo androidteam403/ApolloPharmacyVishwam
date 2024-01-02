@@ -38,10 +38,10 @@ class CommunityAdvisorFragment :
 
     var mInstance: MainActivity? = null
     private lateinit var servicesList: ArrayList<HomeServiceDetailsResponse.Detlist>
-     var homeServiceDetailsResponse: HomeServiceDetailsResponse?=null
+    var homeServiceDetailsResponse: HomeServiceDetailsResponse? = null
     lateinit var homeServiceDetailsRequest: HomeServiceDetailsRequest
     private var communityAdvisorFragmentCallback: CommunityAdvisorFragmentCallback = this
-
+    var servicesListAdapter: ServicesListAdapter? = null
     var isServicesTab = true
     override val layoutRes: Int
         get() = R.layout.fragment_community_advisor
@@ -58,7 +58,6 @@ class CommunityAdvisorFragment :
         viewBinding.customerInteractionButton.setOnClickListener {
             onClickCustomerInteractionTab()
         }
-        setup()
     }
 
     @Deprecated("Deprecated in Java")
@@ -88,9 +87,8 @@ class CommunityAdvisorFragment :
         return viewModel
     }
 
-      var servicesListAdapter: ServicesListAdapter?=null
     override fun setup() {
-        viewBinding.noListFound.visibility=View.GONE
+        viewBinding.noListFound.visibility = View.GONE
         viewBinding.callback = this
         homeServiceDetailsRequest = HomeServiceDetailsRequest()
         homeServiceDetailsRequest.userId = Preferences.getValidatedEmpId()
@@ -98,14 +96,14 @@ class CommunityAdvisorFragment :
         servicesList = ArrayList()
         viewBinding.searchIcon.setOnClickListener {
             viewBinding.searchView.text!!.clear()
-            servicesListAdapter?.filterList("")
+            servicesListAdapter?.getFilter()!!.filter("")
         }
 
         viewBinding.searchView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                servicesListAdapter?.filterList(s.toString())
+                servicesListAdapter?.getFilter()!!.filter(s.toString())
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -113,7 +111,6 @@ class CommunityAdvisorFragment :
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             Utlis.showLoading(requireContext())
-            viewBinding.noListFound.visibility=View.GONE
             viewModel.getHomeServiceDetails(homeServiceDetailsRequest, this)
 
         } else {
@@ -126,18 +123,27 @@ class CommunityAdvisorFragment :
         navigatetoServiceCustomerActivity()
     }
 
-
     override fun onClickServicesTab() {
         isServicesTab = true
         updateButtonBackground()
-        onSuccessHomeServiceDetails(homeServiceDetailsResponse!!)
+        if (homeServiceDetailsResponse != null && !homeServiceDetailsResponse!!.detlist.isEmpty() && homeServiceDetailsResponse!!.detlist!!.size > 0) {
+            onSuccessHomeServiceDetails(homeServiceDetailsResponse!!)
+        } else {
+            viewBinding.servicesRecyclerView.visibility = View.GONE
+            viewBinding.noListFound.visibility = View.VISIBLE
+        }
     }
 
     override fun onClickCustomerInteractionTab() {
         isServicesTab = false
         navigatetoServiceCustomerActivity()
         updateButtonBackground()
-        onSuccessHomeServiceDetails(homeServiceDetailsResponse!!)
+        if (homeServiceDetailsResponse != null && !homeServiceDetailsResponse!!.detlist.isEmpty() && homeServiceDetailsResponse!!.detlist!!.size > 0) {
+            onSuccessHomeServiceDetails(homeServiceDetailsResponse!!)
+        } else {
+            viewBinding.servicesRecyclerView.visibility = View.GONE
+            viewBinding.noListFound.visibility = View.VISIBLE
+        }
     }
 
 
@@ -155,6 +161,7 @@ class CommunityAdvisorFragment :
     override fun onClickServicesItems(serviceItem: HomeServiceDetailsResponse.Detlist) {
         serviceDialog(serviceItem)
     }
+
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onSuccessHomeServiceDetails(homeServiceDetailsResponse: HomeServiceDetailsResponse) {
@@ -177,28 +184,40 @@ class CommunityAdvisorFragment :
                  servicesList.add(0, latestItem)
              }*/
             servicesList.reverse()
+            if (this.servicesList.size > 0) {
+                viewBinding.noListFound.visibility = View.GONE
 
-            viewBinding.noListFound.visibility = View.GONE
-            servicesListAdapter =
-                ServicesListAdapter(communityAdvisorFragmentCallback, servicesList)
-            viewBinding.servicesRecyclerView.adapter =
-                servicesListAdapter
-            viewBinding.servicesRecyclerView.layoutManager =
-                LinearLayoutManager(context)
+                viewBinding.servicesRecyclerView.visibility = View.VISIBLE
+                servicesListAdapter =
+                    ServicesListAdapter(communityAdvisorFragmentCallback, servicesList)
+                viewBinding.servicesRecyclerView.adapter =
+                    servicesListAdapter
+                viewBinding.servicesRecyclerView.layoutManager =
+                    LinearLayoutManager(context)
+            } else {
+                viewBinding.servicesRecyclerView.visibility = View.GONE
+                viewBinding.noListFound.visibility = View.VISIBLE
+            }
 
         } else {
+            viewBinding.servicesRecyclerView.visibility = View.GONE
             viewBinding.noListFound.visibility = View.VISIBLE
-            Toast.makeText(
-                requireContext(),
-                "No data available.",
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
 
     override fun onFailureHomeServiceDetails(message: String) {
         Utlis.hideLoading()
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        viewBinding.noListFound.visibility = View.VISIBLE
+    }
+
+    override fun noListFound(count: Int) {
+        if (count > 0) {
+            viewBinding.noListFound.visibility = View.GONE
+            viewBinding.servicesRecyclerView.visibility = View.VISIBLE
+        } else {
+            viewBinding.servicesRecyclerView.visibility = View.GONE
+            viewBinding.noListFound.visibility = View.VISIBLE
+        }
     }
 
     fun serviceDialog(
@@ -238,7 +257,6 @@ class CommunityAdvisorFragment :
             dialogServicesBinding.others.text = serviceItem.customerInteractionremarks
             dialogServicesBinding.customerDate.text = serviceItem.serviceDate
             dialogServicesBinding.customerMobile.text = "(+91 ${serviceItem.customerMobileno})"
-            //  "(+91) ${serviceItem.customerMobileno}" //"("+serviceItem.customerMobileno+")"
             dialogServicesBinding.servicesId.text = serviceItem.uniqueId
             dialogServicesBinding.type.text = "(" + serviceItem.serviceType + ")"
         }
@@ -273,16 +291,16 @@ class CommunityAdvisorFragment :
         }
     }
 
-    private fun filterList(query: String) {
-        servicesListAdapter?.filterList(query)
-        val filteredList = servicesList.filter { item ->
-            item.uniqueId!!.contains(query, ignoreCase = true)||
-                    item.customerName!!.contains(query,ignoreCase = true)||
-                    item.customerMobileno!!.contains(query,ignoreCase = true)
-        }
-        servicesList.clear()
-        servicesList.addAll(filteredList)
-    }
+    /* private fun filterList(query: String) {
+         servicesListAdapter?.filterList(query)
+         val filteredList = servicesList.filter { item ->
+             item.uniqueId!!.contains(query, ignoreCase = true) ||
+                     item.customerName!!.contains(query, ignoreCase = true) ||
+                     item.customerMobileno!!.contains(query, ignoreCase = true)
+         }
+         servicesList.clear()
+         servicesList.addAll(filteredList)
+     }*/
 }
 
 

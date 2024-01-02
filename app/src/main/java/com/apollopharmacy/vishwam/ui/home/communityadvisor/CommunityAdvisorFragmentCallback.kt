@@ -13,4 +13,6 @@ interface CommunityAdvisorFragmentCallback {
     fun onSuccessHomeServiceDetails(homeServiceDetailsResponse: HomeServiceDetailsResponse)
     fun onFailureHomeServiceDetails(message: String)
 
+    fun noListFound(count: Int)
+
 }
