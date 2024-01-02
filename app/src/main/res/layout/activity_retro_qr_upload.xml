@@ -45,6 +45,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/value_10dp"
+                    android:visibility="gone"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()-> callback.onClickQrCodePrint()}"
                     android:src="@drawable/ic_print_qr" />
@@ -107,7 +108,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="@dimen/value_45dp"
-                    android:layout_weight=".8"
+                    android:layout_weight=".82"
                     android:orientation="horizontal">
 
                     <LinearLayout

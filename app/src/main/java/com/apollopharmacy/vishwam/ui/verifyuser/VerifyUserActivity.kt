@@ -36,11 +36,19 @@ class VerifyUserActivity : AppCompatActivity() {
     private val permission = 101
     private var selectedcompany = ""
 
+
+    var module = ""
+    var uniqueId = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         verifyUserBinding = DataBindingUtil.setContentView(this, R.layout.activity_verify_user)
         verifyUserViewModel = ViewModelProvider(this)[VerifyUserViewModel::class.java]
-
+        if (intent != null) {
+            if (intent.getStringExtra("MODULE") != null)
+                module = intent.getStringExtra("MODULE") as String
+            if (intent.getStringExtra("UNIQUE_ID") != null)
+                uniqueId = intent.getStringExtra("UNIQUE_ID") as String
+        }
 //        handleSplashIntent()
 
 
@@ -153,6 +161,8 @@ class VerifyUserActivity : AppCompatActivity() {
 
     private fun handleSplashIntent() {
         val intent = Intent(this, SplashActivity::class.java)
+        intent.putExtra("MODULE", module)
+        intent.putExtra("UNIQUE_ID", uniqueId)
         startActivity(intent)
         finish()
 

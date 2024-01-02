@@ -127,6 +127,7 @@
         android:textColorHint="@color/black"
         android:visibility="gone"
         android:layout_marginBottom="@dimen/value_15dp"
+        android:theme="@style/TextLabelEditText"
 
         app:layout_constraintTop_toTopOf="parent">
 

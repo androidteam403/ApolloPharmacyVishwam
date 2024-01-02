@@ -41,6 +41,8 @@ import com.google.gson.JsonParseException
 import lecho.lib.hellocharts.model.SliceValue
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.text.WordUtils
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -962,9 +964,40 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         }*/
     }
 
-    override fun onCLickRowtoShowTickets(row: TicketCountsByStatusRoleResponse.Data.ListData.Row) {
-        MainActivity.mInstance.displaySelectedScreenFromCeoDashboard("DASHBOARD_TICKET_LIST", row)
-    }
+    override fun onCLickRowtoShowTickets(
+        row: TicketCountsByStatusRoleResponse.Data.ListData.Row,
+        status: String,
+    ) {
+
+        val inputPattern = "dd-MMM-yyyy"
+        val outputPattern = "yyyy-MM-dd"
+        val inputFormat = SimpleDateFormat(inputPattern, Locale.ENGLISH)
+        val outputFormat = SimpleDateFormat(outputPattern, Locale.ENGLISH)
+
+        var date1: Date? = null
+        var fromDateModified: String? = null
+
+        var date2: Date? = null
+        var toDateModified: String? = null
+
+        try {
+            date1 = inputFormat.parse(viewBinding.fromDate.text.toString())
+            fromDateModified = outputFormat.format(date1!!)
+
+            date2 = inputFormat.parse(viewBinding.toDate.text.toString())
+            toDateModified = outputFormat.format(date2!!)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+
+        MainActivity.mInstance.displaySelectedScreenFromCeoDashboard(
+            "DASHBOARD_TICKET_LIST",
+            row,
+            status,
+            fromDateModified,
+            toDateModified
+        )
+    }//viewBinding.fromDate.text.toString()....viewBinding.toDate.text.toString()
 
     override fun selectedDateTo(
         dateSelected: String,

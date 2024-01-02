@@ -37,25 +37,43 @@
 
 <!--                android:contentDescription="@string/app_name"-->
 <!--                android:src="@drawable/ic_baseline_arrow_back_24" />-->
-
-            <TextView
-                android:id="@+id/rack"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_5dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Rack 1"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_18sp" />
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="15sp"
+                    android:text="Qr Retro Preview"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/rackid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="15sp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/headerLayout"
-            android:layout_marginBottom="50dp">
+            android:layout_marginBottom="5dp">
 
-            <ImageView
+            <com.github.chrisbanes.photoview.PhotoView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

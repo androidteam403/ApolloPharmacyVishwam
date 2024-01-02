@@ -37,7 +37,6 @@ import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 
-
 class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurveyBinding>(),
     ApnaSurveyCallback, MainActivityCallback {
     var surveyResponseList = ArrayList<SurveyListResponse.Row>()

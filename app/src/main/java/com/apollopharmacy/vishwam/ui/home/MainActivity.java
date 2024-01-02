@@ -68,6 +68,8 @@ import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsF
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationFragment;
+import com.apollopharmacy.vishwam.ui.home.communityadvisor.CommunityAdvisorFragment;
+import com.apollopharmacy.vishwam.ui.home.communityadvisor.CommunityAdvisorFragmentCallback;
 import com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard.CeoDashboardFragment;
 import com.apollopharmacy.vishwam.ui.home.dashboard.managerdashboard.ManagerDashboardFragment;
 import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRoleResponse;
@@ -195,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationListView listView;
     public ImageView siteIdIcon;
     public ImageView plusIconAttendence;
+
     public RelativeLayout spinnerLayout;
     public ImageView plusIconApna;
     public ImageView filterIconApna;
@@ -246,6 +249,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public BottomNavigationView bottomNavigationView;
     public Switch switchBtn;
 
+    private String module = "";
+    private String uniqueId = "";
+
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -259,6 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mInstance = this;
+        System.out.println("FCM KEY:::::::::::::::::::::::::::::::::::" + Preferences.INSTANCE.getFcmKey());
         mainActivityCallback = this;
         mainActivityHelpIconCallback = this;
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -269,6 +276,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             isLanchedByPushNotification = (Boolean) getIntent().getBooleanExtra("isPushNotfication", false);
             isFromNotificaionIcon = (Boolean) getIntent().getBooleanExtra("is_from_notification", false);
             notificationModelResponse = (NotificationModelResponse) getIntent().getSerializableExtra("notificationResponse");
+
+            if (getIntent().getStringExtra("MODULE") != null)
+                module = (String) getIntent().getStringExtra("MODULE");
+            if (getIntent().getStringExtra("UNIQUE_ID") != null)
+                uniqueId = (String) getIntent().getStringExtra("UNIQUE_ID");
         }
         LinearLayout locationDeniedLayout = (LinearLayout) findViewById(R.id.location_denied);
         locationDeniedLayout.setVisibility(View.GONE);
@@ -330,10 +342,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
-        if (empDetailsResponses != null
-                && empDetailsResponses.getData() != null
-                && empDetailsResponses.getData().getEnableMarketingDashboard() != null
-                && empDetailsResponses.getData().getEnableMarketingDashboard().getUid() != null) {
+        if (empDetailsResponses != null && empDetailsResponses.getData() != null && empDetailsResponses.getData().getEnableMarketingDashboard() != null && empDetailsResponses.getData().getEnableMarketingDashboard().getUid() != null) {
             ceoDashboardAccessFromEmployee = empDetailsResponses.getData().getEnableMarketingDashboard().getUid();
         }
 
@@ -400,9 +409,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
 
-
-
-
         });
 
         String loginJson = Preferences.INSTANCE.getLoginJson();
@@ -430,7 +436,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             username.setText(loginData.getEMPNAME());
             TextView userId = findViewById(R.id.userId);
             userId.setText("ID: " + loginData.getEMPID());
-
 
 
             MobileAccessResponse.AccessDetails accessDetails = Preferences.INSTANCE.getVishwamAccessResponse().getAccessDetails();
@@ -475,7 +480,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         headerTextLocation = findViewById(R.id.locationtext);
 
         bottomNavigationView = findViewById(R.id.bottomNavBar);
-        displaySelectedScreen("HOME");
+        if (module != null && !module.isEmpty() && module.equals("CMS")) {
+            menuModels = new ArrayList<>();
+            menuModels.add(new MenuModel("Register Complaint", R.drawable.cms_complaint_register, true, null, null));
+            menuModels.add(new MenuModel("Complaints", R.drawable.cms_complaint_list, true, null, null));
+            menuModels.add(new MenuModel("Approvals", R.drawable.cms_approval_list, true, null, null));
+
+            displaySelectedScreen("Complaints");
+        } else {
+            displaySelectedScreen("HOME");
+        }
 //        listView.setSelected(0);
 
 
@@ -798,9 +812,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean isAllowFragmentChange = false;
 
     private TicketCountsByStatusRoleResponse.Data.ListData.Row row;
+    private String status;
+    private String fromDate;
+    private String toDate;
 
-    public void displaySelectedScreenFromCeoDashboard(String itemName, TicketCountsByStatusRoleResponse.Data.ListData.Row row) {
+    public void displaySelectedScreenFromCeoDashboard(String itemName, TicketCountsByStatusRoleResponse.Data.ListData.Row row, String status, String fromDate, String toDate) {
         this.row = row;
+        this.status = status;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
         displaySelectedScreen(itemName);
     }
 
@@ -944,7 +964,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "Complaints":
                 headerText.setText("Complaints");
-                fragment = new ComplainListFragment();
+
+                Bundle bundleComplaints = new Bundle();
+                bundleComplaints.putString("UNIQUE_ID", uniqueId);
+                ComplainListFragment fragInfoComplaints = new ComplainListFragment();
+                fragInfoComplaints.setArguments(bundleComplaints);
+                fragment = fragInfoComplaints;
+                uniqueId = "";
+
+//                fragment = new ComplainListFragment();
+
+
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
                 settingsWhite.setVisibility(View.GONE);
@@ -1020,6 +1050,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Bundle bundleDashboardTickets = new Bundle();
                 bundleDashboardTickets.putBoolean("IS_DASHBOARD_TICKET_LIST", true);
                 bundleDashboardTickets.putSerializable("ROW", row);
+                bundleDashboardTickets.putString("STATUS", status);
+                bundleDashboardTickets.putString("FROM_DATE", fromDate);
+                bundleDashboardTickets.putString("TO_DATE", toDate);
+
                 ComplainListFragment dashboardTicketsFragmnet = new ComplainListFragment();
                 dashboardTicketsFragmnet.setArguments(bundleDashboardTickets);
                 fragment = dashboardTicketsFragmnet;
@@ -2156,7 +2190,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(menuModels.size() > 1);
                 switchBtn.setVisibility(View.GONE);
                 break;
+            case "Community Advisor":
+            headerText.setText("Community Advisor");
+            fragment = new CommunityAdvisorFragment();
+            filterIcon.setVisibility(View.GONE);
+            onClickPlusIcon.setVisibility(View.GONE);
+            settingsWhite.setVisibility(View.GONE);
+            plusIconApna.setVisibility(View.VISIBLE);
+            filterIconApna.setVisibility(View.GONE);
+            refreshIconQc.setVisibility(View.GONE);
+            logo.setVisibility(View.GONE);
+            customerDetails.setVisibility(View.GONE);
+            backArrow.setVisibility(View.VISIBLE);
+            headerText.setVisibility(View.VISIBLE);
+            logoutBtn.setVisibility(View.GONE);
+            headerTextLocation.setVisibility(View.GONE);
+            plusIconAttendence.setVisibility(View.GONE);
+            helpIcon.setVisibility(View.GONE);
 
+            qcfilterIcon.setVisibility(View.GONE);
+            siteIdIcon.setVisibility(View.GONE);
+            scannerIcon.setVisibility(View.GONE);
+            spinnerLayout.setVisibility(View.GONE);
+            isHomeScreen = false;
+//            riderNotificationLayout.setVisibility(View.GONE);
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+            bottomNavigationView.setVisibility(View.VISIBLE);
+            bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
+            switchBtn.setVisibility(View.GONE);
+            break;
             case "Logout":
                 dialogExit();
                 break;

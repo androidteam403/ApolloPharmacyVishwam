@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/value_15dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/icon_back_arrow"/>
+            android:src="@drawable/icon_back_arrow" />
 
         <TextView
             android:id="@+id/headerTitle"
@@ -155,6 +155,7 @@
                     android:paddingBottom="5dp"
                     android:src="@drawable/plus"
                     android:visibility="visible" />
+
 
                 <ImageView
                     android:id="@+id/filtericonapna"
@@ -340,7 +341,7 @@
                 android:id="@+id/switchBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/helpBtn"

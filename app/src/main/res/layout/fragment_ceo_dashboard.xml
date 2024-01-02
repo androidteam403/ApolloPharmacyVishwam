@@ -797,6 +797,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:visibility="visible">
+
                 <ImageView
                     android:id="@+id/emptyImage"
                     android:layout_width="@dimen/value_120dp"

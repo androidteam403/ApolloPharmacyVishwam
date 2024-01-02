@@ -66,7 +66,6 @@ class ApnaRetroFileUpload {
                     break
                 }
             }
-
             val requestBody = RequestBody.create("*/*".toMediaTypeOrNull(), fileUploadModel.file!!)
             val fileToUpload =
                 MultipartBody.Part.createFormData("file", fileUploadModel.file!!.name, requestBody)

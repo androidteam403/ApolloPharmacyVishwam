@@ -64,7 +64,6 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         get() = R.layout.fragment_home
 
     override fun retrieveViewModel(): HomeViewModel {
-
         return ViewModelProvider(this).get(HomeViewModel::class.java)
     }
 
@@ -696,7 +695,15 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         }
 
-
+        attendanceMenuModel.add(
+            MenuModel(
+                "Community Advisor",
+                R.drawable.community_advisor,
+                true,
+                apnaRetroMenuModel,
+                "Community Advisor"
+            )
+        )
         /* val attendanceSubMenuModel = ArrayList<MenuModel>()
          attendanceSubMenuModel.add(MenuModel("Attendance", R.drawable.attendance, true))
          attendanceSubMenuModel.add(MenuModel("History", R.drawable.history, true))*/

@@ -31,8 +31,6 @@ class ComplaintsListDetailsViewModel:ViewModel() {
     var token = ""
     var cmsTicketResponseList = MutableLiveData<CmsTicketResponse>()
     var getManagersLiveData = MutableLiveData<Data>()
-
-
     fun cmsTicketStatusUpdate(cmsTicketRequest: CmsTicketRequest) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)

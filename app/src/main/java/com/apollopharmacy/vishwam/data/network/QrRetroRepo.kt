@@ -1,15 +1,10 @@
 package com.apollopharmacy.vishwam.data.network
 
-import com.apollopharmacy.vishwam.data.model.discount.GetDiscountColorResponse
-import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
-import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsResponse
-import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetImageByRackResponse
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
 import com.google.gson.JsonSyntaxException
-import okhttp3.MultipartBody
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
@@ -97,7 +92,6 @@ object QrRetroRepo {
             ApiResult.UnknownHostException(e.message)
         }
     }
-
 
 
     suspend fun getStoreWiseRackDetails(
