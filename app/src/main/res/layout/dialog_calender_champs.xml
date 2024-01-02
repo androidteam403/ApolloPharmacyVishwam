@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -28,7 +29,7 @@
 
     </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/dialog_background">
@@ -204,13 +205,12 @@
 
                             <TextView
                                 android:id="@+id/durationTexthrs"
-                                android:layout_marginStart="@dimen/value_2dp"
-                                android:layout_gravity="start"
-                                android:layout_marginBottom="@dimen/value_5dp"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                               />
+                                android:layout_height="match_parent"
+                                android:layout_gravity="start"
+                                android:layout_marginStart="@dimen/value_2dp"
+                                android:layout_marginBottom="@dimen/value_5dp"
+                                android:textColor="@color/black" />
 <!--                            <TextView-->
 <!--                                android:layout_marginStart="@dimen/value_2dp"-->
 <!--                                android:layout_gravity="start"-->

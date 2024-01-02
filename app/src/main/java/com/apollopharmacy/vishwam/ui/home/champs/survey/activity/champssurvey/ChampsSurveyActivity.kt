@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.SystemClock
@@ -20,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -56,6 +58,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -846,7 +850,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     override fun onFailureTrainerList(response: TrainersEmailIdResponse?) {
         Toast.makeText(applicationContext, response!!.message.toString(), Toast.LENGTH_SHORT).show()
     }
-
+    var selectedTimes:Calendar?=null
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onClickCalender() {
         if (status.equals("NEW")) {
             val uploadStatusFilterDialog = this?.let { Dialog(this) }
@@ -915,6 +920,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     this,
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     object : TimePickerDialog.OnTimeSetListener {
+                        @RequiresApi(Build.VERSION_CODES.O)
                         @SuppressLint("SetTextI18n")
                         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
                                 val selectedTime = Calendar.getInstance()
@@ -922,8 +928,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                             selectedTime[Calendar.MINUTE] = minute
 
                             val currentTime = Calendar.getInstance()
+                            val currentDate = LocalDate.now()
+                            val formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy")
+                            val formattedDate = currentDate.format(formatter)
+                            selectedTimes=selectedTime!!;
 
-                            if (selectedTime.after(currentTime)) {
+                            if ((formattedDate.equals(dialogFilterUploadBinding!!.fromDateTextChamps.text.toString())) && selectedTime.after(currentTime)) {
                                 Toast.makeText(
                                     applicationContext,
                                     "Cannot select future time.",
@@ -966,22 +976,59 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
 
             dialogFilterUploadBinding!!.submit.setOnClickListener {
-                val strFromate = dialogFilterUploadBinding!!.fromDateTextChamps.text.toString()
-                val fromDateFormat = SimpleDateFormat("dd-MMM-yyyy");
-                val frommdate = fromDateFormat.parse(strFromate)
-                val fromDateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(frommdate)
+                val currentTime = Calendar.getInstance()
+                val currentDate = LocalDate.now()
+                val formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy")
+                val formattedDate = currentDate.format(formatter)
+
+                try {
+                    val timeString = dialogFilterUploadBinding!!.durationTexthrs.text.toString()
+                    val originalFormat = SimpleDateFormat("hh:mm a")
+                    val targetFormat = SimpleDateFormat("HH:mm")
+                    val date = originalFormat.parse(timeString)
+                    val formattedTime = targetFormat.format(date)
+                    val timeParts =
+                        formattedTime.split(":".toRegex()).dropLastWhile { it.isEmpty() }
+                            .toTypedArray()
+                    val hours = timeParts[0]
+                    val minutes = timeParts[1]
+                    println("Hours: $hours")
+                    println("Minutes: $minutes")
+                    val selectedTime = Calendar.getInstance()
+                    selectedTime[Calendar.HOUR_OF_DAY] = hours.toInt()
+                    selectedTime[Calendar.MINUTE] = minutes.toInt()
+                    selectedTimes=selectedTime
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+
+                if (selectedTimes!=null && (formattedDate.equals(dialogFilterUploadBinding!!.fromDateTextChamps.text.toString())) && selectedTimes!!.after(currentTime)) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Cannot select future time.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    // Optionally reset to current time or handle accordingly
+                }else{
+                    val strFromate = dialogFilterUploadBinding!!.fromDateTextChamps.text.toString()
+                    val fromDateFormat = SimpleDateFormat("dd-MMM-yyyy");
+                    val frommdate = fromDateFormat.parse(strFromate)
+                    val fromDateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(frommdate)
 //            fromdate = fromDateNewFormat
-                val strFromatesP = dialogFilterUploadBinding!!.durationTexthrs.text.toString()
+                    val strFromatesP = dialogFilterUploadBinding!!.durationTexthrs.text.toString()
 //            val fromDateFormatsP = SimpleDateFormat("hh:mm");
 //            val frommdateP = fromDateFormatsP.parse(strFromatesP)
 //            val fromDateNewFormatP = SimpleDateFormat("hh:mm a").format(frommdateP)
 
-                activityChampsSurveyBinding.issuedOn.text =
-                    fromDateNewFormat + " - " + (strFromatesP.toUpperCase())
-                if (uploadStatusFilterDialog != null && uploadStatusFilterDialog.isShowing) {
-                    uploadStatusFilterDialog.dismiss()
+                    activityChampsSurveyBinding.issuedOn.text =
+                        fromDateNewFormat + " - " + (strFromatesP.toUpperCase())
+                    if (uploadStatusFilterDialog != null && uploadStatusFilterDialog.isShowing) {
+                        uploadStatusFilterDialog.dismiss()
 
+                    }
                 }
+
             }
 
             uploadStatusFilterDialog.show()
