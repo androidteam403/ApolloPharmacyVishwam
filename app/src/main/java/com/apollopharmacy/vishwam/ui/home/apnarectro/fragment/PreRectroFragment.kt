@@ -306,17 +306,18 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
 
     override fun onSuccessgetStorePendingApprovedApiCall(getStorePendingApprovedList: GetStorePendingAndApprovedListRes) {
-
+        if (viewBinding.pullToRefreshApproved.isRefreshing &&getStorePendingApprovedList.status.equals(true)) {
+//            Toast.makeText(context, "Refresh", Toast.LENGTH_LONG).show()
+            viewBinding.pullToRefreshApproved.isRefreshing = false
+        }
 
         if (getStorePendingApprovedList.status.equals(true) && getStorePendingApprovedList.getList.size > 0) {
             hideLoading()
+
             viewBinding.listRecyclerView.visibility = View.VISIBLE
             viewBinding.noOrdersFound.visibility = View.GONE
             viewBinding.recordsUploaded.visibility = View.VISIBLE
-            if (viewBinding.pullToRefreshApproved.isRefreshing) {
-//            Toast.makeText(context, "Refresh", Toast.LENGTH_LONG).show()
-                viewBinding.pullToRefreshApproved.isRefreshing = false
-            }
+
             storeList =
                 getStorePendingApprovedList.getList as ArrayList<GetStorePendingAndApprovedListRes.Get>?
 

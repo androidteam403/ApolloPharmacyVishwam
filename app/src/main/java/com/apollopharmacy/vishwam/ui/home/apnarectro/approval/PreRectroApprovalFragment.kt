@@ -75,7 +75,7 @@ class PreRectroApprovalFragment() :
 
     }
 
-    override fun onClick(position: Int,  subPos:Int,status: List<List<GetRetroPendingAndApproveResponse.Retro>>?,approvePendingList:ArrayList<GetRetroPendingAndApproveResponse.Retro>) {
+    override fun onClick(position: Int,  subPos:Int,status: List<List<GetRetroPendingAndApproveResponse.Retro>>?,approvePendingList:ArrayList<GetRetroPendingAndApproveResponse.Retro>,newStatus:String) {
         val intent = Intent(context, ApprovalPreviewActivity::class.java)
         intent.putExtra("stage", status!![position][subPos].stage)
         intent.putExtra("status", status!!.get(position)[subPos].status)

@@ -35,7 +35,7 @@ class RetroPreviewImage(
             false
         )
         viewpagerPreviewImageBinding.retroId = retroId
-        viewpagerPreviewImageBinding.stageReviewMessage.setText("This Apna  " + WordUtils.capitalizeFully(stage.replace("-"," ")) + "   review" + "\n" + "completed sucessfully")
+        viewpagerPreviewImageBinding.stageReviewMessage.setText("This Apna " + WordUtils.capitalizeFully(stage.replace("-"," ")) + " review" + "\n" + "completed successfully")
 
 
         var accepted = 0

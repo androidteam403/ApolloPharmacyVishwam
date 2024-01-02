@@ -88,7 +88,11 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
             uploadBy = intent.getStringExtra("uploadBy")!!
             uploadDate = intent.getStringExtra("uploadOn")!!
             approveResponseList = intent.getSerializableExtra("approvePendingList") as ArrayList<GetRetroPendingAndApproveResponse.Retro>
-
+            val frmt = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
+            val date = frmt.parse(uploadDate)
+            val newFrmt = SimpleDateFormat("dd MMM, yyy - hh:mm a").format(date)
+            activityPreviewBinding.uploadby.setText(uploadBy)
+            activityPreviewBinding.uploadon.setText(newFrmt)
 
         }
 
@@ -102,17 +106,15 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
             viewModel.getRectroApprovalList(imageUrlRequest, this)
         }
 
-        val frmt = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
-        val date = frmt.parse(uploadDate)
-        val newFrmt = SimpleDateFormat("dd MMM, yyy - hh:mm a").format(date)
-        activityPreviewBinding.uploadby.setText(uploadBy)
-        activityPreviewBinding.uploadon.setText(newFrmt)
+
         activityPreviewBinding.status.setText(status)
-        if (status.toLowerCase().equals("pending")||status.toLowerCase().equals("reshoot")){
+        if (status.toLowerCase().contains("pending")){
             activityPreviewBinding.review.visibility=View.VISIBLE
+            activityPreviewBinding.greyLine.visibility=View.GONE
         }
         else{
             activityPreviewBinding.review.visibility=View.GONE
+            activityPreviewBinding.greyLine.visibility=View.GONE
 
         }
 
@@ -366,12 +368,12 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 
         for (i in value.remarks!!.indices) {
             activityPreviewBinding.storeId.setText(value.remarks!![i].storeId)
-            val frmt = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
-            val date = frmt.parse(value.remarks!![i].createdDate)
-            val newFrmt = SimpleDateFormat("dd MMM, yyy - hh:mm a").format(date)
-            activityPreviewBinding.uploadon.setText(newFrmt)
+//            val frmt = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
+//            val date = frmt.parse(value.remarks!![i].createdDate)
+//            val newFrmt = SimpleDateFormat("dd MMM, yyy - hh:mm a").format(date)
+//            activityPreviewBinding.uploadon.setText(newFrmt)
             activityPreviewBinding.comments.setText(value.remarks!![i].remarks)
-            activityPreviewBinding.uploadby.setText(value.remarks!![i].createdBy)
+//            activityPreviewBinding.uploadby.setText(value.remarks!![i].createdBy)
 
         }
 

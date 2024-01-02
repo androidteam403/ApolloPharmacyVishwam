@@ -971,24 +971,26 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         if (saveImageUrlsResponse != null && saveImageUrlsResponse.status == true) {
             hideLoading()
             dialog = Dialog(this)
+            dialog.setCanceledOnTouchOutside(false)
+            dialog.setCancelable(false)
             dialog.setContentView(R.layout.dialog_onsuccessupload_apna)
             val close = dialog.findViewById<LinearLayout>(R.id.close_apna)
             val textMessage = dialog.findViewById<TextView>(R.id.transaction_id_apna)
             if (saveImageUrlsResponse.retroid != null) {
                 if (stage.equals("isPreRetroStage")) {
                     textMessage.text =
-                        "Pre Retro is Submitted for Review \n Transaction id is: " + saveImageUrlsResponse.retroid
+                        "Pre Retro is Submitted for Review \n Transaction ID is: " + saveImageUrlsResponse.retroid
                 }
             } else {
                 if (stage.equals("isPreRetroStage")) {
                     textMessage.text =
-                        "Pre Retro is Submitted for Review for transaction id: " + retroid
+                        "Pre Retro is Submitted for Review for Transaction ID: " + retroid
                 } else if (stage.equals("isPostRetroStage")) {
                     textMessage.text =
-                        "Post Retro is Submitted for Review for transaction id: " + retroid
+                        "Post Retro is Submitted for Review for Transaction ID: " + retroid
                 } else {
                     textMessage.text =
-                        "After Completion is Submitted for Review for transaction id: " + retroid
+                        "After Completion is Submitted for Review for Transaction ID: " + retroid
 
                 }
             }

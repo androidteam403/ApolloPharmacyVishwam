@@ -45,7 +45,7 @@
                 android:layout_marginTop="@dimen/value_15dp"
                 android:layout_marginBottom="@dimen/value_25dp"
                 android:gravity="center_horizontal"
-                android:text="Reviewed Sucessfully"
+                android:text="Reviewed Successfully"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_18sp" />
 

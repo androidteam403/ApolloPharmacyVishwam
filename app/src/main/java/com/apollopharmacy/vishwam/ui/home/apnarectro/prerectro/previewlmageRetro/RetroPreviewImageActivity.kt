@@ -6,7 +6,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
+import kotlin.math.min
+import kotlin.math.max
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -38,6 +42,8 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     var categoryAndImageslist = ArrayList<String>()
     private lateinit var previewLastImageViewModel: ApnaPreviewLastImageViewModel
     private var currentPosition: Int = 0
+    private var newPositionScroll: Int = 0
+
     private var apiStatus: String = ""
     private var stage: String = ""
     private var apiStage: String = ""
@@ -138,6 +144,19 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     private fun setUp() {
+        activityPreviewImageBinding.endarrow.setOnClickListener {
+            val newPosition = min(newPositionScroll + 1, imageUrlsList.size - 1)
+            Log.d("Debug", "New position: $newPosition")
+            activityPreviewImageBinding.previewImageViewpager.setCurrentItem(newPosition, true)
+            previewImageAdapter?.notifyDataSetChanged()
+        }
+
+        activityPreviewImageBinding.startarrow.setOnClickListener {
+            val newPosition = max(newPositionScroll - 1, 0)
+            Log.d("Debug", "New position: $newPosition")
+            activityPreviewImageBinding.previewImageViewpager.setCurrentItem(newPosition, true)
+            previewImageAdapter?.notifyDataSetChanged()
+        }
 
         if (imageUrlsList[currentPosition].status.equals("1")) {
             activityPreviewImageBinding.accept.alpha = 0.5f
@@ -176,6 +195,8 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
 
         if (imageUrlsList.isNotEmpty()) {
+            activityPreviewImageBinding.startarrow.visibility = View.GONE
+
             activityPreviewImageBinding.totalimages.text =
                 "( " + (currentPosition + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )"
 
@@ -192,6 +213,26 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     override fun onPageSelected(position: Int) {
+        newPositionScroll = position
+
+
+        if (position == 0) {
+            activityPreviewImageBinding.startarrow.visibility = View.GONE
+        } else {
+            activityPreviewImageBinding.startarrow.visibility = View.VISIBLE
+
+        }
+
+
+
+        if (position == imageUrlsList.size - 1) {
+            activityPreviewImageBinding.endarrow.visibility = View.GONE
+        } else {
+            activityPreviewImageBinding.endarrow.visibility = View.VISIBLE
+
+        }
+
+
         for (i in imageUrlList.indices) {
             for (j in imageUrlList[i].imageUrls!!.indices) {
                 if (imageUrlList[i].imageUrls!![j].imageid.equals(imageUrlsList.get(position).imageid)) {
@@ -455,6 +496,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         imageRequest.userid = Preferences.getToken()
         imageRequest.rating = ""
         imageRequest.imageurls = saveRequestImageslist
+        Utlis.showLoading(this)
 
         previewLastImageViewModel.saveAccepetAndReshoot(imageRequest, this)
 
@@ -497,7 +539,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         imagesStatusAlertDialog.setCancelable(false)
         imagesStatusAlertDialog.setCanceledOnTouchOutside(false)
         imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogLastimagePreviewAlertBinding.messege.text = retroId + "\n" + "Reviewed Sucessfully"
+        dialogLastimagePreviewAlertBinding.messege.text = retroId + "\n" + "Reviewed Successfully"
 
         dialogLastimagePreviewAlertBinding.alertTitle.text = "Apna " + WordUtils.capitalizeFully(
             stage.replace(
@@ -559,6 +601,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     override fun onSuccessSaveAcceptReshoot(value: SaveAcceptResponse) {
+        Utlis.hideLoading()
         isApiHit = true
         if (applist.size == imageUrlsList.size) {
 
@@ -580,7 +623,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
             closeButton.setOnClickListener {
                 dialog.dismiss()
             }
-            ratingforsubmit = "4"
+            ratingforsubmit = "0"
             ratingbar?.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
 
                 ratingforsubmit = rating.toString().substring(0, 1)
@@ -635,7 +678,13 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
             imagesStatusAlertDialog.setCanceledOnTouchOutside(false)
             imagesStatusAlertDialog.getWindow()
                 ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialogLastimagePreviewAlertBinding.messege.setText(retroId + "\n" + "Reviewed Sucessfully")
+            if (apiStatus.equals("2")) {
+                dialogLastimagePreviewAlertBinding.messege.setText(retroId + "\n" + "Sent for Reshoot")
+
+            } else {
+                dialogLastimagePreviewAlertBinding.messege.setText(retroId + "\n" + "Reviewed Sucessfully")
+
+            }
 
             dialogLastimagePreviewAlertBinding.alertTitle.setText(
                 "Apna " + WordUtils.capitalizeFully(

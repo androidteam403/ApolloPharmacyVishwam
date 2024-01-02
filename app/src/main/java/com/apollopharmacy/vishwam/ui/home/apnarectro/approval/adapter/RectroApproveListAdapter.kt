@@ -47,20 +47,6 @@ class RectroApproveListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val approvedOrders = approvePendingList!!.get(position)
 
-        val lp = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT)
-        val lp1 = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT)
-        lp1.weight = 1.9f
-        lp.weight = 1.1f
-        holder.adapterApproveListBinding.preRetroStatusLayout.layoutParams = lp1
-        holder.adapterApproveListBinding.preRetroLayout.layoutParams = lp
-        holder.adapterApproveListBinding.postRetroStatusLayout.layoutParams = lp1
-        holder.adapterApproveListBinding.postRetroLayout.layoutParams = lp
-        holder.adapterApproveListBinding.approvalStatusLayout.layoutParams = lp1
-        holder.adapterApproveListBinding.approvedStatusLayout.layoutParams = lp
         for (j in approvedOrders!!.indices) {
             if (approvedOrders!![j].stage.equals("PRE-RETRO")) {
 
@@ -80,19 +66,10 @@ class RectroApproveListAdapter(
                     approvedOrders[j].store!!.split("-").get(1)
 
                 holder.adapterApproveListBinding.preRectroLayout.setOnClickListener {
-                    mClicklistner.onClick(position, j, approvePendingList, approveList)
+                    mClicklistner.onClick(position, j, approvePendingList, approveList,holder.adapterApproveListBinding.preRectroStatus.text.toString())
                 }
+
                 if (approvedOrders.get(j).status.equals("Pending")) {
-                    val lp = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    val lp1 = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    lp1.weight = 1.9f
-                    lp.weight = 1.1f
-                    holder.adapterApproveListBinding.preRetroStatusLayout.layoutParams = lp1
-                    holder.adapterApproveListBinding.preRetroLayout.layoutParams = lp
                     holder.adapterApproveListBinding.preRectroLayout.setBackgroundColor(
                         ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
                     holder.adapterApproveListBinding.preRectroStatus.setTextColor(Color.parseColor("#f26522"))
@@ -100,37 +77,75 @@ class RectroApproveListAdapter(
                     holder.adapterApproveListBinding.preRetroGreyTick.visibility = View.GONE
                     holder.adapterApproveListBinding.preRectroGreenImage.visibility = View.GONE
                     holder.adapterApproveListBinding.preRectroStage.setTextColor(ContextCompat.getColor(mContext, R.color.black))
-                } else if (approvedOrders.get(j).status.equals("Approved")) {
-                    val lp = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    val lp1 = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    lp1.weight = 1.9f
-                    lp.weight = 1.1f
-                    holder.adapterApproveListBinding.preRetroStatusLayout.layoutParams = lp1
-                    holder.adapterApproveListBinding.preRetroLayout.layoutParams = lp
+                }
+                else if (approvedOrders.get(j).status.equals("Approved")) {
+                    if (approvedOrders.get(j).hierarchystatus.equals("AWAITING APPROVAL FROM EXECUTIVE")){
+                        holder.adapterApproveListBinding.preRectroStatus.setText("Pending at Executive")
+                        holder.adapterApproveListBinding.preRectroClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.preRetroGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.preRectroGreenImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.preRectroLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
+                        holder.adapterApproveListBinding.preRectroStatus.setTextColor(Color.parseColor("#f26522"))
 
-                    holder.adapterApproveListBinding.preRectroLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_approved))
-                    holder.adapterApproveListBinding.preRectroStatus.setTextColor(Color.parseColor("#39B54A"))
-                    holder.adapterApproveListBinding.preRectroClockImage.visibility = View.GONE
-                    holder.adapterApproveListBinding.preRetroLiteGreenTick.visibility = View.GONE
+                    }
+                 else   if (approvedOrders.get(j).hierarchystatus.equals("AWAITING APPROVAL FROM MANAGER")){
+                        holder.adapterApproveListBinding.preRectroStatus.setText("Pending at Manager")
+                        holder.adapterApproveListBinding.preRectroClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.preRetroGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.preRectroGreenImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.preRectroLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
+                        holder.adapterApproveListBinding.preRectroStatus.setTextColor(Color.parseColor("#f26522"))
 
-                    holder.adapterApproveListBinding.preRetroGreyTick.visibility = View.GONE
-                    holder.adapterApproveListBinding.preRectroGreenImage.visibility = View.VISIBLE
-                    holder.adapterApproveListBinding.preRectroStage.setTextColor(ContextCompat.getColor(mContext, R.color.black))
-                } else if (approvedOrders!!.get(j).status.equals("Reshoot")) {
-                    val lp = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    val lp1 = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    lp1.weight = 1.9f
-                    lp.weight = 1.1f
-                    holder.adapterApproveListBinding.preRetroStatusLayout.layoutParams = lp1
-                    holder.adapterApproveListBinding.preRetroLayout.layoutParams = lp
+                    }
+                    else  if (approvedOrders.get(j).hierarchystatus!!.replace(" ","").equals("AWAITINGAPPROVALFROMGENERALMANAGER")){
+                        holder.adapterApproveListBinding.preRectroStatus.setText("Pending at GM")
+                        holder.adapterApproveListBinding.preRectroClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.preRetroGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.preRectroGreenImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.preRectroLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
+                        holder.adapterApproveListBinding.preRectroStatus.setTextColor(Color.parseColor("#f26522"))
+
+                    }
+                    else  if (approvedOrders.get(j).hierarchystatus!!.replace(" ","").contains("AWAITINGAPPROVALFROMCEO")){
+                        holder.adapterApproveListBinding.preRectroStatus.setText("Pending at CEO")
+                        holder.adapterApproveListBinding.preRectroClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.preRetroGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.preRectroGreenImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.preRectroLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
+                        holder.adapterApproveListBinding.preRectroStatus.setTextColor(Color.parseColor("#f26522"))
+
+                    }
+                    else{
+                        holder.adapterApproveListBinding.preRectroStatus.setTextColor(Color.parseColor("#39B54A"))
+                        holder.adapterApproveListBinding.preRectroStatus.setText("Approved")
+
+                        holder.adapterApproveListBinding.preRectroLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_approved))
+                        holder.adapterApproveListBinding.preRectroStatus.setTextColor(Color.parseColor("#39B54A"))
+                        holder.adapterApproveListBinding.preRectroClockImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.preRetroLiteGreenTick.visibility = View.GONE
+
+                        holder.adapterApproveListBinding.preRetroGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.preRectroGreenImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.preRectroStage.setTextColor(ContextCompat.getColor(mContext, R.color.black))
+
+                    }
+
+                }
+                else if (approvedOrders!!.get(j).status.equals("Reshoot")) {
+//                    val lp = LinearLayout.LayoutParams(
+//                        LinearLayout.LayoutParams.MATCH_PARENT,
+//                        LinearLayout.LayoutParams.MATCH_PARENT)
+//                    val lp1 = LinearLayout.LayoutParams(
+//                        LinearLayout.LayoutParams.MATCH_PARENT,
+//                        LinearLayout.LayoutParams.MATCH_PARENT)
+//                    lp1.weight = 1.9f
+//                    lp.weight = 1.1f
+//                    holder.adapterApproveListBinding.preRetroStatusLayout.layoutParams = lp1
+//                    holder.adapterApproveListBinding.preRetroLayout.layoutParams = lp
                     holder.adapterApproveListBinding.preRectroLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_reshoot))
                     holder.adapterApproveListBinding.preRectroStatus.setTextColor(Color.parseColor("#f26522"))
                     holder.adapterApproveListBinding.preRectroClockImage.visibility = View.VISIBLE
@@ -139,7 +154,8 @@ class RectroApproveListAdapter(
 
                     holder.adapterApproveListBinding.preRectroGreenImage.visibility = View.GONE
                     holder.adapterApproveListBinding.preRectroStage.setTextColor(ContextCompat.getColor(mContext, R.color.black))
-                } else if (approvedOrders.get(j).status.equals("Partially Approved")) {
+                }
+                else if (approvedOrders.get(j).status.equals("Partially Approved")) {
                     holder.adapterApproveListBinding.preRectroLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_partially_approved))
                     holder.adapterApproveListBinding.preRetroLiteGreenTick.visibility = View.VISIBLE
 
@@ -151,7 +167,8 @@ class RectroApproveListAdapter(
                 }
 
 
-            } else if (approvedOrders.get(j).stage.equals("POST-RETRO")) {
+            }
+            else if (approvedOrders.get(j).stage.equals("POST-RETRO")) {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
                 val date = dateFormat.parse(approvedOrders.get(j).uploadedDate)
                 val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
@@ -170,21 +187,11 @@ class RectroApproveListAdapter(
                         position,
                         j,
                         approvePendingList,
-                        approveList)
+                        approveList,holder.adapterApproveListBinding.postRectrostatus.text.toString())
                 }
 
                 if (approvedOrders.get(j).status.equals("Pending")) {
 
-                    val lp = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    val lp1 = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    lp1.weight = 1.9f
-                    lp.weight = 1.1f
-                    holder.adapterApproveListBinding.postRetroStatusLayout.layoutParams = lp1
-                    holder.adapterApproveListBinding.postRetroLayout.layoutParams = lp
                     holder.adapterApproveListBinding.postRectroLayout.setBackgroundColor(Color.parseColor(
                         "#feeedb"))
                     holder.adapterApproveListBinding.postRectrostatus.setTextColor(Color.parseColor(
@@ -193,36 +200,64 @@ class RectroApproveListAdapter(
                     holder.adapterApproveListBinding.postRetroGreyTick.visibility = View.GONE
                     holder.adapterApproveListBinding.postRectroGreenImage.visibility = View.GONE
                     holder.adapterApproveListBinding.postRectroStage.setTextColor(ContextCompat.getColor(mContext, R.color.black))
-                } else if (approvedOrders.get(j).status.equals("Approved")) {
-                    val lp = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    val lp1 = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    lp1.weight = 1.9f
-                    lp.weight = 1.1f
-                    holder.adapterApproveListBinding.postRetroStatusLayout.layoutParams = lp1
-                    holder.adapterApproveListBinding.postRetroLayout.layoutParams = lp
-                    holder.adapterApproveListBinding.postRectroLayout.setBackgroundColor(Color.parseColor(
-                        "#EBF7ED"))
-                    holder.adapterApproveListBinding.postRectrostatus.setTextColor(Color.parseColor(
-                        "#39B54A"))
-                    holder.adapterApproveListBinding.postRectroClockImage.visibility = View.GONE
-                    holder.adapterApproveListBinding.postRetroGreyTick.visibility = View.GONE
-                    holder.adapterApproveListBinding.postRectroGreenImage.visibility = View.VISIBLE
-                    holder.adapterApproveListBinding.postRectroStage.setTextColor(ContextCompat.getColor(mContext, R.color.black))
+                }
+                else if (approvedOrders.get(j).status.equals("Approved")) {
+
+                    if (approvedOrders.get(j).hierarchystatus.equals("AWAITING APPROVAL FROM EXECUTIVE")){
+                        holder.adapterApproveListBinding.postRectrostatus.setText("Pending at Executive")
+                        holder.adapterApproveListBinding.postRectroClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.postRetroGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.postRectroGreenImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.postRectroLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
+                        holder.adapterApproveListBinding.postRectrostatus.setTextColor(Color.parseColor("#f26522"))
+
+                    }
+                    else   if (approvedOrders.get(j).hierarchystatus.equals("AWAITING APPROVAL FROM MANAGER")){
+                        holder.adapterApproveListBinding.postRectrostatus.setText("Pending at Manager")
+                        holder.adapterApproveListBinding.postRectroClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.postRetroGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.postRectroGreenImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.postRectroLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
+                        holder.adapterApproveListBinding.postRectrostatus.setTextColor(Color.parseColor("#f26522"))
+
+                    }
+                    else  if (approvedOrders.get(j).hierarchystatus!!.replace(" ","").equals("AWAITINGAPPROVALFROMGENERALMANAGER")){
+                        holder.adapterApproveListBinding.postRectrostatus.setText("Pending at GM")
+                        holder.adapterApproveListBinding.postRectroClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.postRetroGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.postRectroGreenImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.postRectroLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
+                        holder.adapterApproveListBinding.postRectrostatus.setTextColor(Color.parseColor("#f26522"))
+
+                    }
+                    else  if (approvedOrders.get(j).hierarchystatus!!.replace(" ","").contains("AWAITINGAPPROVALFROMCEO")){
+                        holder.adapterApproveListBinding.postRectrostatus.setText("Pending at CEO")
+                        holder.adapterApproveListBinding.postRectroClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.postRetroGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.postRectroGreenImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.postRectroLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
+                        holder.adapterApproveListBinding.postRectrostatus.setTextColor(Color.parseColor("#f26522"))
+
+                    }
+                    else{
+                        holder.adapterApproveListBinding.postRectroLayout.setBackgroundColor(Color.parseColor(
+                            "#EBF7ED"))
+                        holder.adapterApproveListBinding.postRectrostatus.setTextColor(Color.parseColor(
+                            "#39B54A"))
+                        holder.adapterApproveListBinding.postRectroClockImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.postRetroGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.postRectroGreenImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.postRectroStage.setTextColor(ContextCompat.getColor(mContext, R.color.black))
+
+                    }
+
+
                 } else if (approvedOrders.get(j).status.equals("Reshoot")) {
-                    val lp = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    val lp1 = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    lp1.weight = 1.9f
-                    lp.weight = 1.1f
-                    holder.adapterApproveListBinding.postRetroStatusLayout.layoutParams = lp1
-                    holder.adapterApproveListBinding.postRetroLayout.layoutParams = lp
+
                     holder.adapterApproveListBinding.postRectroLayout.setBackgroundColor(Color.parseColor(
                         "#feeedb"))
                     holder.adapterApproveListBinding.postRectrostatus.setTextColor(Color.parseColor(
@@ -265,20 +300,10 @@ class RectroApproveListAdapter(
                         position,
                         j,
                         approvePendingList,
-                        approveList)
+                        approveList,holder.adapterApproveListBinding.approveStatus.text.toString())
                 }
                 if (approvedOrders.get(j).status.equals("Pending")) {
 
-                    val lp = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    val lp1 = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    lp1.weight = 1.1f
-                    lp.weight = 1.9f
-                    holder.adapterApproveListBinding.approvedStatusLayout.layoutParams = lp1
-                    holder.adapterApproveListBinding.approvalStatusLayout.layoutParams = lp
                     holder.adapterApproveListBinding.approveStatusLayout.setBackgroundColor(Color.parseColor(
                         "#feeedb"))
                     holder.adapterApproveListBinding.approveStatus.setTextColor(Color.parseColor("#f26522"))
@@ -287,34 +312,62 @@ class RectroApproveListAdapter(
                     holder.adapterApproveListBinding.approveGreenImage.visibility = View.GONE
                     holder.adapterApproveListBinding.approveStage.setTextColor(Color.parseColor("#FF000000"))
                 } else if (approvedOrders.get(j).status.equals("Approved")) {
-                    val lp = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    val lp1 = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    lp1.weight = 1.1f
-                    lp.weight = 1.9f
-                    holder.adapterApproveListBinding.approvedStatusLayout.layoutParams = lp1
-                    holder.adapterApproveListBinding.approvalStatusLayout.layoutParams = lp
-                    holder.adapterApproveListBinding.approveStatusLayout.setBackgroundColor(Color.parseColor(
-                        "#EBF7ED"))
-                    holder.adapterApproveListBinding.approveStatus.setTextColor(Color.parseColor("#39B54A"))
-                    holder.adapterApproveListBinding.approveClockImage.visibility = View.GONE
-                    holder.adapterApproveListBinding.approveGreyTick.visibility = View.GONE
-                    holder.adapterApproveListBinding.approveGreenImage.visibility = View.VISIBLE
-                    holder.adapterApproveListBinding.approveStage.setTextColor(Color.parseColor("#FF000000"))
+
+
+                    if (approvedOrders.get(j).hierarchystatus.equals("AWAITING APPROVAL FROM EXECUTIVE")){
+                        holder.adapterApproveListBinding.approveStatus.setText("Pending at Executive")
+                        holder.adapterApproveListBinding.approveClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.approveGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.approveGreenImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.approveStatusLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
+                        holder.adapterApproveListBinding.approveStatus.setTextColor(Color.parseColor("#f26522"))
+
+                    }
+                    else   if (approvedOrders.get(j).hierarchystatus.equals("AWAITING APPROVAL FROM MANAGER")){
+                        holder.adapterApproveListBinding.approveStatus.setText("Pending at Manager")
+                        holder.adapterApproveListBinding.approveClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.approveGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.approveGreenImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.approveStatusLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
+                        holder.adapterApproveListBinding.approveStatus.setTextColor(Color.parseColor("#f26522"))
+
+                    }
+                    else  if (approvedOrders.get(j).hierarchystatus!!.replace(" ","").equals("AWAITINGAPPROVALFROMGENERALMANAGER")){
+                        holder.adapterApproveListBinding.approveStatus.setText("Pending at GM")
+                        holder.adapterApproveListBinding.approveClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.approveGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.approveGreenImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.approveStatusLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
+                        holder.adapterApproveListBinding.approveStatus.setTextColor(Color.parseColor("#f26522"))
+
+                    }
+                    else  if (approvedOrders.get(j).hierarchystatus!!.replace(" ","").contains("AWAITINGAPPROVALFROMCEO")){
+                        holder.adapterApproveListBinding.approveStatus.setText("Pending at CEO")
+                        holder.adapterApproveListBinding.approveClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.approveGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.approveGreenImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.approveStatusLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.prerectro_layout_bg_pending))
+                        holder.adapterApproveListBinding.approveStatus.setTextColor(Color.parseColor("#f26522"))
+
+                    }
+                    else{
+                        holder.adapterApproveListBinding.approveStatusLayout.setBackgroundColor(Color.parseColor(
+                            "#EBF7ED"))
+                        holder.adapterApproveListBinding.approveStatus.setTextColor(Color.parseColor("#39B54A"))
+                        holder.adapterApproveListBinding.approveClockImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.approveGreyTick.visibility = View.GONE
+                        holder.adapterApproveListBinding.approveGreenImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.approveStage.setTextColor(Color.parseColor("#FF000000"))
+                    }
+
+
+
+
                 } else if (approvedOrders.get(j).status.equals("Reshoot")) {
-                    val lp = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    val lp1 = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT)
-                    lp1.weight = 1.1f
-                    lp.weight = 1.9f
-                    holder.adapterApproveListBinding.approvedStatusLayout.layoutParams = lp1
-                    holder.adapterApproveListBinding.approvalStatusLayout.layoutParams = lp
                     holder.adapterApproveListBinding.approveStatusLayout.setBackgroundColor(Color.parseColor(
                         "#feeedb"))
                     holder.adapterApproveListBinding.approveStatus.setTextColor(Color.parseColor("#f26522"))

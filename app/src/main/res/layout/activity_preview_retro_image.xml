@@ -340,29 +340,29 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/deleteImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/twenty20_dp"
+<!--        <LinearLayout-->
+<!--            android:id="@+id/deleteImage"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_marginStart="@dimen/twenty20_dp"-->
 
-            android:layout_marginBottom="@dimen/value_80dp"
-            android:background="@drawable/red_rounded_corners"
-            android:gravity="center"
-            android:onClick="@{()-> callback.onClickDelete()}"
-            android:visibility="@{isLastPos ? view.GONE: view.VISIBLE }">
-
-
-            <ImageView
-                android:id="@+id/showcapturedimage"
-                android:layout_width="19dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:src="@drawable/trash" />
+<!--            android:layout_marginBottom="@dimen/value_80dp"-->
+<!--            android:background="@drawable/red_rounded_corners"-->
+<!--            android:gravity="center"-->
+<!--            android:onClick="@{()-> callback.onClickDelete()}"-->
+<!--            android:visibility="@{isLastPos ? view.GONE: view.VISIBLE }">-->
 
 
-        </LinearLayout>
+<!--            <ImageView-->
+<!--                android:id="@+id/showcapturedimage"-->
+<!--                android:layout_width="19dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:src="@drawable/trash" />-->
+
+
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:id="@+id/completeButton"
@@ -386,7 +386,21 @@
                 android:textSize="@dimen/text_17sp"
                 android:textStyle="bold" />
         </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:rotation="180"
+            android:id="@+id/startarrow"
+            android:src="@drawable/qc__forward"/>
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/endarrow"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/qc__forward"/>
 
     </RelativeLayout>
 

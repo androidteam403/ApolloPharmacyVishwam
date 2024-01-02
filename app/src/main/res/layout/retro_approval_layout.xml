@@ -240,14 +240,12 @@
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/value_10dp"
                 android:paddingEnd="@dimen/value_10dp"
-                android:visibility="visible"
-                android:weightSum="3">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:id="@+id/pre_retro_Layout"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/value_5dp">
 
@@ -312,9 +310,10 @@
 
                 <LinearLayout
                     android:id="@+id/pre_retro_status_Layout"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_marginEnd="5dp"
                     android:orientation="horizontal"
                     android:paddingBottom="9dp">
 
@@ -351,14 +350,12 @@
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/value_10dp"
                 android:paddingEnd="@dimen/value_10dp"
-                android:visibility="visible"
-                android:weightSum="3">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:id="@+id/post_retro_Layout"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.6"
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/value_5dp">
 
@@ -423,9 +420,10 @@
 
                 <LinearLayout
                     android:id="@+id/post_retro_status_Layout"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.4"
+                    android:gravity="end"
+                    android:layout_marginEnd="5dp"
                     android:orientation="horizontal"
                     android:paddingBottom="9dp">
 
@@ -464,14 +462,12 @@
                 android:paddingStart="@dimen/value_10dp"
                 android:paddingEnd="@dimen/value_10dp"
                 android:paddingBottom="@dimen/value_5dp"
-                android:visibility="visible"
-                android:weightSum="3">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:id="@+id/approved_statusLayout"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.6"
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/value_5dp">
 
@@ -537,10 +533,10 @@
 
                 <LinearLayout
                     android:id="@+id/approval_statusLayout"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.4"
-                    android:orientation="horizontal"
+                    android:gravity="end"
+                    android:layout_marginEnd="5dp"                    android:orientation="horizontal"
                     android:paddingBottom="9dp">
 
                     <TextView
@@ -571,6 +567,5 @@
         </LinearLayout>
 
 
-        <!--</androidx.cardview.widget.CardView>-->
     </RelativeLayout>
 </layout>
