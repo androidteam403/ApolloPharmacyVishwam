@@ -38,7 +38,7 @@ class CommunityAdvisorFragment :
 
     var mInstance: MainActivity? = null
     private lateinit var servicesList: ArrayList<HomeServiceDetailsResponse.Detlist>
-    lateinit var homeServiceDetailsResponse: HomeServiceDetailsResponse
+     var homeServiceDetailsResponse: HomeServiceDetailsResponse?=null
     lateinit var homeServiceDetailsRequest: HomeServiceDetailsRequest
     private var communityAdvisorFragmentCallback: CommunityAdvisorFragmentCallback = this
 
@@ -130,14 +130,14 @@ class CommunityAdvisorFragment :
     override fun onClickServicesTab() {
         isServicesTab = true
         updateButtonBackground()
-        onSuccessHomeServiceDetails(homeServiceDetailsResponse)
+        onSuccessHomeServiceDetails(homeServiceDetailsResponse!!)
     }
 
     override fun onClickCustomerInteractionTab() {
         isServicesTab = false
         navigatetoServiceCustomerActivity()
         updateButtonBackground()
-        onSuccessHomeServiceDetails(homeServiceDetailsResponse)
+        onSuccessHomeServiceDetails(homeServiceDetailsResponse!!)
     }
 
 

@@ -27,7 +27,6 @@ import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServicesSav
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.siteid.SelectCommunityAdvisorSiteIdActivity
 import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
 import com.apollopharmacy.vishwam.util.Utlis
-import java.util.regex.Pattern
 import java.util.stream.Collectors
 
 class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustomerCallback {
@@ -158,6 +157,8 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
     }
 
 
+    @SuppressLint("SetTextI18n")
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
