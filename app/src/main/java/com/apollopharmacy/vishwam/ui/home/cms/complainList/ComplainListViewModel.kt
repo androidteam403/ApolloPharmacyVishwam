@@ -86,6 +86,10 @@ class ComplainListViewModel : ViewModel() {
         searchQuary: String,
         isApprovalList: Boolean,
         isDashboardtickets: Boolean, row: TicketCountsByStatusRoleResponse.Data.ListData.Row,
+        statusCeoDasboard: String,
+        fromDateCeodashboard: String,
+        toDateCeodashboard: String,
+        uniqueId: String,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -131,7 +135,7 @@ class ComplainListViewModel : ViewModel() {
                 /*baseUrl =
                     "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ceo-dashboard-ticket-list-by-emp-id?emp_id=Aachal&status=solved&from_date=2023-03-02&to_date=2023-08-25&role=store_executive&page=1&rows=10&zcFetchListTotal=true"*/
                 baseUrl =
-                    "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/api/ticket/list/ceo-dashboard-ticket-list-by-emp-id?"
+                    "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/ceo-dashboard-ticket-list-by-emp-id?"
             }
             //"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ceo-dashboard-ticket-list-by-emp-id?
             /*for (i in data.APIS.indices) {
@@ -179,16 +183,90 @@ class ComplainListViewModel : ViewModel() {
         val closed = if (status.contains("closed")) "closed" else ""
         val onHold = if (status.contains("onHold")) "onHold" else ""
         if (isDashboardtickets) {
-            if (!row.storeId.isNullOrEmpty()) {//${requestComplainList.fromDate}//${requestComplainList.fromDate}
+            var statusCeo: String? = null
+            var fromDate: String? = null
+            var toDate: String? = null
+            if (statusCeoDasboard.equals("closed")) {
+                statusCeo = "closed"
+                fromDate = fromDateCeodashboard
+                toDate = toDateCeodashboard
+            } else if (statusCeoDasboard.equals("lessthantwo")) {
+                statusCeo = "inprogress"
+                fromDate = Utlis.getFewDayMinusFromgivenDate("yyyy-MM-dd", toDateCeodashboard!!, 1)
+                toDate = toDateCeodashboard
+            } else if (statusCeoDasboard.equals("threetoeight")) {
+                statusCeo = "inprogress"
+                fromDate = Utlis.getFewDayMinusFromgivenDate("yyyy-MM-dd", toDateCeodashboard!!, 7)
+                toDate = toDateCeodashboard
+            } else if (statusCeoDasboard.equals("greaterthaneight")) {
+                statusCeo = "inprogress"
+                fromDate = fromDateCeodashboard
+                toDate = toDateCeodashboard
+            } else if (statusCeoDasboard.equals("rejected")) {
+                statusCeo = "rejected"
+                fromDate = fromDateCeodashboard
+                toDate = toDateCeodashboard
+            } else if (statusCeoDasboard.equals("pending")) {
+                statusCeo = "inprogress"
+                fromDate = fromDateCeodashboard
+                toDate = toDateCeodashboard
+            } else if (statusCeoDasboard.equals("total")) {
+                statusCeo = "inprogress"
+                fromDate = fromDateCeodashboard
+                toDate = toDateCeodashboard
+            }
+            if (!row.storeId.isNullOrEmpty()) {//${requestComplainList.fromDate}//${requestComplainList.fromDate}//{requestComplainList.toDate
                 baseUrl =
-                    baseUrl + "emp_id=${row.employeeid}&from_date=2020-11-22&to_date=${requestComplainList.toDate}&site=${row.storeId}&role=${row.roleCode}&page=${requestComplainList.page}&rows=10&zcFetchListTotal=true"
+                    baseUrl + "emp_id=${row.employeeid}&from_date=${fromDate}&to_date=${toDate}&site=${row.storeId}&role=${row.roleCode}&page=${requestComplainList.page}" +
+                            if (statusCeoDasboard!!.equals("closed")) {
+                                "&${URLEncoder.encode("status[5]", "utf-8")}=$statusCeo"
+                            } else if (statusCeoDasboard!!.equals("lessthantwo")) {
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                            } else if (statusCeoDasboard!!.equals("threetoeight")) {
+                                ""
+//                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                            } else if (statusCeoDasboard!!.equals("greaterthaneight")) {
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                            } else if (statusCeoDasboard!!.equals("rejected")) {
+                                "&${URLEncoder.encode("status[3]", "utf-8")}=$statusCeo"
+                            } else if (statusCeoDasboard!!.equals("pending")) {
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                            } else if (statusCeoDasboard!!.equals("total")) {
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                            } else {
+                                ""
+                            } + "&rows=10&zcFetchListTotal=true"
             } else {
                 baseUrl =
-                    baseUrl + "emp_id=${row.employeeid}&from_date=2020-11-22&to_date=${requestComplainList.toDate}&role=${row.roleCode}&page=${requestComplainList.page}&rows=10&zcFetchListTotal=true"
+                    baseUrl + "emp_id=${row.employeeid}&from_date=${fromDate}&to_date=${toDate}&role=${row.roleCode}&page=${requestComplainList.page}" +
+                            if (statusCeoDasboard!!.equals("closed")) {
+                                "&${URLEncoder.encode("status[5]", "utf-8")}=$statusCeo"
+                            } else if (statusCeoDasboard.equals("lessthantwo")) {
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                            } else if (statusCeoDasboard.equals("threetoeight")) {
+                                ""
+//                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                            } else if (statusCeoDasboard.equals("greaterthaneight")) {
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                            } else if (statusCeoDasboard.equals("rejected")) {
+                                "&${URLEncoder.encode("status[3]", "utf-8")}=$statusCeo"
+                            } else if (statusCeoDasboard.equals("pending")) {
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                            } else if (statusCeoDasboard.equals("total")) {
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                            } else {
+                                ""
+                            } + "&rows=10&zcFetchListTotal=true"
             }
         } else if (!isApprovalList) {
             baseUrl =
-                baseUrl + "employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
+                baseUrl + "employee_id=${requestComplainList.empid}" +
+                        if (uniqueId.isEmpty()) {
+                            "&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}"
+                        } else {
+                            ""
+                        } +
+                        "&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
                     "reason_code=new_drug&"
                 } else {
                     ""

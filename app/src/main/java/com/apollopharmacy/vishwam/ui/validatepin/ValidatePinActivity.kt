@@ -8,7 +8,6 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.BuildConfig
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
@@ -18,16 +17,10 @@ import com.apollopharmacy.vishwam.data.model.MPinRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.ui.home.MainActivity
-import com.apollopharmacy.vishwam.ui.home.notification.adapter.NotificationsAdapter
 import com.apollopharmacy.vishwam.ui.home.notification.model.NotificationModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
-import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
-import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
-import com.apollopharmacy.vishwam.ui.rider.orderdelivery.model.DeliveryFailreReasonsResponse
-import com.apollopharmacy.vishwam.ui.rider.profile.model.GetRiderProfileResponse
 import com.apollopharmacy.vishwam.util.*
-import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
 import com.github.omadahealth.lollipin.lib.managers.AppLock
 import com.google.android.gms.tasks.*
 import com.google.firebase.messaging.FirebaseMessaging
@@ -49,8 +42,10 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     private var serviceAppVer: Int = 0
     private var currentAppVer: Int = 0
     private var firebaseToken: String? = null
-    private var notificationResponse: NotificationModelResponse?=null
+    private var notificationResponse: NotificationModelResponse? = null
 
+    private var module: String? = ""
+    private var uniqueId: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +54,13 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         viewModel = ViewModelProvider(this)[ValidatePinViewModel::class.java]
 
         userData = LoginRepo.getProfile()!!
+
+        if (intent != null) {
+            if (intent.getStringExtra("MODULE") != null)
+                module = intent.getStringExtra("MODULE") as String
+            if (intent.getStringExtra("UNIQUE_ID") != null)
+                uniqueId = intent.getStringExtra("UNIQUE_ID") as String
+        }
 
 
 //        onCheckBuildDetails()
@@ -341,6 +343,8 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         Preferences.setIsPinCreated(true)
         val homeIntent = Intent(this, MainActivity::class.java)
         homeIntent.putExtra("notificationResponse", notificationResponse)
+        homeIntent.putExtra("MODULE", module)
+        homeIntent.putExtra("UNIQUE_ID", uniqueId)
         startActivity(homeIntent)
         finish()
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
@@ -378,6 +382,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             ).show()
         }
     }
+
     private fun onCheckBuildDetails() {
         val globalRes = Preferences.getGlobalResponse()
         val data = Gson().fromJson(globalRes, ValidateResponse::class.java)
@@ -399,22 +404,6 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         }
     }
 
-    override fun onSuccessLoginApi(loginResponse: LoginResponse) {
-
-        if (loginResponse != null && loginResponse.data != null && loginResponse.success && loginResponse.data.token != null) {
-            try {
-                SessionManager(applicationContext).setLoginToken(loginResponse.data.token)
-                SessionManager(applicationContext).setRiderIconUrl(loginResponse.data.pic[0].dimenesions.get200200FullPath())
-                viewModel.getRiderProfileDetailsApi(
-                    SessionManager(applicationContext).getLoginToken(), applicationContext, this
-                )
-            } catch (e: java.lang.Exception) {
-                println("onSuccessLoginApi ::::::::::::::::::::::::" + e.message)
-                ActivityUtils.hideDialog()
-                Toast.makeText(this, "Please try again later", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 
     override fun onFailureLoginApi(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -424,31 +413,11 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onSuccessGetProfileDetailsApi(riderProfileResponse: GetRiderProfileResponse?) {
-        if (riderProfileResponse != null) {
-            SessionManager(this).setRiderProfileDetails(riderProfileResponse)
-            viewModel.deliveryFailureReasonApiCall(applicationContext, this)
-            viewModel.getComplaintReasonsListApiCall(applicationContext, this)
-        }
-    }
 
     override fun onFailureGetProfileDetailsApi(s: String) {
         Toast.makeText(applicationContext, "" + s, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onSuccessDeliveryReasonApiCall(deliveryFailreReasonsResponse: DeliveryFailreReasonsResponse) {
-        if (deliveryFailreReasonsResponse != null) {
-            SessionManager(this).setDeliveryFailureReasonsList(deliveryFailreReasonsResponse)
-            //            MainActivity.mInstance.displaySelectedScreen("Dashboard");
-            Preferences.setIsPinCreated(true)
-            val i = Intent(this, MainActivity::class.java)
-            val True = true
-            i.putExtra("tag", true)
-            startActivity(i)
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-            finish()
-        }
-    }
 
     override fun onSuccessAppLevelDesignationApnaRetro(value: AppLevelDesignationModelResponse) {
         if (value.message != null && value.status.equals(true)) {
@@ -464,9 +433,10 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     }
 
     override fun onSuccessNotificationDetails(response: NotificationModelResponse) {
-        if(response!=null && response.data!=null && response.data!!.listData!=null
-            && response.data!!.listData!!.rows!=null && response.data!!.listData!!.rows!!.size>0){
-            notificationResponse= response
+        if (response != null && response.data != null && response.data!!.listData != null
+            && response.data!!.listData!!.rows != null && response.data!!.listData!!.rows!!.size > 0
+        ) {
+            notificationResponse = response
 //            var res = NotificationModelResponse()
 //            var data = res.Data()
 //            var listData = data.ListData()

@@ -17,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CeoDashboardViewModel : ViewModel() {
+class        CeoDashboardViewModel : ViewModel() {
     val commands = LiveEvent<Command>()
     val state = MutableLiveData<State>()
     fun getTicketListByCountApi(

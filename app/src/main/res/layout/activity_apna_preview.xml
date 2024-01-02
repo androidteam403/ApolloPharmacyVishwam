@@ -158,7 +158,6 @@
                         android:id="@+id/source"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_12sp"
                         android:textStyle="bold" />
@@ -910,7 +909,7 @@
                                         android:layout_marginStart="@dimen/value_8dp"
                                         android:layout_marginTop="@dimen/value_8dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Neighboring Store"
+                                        android:text="Neighbouring Store"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp" />
 

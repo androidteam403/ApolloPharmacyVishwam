@@ -38,16 +38,17 @@ class ChampsListCalenderDialog : DialogFragment() {
         data: String,
         isToDate: Boolean,
         fromDate: String,
-        visitDateValueChamps: String
+        visitDateValueChamps: String,
     ): Bundle {
         return Bundle().apply {
             putString(KEY_DATA, data)
             putString(KEY_FROM_DATE,fromDate)
             putBoolean(KEY_IS_TO,isToDate)
             if(!visitDateValueChamps.isNullOrEmpty()){
-                putString(KEY_VISIT_DATE, visitDateValueChamps)
+                var modifiedValue = visitDateValueChamps.toInt()-1
+                putString(KEY_VISIT_DATE, modifiedValue.toString())
             }else{
-                putString(KEY_VISIT_DATE, "7")
+                putString(KEY_VISIT_DATE, "6")
             }
 
         }
@@ -73,6 +74,11 @@ class ChampsListCalenderDialog : DialogFragment() {
 
 
         val calendar = Calendar.getInstance()
+        calendar[Calendar.HOUR_OF_DAY] = 0
+        calendar[Calendar.MINUTE] = 0
+        calendar[Calendar.SECOND] = 0
+        calendar[Calendar.MILLISECOND] = 0
+//        dataPickerBinding.datePicker.maxDate = calendar.timeInMillis
 //        calendar.add(Calendar.DATE, -PROBLEM_SINCE_DAYS);
         dataPickerBinding.datePicker.setMaxDate(calendar.getTimeInMillis());
         calendar.add(Calendar.DAY_OF_MONTH, -arguments?.getString(KEY_VISIT_DATE)!!.toInt());

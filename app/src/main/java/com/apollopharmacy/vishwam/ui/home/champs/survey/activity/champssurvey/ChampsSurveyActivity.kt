@@ -200,8 +200,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
 
             if (!trainerEmail.isNullOrEmpty()) {
-                activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
-                activityChampsSurveyBinding.trainer.text = trainerEmail
+//                activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
+//                activityChampsSurveyBinding.trainer.text = trainerEmail
+                listForTrainers.add(trainerEmail!!)
             } else {
                 activityChampsSurveyBinding.trainerLayout.visibility = View.GONE
             }
@@ -218,13 +219,14 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.percentageSum.text = "0"
         } else if (status.equals("PENDING")) {
             if (!trainerEmail.isNullOrEmpty()) {
-                activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
-                activityChampsSurveyBinding.trainer.text = trainerEmail
+//                activityChampsSurveyBinding.trainerLayout.visibility = View.VISIBLE
+//                activityChampsSurveyBinding.trainer.text = trainerEmail
+                listForTrainers.add(trainerEmail!!)
             } else {
                 activityChampsSurveyBinding.trainerLayout.visibility = View.GONE
             }
             surveyDetailsByChampsIdForCheckBox = true
-            activityChampsSurveyBinding.calenderGreyChamps.visibility = View.VISIBLE
+            activityChampsSurveyBinding.calenderGreyChamps.visibility = View.GONE
             activityChampsSurveyBinding.deleteDown.visibility = View.VISIBLE
             activityChampsSurveyBinding.previewDown.visibility = View.GONE
 
@@ -366,6 +368,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     Toast.makeText(
                         applicationContext,
                         "Enter valid email",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if(surveyRecManualList.contains(recipientEmail)){
+                    Toast.makeText(
+                        applicationContext,
+                        "Email id is already used",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -840,7 +848,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
     }
 
     override fun onClickCalender() {
-        if (status.equals("NEW") || status.equals("PENDING")) {
+        if (status.equals("NEW")) {
             val uploadStatusFilterDialog = this?.let { Dialog(this) }
             dialogFilterUploadBinding =
                 DataBindingUtil.inflate(
@@ -909,20 +917,39 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     object : TimePickerDialog.OnTimeSetListener {
                         @SuppressLint("SetTextI18n")
                         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-                            val amPm: String
-                            if (hourOfDay >= 12) {
-                                amPm = "PM"
-//                            hourOfDay -= 12
+                                val selectedTime = Calendar.getInstance()
+                            selectedTime[Calendar.HOUR_OF_DAY] = hourOfDay
+                            selectedTime[Calendar.MINUTE] = minute
+
+                            val currentTime = Calendar.getInstance()
+
+                            if (selectedTime.after(currentTime)) {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Cannot select future time.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                // Optionally reset to current time or handle accordingly
                             } else {
-                                amPm = "AM"
+                                val amPm = if (hourOfDay >= 12) "PM" else "AM"
+                                val simpleDateFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+                                val formattedTime = simpleDateFormat.format(selectedTime.time)
+                                dialogFilterUploadBinding!!.durationTexthrs.text = formattedTime
                             }
-                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                            calendar.set(Calendar.MINUTE, minute)
-                            val simpleDateFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
-                            val formattedTime = simpleDateFormat.format(calendar.time)
-                            dialogFilterUploadBinding!!.durationTexthrs.setText(
-                                formattedTime.toString()
-                            )
+//                            val amPm: String
+//                            if (hourOfDay >= 12) {
+//                                amPm = "PM"
+////                            hourOfDay -= 12
+//                            } else {
+//                                amPm = "AM"
+//                            }
+//                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+//                            calendar.set(Calendar.MINUTE, minute)
+//                            val simpleDateFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+//                            val formattedTime = simpleDateFormat.format(calendar.time)
+//                            dialogFilterUploadBinding!!.durationTexthrs.setText(
+//                                formattedTime.toString()
+//                            )
 
 //                        Toast.makeText(applicationContext, dialogFilterUploadBinding!!.durationTexthrs.text.toString(), Toast.LENGTH_SHORT).show()
                         }
@@ -1036,18 +1063,20 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                             Utlis.showLoading(this)
                             saveApiRequest("submit")
                         } else {
-                            if (surveyRecManualList.size == 0) {
+                            if (surveyRecManualList.size == 0 || surveyRecManualList==null) {
                                 Toast.makeText(
                                     applicationContext,
                                     "Please enter recipients email",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                            } else {
+                            } else if(listForTrainers ==null || listForTrainers.size == 0){
                                 Toast.makeText(
-                                    applicationContext,
-                                    "Please enter trainers email",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                        applicationContext,
+                                        "Please enter trainers email",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+
                             }
                         }
 
@@ -1128,7 +1157,6 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                    headerDetails.emailIdOfTrainer = ""
 //                }
                 var trainerEmails: String = ""
-                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
                 if (!listForTrainers.isNullOrEmpty()) {
                     for (i in listForTrainers) {
                         if (trainerEmails.isEmpty()) {
@@ -1207,16 +1235,32 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 //                } else {
 //                    headerDetails.emailIdOfRecipients = ""
 //                }
+//
+//                if (surveyCCDetailsList.get(0) != null) {
+//                    headerDetails.emailIdOfCc = surveyCCDetailsList.get(0)
+//                } else {
+//                    headerDetails.emailIdOfCc = ""
+//                }
+                var ccEmails: String = ""
+//                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
+                if (!surveyCCDetailsList.isNullOrEmpty()) {
+                    for (i in surveyCCDetailsList) {
+                        if (ccEmails.isEmpty()) {
+                            ccEmails = i
+                        } else {
+                            ccEmails = "$ccEmails,$i"
+                        }
+                    }
+                }
 
-                if (surveyCCDetailsList.get(0) != null) {
-                    headerDetails.emailIdOfCc = surveyCCDetailsList.get(0)
+                if (ccEmails != null) {
+                    headerDetails.emailIdOfCc = ccEmails
                 } else {
                     headerDetails.emailIdOfCc = ""
                 }
             } else if (status.equals("PENDING")) {
 
                 var trainerEmails: String = ""
-//                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
                 if (!listForTrainers.isNullOrEmpty()) {
                     for (i in listForTrainers) {
                         if (trainerEmails.isEmpty()) {
@@ -2649,7 +2693,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                     e.printStackTrace()
                 }
                 var trainerEmails: String = ""
-                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
+//                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
                 if (!listForTrainers.isNullOrEmpty()) {
                     for (i in listForTrainers) {
                         if (trainerEmails.isEmpty()) {
@@ -2699,7 +2743,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                 }
 
                 var trainerEmails: String = ""
-                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
+//                listForTrainers.add(activityChampsSurveyBinding.trainer.text.toString())
                 if (!listForTrainers.isNullOrEmpty()) {
                     for (i in listForTrainers) {
                         if (trainerEmails.isEmpty()) {
@@ -3999,13 +4043,13 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             Utlis.showLoading(this)
             saveApiRequest("submit")
         } else {
-            if (surveyRecManualList.size == 0) {
+            if ((surveyRecManualList == null || surveyRecManualList.size == 0)) {
                 Toast.makeText(
                     applicationContext,
                     "Please enter recipients email",
                     Toast.LENGTH_SHORT
                 ).show()
-            } else {
+            } else if(listForTrainers == null || listForTrainers.size == 0) {
                 Toast.makeText(
                     applicationContext,
                     "Please enter trainers email",

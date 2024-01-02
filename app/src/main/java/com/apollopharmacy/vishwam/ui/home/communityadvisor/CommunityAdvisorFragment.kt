@@ -25,7 +25,7 @@ import com.apollopharmacy.vishwam.ui.home.communityadvisor.adapter.ServicesListA
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServiceDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServiceDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.servicescustomerinteraction.ServicesCustomerInteractionActivity
-import com.apollopharmacy.vishwam.ui.rider.service.NetworkUtils
+import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import java.util.stream.Collectors
 
@@ -71,7 +71,7 @@ class CommunityAdvisorFragment :
     }
 
     private fun refreshApiData() {
-        if (NetworkUtils.isNetworkConnected(requireContext())) {
+        if (NetworkUtil.isNetworkConnected(requireContext())) {
             Utlis.showLoading(requireContext())
             viewModel.getHomeServiceDetails(homeServiceDetailsRequest, this)
         } else {
@@ -111,7 +111,7 @@ class CommunityAdvisorFragment :
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        if (NetworkUtils.isNetworkConnected(requireContext())) {
+        if (NetworkUtil.isNetworkConnected(requireContext())) {
             Utlis.showLoading(requireContext())
             viewBinding.noListFound.visibility=View.GONE
             viewModel.getHomeServiceDetails(homeServiceDetailsRequest, this)

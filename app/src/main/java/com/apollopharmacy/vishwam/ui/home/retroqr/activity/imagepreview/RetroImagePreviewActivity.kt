@@ -82,7 +82,6 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
                 .placeholder(R.drawable.thumbnail_image)
                 .into(activityRetroImagePreviewBinding.image)
 
-            activityRetroImagePreviewBinding.rack.setText(rackNo)
 
 //            scannerResponse = intent.getSerializableExtra("SCANNER_RESPONSE") as ScannerResponse
         }
@@ -96,9 +95,10 @@ class RetroImagePreviewActivity : AppCompatActivity(), RetroImagePreviewCallback
             Glide.with(this).load(imageByRackResponse.imageurl)
                 .placeholder(R.drawable.thumbnail_image)
                 .into(activityRetroImagePreviewBinding.image)
+            activityRetroImagePreviewBinding.rackid.setText(rackNo)
 
-            activityRetroImagePreviewBinding.cameraIcon.visibility = View.VISIBLE
-            activityRetroImagePreviewBinding.rack.setText("RACK3")
+
+//            activityRetroImagePreviewBinding.cameraIcon.visibility = View.VISIBLE
 
         }
     }

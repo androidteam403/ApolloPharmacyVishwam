@@ -1,12 +1,11 @@
 package com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard
 
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
 import com.apollopharmacy.vishwam.ui.home.dashboard.model.TicketCountsByStatusRoleResponse
 
 interface CeoDashboardCallback {
 
     fun onClickRightArrow(row: TicketCountsByStatusRoleResponse.Data.ListData.Row)
-    fun onClickEmployee(employee:String,roleCode:String)
+    fun onClickEmployee(employee: String, roleCode: String)
 
     fun onSuccessgetTicketListByCountApi(value: TicketCountsByStatusRoleResponse)
 
@@ -34,6 +33,9 @@ interface CeoDashboardCallback {
 
     fun onClickApplyDate()
 
-    fun onCLickRowtoShowTickets(row: TicketCountsByStatusRoleResponse.Data.ListData.Row)
+    fun onCLickRowtoShowTickets(
+        row: TicketCountsByStatusRoleResponse.Data.ListData.Row,
+        status: String,
+    )
 
 }

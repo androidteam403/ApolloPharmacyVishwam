@@ -76,9 +76,10 @@
                         android:layout_height="wrap_content">
 
                         <LinearLayout
+                            android:id="@+id/subject_layout"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="@dimen/value_40dp"
+                            android:layout_marginBottom="@dimen/dimen20dp"
                             android:orientation="vertical">
 
                             <LinearLayout
@@ -664,7 +665,7 @@
                         </LinearLayout>
 
                         <RelativeLayout
-
+                            android:layout_below="@id/subject_layout"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_alignParentBottom="true">

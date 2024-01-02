@@ -358,7 +358,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         geocoder = Geocoder(this@ApnaNewSurveyActivity, Locale.getDefault())
 
         activityApnaNewSurveyBinding.backButton.setOnClickListener {
-            val dialog = Dialog(this@ApnaNewSurveyActivity)
+            onBackPressed()
+           /* val dialog = Dialog(this@ApnaNewSurveyActivity)
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val apnaSurveyAlertDialogBinding =
@@ -377,7 +378,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 dialog.dismiss()
             }
             dialog.setCancelable(false)
-            dialog.show()
+            dialog.show()*/
         }
 
         activityApnaNewSurveyBinding.locationIcon.setOnClickListener {
@@ -1266,9 +1267,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     networkProviderAdapter.notifyDataSetChanged()
                 }
             }
-            networkProviderAdapter = NetworkProviderAdapter(this@ApnaNewSurveyActivity,
+            networkProviderAdapter = NetworkProviderAdapter(
                 this@ApnaNewSurveyActivity,
-                networkProviderList)
+                this@ApnaNewSurveyActivity,
+                networkProviderList
+            )
             dialogNetworkProviderBinding.networkProviderRcv.layoutManager =
                 LinearLayoutManager(this@ApnaNewSurveyActivity)
             dialogNetworkProviderBinding.networkProviderRcv.adapter = networkProviderAdapter
@@ -1296,9 +1299,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     networkProviderList.stream().filter { it.isSelected == true }
                         .collect(Collectors.toList()) as ArrayList<NetworkProvidersResponse.Data.ListData.Row>
                 selectedNetworkProvidersAdapter =
-                    SelectedNetworkProvidersAdapter(this@ApnaNewSurveyActivity,
+                    SelectedNetworkProvidersAdapter(
                         this@ApnaNewSurveyActivity,
-                        selectedNetworkProviders)
+                        this@ApnaNewSurveyActivity,
+                        selectedNetworkProviders
+                    )
                 activityApnaNewSurveyBinding.selectedNetworkProvidersRcv.adapter =
                     selectedNetworkProvidersAdapter
                 activityApnaNewSurveyBinding.selectedNetworkProvidersRcv.layoutManager =
@@ -1314,10 +1319,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         activityApnaNewSurveyBinding.internetProviderSelect.setOnClickListener {
             internetProviderDialog = Dialog(this@ApnaNewSurveyActivity)
             val dialogInternetProviderBinding =
-                DataBindingUtil.inflate<DialogInternetProviderBinding>(LayoutInflater.from(this@ApnaNewSurveyActivity),
+                DataBindingUtil.inflate<DialogInternetProviderBinding>(
+                    LayoutInflater.from(this@ApnaNewSurveyActivity),
                     R.layout.dialog_internet_provider,
                     null,
-                    false)
+                    false
+                )
             internetProviderDialog.setContentView(dialogInternetProviderBinding.root)
             internetProviderDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             internetProviderDialog.setCancelable(false)
@@ -1342,9 +1349,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     internetProviderAdapter.notifyDataSetChanged()
                 }
             }
-            internetProviderAdapter = InternetProviderAdapter(this@ApnaNewSurveyActivity,
+            internetProviderAdapter = InternetProviderAdapter(
                 this@ApnaNewSurveyActivity,
-                internetProviderList)
+                this@ApnaNewSurveyActivity,
+                internetProviderList
+            )
             dialogInternetProviderBinding.internetProviderRcv.layoutManager =
                 LinearLayoutManager(this@ApnaNewSurveyActivity)
             dialogInternetProviderBinding.internetProviderRcv.adapter = internetProviderAdapter
@@ -1371,9 +1380,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     internetProviderList.stream().filter { it.isSelected == true }
                         .collect(Collectors.toList()) as ArrayList<InternetProvidersResponse.Data.ListData.Row>
                 selectedInternetProviderAdapter =
-                    SelectedInternetProviderAdapter(this@ApnaNewSurveyActivity,
+                    SelectedInternetProviderAdapter(
                         this@ApnaNewSurveyActivity,
-                        selectedInternetProviders)
+                        this@ApnaNewSurveyActivity,
+                        selectedInternetProviders
+                    )
                 activityApnaNewSurveyBinding.selectedInternetProvidersRcv.adapter =
                     selectedInternetProviderAdapter
                 activityApnaNewSurveyBinding.selectedInternetProvidersRcv.layoutManager =
@@ -5942,10 +5953,27 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     }
 
     override fun onBackPressed() {
-        RESULT_OK
-        val intent = Intent()
-        setResult(RESULT_OK, intent)
-        finish()
+        var onBackAlertDialog = Dialog(this@ApnaNewSurveyActivity)
+        var onBackAlertDialogBinding: CreateSurveyConfirmDialogBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(this), R.layout.create_survey_confirm_dialog, null, false
+            )
+        onBackAlertDialog.setContentView(onBackAlertDialogBinding.root)
+        onBackAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        onBackAlertDialog.setCancelable(false)
+        onBackAlertDialogBinding.message.text = "Are You sure you want to leave this page"
+        onBackAlertDialogBinding.cancelButton.text = "No"
+        onBackAlertDialogBinding.saveButton.text = "Yes"
+        onBackAlertDialogBinding.cancelButton.setOnClickListener {
+            onBackAlertDialog.dismiss()
+        }
+        onBackAlertDialogBinding.saveButton.setOnClickListener {
+            RESULT_OK
+            val intent = Intent()
+            setResult(RESULT_OK, intent)
+            finish()
+        }
+        onBackAlertDialog.show()
     }
 
     override fun onMarkerDrag(p0: Marker) {
