@@ -1,15 +1,16 @@
 package com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
@@ -18,32 +19,31 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.UploadRackLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.RetroQrUploadCallback
-import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
-import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.bumptech.glide.Glide
 import java.io.File
 import java.io.IOException
 import java.util.Locale
-import kotlin.collections.ArrayList
 
 class UploadRackAdapter(
     var mContext: Context,
     var mCallback: RetroQrUploadCallback,
     var images: ArrayList<StoreWiseRackDetails.StoreDetail>,
-) : RecyclerView.Adapter<UploadRackAdapter.ViewHolder>(),Filterable {
+) : RecyclerView.Adapter<UploadRackAdapter.ViewHolder>(), Filterable {
 
     class ViewHolder(val uploadRackLayoutBinding: UploadRackLayoutBinding) :
         RecyclerView.ViewHolder(uploadRackLayoutBinding.root)
-    var charString: String? = null
-    private val imagesFilterList=ArrayList<StoreWiseRackDetails.StoreDetail>()
 
-    var imagesListList= ArrayList<StoreWiseRackDetails.StoreDetail>()
+    var charString: String? = null
+    private val imagesFilterList = ArrayList<StoreWiseRackDetails.StoreDetail>()
+
+    var imagesListList = ArrayList<StoreWiseRackDetails.StoreDetail>()
 
 
     init {
         imagesListList = images
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val uploadRackLayoutBinding = DataBindingUtil.inflate<UploadRackLayoutBinding>(
             LayoutInflater.from(mContext),
@@ -56,12 +56,12 @@ class UploadRackAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var items=images.get(position)
+        var items = images.get(position)
         val rackCount = position + 1
         holder.uploadRackLayoutBinding.rackCount.text = items.rackno
 
 //        if (items.imageurl!!.contains(".")|| items.imageurl!!.isNullOrEmpty()) {
-        if ( items.imageurl!!.isNotEmpty()) {
+        if (items.imageurl!!.isNotEmpty()) {
             holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.GONE
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.VISIBLE
 //            holder.uploadRackLayoutBinding.eyeImage.visibility = View.VISIBLE
@@ -75,7 +75,13 @@ class UploadRackAdapter(
 
 
             holder.uploadRackLayoutBinding.eyeImage.setOnClickListener {
-                mCallback.imageData(position, items.imageurl!!, items.rackno!!, items.qrcode!!,holder.uploadRackLayoutBinding.eyeImage)
+                mCallback.imageData(
+                    position,
+                    items.imageurl!!,
+                    items.rackno!!,
+                    items.qrcode!!,
+                    holder.uploadRackLayoutBinding.eyeImage
+                )
             }
 
 
@@ -89,7 +95,7 @@ class UploadRackAdapter(
 //                items.image))
         }
         holder.uploadRackLayoutBinding.camera.setOnClickListener {
-            mCallback.onClickCameraIcon(position,"upload")
+            mCallback.onClickCameraIcon(position, "upload")
         }
     }
 
@@ -124,15 +130,19 @@ class UploadRackAdapter(
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence): FilterResults {
                 charString = charSequence.toString()
-                images = if (charString.equals("All")||charString!!.isEmpty()) {
+                images = if (charString.equals("All") || charString!!.isEmpty()) {
                     imagesListList
                 } else {
                     imagesFilterList.clear()
                     for (row in imagesListList) {
 
-                        if (!imagesFilterList.contains(row) && row.rackno!!.lowercase(Locale.getDefault()).contains(
-                                charString!!.lowercase(
-                                    Locale.getDefault()))) {
+                        if (!imagesFilterList.contains(row) && row.rackno!!.lowercase(Locale.getDefault())
+                                .contains(
+                                    charString!!.lowercase(
+                                        Locale.getDefault()
+                                    )
+                                )
+                        ) {
                             imagesFilterList.add(row)
                         }
                     }
@@ -157,5 +167,13 @@ class UploadRackAdapter(
                 }
             }
         }
+    }
+
+    fun enlargeImage() {
+        var enlargeDialog = Dialog(mContext, android.R.style.Theme_DeviceDefault_Light_NoActionBar)
+        enlargeDialog.getWindow()!!.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        );
     }
 }

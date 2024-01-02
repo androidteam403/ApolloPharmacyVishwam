@@ -1032,7 +1032,7 @@ public class Utils {
 
 
             //After covert
-            SimpleDateFormat formatAfterConvert = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatAfterConvert = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             String dateTime = formatAfterConvert.format(dateBeforeConvert);
             return dateTime;
         } catch (ParseException e) {

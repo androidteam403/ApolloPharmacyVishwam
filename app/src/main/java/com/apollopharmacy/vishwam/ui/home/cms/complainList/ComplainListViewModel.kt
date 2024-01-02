@@ -223,8 +223,7 @@ class ComplainListViewModel : ViewModel() {
                             } else if (statusCeoDasboard!!.equals("lessthantwo")) {
                                 "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
                             } else if (statusCeoDasboard!!.equals("threetoeight")) {
-                                ""
-//                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
                             } else if (statusCeoDasboard!!.equals("greaterthaneight")) {
                                 "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
                             } else if (statusCeoDasboard!!.equals("rejected")) {
@@ -244,8 +243,7 @@ class ComplainListViewModel : ViewModel() {
                             } else if (statusCeoDasboard.equals("lessthantwo")) {
                                 "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
                             } else if (statusCeoDasboard.equals("threetoeight")) {
-                                ""
-//                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
                             } else if (statusCeoDasboard.equals("greaterthaneight")) {
                                 "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
                             } else if (statusCeoDasboard.equals("rejected")) {
