@@ -187,7 +187,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="02 Apr,2023 - 03:30PM"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp" />
                     </LinearLayout>
@@ -211,7 +211,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="APL48627"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp" />
                     </LinearLayout>
@@ -382,7 +382,7 @@
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/price_bold"
                                 android:paddingStart="12sp"
-                                android:text="10"
+                                android:text=""
 
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_14sp" />
@@ -408,7 +408,7 @@
                                 android:fontFamily="@font/price_bold"
                                 android:paddingStart="12sp"
 
-                                android:text="7"
+                                android:text=""
 
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_14sp" />
@@ -434,7 +434,7 @@
                                 android:fontFamily="@font/price_bold"
                                 android:paddingStart="12sp"
 
-                                android:text="2"
+                                android:text=""
 
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_14sp" />
@@ -459,7 +459,7 @@
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/price_bold"
                                 android:paddingStart="12sp"
-                                android:text="1"
+                                android:text=""
 
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_14sp" />
@@ -550,6 +550,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="6dp"
+                        android:visibility="gone"
+                        android:id="@+id/greyLine"
                         android:background="@color/colorGrey"></View>
 
                 </LinearLayout>

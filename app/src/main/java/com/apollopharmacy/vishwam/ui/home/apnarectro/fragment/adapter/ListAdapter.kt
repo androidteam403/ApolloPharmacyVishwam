@@ -137,7 +137,9 @@ class ListAdapter(
                         )
                     )
                 }
-            } else if (item.get(i).stage.equals("POST-RETRO")) {
+            }
+            else if (item.get(i).stage.equals("POST-RETRO")&&!holder.adapterListApnaBinding.preRetroStatus.text.toString().equals("Reshoot")&&!holder.adapterListApnaBinding.preRetroStatus.text.toString().contains("Pending")) {
+
                 holder.adapterListApnaBinding.secondstageStatus.text = item.get(i).status
 
                 if (item.get(i).status.equals("Pending At User")||item.get(i).hierarchystatus.toString().contains("AWAITING") || item.get(i).status.contains("Reshoot")) {
@@ -214,7 +216,8 @@ class ListAdapter(
                         )
                     )
                 }
-            } else if (item.get(i).stage.equals("AFTER-COMPLETION")) {
+            }
+            else if (item.get(i).stage.equals("AFTER-COMPLETION")&&!holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Reshoot")&&!holder.adapterListApnaBinding.postRetroStatus.text.toString().contains("Pending")) {
                 holder.adapterListApnaBinding.thirdstagestatus.text =item.get(i).status
 
                 holder.adapterListApnaBinding.approvedByLayout.visibility = View.GONE

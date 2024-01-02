@@ -210,8 +210,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback,
             dialog.setCanceledOnTouchOutside(false)
             val close = dialog.findViewById<LinearLayout>(R.id.close_apna)
             val textMessage = dialog.findViewById<TextView>(R.id.transaction_id_apna)
-            textMessage.text =
-                "Pre Retro is Submitted for Review \n Transaction ID is: " + saveImageUrlsResponse.retroid
+            textMessage.text = "Pre Retro is Submitted for Review \n Transaction ID is: " + saveImageUrlsResponse.retroid
             close.setOnClickListener {
                 dialog.dismiss()
                 val intent = Intent()
@@ -481,7 +480,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback,
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateButtonValidation() {
-        if (uploadedImageCount == overallImageCount) {
+        if (uploadedImageCount == overallImageCount&&uploadedImageCount!=0&&overallImageCount!=0) {
             activityUploadImagesBinding.uploadnowbutton.setBackgroundColor(Color.parseColor("#00a651"));
             if (apnaConfigList != null && apnaConfigList.get(0).configlist!!.size > 0) {
                 var fileUploadModelList = ArrayList<ApnaRetroFileUploadModel>()

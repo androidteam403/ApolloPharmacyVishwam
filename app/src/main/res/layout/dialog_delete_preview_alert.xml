@@ -21,7 +21,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="@string/label_alert"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen25sp"
                     android:textStyle="bold"
@@ -45,7 +44,7 @@
                 android:layout_marginTop="@dimen/value_15dp"
                 android:layout_marginBottom="@dimen/value_25dp"
                 android:gravity="center_horizontal"
-                android:text="Do You Want to Refresh?"
+                android:text="Do You Want to Reset?"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_18sp" />
 

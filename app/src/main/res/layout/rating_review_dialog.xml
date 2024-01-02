@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:isIndicator="false"
                     android:max="5"
-                    android:rating="4"
+                    android:rating="0"
                     android:numStars="5"
                     android:scaleX=".7"
                     android:scaleY=".7"
