@@ -20,7 +20,7 @@ class CategoryDetailsAdapter(
     private var status: String?,
 ) : RecyclerView.Adapter<CategoryDetailsAdapter.ViewHolder>() {
 
-    var idNo=0
+//    var idNo=0
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
@@ -41,10 +41,10 @@ class CategoryDetailsAdapter(
 //        categoryDetails!!.get(1).isActive=false
 
         if(categoryDetailss.isActive!!){
-            idNo=idNo+1
+//            idNo=idNo+2
             holder.adapterCategoryDetailsBinding.categoryLayout.visibility=View.VISIBLE
             holder.adapterCategoryDetailsBinding.categoryName.text = categoryDetailss.categoryName
-            holder.adapterCategoryDetailsBinding.categoryNumber.text = idNo.toString()
+            holder.adapterCategoryDetailsBinding.categoryNumber.text = categoryDetailss.id.toString()
             holder.adapterCategoryDetailsBinding.progressBar.isEnabled = false
         }else{
             holder.adapterCategoryDetailsBinding.categoryLayout.visibility=View.GONE
