@@ -47,6 +47,7 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUpload
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadCallback
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadModel
 import com.apollopharmacy.vishwam.util.PopUpWIndow
+import com.apollopharmacy.vishwam.util.PopUpWIndowQr
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.apollopharmacy.vishwam.util.bluetooth.BarcodeEncoder
@@ -214,7 +215,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         qrCode: String,
         view: View,
     ) {
-        PopUpWIndow(context, R.layout.layout_image_fullview, view, imageUrl, null, rackNo, position)
+        PopUpWIndowQr(context, R.layout.layout_image_fullview, view, imageUrl, null, rackNo, position)
 
     }
 

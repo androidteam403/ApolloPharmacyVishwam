@@ -64,7 +64,7 @@ class UploadRackAdapter(
         if (items.imageurl!!.isNotEmpty()) {
             holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.GONE
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.VISIBLE
-//            holder.uploadRackLayoutBinding.eyeImage.visibility = View.VISIBLE
+            holder.uploadRackLayoutBinding.eyeImage.visibility = View.VISIBLE
 
 //            Glide.with(ViswamApp.context).load(RijndaelCipherEncryptDecrypt().decrypt(items.imageurl,"blobfilesload"))
 //                .placeholder(R.drawable.thumbnail_image)
@@ -88,7 +88,7 @@ class UploadRackAdapter(
         } else {
             holder.uploadRackLayoutBinding.beforeCaptureLayout.visibility = View.VISIBLE
             holder.uploadRackLayoutBinding.afterCaptureLayout.visibility = View.GONE
-//            holder.uploadRackLayoutBinding.eyeImage.visibility = View.GONE
+            holder.uploadRackLayoutBinding.eyeImage.visibility = View.GONE
 
 //            holder.uploadRackLayoutBinding.afterCapturedImage.setImageBitmap(rotateImage(
 //                BitmapFactory.decodeFile(items.image.absolutePath),
