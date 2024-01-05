@@ -219,19 +219,20 @@ class ComplainListViewModel : ViewModel() {
                 baseUrl =
                     baseUrl + "emp_id=${row.employeeid}&from_date=${fromDate}&to_date=${toDate}&site=${row.storeId}&role=${row.roleCode}&page=${requestComplainList.page}" +
                             if (statusCeoDasboard!!.equals("closed")) {
-                                "&${URLEncoder.encode("status[5]", "utf-8")}=$statusCeo"
+                                "&${URLEncoder.encode("status[5]", "utf-8")}=closed"
                             } else if (statusCeoDasboard!!.equals("lessthantwo")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=less_than_2"
                             } else if (statusCeoDasboard!!.equals("threetoeight")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=3_to_8"
                             } else if (statusCeoDasboard!!.equals("greaterthaneight")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=greater_than_8"
                             } else if (statusCeoDasboard!!.equals("rejected")) {
-                                "&${URLEncoder.encode("status[3]", "utf-8")}=$statusCeo"
+                                "&${URLEncoder.encode("status[3]", "utf-8")}=rejected"
                             } else if (statusCeoDasboard!!.equals("pending")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                                "&${URLEncoder.encode("status[1]", "utf-8")}=pending"
                             } else if (statusCeoDasboard!!.equals("total")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                                ""
+                                /*"&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"*/
                             } else {
                                 ""
                             } + "&rows=10&zcFetchListTotal=true"
