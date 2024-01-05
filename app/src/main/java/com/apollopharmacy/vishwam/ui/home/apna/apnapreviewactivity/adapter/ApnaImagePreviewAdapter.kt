@@ -15,6 +15,8 @@ class ApnaImagePreviewAdapter(
     var mContext: Context,
     var images: ArrayList<SurveyDetailsList.Image>,
     var currentPosition: Int,
+    var isMobileCreated: Boolean,
+    var siteImageList: ArrayList<SurveyDetailsList.SiteImage>,
 ) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -24,15 +26,24 @@ class ApnaImagePreviewAdapter(
             container,
             false
         )
-        Glide.with(mContext).load(images.get(position).url).error(R.drawable.placeholder_image)
-            .into(apnaPreviewImageLayoutBinding.image)
+        if (isMobileCreated) {
+            Glide.with(mContext).load(images.get(position).url).error(R.drawable.placeholder_image)
+                .into(apnaPreviewImageLayoutBinding.image)
 
-        container.addView(apnaPreviewImageLayoutBinding.root)
-        return apnaPreviewImageLayoutBinding.root
+            container.addView(apnaPreviewImageLayoutBinding.root)
+            return apnaPreviewImageLayoutBinding.root
+        } else {
+            Glide.with(mContext).load(siteImageList.get(position).fullPath)
+                .error(R.drawable.placeholder_image)
+                .into(apnaPreviewImageLayoutBinding.image)
+
+            container.addView(apnaPreviewImageLayoutBinding.root)
+            return apnaPreviewImageLayoutBinding.root
+        }
     }
 
     override fun getCount(): Int {
-        return images.size
+        return if (isMobileCreated) images.size else siteImageList.size
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {

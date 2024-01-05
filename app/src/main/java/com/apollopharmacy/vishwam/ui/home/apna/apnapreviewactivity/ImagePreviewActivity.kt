@@ -19,6 +19,9 @@ class ImagePreviewActivity : AppCompatActivity(), ViewPager.OnPageChangeListener
     var surveyId: String = ""
     var position: Int = 0
     var viewPagerCurrentPos: Int = 0
+
+    var siteImageList = ArrayList<SurveyDetailsList.SiteImage>()
+    var isMobileCreated = false;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityImagePreviewBinding = DataBindingUtil.setContentView(
@@ -30,8 +33,12 @@ class ImagePreviewActivity : AppCompatActivity(), ViewPager.OnPageChangeListener
             images = intent.getSerializableExtra("IMAGES") as ArrayList<SurveyDetailsList.Image>
             currentPosition = intent.getIntExtra("IMAGE_POSITION", -1)
             surveyId = intent.getStringExtra("SURVEY_ID").toString()
+
+            siteImageList =
+                intent.getSerializableExtra("IMAGE_WEBCREATED") as ArrayList<SurveyDetailsList.SiteImage>
+            isMobileCreated = intent.getBooleanExtra("SOURCE", false);
         }
-        totalImages = images.size
+        totalImages = if (isMobileCreated) images.size else siteImageList.size
 
         if (position == 0) {
             activityImagePreviewBinding.previous.visibility = View.GONE
@@ -40,7 +47,7 @@ class ImagePreviewActivity : AppCompatActivity(), ViewPager.OnPageChangeListener
             finish()
         }
         activityImagePreviewBinding.surveyId.setText(surveyId)
-        if (images.size == 1) {
+        if (if (isMobileCreated) images.size == 1 else siteImageList.size == 1) {
             activityImagePreviewBinding.currentImage.setText("Total Images" + " ( " + (position + 1 / images.size).toString() + " / ")
             activityImagePreviewBinding.totalImages.setText(images.size.toString() + ")")
             activityImagePreviewBinding.next.visibility = View.GONE
@@ -50,7 +57,13 @@ class ImagePreviewActivity : AppCompatActivity(), ViewPager.OnPageChangeListener
         }
 
         apnaImagePreviewAdapter =
-            ApnaImagePreviewAdapter(this@ImagePreviewActivity, images, currentPosition)
+            ApnaImagePreviewAdapter(
+                this@ImagePreviewActivity,
+                images,
+                currentPosition,
+                isMobileCreated,
+                siteImageList
+            )
         activityImagePreviewBinding.previewImageViewpager.addOnPageChangeListener(this)
         activityImagePreviewBinding.previewImageViewpager.adapter = apnaImagePreviewAdapter
         activityImagePreviewBinding.previewImageViewpager.setCurrentItem(currentPosition, true)
@@ -67,13 +80,18 @@ class ImagePreviewActivity : AppCompatActivity(), ViewPager.OnPageChangeListener
         } else {
             activityImagePreviewBinding.previous.visibility = View.VISIBLE
         }
-        if (position == images.size - 1) {
+        if (if (isMobileCreated) (position == images.size - 1) else (position == siteImageList.size - 1)) {
             activityImagePreviewBinding.next.visibility = View.GONE
         } else {
             activityImagePreviewBinding.next.visibility = View.VISIBLE
         }
-        activityImagePreviewBinding.currentImage.setText("Total Images" + " ( " + (position + 1 / images.size + 1).toString() + " / ")
-        activityImagePreviewBinding.totalImages.setText(images.size.toString() + ")")
+        if (isMobileCreated) {
+            activityImagePreviewBinding.currentImage.setText("Total Images" + " ( " + (position + 1 / images.size + 1).toString() + " / ")
+            activityImagePreviewBinding.totalImages.setText(images.size.toString() + ")")
+        }else{
+            activityImagePreviewBinding.currentImage.setText("Total Images" + " ( " + (position + 1 / siteImageList.size + 1).toString() + " / ")
+            activityImagePreviewBinding.totalImages.setText(siteImageList.size.toString() + ")")
+        }
     }
 
     override fun onPageScrollStateChanged(state: Int) {

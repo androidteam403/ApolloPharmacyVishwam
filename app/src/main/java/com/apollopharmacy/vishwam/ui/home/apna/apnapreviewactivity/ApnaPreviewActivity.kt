@@ -979,8 +979,22 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         if (value.data!!.siteImageMb != null && value.data!!.siteImageMb!!.images != null && value.data!!.siteImageMb!!.images!!.size > 0) {
             apnaPreviewActivityBinding.noPhotosAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.imageRecyclerView.visibility = View.VISIBLE
+            var isMobileCreated = false
+            if (value.data!!.isMobile != null) {
+                if (value.data!!.isMobile == true) {
+                    isMobileCreated = true
+                } else {
+                    isMobileCreated = false
+                }
+            } else {
+                isMobileCreated = false
+            }
             imageAdapter = PreviewImageAdapter(
-                this, value.data!!.siteImageMb!!.images as ArrayList<SurveyDetailsList.Image>, this
+                isMobileCreated,
+                this,
+                value.data!!.siteImageMb!!.images as ArrayList<SurveyDetailsList.Image>,
+                this,
+                value!!.data!!.siteImage as ArrayList<SurveyDetailsList.SiteImage>
             )
             apnaPreviewActivityBinding.imageRecyclerView.adapter = imageAdapter
         } else {
@@ -1700,8 +1714,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         if (value.data!!.networkServiceProvider != null && value.data!!.networkServiceProvider!!.size > 0) {
             apnaPreviewActivityBinding.networkProvidersRecyclerView.visibility = View.VISIBLE
             apnaPreviewActivityBinding.networkProvidersNotFound.visibility = View.GONE
-            networkProviderAdapter = PreviewNetworkProviderAdapter(this@ApnaPreviewActivity,
-                value.data!!.networkServiceProvider as ArrayList<SurveyDetailsList.NetworkServiceProvider>)
+            networkProviderAdapter = PreviewNetworkProviderAdapter(
+                this@ApnaPreviewActivity,
+                value.data!!.networkServiceProvider as ArrayList<SurveyDetailsList.NetworkServiceProvider>
+            )
             apnaPreviewActivityBinding.networkProvidersRecyclerView.adapter = networkProviderAdapter
         } else {
             apnaPreviewActivityBinding.networkProvidersRecyclerView.visibility = View.GONE
@@ -1711,9 +1727,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         if (value.data!!.internetServiceProvider != null && value.data!!.internetServiceProvider!!.size > 0) {
             apnaPreviewActivityBinding.internetProvidersRecyclerView.visibility = View.VISIBLE
             apnaPreviewActivityBinding.internetProvidersNotFound.visibility = View.GONE
-            internetProviderAdapter = PreviewInternetProviderAdapter(this@ApnaPreviewActivity,
-                value.data!!.internetServiceProvider as ArrayList<SurveyDetailsList.InternetServiceProvider>)
-            apnaPreviewActivityBinding.internetProvidersRecyclerView.adapter = internetProviderAdapter
+            internetProviderAdapter = PreviewInternetProviderAdapter(
+                this@ApnaPreviewActivity,
+                value.data!!.internetServiceProvider as ArrayList<SurveyDetailsList.InternetServiceProvider>
+            )
+            apnaPreviewActivityBinding.internetProvidersRecyclerView.adapter =
+                internetProviderAdapter
         } else {
             apnaPreviewActivityBinding.internetProvidersRecyclerView.visibility = View.GONE
             apnaPreviewActivityBinding.internetProvidersNotFound.visibility = View.VISIBLE
@@ -1889,12 +1908,17 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         imagePath: String,
         name: String,
         imagetData: ArrayList<SurveyDetailsList.Image>,
+        isMobileCreated: Boolean,
+        imageList: ArrayList<SurveyDetailsList.SiteImage>,
     ) {
 
         val intent = Intent(this@ApnaPreviewActivity, ImagePreviewActivity::class.java)
         intent.putExtra("IMAGES", imagetData)
         intent.putExtra("IMAGE_POSITION", position)
         intent.putExtra("SURVEY_ID", surveyId)
+
+        intent.putExtra("IMAGE_WEBCREATED", imageList)
+        intent.putExtra("SOURCE", isMobileCreated)
         startActivity(intent)
 
 //        PopUpWIndow(

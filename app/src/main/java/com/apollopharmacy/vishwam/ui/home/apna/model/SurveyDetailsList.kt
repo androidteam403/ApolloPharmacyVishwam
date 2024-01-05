@@ -1,7 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.model
 
 import android.provider.MediaStore.Video
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -207,7 +206,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("is_mobile")
         @Expose
-        var isMobile:Boolean?=false
+        var isMobile: Boolean? = false
 
         @SerializedName("extng_outlet_name")
         @Expose
@@ -311,7 +310,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("site_image")
         @Expose
-        var siteImage: List<Any>? = null
+        var siteImage: List<SiteImage>? = null
 
         @SerializedName("building_age")
         @Expose
@@ -343,7 +342,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("video")
         @Expose
-        var video: List<Any>? = null
+        var video: List<Video>? = null
 
         @SerializedName("security_deposit")
         @Expose
@@ -615,7 +614,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withSiteImage(siteImage: List<Any>?): Data {
+        fun withSiteImage(siteImage: List<SiteImage>?): Data {
             this.siteImage = siteImage
             return this
         }
@@ -650,7 +649,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withVideo(video: List<Any>?): Data {
+        fun withVideo(video: List<Video>?): Data {
             this.video = video
             return this
         }
@@ -967,6 +966,106 @@ class SurveyDetailsList : Serializable {
         }
     }
 
+
+    class Video : Serializable {
+        @SerializedName("url")
+        @Expose
+        var url: String? = null
+
+        @SerializedName("size")
+        var size: Int? = null
+
+        @SerializedName("saved")
+        var saved: Boolean? = null
+
+        @SerializedName("name")
+        var name: String? = null
+
+        @SerializedName("contentType")
+        var contentType: String? = null
+
+        @SerializedName("dimenesions")
+        var dimenesions: Dimenesions? = null
+
+        @SerializedName("path")
+        var path: String? = null
+
+        @SerializedName("fullPath")
+        var fullPath: String? = null
+
+        @SerializedName("created_info")
+        var createdInfo: CreatedInfo? = null
+
+    }
+
+    class Dimenesions : Serializable {
+
+    }
+
+    class CreatedInfo : Serializable {
+
+        @SerializedName("created_on")
+        var createdOn: Int? = null
+
+        @SerializedName("user_id")
+        var userId: String? = null
+
+        @SerializedName("app_user_id")
+        var appUserId: String? = null
+
+        @SerializedName("user_code")
+        var userCode: String? = null
+
+        @SerializedName("user_name")
+        var userName: String? = null
+
+        @SerializedName("login_unique")
+        var loginUnique: String? = null
+
+        @SerializedName("email")
+        var email: String? = null
+
+        @SerializedName("phone")
+        var phone: String? = null
+
+        @SerializedName("role_code")
+        var roleCode: String? = null
+
+        @SerializedName("role_name")
+        var roleName: String? = null
+
+    }
+
+
+    class SiteImage : Serializable {
+
+        @SerializedName("size")
+        var size: Int? = null
+
+        @SerializedName("saved")
+        var saved: Boolean? = null
+
+        @SerializedName("name")
+        var name: String? = null
+
+        @SerializedName("contentType")
+        var contentType: String? = null
+
+        @SerializedName("dimenesions")
+        var dimenesions: Dimenesions? = null
+
+        @SerializedName("path")
+        var path: String? = null
+
+        @SerializedName("fullPath")
+        var fullPath: String? = null
+
+        @SerializedName("created_info")
+        var createdInfo: CreatedInfo? = null
+
+    }
+
+
     inner class SiteImageMb : Serializable {
         @SerializedName("images")
         @Expose
@@ -1150,9 +1249,9 @@ class SurveyDetailsList : Serializable {
 
     }
 
-    class Video : Serializable {
-        @SerializedName("url")
-        @Expose
-        var url: String? = null
-    }
+    /* class Video : Serializable {
+         @SerializedName("url")
+         @Expose
+         var url: String? = null
+     }*/
 }

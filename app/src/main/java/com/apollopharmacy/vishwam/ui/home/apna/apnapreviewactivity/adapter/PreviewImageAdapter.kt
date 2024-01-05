@@ -13,9 +13,11 @@ import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 import com.bumptech.glide.Glide
 
 class PreviewImageAdapter(
+    val isMobileCreated: Boolean,
     val mContext: Context,
     private val imagetData: ArrayList<SurveyDetailsList.Image>,
     val imageClicklistner: ApnaNewPreviewCallBack,
+    val imagesList: ArrayList<SurveyDetailsList.SiteImage>,
 ) : RecyclerView.Adapter<PreviewImageAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,17 +31,41 @@ class PreviewImageAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val items = imagetData.get(position)
-        Glide.with(ViswamApp.context).load(items.url)
-            .placeholder(R.drawable.thumbnail_image)
-            .into(holder.imageAdapterLayoutBinding.image)
-        holder.imageAdapterLayoutBinding.eyeImageRes.setOnClickListener {
-            imageClicklistner.onItemClick(position, items.url!!, "", imagetData)
+        if (isMobileCreated) {
+            val items = imagetData.get(position)
+            Glide.with(ViswamApp.context).load(items.url)
+                .placeholder(R.drawable.thumbnail_image)
+                .into(holder.imageAdapterLayoutBinding.image)
+            holder.imageAdapterLayoutBinding.eyeImageRes.setOnClickListener {
+                imageClicklistner.onItemClick(
+                    position,
+                    items.url!!,
+                    "",
+                    imagetData,
+                    isMobileCreated,
+                    ArrayList()
+                )
+            }
+        } else {
+            val items = imagesList.get(position)
+            Glide.with(ViswamApp.context).load(items.fullPath)
+                .placeholder(R.drawable.thumbnail_image)
+                .into(holder.imageAdapterLayoutBinding.image)
+            holder.imageAdapterLayoutBinding.eyeImageRes.setOnClickListener {
+                imageClicklistner.onItemClick(
+                    position,
+                    items.fullPath!!,
+                    "",
+                    ArrayList(),
+                    isMobileCreated,
+                    imagesList!!
+                )
+            }
         }
     }
 
     override fun getItemCount(): Int {
-        return imagetData.size
+        return if (isMobileCreated) imagetData.size else imagesList.size
     }
 
     class ViewHolder(val imageAdapterLayoutBinding: ImageAdapterLayoutBinding) :

@@ -10,6 +10,8 @@ interface ApnaNewPreviewCallBack {
         imagePath: String,
         name: String,
         imagetData: ArrayList<SurveyDetailsList.Image>,
+        isMobileCreated: Boolean,
+        imageList: ArrayList<SurveyDetailsList.SiteImage>,
     )
 
     fun onFailuregetSurveyWiseDetails(value: SurveyDetailsList)
