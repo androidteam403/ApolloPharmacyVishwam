@@ -975,32 +975,50 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
             apnaPreviewActivityBinding.recyclerViewhospital.visibility = View.GONE
             apnaPreviewActivityBinding.hospitalsNotFound.visibility = View.VISIBLE
         }
-
-        if (value.data!!.siteImageMb != null && value.data!!.siteImageMb!!.images != null && value.data!!.siteImageMb!!.images!!.size > 0) {
-            apnaPreviewActivityBinding.noPhotosAvailable.visibility = View.GONE
-            apnaPreviewActivityBinding.imageRecyclerView.visibility = View.VISIBLE
-            var isMobileCreated = false
-            if (value.data!!.isMobile != null) {
-                if (value.data!!.isMobile == true) {
-                    isMobileCreated = true
-                } else {
-                    isMobileCreated = false
-                }
+        var isMobileCreated = false
+        if (value.data!!.isMobile != null) {
+            if (value.data!!.isMobile == true) {
+                isMobileCreated = true
             } else {
                 isMobileCreated = false
             }
-            imageAdapter = PreviewImageAdapter(
-                isMobileCreated,
-                this,
-                value.data!!.siteImageMb!!.images as ArrayList<SurveyDetailsList.Image>,
-                this,
-                value!!.data!!.siteImage as ArrayList<SurveyDetailsList.SiteImage>
-            )
-            apnaPreviewActivityBinding.imageRecyclerView.adapter = imageAdapter
         } else {
-            apnaPreviewActivityBinding.imageRecyclerView.visibility = View.GONE
-            apnaPreviewActivityBinding.noPhotosAvailable.visibility = View.VISIBLE
+            isMobileCreated = false
         }
+        if (isMobileCreated) {
+            if (value.data!!.siteImageMb != null && value.data!!.siteImageMb!!.images != null && value.data!!.siteImageMb!!.images!!.size > 0) {
+                apnaPreviewActivityBinding.noPhotosAvailable.visibility = View.GONE
+                apnaPreviewActivityBinding.imageRecyclerView.visibility = View.VISIBLE
+            } else {
+                apnaPreviewActivityBinding.imageRecyclerView.visibility = View.GONE
+                apnaPreviewActivityBinding.noPhotosAvailable.visibility = View.VISIBLE
+            }
+        } else {
+            if (value.data!!.siteImage != null && value.data!!.siteImage!!.size > 0) {
+                apnaPreviewActivityBinding.noPhotosAvailable.visibility = View.GONE
+                apnaPreviewActivityBinding.imageRecyclerView.visibility = View.VISIBLE
+            } else {
+                apnaPreviewActivityBinding.imageRecyclerView.visibility = View.GONE
+                apnaPreviewActivityBinding.noPhotosAvailable.visibility = View.VISIBLE
+            }
+        }
+
+        imageAdapter = PreviewImageAdapter(
+            isMobileCreated,
+            this,
+            if (isMobileCreated) {
+                value.data!!.siteImageMb!!.images as ArrayList<SurveyDetailsList.Image>
+            } else {
+                ArrayList()
+            },
+            this,
+            if (isMobileCreated) {
+                ArrayList()
+            } else {
+                value!!.data!!.siteImage as ArrayList<SurveyDetailsList.SiteImage>
+            }
+        )
+        apnaPreviewActivityBinding.imageRecyclerView.adapter = imageAdapter
 //        videoMbList.add(value.data!!.videoMb!!)
 //        videoList.add("https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1")
         if (value.data!!.videoMb!! != null && value.data!!.videoMb!!.video != null && value.data!!.videoMb!!.video!!.size > 0) {
