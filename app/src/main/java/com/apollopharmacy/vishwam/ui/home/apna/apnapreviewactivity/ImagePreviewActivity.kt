@@ -48,12 +48,25 @@ class ImagePreviewActivity : AppCompatActivity(), ViewPager.OnPageChangeListener
         }
         activityImagePreviewBinding.surveyId.setText(surveyId)
         if (if (isMobileCreated) images.size == 1 else siteImageList.size == 1) {
-            activityImagePreviewBinding.currentImage.setText("Total Images" + " ( " + (position + 1 / images.size).toString() + " / ")
-            activityImagePreviewBinding.totalImages.setText(images.size.toString() + ")")
-            activityImagePreviewBinding.next.visibility = View.GONE
+            if (isMobileCreated){
+                activityImagePreviewBinding.currentImage.setText("Total Images" + " ( " + (position + 1 / images.size).toString() + " / ")
+                activityImagePreviewBinding.totalImages.setText(images.size.toString() + ")")
+                activityImagePreviewBinding.next.visibility = View.GONE
+            }else{
+                activityImagePreviewBinding.currentImage.setText("Total Images" + " ( " + (position + 1 / siteImageList.size).toString() + " / ")
+                activityImagePreviewBinding.totalImages.setText(siteImageList.size.toString() + ")")
+                activityImagePreviewBinding.next.visibility = View.GONE
+            }
+
         } else {
-            activityImagePreviewBinding.currentImage.setText("Total Images" + " ( " + (position + 1 / images.size + 1).toString() + " / ")
-            activityImagePreviewBinding.totalImages.setText(images.size.toString() + ")")
+            if (isMobileCreated){
+                activityImagePreviewBinding.currentImage.setText("Total Images" + " ( " + (position + 1 / images.size + 1).toString() + " / ")
+                activityImagePreviewBinding.totalImages.setText(images.size.toString() + ")")
+            }else{
+                activityImagePreviewBinding.currentImage.setText("Total Images" + " ( " + (position + 1 / siteImageList.size + 1).toString() + " / ")
+                activityImagePreviewBinding.totalImages.setText(siteImageList.size.toString() + ")")
+            }
+
         }
 
         apnaImagePreviewAdapter =

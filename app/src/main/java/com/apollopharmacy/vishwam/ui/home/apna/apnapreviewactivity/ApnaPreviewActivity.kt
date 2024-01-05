@@ -48,6 +48,7 @@ import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
@@ -1021,7 +1022,31 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         apnaPreviewActivityBinding.imageRecyclerView.adapter = imageAdapter
 //        videoMbList.add(value.data!!.videoMb!!)
 //        videoList.add("https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1")
-        if (value.data!!.videoMb!! != null && value.data!!.videoMb!!.video != null && value.data!!.videoMb!!.video!!.size > 0) {
+
+      if (isMobileCreated){
+          if (value.data!!.videoMb!! != null && value.data!!.videoMb!!.video != null && value.data!!.videoMb!!.video!!.size > 0) {
+
+              apnaPreviewActivityBinding.noVideoAvailable.visibility = View.GONE
+              apnaPreviewActivityBinding.videoRecyclerView.visibility = View.VISIBLE
+              videoAdapter = PreviewVideoAdapter(this, value.data!!.videoMb!!.video!!, this, isMobileCreated, ArrayList())
+              apnaPreviewActivityBinding.videoRecyclerView.adapter = videoAdapter
+          } else {
+              apnaPreviewActivityBinding.videoRecyclerView.visibility = View.GONE
+              apnaPreviewActivityBinding.noVideoAvailable.visibility = View.VISIBLE
+          }
+      }else{
+          if (value.data!!.video != null && value.data!!.video!!.size > 0) {
+
+              apnaPreviewActivityBinding.noVideoAvailable.visibility = View.GONE
+              apnaPreviewActivityBinding.videoRecyclerView.visibility = View.VISIBLE
+              videoAdapter = PreviewVideoAdapter(this, value.data!!.videoMb!!.video!!, this, isMobileCreated, value.data!!.video!!)
+              apnaPreviewActivityBinding.videoRecyclerView.adapter = videoAdapter
+          } else {
+              apnaPreviewActivityBinding.videoRecyclerView.visibility = View.GONE
+              apnaPreviewActivityBinding.noVideoAvailable.visibility = View.VISIBLE
+          }
+      }
+       /* if (value.data!!.videoMb!! != null && value.data!!.videoMb!!.video != null && value.data!!.videoMb!!.video!!.size > 0) {
 
             apnaPreviewActivityBinding.noVideoAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.videoRecyclerView.visibility = View.VISIBLE
@@ -1030,7 +1055,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack,
         } else {
             apnaPreviewActivityBinding.videoRecyclerView.visibility = View.GONE
             apnaPreviewActivityBinding.noVideoAvailable.visibility = View.VISIBLE
-        }
+        }*/
 
         if (value.data!!.apolloEmployee != null) {
             if (value.data!!.apolloEmployee!!.name != null) {

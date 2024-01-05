@@ -342,7 +342,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("video")
         @Expose
-        var video: List<Video>? = null
+        var video: ArrayList<Video>? = null
 
         @SerializedName("security_deposit")
         @Expose
@@ -649,7 +649,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withVideo(video: List<Video>?): Data {
+        fun withVideo(video: ArrayList<Video>?): Data {
             this.video = video
             return this
         }

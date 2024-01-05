@@ -15,6 +15,8 @@ class PreviewVideoAdapter(
     val mContext: Context,
     private val videoList: List<SurveyDetailsList.Video>,
     val videoClicklistner: ApnaNewPreviewCallBack,
+    val isMobileCreated: Boolean,
+    val videoListWeb: ArrayList<SurveyDetailsList.Video>,
 ) : RecyclerView.Adapter<PreviewVideoAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,13 +30,21 @@ class PreviewVideoAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val video = videoList.get(position)
-        holder.videoAdapterLayoutBinding.image.stopPlayback()
-        holder.videoAdapterLayoutBinding.image.setVideoURI(Uri.parse(video.url))
-        holder.videoAdapterLayoutBinding.eyeImageRes.setOnClickListener {
-            videoClicklistner.onClick(position, video.url!!)
+        if (isMobileCreated) {
+            val video = videoList.get(position)
+            holder.videoAdapterLayoutBinding.image.stopPlayback()
+            holder.videoAdapterLayoutBinding.image.setVideoURI(Uri.parse(video.url))
+            holder.videoAdapterLayoutBinding.eyeImageRes.setOnClickListener {
+                videoClicklistner.onClick(position, video.url!!)
+            }
+        } else {
+            val video = videoListWeb.get(position)
+            holder.videoAdapterLayoutBinding.image.stopPlayback()
+            holder.videoAdapterLayoutBinding.image.setVideoURI(Uri.parse(video.url))
+            holder.videoAdapterLayoutBinding.eyeImageRes.setOnClickListener {
+                videoClicklistner.onClick(position, video.url!!)
+            }
         }
-
     }
 
     override fun getItemCount(): Int {
