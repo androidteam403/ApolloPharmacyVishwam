@@ -1005,7 +1005,7 @@ class SurveyDetailsList : Serializable {
     class CreatedInfo : Serializable {
 
         @SerializedName("created_on")
-        var createdOn: Int? = null
+        var createdOn: Long? = null
 
         @SerializedName("user_id")
         var userId: String? = null
