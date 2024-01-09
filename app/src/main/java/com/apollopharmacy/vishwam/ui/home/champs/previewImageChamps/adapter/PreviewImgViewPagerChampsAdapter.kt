@@ -15,32 +15,31 @@ import com.bumptech.glide.Glide
 class PreviewImgViewPagerChampsAdapter(
     val context: Context,
     val imageUrlsList: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>?,
-    val previewImageCallbackChamps: PreviewImageCallbackChamps
-) : PagerAdapter()  {
+    val previewImageCallbackChamps: PreviewImageCallbackChamps,
+) : PagerAdapter() {
 
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val viewpagerPreviewAdapterBinding: ViewpagerPreviewAdapterBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
-            R.layout.viewpager_preview_adapter,
-            container,
-            false
-        )
+        val viewpagerPreviewAdapterBinding: ViewpagerPreviewAdapterBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(context),
+                R.layout.viewpager_preview_adapter,
+                container,
+                false
+            )
 
 
-        if(imageUrlsList!!.get(position).file!=null){
+        if (imageUrlsList!!.get(position).file != null) {
             Glide.with(context).load(imageUrlsList!!.get(position).file)
                 .error(R.drawable.placeholder_image)
                 .into(viewpagerPreviewAdapterBinding.viewpagerImage)
-        }else if(!imageUrlsList!!.get(position).imageUrl.isNullOrEmpty()){
+        } else if (!imageUrlsList!!.get(position).imageUrl.isNullOrEmpty()) {
             Glide.with(context).load(imageUrlsList!!.get(position).imageUrl)
                 .error(R.drawable.placeholder_image)
                 .into(viewpagerPreviewAdapterBinding.viewpagerImage)
         }
 
 //        previewImageCallback.statusDisplay(position,imageUrlsList.get(position).status)
-
-
 
 
         container.addView(viewpagerPreviewAdapterBinding.root)

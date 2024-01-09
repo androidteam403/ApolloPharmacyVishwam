@@ -556,4 +556,5 @@
     <string name="stringcustomer_details">Customer Details</string>
    <string name="err_msg_enter_services">Please select at least one service</string>
     <string name="err_msg_contains_numbers">Name should not contain Numbers</string>
+    <string name="label__preview_text">Preview</string>
 </resources>

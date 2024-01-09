@@ -37,7 +37,6 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.SubCategoryAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.home.model.GetSurevyDetailsByChampsIdResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSurveyDetailsByChampsIdResponsee
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewImage.PreviewImageChampsActivity
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewImage.adapter.PreviewImgViewPagerAdapter
@@ -705,12 +704,12 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
             val images = data!!.clipData
             if (images != null) {
-
-
-                if ((images!!.itemCount == 1 && imageUploadedCount.equals(2)) ||
-                    (images!!.itemCount == 2 && imageUploadedCount.equals(1)) ||
-                    (images!!.itemCount == 3 && imageUploadedCount.equals(0)) ||
-                    (images!!.itemCount <= 3 && imageUploadedCount.equals(0))
+                /*(images!!.itemCount == 1 && imageUploadedCount.equals(2)) ||
+                        (images!!.itemCount == 2 && imageUploadedCount.equals(1)) ||
+                        (images!!.itemCount == 3 && imageUploadedCount.equals(0)) ||
+                        (images!!.itemCount <= 3 && imageUploadedCount.equals(0))*/
+                var toAddImagesCount: Int = 3 - imageUploadedCount
+                if (images.itemCount <= toAddImagesCount
                 ) {
                     if (images.itemCount > 1) {
                         isFromGallery = true
@@ -1299,6 +1298,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         onClickDelete(position)
 
     }
+
     override fun onClickImageView(
         view: View,
         imageUrlsList: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>?,
@@ -1306,7 +1306,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     ) {
 
         val intent = Intent(this, PreviewImageChampsActivity::class.java)
-        intent.putExtra("categoryDetails",getCategoryAndSubCategoryDetails!!)
+        intent.putExtra("categoryDetails", getCategoryAndSubCategoryDetails!!)
         intent.putExtra("catPos", categoryPosition)
         intent.putExtra("currentPosition", currentPosition)
         startActivity(intent)

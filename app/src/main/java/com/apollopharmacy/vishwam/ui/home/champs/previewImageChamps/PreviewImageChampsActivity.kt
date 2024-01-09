@@ -1,6 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewImage
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
@@ -11,11 +13,12 @@ import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewImage.adapter.PreviewImgViewPagerChampsAdapter
 
 
-class PreviewImageChampsActivity: AppCompatActivity(), PreviewImageCallbackChamps , ViewPager.OnPageChangeListener{
+class PreviewImageChampsActivity : AppCompatActivity(), PreviewImageCallbackChamps,
+    ViewPager.OnPageChangeListener {
 
     lateinit var activityPreviewImageBinding: ViewpagerChampsBinding
     private var previewImgViewPagerAdapter: PreviewImgViewPagerChampsAdapter? = null
-     var categoryDetails = GetCategoryDetailsModelResponse()
+    var categoryDetails = GetCategoryDetailsModelResponse()
 
     private var catPos: Int = 0
     private var currentPosition: Int = 0
@@ -24,8 +27,7 @@ class PreviewImageChampsActivity: AppCompatActivity(), PreviewImageCallbackChamp
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityPreviewImageBinding = DataBindingUtil.setContentView(
-            this,
-            R.layout.viewpager_champs
+            this, R.layout.viewpager_champs
         )
         setUp()
     }
@@ -36,16 +38,13 @@ class PreviewImageChampsActivity: AppCompatActivity(), PreviewImageCallbackChamp
 
 //        getImageUrlsResponse =
 //            intent.getSerializableExtra("GET_IMAGE_URLS_RESPONSE") as GetImageUrlsResponse
-        categoryDetails=intent.getSerializableExtra("categoryDetails") as GetCategoryDetailsModelResponse
+        categoryDetails =
+            intent.getSerializableExtra("categoryDetails") as GetCategoryDetailsModelResponse
 //        pendingAndApproved =
 //            intent.getSerializableExtra("PENDING_AND_APPROVED") as PendingAndApproved
         catPos = getIntent().getExtras()?.getInt("catPos")!!
         currentPosition = getIntent().getExtras()?.getInt("currentPosition")!!
 //        configPosition=getIntent().getExtras()?.getInt("configPosition")!!
-
-
-
-
 
 
 //        for (i in getImageUrlsResponse!!.categoryList!!) {
@@ -104,18 +103,26 @@ class PreviewImageChampsActivity: AppCompatActivity(), PreviewImageCallbackChamp
 //        }
 
 
-
         previewImgViewPagerAdapter = PreviewImgViewPagerChampsAdapter(
-            this, categoryDetails.categoryDetails!!.get(catPos).imageDataLists, this)
-
+            this, categoryDetails.categoryDetails!!.get(catPos).imageDataLists, this
+        )
         activityPreviewImageBinding.previewImageViewpager.addOnPageChangeListener(this)
         activityPreviewImageBinding.previewImageViewpager.adapter = previewImgViewPagerAdapter
         activityPreviewImageBinding.previewImageViewpager.setCurrentItem(currentPosition, true)
 
 //        onPageSelected(currentPosition)
 
-
-
+        activityPreviewImageBinding.rotateImageRight.setOnClickListener {
+            activityPreviewImageBinding.rotateImageRight.visibility = View.GONE
+            activityPreviewImageBinding.rotateImageLeft.visibility = View.VISIBLE
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//Set Landscape
+        }
+        activityPreviewImageBinding.rotateImageLeft.setOnClickListener {
+            activityPreviewImageBinding.rotateImageLeft.visibility = View.GONE
+            activityPreviewImageBinding.rotateImageRight.visibility = View.VISIBLE
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Set Portrait
+        }
+        activityPreviewImageBinding.arrowBack.setOnClickListener { onBackPressed() }
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -138,7 +145,6 @@ class PreviewImageChampsActivity: AppCompatActivity(), PreviewImageCallbackChamp
 //                activityPreviewImageBinding.statusDisplay.text="RESHOOT"
 //                activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.color_red));
 //            }
-
 
 
 //        var myInt : Int =1
@@ -190,7 +196,7 @@ class PreviewImageChampsActivity: AppCompatActivity(), PreviewImageCallbackChamp
     }
 
     override fun onClickBack() {
-       super.onBackPressed()
+        super.onBackPressed()
     }
 
     override fun statusDisplay(position: Int, status: String?) {

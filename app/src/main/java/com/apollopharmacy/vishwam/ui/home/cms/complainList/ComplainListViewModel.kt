@@ -216,46 +216,65 @@ class ComplainListViewModel : ViewModel() {
                 toDate = toDateCeodashboard
             }
             if (!row.storeId.isNullOrEmpty()) {//${requestComplainList.fromDate}//${requestComplainList.fromDate}//{requestComplainList.toDate
+                //&role=${row.roleCode}...//&site=${row.storeId}
                 baseUrl =
-                    baseUrl + "emp_id=${row.employeeid}&from_date=${fromDate}&to_date=${toDate}&site=${row.storeId}&role=${row.roleCode}&page=${requestComplainList.page}" +
-                            if (statusCeoDasboard!!.equals("closed")) {
-                                "&${URLEncoder.encode("status[5]", "utf-8")}=closed"
+                    baseUrl + "emp_id=${row.employeeid}&from_date=${fromDate}&to_date=${toDate}&role=${row.roleCode}&page=${requestComplainList.page}"
+                           /*+ if (statusCeoDasboard!!.equals("closed")) {
+                                "&status=closed"
+                                *//*"&${URLEncoder.encode("status[5]", "utf-8")}=closed"*//*
                             } else if (statusCeoDasboard!!.equals("lessthantwo")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=less_than_2"
+                                "&status=less_than_2"
+                                *//*"&${URLEncoder.encode("status[1]", "utf-8")}=less_than_2"*//*
                             } else if (statusCeoDasboard!!.equals("threetoeight")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=3_to_8"
+                                "&status=3_to_8"
+                                *//*"&${URLEncoder.encode("status[1]", "utf-8")}=3_to_8"*//*
                             } else if (statusCeoDasboard!!.equals("greaterthaneight")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=greater_than_8"
+                                "&status=greater_than_8"
+                                *//*"&${URLEncoder.encode("status[1]", "utf-8")}=greater_than_8"*//*
                             } else if (statusCeoDasboard!!.equals("rejected")) {
-                                "&${URLEncoder.encode("status[3]", "utf-8")}=rejected"
+                                "&status=rejected"
+                                *//*"&${URLEncoder.encode("status[3]", "utf-8")}=rejected"*//*
                             } else if (statusCeoDasboard!!.equals("pending")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=pending"
+                                "&status=pending"
+                                *//*"&${URLEncoder.encode("status[1]", "utf-8")}=pending"*//*
                             } else if (statusCeoDasboard!!.equals("total")) {
                                 ""
-                                /*"&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"*/
+                                *//*"&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"*//*
                             } else {
                                 ""
-                            } + "&rows=10&zcFetchListTotal=true"
-            } else {
+                            }*/
+
+                baseUrl =
+                    baseUrl + "&rows=10&zcFetchListTotal=true"
+            } else {//&role=${row.roleCode}
                 baseUrl =
                     baseUrl + "emp_id=${row.employeeid}&from_date=${fromDate}&to_date=${toDate}&role=${row.roleCode}&page=${requestComplainList.page}" +
                             if (statusCeoDasboard!!.equals("closed")) {
-                                "&${URLEncoder.encode("status[5]", "utf-8")}=$statusCeo"
+                                "&status=closed"
+                                /*"&${URLEncoder.encode("status[5]", "utf-8")}=closed"*/
                             } else if (statusCeoDasboard.equals("lessthantwo")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                                "&status=less_than_2"
+                                /*"&${URLEncoder.encode("status[1]", "utf-8")}=less_than_2"*/
                             } else if (statusCeoDasboard.equals("threetoeight")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                                "&status=3_to_8"
+                                /*"&${URLEncoder.encode("status[1]", "utf-8")}=3_to_8"*/
                             } else if (statusCeoDasboard.equals("greaterthaneight")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                                "&status=greater_than_8"
+                                /*"&${URLEncoder.encode("status[1]", "utf-8")}=greater_than_8"*/
                             } else if (statusCeoDasboard.equals("rejected")) {
-                                "&${URLEncoder.encode("status[3]", "utf-8")}=$statusCeo"
+                                "&status=rejected"
+                                /*"&${URLEncoder.encode("status[3]", "utf-8")}=rejected"*/
                             } else if (statusCeoDasboard.equals("pending")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                                "&status=pending"
+                                /*"&${URLEncoder.encode("status[1]", "utf-8")}=pending"*/
                             } else if (statusCeoDasboard.equals("total")) {
-                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
+                                ""
                             } else {
                                 ""
-                            } + "&rows=10&zcFetchListTotal=true"
+                            }
+
+                baseUrl =
+                    baseUrl + "&rows=10&zcFetchListTotal=true"
             }
         } else if (!isApprovalList) {
             baseUrl =
