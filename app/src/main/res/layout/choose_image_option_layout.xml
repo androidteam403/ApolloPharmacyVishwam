@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
 
@@ -8,8 +8,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/value_10dp"
         android:background="@drawable/dialog_bg"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         android:paddingBottom="30dp">
 
 
@@ -18,16 +18,16 @@
             android:layout_height="wrap_content"
             android:background="@color/vishwam_actionbar_color"
 
-            android:weightSum="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight=".8"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="start"
                 android:layout_marginStart="@dimen/dimen20dp"
+                android:layout_weight=".8"
+                android:gravity="start"
                 android:paddingTop="@dimen/value_10dp"
                 android:paddingBottom="@dimen/value_10dp"
 
@@ -35,20 +35,16 @@
                 android:textColor="@color/white_for_both"
                 android:textSize="@dimen/text_16sp"
                 android:textStyle="bold" />
+
             <ImageView
+                android:id="@+id/cancel"
                 android:layout_width="0dp"
-                android:layout_weight=".2"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:id="@+id/cancel"
-                android:tint="@color/white_for_both"
-                android:src="@drawable/close_icon"/>
+                android:layout_weight=".2"
+                android:src="@drawable/close_icon"
+                android:tint="@color/white_for_both" />
         </LinearLayout>
-
-
-
-
-
 
 
         <RelativeLayout
@@ -59,12 +55,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="1"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:weightSum="1">
 
                 <LinearLayout
+                    android:id="@+id/camera_layout"
                     android:layout_width="0dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center"
@@ -84,18 +81,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Take Photo"
                         android:fontFamily="@font/roboto_bold"
+                        android:text="Take Photo"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen11sp"
-                        />
+                        android:textSize="@dimen/dimen11sp" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/gallery_layout"
                     android:layout_width="0dp"
-                    android:layout_weight="0.37"
                     android:layout_height="110dp"
                     android:layout_marginStart="@dimen/value_25dp"
+                    android:layout_weight="0.37"
                     android:background="@drawable/dotted_lines"
 
                     android:gravity="center"
@@ -105,18 +102,17 @@
                         android:id="@+id/gallery"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:tint="@color/light_blue_500"
                         android:src="@drawable/gallery"
+                        android:tint="@color/light_blue_500"
                         tools:ignore="UseAppTint" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="Choose From\n       Gallery"
                         android:textColor="@color/black"
-                        android:fontFamily="@font/roboto_bold"
-                        android:textSize="@dimen/dimen11sp"
-                         />
+                        android:textSize="@dimen/dimen11sp" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -125,9 +121,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:visibility="gone"
             android:layout_marginTop="@dimen/value_40dp"
-            android:gravity="end">
+            android:gravity="end"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"

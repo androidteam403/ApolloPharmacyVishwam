@@ -126,17 +126,21 @@ class ComplainListViewModel : ViewModel() {
             //"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=${employeeDetailsResponse!!.data!!.role!!.uid}&emp_dept=${employeeDetailsResponse!!.data!!.department!!.uid}"// dept - 64D9D9BE4A621E9C13A2C73404646655  role - 498DA96C612D21956508945D24896C6D
 
         } else if (isDashboardtickets) {
-            if (!row.storeId.isNullOrEmpty()) {
-                /*baseUrl =
-                    "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ceo-dashboard-ticket-list-by-site?emp_id=Aachal&status=solved&from_date=2023-03-02&to_date=2023-08-25&site=10002&role=store_executive&page=1&rows=10&zcFetchListTotal=true"*/
+            baseUrl =
+                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/ceo-dashboard-ticket-list-by-site?"
+            /*if (!row.storeId.isNullOrEmpty()) {
+                *//*baseUrl =
+                    "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ceo-dashboard-ticket-list-by-site?emp_id=Aachal&status=solved&from_date=2023-03-02&to_date=2023-08-25&site=10002&role=store_executive&page=1&rows=10&zcFetchListTotal=true"*//*
                 baseUrl =
                     "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/ceo-dashboard-ticket-list-by-site?"
             } else {
-                /*baseUrl =
-                    "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ceo-dashboard-ticket-list-by-emp-id?emp_id=Aachal&status=solved&from_date=2023-03-02&to_date=2023-08-25&role=store_executive&page=1&rows=10&zcFetchListTotal=true"*/
+                *//*baseUrl =
+                    "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ceo-dashboard-ticket-list-by-emp-id?emp_id=Aachal&status=solved&from_date=2023-03-02&to_date=2023-08-25&role=store_executive&page=1&rows=10&zcFetchListTotal=true"*//*
                 baseUrl =
                     "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/ceo-dashboard-ticket-list-by-emp-id?"
-            }
+            }*/
+
+
             //"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ceo-dashboard-ticket-list-by-emp-id?
             /*for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("")) {
@@ -218,31 +222,31 @@ class ComplainListViewModel : ViewModel() {
             if (!row.storeId.isNullOrEmpty()) {//${requestComplainList.fromDate}//${requestComplainList.fromDate}//{requestComplainList.toDate
                 //&role=${row.roleCode}...//&site=${row.storeId}
                 baseUrl =
-                    baseUrl + "emp_id=${row.employeeid}&from_date=${fromDate}&to_date=${toDate}&role=${row.roleCode}&page=${requestComplainList.page}"
-                           /*+ if (statusCeoDasboard!!.equals("closed")) {
+                    baseUrl + "emp_id=${row.employeeid}&from_date=${fromDate}&to_date=${toDate}&role=${row.roleCode}&page=${requestComplainList.page}"+
+                            if (statusCeoDasboard!!.equals("closed")) {
                                 "&status=closed"
-                                *//*"&${URLEncoder.encode("status[5]", "utf-8")}=closed"*//*
+//                                "&${URLEncoder.encode("status[5]", "utf-8")}=closed"
                             } else if (statusCeoDasboard!!.equals("lessthantwo")) {
                                 "&status=less_than_2"
-                                *//*"&${URLEncoder.encode("status[1]", "utf-8")}=less_than_2"*//*
+//                                "&${URLEncoder.encode("status[1]", "utf-8")}=less_than_2"
                             } else if (statusCeoDasboard!!.equals("threetoeight")) {
                                 "&status=3_to_8"
-                                *//*"&${URLEncoder.encode("status[1]", "utf-8")}=3_to_8"*//*
+//                                "&${URLEncoder.encode("status[1]", "utf-8")}=3_to_8"
                             } else if (statusCeoDasboard!!.equals("greaterthaneight")) {
                                 "&status=greater_than_8"
-                                *//*"&${URLEncoder.encode("status[1]", "utf-8")}=greater_than_8"*//*
+//                                "&${URLEncoder.encode("status[1]", "utf-8")}=greater_than_8"
                             } else if (statusCeoDasboard!!.equals("rejected")) {
                                 "&status=rejected"
-                                *//*"&${URLEncoder.encode("status[3]", "utf-8")}=rejected"*//*
+//                                "&${URLEncoder.encode("status[3]", "utf-8")}=rejected"
                             } else if (statusCeoDasboard!!.equals("pending")) {
                                 "&status=pending"
-                                *//*"&${URLEncoder.encode("status[1]", "utf-8")}=pending"*//*
+//                                "&${URLEncoder.encode("status[1]", "utf-8")}=pending"
                             } else if (statusCeoDasboard!!.equals("total")) {
                                 ""
-                                *//*"&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"*//*
+//                                "&${URLEncoder.encode("status[1]", "utf-8")}=$statusCeo"
                             } else {
                                 ""
-                            }*/
+                            }
 
                 baseUrl =
                     baseUrl + "&rows=10&zcFetchListTotal=true"

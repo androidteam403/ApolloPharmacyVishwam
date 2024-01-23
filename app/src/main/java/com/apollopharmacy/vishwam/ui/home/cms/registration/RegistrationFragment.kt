@@ -1295,6 +1295,14 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             dialog.dismiss()
         }
         // Open camera
+        chooseImageOptionLayoutBinding.cameraLayout.setOnClickListener {
+
+            if (num == 0) {
+                openCamera()
+            } else {
+                openCameraForFrontImage(num)
+            }
+        }
         chooseImageOptionLayoutBinding.camera.setOnClickListener {
 
             if (num == 0) {
@@ -1304,6 +1312,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             }
         }
         // Open gallery
+        chooseImageOptionLayoutBinding.galleryLayout.setOnClickListener {
+            openGallery()
+        }
         chooseImageOptionLayoutBinding.gallery.setOnClickListener {
             openGallery()
         }

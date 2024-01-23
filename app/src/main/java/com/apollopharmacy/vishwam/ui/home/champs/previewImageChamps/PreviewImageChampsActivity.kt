@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewImage
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -115,12 +116,16 @@ class PreviewImageChampsActivity : AppCompatActivity(), PreviewImageCallbackCham
         activityPreviewImageBinding.rotateImageRight.setOnClickListener {
             activityPreviewImageBinding.rotateImageRight.visibility = View.GONE
             activityPreviewImageBinding.rotateImageLeft.visibility = View.VISIBLE
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//Set Landscape
+            Handler().post(Runnable {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//Set Landscape
+            })
         }
         activityPreviewImageBinding.rotateImageLeft.setOnClickListener {
             activityPreviewImageBinding.rotateImageLeft.visibility = View.GONE
             activityPreviewImageBinding.rotateImageRight.visibility = View.VISIBLE
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Set Portrait
+            Handler().post(Runnable {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Set Portrait
+            })
         }
         activityPreviewImageBinding.arrowBack.setOnClickListener { onBackPressed() }
     }
