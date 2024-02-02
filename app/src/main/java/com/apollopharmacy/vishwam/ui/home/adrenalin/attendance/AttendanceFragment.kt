@@ -604,10 +604,50 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             if (it.status) {
                 if (isFirstTime){
                     if (it.lastLoginDate!!.isNotEmpty()&& it.lastLogoutDate!!.isNotEmpty()){
-                        Toast.makeText(requireContext(), "Sucessfully Logout", Toast.LENGTH_SHORT).show()
+                        fileArrayList.clear()
+                        imageFromCameraFile?.let {
+                            it.delete()
+                        }
+                        viewBinding.capturedImageLayout.visibility = View.VISIBLE
+                        viewBinding.capturedImg.setImageURI(Uri.fromFile(imageFromCameraFile!!))
+                        viewBinding.capturedImg.setImageDrawable(null)
+                        viewBinding.submitBtnLayout.setBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.grey
+                            )
+                        )
+
+
+//            viewBinding.captureBtnLayout.visibility = View.VISIBLE
+                        viewBinding.deleteImage.visibility = View.GONE
+                        viewBinding.cameraIcon.visibility = View.VISIBLE
+                        viewBinding.submitBtnLayout.visibility = View.VISIBLE
+
+                        Toast.makeText(requireContext(), "Sucessfully Signed-out", Toast.LENGTH_SHORT).show()
 
                     }else if (it.lastLogoutDate.isNullOrEmpty()){
-                        Toast.makeText(requireContext(), "Sucessfully Login", Toast.LENGTH_SHORT).show()
+                        fileArrayList.clear()
+                        imageFromCameraFile?.let {
+                            it.delete()
+                        }
+                        viewBinding.capturedImageLayout.visibility = View.VISIBLE
+                        viewBinding.capturedImg.setImageURI(Uri.fromFile(imageFromCameraFile!!))
+                        viewBinding.capturedImg.setImageDrawable(null)
+                        viewBinding.submitBtnLayout.setBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.grey
+                            )
+                        )
+
+
+//            viewBinding.captureBtnLayout.visibility = View.VISIBLE
+                        viewBinding.deleteImage.visibility = View.GONE
+                        viewBinding.cameraIcon.visibility = View.VISIBLE
+                        viewBinding.submitBtnLayout.visibility = View.VISIBLE
+
+                        Toast.makeText(requireContext(), "Sucessfully Signed-In", Toast.LENGTH_SHORT).show()
 
                     }
                 }
@@ -1273,8 +1313,22 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         okButton.text = resources.getString(R.string.label_ok)
 //        declineButton.text = resources.getString(R.string.label_cancel_text)
         okButton.setOnClickListener { v1: View? ->
-            dialog.dismiss()
-            //Handle Camera Functionality
+
+            viewBinding.capturedImageLayout.visibility = View.VISIBLE
+            viewBinding.capturedImg.setImageDrawable(null)
+            viewBinding.submitBtnLayout.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.grey
+                )
+            )
+
+
+//            viewBinding.captureBtnLayout.visibility = View.VISIBLE
+            viewBinding.deleteImage.visibility = View.GONE
+            viewBinding.cameraIcon.visibility = View.VISIBLE
+            viewBinding.submitBtnLayout.visibility = View.VISIBLE
+
             viewBinding.signInOutParentLayout.visibility = View.VISIBLE
             MainActivity.mInstance.plusIconAttendence.visibility = View.GONE
             MainActivity.mInstance.headerTextLocation.visibility = View.VISIBLE
@@ -1290,6 +1344,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             viewBinding.onLogoutClick = true
 //            handleCameraFunctionality()
             //Handle SignOut Service Check Task SignOut as well
+            dialog.dismiss()
+
         }
         declineButton.setOnClickListener { v12: View? -> dialog.dismiss() }
     }

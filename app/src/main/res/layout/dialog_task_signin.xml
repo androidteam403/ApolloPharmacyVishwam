@@ -231,7 +231,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/value_20dp"
             android:layout_marginTop="@dimen/value_15dp"
-            android:text="Capture Image"
+            android:text="Capture Image *"
             android:textColor="@color/black"
             android:textSize="@dimen/text_16sp"
             app:layout_constraintLeft_toLeftOf="parent"
