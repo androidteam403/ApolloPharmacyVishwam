@@ -45,7 +45,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/value_10dp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()-> callback.onClickQrCodePrint()}"
                     android:src="@drawable/ic_print_qr" />
@@ -94,27 +94,116 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_view"
-            android:layout_marginBottom="@dimen/value_50dp"
+            android:layout_marginBottom="50dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/value_45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/value_3dp"
                 android:background="@color/retro_qr_sub_header_bg"
                 android:orientation="horizontal"
-                android:weightSum="1">
+                >
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/value_45dp"
-                    android:layout_weight=".82"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1"
                     android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight=".45"
+                        android:layout_marginStart="13dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:gravity="center"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:text="Rack No :"
+                            android:textSize="10sp" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            >
+                            <Spinner
+                                android:id="@+id/rack_spinner"
+                                style="@style/spinner_style"
+                                android:layout_width="match_parent"
+                                android:layout_height="27dp"
+                                android:spinnerMode="dropdown"
+                                android:textSize="9sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight=".45"
+                        android:layout_marginStart="14dp"
+
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:gravity="center"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:text="Category:"
+                            android:textSize="10sp" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            >
+
+                            <Spinner
+                                android:id="@+id/category_spinner"
+                                style="@style/spinner_style"
+                                android:layout_width="match_parent"
+                                android:layout_height="27dp"
+                                android:spinnerMode="dropdown"
+                                android:textSize="9sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight=".08"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/value_5dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.10"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="58dp"
+                                android:layout_height="58dp"
+                                android:src="@drawable/right_greenn" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
+                        android:visibility="gone"
                         android:orientation="horizontal">
 
                         <TextView
@@ -123,9 +212,10 @@
                             android:layout_marginStart="@dimen/value_25dp"
                             android:layout_marginEnd="@dimen/value_8dp"
                             android:text="Rack No: "
+                            android:fontFamily="@font/poppins_semi_bold"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+                            android:textSize="10sp"
+                            />
 
                         <TextView
                             android:id="@+id/rackNum"
@@ -162,27 +252,6 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="@dimen/value_5dp">
-
-                            <LinearLayout
-                                android:layout_width="@dimen/value_40dp"
-                                android:layout_height="@dimen/value_70dp"
-                                android:layout_gravity="center"
-                                android:layout_weight="0.10"
-                                android:gravity="center">
-
-                                <ImageView
-                                    android:layout_width="@dimen/value_55dp"
-                                    android:layout_height="@dimen/value_55dp"
-                                    android:layout_gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:src="@drawable/right_greenn" />
-                            </LinearLayout>
-                        </LinearLayout>
 
                         <!--<ImageView
                             android:layout_width="30dp"
@@ -265,7 +334,6 @@
                     tools:itemCount="4"
                     tools:listitem="@layout/upload_rack_layout" />
 
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/reviewRack"
                     android:layout_width="wrap_content"
@@ -281,6 +349,7 @@
         <LinearLayout
             android:id="@+id/uploadsubmit_layout"
             android:layout_width="match_parent"
+android:visibility="gone"
             android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true"
             android:foreground="@drawable/gray_border_top"
@@ -375,7 +444,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SUBMIT"
+                    android:text="Upload"
                     android:textColor="@color/white_for_both"
                     android:textSize="@dimen/text_18sp"
                     android:textStyle="bold" />
@@ -388,7 +457,7 @@
             android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <View
                 android:layout_width="match_parent"
@@ -408,6 +477,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="0.25"
+                    android:id="@+id/totalRacksLayout"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -441,6 +511,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
+                    android:id="@+id/countsLayout"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -596,13 +667,14 @@
                     android:layout_weight="0.25"
                     android:background="#9b9b9b"
                     android:gravity="center"
+                    android:visibility="visible"
                     android:onClick="@{()->callback.onClickSubmitReview()}"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SUBMIT"
+                        android:text="Upload"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_18sp"
                         android:textStyle="bold" />

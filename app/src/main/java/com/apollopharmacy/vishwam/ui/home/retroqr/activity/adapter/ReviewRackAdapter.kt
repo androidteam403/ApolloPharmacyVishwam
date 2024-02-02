@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.util.Log
@@ -17,20 +18,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ReviewRackLayoutBinding
-import com.apollopharmacy.vishwam.databinding.UploadRackLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.RetroQrUploadCallback
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
-import com.apollopharmacy.vishwam.util.rijndaelcipher.RijndaelCipherEncryptDecrypt
 import com.bumptech.glide.Glide
 import java.io.File
 import java.io.IOException
 import java.util.Locale
-import kotlin.math.roundToInt
 
 class ReviewRackAdapter(
     var mContext: Context,
     var mCallback: RetroQrUploadCallback,
     var images: ArrayList<StoreWiseRackDetails.StoreDetail>,
+    var isReview:Boolean
 ) : RecyclerView.Adapter<ReviewRackAdapter.ViewHolder>(), Filterable {
 
     class ViewHolder(val reviewRackLayoutBinding: ReviewRackLayoutBinding) :
@@ -60,6 +59,37 @@ class ReviewRackAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var items = images.get(position)
         val rackCount = position + 1
+
+        if (position==0){
+            holder.reviewRackLayoutBinding.viewLine.visibility=View.GONE
+        }
+        else{
+            holder.reviewRackLayoutBinding.viewLine.visibility=View.VISIBLE
+
+        }
+        holder.reviewRackLayoutBinding.category.setOnClickListener {
+            mCallback.onClickCategory(position,images)
+
+        }
+        if (isReview){
+            holder.reviewRackLayoutBinding.category.text = items.categoryname
+            items.setcategoryIdQr(items.categoryid!!)
+            holder.reviewRackLayoutBinding.uploadButton.visibility=View.GONE
+
+        }
+        else{
+
+        if (items.categoryQr.isNullOrEmpty()){
+            holder.reviewRackLayoutBinding.category.setTextColor(Color.parseColor("#FF0000")) // Replace #FF0000 with your desired color code
+
+        }
+        else{
+            holder.reviewRackLayoutBinding.category.text = items.categoryQr
+            holder.reviewRackLayoutBinding.category.setTextColor(Color.parseColor("#000000")) // Replace #FF0000 with your desired color code
+
+        }
+        }
+
 
         if (items.reviewimageurl!!.isNullOrEmpty()) {
             holder.reviewRackLayoutBinding.beforeCaptureLayout.visibility = View.VISIBLE
@@ -113,13 +143,13 @@ class ReviewRackAdapter(
             mCallback.onUpload(position, items.rackno!!)
         }
         if (items.matchingPercentage.toString().isNullOrEmpty()) {
-            holder.reviewRackLayoutBinding.compareIconLayout.visibility = View.GONE
-            holder.reviewRackLayoutBinding.uploadButton.visibility = View.GONE
+//            holder.reviewRackLayoutBinding.compareIconLayout.visibility = View.GONE
+//            holder.reviewRackLayoutBinding.uploadButton.visibility = View.GONE
 
             holder.reviewRackLayoutBinding.matchingPercentageLayout.visibility = View.GONE
         } else {
-            holder.reviewRackLayoutBinding.compareIconLayout.visibility = View.VISIBLE
-            holder.reviewRackLayoutBinding.uploadButton.visibility = View.VISIBLE
+//            holder.reviewRackLayoutBinding.compareIconLayout.visibility = View.VISIBLE
+//            holder.reviewRackLayoutBinding.uploadButton.visibility = View.VISIBLE
             holder.reviewRackLayoutBinding.matchingPercentageLayout.visibility = View.VISIBLE
             val matchingPercentage = items.matchingPercentage!!.toInt()
             if (matchingPercentage >= 0 && matchingPercentage <= 70) {
@@ -190,7 +220,7 @@ class ReviewRackAdapter(
                 } else {
                     imagesFilterList.clear()
                     for (row in imagesListList) {
-                        if (!imagesFilterList.contains(row) && row.rackno!!.lowercase(Locale.getDefault())
+                        if (!imagesFilterList.contains(row) && row.categoryQr!!.lowercase(Locale.getDefault())
                                 .contains(
                                     charString!!.lowercase(
                                         Locale.getDefault()

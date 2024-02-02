@@ -81,6 +81,59 @@ class RetroQrUploadViewModel : ViewModel() {
             }
         }
     }
+    fun getCategoryWiseRackDetails(retroQrUploadCallback: RetroQrUploadCallback) {
+
+        val state = MutableLiveData<State>()
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+//        var baseUrl = ""
+//        var token = ""
+        var baseUrl = "https://phrmapvtuat.apollopharmacy.info:8443/apnaqrcode/GetCategoryList"
+        var token = "h72genrSSNFivOi/cfiX3A=="
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("APQR GETSTOREWISERACKDETAILS")) {
+//                baseUrl = data.APIS[i].URL
+//                token = data.APIS[i].TOKEN
+//                break
+//            }
+//        }
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                QrRetroRepo.getCategoryWiseRackDetails(
+                    baseUrl,
+                    token
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response.value.status == true) {
+                        retroQrUploadCallback.onSuccessgetCategoryWiseRackResponse(response.value)
+
+                    } else {
+                        retroQrUploadCallback.onFailureCategoryWiseRackResponse(response.value.message.toString())
+                    }
+                }
+
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
 
     fun getStoreWiseRackDetails(retroQrUploadCallback: RetroQrUploadCallback) {
 

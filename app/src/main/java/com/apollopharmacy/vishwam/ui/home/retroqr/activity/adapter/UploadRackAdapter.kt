@@ -58,7 +58,7 @@ class UploadRackAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var items = images.get(position)
         val rackCount = position + 1
-        holder.uploadRackLayoutBinding.rackCount.text = items.rackno
+        holder.uploadRackLayoutBinding.rackCount.text = items.rackno!!.replace("RACK","")
 
 //        if (items.imageurl!!.contains(".")|| items.imageurl!!.isNullOrEmpty()) {
         if (items.imageurl!!.isNotEmpty()) {

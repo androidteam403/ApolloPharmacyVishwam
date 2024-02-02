@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.retroqr.activity
 
 import android.view.View
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.CategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
 
 interface RetroQrUploadCallback {
@@ -18,6 +19,12 @@ interface RetroQrUploadCallback {
 
 
 
+    fun onFailureCategoryWiseRackResponse(message: String)
+
+    fun onSuccessgetCategoryWiseRackResponse(categoryDetailsResponse: CategoryDetailsResponse)
+
+
+    fun onClickCategory(position: Int,storeWiseRackDetailsList: ArrayList<StoreWiseRackDetails.StoreDetail>)
 
 
 
