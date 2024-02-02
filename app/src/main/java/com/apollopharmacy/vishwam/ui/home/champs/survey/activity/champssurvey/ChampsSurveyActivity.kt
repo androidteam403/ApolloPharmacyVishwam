@@ -2690,7 +2690,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             timeTaken.text = "$elapsedSeconds seconds"
         }
 
-        if (!type.equals("saveDraft")) {
+        if (!type.equals("saveDraft") && !type.equals("delete")) {
 
 
             var saveUpdateRequest = SaveUpdateRequest()
