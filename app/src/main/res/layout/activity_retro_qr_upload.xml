@@ -45,10 +45,10 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/value_10dp"
-                    android:visibility="gone"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()-> callback.onClickQrCodePrint()}"
-                    android:src="@drawable/ic_print_qr" />
+                    android:src="@drawable/ic_print_qr"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -102,19 +102,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/value_3dp"
                 android:background="@color/retro_qr_sub_header_bg"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="1"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight=".45"
-                        android:layout_marginStart="13dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:layout_weight=".45"
                         android:orientation="vertical">
 
                         <TextView
@@ -126,11 +126,12 @@
                             android:paddingEnd="5dp"
                             android:text="Rack No :"
                             android:textSize="10sp" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            >
+                            android:background="@color/white">
+
                             <Spinner
                                 android:id="@+id/rack_spinner"
                                 style="@style/spinner_style"
@@ -144,10 +145,10 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight=".45"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="14dp"
 
-                        android:layout_height="wrap_content"
+                        android:layout_weight=".45"
                         android:orientation="vertical">
 
                         <TextView
@@ -159,11 +160,11 @@
                             android:paddingEnd="5dp"
                             android:text="Category:"
                             android:textSize="10sp" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            >
+                            android:background="@color/white">
 
                             <Spinner
                                 android:id="@+id/category_spinner"
@@ -177,11 +178,11 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight=".08"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_10dp"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/value_5dp">
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:layout_weight=".08">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -198,24 +199,22 @@
                     </LinearLayout>
 
 
-
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:visibility="gone"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/value_25dp"
                             android:layout_marginEnd="@dimen/value_8dp"
-                            android:text="Rack No: "
                             android:fontFamily="@font/poppins_semi_bold"
+                            android:text="Rack No: "
                             android:textColor="@color/black"
-                            android:textSize="10sp"
-                            />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/rackNum"
@@ -312,8 +311,8 @@
                     android:layout_weight=".2"
                     android:background="#00bff3"
                     android:gravity="center"
-                    android:visibility="gone"
-                    android:onClick="@{()->callback.onClickPrintIcon()}">
+                    android:onClick="@{()->callback.onClickPrintIcon()}"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="@dimen/value_30dp"
@@ -349,11 +348,11 @@
         <LinearLayout
             android:id="@+id/uploadsubmit_layout"
             android:layout_width="match_parent"
-android:visibility="gone"
             android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true"
             android:foreground="@drawable/gray_border_top"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="4">
 
             <LinearLayout
@@ -455,6 +454,7 @@ android:visibility="gone"
             android:id="@+id/review_submit_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
+
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
             android:visibility="visible">
@@ -473,11 +473,11 @@ android:visibility="gone"
                 android:weightSum="1">
 
                 <LinearLayout
+                    android:id="@+id/totalRacksLayout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="0.25"
-                    android:id="@+id/totalRacksLayout"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -508,10 +508,10 @@ android:visibility="gone"
                     android:background="#eeeceb" />
 
                 <LinearLayout
+                    android:id="@+id/countsLayout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
-                    android:id="@+id/countsLayout"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -667,9 +667,9 @@ android:visibility="gone"
                     android:layout_weight="0.25"
                     android:background="#9b9b9b"
                     android:gravity="center"
-                    android:visibility="visible"
                     android:onClick="@{()->callback.onClickSubmitReview()}"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -686,8 +686,14 @@ android:visibility="gone"
                     android:layout_weight="0.001"
                     android:background="#eeeceb" />
             </LinearLayout>
+
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#eeeceb" />
     </RelativeLayout>
 
     <data>

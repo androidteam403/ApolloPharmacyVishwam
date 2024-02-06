@@ -68,27 +68,34 @@ class ReviewRackAdapter(
 
         }
         holder.reviewRackLayoutBinding.category.setOnClickListener {
-            mCallback.onClickCategory(position,images)
+//            mCallback.onClickCategory(position,images)
 
         }
         if (isReview){
-            holder.reviewRackLayoutBinding.category.text = items.categoryname
-            items.setcategoryIdQr(items.categoryid!!)
+//            items.setcategoryIdQr(items.categoryid!!)
             holder.reviewRackLayoutBinding.uploadButton.visibility=View.GONE
 
         }
         else{
-
-        if (items.categoryQr.isNullOrEmpty()){
-            holder.reviewRackLayoutBinding.category.setTextColor(Color.parseColor("#FF0000")) // Replace #FF0000 with your desired color code
+            holder.reviewRackLayoutBinding.uploadButton.visibility=View.VISIBLE
 
         }
-        else{
-            holder.reviewRackLayoutBinding.category.text = items.categoryQr
-            holder.reviewRackLayoutBinding.category.setTextColor(Color.parseColor("#000000")) // Replace #FF0000 with your desired color code
-
-        }
-        }
+//        else{
+//
+//        if (items.categoryname.isNullOrEmpty()){
+//
+//            holder.reviewRackLayoutBinding.category.setTextColor(Color.parseColor("#FF0000")) // Replace #FF0000 with your desired color code
+//
+//        }
+//        else{
+//            holder.reviewRackLayoutBinding.category.text = items.categoryname
+//
+////            holder.reviewRackLayoutBinding.category.text = items.categoryQr
+//            holder.reviewRackLayoutBinding.category.setTextColor(Color.parseColor("#000000")) // Replace #FF0000 with your desired color code
+//
+//        }
+//        }
+        holder.reviewRackLayoutBinding.category.text = items.categoryname
 
 
         if (items.reviewimageurl!!.isNullOrEmpty()) {
@@ -220,7 +227,7 @@ class ReviewRackAdapter(
                 } else {
                     imagesFilterList.clear()
                     for (row in imagesListList) {
-                        if (!imagesFilterList.contains(row) && row.categoryQr!!.lowercase(Locale.getDefault())
+                        if (!imagesFilterList.contains(row) && row.categoryname!!.lowercase(Locale.getDefault())
                                 .contains(
                                     charString!!.lowercase(
                                         Locale.getDefault()

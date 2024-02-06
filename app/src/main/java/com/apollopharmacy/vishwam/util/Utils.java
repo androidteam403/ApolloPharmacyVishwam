@@ -35,6 +35,9 @@ import com.apollopharmacy.vishwam.data.model.cms.NewTicketHistoryResponse;
 import java.io.IOException;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -335,7 +338,7 @@ public class Utils {
     @SuppressLint("NewApi")
     public static String getDurationTime(String currentDate, String previousDate) {
         String resultTime = "";
-        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy - hh:mm a", Locale.ENGLISH);
+        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy - hh:mm:ss a", Locale.ENGLISH);
         Date dateCurrent = null;
         Date dateBefore = null;
         try {
@@ -378,7 +381,7 @@ public class Utils {
     }
     public static String getDurationTimMin(String currentDate, String previousDate) {
         String resultTime = "";
-        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy - hh:mm a", Locale.ENGLISH);
+        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy - hh:mm:ss a", Locale.ENGLISH);
         Date dateCurrent = null;
         Date dateBefore = null;
         try {
@@ -422,8 +425,7 @@ public class Utils {
 
     @SuppressLint("NewApi")
     public static String getDurationTimeSec(String currentDate, String previousDate) {
-        String resultTime = "";
-        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy - hh:mm a", Locale.ENGLISH);
+        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy - hh:mm:ss a", Locale.ENGLISH);
         Date dateCurrent = null;
         Date dateBefore = null;
         try {
@@ -432,38 +434,13 @@ public class Utils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assert dateCurrent != null;
-        assert dateBefore != null;
+
         long timeDifference = dateCurrent.getTime() - dateBefore.getTime();
-        long secondsInMilli = 1000;
-        long minutesInMilli = secondsInMilli * 60;
-        long hoursInMilli = minutesInMilli * 60;
-        long daysInMilli = hoursInMilli * 24;
-        long elapsedHours = timeDifference / hoursInMilli;
-        timeDifference = timeDifference % hoursInMilli;
-        long elapsedMinutes = timeDifference / minutesInMilli;
-        long elapsedSeconds = timeDifference % 60;
-        String hrsLbl = "";
-        if (elapsedHours == 0 || elapsedHours == 1) {
-            hrsLbl = elapsedHours + " Hr";
-        } else {
-            hrsLbl = elapsedHours + " Hrs";
-        }
-        String minsLbl = "";
-        if (elapsedMinutes == 0 || elapsedMinutes == 1) {
-            minsLbl = elapsedMinutes + " Min";
-        } else {
-            minsLbl = elapsedMinutes + " Mins";
-        }
-        String secsLbl = "";
-        if (elapsedSeconds == 0 || elapsedSeconds == 1) {
-            secsLbl = String.valueOf(elapsedSeconds);
-        } else {
-            secsLbl = String.valueOf(elapsedSeconds);
-        }
-        resultTime =  secsLbl;
-        return resultTime;
+        long secondsDifference = TimeUnit.MILLISECONDS.toSeconds(timeDifference)%60;
+
+        return String.valueOf(secondsDifference);
     }
+
 
     public static String getLastLoginDateNew(String loginDate) {
         SimpleDateFormat format1 = null;
@@ -609,7 +586,7 @@ public class Utils {
 
     public static String getAttendanceCurrentDate() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return new SimpleDateFormat("dd MMM yyyy - hh:mm a", Locale.ENGLISH).format(Calendar.getInstance().getTime());
+            return new SimpleDateFormat("dd MMM yyyy - hh:mm:ss a", Locale.ENGLISH).format(Calendar.getInstance().getTime());
         } else {
             return "";
         }
@@ -681,7 +658,7 @@ public class Utils {
         SimpleDateFormat format2 = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-            format2 = new SimpleDateFormat("dd MMM yyyy - hh:mm a", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("ddd MMM yyyy - hh:mm:ss a", Locale.ENGLISH);
         }
         String convertedDate = "";
         try {

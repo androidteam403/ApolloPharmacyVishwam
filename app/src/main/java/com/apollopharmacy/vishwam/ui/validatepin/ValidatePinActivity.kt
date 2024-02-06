@@ -220,7 +220,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                                     "Yes", true
                                 )
                             ) {
-                                Preferences.setRetroQrEmployeeRoleUid(it.data?.uploadApnaRetro?.uid!!)
+                                Preferences.setRetroQrEmployeeRoleUid(it.data?.uploadApnaRetroQr?.uid!!)
                             } else {
                                 Preferences.setRetroQrEmployeeRoleUid("")
                             }

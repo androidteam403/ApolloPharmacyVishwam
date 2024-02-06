@@ -50,6 +50,7 @@ class CategoryDialogRetroQR: DialogFragment() {
             savedInstanceState: Bundle?,
         ): View? {
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog!!.setCancelable(false)
             viewBinding = DialogCustomBinding.inflate(inflater, container, false)
             viewBinding.textHead.text = "Select Category"
             viewBinding.siteNotAvailabletext.text="No Items Found"

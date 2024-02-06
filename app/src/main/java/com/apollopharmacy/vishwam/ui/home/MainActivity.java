@@ -1509,7 +1509,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 qcfilterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
-                scannerIcon.setVisibility(View.VISIBLE);
+                scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
 //                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.retro_qr_actionbar_bg));

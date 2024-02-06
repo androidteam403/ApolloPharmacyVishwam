@@ -423,6 +423,8 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 
             val intent = Intent()
             intent.putExtra("isApiHit", true)
+            intent.putExtra("isRatingApiHit", isRatingApiHit)
+
             setResult(Activity.RESULT_OK, intent)
             finish()
 
@@ -478,6 +480,8 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
                 if (isApiHit) {
                     val intent = Intent()
                     intent.putExtra("isApiHit", isApiHit)
+                    intent.putExtra("isRatingApiHit", isRatingApiHit)
+
                     setResult(Activity.RESULT_OK, intent)
                     finish()
                 }

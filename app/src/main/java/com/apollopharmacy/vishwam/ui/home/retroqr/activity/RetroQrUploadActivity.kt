@@ -36,7 +36,6 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityRetroQrUploadBinding
 import com.apollopharmacy.vishwam.databinding.DialogRackQrCodePrintBinding
-import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.DropdownSpinner
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.ReviewRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.UploadRackAdapter
@@ -176,7 +175,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                     fileUploadModel.file = File(imagesList[i].imageurl)
                     fileUploadModel.rackNo = imagesList[i].rackno
                     fileUploadModel.qrCode = imagesList[i].qrcode
-                    fileUploadModel.id=imagesList[i].categoryIdQr
+                    fileUploadModel.id=imagesList[i].categoryid
                     fileUploadModelList.add(fileUploadModel)
                 }
             }
@@ -210,7 +209,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                     fileUploadModel.file = File(reviewImagesList[i].reviewimageurl)
                     fileUploadModel.rackNo = reviewImagesList[i].rackno
                     fileUploadModel.qrCode = reviewImagesList[i].qrcode
-                    fileUploadModel.id=reviewImagesList[i].categoryIdQr
+                    fileUploadModel.id=reviewImagesList[i].categoryid
                     fileUploadModelList.add(fileUploadModel)
                 }
             }
@@ -460,10 +459,14 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         storeWiseRackDetailsList: ArrayList<StoreWiseRackDetails.StoreDetail>,
     ) {
         newPos = position
-        CategoryDialogRetroQR().apply {
-            arguments =
-                CategoryDialogRetroQR().generateParsedData(categoryDetailsList)
-        }.show(supportFragmentManager, "")
+        if (!isReview) {
+
+            CategoryDialogRetroQR().apply {
+                arguments =
+                    CategoryDialogRetroQR().generateParsedData(categoryDetailsList)
+            }.show(supportFragmentManager, "")
+        }
+
     }
 
     //    var file: File = File(filename)
@@ -631,7 +634,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                 fileUploadModel.file = resizedImage
                 fileUploadModel.rackNo = reviewImagesList[i].rackno
                 fileUploadModel.qrCode = reviewImagesList[i].qrcode
-                fileUploadModel.id=reviewImagesList[i].categoryIdQr
+                fileUploadModel.id=reviewImagesList[i].categoryid
                 fileUploadModelList.add(fileUploadModel)
             }
         }
@@ -942,27 +945,23 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
                 .setSourceImage(imageFile)
                 .resizedFile
-            if (!isReview){
-                CategoryDialogRetroQR().apply {
-                    arguments =
-                        CategoryDialogRetroQR().generateParsedData(categoryDetailsList)
-                }.show(supportFragmentManager, "")
-            }
+//            if (!isReview){
+//                CategoryDialogRetroQR().apply {
+//                    arguments =
+//                        CategoryDialogRetroQR().generateParsedData(categoryDetailsList)
+//                }.show(supportFragmentManager, "")
+//            }
 
 //            images.get(position).image= imageFile as File
 
 
-            if (isReview) {
-                updated++
-                activityRetroQrUploadBinding.updated.setText(updated.toString())
-                activityRetroQrUploadBinding.pending.setText((reviewImagesList.size - updated).toString())
-
-
-            }
 
             if (!isReview) {
-                if (imagesList.filter { it.imageurl!!.isNotEmpty() }.size > 0) {
+                if (imagesList.filter { it.imageurl!!.isNotEmpty() }.size ==imagesList.size) {
                     reviewImagesList[position].reviewimageurl = (resizedImage as File).toString()
+                    updated++
+                    activityRetroQrUploadBinding.updated.setText(updated.toString())
+                    activityRetroQrUploadBinding.pending.setText((reviewImagesList.size - updated).toString())
 
                     onClickCompare(
                         position,
@@ -1278,7 +1277,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
 
     override fun selectCategory(category: CategoryDetailsResponse.CategoryDetail) {
-        reviewImagesList.get(newPos).setcategoryQr(category.categoryname!!)
-        reviewImagesList.get(newPos).setcategoryIdQr(category.categoryid!!)
+        reviewImagesList.get(newPos).categoryname=category.categoryname!!
+        reviewImagesList.get(newPos).categoryid=category.categoryid!!
         reviewRackAdapter.notifyDataSetChanged()    }
 }

@@ -49,14 +49,14 @@ class StoreWiseRackDetails : Serializable {
         var byteArray=ByteArray(0)
         var reviewimageurl: String? = ""
         var isRackSelected: Boolean = false
-        var categoryIdQr: Int? = 0
-        fun setcategoryIdQr(url: Int) {
-            categoryIdQr = url
-        }
-        var categoryQr: String? = ""
-        fun setcategoryQr(url: String) {
-            categoryQr = url
-        }
+//        var categoryIdQr: Int? = 0
+//        fun setcategoryIdQr(url: Int) {
+//            categoryIdQr = url
+//        }
+//        var categoryQr: String? = ""
+//        fun setcategoryQr(url: String) {
+//            categoryQr = url
+//        }
 
         fun setreviewimageurl(url: String) {
             reviewimageurl = url

@@ -77,7 +77,7 @@ class RetroQrFragment : BaseFragment<RetroQrViewModel, FragmentRetroQrBinding>()
         }
         viewBinding.reviewButton.setOnClickListener {
             val intent = Intent(requireContext(), RetroQrUploadActivity::class.java)
-            intent.putExtra("activity", "reviews")
+            intent.putExtra("activity", "review")
 
             startActivity(intent)
         }
