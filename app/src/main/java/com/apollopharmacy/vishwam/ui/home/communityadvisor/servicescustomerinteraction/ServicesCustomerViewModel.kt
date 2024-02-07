@@ -5,17 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
-import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.data.network.ServicesCustomerRepo
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
-import com.apollopharmacy.vishwam.ui.home.communityadvisor.CommunityAdvisorFragmentCallback
-import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServiceDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServicesSaveDetailsRequest
-import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.ListBySiteIdResponse
-import com.apollopharmacy.vishwam.ui.home.planogram.fragment.PlanogramCallback
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -29,22 +22,24 @@ class ServicesCustomerViewModel : ViewModel() {
 
 
     fun getCategoryServicesCustomerDetails(
-        callback: ServicesCustomerCallback) {
+        callback: ServicesCustomerCallback,
+    ) {
 
         val state = MutableLiveData<State>()
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
         var token = ""
-       /* for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("")) {
-                baseUrl = data.APIS[i].URL
-                token = data.APIS[i].TOKEN
-                break
-            }
-        }*/
-        baseUrl = "https://phrmaptestp.apollopharmacy.info:8443/HMS/getcategorydetails"
-        token="5678ubvgfhlknk89"
+        /* for (i in data.APIS.indices) {
+             if (data.APIS[i].NAME.equals("")) {
+                 baseUrl = data.APIS[i].URL
+                 token = data.APIS[i].TOKEN
+                 break
+             }
+         }*/
+        baseUrl =
+            "https://phrmapvtuat.apollopharmacy.info:8443/HMS/getcategorydetails"//"https://phrmaptestp.apollopharmacy.info:8443/HMS/getcategorydetails"
+        token = "5678ubvgfhlknk89"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
@@ -103,7 +98,8 @@ class ServicesCustomerViewModel : ViewModel() {
                  break
              }
          }*/
-        baseUrl = "https://phrmaptestp.apollopharmacy.info:8443/HMS/savehomeservicesdetails"
+        baseUrl =
+            "https://phrmapvtuat.apollopharmacy.info:8443/HMS/savehomeservicesdetails"//"https://phrmaptestp.apollopharmacy.info:8443/HMS/savehomeservicesdetails"
         token = "5678ubvgfhlknk89"
         viewModelScope.launch {
             state.value = State.SUCCESS

@@ -32,7 +32,7 @@ class CommunityAdvisorFragmentViewModel : ViewModel() {
                  break
              }
          }*/
-        baseUrl = "https://phrmaptestp.apollopharmacy.info:8443/HMS/GetHomeServiceDetails"
+        baseUrl = "https://phrmapvtuat.apollopharmacy.info:8443/HMS/GetHomeServiceDetails"//"https://phrmaptestp.apollopharmacy.info:8443/HMS/GetHomeServiceDetails"
         token = "5678ubvgfhlknk89"
         viewModelScope.launch {
             state.value = State.SUCCESS
