@@ -31,6 +31,7 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptRequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptResponse
 import com.apollopharmacy.vishwam.util.Utlis
+import com.bumptech.glide.Glide
 import org.apache.commons.lang3.text.WordUtils
 import java.util.stream.Collectors
 
@@ -197,9 +198,39 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         if (imageUrlsList.isNotEmpty()) {
             activityPreviewImageBinding.startarrow.visibility = View.GONE
 
+
+
+
             activityPreviewImageBinding.totalimages.text =
                 "( " + (currentPosition + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )"
 
+
+            var accepted = 0
+            var rejected = 0
+            var isAlreadyDummyHave = false
+            for (i in imageUrlsList) {
+                if (i.isDummy) {
+                    isAlreadyDummyHave = true
+                } else {
+                    if (i.status.equals("1")) {
+                        accepted++
+                    } else if (i.status.equals("2")) {
+                        rejected++
+                    }
+                }
+            }
+
+            if (!isAlreadyDummyHave) {
+                if (accepted == imageUrlsList.size || rejected == imageUrlsList.size || accepted + rejected == imageUrlsList.size) {
+                    var imageUrls1 = GetImageUrlResponse.ImageUrl()
+                    imageUrls1.isDummy = true
+                    imageUrlsList.add(imageUrls1)
+                    activityPreviewImageBinding.totalimages.text =
+                        "( " + (currentPosition + 1 / imageUrlsList.size).toString() + "/" + (imageUrlsList.size - 1).toString() + " )"
+
+
+                }
+            }
         }
         previewImageAdapter = RetroPreviewImage(this, imageUrlsList, retroId, stage)
 
@@ -260,7 +291,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
             .collect(Collectors.toList()) as ArrayList<GetImageUrlResponse.ImageUrl>
 
 
-        if (position == imageUrlsList.size - 1) {
+       /* if (position == imageUrlsList.size - 1) {
             if (imageUrlsList[position].isVerified == true) {
 
                 if (applist.size == imageUrlsList.size || reshootList.size == imageUrlsList.size || applist.size + reshootList.size == imageUrlsList.size) {
@@ -274,6 +305,14 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
         } else {
             activityPreviewImageBinding.isLastPos = false
+        }*/
+
+        if (imageUrlsList[position].isDummy){
+            activityPreviewImageBinding.isLastPos = true
+
+        }else{
+            activityPreviewImageBinding.isLastPos = false
+
         }
 
 
@@ -291,10 +330,58 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
             activityPreviewImageBinding.reshoot.alpha = 1f
 
         }
+        var accepted = 0
+        var rejected = 0
+        var isAlreadyDummyHave = false
+        for (i in imageUrlsList) {
+            if (i.isDummy) {
+                isAlreadyDummyHave = true
+            } else {
+                if (i.status.equals("1")) {
+                    accepted++
+                } else if (i.status.equals("2")) {
+                    rejected++
+                }
+            }
+        }
 
+        if (!isAlreadyDummyHave) {
+            if (accepted == imageUrlsList.size || rejected == imageUrlsList.size || accepted + rejected == imageUrlsList.size) {
+                var imageUrls1 = GetImageUrlResponse.ImageUrl()
+                imageUrls1.isDummy = true
+                imageUrlsList.add(imageUrls1)
+                activityPreviewImageBinding.isLastPos =
+                    imageUrlsList[position].isDummy
+                if (imageUrlsList.get(position).isDummy) {
+                    activityPreviewImageBinding.totalimages.text =
+                        "( " + (currentPosition + 1 / imageUrlsList.size).toString() + "/" + (imageUrlsList.size - 1).toString() + " )"
+                }else{
+                    activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
 
+                }
 
-        activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
+//                activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size).toString() + "/" + (imageUrlsList.size-1).toString() + " )")
+            } else {
+                activityPreviewImageBinding.isLastPos =
+                    imageUrlsList[position].isDummy
+                if (imageUrlsList.get(position).isDummy) {
+                    activityPreviewImageBinding.totalimages.text =
+                        "( " + (currentPosition + 1 / imageUrlsList.size).toString() + "/" + (imageUrlsList.size - 1).toString() + " )"
+                }else{
+                                    activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
+
+                }
+
+            }
+        } else {
+            activityPreviewImageBinding.isLastPos =
+                imageUrlsList[position].isDummy
+                activityPreviewImageBinding.totalimages.text = "(${position+1}/${imageUrlsList.size-1})"
+                  //  "( " + (position + 1 / imageUrlsList.size).toString() + "/" + (imageUrlsList.size - 1).toString() + " )"
+
+//            activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
+        }
+
     }
 
     override fun onPageScrollStateChanged(state: Int) {
@@ -352,15 +439,65 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         }
 
 
-
+        activityPreviewImageBinding.isLastPos = imageUrlsList[imageUrlsList.size - 1].isDummy
         if (currentPosition == imageUrlsList.size - 1) {
+            if (imageUrlsList[imageUrlsList.size - 1].isVerified == true) {
+                var accepted = 0
+                var rejected = 0
+                var isAlreadyDummyHave = false
+                for (i in imageUrlsList) {
+                    if (i.isDummy) {
+                        isAlreadyDummyHave = true
+                    } else {
+                        if (i.status.equals("1")) {
+                            accepted++
+                        } else if (i.status.equals("2")) {
+                            rejected++
+                        }
+                    }
+                }
+
+                if (!isAlreadyDummyHave) {
+                    if (accepted == imageUrlsList.size || rejected == imageUrlsList.size || accepted + rejected == imageUrlsList.size) {
+                        var imageUrls1 = GetImageUrlResponse.ImageUrl()
+                        imageUrls1.isDummy = true
+                        imageUrlsList.add(imageUrls1)
+                        activityPreviewImageBinding.isLastPos =
+                            imageUrlsList[imageUrlsList.size - 1].isDummy
+
+                        previewImageAdapter!!.notifyDataSetChanged()
+
+                        activityPreviewImageBinding.previewImageViewpager.setCurrentItem(
+                            currentPosition + 1, true
+                        )
+//                            activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size).toString() + "/" + (imageUrlsList.size-1).toString() + " )")
+                    } else {
+                        previewImageAdapter!!.notifyDataSetChanged()
+
+                        activityPreviewImageBinding.previewImageViewpager.setCurrentItem(
+                            currentPosition + 1, true
+                        )
+//                            activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
+
+                    }
+                } else {
+//                        activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
+                }
+//                    activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
+            }
+
+        } else {
+            activityPreviewImageBinding.isLastPos = false
+        }
+
+        /*if (currentPosition == imageUrlsList.size - 1) {
             if (imageUrlsList[imageUrlsList.size - 1].isVerified == true) {
                 activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
             }
 
         } else {
             activityPreviewImageBinding.isLastPos = false
-        }
+        }*/
         previewImageAdapter!!.notifyDataSetChanged()
 
 
@@ -414,9 +551,53 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
 
 
+        activityPreviewImageBinding.isLastPos = imageUrlsList[imageUrlsList.size - 1].isDummy
         if (currentPosition == imageUrlsList.size - 1) {
             if (imageUrlsList[imageUrlsList.size - 1].isVerified == true) {
-                activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
+                var accepted = 0
+                var rejected = 0
+                var isAlreadyDummyHave = false
+                for (i in imageUrlsList) {
+                    if (i.isDummy) {
+                        isAlreadyDummyHave = true
+                    } else {
+                        if (i.status.equals("1")) {
+                            accepted++
+                        } else if (i.status.equals("2")) {
+                            rejected++
+                        }
+                    }
+                }
+
+                if (!isAlreadyDummyHave) {
+                    if (accepted == imageUrlsList.size || rejected == imageUrlsList.size || accepted + rejected == imageUrlsList.size) {
+                        var imageUrls1 = GetImageUrlResponse.ImageUrl()
+                        imageUrls1.isDummy = true
+                        imageUrlsList.add(imageUrls1)
+                        activityPreviewImageBinding.isLastPos =
+                            imageUrlsList[imageUrlsList.size - 1].isDummy
+
+                        previewImageAdapter!!.notifyDataSetChanged()
+
+                        activityPreviewImageBinding.previewImageViewpager.setCurrentItem(
+                            currentPosition + 1, true
+                        )
+
+//                            activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size).toString() + "/" + (imageUrlsList.size-1).toString() + " )")
+                    } else {
+                        previewImageAdapter!!.notifyDataSetChanged()
+
+                        activityPreviewImageBinding.previewImageViewpager.setCurrentItem(
+                            currentPosition + 1, true
+                        )
+
+//                            activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
+
+                    }
+                } else {
+//                        activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
+                }
+//                    activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
             }
 
         } else {
@@ -517,10 +698,10 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         }
         dialogLastimagePreviewAlertBinding.cancelButton.setOnClickListener {
 
-            val intent = Intent()
-            intent.putExtra("mainImagesList", imageUrlsList)
-            setResult(Activity.RESULT_OK, intent)
-            finish()
+//            val intent = Intent()
+//            intent.putExtra("mainImagesList", imageUrlsList)
+//            setResult(Activity.RESULT_OK, intent)
+//            finish()
             imagesStatusAlertDialog.dismiss()
 
         }

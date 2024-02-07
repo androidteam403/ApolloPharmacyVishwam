@@ -85,6 +85,7 @@ class GetImageUrlResponse : Serializable {
 
         var isChecked: Boolean = true
 
+        var isDummy: Boolean = false
         fun setisChecked(pos: Boolean) {
             isChecked = pos
         }

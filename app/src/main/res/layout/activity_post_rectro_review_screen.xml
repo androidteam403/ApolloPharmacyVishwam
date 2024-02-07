@@ -507,7 +507,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Pre Rectro"
+                                android:text="Pre Retro"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/text_12sp"
                                 android:textStyle="bold" />
@@ -546,7 +546,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Post Rectro"
+                                android:text="Post Retro"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/text_12sp"
                                 android:textStyle="bold" />
