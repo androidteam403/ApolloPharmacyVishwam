@@ -11,14 +11,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ApprovalActivityPreviewBinding
-import com.apollopharmacy.vishwam.databinding.DialogLastimagePreviewAlertBinding
 import com.apollopharmacy.vishwam.databinding.DialogReviewAlertBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.adapter.ApprovalCategoryListAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.adapter.TimeLineListAdapter
@@ -37,6 +34,7 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
     lateinit var activityPreviewBinding: ApprovalActivityPreviewBinding
     private var stage: String = ""
     private var status: String = ""
+    private var newStatus: String = ""
     private var store: String = ""
     private var apiStatus: String = ""
     private var apiStage: String = ""
@@ -80,14 +78,16 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 
 
 
-        if(intent!=null){
+        if (intent != null) {
             stage = intent.getStringExtra("stage")!!
             retroId = intent.getStringExtra("retroId")!!
             status = intent.getStringExtra("status")!!
+            newStatus = intent.getStringExtra("newStatus")!!
             store = intent.getStringExtra("site")!!
             uploadBy = intent.getStringExtra("uploadBy")!!
             uploadDate = intent.getStringExtra("uploadOn")!!
-            approveResponseList = intent.getSerializableExtra("approvePendingList") as ArrayList<GetRetroPendingAndApproveResponse.Retro>
+            approveResponseList =
+                intent.getSerializableExtra("approvePendingList") as ArrayList<GetRetroPendingAndApproveResponse.Retro>
             val frmt = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
             val date = frmt.parse(uploadDate)
             val newFrmt = SimpleDateFormat("dd MMM, yyy - hh:mm a").format(date)
@@ -96,9 +96,9 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 
         }
 
-        if (store.isNullOrEmpty()){
+        if (store.isNullOrEmpty()) {
 
-        }else{
+        } else {
             var imageUrlRequest = GetImageUrlRequest()
             imageUrlRequest.retroId = retroId
             imageUrlRequest.storeid = store.split("-").get(0)
@@ -106,20 +106,28 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
             viewModel.getRectroApprovalList(imageUrlRequest, this)
         }
 
-
-        activityPreviewBinding.status.setText(status)
-        if (status.toLowerCase().contains("pending")){
-            activityPreviewBinding.review.visibility=View.VISIBLE
-            activityPreviewBinding.greyLine.visibility=View.GONE
+        if (newStatus.contains("Pending")) {
+            activityPreviewBinding.status.setText("Pending")
+        } else {
+            activityPreviewBinding.status.setText(status)
         }
-        else{
-            activityPreviewBinding.review.visibility=View.GONE
-            activityPreviewBinding.greyLine.visibility=View.GONE
+
+        if (status.toLowerCase().contains("pending")) {
+            activityPreviewBinding.review.visibility = View.VISIBLE
+            activityPreviewBinding.greyLine.visibility = View.GONE
+        } else {
+            activityPreviewBinding.review.visibility = View.GONE
+            activityPreviewBinding.greyLine.visibility = View.GONE
 
         }
 
         if (status.contains("Approved")) {
-            activityPreviewBinding.status.setTextColor(ViswamApp.context.getColor(R.color.greenn))
+            if (newStatus.contains("Pending")) {
+                activityPreviewBinding.status.setTextColor(ViswamApp.context.getColor(R.color.pending_color_for_apna))
+            } else {
+                activityPreviewBinding.status.setTextColor(ViswamApp.context.getColor(R.color.greenn))
+            }
+
 
         } else if (status.contains("Pending")) {
             activityPreviewBinding.status.setTextColor(ViswamApp.context.getColor(R.color.pending_color_for_apna))
@@ -153,12 +161,12 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 
 
         activityPreviewBinding.arrow.setOnClickListener {
-            activityPreviewBinding.timeLineRecycleview.visibility = View.VISIBLE
+            activityPreviewBinding.timelineLayoutStage.visibility = View.VISIBLE
             activityPreviewBinding.downarrow.visibility = View.VISIBLE
             activityPreviewBinding.arrow.visibility = View.GONE
         }
         activityPreviewBinding.downarrow.setOnClickListener {
-            activityPreviewBinding.timeLineRecycleview.visibility = View.GONE
+            activityPreviewBinding.timelineLayoutStage.visibility = View.GONE
             activityPreviewBinding.downarrow.visibility = View.GONE
             activityPreviewBinding.arrow.visibility = View.VISIBLE
         }
@@ -168,11 +176,113 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         }
 
         if (approveResponseList != null) {
-            timelineAdapter =
-                TimeLineListAdapter(
-                    this,
-                    approveResponseList.filter { it.retroid.equals(retroId) && it.stage.equals(stage) })
-            activityPreviewBinding.timeLineRecycleview.adapter = timelineAdapter
+
+            var approveList =
+                approveResponseList.filter { it.retroid.equals(retroId) && it.stage.equals(stage) }
+            if (!approveList.isNullOrEmpty() && approveList.size > 0) {
+
+            activityPreviewBinding.stageRecyclerview.text = WordUtils.capitalizeFully(stage.replace("-", " "))
+
+                val dateLabelPairs = mutableListOf<TimeLineListAdapter.DateLabelPair>()
+                fun addDateLabelPair(
+                    date: String?,
+                    dateLabel: String,
+                    by: String?,
+                    byLabel: String?,
+                ) {
+                    if (!date.isNullOrEmpty() && date != "null" && !by.isNullOrEmpty() && by != "null") {
+                        val parsedDate = date?.let { Utlis.convertRetroDate(it) }
+                        if (parsedDate != null && !by.isNullOrEmpty() && by != "null") {
+                            dateLabelPairs.add(
+                                TimeLineListAdapter.DateLabelPair(
+                                    parsedDate,
+                                    dateLabel,
+                                    by,
+                                    byLabel
+                                )
+                            )
+                        }
+                    }
+
+
+                }
+                addDateLabelPair(
+                    approveList.get(0).uploadedDate,
+                    "Uploaded Date",
+                    approveList.get(0).uploadedBy,
+                    "Uploaded By :"
+                )
+                addDateLabelPair(
+                    approveList.get(0).executiveApprovedDate,
+                    "Executive Approved Date",
+                    approveList.get(0).executiveApprovedBy,
+                    "Executive Approved By :  "
+                )
+                addDateLabelPair(
+                    approveList.get(0).executiveReshootDate,
+                    "Executive Reshoot Date",
+                    approveList.get(0).executiveReshootBy,
+                    "Executive Reshoot By :  "
+                )
+                addDateLabelPair(
+                    approveList.get(0).managerApprovedDate,
+                    "Manager Approved Date",
+                    approveList.get(0).managerApprovedBy,
+                    "Manager Approved By :  "
+                )
+                addDateLabelPair(
+                    approveList.get(0).managerReshootDate.toString(),
+                    "Manager Reshoot Date",
+                    approveList.get(0).managerReshootBy.toString(),
+                    "Manager Reshoot By :  "
+                )
+                addDateLabelPair(
+                    approveList.get(0).gmApprovedDate,
+                    "GM Approved Date",
+                    approveList.get(0).gmApprovedBy,
+                    "GM Approved By :  "
+                )
+                addDateLabelPair(
+                    approveList.get(0).gmReshootDate,
+                    "GM Reshoot Date",
+                    approveList.get(0).gmReshootBy.toString(),
+                    "GM Reshoot By :  "
+                )
+                addDateLabelPair(
+                    approveList.get(0).ceoApprovedDate.toString(),
+                    "CEO Approved Date",
+                    approveList.get(0).ceoApprovedBy.toString(),
+                    "CEO Approved By :  "
+                )
+                addDateLabelPair(
+                    approveList.get(0).ceoReshootDate.toString(),
+                    "CEO Reshoot Date",
+                    approveList.get(0).ceoReshootBy.toString(),
+                    "CEO Reshoot By :  "
+                )
+
+//        approvedOrders.uploadedDate?.let { dateLabelPairs.add(DateLabelPair(Utlis.convertRetroDate(it), "Uploaded Date", approvedOrders.uploadedBy)) }
+//        approvedOrders.executiveApprovedDate?.let { dateLabelPairs.add(DateLabelPair(Utlis.convertRetroDate(it), "Executive Approved Date", approvedOrders.executiveApprovedBy)) }
+//        approvedOrders.executiveReshootDate?.let { dateLabelPairs.add(DateLabelPair(Utlis.convertRetroDate(it), "Executive Reshoot Date", approvedOrders.executiveReshootBy)) }
+//        approvedOrders.managerApprovedDate?.let { dateLabelPairs.add(DateLabelPair(Utlis.convertRetroDate(it), "Manager Approved Date", approvedOrders.managerApprovedBy)) }
+//        approvedOrders.managerReshootDate?.let { dateLabelPairs.add(DateLabelPair(Utlis.convertRetroDate(it.toString()), "Manager Reshoot Date", approvedOrders.managerReshootBy.toString())) }
+//        approvedOrders.gmApprovedDate?.let { dateLabelPairs.add(DateLabelPair(Utlis.convertRetroDate(it), "General Manager Approved Date", approvedOrders.gmApprovedBy)) }
+//        approvedOrders.gmReshootDate?.let { dateLabelPairs.add(DateLabelPair(Utlis.convertRetroDate(it), "General Manager Reshoot Date", approvedOrders.gmReshootBy.toString())) }
+//        approvedOrders.ceoApprovedDate?.let { dateLabelPairs.add(DateLabelPair(Utlis.convertRetroDate(it.toString()), "Ceo Approved Date", approvedOrders.ceoApprovedBy.toString())) }
+//        approvedOrders.ceoReshootDate?.let { dateLabelPairs.add(DateLabelPair(Utlis.convertRetroDate(it.toString()), "Ceo Reshoot Date", approvedOrders.ceoReshootBy.toString())) }
+
+                val sortedDateLabelPairs = dateLabelPairs.sortedBy { it.date }
+
+                timelineAdapter =
+                    TimeLineListAdapter(
+                        this,
+                        sortedDateLabelPairs
+                    )
+                activityPreviewBinding.timeLineRecycleview.adapter = timelineAdapter
+
+            }
+
+
         }
 
         /*
@@ -191,7 +301,7 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         categoryPosition: Int,
         categoryName: String,
         url: String,
-        statusPos: String
+        statusPos: String,
     ) {
         var tempImageList = ArrayList<GetImageUrlResponse.ImageUrl>()
         for (i in imageUrlList.indices) {
@@ -372,7 +482,12 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 //            val date = frmt.parse(value.remarks!![i].createdDate)
 //            val newFrmt = SimpleDateFormat("dd MMM, yyy - hh:mm a").format(date)
 //            activityPreviewBinding.uploadon.setText(newFrmt)
-            activityPreviewBinding.comments.setText(value.remarks!![i].remarks)
+            if (!value.remarks!![i].remarks.isNullOrEmpty()) {
+                activityPreviewBinding.comments.setText(value.remarks!![i].remarks)
+            } else {
+                activityPreviewBinding.comments.setText("-")
+            }
+
 //            activityPreviewBinding.uploadby.setText(value.remarks!![i].createdBy)
 
         }

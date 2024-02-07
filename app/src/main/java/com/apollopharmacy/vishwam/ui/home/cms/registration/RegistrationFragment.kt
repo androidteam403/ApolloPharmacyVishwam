@@ -505,6 +505,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             SubmitcomplaintDialog().apply {
                 arguments = SubmitcomplaintDialog().generateParsedData(it)
             }.show(childFragmentManager, "")
+            imagesFilledCount=0
         })
 
         viewModel.command.observe(viewLifecycleOwner, Observer {
@@ -1094,17 +1095,17 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.productImageView.otherImageDelete.visibility = View.GONE
         viewBinding.productImageView.productFrontImagePreview.setImageDrawable(
             resources.getDrawable(
-                R.drawable.ic_capture_image
+                R.drawable.cam_ash
             )
         )
         viewBinding.productImageView.productBackImagePreview.setImageDrawable(
             resources.getDrawable(
-                R.drawable.ic_capture_image
+                R.drawable.cam_ash
             )
         )
         viewBinding.productImageView.productOtherImagePreview.setImageDrawable(
             resources.getDrawable(
-                R.drawable.ic_capture_image
+                R.drawable.cam_ash
             )
         )
         clearTransactionCCView()
@@ -1353,12 +1354,14 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 if (data != null && data!!.clipData != null) {
                     val images = data!!.clipData
                     if (images != null) {
+                        var toAddImagesCount: Int = 3 - imagesFilledCount
                         if (images!!.itemCount <= 3) {
                             if (!notFrontView) {
-                                if ((imagesFilledCount == 0 && images.itemCount == 3)
-                                    || (imagesFilledCount == 1 && images.itemCount == 2)
-                                    || (imagesFilledCount == 2 && images.itemCount == 1)
-                                    || (imagesFilledCount == 0 && images.itemCount == 2)
+//                                (imagesFilledCount == 0 && images.itemCount == 3)
+//                                    || (imagesFilledCount == 1 && images.itemCount == 2)
+//                                    || (imagesFilledCount == 2 && images.itemCount == 1)
+//                                    || (imagesFilledCount == 0 && images.itemCount == 2)
+                                if (images.itemCount <= toAddImagesCount
                                 ) {
                                     for (i in 0 until images.itemCount) {
                                         var imagePath =

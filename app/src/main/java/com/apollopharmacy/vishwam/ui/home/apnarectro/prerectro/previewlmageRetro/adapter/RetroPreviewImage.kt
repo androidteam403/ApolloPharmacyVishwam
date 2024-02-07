@@ -35,39 +35,56 @@ class RetroPreviewImage(
             false
         )
         viewpagerPreviewImageBinding.retroId = retroId
-        viewpagerPreviewImageBinding.stageReviewMessage.setText("This Apna " + WordUtils.capitalizeFully(stage.replace("-"," ")) + " review" + "\n" + "completed successfully")
+        viewpagerPreviewImageBinding.stageReviewMessage.setText(
+            "This Apna " + WordUtils.capitalizeFully(
+                stage.replace("-", " ")
+            ) + " review" + "\n" + "completed successfully"
+        )
 
 
         var accepted = 0
         var rejected = 0
-
+        var isDummyAlreadyHave = false
         Glide.with(mContext).load(imageUrl.get(position).url)
             .error(R.drawable.placeholder_image)
             .into(viewpagerPreviewImageBinding.viewpagerImage)
         for (i in imageUrl) {
-
-            if (i.status.equals("1")) {
-                accepted++
-            } else if (i.status.equals("2")) {
-                rejected++
+            if (!i.isDummy) {
+                if (i.status.equals("1")) {
+                    accepted++
+                } else if (i.status.equals("2")) {
+                    rejected++
+                }
+            }else{
+                isDummyAlreadyHave = true
             }
         }
 
 
+        if (isDummyAlreadyHave){
+            viewpagerPreviewImageBinding.totalImages = "${imageUrl.size-1}"
 
-        viewpagerPreviewImageBinding.totalImages = "${imageUrl.size}"
+        }else{
+            viewpagerPreviewImageBinding.totalImages = "${imageUrl.size}"
+
+        }
         viewpagerPreviewImageBinding.accepted = "$accepted"
         viewpagerPreviewImageBinding.rejected = "$rejected"
-        if (position == imageUrl.size - 1) {
+        if (imageUrl.get(position).isDummy) {
+            viewpagerPreviewImageBinding.isLastPos = true
+            //accepted == imageUrl.size || rejected == imageUrl.size || accepted + rejected == imageUrl.size
+        } else {
+            viewpagerPreviewImageBinding.isLastPos = false
+        }
+        /*if (position == imageUrl.size - 1) {
             if (imageUrl[position].isVerified == true) {
-
                 viewpagerPreviewImageBinding.isLastPos =
                     accepted == imageUrl.size || rejected == imageUrl.size || accepted + rejected == imageUrl.size
 
             }
         }else{
             viewpagerPreviewImageBinding.isLastPos=false
-        }
+        }*/
 
         container.addView(viewpagerPreviewImageBinding.root)
 

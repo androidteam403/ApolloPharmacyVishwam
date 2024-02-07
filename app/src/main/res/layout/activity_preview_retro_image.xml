@@ -138,7 +138,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_10dp"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:weightSum="2">
 
                     <LinearLayout
