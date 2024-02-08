@@ -235,7 +235,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="-"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp" />
                     </LinearLayout>
@@ -293,19 +292,54 @@
                             tools:ignore="UseAppTint" />
                     </LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/timeLine_recycleview"
+                    <LinearLayout
+                        android:id="@+id/timeline_layout_stage"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:visibility="gone"
+                        android:background="@color/timeline_list_bg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
+                        android:orientation="vertical">
 
-                        android:visibility="gone"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:ignore="MissingClass"
+                        <LinearLayout
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
 
-                        tools:itemCount="2"
-                        tools:listitem="@layout/timeline_layout" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Stage :  "
+
+                                android:textSize="12.5sp" />
+
+                            <TextView
+                                android:id="@+id/stage_recyclerview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:id="@+id/timeLine_recycleview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:visibility="visible"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:ignore="MissingClass"
+                            />
+
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"

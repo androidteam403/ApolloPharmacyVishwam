@@ -79,6 +79,7 @@ class PreRectroApprovalFragment() :
         val intent = Intent(context, ApprovalPreviewActivity::class.java)
         intent.putExtra("stage", status!![position][subPos].stage)
         intent.putExtra("status", status!!.get(position)[subPos].status)
+        intent.putExtra("newStatus", newStatus)
         intent.putExtra("site", status!!.get(position)[subPos].store)
         intent.putExtra("approvePendingList",approvePendingList)
         intent.putExtra("uploadBy", status!![position][subPos].uploadedBy)
