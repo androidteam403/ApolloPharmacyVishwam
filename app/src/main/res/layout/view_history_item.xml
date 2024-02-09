@@ -15,10 +15,10 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         app:cardCornerRadius="@dimen/value_5dp"
         app:cardElevation="3dp"
         app:strokeColor="#CCCCCC"
-        android:layout_marginBottom="10dp"
         app:strokeWidth="0.10dp">
 
 
@@ -29,7 +29,6 @@
             android:orientation="vertical">
 
 
-
             <LinearLayout
                 android:id="@+id/taskCompletedLayout"
                 android:layout_width="match_parent"
@@ -37,8 +36,6 @@
                 android:background="@color/task_completed_bg"
                 android:orientation="vertical"
                 android:visibility="visible">
-
-
 
 
                 <LinearLayout
@@ -53,6 +50,7 @@
                         android:layout_weight="1.15"
 
                         android:orientation="vertical">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -68,13 +66,13 @@
                                 android:textSize="11sp" />
 
                             <TextView
+                                android:id="@+id/sno"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginStart="@dimen/value_5dp"
                                 android:fontFamily="@font/poppins_medium"
                                 android:paddingTop="@dimen/value_8dp"
                                 android:text="1234"
-                                android:id="@+id/sno"
                                 android:textColor="@color/black"
                                 android:textSize="12sp" />
 
@@ -84,19 +82,20 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#CCCCCC"/>
+                            android:background="#CCCCCC" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                           android:background="@color/sign_in_time_bg"
+                            android:background="@color/sign_in_time_bg"
                             android:orientation="horizontal">
 
                             <ImageView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
+                                android:layout_marginStart="10dp"
                                 android:layout_marginTop="3dp"
                                 android:src="@drawable/baseline_history_20"
-                                android:layout_marginStart="10dp"
 
                                 android:visibility="visible" />
 
@@ -124,8 +123,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="@dimen/value_10dp"
-                                    android:paddingBottom="5dp"
                                     android:fontFamily="@font/poppin_bold"
+                                    android:paddingBottom="5dp"
 
                                     android:text="09 March"
                                     android:textColor="@color/black"
@@ -135,10 +134,12 @@
 
                             </LinearLayout>
                         </LinearLayout>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#CCCCCC"/>
+                            android:background="#CCCCCC" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -201,13 +202,13 @@
                     </View>
 
                     <LinearLayout
-                        android:layout_marginEnd="10dp"
                         android:layout_width="0dp"
                         android:layout_height="65dp"
-                        android:background="@color/task_completed_bg"
-                        android:layout_weight=".85"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="0.85"
+                        android:background="@color/task_completed_bg"
                         android:orientation="vertical"
                         android:visibility="visible">
 
@@ -224,17 +225,17 @@
                             android:textSize="12sp" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:orientation="vertical">
 
                             <LinearLayout
-                                android:layout_width="187dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-
+                                android:gravity="center"
                                 android:orientation="horizontal"
-                                android:weightSum="4">
+                                android:weightSum="3.3">
 
                                 <LinearLayout
                                     android:layout_width="0dp"
@@ -259,8 +260,8 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Hrs"
                                         android:paddingBottom="7dp"
+                                        android:text="Hrs"
                                         android:textAlignment="center"
                                         android:textColor="#889a9c"
                                         android:textSize="10sp" />
@@ -292,8 +293,8 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_medium"
                                         android:paddingStart="2dp"
-                                        android:text="Min"
                                         android:paddingBottom="7dp"
+                                        android:text="Min"
 
                                         android:textAlignment="center"
                                         android:textColor="#889a9c"
@@ -327,8 +328,8 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Sec"
                                         android:paddingBottom="7dp"
+                                        android:text="Sec"
 
                                         android:textAlignment="center"
                                         android:textColor="#889a9c"
@@ -341,17 +342,15 @@
                     </LinearLayout>
 
 
-
-
                 </LinearLayout>
 
 
-<!--                <View-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="1dp"-->
-<!--                    android:background="#CCCCCC">-->
+                <!--                <View-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="1dp"-->
+                <!--                    android:background="#CCCCCC">-->
 
-<!--                </View>-->
+                <!--                </View>-->
 
             </LinearLayout>
 

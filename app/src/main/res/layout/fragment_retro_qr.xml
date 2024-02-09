@@ -50,10 +50,12 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_30dp"
+                            android:id="@+id/search_bar"
+
                             android:background="@drawable/retro_qr_search_bg"
                             android:weightSum="2">
 
-                            <EditText
+                            <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="@dimen/value_60dp"
@@ -64,6 +66,7 @@
                                 android:imeOptions="actionSearch"
                                 android:inputType="text"
                                 android:maxLines="1"
+                                android:editable="false"
                                 android:id="@+id/searchbystore"
                                 android:paddingStart="@dimen/value_10dp"
                                 android:textColor="@color/black"
@@ -73,7 +76,6 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:id="@+id/search_bar"
                                 android:layout_weight=".2"
                                 android:gravity="center_vertical|center_horizontal">
 

@@ -42,6 +42,7 @@ import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.ui.home.notification.model.NotificationModelResponse
 import com.apollopharmacy.vishwam.ui.home.planogram.activity.model.PlanogramSurveyQuestionsListResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.CategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.StoreWiseRackDetails
@@ -979,6 +980,12 @@ interface ViswamAppApi {
         @Url url: String, @Header("token") token: String,
         @Body qrSaveImageUrlsRequest: QrSaveImageUrlsRequest,
     ): QrSaveImageUrlsResponse
+
+    @GET
+    suspend fun getCategoryWiseRackDetails(
+        @Url url: String,
+        @Header("token") token: String,
+    ): CategoryDetailsResponse
     @GET
     suspend fun getImageUrlsByRack(
         @Url url: String,

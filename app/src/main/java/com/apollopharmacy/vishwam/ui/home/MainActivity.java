@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isDrugRequired = false;
     public String isAdminRequired;
     public static boolean isSensingRequired = false;
-
+    public String employeeRoleRetroQr = "";
     public static boolean isChampsRequired = false;
     public static boolean isApnaSurveyRequired = false;
     public static boolean isApnaRetroRequired = false;
@@ -422,6 +422,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (Preferences.INSTANCE.getAppLevelDesignationSwach() != null && !Preferences.INSTANCE.getAppLevelDesignationSwach().isEmpty()) {
             userDesignation = Preferences.INSTANCE.getAppLevelDesignationSwach();
         }
+        employeeRoleRetroQr = Preferences.INSTANCE.getRetroQrEmployeeRoleUid();
 
         employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
         employeeRoleRetro = Preferences.INSTANCE.getRetroEmployeeRoleUid();
@@ -1508,7 +1509,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 qcfilterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
-                scannerIcon.setVisibility(View.VISIBLE);
+                scannerIcon.setVisibility(View.GONE);
                 spinnerLayout.setVisibility(View.GONE);
                 isHomeScreen = false;
 //                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.retro_qr_actionbar_bg));

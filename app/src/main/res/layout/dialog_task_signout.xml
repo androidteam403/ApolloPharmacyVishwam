@@ -259,7 +259,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppin_bold"
                         android:paddingTop="@dimen/text_dimen_10"
-                        android:text="22"
+                        android:text=""
                         android:textAlignment="center"
                         android:textColor="@color/black_for_both"
                         android:textSize="14sp" />
@@ -291,7 +291,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppin_bold"
                         android:paddingTop="10dp"
-                        android:text="05"
+                        android:text=""
                         android:textAlignment="center"
                         android:textColor="@color/black_for_both"
                         android:textSize="14sp" />
@@ -325,7 +325,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppin_bold"
                         android:paddingTop="10dp"
-                        android:text="22"
+                        android:text=""
                         android:textAlignment="center"
                         android:textColor="@color/black_for_both"
                         android:textSize="14sp" />

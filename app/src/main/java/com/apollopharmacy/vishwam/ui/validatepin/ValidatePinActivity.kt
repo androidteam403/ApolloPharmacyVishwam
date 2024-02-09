@@ -208,6 +208,29 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
 
 
+                    if (it.data != null && it.data?.uploadApnaRetroQr != null) {
+//                        it.data!!.role!!.code = "store_supervisor"
+//                        it.data!!.uploadSwach!!.uid = "Yes"
+                        Preferences.storeEmployeeDetailsResponseJsonRetroQr(Gson().toJson(it))
+                        if (it.data?.uploadApnaRetroQr?.uid != null) {
+//                            it.data?.uploadSwach?.uid = "Yes"
+//                            it.data?.swacchDefaultSite?.site = ""
+                            Preferences.setEmployeeRoleUidRetroQr(it.data?.uploadApnaRetroQr?.uid!!)
+                            if (it.data?.uploadApnaRetroQr?.uid!!.equals(
+                                    "Yes", true
+                                )
+                            ) {
+                                Preferences.setRetroQrEmployeeRoleUid(it.data?.uploadApnaRetroQr?.uid!!)
+                            } else {
+                                Preferences.setRetroQrEmployeeRoleUid("")
+                            }
+
+                        } else {
+                            Preferences.setRetroQrEmployeeRoleUid("")
+                        }
+                    } else {
+                        Preferences.setRetroQrEmployeeRoleUid("")
+                    }
 
 
                     if (it.data != null && it.data?.uploadApnaRetro != null) {

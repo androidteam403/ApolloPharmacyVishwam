@@ -35,7 +35,6 @@ object SplashRepo {
             println(35)
             if (actualResponse.status)
                 ApiResult.Success(actualResponse)
-
             else
                 ApiResult.GenericError(null, actualResponse.message, null)
         } catch (e: Exception) {

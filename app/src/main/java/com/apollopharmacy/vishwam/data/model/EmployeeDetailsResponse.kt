@@ -42,7 +42,9 @@ class EmployeeDetailsResponse : Serializable {
         @SerializedName("upload_apna_retro")
         @Expose
         var uploadApnaRetro: UploadApnaRetro? = null
-
+        @SerializedName("upload_apna_retro_qr")
+        @Expose
+        var uploadApnaRetroQr: UploadApnaRetro? = null
         @SerializedName("new_drug_request")
         @Expose
         var newDrugRequest: NewDrugRequest? = null

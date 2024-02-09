@@ -18,7 +18,8 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
-import android.widget.ArrayAdapter
+import android.widget.AdapterView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -35,9 +36,12 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityRetroQrUploadBinding
 import com.apollopharmacy.vishwam.databinding.DialogRackQrCodePrintBinding
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.DropdownSpinner
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.ReviewRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.adapter.UploadRackAdapter
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.imagecomparison.ImageComparisonActivity
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.CategoryDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.CategoryDialogRetroQR
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.QrSaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.retroqr.activity.model.RackDialog
@@ -46,7 +50,6 @@ import com.apollopharmacy.vishwam.ui.home.retroqr.activity.printpreview.PrintPre
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUpload
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadCallback
 import com.apollopharmacy.vishwam.ui.home.retroqr.fileuploadqr.RetroQrFileUploadModel
-import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.PopUpWIndowQr
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
@@ -75,7 +78,8 @@ import java.time.format.DateTimeFormatter
 
 
 class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
-    RackDialog.GstDialogClickListner, RetroQrFileUploadCallback {
+    RackDialog.GstDialogClickListner, CategoryDialogRetroQR.categoryDialogClickListner,
+    RetroQrFileUploadCallback {
     private lateinit var activityRetroQrUploadBinding: ActivityRetroQrUploadBinding
     private lateinit var viewModel: RetroQrUploadViewModel
     private lateinit var uploadRackAdapter: UploadRackAdapter
@@ -83,12 +87,15 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     private lateinit var printRackAdapter: PrintRackAdapter
     private var activity: String = ""
     var updated: Int = 0
+    var isReview:Boolean = false
     private lateinit var cameraDialog: Dialog
 
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
     var images = ArrayList<ImageDto>()
     var rackList = ArrayList<String>()
+    var categoryDetailsResponseList = ArrayList<String>()
+    var categoryDetailsList = ArrayList<CategoryDetailsResponse.CategoryDetail>()
 
     var imagesList = ArrayList<StoreWiseRackDetails.StoreDetail>()
     var reviewImagesList = ArrayList<StoreWiseRackDetails.StoreDetail>()
@@ -96,6 +103,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     var storeDetailsList = ArrayList<StoreWiseRackDetails.StoreDetail>()
 
     var updatedCount: Int = 0
+    var newPos: Int = 0
 
     var position: Int = 0
 
@@ -117,14 +125,24 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         OpenCVLoader.initDebug()
 
         viewModel.getStoreWiseRackDetails(this)
+        viewModel.getCategoryWiseRackDetails(this)
 
 
 
         activityRetroQrUploadBinding.siteId.setText(Preferences.getQrSiteId())
         activityRetroQrUploadBinding.siteName.setText(Preferences.getQrSiteName())
 
+//        if (MainActivity.mInstance.employeeRoleRetroQr.isNullOrEmpty()||MainActivity.mInstance.employeeRoleRetroQr.equals("NO",true)){
+//            activityRetroQrUploadBinding.uploadsubmitLayout.visibility=View.GONE
+//        }else{
+//            activityRetroQrUploadBinding.uploadsubmitLayout.visibility=View.VISIBLE
+//
+//        }
+
         if (intent != null) {
-//            activity = intent.getStringExtra("activity")!!
+            activity = intent.getStringExtra("activity")!!
+            isReview = activity.equals("review")
+
 
             activityRetroQrUploadBinding.rackArrow.setOnClickListener {
                 RackDialog().apply {
@@ -157,6 +175,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                     fileUploadModel.file = File(imagesList[i].imageurl)
                     fileUploadModel.rackNo = imagesList[i].rackno
                     fileUploadModel.qrCode = imagesList[i].qrcode
+                    fileUploadModel.id=imagesList[i].categoryid
                     fileUploadModelList.add(fileUploadModel)
                 }
             }
@@ -190,6 +209,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                     fileUploadModel.file = File(reviewImagesList[i].reviewimageurl)
                     fileUploadModel.rackNo = reviewImagesList[i].rackno
                     fileUploadModel.qrCode = reviewImagesList[i].qrcode
+                    fileUploadModel.id=reviewImagesList[i].categoryid
                     fileUploadModelList.add(fileUploadModel)
                 }
             }
@@ -215,7 +235,15 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         qrCode: String,
         view: View,
     ) {
-        PopUpWIndowQr(context, R.layout.layout_image_fullview, view, imageUrl, null, rackNo, position)
+        PopUpWIndowQr(
+            context,
+            R.layout.layout_image_fullview,
+            view,
+            imageUrl,
+            null,
+            rackNo,
+            position
+        )
 
     }
 
@@ -231,7 +259,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
     override fun onFailureStoreWiseRackResponse(message: String) {
         hideLoading()
-        onBackPressed()
+//        onBackPressed()
         Toast.makeText(this@RetroQrUploadActivity, message, Toast.LENGTH_SHORT).show()
     }
 
@@ -243,20 +271,42 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         for (i in storeWiseRackDetails.storeDetails!!.indices) {
             rackList.add(storeWiseRackDetails.storeDetails!!.get(i).rackno!!)
         }
+        val adapter = DropdownSpinner(this, rackList)
+        val spinner = activityRetroQrUploadBinding.rackSpinner
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long,
+            ) {
+                val selectedText = rackList.get(position)
+                if (uploadRackAdapter != null) {
+                    uploadRackAdapter.getFilter().filter(selectedText);
+                } else if (selectedText.equals("") || selectedText.equals("All")) {
+                    if (uploadRackAdapter != null) {
+                        uploadRackAdapter.getFilter().filter("");
+                    }
+                }
+                // Use the selectedText as needed
+            }
 
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, rackList)
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Handle nothing selected if needed
+            }
 
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+//        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, rackList)
+//
+//        // Specify the layout to use when the list of choices appears
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         // Apply the adapter to the spinner
-        activityRetroQrUploadBinding.spinner.adapter = adapter
+//        activityRetroQrUploadBinding.rackSpinner.adapter = adapter
+        storeDetailsList = storeWiseRackDetails.storeDetails as ArrayList<StoreWiseRackDetails.StoreDetail>
 
-        storeDetailsList =
-            storeWiseRackDetails.storeDetails as ArrayList<StoreWiseRackDetails.StoreDetail>
-
-        reviewImagesList =
-            storeWiseRackDetails.storeDetails as ArrayList<StoreWiseRackDetails.StoreDetail>
+        reviewImagesList = storeWiseRackDetails.storeDetails as ArrayList<StoreWiseRackDetails.StoreDetail>
 
 
 
@@ -266,37 +316,71 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         activityRetroQrUploadBinding.updated.setText((updated).toString())
 
 
-        updatedCount = storeWiseRackDetails.storeDetails!!.filter {
-            it.imageurl.toString().contains(".")
-        }.size
+        updatedCount =
+            storeWiseRackDetails.storeDetails!!.filter { it.imageurl.toString().contains(".") }.size
         activityRetroQrUploadBinding.totalRackCount.text =
             storeWiseRackDetails.storeDetails!!.size.toString()
-        imagesList =
-            storeWiseRackDetails.storeDetails as ArrayList<StoreWiseRackDetails.StoreDetail>
+        imagesList = storeWiseRackDetails.storeDetails as ArrayList<StoreWiseRackDetails.StoreDetail>
 
 
-        if (imagesList.filter { it.imageurl!!.isNotEmpty() }.size > 0) {
-            activity = "review"
+        if (isReview) {
 
             activityRetroQrUploadBinding.uploadRackRcv.visibility = View.VISIBLE
             activityRetroQrUploadBinding.reviewRack.visibility = View.VISIBLE
             activityRetroQrUploadBinding.uploadsubmitLayout.visibility = View.GONE
+            activityRetroQrUploadBinding.submitButtonReview.visibility = View.GONE
+            activityRetroQrUploadBinding.totalRacksLayout.layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                0.4f
+            )
+            activityRetroQrUploadBinding.countsLayout.layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                0.6f
+            )
             activityRetroQrUploadBinding.reviewSubmitLayout.visibility = View.VISIBLE
             activityRetroQrUploadBinding.headername.setText("RETRO QR REVIEW")
 
         } else {
-            activity = "upload"
+            if (imagesList.filter { it.imageurl!!.isNotEmpty() }.size > 0) {
 
-            activityRetroQrUploadBinding.headername.setText("RETRO QR UPLOAD")
 
-            activityRetroQrUploadBinding.uploadRackRcv.visibility = View.VISIBLE
-            activityRetroQrUploadBinding.reviewRack.visibility = View.GONE
-            activityRetroQrUploadBinding.uploadsubmitLayout.visibility = View.VISIBLE
-            activityRetroQrUploadBinding.reviewSubmitLayout.visibility = View.GONE
+                activityRetroQrUploadBinding.uploadRackRcv.visibility = View.VISIBLE
+                activityRetroQrUploadBinding.reviewRack.visibility = View.VISIBLE
+                activityRetroQrUploadBinding.uploadsubmitLayout.visibility = View.GONE
+                activityRetroQrUploadBinding.reviewSubmitLayout.visibility = View.VISIBLE
+                activityRetroQrUploadBinding.headername.setText("RETRO QR UPLOAD")
+
+            } else {
+
+                activityRetroQrUploadBinding.headername.setText("RETRO QR UPLOAD")
+
+                activityRetroQrUploadBinding.uploadRackRcv.visibility = View.VISIBLE
+                activityRetroQrUploadBinding.reviewRack.visibility = View.GONE
+                activityRetroQrUploadBinding.uploadsubmitLayout.visibility = View.VISIBLE
+                activityRetroQrUploadBinding.reviewSubmitLayout.visibility = View.GONE
+
+
+            }
+//                activityRetroQrUploadBinding.headername.setText("RETRO QR UPLOAD")
+//                activityRetroQrUploadBinding.totalRacksLayout.layoutParams = LinearLayout.LayoutParams(
+//                    0,
+//                    LinearLayout.LayoutParams.MATCH_PARENT,
+//                    0.25f
+//                )
+//                activityRetroQrUploadBinding.countsLayout.layoutParams = LinearLayout.LayoutParams(
+//                    0,
+//                    LinearLayout.LayoutParams.MATCH_PARENT,
+//                    0.5f
+//                )
+//                activityRetroQrUploadBinding.uploadRackRcv.visibility = View.VISIBLE
+//                activityRetroQrUploadBinding.reviewRack.visibility = View.GONE
+//                activityRetroQrUploadBinding.uploadsubmitLayout.visibility = View.VISIBLE
+//                activityRetroQrUploadBinding.reviewSubmitLayout.visibility = View.GONE
 
 
         }
-
 
 
 
@@ -314,7 +398,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
 
         reviewRackAdapter = ReviewRackAdapter(
-            this@RetroQrUploadActivity, this@RetroQrUploadActivity, reviewImagesList
+            this@RetroQrUploadActivity, this@RetroQrUploadActivity, reviewImagesList,isReview
         )
         activityRetroQrUploadBinding.reviewRack.adapter = reviewRackAdapter
         activityRetroQrUploadBinding.reviewRack.layoutManager =
@@ -324,9 +408,71 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
     }
 
+    override fun onFailureCategoryWiseRackResponse(message: String) {
+        hideLoading()
+        Toast.makeText(this@RetroQrUploadActivity, message, Toast.LENGTH_SHORT).show()
+
+    }
+
+    override fun onSuccessgetCategoryWiseRackResponse(categoryDetailsResponse: CategoryDetailsResponse) {
+
+        categoryDetailsResponseList.clear()
+        categoryDetailsResponseList.add("All")
+        categoryDetailsList= categoryDetailsResponse.categoryDetails as ArrayList<CategoryDetailsResponse.CategoryDetail>
+        for (i in categoryDetailsResponse.categoryDetails!!.indices) {
+            categoryDetailsResponseList.add(categoryDetailsResponse.categoryDetails!!.get(i).categoryname!!)
+        }
+
+
+        val adapter = DropdownSpinner(this, categoryDetailsResponseList)
+        val spinner = activityRetroQrUploadBinding.categorySpinner
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long,
+            ) {
+                val selectedText = categoryDetailsResponseList.get(position)
+
+                // Check if reviewRackAdapter is initialized before using it
+                if (::reviewRackAdapter.isInitialized) {
+                    reviewRackAdapter.getFilter().filter(selectedText.toString())
+                } else if (selectedText.isBlank() || selectedText.equals("All", ignoreCase = true)) {
+                    // Ensure reviewRackAdapter is initialized before using it here as well
+                    if (::reviewRackAdapter.isInitialized) {
+                        reviewRackAdapter.getFilter().filter("")
+                    }
+                }
+                // Use the selectedText as needed
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Handle nothing selected if needed
+            }
+        }
+    }
+
+    override fun onClickCategory(
+        position: Int,
+        storeWiseRackDetailsList: ArrayList<StoreWiseRackDetails.StoreDetail>,
+    ) {
+        newPos = position
+        if (!isReview) {
+
+            CategoryDialogRetroQR().apply {
+                arguments =
+                    CategoryDialogRetroQR().generateParsedData(categoryDetailsList)
+            }.show(supportFragmentManager, "")
+        }
+
+    }
+
     //    var file: File = File(filename)
     override fun onClickCameraIcon(position: Int, adapter: String) {
         this.position = position
+        newPos=position
         adapterName = adapter
         if (!checkPermission()) {
             askPermissions(100)
@@ -488,6 +634,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                 fileUploadModel.file = resizedImage
                 fileUploadModel.rackNo = reviewImagesList[i].rackno
                 fileUploadModel.qrCode = reviewImagesList[i].qrcode
+                fileUploadModel.id=reviewImagesList[i].categoryid
                 fileUploadModelList.add(fileUploadModel)
             }
         }
@@ -666,9 +813,9 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
              for (i in reviewImagesList) {
                  if (i.isRackSelected) {
                      //Print barcode
- //            instance.printBarCode(20, 10, "128", 130, 2, 2, 0, refnumber);
+    //            instance.printBarCode(20, 10, "128", 130, 2, 2, 0, refnumber);
                      //Print QR code
- //            instance.printQrCode(20, 10, "M", 7, 0, contentttt);
+    //            instance.printQrCode(20, 10, "M", 7, 0, contentttt);
                      instance.printQrCode(
                          20,
                          10,
@@ -704,8 +851,12 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
             intent.putExtras(bundle)
             startActivity(intent)
-        }else{
-            Toast.makeText(this@RetroQrUploadActivity, "Please select racks to print", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(
+                this@RetroQrUploadActivity,
+                "Please select racks to print",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -794,23 +945,41 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
 
                 .setSourceImage(imageFile)
                 .resizedFile
+//            if (!isReview){
+//                CategoryDialogRetroQR().apply {
+//                    arguments =
+//                        CategoryDialogRetroQR().generateParsedData(categoryDetailsList)
+//                }.show(supportFragmentManager, "")
+//            }
 
 //            images.get(position).image= imageFile as File
 
 
-            if (activity.equals("review")) {
-                updated++
-                activityRetroQrUploadBinding.updated.setText(updated.toString())
-                activityRetroQrUploadBinding.pending.setText((reviewImagesList.size - updated).toString())
+
+            if (!isReview) {
+                if (imagesList.filter { it.imageurl!!.isNotEmpty() }.size ==imagesList.size) {
+                    reviewImagesList[position].reviewimageurl = (resizedImage as File).toString()
+                    updated++
+                    activityRetroQrUploadBinding.updated.setText(updated.toString())
+                    activityRetroQrUploadBinding.pending.setText((reviewImagesList.size - updated).toString())
+
+                    onClickCompare(
+                        position,
+                        File(reviewImagesList.get(position).reviewimageurl),
+                        reviewImagesList.get(position).imageurl!!,
+                    )
+
+                    reviewRackAdapter.notifyItemChanged(position)
+                }
+                else{
+
+                    imagesList[position].imageurl = (resizedImage as File).toString()
+                    updatedCount++
+                    uploadRackAdapter.notifyItemChanged(position)
+                }
 
 
-            }
-
-            if (adapterName.equals("upload")) {
-                imagesList[position].imageurl = (resizedImage as File).toString()
-                updatedCount++
-                uploadRackAdapter.notifyItemChanged(position)
-            } else if (adapterName.equals("review")) {
+            } else if (isReview) {
                 reviewImagesList[position].reviewimageurl = (resizedImage as File).toString()
 
 //onClickCompare(
@@ -850,7 +1019,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         activityRetroQrUploadBinding.updatedCount.setText(updatedCount.toString())
         activityRetroQrUploadBinding.pendingCount.setText((imagesList.size - updatedCount).toString())
         if (updatedCount == imagesList.size) {
-            activityRetroQrUploadBinding.lastUpdateLayout.visibility = View.VISIBLE
+            activityRetroQrUploadBinding.lastUpdateLayout.visibility = View.GONE
             activityRetroQrUploadBinding.lastUpdateDate.setText(
                 LocalDate.now().format(
                     DateTimeFormatter.ofPattern("dd MMM, yyyy")
@@ -888,7 +1057,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
     fun calculateSimilarityPercentage(
         bitmap1: Bitmap,
         bitmap2: Bitmap,
-        threshold: Int
+        threshold: Int,
     ): Double {
         // Ensure both bitmaps have the same dimensions
         if (bitmap1.width != bitmap2.width || bitmap1.height != bitmap2.height) {
@@ -991,6 +1160,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
             val saveImageUrlsRequest = QrSaveImageUrlsRequest()
             saveImageUrlsRequest.storeid = Preferences.getQrSiteId()
             saveImageUrlsRequest.userid = Preferences.getValidatedEmpId()
+            saveImageUrlsRequest.isadmin=true
             val base64ImageList = ArrayList<QrSaveImageUrlsRequest.StoreDetail>()
             for (i in fileUploadModelList) {
                 val base64Image = QrSaveImageUrlsRequest.StoreDetail()
@@ -1000,6 +1170,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
                 )
                 base64Image.qrcode = ""
                 base64Image.rackno = i.rackNo
+                base64Image.categoryid=i.id
                 base64ImageList.add(base64Image)
             }
             saveImageUrlsRequest.storeDetails = base64ImageList
@@ -1083,6 +1254,7 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         handlerBluetoothConnection.removeCallbacks(runnableBluetoothConnection)
         super.onPause()
     }
+
     fun isBluetoothConned(dialogRackQrCodePrintBinding: DialogRackQrCodePrintBinding) {
         if (dialogRackQrCodePrintBinding != null) {
             if (BluetoothManager.getInstance(this).isConnect) {
@@ -1101,4 +1273,11 @@ class RetroQrUploadActivity : AppCompatActivity(), RetroQrUploadCallback,
         handlerBluetoothConnection.postDelayed(runnableBluetoothConnection, 500)
 
     }
+
+
+
+    override fun selectCategory(category: CategoryDetailsResponse.CategoryDetail) {
+        reviewImagesList.get(newPos).categoryname=category.categoryname!!
+        reviewImagesList.get(newPos).categoryid=category.categoryid!!
+        reviewRackAdapter.notifyDataSetChanged()    }
 }

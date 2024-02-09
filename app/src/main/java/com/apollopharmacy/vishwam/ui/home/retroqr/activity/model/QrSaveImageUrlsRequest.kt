@@ -13,23 +13,13 @@ class QrSaveImageUrlsRequest : Serializable {
     @Expose
     var userid: String? = null
 
+    @SerializedName("ISADMIN")
+    @Expose
+    var isadmin: Boolean? = null
+
     @SerializedName("storeDetails")
     @Expose
     var storeDetails: List<StoreDetail>? = null
-    fun withStoreid(storeid: String?): QrSaveImageUrlsRequest {
-        this.storeid = storeid
-        return this
-    }
-
-    fun withUserid(userid: String?): QrSaveImageUrlsRequest {
-        this.userid = userid
-        return this
-    }
-
-    fun withStoreDetails(storeDetails: List<StoreDetail>?): QrSaveImageUrlsRequest {
-        this.storeDetails = storeDetails
-        return this
-    }
 
     public class StoreDetail : Serializable {
         @SerializedName("RACKNO")
@@ -43,19 +33,9 @@ class QrSaveImageUrlsRequest : Serializable {
         @SerializedName("IMAGEURL")
         @Expose
         var imageurl: String? = null
-        fun withRackno(rackno: String?): StoreDetail {
-            this.rackno = rackno
-            return this
-        }
 
-        fun withQrcode(qrcode: String?): StoreDetail {
-            this.qrcode = qrcode
-            return this
-        }
-
-        fun withImageurl(imageurl: String?): StoreDetail {
-            this.imageurl = imageurl
-            return this
-        }
+        @SerializedName("CATEGORYID")
+        @Expose
+        var categoryid: Int? = null
     }
 }

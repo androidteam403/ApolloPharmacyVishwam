@@ -63,6 +63,7 @@ object Preferences {
 
     private const val PREF_SITE_ID_FETCHED_QC_FAIL = "PREF_SITE_ID_FETCHED_QC_FAIL"
     private const val PREF_REGION_ID_FETCHED_QC_FAIL = "PREF_REGION_ID_FETCHED_QC_FAIL"
+    private const val PREF_KEY_EMP_DETAILS_JSON_RETROQR = "PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG"
 
     private const val PREF_KEY_EMP_DETAILS_JSON = "PREF_KEY_EMP_DETAILS_JSON"
     private const val PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG = "PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG"
@@ -215,6 +216,7 @@ object Preferences {
     private const val UPLOADED_DATE_DAY_WISE = ""
     private const val EMPLOYEE_ROLE = ""
     private const val EMPLOYEE_ROLE_RETRO = "EMPLOYEE_ROLE_RETRO"
+    private const val EMPLOYEE_ROLE_RETROQR = "EMPLOYEE_ROLE_RETRO_QR"
 
     private const val KEY_SWACHH_SITEID = "KEY_SWACHH_SITEID"
     private const val KEY_RECTRO_SITEID = "KEY_RECTRO_SITEID"
@@ -600,6 +602,21 @@ object Preferences {
     fun setEmployeeRoleUid(role: String) {
         sharedPreferences.edit().putString(EMPLOYEE_ROLE, role).apply()
     }
+    fun setRetroQrEmployeeRoleUid(role: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_ROLE_RETROQR, role).apply()
+    }
+
+    fun getRetroQrEmployeeRoleUid(): String {
+        return sharedPreferences.getString(EMPLOYEE_ROLE_RETROQR, "")!!
+    }
+
+    fun setEmployeeRoleUidRetroQr(role: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_ROLE_RETROQR, role).apply()
+    }
+
+    fun getEmployeeRoleUidRetroQr(): String {
+        return sharedPreferences.getString(EMPLOYEE_ROLE_RETROQR, "")!!
+    }
 
     fun getEmployeeRoleUid(): String {
         return sharedPreferences.getString(EMPLOYEE_ROLE, "")!!
@@ -768,6 +785,15 @@ object Preferences {
     fun storeEmployeeDetailsResponseJson(employeeDetailsResponse: String) {
         sharedPreferences.edit().putString(PREF_KEY_EMP_DETAILS_JSON, employeeDetailsResponse)
             .apply()
+    }
+    fun storeEmployeeDetailsResponseJsonRetroQr(employeeDetailsResponse: String) {
+        sharedPreferences.edit()
+            .putString(PREF_KEY_EMP_DETAILS_JSON_RETROQR, employeeDetailsResponse).apply()
+    }
+
+    fun getEmployeeDetailsResponseJsonRetroQr(): String {
+        return sharedPreferences.getString(PREF_KEY_EMP_DETAILS_JSON_RETROQR, "")!!
+
     }
 
     fun getEmployeeDetailsResponseJson(): String {
