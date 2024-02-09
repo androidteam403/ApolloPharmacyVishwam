@@ -62,7 +62,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                 uniqueId = intent.getStringExtra("UNIQUE_ID") as String
         }
 
-
+        validatePinCallBack=this
 //        onCheckBuildDetails()
         handleMPinService()
         viewModel.getApplevelDesignation(
@@ -145,7 +145,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
 //                handleNextIntent()
 
-                viewModel.getRole(Preferences.getValidatedEmpId())
+                viewModel.getRole(Preferences.getValidatedEmpId(), validatePinCallBack)
                 viewModel.getApplevelDesignation(
                     Preferences.getValidatedEmpId(), "SWACHH", applicationContext
                 )
@@ -175,160 +175,148 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                     }
                 }
                 viewModel.employeeDetails.observeForever {
-
-                    if (it.success!! && it.data != null && it.data?.uploadSwach != null) {
+                    if(it.success!!){
+                        Preferences.setEmployeeApiAvailable(true);
+                        if (it.success!! && it.data != null && it.data?.uploadSwach != null) {
 //                        it.data!!.role!!.code = "store_supervisor"
 //                        it.data!!.uploadSwach!!.uid = "Yes"
 
 //                        it.data!!.role!!.code="region_head"
-                        Preferences.storeEmployeeDetailsResponseJson(Gson().toJson(it))
-                        Preferences.setRoleForCeoDashboard(it.data!!.role!!.code.toString())
+                            Preferences.storeEmployeeDetailsResponseJson(Gson().toJson(it))
+                            Preferences.setRoleForCeoDashboard(it.data!!.role!!.code.toString())
 //                       Toast.makeText(applicationContext, ""+ Preferences.getRoleForCeoDashboard(), Toast.LENGTH_SHORT).show()
-                        if (it.data?.uploadSwach?.uid != null) {
+                            if (it.data?.uploadSwach?.uid != null) {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
-                            Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
-                            if (it.data?.uploadSwach?.uid!!.equals(
-                                    "Yes", true
-                                )
-                            ) {
-                                if (it.data?.swacchDefaultSite != null && it.data?.swacchDefaultSite?.site != null) {
-                                    Preferences.setSwachhSiteId(it.data?.swacchDefaultSite?.site!!)
-                                } else {
-                                    Preferences.setSwachhSiteId("")
+                                Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
+                                if (it.data?.uploadSwach?.uid!!.equals(
+                                        "Yes", true
+                                    )
+                                ) {
+                                    if (it.data?.swacchDefaultSite != null && it.data?.swacchDefaultSite?.site != null) {
+                                        Preferences.setSwachhSiteId(it.data?.swacchDefaultSite?.site!!)
+                                    } else {
+                                        Preferences.setSwachhSiteId("")
+                                    }
                                 }
-                            }
 
+                            } else {
+                                Preferences.setEmployeeRoleUid("No")
+                            }
                         } else {
                             Preferences.setEmployeeRoleUid("No")
                         }
-                    } else {
-                        Preferences.setEmployeeRoleUid("No")
-                    }
 
-
-
-                    if (it.data != null && it.data?.uploadApnaRetroQr != null) {
+                        if (it.data != null && it.data?.uploadApnaRetroQr != null) {
 //                        it.data!!.role!!.code = "store_supervisor"
 //                        it.data!!.uploadSwach!!.uid = "Yes"
-                        Preferences.storeEmployeeDetailsResponseJsonRetroQr(Gson().toJson(it))
-                        if (it.data?.uploadApnaRetroQr?.uid != null) {
+                            Preferences.storeEmployeeDetailsResponseJsonRetroQr(Gson().toJson(it))
+                            if (it.data?.uploadApnaRetroQr?.uid != null) {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
-                            Preferences.setEmployeeRoleUidRetroQr(it.data?.uploadApnaRetroQr?.uid!!)
-                            if (it.data?.uploadApnaRetroQr?.uid!!.equals(
-                                    "Yes", true
-                                )
-                            ) {
-                                Preferences.setRetroQrEmployeeRoleUid(it.data?.uploadApnaRetroQr?.uid!!)
+                                Preferences.setEmployeeRoleUidRetroQr(it.data?.uploadApnaRetroQr?.uid!!)
+                                if (it.data?.uploadApnaRetroQr?.uid!!.equals(
+                                        "Yes", true
+                                    )
+                                ) {
+                                    Preferences.setRetroQrEmployeeRoleUid(it.data?.uploadApnaRetroQr?.uid!!)
+                                } else {
+                                    Preferences.setRetroQrEmployeeRoleUid("")
+                                }
+
                             } else {
                                 Preferences.setRetroQrEmployeeRoleUid("")
                             }
-
                         } else {
                             Preferences.setRetroQrEmployeeRoleUid("")
                         }
-                    } else {
-                        Preferences.setRetroQrEmployeeRoleUid("")
-                    }
 
-
-                    if (it.data != null && it.data?.uploadApnaRetro != null) {
+                        if (it.data != null && it.data?.uploadApnaRetro != null) {
 //                        it.data!!.role!!.code = "store_supervisor"
 //                        it.data!!.uploadSwach!!.uid = "Yes"
-                        Preferences.storeEmployeeDetailsResponseJsonNewDrug(Gson().toJson(it))
-                        if (it.data?.uploadApnaRetro?.uid != null) {
+                            Preferences.storeEmployeeDetailsResponseJsonNewDrug(Gson().toJson(it))
+                            if (it.data?.uploadApnaRetro?.uid != null) {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
-                            Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.uploadApnaRetro?.uid!!)
-                            if (it.data?.uploadApnaRetro?.uid!!.equals(
-                                    "Yes", true
-                                )
-                            ) {
-                                Preferences.setRetroEmployeeRoleUid(it.data?.uploadApnaRetro?.uid!!)
+                                Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.uploadApnaRetro?.uid!!)
+                                if (it.data?.uploadApnaRetro?.uid!!.equals(
+                                        "Yes", true
+                                    )
+                                ) {
+                                    Preferences.setRetroEmployeeRoleUid(it.data?.uploadApnaRetro?.uid!!)
+                                } else {
+                                    Preferences.setRetroEmployeeRoleUid("")
+                                }
+
                             } else {
                                 Preferences.setRetroEmployeeRoleUid("")
                             }
-
                         } else {
                             Preferences.setRetroEmployeeRoleUid("")
                         }
-                    } else {
-                        Preferences.setRetroEmployeeRoleUid("")
-                    }
 
-                    if (it.data != null && it.data?.champs_admin != null) {
+                        if (it.data != null && it.data?.champs_admin != null) {
 //                        it.data!!.role!!.code = "store_supervisor"
 //                        it.data!!.uploadSwach!!.uid = "Yes"
 //                        Preferences.storeEmployeeDetailsResponseJsonChampsAdmin(Gson().toJson(it))
-                        if (it.data?.champs_admin?.uid != null) {
+                            if (it.data?.champs_admin?.uid != null) {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
-                            if (it.data?.champs_admin?.uid != null && it.data?.champs_admin?.uid!!.equals(
-                                    "Yes", true
-                                )
-                            ) {
-                                Preferences.setEmployeeRoleUidChampsAdmin(it.data?.champs_admin?.uid!!)
+                                if (it.data?.champs_admin?.uid != null && it.data?.champs_admin?.uid!!.equals(
+                                        "Yes", true
+                                    )
+                                ) {
+                                    Preferences.setEmployeeRoleUidChampsAdmin(it.data?.champs_admin?.uid!!)
+                                } else {
+                                    Preferences.setEmployeeRoleUidChampsAdmin("")
+                                }
+
                             } else {
                                 Preferences.setEmployeeRoleUidChampsAdmin("")
                             }
-
                         } else {
                             Preferences.setEmployeeRoleUidChampsAdmin("")
                         }
-                    } else {
-                        Preferences.setEmployeeRoleUidChampsAdmin("")
-                    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    if (it.data != null && it.data?.newDrugRequest != null) {
+                        if (it.data != null && it.data?.newDrugRequest != null) {
 //                        it.data!!.role!!.code = "store_supervisor"
 //                        it.data!!.uploadSwach!!.uid = "Yes"
-                        Preferences.storeEmployeeDetailsResponseJsonNewDrug(Gson().toJson(it))
-                        if (it.data?.newDrugRequest?.uid != null) {
+                            Preferences.storeEmployeeDetailsResponseJsonNewDrug(Gson().toJson(it))
+                            if (it.data?.newDrugRequest?.uid != null) {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
-                            Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
-                            if (it.data?.newDrugRequest?.uid!!.equals(
-                                    "Yes", true
-                                )
-                            ) {
                                 Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
+                                if (it.data?.newDrugRequest?.uid!!.equals(
+                                        "Yes", true
+                                    )
+                                ) {
+                                    Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
+                                } else {
+                                    Preferences.setEmployeeRoleUidNewDrugRequest("")
+                                }
+
                             } else {
                                 Preferences.setEmployeeRoleUidNewDrugRequest("")
                             }
-
                         } else {
                             Preferences.setEmployeeRoleUidNewDrugRequest("")
                         }
-                    } else {
-                        Preferences.setEmployeeRoleUidNewDrugRequest("")
-                    }
 
-                    if (dialogStatus) {
+                        if (dialogStatus) {
 //                    viewModel.getRole(Preferences.getValidatedEmpId())
-                        handleCreatePinIntent()
+                            handleCreatePinIntent()
 
 //                    handlePlayStoreIntent()
-                    } else {
-                        viewModel.getNotificationDetailsApi(this)
+                        } else {
+                            viewModel.getNotificationDetailsApi(this)
 //                    viewModel.getRole(Preferences.getValidatedEmpId())
 //                        handleNextIntent()
 
+                        }
+
+                    }else{
+                        Preferences.setEmployeeApiAvailable(false);
+                        onHandleNextEvent()
                     }
 
                 }
@@ -365,7 +353,9 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //emp-102//Nagapavan
         Preferences.setIsPinCreated(true)
         val homeIntent = Intent(this, MainActivity::class.java)
-        homeIntent.putExtra("notificationResponse", notificationResponse)
+        if(notificationResponse!=null){
+            homeIntent.putExtra("notificationResponse", notificationResponse)
+        }
         homeIntent.putExtra("MODULE", module)
         homeIntent.putExtra("UNIQUE_ID", uniqueId)
         startActivity(homeIntent)
@@ -482,6 +472,11 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     }
 
     override fun onFailureNotificationDetail() {
+        handleNextIntent()
+    }
+
+    override fun onHandleNextEvent() {
+        Preferences.setEmployeeApiAvailable(false);
         handleNextIntent()
     }
 

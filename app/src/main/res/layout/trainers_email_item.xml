@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/email_layout_s"
         android:orientation="vertical"
         android:padding="@dimen/value_3dp"
         android:layout_width="match_parent"
@@ -15,8 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/value_5dp"
             android:textSize="@dimen/text_17sp"
-            android:buttonTint="@color/vishwam_actionbar_color"
-            android:text="Pending" />
+            android:buttonTint="@color/vishwam_actionbar_color" />
 
         <View
             android:layout_width="match_parent"

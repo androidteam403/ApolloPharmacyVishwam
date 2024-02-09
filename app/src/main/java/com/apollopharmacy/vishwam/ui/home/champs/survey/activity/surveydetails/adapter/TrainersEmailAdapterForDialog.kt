@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Toast
@@ -37,12 +38,15 @@ class TrainersEmailAdapterForDialog(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if(!emailList[position].email.isNullOrEmpty()){
+            holder.trainersEmailItemBinding.emailLayoutS.visibility= View.VISIBLE
             holder.trainersEmailItemBinding.itemNameTrainer.text = emailList[position].email.lowercase()
             if(trainerEmailList.contains(emailList[position].email)){
                 holder.trainersEmailItemBinding.itemNameTrainer.isChecked=true
             }else{
                 holder.trainersEmailItemBinding.itemNameTrainer.isChecked=false
             }
+        }else{
+            holder.trainersEmailItemBinding.emailLayoutS.visibility= View.GONE
         }
 
 

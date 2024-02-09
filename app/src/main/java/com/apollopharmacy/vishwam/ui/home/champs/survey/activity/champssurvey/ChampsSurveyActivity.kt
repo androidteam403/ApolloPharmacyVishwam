@@ -1099,12 +1099,31 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
                         }
                     }
                     if (fileUploadModelList.size > 0) {
-                        showLoadingTemp(this)
-                        FileUploadChamps().uploadFiles(
-                            context,
-                            this,
-                            fileUploadModelList
-                        )
+                        if ((surveyRecManualList != null && surveyRecManualList.size > 0) && (listForTrainers != null && listForTrainers.size > 0)) {
+                            showLoadingTemp(this)
+                            FileUploadChamps().uploadFiles(
+                                context,
+                                this,
+                                fileUploadModelList
+                            )
+                        } else {
+                            if (surveyRecManualList.size == 0 || surveyRecManualList==null) {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Please enter recipients email",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else if(listForTrainers ==null || listForTrainers.size == 0){
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Please enter trainers email",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+
+                            }
+                        }
+
                     } else {
                         if ((surveyRecManualList != null && surveyRecManualList.size > 0) && (listForTrainers != null && listForTrainers.size > 0)) {
                             Utlis.showLoading(this)

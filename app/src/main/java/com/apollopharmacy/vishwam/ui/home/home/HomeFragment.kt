@@ -58,6 +58,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     var planogramAdapter: MenuItemAdapter? = null
     var apnaRetroAdapter: MenuItemAdapter? = null
     var apnaAdapter: MenuItemAdapter? = null
+    var isEmployeeDetailsApiAvailable:Boolean = false
     private var notificationResponse: NotificationModelResponse? = null
 
     override val layoutRes: Int
@@ -182,6 +183,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         isDashboardRequired = MainActivity.isDashboardRequired
         isRetroQrAppRequired = MainActivity.isRetroQrAppRequired
         isPlanogramAppRequired = MainActivity.isPlanogramAppRequired
+        isEmployeeDetailsApiAvailable=Preferences.getEmployeeApiAvailable()
         /*
         * isAttendanceRequired = accessDetails.getISATTENDENCEAPP(); //loginData.getIS_ATTANDENCEAPP();
                 isCMSRequired = accessDetails.getISCMSAPP(); //loginData.getIS_CMSAPP();
@@ -373,7 +375,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 )
             )
         }
-        if (isRetroQrAppRequired) {
+        if (isRetroQrAppRequired && isEmployeeDetailsApiAvailable) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Retro QR", R.drawable.retro_qr_menu, true, null, "Retro QR"
@@ -404,7 +406,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         )
         cmsMenuModel.add(MenuModel("Complaints", R.drawable.cms_complaint_list, true, null, null))
         cmsMenuModel.add(MenuModel("Approvals", R.drawable.cms_approval_list, true, null, null))
-        if (isCMSRequired) {
+        if (isCMSRequired && isEmployeeDetailsApiAvailable) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Complaints", R.drawable.cms_menu, isCMSRequired, cmsMenuModel, "Complaints"
@@ -441,7 +443,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 "Drug Requests", R.drawable.new_drug_list, true, null, null
             )
         )
-        if (isDrugRequired) {
+        if (isDrugRequired && isEmployeeDetailsApiAvailable) {
             attendanceMenuModel.add(
                 MenuModel(
                     "New Drug",
@@ -470,7 +472,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
 
         val swachhMenuModel = ArrayList<MenuModel>()
-        if (isSwachhRequired) {
+        if (isSwachhRequired && isEmployeeDetailsApiAvailable) {
             if (employeeRole.equals(
                     "Yes", ignoreCase = true
                 ) && MainActivity.userDesignation != null && (MainActivity.userDesignation.equals(
@@ -515,7 +517,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             }
         }
 
-        if (isSwachhRequired) {
+        if (isSwachhRequired && isEmployeeDetailsApiAvailable) {
             if (employeeRole.equals(
                     "Yes", ignoreCase = true
                 ) && MainActivity.userDesignation != null && (MainActivity.userDesignation.equals(
@@ -560,7 +562,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 //            attendanceMenuModel.add(MenuModel("SWACHH", R.drawable.attendance,isSwachhRequired))
 
         }
-        if (isDashboardRequired) {
+        if (isDashboardRequired && isEmployeeDetailsApiAvailable) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Monitoring Dashboard",
@@ -572,7 +574,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             )
 
         }
-        if (isChampsRequired) {
+        if (isChampsRequired && isEmployeeDetailsApiAvailable) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Champs", R.drawable.champs_menu, isChampsRequired, null, "Champs Survey"
@@ -595,7 +597,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         }*/
 
         val apnaRetroMenuModel = ArrayList<MenuModel>()
-        if (isApnaRetroRequired) {
+        if (isApnaRetroRequired && isEmployeeDetailsApiAvailable) {
             if (MainActivity.mInstance.employeeRoleRetro.equals(
                     "Yes", ignoreCase = true
                 ) && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
@@ -635,7 +637,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             )
         )*/
 
-        if (isApnaRetroRequired) {
+        if (isApnaRetroRequired && isEmployeeDetailsApiAvailable) {
             if (MainActivity.mInstance.employeeRoleRetro.equals(
                     "Yes", ignoreCase = true
                 ) && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(

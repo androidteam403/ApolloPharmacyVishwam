@@ -603,39 +603,42 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
                 for (i in imageUrlList.indices) {
                     for (j in imageUrlList[i].imageUrls!!.indices) {
                         for (k in imageUrlsList.indices) {
-                            if (imageUrlList[i].imageUrls!![j].imageid.equals(imageUrlsList.get(k).imageid)) {
-                                if (imageUrlsList.get(k).isVerified == true && imageUrlsList.get(k).status.equals(
-                                        "1"
-                                    )
-                                ) {
+                            if(!imageUrlsList.get(k).isDummy){
+                                if (imageUrlList[i].imageUrls!![j].imageid.equals(imageUrlsList.get(k).imageid)) {
+                                    if (imageUrlsList.get(k).isVerified == true && imageUrlsList.get(k).status.equals(
+                                            "1"
+                                        )
+                                    ) {
 
-                                    imageUrlList.get(i).imageUrls!!.get(j).status = "1"
-                                    apiStatus = "1"
+                                        imageUrlList.get(i).imageUrls!!.get(j).status = "1"
+                                        apiStatus = "1"
 
-                                    imageUrlList.get(i).imageUrls!!.get(j).setisVerified(true)
-                                } else if (imageUrlsList.get(k).isVerified == true && imageUrlsList.get(
-                                        k
-                                    ).status.equals("2")
-                                ) {
+                                        imageUrlList.get(i).imageUrls!!.get(j).setisVerified(true)
+                                    } else if (imageUrlsList.get(k).isVerified == true && imageUrlsList.get(
+                                            k
+                                        ).status.equals("2")
+                                    ) {
 
-                                    apiStatus = "2"
+                                        apiStatus = "2"
 
-                                    imageUrlList.get(i).imageUrls!!.get(j).status = "2"
-                                    imageUrlList.get(i).imageUrls!!.get(j)
-                                        .setisVerified(true)
-                                } else if (imageUrlsList.get(k).isVerified == true && imageUrlsList.get(
-                                        k
-                                    ).status.equals("0")
-                                ) {
-                                    imageUrlList.get(i).imageUrls!!.get(j).status = "0"
-                                    apiStatus = "0"
+                                        imageUrlList.get(i).imageUrls!!.get(j).status = "2"
+                                        imageUrlList.get(i).imageUrls!!.get(j)
+                                            .setisVerified(true)
+                                    } else if (imageUrlsList.get(k).isVerified == true && imageUrlsList.get(
+                                            k
+                                        ).status.equals("0")
+                                    ) {
+                                        imageUrlList.get(i).imageUrls!!.get(j).status = "0"
+                                        apiStatus = "0"
 
-                                    imageUrlList.get(i).imageUrls!!.get(j).setisVerified(false)
+                                        imageUrlList.get(i).imageUrls!!.get(j).setisVerified(false)
 
-                                    imageUrlList.get(i).imageUrls!!.get(j)
-                                        .setisVerified(false)
+                                        imageUrlList.get(i).imageUrls!!.get(j)
+                                            .setisVerified(false)
+                                    }
                                 }
                             }
+
 
                         }
 
@@ -646,9 +649,12 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 
                 for (i in imageUrlsList.indices) {
                     var imageRequest = SaveAcceptRequest.Imageurl()
-                    imageRequest.statusid = imageUrlsList.get(i).status
-                    imageRequest.imageid = imageUrlsList.get(i).imageid
-                    saveRequestImageslist.add(imageRequest)
+                    if(!imageUrlsList.get(i).isDummy){
+                        imageRequest.statusid = imageUrlsList.get(i).status
+                        imageRequest.imageid = imageUrlsList.get(i).imageid
+                        saveRequestImageslist.add(imageRequest)
+                    }
+
 
                 }
                 val retroIdsGroupedList: Map<String, List<GetImageUrlResponse.ImageUrl>> =

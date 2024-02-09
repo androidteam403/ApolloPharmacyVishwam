@@ -202,7 +202,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
 
             activityPreviewImageBinding.totalimages.text =
-                "( " + (currentPosition + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )"
+                "( " + (currentPosition + 1).toString() + "/" + imageUrlsList.size.toString() + " )"
 
 
             var accepted = 0
@@ -226,7 +226,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                     imageUrls1.isDummy = true
                     imageUrlsList.add(imageUrls1)
                     activityPreviewImageBinding.totalimages.text =
-                        "( " + (currentPosition + 1 / imageUrlsList.size).toString() + "/" + (imageUrlsList.size - 1).toString() + " )"
+                        "( " + (currentPosition + 1).toString() + "/" + (imageUrlsList.size - 1).toString() + " )"
 
 
                 }
@@ -291,26 +291,26 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
             .collect(Collectors.toList()) as ArrayList<GetImageUrlResponse.ImageUrl>
 
 
-       /* if (position == imageUrlsList.size - 1) {
-            if (imageUrlsList[position].isVerified == true) {
+        /* if (position == imageUrlsList.size - 1) {
+             if (imageUrlsList[position].isVerified == true) {
 
-                if (applist.size == imageUrlsList.size || reshootList.size == imageUrlsList.size || applist.size + reshootList.size == imageUrlsList.size) {
-                    activityPreviewImageBinding.isLastPos =
-                        currentPosition == imageUrlsList.size - 1
-                } else {
-                    activityPreviewImageBinding.isLastPos = false
-                }
+                 if (applist.size == imageUrlsList.size || reshootList.size == imageUrlsList.size || applist.size + reshootList.size == imageUrlsList.size) {
+                     activityPreviewImageBinding.isLastPos =
+                         currentPosition == imageUrlsList.size - 1
+                 } else {
+                     activityPreviewImageBinding.isLastPos = false
+                 }
 
-            }
+             }
 
-        } else {
-            activityPreviewImageBinding.isLastPos = false
-        }*/
+         } else {
+             activityPreviewImageBinding.isLastPos = false
+         }*/
 
-        if (imageUrlsList[position].isDummy){
+        if (imageUrlsList[position].isDummy) {
             activityPreviewImageBinding.isLastPos = true
 
-        }else{
+        } else {
             activityPreviewImageBinding.isLastPos = false
 
         }
@@ -355,7 +355,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 if (imageUrlsList.get(position).isDummy) {
                     activityPreviewImageBinding.totalimages.text =
                         "( " + (currentPosition + 1 / imageUrlsList.size).toString() + "/" + (imageUrlsList.size - 1).toString() + " )"
-                }else{
+                } else {
                     activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
 
                 }
@@ -367,8 +367,8 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 if (imageUrlsList.get(position).isDummy) {
                     activityPreviewImageBinding.totalimages.text =
                         "( " + (currentPosition + 1 / imageUrlsList.size).toString() + "/" + (imageUrlsList.size - 1).toString() + " )"
-                }else{
-                                    activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
+                } else {
+                    activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
 
                 }
 
@@ -376,8 +376,9 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         } else {
             activityPreviewImageBinding.isLastPos =
                 imageUrlsList[position].isDummy
-                activityPreviewImageBinding.totalimages.text = "(${position+1}/${imageUrlsList.size-1})"
-                  //  "( " + (position + 1 / imageUrlsList.size).toString() + "/" + (imageUrlsList.size - 1).toString() + " )"
+            activityPreviewImageBinding.totalimages.text =
+                "(${position + 1}/${imageUrlsList.size - 1})"
+            //  "( " + (position + 1 / imageUrlsList.size).toString() + "/" + (imageUrlsList.size - 1).toString() + " )"
 
 //            activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
         }
@@ -611,34 +612,40 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
         for (i in imageUrlsList.indices) {
             val imageRequest = SaveAcceptRequest.Imageurl()
-            imageRequest.statusid = imageUrlsList.get(i).status
-            imageRequest.imageid = imageUrlsList.get(i).imageid
-            saveRequestImageslist.add(imageRequest)
+            if (!imageUrlsList.get(i).isDummy) {
+                imageRequest.statusid = imageUrlsList.get(i).status
+                imageRequest.imageid = imageUrlsList.get(i).imageid
+                saveRequestImageslist.add(imageRequest)
+            }
+
 
         }
         for (i in imageUrlList.indices) {
             for (j in imageUrlList[i].imageUrls!!.indices) {
                 for (k in imageUrlsList.indices) {
-                    if (imageUrlList[i].imageUrls!![j].imageid.equals(imageUrlsList.get(k).imageid)) {
-                        if (imageUrlsList.get(k).isVerified == true && imageUrlsList.get(k).status.equals(
-                                "1"
-                            )
-                        ) {
+                    if (!imageUrlsList.get(k).isDummy) {
+                        if (imageUrlList[i].imageUrls!![j].imageid.equals(imageUrlsList.get(k).imageid)) {
+                            if (imageUrlsList.get(k).isVerified == true && imageUrlsList.get(k).status.equals(
+                                    "1"
+                                )
+                            ) {
 
-                            imageUrlList.get(i).imageUrls!!.get(j).status = "1"
+                                imageUrlList.get(i).imageUrls!!.get(j).status = "1"
 
-                            imageUrlList.get(i).imageUrls!!.get(j).setisVerified(true)
-                        } else if (imageUrlsList.get(k).isVerified == true && imageUrlsList.get(
-                                k
-                            ).status.equals("2")
-                        ) {
+                                imageUrlList.get(i).imageUrls!!.get(j).setisVerified(true)
+                            } else if (imageUrlsList.get(k).isVerified == true && imageUrlsList.get(
+                                    k
+                                ).status.equals("2")
+                            ) {
 
 
-                            imageUrlList.get(i).imageUrls!!.get(j).status = "2"
-                            imageUrlList.get(i).imageUrls!!.get(j)
-                                .setisVerified(true)
+                                imageUrlList.get(i).imageUrls!!.get(j).status = "2"
+                                imageUrlList.get(i).imageUrls!!.get(j)
+                                    .setisVerified(true)
+                            }
                         }
                     }
+
 
                 }
 
@@ -658,11 +665,11 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
             .collect(Collectors.toList()) as ArrayList<GetImageUrlResponse.ImageUrl>
 
 
-        if (pendingList.size == 0 && imageUrlsList.size == applist.size) {
+        if (pendingList.size == 0 && (imageUrlsList.size - 1) == applist.size) {
             apiStatus = "1"
-        } else if (pendingList.size == 0 && imageUrlsList.size == reshootList.size) {
+        } else if (pendingList.size == 0 && (imageUrlsList.size - 1) == reshootList.size) {
             apiStatus = "2"
-        } else if (pendingList.size == 0 && imageUrlsList.size == reshootList.size + applist.size) {
+        } else if (pendingList.size == 0 && (imageUrlsList.size - 1) == reshootList.size + applist.size) {
             apiStatus = "2"
         }
 
@@ -732,7 +739,11 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
 
             isRatingApiHit = true
-
+            for(i in imageUrlsList.indices){
+                if(imageUrlsList.get(i).isDummy){
+                    imageUrlsList.removeAt(i)
+                }
+            }
             val intent = Intent()
             intent.putExtra("mainImagesList", imageUrlsList)
             intent.putExtra("ratingApi", isRatingApiHit)
@@ -769,7 +780,11 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
 
             isRatingApiHit = true
-
+            for(i in imageUrlsList.indices){
+                if(imageUrlsList.get(i).isDummy){
+                    imageUrlsList.removeAt(i)
+                }
+            }
             val intent = Intent()
             intent.putExtra("mainImagesList", imageUrlsList)
             intent.putExtra("isApiHit", isApiHit)
@@ -784,7 +799,13 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     override fun onSuccessSaveAcceptReshoot(value: SaveAcceptResponse) {
         Utlis.hideLoading()
         isApiHit = true
-        if (applist.size == imageUrlsList.size) {
+        var listSize = 0
+        if (imageUrlsList.get(imageUrlsList.size - 1).isDummy) {
+            listSize = imageUrlsList.size - 1
+        } else {
+            listSize = imageUrlsList.size
+        }
+        if (applist.size == listSize) {
 
 
             dialog = Dialog(this)
@@ -880,7 +901,11 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
                 isRatingApiHit = true
                 imagesStatusAlertDialog.dismiss()
-
+                for(i in imageUrlsList.indices){
+                    if(imageUrlsList.get(i).isDummy){
+                        imageUrlsList.removeAt(i)
+                    }
+                }
                 val intent = Intent()
                 intent.putExtra("mainImagesList", imageUrlsList)
                 intent.putExtra("isApiHit", isApiHit)

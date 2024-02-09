@@ -241,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //    private MenuItemAdapter attendanceManagementAdapter, cmsAdapter, discountAdapter, newDrugRequestAdapter, omsQcAdapter, swachhAdapter, monitoringAdapter, champsAdapter, planogramAdapter, apnaRetroAdapter, apnaAdapter;
     public ImageView backArrow;
     public ImageView openDrawer;
+
     private ImageView logoutBtn;
     private TextView logo;
     private LinearLayout customerDetails;

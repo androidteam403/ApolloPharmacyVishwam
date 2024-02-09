@@ -71,6 +71,7 @@ object Preferences {
     private const val APP_LEVEL_DESIGNATION_QC_FAIL = "APP_LEVEL_DESIGNATION_QC_FAIL"
     private const val EMPLOYEE_ROLE_NEW_DRUG_REQUEST = "EMPLOYEE_ROLE_NEW_DRUG_REQUEST"
     private const val FCM_KEY = "FCM_KEY"
+    private const val EMPLOYEE_DETAILS_API_AVAILABLE = "EMPLOYEE_DETAILS_API_AVAILABLE"
     private const val PREF_SITE_RETRO_FETCHED = "PREF_SITE_RETRO_FETCHED"
     private const val GET_NOTIFICATION_DETAILS = "GET_NOTIFICATION_DETAILS"
     private const val APNA_RETRO_SITE = "APNA_RETRO_SITE"
@@ -636,6 +637,14 @@ object Preferences {
 
     fun getEmployeeRoleUidNewDrugRequest(): String {
         return sharedPreferences.getString(EMPLOYEE_ROLE_NEW_DRUG_REQUEST, "")!!
+    }
+
+    fun setEmployeeApiAvailable(role: Boolean) {
+        sharedPreferences.edit().putBoolean(EMPLOYEE_DETAILS_API_AVAILABLE, role).apply()
+    }
+
+    fun getEmployeeApiAvailable(): Boolean {
+        return sharedPreferences.getBoolean(EMPLOYEE_DETAILS_API_AVAILABLE, false)!!
     }
 
     fun setAppLevelDesignationSwach(role: String) {

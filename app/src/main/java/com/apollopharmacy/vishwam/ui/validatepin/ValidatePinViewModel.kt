@@ -1,7 +1,9 @@
 package com.apollopharmacy.vishwam.ui.validatepin
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -65,20 +67,24 @@ class ValidatePinViewModel : ViewModel() {
                         commands.value = Command.ShowToast(result.value.Message)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -86,6 +92,7 @@ class ValidatePinViewModel : ViewModel() {
             }
         }
     }
+
     fun getNotificationDetailsApi(
         validatePinCallBack: ValidatePinCallBack,
     ) {
@@ -101,7 +108,8 @@ class ValidatePinViewModel : ViewModel() {
                 break
             }
         }
-        var baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/vishwam_notifications/list/vishwam-notifications-list-for-mobile?page=1&rows=10&zcFetchListTotal=true"
+        var baseUrl =
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/vishwam_notifications/list/vishwam-notifications-list-for-mobile?page=1&rows=10&zcFetchListTotal=true"
         var token = ""
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("RT PENDING APPROVED LIST")) {
@@ -148,12 +156,16 @@ class ValidatePinViewModel : ViewModel() {
                                 NotificationModelResponse::class.java
                             )
                             if (storeWiseDetailListResponse.success!!) {
-                                validatePinCallBack.onSuccessNotificationDetails(storeWiseDetailListResponse)
+                                validatePinCallBack.onSuccessNotificationDetails(
+                                    storeWiseDetailListResponse
+                                )
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
                             } else {
-                                validatePinCallBack.onFailureNotificationDetails(storeWiseDetailListResponse)
+                                validatePinCallBack.onFailureNotificationDetails(
+                                    storeWiseDetailListResponse
+                                )
 
                             }
 
@@ -240,20 +252,24 @@ class ValidatePinViewModel : ViewModel() {
                         appLevelDesignationRespSwach.value = result.value!!
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -266,7 +282,7 @@ class ValidatePinViewModel : ViewModel() {
         empId: String,
         appType: String,
         applicationContext: Context,
-        validatePinCallBack: ValidatePinCallBack
+        validatePinCallBack: ValidatePinCallBack,
 
         ) {
         val url = Preferences.getApi()
@@ -299,20 +315,24 @@ class ValidatePinViewModel : ViewModel() {
                         validatePinCallBack.onFailureAppLevelDesignationApnaRetro(result.value)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -352,20 +372,24 @@ class ValidatePinViewModel : ViewModel() {
                         appLevelDesignationRespQCFail.value = result.value!!
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -375,7 +399,8 @@ class ValidatePinViewModel : ViewModel() {
     }
 
 
-    fun getRole(validatedEmpId: String) {
+    @SuppressLint("SuspiciousIndentation")
+    fun getRole(validatedEmpId: String, validatePinCallBack: ValidatePinCallBack) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
@@ -421,8 +446,10 @@ class ValidatePinViewModel : ViewModel() {
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(proxyUrl,proxyToken,
-                    GetDetailsRequest(baseUrl+"?emp_id=${validatedEmpId}", "GET", "The", "", ""))
+                RegistrationRepo.getDetails(
+                    proxyUrl, proxyToken,
+                    GetDetailsRequest(baseUrl + "?emp_id=${validatedEmpId}", "GET", "The", "", "")
+                )
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -430,21 +457,32 @@ class ValidatePinViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlist =
-                                Gson().fromJson(BackShlash.removeSubString(res),
-                                    EmployeeDetailsResponse::class.java)
-                            if (responseNewTicketlist.success!!) {
-                                employeeDetails.value = responseNewTicketlist
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+
+                                val responseNewTicketlist =
+                                    Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        EmployeeDetailsResponse::class.java
+                                    )
+                                if (responseNewTicketlist.success!!) {
+                                    employeeDetails.value = responseNewTicketlist
 
 //                                Preferences.getEmployeeRoleUid()
 //                                        newcomplainLiveData.value =
 //                                            responseNewTicketlist.data.listData.rows
-                            } else {
-                                employeeDetails.value = responseNewTicketlist
+                                } else {
+                                    employeeDetails.value = responseNewTicketlist
 //                                commands.value =
 //                                 Command.ShowToast(responseNewTicketlist.message.toString())
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                validatePinCallBack.onHandleNextEvent()
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
                         }
                         //  unComment it  newcomplainLiveData.value = response.value.data.listData.rows
                         //  Ticketlistdata = response.value
@@ -456,15 +494,19 @@ class ValidatePinViewModel : ViewModel() {
                         //  unComment it   command.value = CmsCommand.ShowToast(response.value.message.toString())
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
@@ -473,10 +515,6 @@ class ValidatePinViewModel : ViewModel() {
 //            }
 //        }
     }
-
-
-
-
 
 
 }
