@@ -176,7 +176,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                 }
                 viewModel.employeeDetails.observeForever {
 
-                    if (it.data != null && it.data?.uploadSwach != null) {
+                    if (it.success!! && it.data != null && it.data?.uploadSwach != null) {
 //                        it.data!!.role!!.code = "store_supervisor"
 //                        it.data!!.uploadSwach!!.uid = "Yes"
 
@@ -200,10 +200,10 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                             }
 
                         } else {
-                            Preferences.setEmployeeRoleUid("")
+                            Preferences.setEmployeeRoleUid("No")
                         }
                     } else {
-                        Preferences.setEmployeeRoleUid("")
+                        Preferences.setEmployeeRoleUid("No")
                     }
 
 
