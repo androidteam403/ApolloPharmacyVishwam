@@ -1,6 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.fragment
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -76,7 +79,7 @@ class NewSurveyViewModel : ViewModel() {
 
 
     @SuppressLint("SuspiciousIndentation")
-    fun getStoreDetailsChampsApi(newSurveyCallback: NewSurveyCallback) {
+    fun getStoreDetailsChampsApi(newSurveyCallback: NewSurveyCallback, applicationContext: Context) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var proxyBaseUrl = ""
@@ -129,22 +132,31 @@ class NewSurveyViewModel : ViewModel() {
                             e.printStackTrace()
                         }
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val gson = Gson()
-                            val type = object : TypeToken<StoreDetailsModelResponse>() {}.type
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val gson = Gson()
+                                val type = object : TypeToken<StoreDetailsModelResponse>() {}.type
 
-                            val storeListResponse = gson.fromJson<StoreDetailsModelResponse>(
-                                BackShlash.removeSubString(res), type
-                            )
-                            if (storeListResponse.data != null) {
-                                newSurveyCallback.onSuccessgetStoreDetails(storeListResponse.data!!.listData!!.rows!!)
+                                val storeListResponse = gson.fromJson<StoreDetailsModelResponse>(
+                                    BackShlash.removeSubString(res), type
+                                )
+                                if (storeListResponse.data != null) {
+                                    newSurveyCallback.onSuccessgetStoreDetails(storeListResponse.data!!.listData!!.rows!!)
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
-                            } else {
-                                newSurveyCallback.onFailuregetStoreDetails(storeListResponse)
+                                } else {
+                                    newSurveyCallback.onFailuregetStoreDetails(storeListResponse)
 
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+                                newSurveyCallback.onFailureUat();
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
 
                         } else {
 

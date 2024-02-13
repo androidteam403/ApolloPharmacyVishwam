@@ -424,7 +424,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userDesignation = Preferences.INSTANCE.getAppLevelDesignationSwach();
         }
         employeeRoleRetroQr = Preferences.INSTANCE.getRetroQrEmployeeRoleUid();
-
         employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
         employeeRoleRetro = Preferences.INSTANCE.getRetroEmployeeRoleUid();
         isAdminRequired = Preferences.INSTANCE.getEmployeeRoleUidChampsAdmin();

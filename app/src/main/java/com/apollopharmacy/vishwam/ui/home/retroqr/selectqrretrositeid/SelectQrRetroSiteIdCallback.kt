@@ -10,6 +10,7 @@ interface SelectQrRetroSiteIdCallback {
     fun onItemClick(siteId: String,siteName:String)
     fun onSuccessgetStoreDetails(value: List<StoreDetailsModelResponse.Row>)
     fun onFailuregetStoreDetails(value: StoreDetailsModelResponse)
+    fun onFailureUat()
 
 
 }

@@ -42,7 +42,7 @@ class SelectRetroQrSiteIDActivity : AppCompatActivity(), SelectQrRetroSiteIdCall
         viewModel = ViewModelProvider(this)[SelectQrRetroSiteIdViewModel::class.java]
         activitySelectQrSiteBinding.callback = this
         showLoading(this)
-        viewModel.getProxySiteListResponse(this)
+        viewModel.getProxySiteListResponse(this, applicationContext)
         viewModel.fixedArrayList.observeForever {
             siteDataList = it
             siteIDListAdapter =
@@ -169,6 +169,10 @@ class SelectRetroQrSiteIDActivity : AppCompatActivity(), SelectQrRetroSiteIdCall
 
     override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
 //    Toast.makeText(applicationContext,""+value.message, Toast.LENGTH_SHORT).show()
+        hideLoading()
+    }
+
+    override fun onFailureUat() {
         hideLoading()
     }
 

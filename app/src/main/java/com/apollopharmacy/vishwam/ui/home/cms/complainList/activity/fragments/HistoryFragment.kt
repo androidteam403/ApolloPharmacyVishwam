@@ -175,7 +175,9 @@ class HistoryFragment(
         }
 
         if (orderDataWp != null) {
-            if (employeeDetailsResponse?.data!!.department!!.code.equals("FN")) {
+            if (employeeDetailsResponse!=null && employeeDetailsResponse.data!=null
+                && employeeDetailsResponse.data!!.department!=null && !employeeDetailsResponse.data!!.department!!.code.isNullOrEmpty()
+                && employeeDetailsResponse.data!!.department!!.code.equals("FN")) {
                 if (orderDataWp.ticketDetailsResponse!!.data.department.code.equals("IT") && orderDataWp.ticketDetailsResponse!!.data.category.code.equals(
                         "pos"
                     ) && orderDataWp.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed") && orderDataWp.ticketDetailsResponse!!.data!!.user!!.uid != null && orderDataWp.ticketDetailsResponse!!.data!!.user!!.uid!!.equals(
@@ -228,7 +230,8 @@ class HistoryFragment(
 //                && sessionuser.department.code == 'FN' && reason?.sub_workflow?.uid ==  'Yes'
 
 
-            if (((orderDataWp.status!!.code.equals("new") || orderDataWp.status!!.code.equals("reopen")) && orderDataWp.ticketDetailsResponse!!.data.executive.uid.equals(
+            if (((orderDataWp.status!!.code.equals("new") || orderDataWp.status!!.code.equals("reopen")) && (employeeDetailsResponse!=null &&  employeeDetailsResponse?.data!=null
+                        && !employeeDetailsResponse?.data!!.uid.isNullOrEmpty()) && orderDataWp.ticketDetailsResponse!!.data.executive.uid.equals(
                     employeeDetailsResponse?.data!!.uid
                 ) && orderDataWp.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
                     "Yes"
@@ -344,7 +347,7 @@ class HistoryFragment(
             if (orderDataWp.status!!.code.equals("inprogress") || orderDataWp.status!!.code.equals("reopen")) {
                 if (orderDataWp.ticketDetailsResponse?.data?.category?.code.equals("mrp_cr") && orderDataWp.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid != null && orderDataWp.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid.equals(
                         "forward"
-                    ) && managerUid.equals(employeeDetailsResponse?.data!!.uid)
+                    ) && (employeeDetailsResponse!=null && employeeDetailsResponse.data!=null && !employeeDetailsResponse.data?.uid.isNullOrEmpty()) && managerUid.equals(employeeDetailsResponse?.data!!.uid)
                 ) {
                     if (!isFromApprovalList) {
                         viewBinding.inventoryActionLayout.visibility = View.VISIBLE
@@ -356,7 +359,8 @@ class HistoryFragment(
                     viewBinding.inventoryForwardManagerBtn.visibility = View.GONE
                     viewBinding.inventoryChangeForwardBtn.visibility = View.VISIBLE
                     viewBinding.inventoryAcceptBtn.text = "Approve"
-                } else if (orderDataWp.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req") && orderDataWp.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid == null && employeeDetailsResponse?.data!!.uid.equals(
+                } else if (orderDataWp.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req") && orderDataWp.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid == null &&
+                    (employeeDetailsResponse!=null && employeeDetailsResponse.data!=null && !employeeDetailsResponse.data?.uid.isNullOrEmpty()) && employeeDetailsResponse?.data!!.uid.equals(
                         orderDataWp.ticketDetailsResponse?.data?.user!!.uid
                     )
                 ) {
@@ -453,7 +457,7 @@ class HistoryFragment(
         if (orderDataWp.status?.code.isNullOrEmpty()) {
         } else {
 
-            if (orderDataWp.status!!.code.equals("solved") && employeeDetailsResponse?.data!!.uid.equals(
+            if (orderDataWp.status!!.code.equals("solved") && (employeeDetailsResponse!=null && employeeDetailsResponse.data!=null && !employeeDetailsResponse.data?.uid.isNullOrEmpty()) && employeeDetailsResponse?.data!!.uid.equals(
                     orderDataWp.created_id!!.uid
                 )
             ) {
@@ -504,7 +508,7 @@ class HistoryFragment(
                 }
             } else if ((orderDataWp.status!!.code.equals("inprogress") || orderDataWp.status!!.code.equals(
                     "reopened"
-                )) && employeeDetailsResponse?.data!!.uid.equals(
+                ))&&(employeeDetailsResponse!=null && employeeDetailsResponse.data!=null && !employeeDetailsResponse.data?.uid.isNullOrEmpty()) && employeeDetailsResponse?.data!!.uid.equals(
                     orderDataWp.ticketDetailsResponse?.data?.user?.uid
                 )
             ) {
@@ -640,6 +644,7 @@ class HistoryFragment(
 
 
         if (orderDataWp!!.ticketDetailsResponse!!.data!!.subworkflow_access == 1
+            && (employeeDetailsResponse!=null && employeeDetailsResponse.data!=null && employeeDetailsResponse.data?.assign_to_me_any_level!=null && !employeeDetailsResponse.data?.assign_to_me_any_level!!.uid.isNullOrEmpty())
             && employeeDetailsResponse!!.data!!.assign_to_me_any_level!!.uid.equals("Yes")
             && orderDataWp != null
             && orderDataWp!!.ticketDetailsResponse != null

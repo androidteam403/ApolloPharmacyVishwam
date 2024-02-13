@@ -13,5 +13,6 @@ interface SelectChampsSiteIdCallback {
     fun onFailuregetStoreDetails(value: StoreDetailsModelResponse)
     fun onSuccessgetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse)
     fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse)
+    fun onFailureUat()
 
 }

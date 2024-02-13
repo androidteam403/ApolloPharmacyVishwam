@@ -175,4 +175,5 @@ interface ApnaNewSurveyCallBack {
     fun onSuccessGetInternetProviderApiCall(internetProvidersResponse: InternetProvidersResponse)
 
     fun onFailureGetInternetProviderApiCall(message: String)
+    fun onFailureUat()
 }

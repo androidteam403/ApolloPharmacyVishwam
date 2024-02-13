@@ -42,4 +42,5 @@ interface ChampsSurveyCallBack {
      fun onFailureTrainerList(storeWiseDetailListResponse: TrainersEmailIdResponse?)
 
      fun onClickCalender()
+    fun onFailureUat()
 }

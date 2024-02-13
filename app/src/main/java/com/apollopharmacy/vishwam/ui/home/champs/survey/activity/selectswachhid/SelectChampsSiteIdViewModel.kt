@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,7 +32,10 @@ class SelectChampsSiteIdViewModel : ViewModel() {
     var getEmailDetailsChamps = MutableLiveData<GetEmailAddressModelResponse>()
 
 
-    fun getProxySiteListResponse(selectChampsSiteIdCallBack: SelectChampsSiteIdCallback) {
+    fun getProxySiteListResponse(
+        selectChampsSiteIdCallBack: SelectChampsSiteIdCallback,
+        applicationContext: Context
+    ) {
         if (Preferences.isSiteIdListFetchedChamps()) {
             siteLiveData.clear()
             val gson = Gson()
@@ -90,20 +96,21 @@ class SelectChampsSiteIdViewModel : ViewModel() {
                         if (response != null) {
                             val resp: String = response.value.string()
                             if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val storeListResponse = Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    StoreDetailsModelResponse::class.java
-                                )
-                                if (storeListResponse.success == true) {
-                                    siteLiveData.clear()
-                                    storeListResponse.data!!.listData!!.rows!!.map {
+                                try {
+                                    val res = BackShlash.removeBackSlashes(resp)
+                                    val storeListResponse = Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        StoreDetailsModelResponse::class.java
+                                    )
+                                    if (storeListResponse.success == true) {
+                                        siteLiveData.clear()
+                                        storeListResponse.data!!.listData!!.rows!!.map {
 
-                                        siteLiveData.add(it)
-                                        fixedArrayList.value = siteLiveData
+                                            siteLiveData.add(it)
+                                            fixedArrayList.value = siteLiveData
 
-                                    }
-                                    commands.value = Command.ShowToast("")
+                                        }
+                                        commands.value = Command.ShowToast("")
 
 //                                    selectChampsSiteIdCallBack.onSuccessgetStoreDetails(
 //                                        storeListResponse.data!!.listData!!.rows!!
@@ -111,14 +118,21 @@ class SelectChampsSiteIdViewModel : ViewModel() {
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
-                                } else {
-                                    selectChampsSiteIdCallBack.onFailuregetStoreDetails(
-                                        storeListResponse
-                                    )
-                                    commands.value =
-                                        Command.ShowToast(storeListResponse.message.toString())
+                                    } else {
+                                        selectChampsSiteIdCallBack.onFailuregetStoreDetails(
+                                            storeListResponse
+                                        )
+                                        commands.value =
+                                            Command.ShowToast(storeListResponse.message.toString())
 
+                                    }
+                                } catch (e: Exception) {
+                                    Log.e("API Error", "Received HTML response")
+                                    Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+                                    selectChampsSiteIdCallBack.onFailureUat()
+                                    // Handle parsing error, e.g., show an error message to the user
                                 }
+
 
                             }
 

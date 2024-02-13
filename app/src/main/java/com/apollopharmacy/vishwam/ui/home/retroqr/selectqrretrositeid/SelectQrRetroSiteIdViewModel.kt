@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.retroqr.selectqrretrositeid
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +14,6 @@ import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -29,7 +31,10 @@ class SelectQrRetroSiteIdViewModel : ViewModel() {
     var getEmailDetailsChamps = MutableLiveData<GetEmailAddressModelResponse>()
 
 
-    fun getProxySiteListResponse(selectChampsSiteIdCallBack: SelectQrRetroSiteIdCallback) {
+    fun getProxySiteListResponse(
+        selectChampsSiteIdCallBack: SelectQrRetroSiteIdCallback,
+        applicationContext: Context
+    ) {
         if (Preferences.isSiteIdListFetchedQrRetro()) {
             siteLiveData.clear()
             val gson = Gson()
@@ -85,20 +90,21 @@ class SelectQrRetroSiteIdViewModel : ViewModel() {
                         if (response != null) {
                             val resp: String = response.value.string()
                             if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val storeListResponse = Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    StoreDetailsModelResponse::class.java
-                                )
-                                if (storeListResponse.success == true) {
-                                    siteLiveData.clear()
-                                    storeListResponse.data!!.listData!!.rows!!.map {
+                                try {
+                                    val res = BackShlash.removeBackSlashes(resp)
+                                    val storeListResponse = Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        StoreDetailsModelResponse::class.java
+                                    )
+                                    if (storeListResponse.success == true) {
+                                        siteLiveData.clear()
+                                        storeListResponse.data!!.listData!!.rows!!.map {
 
-                                        siteLiveData.add(it)
-                                        fixedArrayList.value= siteLiveData
+                                            siteLiveData.add(it)
+                                            fixedArrayList.value= siteLiveData
 
-                                    }
-                                    commands.value = Command.ShowToast("")
+                                        }
+                                        commands.value = Command.ShowToast("")
 
 //                                    selectChampsSiteIdCallBack.onSuccessgetStoreDetails(
 //                                        storeListResponse.data!!.listData!!.rows!!
@@ -106,13 +112,20 @@ class SelectQrRetroSiteIdViewModel : ViewModel() {
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
-                                } else {
-                                    selectChampsSiteIdCallBack.onFailuregetStoreDetails(
-                                        storeListResponse
-                                    )
-                                    commands.value = Command.ShowToast(storeListResponse.message.toString())
+                                    } else {
+                                        selectChampsSiteIdCallBack.onFailuregetStoreDetails(
+                                            storeListResponse
+                                        )
+                                        commands.value = Command.ShowToast(storeListResponse.message.toString())
 
+                                    }
+                                } catch (e: Exception) {
+                                    Log.e("API Error", "Received HTML response")
+                                    Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+                                    selectChampsSiteIdCallBack.onFailureUat()
+                                    // Handle parsing error, e.g., show an error message to the user
                                 }
+
 
                             }
 

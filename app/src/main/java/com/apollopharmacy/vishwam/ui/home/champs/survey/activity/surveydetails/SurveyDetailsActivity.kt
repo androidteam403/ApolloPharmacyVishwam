@@ -145,7 +145,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                 this)
         )
         activityStartSurvey2Binding.trainerRecyclerview.setAdapter(adapterTrainers)
-        surveyDetailsViewModel.getTrainerDetails(this)
+        surveyDetailsViewModel.getTrainerDetails(this, applicationContext)
 
         setTrainerId()
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {

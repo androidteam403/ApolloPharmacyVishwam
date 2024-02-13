@@ -375,7 +375,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 )
             )
         }
-        if (isRetroQrAppRequired && isEmployeeDetailsApiAvailable) {
+        if (isRetroQrAppRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Retro QR", R.drawable.retro_qr_menu, true, null, "Retro QR"
@@ -406,7 +406,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         )
         cmsMenuModel.add(MenuModel("Complaints", R.drawable.cms_complaint_list, true, null, null))
         cmsMenuModel.add(MenuModel("Approvals", R.drawable.cms_approval_list, true, null, null))
-        if (isCMSRequired && isEmployeeDetailsApiAvailable) {
+        if (isCMSRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Complaints", R.drawable.cms_menu, isCMSRequired, cmsMenuModel, "Complaints"
@@ -443,7 +443,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                 "Drug Requests", R.drawable.new_drug_list, true, null, null
             )
         )
-        if (isDrugRequired && isEmployeeDetailsApiAvailable) {
+        if (isDrugRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "New Drug",
@@ -472,8 +472,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
 
         val swachhMenuModel = ArrayList<MenuModel>()
-        if (isSwachhRequired && isEmployeeDetailsApiAvailable) {
-            if (employeeRole.equals(
+        if (isSwachhRequired) {
+            if (isEmployeeDetailsApiAvailable && employeeRole.equals(
                     "Yes", ignoreCase = true
                 ) && MainActivity.userDesignation != null && (MainActivity.userDesignation.equals(
                     "MANAGER", ignoreCase = true
@@ -493,7 +493,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                         "Swachh Details", R.drawable.swachh_list, true, null, null
                     )
                 )
-            } else if (employeeRole.equals("Yes", ignoreCase = true)) {
+            } else if (isEmployeeDetailsApiAvailable && employeeRole.equals("Yes", ignoreCase = true)) {
                 swachhMenuModel.add(
                     MenuModel(
                         "New Swachh", R.drawable.swachh_upload, true, null, null
@@ -517,10 +517,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             }
         }
 
-        if (isSwachhRequired && isEmployeeDetailsApiAvailable) {
+        if (isSwachhRequired) {
             if (employeeRole.equals(
                     "Yes", ignoreCase = true
-                ) && MainActivity.userDesignation != null && (MainActivity.userDesignation.equals(
+                ) && isEmployeeDetailsApiAvailable && MainActivity.userDesignation != null && (MainActivity.userDesignation.equals(
                     "MANAGER", ignoreCase = true
                 ) || MainActivity.userDesignation.equals(
                     "GENERAL MANAGER", ignoreCase = true
@@ -536,7 +536,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                         "Swachh", R.drawable.swachh_menu, true, swachhMenuModel, "Swachh Details"
                     )
                 )
-            } else if (employeeRole.equals("Yes", ignoreCase = true)) {
+            } else if (isEmployeeDetailsApiAvailable && employeeRole.equals("Yes", ignoreCase = true)) {
                 attendanceMenuModel.add(
                     MenuModel(
                         "Swachh", R.drawable.swachh_menu, true, swachhMenuModel, "New Swachh"
@@ -562,7 +562,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 //            attendanceMenuModel.add(MenuModel("SWACHH", R.drawable.attendance,isSwachhRequired))
 
         }
-        if (isDashboardRequired && isEmployeeDetailsApiAvailable) {
+        if (isDashboardRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Monitoring Dashboard",
@@ -574,7 +574,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             )
 
         }
-        if (isChampsRequired && isEmployeeDetailsApiAvailable) {
+        if (isChampsRequired) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Champs", R.drawable.champs_menu, isChampsRequired, null, "Champs Survey"
@@ -597,10 +597,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         }*/
 
         val apnaRetroMenuModel = ArrayList<MenuModel>()
-        if (isApnaRetroRequired && isEmployeeDetailsApiAvailable) {
+        if (isApnaRetroRequired) {
             if (MainActivity.mInstance.employeeRoleRetro.equals(
                     "Yes", ignoreCase = true
-                ) && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
+                ) && isEmployeeDetailsApiAvailable && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
             ) {
@@ -637,10 +637,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             )
         )*/
 
-        if (isApnaRetroRequired && isEmployeeDetailsApiAvailable) {
+        if (isApnaRetroRequired) {
             if (MainActivity.mInstance.employeeRoleRetro.equals(
                     "Yes", ignoreCase = true
-                ) && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
+                ) && isEmployeeDetailsApiAvailable && isEmployeeDetailsApiAvailable && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
             ) {

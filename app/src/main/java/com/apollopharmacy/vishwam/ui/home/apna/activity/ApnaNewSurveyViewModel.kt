@@ -1,6 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity
 
+import android.content.Context
 import android.os.AsyncTask
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,7 +31,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     val command = LiveEvent<CommandsNew>()
 
-    fun getRegionList(mCallBack: ApnaNewSurveyCallBack, empId: String) {
+    fun getRegionList(mCallBack: ApnaNewSurveyCallBack, empId: String, applicationContext: Context) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrL = ""
@@ -62,15 +65,23 @@ class ApnaNewSurveyViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val regionResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res), RegionListResponse::class.java
-                    )
-                    if (regionResponse.success!!) {
-                        mCallBack.onSuccessGetRegionListApiCall(regionResponse)
-                    } else {
-                        mCallBack.onFailureGetRegionListApiCall(regionResponse.message.toString())
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val regionResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res), RegionListResponse::class.java
+                        )
+                        if (regionResponse.success!!) {
+                            mCallBack.onSuccessGetRegionListApiCall(regionResponse)
+                        } else {
+                            mCallBack.onFailureGetRegionListApiCall(regionResponse.message.toString())
+                        }
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+                        Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+                        mCallBack.onFailureUat()
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
                 }
 
                 else -> {}
@@ -78,7 +89,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
         }
     }
 
-    fun getLocationList(mCallBack: ApnaNewSurveyCallBack) {
+    fun getLocationList(mCallBack: ApnaNewSurveyCallBack, applicationContext: Context) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrL = ""
@@ -110,15 +121,23 @@ class ApnaNewSurveyViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val locationResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res), LocationListResponse::class.java
-                    )
-                    if (locationResponse.success!!) {
-                        mCallBack.onSuccessGetLocationListApiCall(locationResponse)
-                    } else {
-                        mCallBack.onFailureGetLocationListApiCall(locationResponse.message.toString())
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val locationResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res), LocationListResponse::class.java
+                        )
+                        if (locationResponse.success!!) {
+                            mCallBack.onSuccessGetLocationListApiCall(locationResponse)
+                        } else {
+                            mCallBack.onFailureGetLocationListApiCall(locationResponse.message.toString())
+                        }
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+                        Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+                        mCallBack.onFailureUat()
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
                 }
 
                 else -> {}

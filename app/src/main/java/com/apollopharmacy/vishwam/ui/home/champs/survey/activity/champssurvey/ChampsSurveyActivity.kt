@@ -184,7 +184,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
             activityChampsSurveyBinding.employeeName.text = userData.EMPNAME
         }
 
-        champsSurveyViewModel.getTrainerDetails(this)
+        champsSurveyViewModel.getTrainerDetails(this, applicationContext)
 
         if (status.equals("NEW")) {
             activityChampsSurveyBinding.calenderGreyChamps.visibility = View.VISIBLE
@@ -1033,6 +1033,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack, FileUplo
 
             uploadStatusFilterDialog.show()
         }
+    }
+
+    override fun onFailureUat() {
+        hideLoadingTemp()
+
     }
 
 

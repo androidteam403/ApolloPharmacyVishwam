@@ -19,7 +19,6 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivitySelectChampsSiteidBinding
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.adapter.SiteIdListChampsAdapter
@@ -50,7 +49,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         viewModel = ViewModelProvider(this)[SelectChampsSiteIdViewModel::class.java]
         activitySelectChampsSiteidBinding.callback = this
         showLoading(this)
-        viewModel.getProxySiteListResponse(this)
+        viewModel.getProxySiteListResponse(this, applicationContext)
         viewModel.fixedArrayList.observeForever {
             siteDataList = it
             siteIDListAdapter =
@@ -231,6 +230,10 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
 
     override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
         Toast.makeText(applicationContext, "" + value.message, Toast.LENGTH_SHORT).show()
+        hideLoading()
+    }
+
+    override fun onFailureUat() {
         hideLoading()
     }
 }

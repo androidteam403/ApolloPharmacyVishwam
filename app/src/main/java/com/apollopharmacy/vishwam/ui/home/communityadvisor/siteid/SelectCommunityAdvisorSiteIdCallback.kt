@@ -9,5 +9,6 @@ interface SelectCommunityAdvisorSiteIdCallback {
     fun onItemClick(siteId: StoreDetailsModelResponse.Row)
     fun onFailuregetStoreDetails(value: StoreDetailsModelResponse)
     fun onSuccessgetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse)
+    fun onFailureUat()
 
 }

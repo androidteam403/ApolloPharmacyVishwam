@@ -71,7 +71,7 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
                 Utlis.showLoading(this)
                 viewModel.siteList(
                     Preferences.getToken(),
-                    this@ApolloSensingStoreActivity
+                    this@ApolloSensingStoreActivity, applicationContext
                 )
             } else {
                 Utlis.showLoading(this)
@@ -79,7 +79,7 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
                     Preferences.getToken(),
                     this@ApolloSensingStoreActivity
                 )*/
-                 viewModel.siteId()
+                 viewModel.siteId(applicationContext, this)
                 onSuccessSiteIdLIst()
             }
         } else {
@@ -88,7 +88,7 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
                 Preferences.getToken(),
                 this@ApolloSensingStoreActivity
             )*/
-             viewModel.siteId()
+             viewModel.siteId(applicationContext, this)
             onSuccessSiteIdLIst()
         }
     }
@@ -221,6 +221,10 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
         }
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
+    }
+
+    override fun onFailureUat() {
+        Utlis.hideLoading()
     }
 
     private fun search() {

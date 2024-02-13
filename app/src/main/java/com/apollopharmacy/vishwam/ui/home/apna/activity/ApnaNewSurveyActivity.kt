@@ -350,7 +350,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 //        apnaNewSurveyViewModel.getLocationList(this@ApnaNewSurveyActivity)
 
         // Region list api call
-        apnaNewSurveyViewModel.getRegionList(this@ApnaNewSurveyActivity, Preferences.getToken())
+        apnaNewSurveyViewModel.getRegionList(this@ApnaNewSurveyActivity, Preferences.getToken(), applicationContext)
 
         // State list api call
 //        apnaNewSurveyViewModel.getStateList(this@ApnaNewSurveyActivity)
@@ -4310,7 +4310,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                 if (locationList.size == 0) {
                     Utlis.showLoading(this@ApnaNewSurveyActivity)
-                    apnaNewSurveyViewModel.getLocationList(this@ApnaNewSurveyActivity)
+                    apnaNewSurveyViewModel.getLocationList(this@ApnaNewSurveyActivity, applicationContext)
                 }
                 activityApnaNewSurveyBinding.locationDetailsLayout.visibility = View.VISIBLE
                 activityApnaNewSurveyBinding.siteSpecificationLayout.visibility = View.GONE
@@ -5950,6 +5950,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     override fun onFailureGetInternetProviderApiCall(message: String) {
         Utlis.hideLoading()
         Toast.makeText(this@ApnaNewSurveyActivity, message, Toast.LENGTH_SHORT)
+    }
+
+    override fun onFailureUat() {
+        Utlis.hideLoading()
     }
 
     override fun onBackPressed() {

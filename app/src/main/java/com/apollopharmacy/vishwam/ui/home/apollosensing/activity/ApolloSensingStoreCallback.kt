@@ -9,4 +9,5 @@ interface ApolloSensingStoreCallback {
     fun onClickCancel()
     fun onSuccessSiteListApiCall(siteListResponse: SiteListResponse)
     fun onSiteListItemClick(item: SiteListResponse.Data.ListData.Row)
+    fun onFailureUat()
 }

@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.communityadvisor.siteid
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,7 +31,10 @@ class SelectCommunityAdvisorSiteIdViewModel : ViewModel() {
     var getEmailDetailsChamps = MutableLiveData<GetEmailAddressModelResponse>()
 
 
-    fun getProxySiteListResponse(selectCommunityAdvisorSiteIdCallback: SelectCommunityAdvisorSiteIdCallback) {
+    fun getProxySiteListResponse(
+        selectCommunityAdvisorSiteIdCallback: SelectCommunityAdvisorSiteIdCallback,
+        applicationContext: Context
+    ) {
         if (Preferences.isSiteIdListFetchedChamps()) {
             siteLiveData.clear()
             val gson = Gson()
@@ -87,23 +93,31 @@ class SelectCommunityAdvisorSiteIdViewModel : ViewModel() {
                         if (response != null) {
                             val resp: String = response.value.string()
                             if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val storeListResponse = Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    StoreDetailsModelResponse::class.java
-                                )
-                                if (storeListResponse.success == true) {
-                                    siteLiveData.clear()
-                                    storeListResponse.data!!.listData!!.rows!!.map {
-                                        siteLiveData.add(it)
-                                    }
-                                    fixedArrayList.value = siteLiveData
-//                                    commands.value = Command.ShowToast("")
-                                } else {
-                                    selectCommunityAdvisorSiteIdCallback.onFailuregetStoreDetails(
-                                        storeListResponse
+                                try {
+                                    val res = BackShlash.removeBackSlashes(resp)
+                                    val storeListResponse = Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        StoreDetailsModelResponse::class.java
                                     )
+                                    if (storeListResponse.success == true) {
+                                        siteLiveData.clear()
+                                        storeListResponse.data!!.listData!!.rows!!.map {
+                                            siteLiveData.add(it)
+                                        }
+                                        fixedArrayList.value = siteLiveData
+//                                    commands.value = Command.ShowToast("")
+                                    } else {
+                                        selectCommunityAdvisorSiteIdCallback.onFailuregetStoreDetails(
+                                            storeListResponse
+                                        )
+                                    }
+                                } catch (e: Exception) {
+                                    Log.e("API Error", "Received HTML response")
+                                    Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+                                    selectCommunityAdvisorSiteIdCallback.onFailureUat()
+                                    // Handle parsing error, e.g., show an error message to the user
                                 }
+
                             }
                         } else {
                         }

@@ -22,6 +22,7 @@ import com.apollopharmacy.vishwam.ui.home.communityadvisor.siteid.adapter.SiteId
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.google.gson.Gson
 
@@ -44,7 +45,7 @@ class SelectCommunityAdvisorSiteIdActivity : AppCompatActivity(),
         viewModel = ViewModelProvider(this)[SelectCommunityAdvisorSiteIdViewModel::class.java]
         activitySelectCommunityAdvisorSiteidBinding.callback = this
         showLoading(this)
-        viewModel.getProxySiteListResponse(this)
+        viewModel.getProxySiteListResponse(this, applicationContext)
         viewModel.fixedArrayList.observeForever {
             siteDataList = it
             Preferences.setSiteIdListFetchedChamps(true)
@@ -182,6 +183,10 @@ class SelectCommunityAdvisorSiteIdActivity : AppCompatActivity(),
             Toast.makeText(applicationContext, "No data found", Toast.LENGTH_SHORT).show()
         }
         Utlis.hideLoading()
+    }
+
+    override fun onFailureUat() {
+       hideLoading()
     }
 
     override fun onDestroy() {

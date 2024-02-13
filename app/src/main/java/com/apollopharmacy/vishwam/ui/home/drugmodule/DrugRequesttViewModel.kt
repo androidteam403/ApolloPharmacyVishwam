@@ -1,6 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.drugmodule
 
+import android.content.Context
 import android.os.Build
+import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -78,84 +81,108 @@ class DrugFragmentViewModel : ViewModel() {
 
                         var drugList =
                             ArrayList<RequestSaveUpdateComplaintRegistration.DrugRequest>()
-                        drugList.add(RequestSaveUpdateComplaintRegistration.DrugRequest(if (drugRequest.images?.size!! > 0) {
-                            drugRequest.images?.get(0)?.imageURL
-                        } else null,
+                        drugList.add(
+                            RequestSaveUpdateComplaintRegistration.DrugRequest(
+                                if (drugRequest.images?.size!! > 0) {
+                                    drugRequest.images?.get(0)?.imageURL
+                                } else null,
 //                            drugRequest.images?.get(0)?.imageURL,
-                            if (drugRequest.images?.size!! > 1) {
-                                drugRequest.images?.get(1)?.imageURL
-                            } else null,
+                                if (drugRequest.images?.size!! > 1) {
+                                    drugRequest.images?.get(1)?.imageURL
+                                } else null,
 //                            drugRequest.images?.get(1)?.imageURL,
-                            if (drugRequest.images?.size!! > 2) {
-                                drugRequest.images?.get(2)?.imageURL
-                            } else null,
-                            if (drugRequest.images?.size!! > 3) {
-                                drugRequest.images?.get(3)?.imageURL
-                            } else null,
-                            drugRequest.batch,
-                            drugRequest.barCode,
-                            Utils.getticketlistfiltersdate(drugRequest.manufactureDate),
-                            Utils.getticketlistfiltersdate(drugRequest.expiryDate),
-                            drugRequest.purchasePrice!!.toDouble(),
-                            drugRequest.mrp!!.toDouble(),
-                            result.value.referenceId,
-                            drugRequest.packSize,
-                            drugRequest.hSNCode,
-                            drugRequest.gst!!.toDouble(),
-                            drugRequest.itemName,
-                            drugRequest.remarks,
-                            itemType,
-                            doctorSpecialty,
-                            drugRequest.doctorName,
-                            drugRequest.requiredQty))
-                        val currentTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
-                            Locale.ENGLISH).format(Date())
-                        submitTicketInventorySaveUpdate(RequestSaveUpdateComplaintRegistration(
-                            LoginRepo.getProfile()!!.EMPID,
-                            currentTime,
-                            drugRequest.description,
-                            RequestSaveUpdateComplaintRegistration.Platform("mobile"),
-                            RequestSaveUpdateComplaintRegistration.Category(reasonData.data.ticket_category.uid),
-                            RequestSaveUpdateComplaintRegistration.Department(reasonData.data.department.uid,
-                                reasonData.data.department.code),
-                            RequestSaveUpdateComplaintRegistration.Site(drugRequest.site?.uid,
-                                drugRequest.site?.site,
-                                drugRequest.site?.store_name),
-                            RequestSaveUpdateComplaintRegistration.Reason(reasonData.data.uid,
-                                reasonData.data.reason_sla),
-                            RequestSaveUpdateComplaintRegistration.Subcategory(selectedSubCategory.uid),
-                            RequestSaveUpdateComplaintRegistration.TicketInventory(null,
-                                drugList,
-                                null),
-                            RequestSaveUpdateComplaintRegistration.TicketType("64D9D9BE4A621E9C13A2C73404646655",
-                                "store",
-                                "store"),
-                            tisketstatusresponse.data.region,
-                            tisketstatusresponse.data.cluster,
-                            tisketstatusresponse.data.phone_no,
-                            tisketstatusresponse.data.executive,
-                            tisketstatusresponse.data.manager,
-                            tisketstatusresponse.data.region_head,
-                        ), mCallback)
+                                if (drugRequest.images?.size!! > 2) {
+                                    drugRequest.images?.get(2)?.imageURL
+                                } else null,
+                                if (drugRequest.images?.size!! > 3) {
+                                    drugRequest.images?.get(3)?.imageURL
+                                } else null,
+                                drugRequest.batch,
+                                drugRequest.barCode,
+                                Utils.getticketlistfiltersdate(drugRequest.manufactureDate),
+                                Utils.getticketlistfiltersdate(drugRequest.expiryDate),
+                                drugRequest.purchasePrice!!.toDouble(),
+                                drugRequest.mrp!!.toDouble(),
+                                result.value.referenceId,
+                                drugRequest.packSize,
+                                drugRequest.hSNCode,
+                                drugRequest.gst!!.toDouble(),
+                                drugRequest.itemName,
+                                drugRequest.remarks,
+                                itemType,
+                                doctorSpecialty,
+                                drugRequest.doctorName,
+                                drugRequest.requiredQty
+                            )
+                        )
+                        val currentTime = SimpleDateFormat(
+                            "yyyy-MM-dd HH:mm:ss",
+                            Locale.ENGLISH
+                        ).format(Date())
+                        submitTicketInventorySaveUpdate(
+                            RequestSaveUpdateComplaintRegistration(
+                                LoginRepo.getProfile()!!.EMPID,
+                                currentTime,
+                                drugRequest.description,
+                                RequestSaveUpdateComplaintRegistration.Platform("mobile"),
+                                RequestSaveUpdateComplaintRegistration.Category(reasonData.data.ticket_category.uid),
+                                RequestSaveUpdateComplaintRegistration.Department(
+                                    reasonData.data.department.uid,
+                                    reasonData.data.department.code
+                                ),
+                                RequestSaveUpdateComplaintRegistration.Site(
+                                    drugRequest.site?.uid,
+                                    drugRequest.site?.site,
+                                    drugRequest.site?.store_name
+                                ),
+                                RequestSaveUpdateComplaintRegistration.Reason(
+                                    reasonData.data.uid,
+                                    reasonData.data.reason_sla
+                                ),
+                                RequestSaveUpdateComplaintRegistration.Subcategory(
+                                    selectedSubCategory.uid
+                                ),
+                                RequestSaveUpdateComplaintRegistration.TicketInventory(
+                                    null,
+                                    drugList,
+                                    null
+                                ),
+                                RequestSaveUpdateComplaintRegistration.TicketType(
+                                    "64D9D9BE4A621E9C13A2C73404646655",
+                                    "store",
+                                    "store"
+                                ),
+                                tisketstatusresponse.data.region,
+                                tisketstatusresponse.data.cluster,
+                                tisketstatusresponse.data.phone_no,
+                                tisketstatusresponse.data.executive,
+                                tisketstatusresponse.data.manager,
+                                tisketstatusresponse.data.region_head,
+                            ), mCallback
+                        )
                     } else {
                         state.value = State.ERROR
                         commands.postValue(Commands.ShowToast(result.value.message))
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Commands.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Commands.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Commands.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Commands.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -204,9 +231,11 @@ class DrugFragmentViewModel : ViewModel() {
         val requestNewComplaintRegistrationJson = Gson().toJson(requestNewComplaintRegistration)
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(baseProxyUrl,
+                RegistrationRepo.getDetails(
+                    baseProxyUrl,
                     token,
-                    GetDetailsRequest(baseUrl, "POST", requestNewComplaintRegistrationJson, "", ""))
+                    GetDetailsRequest(baseUrl, "POST", requestNewComplaintRegistrationJson, "", "")
+                )
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -215,15 +244,19 @@ class DrugFragmentViewModel : ViewModel() {
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
                             val responseNewComplaintRegistration =
-                                Gson().fromJson(BackShlash.removeSubString(res),
-                                    ResponseNewComplaintRegistration::class.java)
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    ResponseNewComplaintRegistration::class.java
+                                )
                             if (responseNewComplaintRegistration.success) {
                                 responsenewcomplaintregistration.value =
                                     responseNewComplaintRegistration
                             } else {
-                                mCallback.onFailureMessage(responseNewComplaintRegistration.data.ticket_id!!,
-                                    responseNewComplaintRegistration.data.createdUser!!.firstName+ "  " + responseNewComplaintRegistration.data.createdUser!!.middleName + "  " + responseNewComplaintRegistration.data.createdUser!!.lastName,
-                                    responseNewComplaintRegistration.data?.errors?.get(0)?.msg.toString())
+                                mCallback.onFailureMessage(
+                                    responseNewComplaintRegistration.data.ticket_id!!,
+                                    responseNewComplaintRegistration.data.createdUser!!.firstName + "  " + responseNewComplaintRegistration.data.createdUser!!.middleName + "  " + responseNewComplaintRegistration.data.createdUser!!.lastName,
+                                    responseNewComplaintRegistration.data?.errors?.get(0)?.msg.toString()
+                                )
 
 
 //                                commands.postValue(Commands.ShowToast(
@@ -233,25 +266,37 @@ class DrugFragmentViewModel : ViewModel() {
                         }
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.value =
-                        Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_unableto_save)
-                            .toString())
+                        Commands.ShowToast(
+                            ViswamApp.context.resources?.getString(R.string.label_unableto_save)
+                                .toString()
+                        )
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.value =
-                        Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_network_error)
-                            .toString())
+                        Commands.ShowToast(
+                            ViswamApp.context.resources?.getString(R.string.label_network_error)
+                                .toString()
+                        )
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.value =
-                        Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
-                            .toString())
+                        Commands.ShowToast(
+                            ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
+                                .toString()
+                        )
                 }
+
                 is ApiResult.UnknownHostException -> {
                     commands.value =
-                        Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
-                            .toString())
+                        Commands.ShowToast(
+                            ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
+                                .toString()
+                        )
                 }
             }
         }
@@ -259,7 +304,7 @@ class DrugFragmentViewModel : ViewModel() {
 
     lateinit var reasonData: DrugReason
 
-    fun fetchTransactionPOSDetails() {
+    fun fetchTransactionPOSDetails(context: Context?) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseProxyUrl = ""
@@ -287,9 +332,11 @@ class DrugFragmentViewModel : ViewModel() {
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(baseProxyUrl,
+                RegistrationRepo.getDetails(
+                    baseProxyUrl,
                     token,
-                    GetDetailsRequest(baseUrl, "GET", "The", "", ""))
+                    GetDetailsRequest(baseUrl, "GET", "The", "", "")
+                )
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -298,25 +345,41 @@ class DrugFragmentViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val resString = BackShlash.removeSubString(res)
-                            val responseTicktResolvedapi =
-                                Gson().fromJson(resString, DrugReason::class.java)
-                            reasonData = responseTicktResolvedapi
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val resString = BackShlash.removeSubString(res)
+                                val responseTicktResolvedapi =
+                                    Gson().fromJson(resString, DrugReason::class.java)
+                                reasonData = responseTicktResolvedapi
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(
+                                    context,
+                                    "Please try again later",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
+                            }
+
 
                         }
                     }
 
                 }
+
                 is ApiResult.GenericError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
@@ -353,9 +416,11 @@ class DrugFragmentViewModel : ViewModel() {
                     state.value = State.SUCCESS
                     // RegistrationRepo.getticketresolvedstatus(site,department)
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(baseProxyUrl,
+                        RegistrationRepo.getDetails(
+                            baseProxyUrl,
                             token,
-                            GetDetailsRequest(baseUrl, "GET", "The", "", ""))
+                            GetDetailsRequest(baseUrl, "GET", "The", "", "")
+                        )
                         // RegistrationRepo.getticketresolvedstatus(baseUrl)
                     }
                     when (response) {
@@ -367,8 +432,10 @@ class DrugFragmentViewModel : ViewModel() {
                                 if (resp != null) {
                                     val res = BackShlash.removeBackSlashes(resp)
                                     val responseTicktResolvedapi =
-                                        Gson().fromJson(BackShlash.removeSubString(res),
-                                            ResponseTicktResolvedapi::class.java)
+                                        Gson().fromJson(
+                                            BackShlash.removeSubString(res),
+                                            ResponseTicktResolvedapi::class.java
+                                        )
                                     tisketstatusresponse = responseTicktResolvedapi
 //                                    if (!responseTicktResolvedapi.success) {
 //                                        tisketstatusresponse.value = responseTicktResolvedapi
@@ -388,15 +455,19 @@ class DrugFragmentViewModel : ViewModel() {
                                      response.value.message.toString())
                              }*/
                         }
+
                         is ApiResult.GenericError -> {
                             state.value = State.ERROR
                         }
+
                         is ApiResult.NetworkError -> {
                             state.value = State.ERROR
                         }
+
                         is ApiResult.UnknownError -> {
                             state.value = State.ERROR
                         }
+
                         is ApiResult.UnknownHostException -> {
                             state.value = State.ERROR
                         }
@@ -410,15 +481,17 @@ class DrugFragmentViewModel : ViewModel() {
     fun connectToAzure(image: ArrayList<Image>) {
         state.value = State.SUCCESS
         viewModelScope.launch(Dispatchers.IO) {
-            val response = ConnectionToAzure.connectToAzur(image,
+            val response = ConnectionToAzure.connectToAzur(
+                image,
                 Config.CONTAINER_NAME,
-                Config.STORAGE_CONNECTION_FOR_CCR_APP)
+                Config.STORAGE_CONNECTION_FOR_CCR_APP
+            )
 
             commands.postValue(Commands.DrugImagesUploadInAzur(response))
         }
     }
 
-    fun siteId() {
+    fun siteId(callback: DrugFragmentCallback, context: Context?) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseProxyUrl = ""
@@ -448,41 +521,57 @@ class DrugFragmentViewModel : ViewModel() {
                     viewModelScope.launch {
                         state.value = State.SUCCESS
                         val response = withContext(Dispatchers.IO) {
-                            RegistrationRepo.getDetails(baseProxyUrl,
+                            RegistrationRepo.getDetails(
+                                baseProxyUrl,
                                 token,
-                                GetDetailsRequest(baseUrl, "GET", "The", "", ""))
+                                GetDetailsRequest(baseUrl, "GET", "The", "", "")
+                            )
 //                        RegistrationRepo.selectSiteId(token, baseUrl)
                         }
                         when (response) {
                             is ApiResult.Success -> {
                                 state.value = State.ERROR
                                 val resp: String = response.value.string()
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val reasonmasterV2Response =
-                                    Gson().fromJson(BackShlash.removeSubString(res),
-                                        SiteDto::class.java)
+                                try {
+                                    val res = BackShlash.removeBackSlashes(resp)
+                                    val reasonmasterV2Response =
+                                        Gson().fromJson(
+                                            BackShlash.removeSubString(res),
+                                            SiteDto::class.java
+                                        )
 
-                                if (reasonmasterV2Response.status) {
-                                    siteLiveData.clear()
-                                    reasonmasterV2Response.siteData?.listData?.rows?.map {
-                                        siteLiveData.add(it)
+                                    if (reasonmasterV2Response.status) {
+                                        siteLiveData.clear()
+                                        reasonmasterV2Response.siteData?.listData?.rows?.map {
+                                            siteLiveData.add(it)
+                                        }
+                                        // getDepartment()
+                                        commands.value = Commands.ShowSiteInfo("")
+                                    } else {
+                                        commands.value =
+                                            Commands.ShowToast(reasonmasterV2Response.message.toString())
                                     }
-                                    // getDepartment()
-                                    commands.value = Commands.ShowSiteInfo("")
-                                } else {
-                                    commands.value =
-                                        Commands.ShowToast(reasonmasterV2Response.message.toString())
+                                } catch (e: Exception) {
+                                    Log.e("API Error", "Received HTML response")
+                                    Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                                    callback.onFailureUat()
+                                    // Handle parsing error, e.g., show an error message to the user
                                 }
+
                             }
+
                             is ApiResult.GenericError -> {
                                 state.value = State.ERROR
                             }
+
                             is ApiResult.NetworkError -> {
                                 state.value = State.ERROR
                             }
+
                             is ApiResult.UnknownError -> {
                                 state.value = State.ERROR
                             }
+
                             is ApiResult.UnknownHostException -> {
                                 state.value = State.ERROR
                             }
@@ -497,7 +586,7 @@ class DrugFragmentViewModel : ViewModel() {
     var deartmentlist = java.util.ArrayList<ReasonmasterV2Response.Department>()
     lateinit var Reasonlistdata: ReasonmasterV2Response
     var reasonlistapiresponse = MutableLiveData<ReasonmasterV2Response>()
-    fun getRemarksMasterList() {
+    fun getRemarksMasterList(context: Context?, drugFragmentCallback: DrugFragmentCallback) {
         val url = Preferences.getApi()
 
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -517,9 +606,11 @@ class DrugFragmentViewModel : ViewModel() {
                 viewModelScope.launch {
                     state.value = State.SUCCESS
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(baseProxyUrl,
+                        RegistrationRepo.getDetails(
+                            baseProxyUrl,
                             token,
-                            GetDetailsRequest(baseUrl, "GET", "The", "", ""))
+                            GetDetailsRequest(baseUrl, "GET", "The", "", "")
+                        )
                         //  RegistrationRepo.getReasonslistmaster(baseUrl)
                     }
                     when (response) {
@@ -528,23 +619,37 @@ class DrugFragmentViewModel : ViewModel() {
                             if (response != null) {
                                 val resp: String = response.value.string()
                                 if (resp != null) {
-                                    val res = BackShlash.removeBackSlashes(resp)
-                                    val reasonmasterV2Response =
-                                        Gson().fromJson(BackShlash.removeSubString(res),
-                                            ReasonmasterV2Response::class.java)
+                                    try {
+                                        val res = BackShlash.removeBackSlashes(resp)
+                                        val reasonmasterV2Response =
+                                            Gson().fromJson(
+                                                BackShlash.removeSubString(res),
+                                                ReasonmasterV2Response::class.java
+                                            )
 
-                                    if (reasonmasterV2Response.success) {
-                                        Reasonlistdata = reasonmasterV2Response
-                                        reasonlistapiresponse.value = reasonmasterV2Response
-                                        val reasonlitrows =
-                                            reasonmasterV2Response.data.listdata.rows
-                                        for (row in reasonlitrows) {
-                                            deartmentlist.add(row.department)
+                                        if (reasonmasterV2Response.success) {
+                                            Reasonlistdata = reasonmasterV2Response
+                                            reasonlistapiresponse.value = reasonmasterV2Response
+                                            val reasonlitrows =
+                                                reasonmasterV2Response.data.listdata.rows
+                                            for (row in reasonlitrows) {
+                                                deartmentlist.add(row.department)
+                                            }
+                                            getSubCategoriesfromReasons("")
+                                        } else {
+                                            commands.postValue(
+                                                Commands.ShowToast(
+                                                    reasonmasterV2Response.message.toString()
+                                                )
+                                            )
                                         }
-                                        getSubCategoriesfromReasons("")
-                                    } else {
-                                        commands.postValue(Commands.ShowToast(reasonmasterV2Response.message.toString()))
+                                    } catch (e: Exception) {
+                                        Log.e("API Error", "Received HTML response")
+                                        drugFragmentCallback.onFailureUat()
+                                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                                        // Handle parsing error, e.g., show an error message to the user
                                     }
+
                                 }
                             } else {
 //                                command.value = CmsCommand.ShowToast(
@@ -552,15 +657,19 @@ class DrugFragmentViewModel : ViewModel() {
 //                                )
                             }
                         }
+
                         is ApiResult.GenericError -> {
                             state.value = State.ERROR
                         }
+
                         is ApiResult.NetworkError -> {
                             state.value = State.ERROR
                         }
+
                         is ApiResult.UnknownError -> {
                             state.value = State.ERROR
                         }
+
                         is ApiResult.UnknownHostException -> {
                             state.value = State.ERROR
                         }
@@ -652,7 +761,7 @@ class DrugFragmentViewModel : ViewModel() {
 
     }
 
-    fun itemTypeApi(drugFragmentCallback: DrugFragmentCallback) {
+    fun itemTypeApi(drugFragmentCallback: DrugFragmentCallback, context: Context?) {
         if (Preferences.isItemTypeListFetched()) {
 
         } else {
@@ -681,53 +790,82 @@ class DrugFragmentViewModel : ViewModel() {
 
             viewModelScope.launch {
                 val response = withContext(Dispatchers.IO) {
-                    RegistrationRepo.getDetails(baseProxyUrl,
+                    RegistrationRepo.getDetails(
+                        baseProxyUrl,
                         proxyToken,
-                        GetDetailsRequest(baseUrl, "GET", "Get", "", ""))
+                        GetDetailsRequest(baseUrl, "GET", "Get", "", "")
+                    )
                 }
                 when (response) {
                     is ApiResult.Success -> {
                         if (response != null) {
                             val resp: String = response.value.string()
                             if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val chooseDataItemType =
-                                    Gson().fromJson(BackShlash.removeSubString(res),
-                                        ItemTypeDropDownResponse::class.java)
-                                if (chooseDataItemType.success) {
-                                    if (drugFragmentCallback != null) {
-                                        drugFragmentCallback.onSuccessItemTypeApi(chooseDataItemType)
+                                try {
+                                    val res = BackShlash.removeBackSlashes(resp)
+                                    val chooseDataItemType =
+                                        Gson().fromJson(
+                                            BackShlash.removeSubString(res),
+                                            ItemTypeDropDownResponse::class.java
+                                        )
+                                    if (chooseDataItemType.success) {
+                                        if (drugFragmentCallback != null) {
+                                            drugFragmentCallback.onSuccessItemTypeApi(
+                                                chooseDataItemType
+                                            )
+                                        }
                                     }
+                                } catch (e: Exception) {
+                                    Log.e("API Error", "Received HTML response")
+                                    Toast.makeText(
+                                        context,
+                                        "Please try again later",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    // Handle parsing error, e.g., show an error message to the user
                                 }
+
                             }
                         }
                     }
+
                     is ApiResult.GenericError -> {
                         commands.value =
-                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_unableto_save)
-                                .toString())
+                            Commands.ShowToast(
+                                ViswamApp.context.resources?.getString(R.string.label_unableto_save)
+                                    .toString()
+                            )
                     }
+
                     is ApiResult.NetworkError -> {
                         commands.value =
-                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_network_error)
-                                .toString())
+                            Commands.ShowToast(
+                                ViswamApp.context.resources?.getString(R.string.label_network_error)
+                                    .toString()
+                            )
                     }
+
                     is ApiResult.UnknownError -> {
                         commands.value =
-                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
-                                .toString())
+                            Commands.ShowToast(
+                                ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
+                                    .toString()
+                            )
                     }
+
                     is ApiResult.UnknownHostException -> {
                         commands.value =
-                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
-                                .toString())
+                            Commands.ShowToast(
+                                ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
+                                    .toString()
+                            )
                     }
                 }
             }
         }
     }
 
-    fun doctorSpecialityApi(drugFragmentCallback: DrugFragmentCallback) {
+    fun doctorSpecialityApi(drugFragmentCallback: DrugFragmentCallback, context: Context?) {
         if (Preferences.isDoctorSpecialityListFetched()) {
 
         } else {
@@ -756,47 +894,76 @@ class DrugFragmentViewModel : ViewModel() {
 
             viewModelScope.launch {
                 val response = withContext(Dispatchers.IO) {
-                    RegistrationRepo.getDetails(baseProxyUrl,
+                    RegistrationRepo.getDetails(
+                        baseProxyUrl,
                         proxyToken,
-                        GetDetailsRequest(baseUrl, "GET", "Get", "", ""))
+                        GetDetailsRequest(baseUrl, "GET", "Get", "", "")
+                    )
                 }
                 when (response) {
                     is ApiResult.Success -> {
                         if (response != null) {
                             val resp: String = response.value.string()
                             if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val chooseDataItemType =
-                                    Gson().fromJson(BackShlash.removeSubString(res),
-                                        ItemTypeDropDownResponse::class.java)
-                                if (chooseDataItemType.success) {
-                                    if (drugFragmentCallback != null) {
-                                        drugFragmentCallback.onSuccessDoctorSpecialityApi(
-                                            chooseDataItemType)
+                                try {
+                                    val res = BackShlash.removeBackSlashes(resp)
+                                    val chooseDataItemType =
+                                        Gson().fromJson(
+                                            BackShlash.removeSubString(res),
+                                            ItemTypeDropDownResponse::class.java
+                                        )
+                                    if (chooseDataItemType.success) {
+                                        if (drugFragmentCallback != null) {
+                                            drugFragmentCallback.onSuccessDoctorSpecialityApi(
+                                                chooseDataItemType
+                                            )
+                                        }
                                     }
+                                } catch (e: Exception) {
+                                    Log.e("API Error", "Received HTML response")
+                                    Toast.makeText(
+                                        context,
+                                        "Please try again later",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    // Handle parsing error, e.g., show an error message to the user
                                 }
+
+
                             }
                         }
                     }
+
                     is ApiResult.GenericError -> {
                         commands.value =
-                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_unableto_save)
-                                .toString())
+                            Commands.ShowToast(
+                                ViswamApp.context.resources?.getString(R.string.label_unableto_save)
+                                    .toString()
+                            )
                     }
+
                     is ApiResult.NetworkError -> {
                         commands.value =
-                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_network_error)
-                                .toString())
+                            Commands.ShowToast(
+                                ViswamApp.context.resources?.getString(R.string.label_network_error)
+                                    .toString()
+                            )
                     }
+
                     is ApiResult.UnknownError -> {
                         commands.value =
-                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
-                                .toString())
+                            Commands.ShowToast(
+                                ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
+                                    .toString()
+                            )
                     }
+
                     is ApiResult.UnknownHostException -> {
                         commands.value =
-                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
-                                .toString())
+                            Commands.ShowToast(
+                                ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
+                                    .toString()
+                            )
                     }
                 }
             }

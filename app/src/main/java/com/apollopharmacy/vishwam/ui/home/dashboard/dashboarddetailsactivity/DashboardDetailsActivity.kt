@@ -161,6 +161,8 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
                 activityDashboardDetailsBinding.selectedEmpRole.text = "-"
 
             }
+        }else{
+            Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
         }
     }
 

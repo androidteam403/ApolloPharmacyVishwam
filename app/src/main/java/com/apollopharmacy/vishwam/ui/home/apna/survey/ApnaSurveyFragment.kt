@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
-import com.apollopharmacy.vishwam.databinding.DialogComplaintListFilterBinding
 import com.apollopharmacy.vishwam.databinding.DialogSurveyListFilterBinding
 import com.apollopharmacy.vishwam.databinding.FragmentApnaSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
@@ -32,9 +31,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.ApnaPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.adapter.ApnaSurveyAdapter
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.submitButtonEnable
 import com.apollopharmacy.vishwam.util.NetworkUtil
-import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 
 class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurveyBinding>(),
@@ -308,7 +305,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 rowsize.toString(),
                 viewBinding.search.text.toString().trim(),
                 surveyStatusList,
-                isSearch
+                isSearch, context
             )
 
         } else {
@@ -330,6 +327,10 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     override fun onFailuregetSurveyDetails(surveyListResponse: Any) {
     }
 
+    override fun onFailureUat() {
+        hideLoading()
+    }
+
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -345,7 +346,8 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                     rowSize.toString(),
                     viewBinding.search.text.toString(),
                     surveyStatusList,
-                    false
+                    false,
+                    context
                 )
 //                viewModel.getApnaSurveyList(
 //                    this,

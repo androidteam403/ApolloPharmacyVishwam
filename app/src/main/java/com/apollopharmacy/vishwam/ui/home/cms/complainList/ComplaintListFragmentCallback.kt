@@ -33,5 +33,7 @@ interface ComplaintListFragmentCallback {
         userListForSubworkflowResponse: UserListForSubworkflowResponse?,
     )
 
+    fun onFailureUat()
+
 //    fun onSelectUserListItem(row: UserListForSubworkflowResponse.Rows, userSelect: EditText)
 }

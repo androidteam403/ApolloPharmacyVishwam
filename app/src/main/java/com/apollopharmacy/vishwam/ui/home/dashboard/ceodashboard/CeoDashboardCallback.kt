@@ -38,4 +38,6 @@ interface CeoDashboardCallback {
         status: String,
     )
 
+    fun onFailureUat()
+
 }

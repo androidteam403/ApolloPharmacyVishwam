@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -253,9 +254,9 @@ class DetailsFragment(
 //                && sessionuser.department.code == 'FN' && reason?.sub_workflow?.uid ==  'Yes'
 
 
-            if (((orderDataWp.status!!.code.equals("new") || orderDataWp.status!!.code.equals("reopen")) && orderDataWp.ticketDetailsResponse!!.data.executive.uid.equals(
+            if (((orderDataWp.status!!.code.equals("new") || orderDataWp.status!!.code.equals("reopen")) && (employeeDetailsResponse!=null && employeeDetailsResponse.data!=null && !employeeDetailsResponse.data!!.uid.isNullOrEmpty()) && (orderDataWp.ticketDetailsResponse!!.data.executive.uid.equals(
                     employeeDetailsResponse?.data!!.uid
-                ) && orderDataWp.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
+                )) && orderDataWp.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
                     "Yes"
                 ) && checkResonDepot(
                     orderDataWp.ticketDetailsResponse!!.data.reason.reason_dept,
@@ -308,6 +309,7 @@ class DetailsFragment(
                     }
                 }
             } else {
+                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
 //                viewBinding.ccActionLayout.visibility = View.GONE
             }
         }

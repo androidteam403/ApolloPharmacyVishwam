@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.apollosensing.activity
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,7 +30,7 @@ class ApolloSensingStoreViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     var fixedArrayList = MutableLiveData<ArrayList<StoreListItem>>()
 
-    fun siteList(empId: String, callback: ApolloSensingStoreCallback) {
+    fun siteList(empId: String, callback: ApolloSensingStoreCallback, applicationContext: Context) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrL = ""
@@ -62,16 +65,24 @@ class ApolloSensingStoreViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val siteListResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res),
-                        SiteListResponse::class.java
-                    )
-                    if (siteListResponse.success == true) {
-                        callback.onSuccessSiteListApiCall(siteListResponse)
-                    } else {
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val siteListResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res),
+                            SiteListResponse::class.java
+                        )
+                        if (siteListResponse.success == true) {
+                            callback.onSuccessSiteListApiCall(siteListResponse)
+                        } else {
 
+                        }
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+                        Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+                        callback.onFailureUat()
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
                 }
 
                 else -> {}
@@ -79,7 +90,7 @@ class ApolloSensingStoreViewModel : ViewModel() {
         }
     }
 
-    fun siteId() {
+    fun siteId(applicationContext: Context, callback: ApolloSensingStoreCallback) {
         if (Preferences.isSiteIdListFetched()) {
             siteLiveData.clear()
             val gson = Gson()
@@ -125,30 +136,38 @@ class ApolloSensingStoreViewModel : ViewModel() {
                             is ApiResult.Success -> {
                                 state.value = State.ERROR
                                 val resp: String = response.value.string()
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val reasonmasterV2Response =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        SiteDto::class.java
-                                    )
+                                try {
+                                    val res = BackShlash.removeBackSlashes(resp)
+                                    val reasonmasterV2Response =
+                                        Gson().fromJson(
+                                            BackShlash.removeSubString(res),
+                                            SiteDto::class.java
+                                        )
 
-                                if (reasonmasterV2Response.status) {
-                                    siteLiveData.clear()
-                                    reasonmasterV2Response.siteData?.listData?.rows?.map {
-                                        siteLiveData.add(it)
-                                        fixedArrayList.value = siteLiveData
+                                    if (reasonmasterV2Response.status) {
+                                        siteLiveData.clear()
+                                        reasonmasterV2Response.siteData?.listData?.rows?.map {
+                                            siteLiveData.add(it)
+                                            fixedArrayList.value = siteLiveData
+                                        }
+                                        // getDepartment()
+                                        command.value =
+                                            SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowSiteInfo(
+                                                ""
+                                            )
+                                    } else {
+                                        command.value =
+                                            SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowToast(
+                                                reasonmasterV2Response.message.toString()
+                                            )
                                     }
-                                    // getDepartment()
-                                    command.value =
-                                        SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowSiteInfo(
-                                            ""
-                                        )
-                                } else {
-                                    command.value =
-                                        SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowToast(
-                                            reasonmasterV2Response.message.toString()
-                                        )
+                                } catch (e: Exception) {
+                                    Log.e("API Error", "Received HTML response")
+                                    Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+                                    callback.onFailureUat()
+                                    // Handle parsing error, e.g., show an error message to the user
                                 }
+
                             }
 
                             is ApiResult.GenericError -> {

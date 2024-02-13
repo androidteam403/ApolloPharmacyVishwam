@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,13 +13,11 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ChampsApiRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsCallback
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.model.TrainersEmailIdResponse
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.champs.survey.model.SaveUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.home.model.SaveSurveyModelRequest
 import com.apollopharmacy.vishwam.ui.home.model.SaveSurveyModelRequestt
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
 import com.google.gson.Gson
@@ -753,7 +754,7 @@ class ChampsSurveyViewModel : ViewModel() {
         }
     }
 
-    fun getTrainerDetails(champsSurveyCallBack: ChampsSurveyCallBack) {
+    fun getTrainerDetails(champsSurveyCallBack: ChampsSurveyCallBack, applicationContext: Context) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var proxyBaseUrl = ""
@@ -801,24 +802,32 @@ class ChampsSurveyViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val storeWiseDetailListResponse = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                TrainersEmailIdResponse::class.java
-                            )
-                            if (storeWiseDetailListResponse.success) {
-                                champsSurveyCallBack.onSuccessTrainerList(
-                                    storeWiseDetailListResponse
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val storeWiseDetailListResponse = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    TrainersEmailIdResponse::class.java
                                 )
+                                if (storeWiseDetailListResponse.success) {
+                                    champsSurveyCallBack.onSuccessTrainerList(
+                                        storeWiseDetailListResponse
+                                    )
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
-                            } else {
-                                champsSurveyCallBack.onFailureTrainerList(
-                                    storeWiseDetailListResponse
-                                )
+                                } else {
+                                    champsSurveyCallBack.onFailureTrainerList(
+                                        storeWiseDetailListResponse
+                                    )
 
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+                                champsSurveyCallBack.onFailureUat()
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
 
                         }
 
