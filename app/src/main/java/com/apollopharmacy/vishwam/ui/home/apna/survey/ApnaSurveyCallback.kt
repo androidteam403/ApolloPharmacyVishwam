@@ -7,6 +7,7 @@ interface ApnaSurveyCallback {
     fun onSuccessgetSurveyDetails(value: SurveyListResponse)
     fun onFailureGetSurveyDetails(message: String)
      fun onFailuregetSurveyDetails(surveyListResponse: Any)
+    fun onFailureUat()
 
 
 }

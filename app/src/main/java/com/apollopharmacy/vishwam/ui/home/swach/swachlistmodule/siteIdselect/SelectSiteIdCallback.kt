@@ -8,4 +8,5 @@ interface SelectSiteIdCallback {
     fun noOrdersFound(size: Int)
     fun onClickCrossButton(selectsiteId: String, position: Int)
     fun onClickCompleted()
+    fun onFailureUat()
 }

@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.notification
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,9 +11,7 @@ import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.ApnaRectroApiRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.model.TrainersEmailIdResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.notification.model.NotificationModelResponse
 import com.google.gson.Gson
@@ -25,7 +26,8 @@ class NotificationsViewModel : ViewModel() {
     fun getNotificationDetailsApi(
         notificationsActivityCallback: NotificationsActivityCallback,
         page: Int,
-        rows: Int
+        rows: Int,
+        applicationContext: Context
     ) {
 
         val url = Preferences.getApi()
@@ -39,7 +41,7 @@ class NotificationsViewModel : ViewModel() {
                 break
             }
         }
-        var baseUrl = "https://apis.v35.apollodev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/vishwam_notifications/list/vishwam-notifications-list-for-mobile?page=${page}&rows=${rows}&zcFetchListTotal=true"
+        var baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/vishwam_notifications/list/vishwam-notifications-list-for-mobile?page=1&rows=10&zcFetchListTotal=true"
         var token = ""
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("RT PENDING APPROVED LIST")) {
@@ -80,20 +82,28 @@ class NotificationsViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val storeWiseDetailListResponse = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                NotificationModelResponse::class.java
-                            )
-                            if (storeWiseDetailListResponse.success!!) {
-                                notificationsActivityCallback.onSuccessNotificationDetails(storeWiseDetailListResponse)
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val storeWiseDetailListResponse = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    NotificationModelResponse::class.java
+                                )
+                                if (storeWiseDetailListResponse.success!!) {
+                                    notificationsActivityCallback.onSuccessNotificationDetails(storeWiseDetailListResponse)
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
-                            } else {
-                                notificationsActivityCallback.onFailureNotificationDetails(storeWiseDetailListResponse)
+                                } else {
+                                    notificationsActivityCallback.onFailureNotificationDetails(storeWiseDetailListResponse)
 
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+                                notificationsActivityCallback.onFailureUat()
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
 
                         }
 

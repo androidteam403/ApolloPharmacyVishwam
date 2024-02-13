@@ -318,6 +318,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     MainActivity.mInstance.siteIdIcon.visibility = View.GONE
                 }
             }
+        }else{
+            Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
         }
 
 

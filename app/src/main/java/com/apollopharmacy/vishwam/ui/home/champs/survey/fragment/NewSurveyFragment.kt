@@ -94,7 +94,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
             if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                 Utlis.showLoading(this)
                 newSurveyViewModel!!.getStoreDetailsChampsApi(
-                    this
+                    this, applicationContext
                 )
             } else {
                 Toast.makeText(
@@ -171,7 +171,7 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
     }
 
     override fun onClickCardView() {
-        if(!Preferences.getChampsSiteForEr().isNullOrEmpty() && !Preferences.getChampsSiteCity().isNullOrEmpty()){
+        if(!Preferences.getChampsSiteForEr().isNullOrEmpty() && !Preferences.getChampsSiteCity().isNullOrEmpty() && Preferences.getEmployeeApiAvailable()){
             val intent = Intent(applicationContext, SurveyDetailsActivity::class.java)
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             intent.putExtra("getStoreWiseDetailsResponses", getSiteDetails)
@@ -182,6 +182,8 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
             intent.putExtra("region", fragmentChampsSurveyBinding!!.region.text.toString())
             startActivityForResult(intent, 761)
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        }else{
+            Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -291,7 +293,8 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
            Utlis.showLoading(this)
             newSurveyViewModel!!.getStoreDetailsChampsApi(
-                this
+                this,
+                applicationContext
             )
         } else {
             Toast.makeText(
@@ -340,6 +343,10 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
         super.onBackPressed()
     }
 
+    override fun onFailureUat() {
+        hideLoading()
+    }
+
 
     override fun onClickSiteIdIcon() {
         val i = Intent(applicationContext, SelectChampsSiteIDActivity::class.java)
@@ -378,7 +385,8 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                         Utlis.showLoading(this)
                         newSurveyViewModel!!.getStoreDetailsChampsApi(
-                            this
+                            this,
+                            applicationContext
                         )
                     } else {
                         Toast.makeText(

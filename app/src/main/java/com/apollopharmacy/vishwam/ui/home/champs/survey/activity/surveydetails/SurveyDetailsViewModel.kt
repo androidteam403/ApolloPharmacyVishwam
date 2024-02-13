@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,15 +13,9 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ChampsApiRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
-import com.apollopharmacy.vishwam.data.network.SwachApiRepo
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.model.TrainersEmailIdResponse
-import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyCallback
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
-import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyViewModel
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
-import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.SampleSwachViewModel
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIdCallback
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -261,7 +258,7 @@ class SurveyDetailsViewModel : ViewModel() {
 //            }
 //        }
 //    }
-    fun getTrainerDetails(surveyDetailsCallback: SurveyDetailsCallback) {
+    fun getTrainerDetails(surveyDetailsCallback: SurveyDetailsCallback, applicationContext: Context) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var proxyBaseUrl = ""
@@ -310,24 +307,32 @@ class SurveyDetailsViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val storeWiseDetailListResponse = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                TrainersEmailIdResponse::class.java
-                            )
-                            if (storeWiseDetailListResponse.success) {
-                                surveyDetailsCallback.onSuccessTrainerList(
-                                    storeWiseDetailListResponse
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val storeWiseDetailListResponse = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    TrainersEmailIdResponse::class.java
                                 )
+                                if (storeWiseDetailListResponse.success) {
+                                    surveyDetailsCallback.onSuccessTrainerList(
+                                        storeWiseDetailListResponse
+                                    )
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
-                            } else {
-                                surveyDetailsCallback.onFailureTrainerList(
-                                    storeWiseDetailListResponse
-                                )
+                                } else {
+                                    surveyDetailsCallback.onFailureTrainerList(
+                                        storeWiseDetailListResponse
+                                    )
 
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
 
                         }
 

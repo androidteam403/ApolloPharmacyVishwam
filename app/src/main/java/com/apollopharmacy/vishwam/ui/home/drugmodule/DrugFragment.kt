@@ -16,6 +16,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -104,10 +105,10 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
-        viewModel.itemTypeApi(this)
-        viewModel.doctorSpecialityApi(this)
+        viewModel.itemTypeApi(this, context)
+        viewModel.doctorSpecialityApi(this, context)
         showLoading()
-        viewModel.getRemarksMasterList()
+        viewModel.getRemarksMasterList(context, this)
         viewModel.subCategories.observe(viewLifecycleOwner) {
             when (it) {
                 is ArrayList<ReasonmasterV2Response.TicketSubCategory> -> {
@@ -158,16 +159,25 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
             val type = object : TypeToken<ItemTypeDropDownResponse>() {}.type
-            this.itemTypeDropDownResponse =
-                gson.fromJson<List<ItemTypeDropDownResponse>>(
-                    itemTypeList,
-                    type
-                ) as ItemTypeDropDownResponse
+            try {
+                this.itemTypeDropDownResponse =
+                    gson.fromJson<List<ItemTypeDropDownResponse>>(
+                        itemTypeList,
+                        type
+                    ) as ItemTypeDropDownResponse
+                ItemTypeDialog().apply {
+                    arguments =
+                        ItemTypeDialog().generateParsedData(itemTypeDropDownResponse!!.data!!.listData!!.rows)
+                }.show(childFragmentManager, "")
+            } catch (e: Exception) {
+                Log.e("API Error", "Received HTML response")
+                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
 
-            ItemTypeDialog().apply {
-                arguments =
-                    ItemTypeDialog().generateParsedData(itemTypeDropDownResponse!!.data!!.listData!!.rows)
-            }.show(childFragmentManager, "")
+                // Handle parsing error, e.g., show an error message to the user
+            }
+
+
+
 
         }
         viewBinding.doctorSpecialty.setOnClickListener {
@@ -178,16 +188,24 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
             val type = object : TypeToken<ItemTypeDropDownResponse>() {}.type
-            this.doctorSpecialityDropDownREsponse =
-                gson.fromJson<List<ItemTypeDropDownResponse>>(
-                    doctorSpecialityList,
-                    type
-                ) as ItemTypeDropDownResponse
+            try {
+                this.doctorSpecialityDropDownREsponse =
+                    gson.fromJson<List<ItemTypeDropDownResponse>>(
+                        doctorSpecialityList,
+                        type
+                    ) as ItemTypeDropDownResponse
 
-            DoctorSpecialityDialog().apply {
-                arguments =
-                    DoctorSpecialityDialog().generateParsedData(doctorSpecialityDropDownREsponse!!.data!!.listData!!.rows)
-            }.show(childFragmentManager, "")
+                DoctorSpecialityDialog().apply {
+                    arguments =
+                        DoctorSpecialityDialog().generateParsedData(doctorSpecialityDropDownREsponse!!.data!!.listData!!.rows)
+                }.show(childFragmentManager, "")
+
+            } catch (e: Exception) {
+                Log.e("API Error", "Received HTML response")
+                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                // Handle parsing error, e.g., show an error message to the user
+            }
 
         }
 
@@ -206,7 +224,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
         viewBinding.siteIdSelect.setOnClickListener {
             showLoading()
-            viewModel.siteId()
+            viewModel.siteId(this, context)
 
 
         }
@@ -743,48 +761,50 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                     } catch (e: JsonParseException) {
                         e.printStackTrace()
                     }
-
-                    viewModel.getDrugList(
-                        DrugRequest(
-                            viewBinding.siteIdSelect.text.toString(),
-                            viewBinding.selectCategory.text.toString(),
-                            viewBinding.itemName.text.toString(),
-                            viewBinding.batchNo.text.toString(),
-                            viewBinding.packsize.text.toString(),
-                            viewBinding.mrpp.text.toString(),
-                            viewBinding.purchasePrice.text.toString(),
-                            viewBinding.fromDateText.text.toString(),
-                            viewBinding.toDateText.text.toString(),
-                            viewBinding.barCode.text.toString(),
-                            viewBinding.hsnCode.text.toString(),
-                            viewBinding.selectDepartment.text.toString(),
-                            viewBinding.createdBy.text.toString(),
-                            viewBinding.createdOn.text.toString(),
-                            "0",
-                            "0",
-                            "",
-                            viewBinding.selectRemarks.text.toString(),
-                            viewBinding.createdBy.text.toString(),
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            selectedItemTypeUid,
-                            "",
-                            "",
-                            viewBinding.requiredQuantity.text.toString(),
-                            viewBinding.doctorname.text.toString(),
-                            selectedDoctorSpecialityUid,
-                            imagesList.distinct(),
-                            viewBinding.descriptionText.text.toString(),
-                            store, employeeDetailsResponse!!
-                        ), this@Drug
-                    )
-
+                    if(employeeDetailsResponse!=null){
+                        viewModel.getDrugList(
+                            DrugRequest(
+                                viewBinding.siteIdSelect.text.toString(),
+                                viewBinding.selectCategory.text.toString(),
+                                viewBinding.itemName.text.toString(),
+                                viewBinding.batchNo.text.toString(),
+                                viewBinding.packsize.text.toString(),
+                                viewBinding.mrpp.text.toString(),
+                                viewBinding.purchasePrice.text.toString(),
+                                viewBinding.fromDateText.text.toString(),
+                                viewBinding.toDateText.text.toString(),
+                                viewBinding.barCode.text.toString(),
+                                viewBinding.hsnCode.text.toString(),
+                                viewBinding.selectDepartment.text.toString(),
+                                viewBinding.createdBy.text.toString(),
+                                viewBinding.createdOn.text.toString(),
+                                "0",
+                                "0",
+                                "",
+                                viewBinding.selectRemarks.text.toString(),
+                                viewBinding.createdBy.text.toString(),
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                selectedItemTypeUid,
+                                "",
+                                "",
+                                viewBinding.requiredQuantity.text.toString(),
+                                viewBinding.doctorname.text.toString(),
+                                selectedDoctorSpecialityUid,
+                                imagesList.distinct(),
+                                viewBinding.descriptionText.text.toString(),
+                                store, employeeDetailsResponse!!
+                            ), this@Drug
+                        )
+                    }else{
+                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 else -> {}
             }
@@ -863,7 +883,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
         }
 
-        viewModel.fetchTransactionPOSDetails()
+        viewModel.fetchTransactionPOSDetails(context)
     }
 
 
@@ -1762,6 +1782,10 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+    override fun onFailureUat() {
+       hideLoading()
     }
 }
 

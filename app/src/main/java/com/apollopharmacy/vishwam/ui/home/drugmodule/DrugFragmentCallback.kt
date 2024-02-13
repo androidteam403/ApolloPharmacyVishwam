@@ -6,5 +6,6 @@ interface DrugFragmentCallback {
     fun onSuccessItemTypeApi(itemTypeDropDownResponse: ItemTypeDropDownResponse)
     fun onSuccessDoctorSpecialityApi(doctorSpecialityDropDownResponse: ItemTypeDropDownResponse)
     fun onFailureMessage(ticketId: String, userName: String, message: String)
+    fun onFailureUat()
 
 }

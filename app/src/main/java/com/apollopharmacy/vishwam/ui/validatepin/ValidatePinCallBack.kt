@@ -17,4 +17,5 @@ interface ValidatePinCallBack {
      fun onSuccessNotificationDetails(value: NotificationModelResponse)
      fun onFailureNotificationDetails(value: NotificationModelResponse)
     fun onFailureNotificationDetail()
+    fun onHandleNextEvent()
 }

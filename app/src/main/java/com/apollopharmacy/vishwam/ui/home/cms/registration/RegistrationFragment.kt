@@ -232,6 +232,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        } else {
+            Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
         }
 
 //        }
@@ -284,9 +286,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         showLoading()
         if (Preferences.isReasonIdListFetched()) {
             hideLoading()
-            viewModel.getRemarksMasterList()
+            viewModel.getRemarksMasterList(context, this)
         } else {
-            viewModel.getRemarksMasterList()
+            viewModel.getRemarksMasterList(context, this)
 
         }
 
@@ -305,7 +307,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         }
         viewBinding.siteIdSelect.setOnClickListener {
             showLoading()
-            viewModel.siteId()
+            viewModel.siteId(this)
         }
         viewModel.command.observe(viewLifecycleOwner, Observer {
             when (it) {
@@ -505,7 +507,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             SubmitcomplaintDialog().apply {
                 arguments = SubmitcomplaintDialog().generateParsedData(it)
             }.show(childFragmentManager, "")
-            imagesFilledCount=0
+            imagesFilledCount = 0
         })
 
         viewModel.command.observe(viewLifecycleOwner, Observer {
@@ -710,6 +712,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     }
                 }
             }
+        }else{
+            Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
         }
 
         if (departmentName.isEmpty()) {
@@ -2397,6 +2401,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
             }
         }
+    }
+
+    override fun onFailureUat() {
+        Utlis.hideLoading()
+        hideLoading()
     }
 }
 

@@ -182,7 +182,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         //attaches LinearLayoutManager with RecyclerView
         viewBinding.recyclerViewApproved.layoutManager = layoutManager
         Utlis.showLoading(requireContext())
-        viewModel.getTicketRatingApi()
+        viewModel.getTicketRatingApi(context, this)
         viewModel.cmsticketRatingresponse.observe(viewLifecycleOwner) {
 //            Utlis.hideLoading()
 //            ticketratingapiresponse = it.data;
@@ -265,7 +265,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         status!!,
                         fromDateCeoDashboard!!,
                         toDateCeoDashboard!!,
-                        uniqueId!!
+                        uniqueId!!,context,this@ComplainListFragment
                     )
                     return true
                 }
@@ -505,7 +505,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             status!!,
             fromDateCeoDashboard!!,
             toDateCeoDashboard!!,
-            uniqueId!!
+            uniqueId!!, context, this
         )
     }
 
@@ -591,7 +591,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 status!!,
                 fromDateCeoDashboard!!,
                 toDateCeoDashboard!!,
-                uniqueId!!
+                uniqueId!!,
+                context, this
             )
 
         } else {
@@ -3725,6 +3726,10 @@ end*/
     ) {
         hideLoading()
         showActionPopup(data, responseList, position, row, userListForSubworkflowResponse)
+    }
+
+    override fun onFailureUat() {
+        Utlis.hideLoading()
     }
 }
 

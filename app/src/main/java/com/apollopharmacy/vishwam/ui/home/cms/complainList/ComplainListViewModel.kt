@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.cms.complainList
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -90,6 +93,7 @@ class ComplainListViewModel : ViewModel() {
         fromDateCeodashboard: String,
         toDateCeodashboard: String,
         uniqueId: String,
+        context: Context?,callback: ComplaintListFragmentCallback
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -338,18 +342,26 @@ class ComplainListViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlist = Gson().fromJson(
-                                BackShlash.removeSubString(res), ResponseNewTicketlist::class.java
-                            )
-                            if (responseNewTicketlist.success) {
-                                resLiveData.value = responseNewTicketlist
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val responseNewTicketlist = Gson().fromJson(
+                                    BackShlash.removeSubString(res), ResponseNewTicketlist::class.java
+                                )
+                                if (responseNewTicketlist.success) {
+                                    resLiveData.value = responseNewTicketlist
 //                                        newcomplainLiveData.value =
 //                                            responseNewTicketlist.data.listData.rows
-                            } else {
-                                command.value =
-                                    CmsCommand.VisibleLayout(responseNewTicketlist.message.toString())
+                                } else {
+                                    command.value =
+                                        CmsCommand.VisibleLayout(responseNewTicketlist.message.toString())
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                                callback.onFailureUat()
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
                         }
                         //  unComment it  newcomplainLiveData.value = response.value.data.listData.rows
                         //  Ticketlistdata = response.value
@@ -1379,7 +1391,7 @@ class ComplainListViewModel : ViewModel() {
     }
 
     var cmsticketRatingresponse = MutableLiveData<ResponseticketRatingApi>()
-    fun getTicketRatingApi() {
+    fun getTicketRatingApi(context: Context?, callback: ComplaintListFragmentCallback) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrL = ""
@@ -1405,11 +1417,19 @@ class ComplainListViewModel : ViewModel() {
                         is ApiResult.Success -> {
                             state.value = State.ERROR
                             val resp: String = response.value.string()
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val responseticketRatingApi = Gson().fromJson(
-                                BackShlash.removeSubString(res), ResponseticketRatingApi::class.java
-                            )
-                            cmsticketRatingresponse.value = responseticketRatingApi
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val responseticketRatingApi = Gson().fromJson(
+                                    BackShlash.removeSubString(res), ResponseticketRatingApi::class.java
+                                )
+                                cmsticketRatingresponse.value = responseticketRatingApi
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                                callback.onFailureUat()
+                                // Handle parsing error, e.g., show an error message to the user
+                            }
+
                         }
 
                         is ApiResult.GenericError -> {

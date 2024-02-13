@@ -20,4 +20,5 @@ interface NewSurveyCallback {
     fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse)
 
     fun onClickBack()
+    fun onFailureUat()
 }

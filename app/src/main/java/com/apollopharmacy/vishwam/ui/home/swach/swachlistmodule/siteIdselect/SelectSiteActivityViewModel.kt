@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,7 +32,7 @@ class SelectSiteActivityViewModel : ViewModel() {
 
 
 
-    fun siteId() {
+    fun siteId(applicationContext: Context, callback: SelectSiteIdCallback) {
         if (Preferences.isSiteIdListFetched()) {
             siteLiveData.clear()
             val gson = Gson()
@@ -76,25 +79,33 @@ class SelectSiteActivityViewModel : ViewModel() {
                             is ApiResult.Success -> {
                                 state.value = State.ERROR
                                 val resp: String = response.value.string()
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val reasonmasterV2Response =
-                                    Gson().fromJson(BackShlash.removeSubString(res),
-                                        SiteDto::class.java
-                                    )
+                                try {
+                                    val res = BackShlash.removeBackSlashes(resp)
+                                    val reasonmasterV2Response =
+                                        Gson().fromJson(BackShlash.removeSubString(res),
+                                            SiteDto::class.java
+                                        )
 
-                                if (reasonmasterV2Response.status) {
-                                    siteLiveData.clear()
-                                    reasonmasterV2Response.siteData?.listData?.rows?.map {
-                                        siteLiveData.add(it)
-                                        fixedArrayList.value=siteLiveData
+                                    if (reasonmasterV2Response.status) {
+                                        siteLiveData.clear()
+                                        reasonmasterV2Response.siteData?.listData?.rows?.map {
+                                            siteLiveData.add(it)
+                                            fixedArrayList.value=siteLiveData
+                                        }
+                                        // getDepartment()
+                                        command.value = CmsCommandSelectSiteId.ShowSiteInfo("")
+                                    } else {
+                                        command.value = CmsCommandSelectSiteId.ShowToast(
+                                            reasonmasterV2Response.message.toString()
+                                        )
                                     }
-                                    // getDepartment()
-                                    command.value = CmsCommandSelectSiteId.ShowSiteInfo("")
-                                } else {
-                                    command.value = CmsCommandSelectSiteId.ShowToast(
-                                        reasonmasterV2Response.message.toString()
-                                    )
+                                } catch (e: Exception) {
+                                    Log.e("API Error", "Received HTML response")
+                                    Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+                                    callback.onFailureUat()
+                                    // Handle parsing error, e.g., show an error message to the user
                                 }
+
                             }
                             is ApiResult.GenericError -> {
                                 state.value = State.ERROR

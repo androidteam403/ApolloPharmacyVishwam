@@ -11,7 +11,6 @@ import android.view.View
 import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,13 +19,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ActivityNotificationsBinding
 import com.apollopharmacy.vishwam.databinding.NotificationsNewAppUpdateDialogBinding
-import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.survey.adapter.ApnaSurveyAdapter
 import com.apollopharmacy.vishwam.ui.home.notification.adapter.NotificationsAdapter
 import com.apollopharmacy.vishwam.ui.home.notification.model.NotificationModelResponse
 import com.apollopharmacy.vishwam.ui.home.notification.webview.WebViewwActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import java.util.*
 
@@ -146,7 +144,7 @@ class NotificationsActivity : AppCompatActivity(), NotificationsActivityCallback
         if (NetworkUtil.isNetworkConnected(this)) {
             isFirstTime = false
             if (!isLoading) showLoading(this)
-            notificationsViewModel.getNotificationDetailsApi(this, page, rows)
+            notificationsViewModel.getNotificationDetailsApi(this, page, rows, applicationContext)
 
 
         } else {
@@ -308,5 +306,9 @@ class NotificationsActivity : AppCompatActivity(), NotificationsActivityCallback
         }
         dialog.setCancelable(false)
         dialog.show()
+    }
+
+    override fun onFailureUat() {
+        hideLoading()
     }
 }

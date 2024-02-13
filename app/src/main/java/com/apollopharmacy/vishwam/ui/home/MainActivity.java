@@ -241,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //    private MenuItemAdapter attendanceManagementAdapter, cmsAdapter, discountAdapter, newDrugRequestAdapter, omsQcAdapter, swachhAdapter, monitoringAdapter, champsAdapter, planogramAdapter, apnaRetroAdapter, apnaAdapter;
     public ImageView backArrow;
     public ImageView openDrawer;
+
     private ImageView logoutBtn;
     private TextView logo;
     private LinearLayout customerDetails;
@@ -423,7 +424,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userDesignation = Preferences.INSTANCE.getAppLevelDesignationSwach();
         }
         employeeRoleRetroQr = Preferences.INSTANCE.getRetroQrEmployeeRoleUid();
-
         employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
         employeeRoleRetro = Preferences.INSTANCE.getRetroEmployeeRoleUid();
         isAdminRequired = Preferences.INSTANCE.getEmployeeRoleUidChampsAdmin();

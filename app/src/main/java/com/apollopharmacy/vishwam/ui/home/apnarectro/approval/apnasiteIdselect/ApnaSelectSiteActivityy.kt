@@ -20,8 +20,6 @@ import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.ActivitySelectSiteApnaBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.apnasiteIdselect.adapter.ApnaSiteIdAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.apnasiteIdselect.adapter.ApnaSiteIdDisplay
-import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.adapter.SiteIdAdapter
-import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.adapter.SiteIdDisplay
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.Gson
 import java.util.Timer
@@ -54,7 +52,7 @@ class ApnaSelectSiteActivityy : AppCompatActivity(), ApnaSelectSiteIdCallback {
 
 
         Utlis.showLoading(this)
-        viewModel.siteId()
+        viewModel.siteId(applicationContext, this)
 
 //        viewModel.siteLiveData.observeForever {
 //            if(it!=null){
@@ -267,6 +265,10 @@ class ApnaSelectSiteActivityy : AppCompatActivity(), ApnaSelectSiteIdCallback {
         returnIntent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
         setResult(Activity.RESULT_OK, returnIntent)
         finish()
+    }
+
+    override fun onFailureUat() {
+        Utlis.hideLoading()
     }
 
 

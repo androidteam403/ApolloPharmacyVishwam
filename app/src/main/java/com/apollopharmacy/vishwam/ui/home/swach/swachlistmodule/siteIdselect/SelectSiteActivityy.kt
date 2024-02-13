@@ -52,7 +52,7 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
 
 
         Utlis.showLoading(this)
-        viewModel.siteId()
+        viewModel.siteId(applicationContext, this)
 
 //        viewModel.siteLiveData.observeForever {
 //            if(it!=null){
@@ -397,6 +397,10 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
         returnIntent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
         setResult(Activity.RESULT_OK, returnIntent)
         finish()
+    }
+
+    override fun onFailureUat() {
+        Utlis.hideLoading()
     }
 
 

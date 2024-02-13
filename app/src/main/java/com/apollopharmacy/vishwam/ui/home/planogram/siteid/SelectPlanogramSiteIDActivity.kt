@@ -43,7 +43,7 @@ class SelectPlanogramSiteIDActivity : AppCompatActivity(), SelectPlanogramSiteId
         viewModel = ViewModelProvider(this)[SelectPlangramSiteIdViewModel::class.java]
         activitySelectPlanogramSiteidBinding.callback = this
         showLoading(this)
-        viewModel.getProxySiteListResponse(this)
+        viewModel.getProxySiteListResponse(this, applicationContext)
         viewModel.fixedArrayList.observeForever {
             siteDataList = it
             siteIDListAdapter =
@@ -180,6 +180,10 @@ class SelectPlanogramSiteIDActivity : AppCompatActivity(), SelectPlanogramSiteId
 
     override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
         Toast.makeText(applicationContext, "" + value.message, Toast.LENGTH_SHORT).show()
+        hideLoading()
+    }
+
+    override fun onFailureUat() {
         hideLoading()
     }
 

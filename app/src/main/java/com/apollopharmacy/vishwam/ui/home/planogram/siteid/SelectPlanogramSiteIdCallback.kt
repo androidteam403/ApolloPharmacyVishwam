@@ -8,5 +8,6 @@ interface SelectPlanogramSiteIdCallback {
     fun noOrdersFound(size: Int)
     fun onItemClick(siteId: StoreDetailsModelResponse.Row)
     fun onFailuregetStoreDetails(value: StoreDetailsModelResponse)
+    fun onFailureUat()
 
 }

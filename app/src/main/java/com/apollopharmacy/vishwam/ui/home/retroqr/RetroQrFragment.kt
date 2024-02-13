@@ -30,7 +30,7 @@ class RetroQrFragment : BaseFragment<RetroQrViewModel, FragmentRetroQrBinding>()
 
 
         viewBinding.incharge.setText(Preferences.getToken())
-        viewModel.getProxySiteListResponse(this)
+        viewModel.getProxySiteListResponse(this, context)
 
         if (Preferences.getQrSiteId().isEmpty()) {
 //            showLoading()

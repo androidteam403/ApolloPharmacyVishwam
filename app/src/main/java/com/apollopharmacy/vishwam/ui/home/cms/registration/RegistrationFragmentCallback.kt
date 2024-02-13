@@ -5,4 +5,5 @@ import java.io.Serializable
 
 interface RegistrationFragmentCallback : Serializable {
     fun onSuccessTicketStatus(responseTicktResolvedapi: ResponseTicktResolvedapi)
+    fun onFailureUat()
 }

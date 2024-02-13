@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.util.TypedValue
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -115,10 +116,11 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
 
         showLoading()
         viewModel.getTicketListByCountApi(
+            context,
             this,
             Utils.getFirstDateOfCurrentMonth(),
             Utils.getCurrentDateCeoDashboard(),
-            Preferences.getValidatedEmpId(), ""//"APL67949"
+            Preferences.getValidatedEmpId(), ""//"APL67949",
         )
 
 
@@ -403,10 +405,12 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         } else {*/
         showLoading()
         viewModel.getTicketListByCountApi(
+            context,
             this,
             Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
             Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-            employee, roleCode//"APL67949"
+            employee,
+            roleCode//"APL67949"
         )
 //        }
 
@@ -427,6 +431,8 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
         }
         if (employeeDetailsResponse != null && employeeDetailsResponse!!.data != null && employeeDetailsResponse!!.data!!.role != null && employeeDetailsResponse!!.data!!.role!!.code != null) {
             role = employeeDetailsResponse!!.data!!.role!!.code!!
+        }else{
+            Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -918,18 +924,21 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
     }
 
     override fun onClickApplyDate() {
-        showLoading()
+
         if (statusRoleResponseList != null && statusRoleResponseList.size == 1) {
             for (i in statusRoleResponseList.indices) {
                 if (statusRoleResponseList[i].empId.equals(Preferences.getValidatedEmpId())) {
                     statusRoleResponseList.removeAt(i)
                 }
             }
+            showLoading()
             viewModel.getTicketListByCountApi(
+                context,
                 this,
                 Utils.getConvertedDateFormatyyyymmdd(viewBinding.fromDate.text.toString()),
                 Utils.getConvertedDateFormatyyyymmdd(viewBinding.toDate.text.toString()),
-                Preferences.getValidatedEmpId(), ""//"APL67949"
+                Preferences.getValidatedEmpId(),
+                ""//"APL67949"
             )
         }
 
@@ -998,6 +1007,11 @@ class CeoDashboardFragment : BaseFragment<CeoDashboardViewModel, FragmentCeoDash
             toDateModified
         )
     }//viewBinding.fromDate.text.toString()....viewBinding.toDate.text.toString()
+
+    override fun onFailureUat() {
+        hideLoading()
+
+    }
 
     override fun selectedDateTo(
         dateSelected: String,

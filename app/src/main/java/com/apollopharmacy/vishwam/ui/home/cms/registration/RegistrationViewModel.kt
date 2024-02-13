@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.cms.registration
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -101,7 +104,7 @@ class RegistrationViewModel : ViewModel() {
 
     var updateUserDefaultSiteResponseMutable = MutableLiveData<UpdateUserDefaultSiteResponse>()
 
-    fun siteId() {
+    fun siteId(callback: RegistrationFragmentCallback) {
         if (Preferences.isSiteIdListFetched()) {
             siteLiveData.clear()
             val gson = Gson()
@@ -143,24 +146,32 @@ class RegistrationViewModel : ViewModel() {
                             is ApiResult.Success -> {
                                 state.value = State.ERROR
                                 val resp: String = response.value.string()
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val reasonmasterV2Response =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        SiteDto::class.java
-                                    )
+                                try {
+                                    val res = BackShlash.removeBackSlashes(resp)
+                                    val reasonmasterV2Response =
+                                        Gson().fromJson(
+                                            BackShlash.removeSubString(res),
+                                            SiteDto::class.java
+                                        )
 
-                                if (reasonmasterV2Response.status) {
-                                    siteLiveData.clear()
-                                    reasonmasterV2Response.siteData?.listData?.rows?.map {
-                                        siteLiveData.add(it)
+                                    if (reasonmasterV2Response.status) {
+                                        siteLiveData.clear()
+                                        reasonmasterV2Response.siteData?.listData?.rows?.map {
+                                            siteLiveData.add(it)
+                                        }
+                                        // getDepartment()
+                                        command.value = CmsCommand.ShowSiteInfo("")
+                                    } else {
+                                        command.value =
+                                            CmsCommand.ShowToast(reasonmasterV2Response.message.toString())
                                     }
-                                    // getDepartment()
-                                    command.value = CmsCommand.ShowSiteInfo("")
-                                } else {
-                                    command.value =
-                                        CmsCommand.ShowToast(reasonmasterV2Response.message.toString())
+                                } catch (e: Exception) {
+                                    Log.e("API Error", "Received HTML response")
+                                    Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                                    callback.onFailureUat()
+                                    // Handle parsing error, e.g., show an error message to the user
                                 }
+
                             }
 
                             is ApiResult.GenericError -> {
@@ -187,7 +198,7 @@ class RegistrationViewModel : ViewModel() {
 
 
     //get Remarsks list api......................................
-    fun getRemarksMasterList() {
+    fun getRemarksMasterList(context: Context?, registrationFragmentCallback: RegistrationFragmentCallback) {
 
         if (Preferences.isReasonIdListFetched()) {
 
@@ -251,44 +262,53 @@ class RegistrationViewModel : ViewModel() {
                                 if (response != null) {
                                     val resp: String = response.value.string()
                                     if (resp != null) {
-                                        val res = BackShlash.removeBackSlashes(resp)
-                                        val reasonmasterV2Response =
-                                            Gson().fromJson(
-                                                BackShlash.removeSubString(res),
-                                                ReasonmasterV2Response::class.java
-                                            )
-
-                                        if (reasonmasterV2Response.success) {
-                                            reasonLiveData.add(reasonmasterV2Response)
-                                            Preferences.setReasonIdList(Gson().toJson(reasonLiveData))
-                                            Preferences.setReasonListFetched(true)
-                                            deartmentlist.clear()
-                                            Reasonlistdata = reasonmasterV2Response
-                                            Preferences.setReasonIdObject(
-                                                Gson().toJson(
-                                                    Reasonlistdata
+                                        try {
+                                            val res = BackShlash.removeBackSlashes(resp)
+                                            val reasonmasterV2Response =
+                                                Gson().fromJson(
+                                                    BackShlash.removeSubString(res),
+                                                    ReasonmasterV2Response::class.java
                                                 )
-                                            )
-                                            reasonlistapiresponse.value = reasonmasterV2Response
-                                            val reasonlitrows =
-                                                reasonmasterV2Response.data.listdata.rows
-//                                            val reasonlitrows =
-//                                                reasonmasterV2Response.data.listdata.rows
-                                            for (row in reasonlitrows) {
-                                                deartmentlist.add(row.department)
-                                                reasonDepartmentLiveData.add(row.department)
-                                                Preferences.setReasondDepartmentIdList(
+
+                                            if (reasonmasterV2Response.success) {
+                                                reasonLiveData.add(reasonmasterV2Response)
+                                                Preferences.setReasonIdList(Gson().toJson(reasonLiveData))
+                                                Preferences.setReasonListFetched(true)
+                                                deartmentlist.clear()
+                                                Reasonlistdata = reasonmasterV2Response
+                                                Preferences.setReasonIdObject(
                                                     Gson().toJson(
-                                                        reasonDepartmentLiveData
+                                                        Reasonlistdata
                                                     )
                                                 )
+                                                reasonlistapiresponse.value = reasonmasterV2Response
+                                                val reasonlitrows =
+                                                    reasonmasterV2Response.data.listdata.rows
+//                                            val reasonlitrows =
+//                                                reasonmasterV2Response.data.listdata.rows
+                                                for (row in reasonlitrows) {
+                                                    deartmentlist.add(row.department)
+                                                    reasonDepartmentLiveData.add(row.department)
+                                                    Preferences.setReasondDepartmentIdList(
+                                                        Gson().toJson(
+                                                            reasonDepartmentLiveData
+                                                        )
+                                                    )
+                                                }
+
+
+                                            } else {
+                                                command.value =
+                                                    CmsCommand.ShowToast(reasonmasterV2Response.message.toString())
                                             }
+                                        } catch (e: Exception) {
+                                            Log.e("API Error", "Received HTML response")
+                                            Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                                            registrationFragmentCallback.onFailureUat()
 
-
-                                        } else {
-                                            command.value =
-                                                CmsCommand.ShowToast(reasonmasterV2Response.message.toString())
+                                            // Handle parsing error, e.g., show an error message to the user
                                         }
+
                                     }
                                 } else {
 //                                command.value = CmsCommand.ShowToast(

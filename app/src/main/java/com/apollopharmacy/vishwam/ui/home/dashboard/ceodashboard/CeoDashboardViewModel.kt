@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.dashboard.ceodashboard
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,6 +24,7 @@ class CeoDashboardViewModel : ViewModel() {
     val commands = LiveEvent<Command>()
     val state = MutableLiveData<State>()
     fun getTicketListByCountApi(
+        context: Context?,
         ceoDashboardCallback: CeoDashboardCallback,
         startDate: String,
         endDate: String,
@@ -67,21 +71,29 @@ class CeoDashboardViewModel : ViewModel() {
             when (result) {
                 is ApiResult.Success -> {
                     val resp: String = result.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val ticketListByCountResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res),
-                        TicketCountsByStatusRoleResponse::class.java
-                    )
-                    if (ticketListByCountResponse.success) {
-                        ticketListByCountResponse.empId = id
-                        ceoDashboardCallback.onSuccessgetTicketListByCountApi(
-                            ticketListByCountResponse
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val ticketListByCountResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res),
+                            TicketCountsByStatusRoleResponse::class.java
                         )
-                    } else {
-                        ceoDashboardCallback.onFailuregetTicketListByCountApi(
-                            ticketListByCountResponse
-                        )
+                        if (ticketListByCountResponse.success) {
+                            ticketListByCountResponse.empId = id
+                            ceoDashboardCallback.onSuccessgetTicketListByCountApi(
+                                ticketListByCountResponse
+                            )
+                        } else {
+                            ceoDashboardCallback.onFailuregetTicketListByCountApi(
+                                ticketListByCountResponse
+                            )
+                        }
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                        ceoDashboardCallback.onFailureUat();
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
                 }
 
                 is ApiResult.GenericError -> {

@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.apna.survey
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,6 +34,7 @@ class ApnaSurveylViewModel : ViewModel() {
         searchQuary: String,
         status: String,
         isSearch: Boolean,
+        context: Context?,
     ) {
 
         val url = Preferences.getApi()
@@ -118,19 +122,27 @@ class ApnaSurveylViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val surveyListResponse = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                SurveyListResponse::class.java
-                            )
-                            if (surveyListResponse.success == true) {
-                                apnaSurveyCallback.onSuccessgetSurveyDetails(surveyListResponse)
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val surveyListResponse = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    SurveyListResponse::class.java
+                                )
+                                if (surveyListResponse.success == true) {
+                                    apnaSurveyCallback.onSuccessgetSurveyDetails(surveyListResponse)
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
-                            } else {
-                                apnaSurveyCallback.onFailureGetSurveyDetails(surveyListResponse.message.toString())
-                                apnaSurveyCallback.onFailuregetSurveyDetails(surveyListResponse)
+                                } else {
+                                    apnaSurveyCallback.onFailureGetSurveyDetails(surveyListResponse.message.toString())
+                                    apnaSurveyCallback.onFailuregetSurveyDetails(surveyListResponse)
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                                apnaSurveyCallback.onFailureUat();
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
 
                         }
 
