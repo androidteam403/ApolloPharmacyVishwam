@@ -4,8 +4,8 @@
 4
 5    <uses-sdk
 6        android:minSdkVersion="24"
-6-->D:\NewUiWorkspace\ApolloPharmacyVishwam\openCV\java\AndroidManifest.xml
+6-->D:\ApolloPharmacyVishwamWithoutServices\openCV\java\AndroidManifest.xml
 7        android:targetSdkVersion="33" />
-7-->D:\NewUiWorkspace\ApolloPharmacyVishwam\openCV\java\AndroidManifest.xml
+7-->D:\ApolloPharmacyVishwamWithoutServices\openCV\java\AndroidManifest.xml
 8
 9</manifest>
