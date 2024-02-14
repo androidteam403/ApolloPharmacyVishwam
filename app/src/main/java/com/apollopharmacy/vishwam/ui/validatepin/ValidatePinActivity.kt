@@ -1,6 +1,9 @@
 package com.apollopharmacy.vishwam.ui.validatepin
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -8,10 +11,12 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.apollopharmacy.vishwam.BuildConfig
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.MPinRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
@@ -26,9 +31,10 @@ import com.google.android.gms.tasks.*
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 
+
 @Suppress("DEPRECATION")
 class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
-
+    private var isReceiverRegistered = false
     lateinit var viewModel: ValidatePinViewModel
     lateinit var validatePinCallBack: ValidatePinCallBack
     private val REQUEST_CODE_ENABLE = 11
@@ -62,7 +68,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                 uniqueId = intent.getStringExtra("UNIQUE_ID") as String
         }
 
-        validatePinCallBack=this
+        validatePinCallBack = this
 //        onCheckBuildDetails()
         handleMPinService()
         viewModel.getApplevelDesignation(
@@ -137,15 +143,73 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
 
     }
+    fun startApiService(validatedEmpId: String) {
+        Preferences.setEmployeeApiAvailable(false);
+        Preferences.storeEmployeeDetailsResponseJson("")
+        Preferences.setRoleForCeoDashboard("")
+        Preferences.setEmployeeRoleUid("")
+        Preferences.setSwachhSiteId("")
+        Preferences.setRetroQrEmployeeRoleUid("")
+        Preferences.setRetroEmployeeRoleUid("")
+        Preferences.setEmployeeRoleUidRetroQr("")
+        Preferences.setEmployeeRoleUidChampsAdmin("")
+        Preferences.setEmployeeRoleUidNewDrugRequest("")
+        val intent = Intent(this, ValidatePinService::class.java).apply {
+            putExtra("validatedEmpId", validatedEmpId)
+        }
+        startService(intent)
+    }
+    private val responseReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val dataJson = intent?.getStringExtra("data")
+            val result = Gson().fromJson(dataJson, EmployeeDetailsResponse::class.java)
 
+            // Use the result as needed
+        }
+    }
+    override fun onStart() {
+        super.onStart()
+        if (!isReceiverRegistered) {
+            val filter = IntentFilter("com.apollopharmacy.vishwam.ACTION_RECEIVE_DATA")
+            registerReceiver(responseReceiver, filter)
+            isReceiverRegistered = true
+        }
+    }
+    override fun onStop() {
+        super.onStop()
+//        if (isReceiverRegistered) {
+//            unregisterReceiver(responseReceiver)
+//            isReceiverRegistered = false
+//        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (!isReceiverRegistered) {
+            val filter = IntentFilter("com.apollopharmacy.vishwam.ACTION_RECEIVE_DATA")
+            registerReceiver(responseReceiver, filter)
+            isReceiverRegistered = true
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+//        if (isReceiverRegistered) {
+//            unregisterReceiver(responseReceiver)
+//            isReceiverRegistered = false
+//        }
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_ENABLE) {
             if (resultCode == RESULT_OK) {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
-//                handleNextIntent()
 
-                viewModel.getRole(Preferences.getValidatedEmpId(), validatePinCallBack)
+                //                handleNextIntent()
+                val filter = IntentFilter("com.apollopharmacy.vishwam.ACTION_RECEIVE_DATA")
+                registerReceiver(responseReceiver, filter)
+                startApiService(Preferences.getValidatedEmpId())
+                handleNextIntent()
+//                viewModel.getRole(Preferences.getValidatedEmpId(), validatePinCallBack)
                 viewModel.getApplevelDesignation(
                     Preferences.getValidatedEmpId(), "SWACHH", applicationContext
                 )
@@ -154,7 +218,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                     Preferences.getValidatedEmpId(), "RETRO", applicationContext, this
                 )
                 viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
-
+                viewModel.getNotificationDetailsApi(this)
 
                 viewModel.appLevelDesignationRespSwach.observeForever {
 
@@ -175,7 +239,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                     }
                 }
                 viewModel.employeeDetails.observeForever {
-                    if(it.success!!){
+                    if (it.success!!) {
                         Preferences.setEmployeeApiAvailable(true);
                         if (it.success!! && it.data != null && it.data?.uploadSwach != null) {
 //                        it.data!!.role!!.code = "store_supervisor"
@@ -314,7 +378,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
                         }
 
-                    }else{
+                    } else {
                         Preferences.setEmployeeApiAvailable(false);
                         onHandleNextEvent()
                     }
@@ -353,7 +417,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //emp-102//Nagapavan
         Preferences.setIsPinCreated(true)
         val homeIntent = Intent(this, MainActivity::class.java)
-        if(notificationResponse!=null){
+        if (notificationResponse != null) {
             homeIntent.putExtra("notificationResponse", notificationResponse)
         }
         homeIntent.putExtra("MODULE", module)
@@ -464,20 +528,26 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //            data.listData=listData
 //            res.data=data
         }
-        handleNextIntent()
+//        handleNextIntent()
     }
 
     override fun onFailureNotificationDetails(value: NotificationModelResponse) {
-        handleNextIntent()
+//        handleNextIntent()
     }
 
     override fun onFailureNotificationDetail() {
-        handleNextIntent()
+//        handleNextIntent()
     }
 
     override fun onHandleNextEvent() {
         Preferences.setEmployeeApiAvailable(false);
-        handleNextIntent()
+//        handleNextIntent()
     }
 
 }
+
+//
+//emp details -> service 1, 2
+//
+//        boolean isEmpCalled
+//        boolr
