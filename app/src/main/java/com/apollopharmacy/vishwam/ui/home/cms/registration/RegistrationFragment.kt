@@ -929,6 +929,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewBinding.newMrpInputLayout.visibility = View.GONE
             viewBinding.captureUploadLayout.visibility = View.GONE
             viewBinding.barcodeEdt.isEnabled = false
+            viewBinding.barcodeLayout.visibility = View.GONE
         } else if (departmentDto.name.equals("MRP Change Request")) {
             statusInventory = "MRP Change Request"
             viewBinding.description.visibility = View.VISIBLE
@@ -940,6 +941,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewBinding.newMrpInputLayout.visibility = View.VISIBLE
             viewBinding.captureUploadLayout.visibility = View.GONE
             viewBinding.barcodeEdt.isEnabled = false
+            viewBinding.barcodeLayout.visibility = View.GONE
         } else {
             for (i in maintanceArrayList.indices) {
                 if (maintanceArrayList[i].equals(departmentDto.name)) {
