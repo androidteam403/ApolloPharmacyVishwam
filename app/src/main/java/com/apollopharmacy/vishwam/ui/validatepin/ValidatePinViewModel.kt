@@ -478,7 +478,7 @@ class ValidatePinViewModel : ViewModel() {
                                 }
                             } catch (e: Exception) {
                                 Log.e("API Error", "Received HTML response")
-                                validatePinCallBack.onHandleNextEvent()
+//                                validatePinCallBack.onHandleNextEvent()
                                 // Handle parsing error, e.g., show an error message to the user
                             }
 

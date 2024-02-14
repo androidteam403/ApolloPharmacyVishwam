@@ -603,6 +603,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <service android:name=".ui.validatepin.ValidatePinService"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
