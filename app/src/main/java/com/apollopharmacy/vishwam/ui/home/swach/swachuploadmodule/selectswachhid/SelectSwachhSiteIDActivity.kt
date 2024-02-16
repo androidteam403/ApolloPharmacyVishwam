@@ -37,7 +37,7 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
         viewModel = ViewModelProvider(this)[SelectSwachhSiteIdViewModel::class.java]
         activitySelectSwachhSiteidBinding.callback = this
         Utlis.showLoading(this)
-        viewModel.siteId()
+        viewModel.siteId(applicationContext, this)
         onSuccessSiteIdLIst()
     }
 
@@ -172,5 +172,9 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
+    }
+
+    override fun onFailureUat() {
+        Utlis.hideLoading()
     }
 }

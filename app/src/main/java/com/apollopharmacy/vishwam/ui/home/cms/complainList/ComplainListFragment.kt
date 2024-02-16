@@ -370,7 +370,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             }
             Utlis.showLoading(requireContext())
             viewModel.getTicketFullDetails(
-                adapter!!.orderData[selectedPostion].ticket_id, selectedPostion
+                adapter!!.orderData[selectedPostion].ticket_id, selectedPostion, this
             )
             //  adapter.notifyAdapter()
 
@@ -1660,7 +1660,7 @@ end*/
     fun calltickethistory(uid: String) {
         Utlis.showLoading(requireContext())
         val tickethistory = ArrayList<NewTicketHistoryResponse.Row>()
-        viewModel.getNewticketHistory(RequestTicketHistory(1, 50, uid))
+        viewModel.getNewticketHistory(RequestTicketHistory(1, 50, uid), context, this)
     }
 
     private lateinit var orderDataForTicketResponse: ArrayList<ResponseNewTicketlist.Row>
@@ -1749,7 +1749,7 @@ end*/
                 responseList.get(position).status!!.name = "Resolved"
                 responseList.get(position).status!!.background_color = "#047604"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
-                viewModel.actionCCAccept(ccAcceptRejectModel, 0)
+                viewModel.actionCCAccept(ccAcceptRejectModel, 0, context)
 
                 adapter!!.notifyDataSetChanged()
 
@@ -1807,7 +1807,7 @@ end*/
                 responseList.get(position).status!!.name = "Rejected"
                 responseList.get(position).status!!.background_color = "#ed001c"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
-                viewModel.actionCCAccept(ccAcceptRejectModel, 0)
+                viewModel.actionCCAccept(ccAcceptRejectModel, 0, context)
 
                 adapter!!.notifyDataSetChanged()
 
@@ -1892,7 +1892,7 @@ end*/
                 responseList.get(position).status!!.background_color = "#047604"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(
-                    inventoryAcceptrejectModel, workFlowUpdateModel, 0
+                    inventoryAcceptrejectModel, workFlowUpdateModel, 0, context
                 )
                 adapter!!.notifyDataSetChanged()
 
@@ -1981,7 +1981,7 @@ end*/
                 responseList.get(position).status!!.background_color = "#ed001c"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(
-                    inventoryAcceptrejectModel, workFlowUpdateModel, 0
+                    inventoryAcceptrejectModel, workFlowUpdateModel, 0, context
                 )
                 adapter!!.notifyDataSetChanged()
 
@@ -2045,7 +2045,7 @@ end*/
         viewModel.getManagersLiveData.observe(viewLifecycleOwner, Observer {
             SearchManagerDialog(it).apply { }.show(childFragmentManager, "")
         })
-        viewModel.getManagers(data.site?.uid!!)
+        viewModel.getManagers(data.site?.uid!!, context)
     }
 
     override fun onClickTicketResolve(
@@ -2287,7 +2287,7 @@ end*/
                 showLoading()
                 viewModel.userlistForSubworkflowApiCall(
                     this@ComplainListFragment,
-                    data, responseList, position, row
+                    data, responseList, position, row, context
                 )
             }
         } else {

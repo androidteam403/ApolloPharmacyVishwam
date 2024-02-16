@@ -46,7 +46,7 @@ class DrugFragmentViewModel : ViewModel() {
 
     var drugList = MutableLiveData<DrugResponse>()
 
-    fun getDrugList(drugRequest: DrugRequest, mCallback: DrugFragmentCallback) {
+    fun getDrugList(drugRequest: DrugRequest, mCallback: DrugFragmentCallback, context: Context?) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -158,7 +158,7 @@ class DrugFragmentViewModel : ViewModel() {
                                 tisketstatusresponse.data.executive,
                                 tisketstatusresponse.data.manager,
                                 tisketstatusresponse.data.region_head,
-                            ), mCallback
+                            ), mCallback, context
                         )
                     } else {
                         state.value = State.ERROR
@@ -196,6 +196,7 @@ class DrugFragmentViewModel : ViewModel() {
     fun submitTicketInventorySaveUpdate(
         requestNewComplaintRegistration: RequestSaveUpdateComplaintRegistration,
         mCallback: DrugFragmentCallback,
+        context: Context?,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -242,27 +243,36 @@ class DrugFragmentViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewComplaintRegistration =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    ResponseNewComplaintRegistration::class.java
-                                )
-                            if (responseNewComplaintRegistration.success) {
-                                responsenewcomplaintregistration.value =
-                                    responseNewComplaintRegistration
-                            } else {
-                                mCallback.onFailureMessage(
-                                    responseNewComplaintRegistration.data.ticket_id!!,
-                                    responseNewComplaintRegistration.data.createdUser!!.firstName + "  " + responseNewComplaintRegistration.data.createdUser!!.middleName + "  " + responseNewComplaintRegistration.data.createdUser!!.lastName,
-                                    responseNewComplaintRegistration.data?.errors?.get(0)?.msg.toString()
-                                )
+                            try {
+
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val responseNewComplaintRegistration =
+                                    Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        ResponseNewComplaintRegistration::class.java
+                                    )
+                                if (responseNewComplaintRegistration.success) {
+                                    responsenewcomplaintregistration.value =
+                                        responseNewComplaintRegistration
+                                } else {
+                                    mCallback.onFailureMessage(
+                                        responseNewComplaintRegistration.data.ticket_id!!,
+                                        responseNewComplaintRegistration.data.createdUser!!.firstName + "  " + responseNewComplaintRegistration.data.createdUser!!.middleName + "  " + responseNewComplaintRegistration.data.createdUser!!.lastName,
+                                        responseNewComplaintRegistration.data?.errors?.get(0)?.msg.toString()
+                                    )
 
 
 //                                commands.postValue(Commands.ShowToast(
 //                                    responseNewComplaintRegistration.data?.errors?.get(0)?.msg.toString()))
 
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
                         }
                     }
                 }
@@ -390,7 +400,7 @@ class DrugFragmentViewModel : ViewModel() {
     }
 
     lateinit var tisketstatusresponse: ResponseTicktResolvedapi
-    fun getTicketstatus(site: String?, department: String?) {
+    fun getTicketstatus(site: String?, department: String?, context: Context?) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
@@ -430,13 +440,15 @@ class DrugFragmentViewModel : ViewModel() {
                             if (response != null) {
                                 val resp: String = response.value.string()
                                 if (resp != null) {
-                                    val res = BackShlash.removeBackSlashes(resp)
-                                    val responseTicktResolvedapi =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            ResponseTicktResolvedapi::class.java
-                                        )
-                                    tisketstatusresponse = responseTicktResolvedapi
+                                    try {
+                                    } catch (e: Exception) {
+                                        val res = BackShlash.removeBackSlashes(resp)
+                                        val responseTicktResolvedapi =
+                                            Gson().fromJson(
+                                                BackShlash.removeSubString(res),
+                                                ResponseTicktResolvedapi::class.java
+                                            )
+                                        tisketstatusresponse = responseTicktResolvedapi
 //                                    if (!responseTicktResolvedapi.success) {
 //                                        tisketstatusresponse.value = responseTicktResolvedapi
 //                                    } else {
@@ -444,6 +456,13 @@ class DrugFragmentViewModel : ViewModel() {
 //                                            responseTicktResolvedapi.toString()
 //                                        )
 //                                    }
+                                        Log.e("API Error", "Received HTML response")
+                                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                        // Handle parsing error, e.g., show an error message to the user
+                                    }
+
+
                                 }
                             }
                             /* val reasonlitrows = response.value.data.listdata.rows

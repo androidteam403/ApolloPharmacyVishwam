@@ -1034,7 +1034,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 updateUserDefaultSiteRequest.empId = Preferences.getToken()
                 updateUserDefaultSiteRequest.site = siteId
                 retrieveViewModel().updateDefaultSiteIdApiCall(
-                    updateUserDefaultSiteRequest, this@ApolloSensingFragment
+                    updateUserDefaultSiteRequest, this@ApolloSensingFragment, context
                 )
             }
         }
@@ -1217,7 +1217,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         updateUserDefaultSiteRequest.empId = Preferences.getToken()
         updateUserDefaultSiteRequest.site = siteId
         retrieveViewModel().updateDefaultSiteIdApiCall(
-            updateUserDefaultSiteRequest, this@ApolloSensingFragment
+            updateUserDefaultSiteRequest, this@ApolloSensingFragment, context
         )
     }
 

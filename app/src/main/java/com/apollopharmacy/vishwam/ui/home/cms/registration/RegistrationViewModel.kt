@@ -384,16 +384,17 @@ class RegistrationViewModel : ViewModel() {
                             if (response != null) {
                                 val resp: String = response.value.string()
                                 if (resp != null) {
-                                    val res = BackShlash.removeBackSlashes(resp)
-                                    val responseTicktResolvedapi =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            ResponseTicktResolvedapi::class.java
-                                        )
-                                    if (callback != null) {
-                                        callback.onSuccessTicketStatus(responseTicktResolvedapi)
-                                    }
-                                    tisketstatusresponse.value = responseTicktResolvedapi
+                                    try {
+                                        val res = BackShlash.removeBackSlashes(resp)
+                                        val responseTicktResolvedapi =
+                                            Gson().fromJson(
+                                                BackShlash.removeSubString(res),
+                                                ResponseTicktResolvedapi::class.java
+                                            )
+                                        if (callback != null) {
+                                            callback.onSuccessTicketStatus(responseTicktResolvedapi)
+                                        }
+                                        tisketstatusresponse.value = responseTicktResolvedapi
 //                                    if (!responseTicktResolvedapi.success) {
 //                                        tisketstatusresponse.value = responseTicktResolvedapi
 //                                    } else {
@@ -401,6 +402,14 @@ class RegistrationViewModel : ViewModel() {
 //                                            responseTicktResolvedapi.toString()
 //                                        )
 //                                    }
+                                    } catch (e: Exception) {
+                                        Log.e("API Error", "Received HTML response")
+                                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                        // Handle parsing error, e.g., show an error message to the user
+                                    }
+
+
                                 }
                             }
                             /* val reasonlitrows = response.value.data.listdata.rows
@@ -552,13 +561,22 @@ class RegistrationViewModel : ViewModel() {
                                 // tisketstatusresponse.value = response.value
                                 val resp: String = response.value.string()
                                 if (resp != null) {
-                                    val res = BackShlash.removeBackSlashes(resp)
-                                    val responseticketRatingApi =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            ResponseticketRatingApi::class.java
-                                        )
-                                    cmsticketRatingresponse.value = responseticketRatingApi
+                                    try {
+                                        val res = BackShlash.removeBackSlashes(resp)
+                                        val responseticketRatingApi =
+                                            Gson().fromJson(
+                                                BackShlash.removeSubString(res),
+                                                ResponseticketRatingApi::class.java
+                                            )
+                                        cmsticketRatingresponse.value = responseticketRatingApi
+                                    } catch (e: Exception) {
+                                        Log.e("API Error", "Received HTML response")
+                                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                        // Handle parsing error, e.g., show an error message to the user
+                                    }
+
+
 
 
                                 }
@@ -646,14 +664,23 @@ class RegistrationViewModel : ViewModel() {
                             if (response != null) {
                                 val resp: String = response.value.string()
                                 if (resp != null) {
-                                    val res = BackShlash.removeBackSlashes(resp)
-                                    val responseClosedTicketApi =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            ResponseClosedTicketApi::class.java
-                                        )
-                                    // tisketstatusresponse.value = response.value
+                                    try {
+                                        val res = BackShlash.removeBackSlashes(resp)
+                                        val responseClosedTicketApi =
+                                            Gson().fromJson(
+                                                BackShlash.removeSubString(res),
+                                                ResponseClosedTicketApi::class.java
+                                            )
+                                        // tisketstatusresponse.value = response.value
 //                                    cmsticketclosingapiresponse.value = responseClosedTicketApi
+
+                                    } catch (e: Exception) {
+                                        Log.e("API Error", "Received HTML response")
+                                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                        // Handle parsing error, e.g., show an error message to the user
+                                    }
+
 
 
                                 }
@@ -931,22 +958,31 @@ class RegistrationViewModel : ViewModel() {
 
                                 val resp: String = response.value.string()
                                 if (resp != null) {
-                                    val res = BackShlash.removeBackSlashes(resp)
-                                    val responseNewComplaintRegistration = Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        ResponseNewComplaintRegistration::class.java
-                                    )
-                                    if (responseNewComplaintRegistration.success) {
-                                        responsenewcomplaintregistration.value =
-                                            responseNewComplaintRegistration
-                                    } else {
-                                        command.value =
-                                            CmsCommand.ShowToast(
-                                                responseNewComplaintRegistration.data?.errors?.get(
-                                                    0
-                                                )?.msg.toString()
-                                            )
+                                    try {
+                                        val res = BackShlash.removeBackSlashes(resp)
+                                        val responseNewComplaintRegistration = Gson().fromJson(
+                                            BackShlash.removeSubString(res),
+                                            ResponseNewComplaintRegistration::class.java
+                                        )
+                                        if (responseNewComplaintRegistration.success) {
+                                            responsenewcomplaintregistration.value =
+                                                responseNewComplaintRegistration
+                                        } else {
+                                            command.value =
+                                                CmsCommand.ShowToast(
+                                                    responseNewComplaintRegistration.data?.errors?.get(
+                                                        0
+                                                    )?.msg.toString()
+                                                )
+                                        }
+                                    } catch (e: Exception) {
+                                        Log.e("API Error", "Received HTML response")
+                                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                        // Handle parsing error, e.g., show an error message to the user
                                     }
+
+
 
 
                                 }
@@ -1396,7 +1432,10 @@ class RegistrationViewModel : ViewModel() {
         }
     }
 
-    fun updateDefaultSiteIdApiCall(updateUserDefaultSiteRequest: UpdateUserDefaultSiteRequest) {
+    fun updateDefaultSiteIdApiCall(
+        updateUserDefaultSiteRequest: UpdateUserDefaultSiteRequest,
+        context: Context?, callback: RegistrationFragmentCallback
+    ) {
         val updateUserDefaultSiteRequestJson = Gson().toJson(updateUserDefaultSiteRequest)
         val url = Preferences.getApi()
 
@@ -1441,21 +1480,30 @@ class RegistrationViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val updateUserDefaultSiteResponse =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    UpdateUserDefaultSiteResponse::class.java
-                                )
-                            if (updateUserDefaultSiteResponse.success!!) {
-                                updateUserDefaultSiteResponseMutable.value =
-                                    updateUserDefaultSiteResponse
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val updateUserDefaultSiteResponse =
+                                    Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        UpdateUserDefaultSiteResponse::class.java
+                                    )
+                                if (updateUserDefaultSiteResponse.success!!) {
+                                    updateUserDefaultSiteResponseMutable.value =
+                                        updateUserDefaultSiteResponse
 
 //                                updateSwachhDefaultSiteResponseModel.value =
 //                                    updateSwachhDefaultSiteResponse
-                            } else {
+                                } else {
 
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                                callback.onFailureUat()
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
                         }
                     } else {
                     }
@@ -1529,12 +1577,13 @@ class RegistrationViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val resString = BackShlash.removeSubString(res)
-                            val responseTicktResolvedapi =
-                                Gson().fromJson(resString, FetchItemModel::class.java)
-                            inventoryCategotyItem =
-                                responseTicktResolvedapi.data.listData.rows.get(0)
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val resString = BackShlash.removeSubString(res)
+                                val responseTicktResolvedapi =
+                                    Gson().fromJson(resString, FetchItemModel::class.java)
+                                inventoryCategotyItem =
+                                    responseTicktResolvedapi.data.listData.rows.get(0)
 //                                    if (!responseTicktResolvedapi.success) {
 //                                        tisketstatusresponse.value = responseTicktResolvedapi
 //                                    } else {
@@ -1542,6 +1591,14 @@ class RegistrationViewModel : ViewModel() {
 //                                            responseTicktResolvedapi.toString()
 //                                        )
 //                                    }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
+                            }
+
+
                         }
                     }
 
@@ -1609,11 +1666,20 @@ class RegistrationViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val resString = BackShlash.removeSubString(res)
-                            val responseTicktResolvedapi =
-                                Gson().fromJson(resString, TransactionPOSModel::class.java)
-                            transactionPOSDetails.value = responseTicktResolvedapi
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val resString = BackShlash.removeSubString(res)
+                                val responseTicktResolvedapi =
+                                    Gson().fromJson(resString, TransactionPOSModel::class.java)
+                                transactionPOSDetails.value = responseTicktResolvedapi
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
+                            }
+
+
 
                         }
                     }
@@ -1749,23 +1815,32 @@ class RegistrationViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewComplaintRegistration =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    ResponseNewComplaintRegistration::class.java
-                                )
-                            if (responseNewComplaintRegistration.success) {
-                                responsenewcomplaintregistration.value =
-                                    responseNewComplaintRegistration
-                            } else {
-                                command.value =
-                                    CmsCommand.ShowToast(
-                                        responseNewComplaintRegistration.data?.errors?.get(
-                                            0
-                                        )?.msg.toString()
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val responseNewComplaintRegistration =
+                                    Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        ResponseNewComplaintRegistration::class.java
                                     )
+                                if (responseNewComplaintRegistration.success) {
+                                    responsenewcomplaintregistration.value =
+                                        responseNewComplaintRegistration
+                                } else {
+                                    command.value =
+                                        CmsCommand.ShowToast(
+                                            responseNewComplaintRegistration.data?.errors?.get(
+                                                0
+                                            )?.msg.toString()
+                                        )
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
                         }
                     }
                 }
@@ -1847,20 +1922,29 @@ class RegistrationViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                InventoryAcceptRejectResponse::class.java
-                            )
-                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                command.value = CmsCommand.RefreshPageOnSuccess("")
-                                cmsticketclosingapiresponse.value =
-                                    responseNewTicketlistNewTicketHistoryResponse
-                            } else {
-                                command.value = CmsCommand.ShowToast(
-                                    responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    InventoryAcceptRejectResponse::class.java
                                 )
+                                if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                    command.value = CmsCommand.RefreshPageOnSuccess("")
+                                    cmsticketclosingapiresponse.value =
+                                        responseNewTicketlistNewTicketHistoryResponse
+                                } else {
+                                    command.value = CmsCommand.ShowToast(
+                                        responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg
+                                    )
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
 
                         }
                     }
@@ -1886,7 +1970,7 @@ class RegistrationViewModel : ViewModel() {
     }
 
     fun siteTicketbyReason(
-        siteUid: String, reasonUid: String, allowDuplicateStCreationUid: String
+        siteUid: String, reasonUid: String, allowDuplicateStCreationUid: String, context: Context?, callback: RegistrationFragmentCallback
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -1925,18 +2009,27 @@ class RegistrationViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val siteTicketbyReasonResponse = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                SiteTicketbyReasonResponse::class.java
-                            )
-                            if (siteTicketbyReasonResponse!!.success == true) {
-                                siteTicketbyReasonResponseLive.value = siteTicketbyReasonResponse!!
-                            } else {
-                                command.value = CmsCommand.ShowToast(
-                                    siteTicketbyReasonResponse!!.message!!
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val siteTicketbyReasonResponse = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    SiteTicketbyReasonResponse::class.java
                                 )
+                                if (siteTicketbyReasonResponse!!.success == true) {
+                                    siteTicketbyReasonResponseLive.value = siteTicketbyReasonResponse!!
+                                } else {
+                                    command.value = CmsCommand.ShowToast(
+                                        siteTicketbyReasonResponse!!.message!!
+                                    )
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                                callback.onFailureUat()
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
 
                         }
                     }

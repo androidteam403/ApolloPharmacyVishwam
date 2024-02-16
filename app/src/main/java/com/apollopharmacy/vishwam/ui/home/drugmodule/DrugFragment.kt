@@ -800,7 +800,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                                 imagesList.distinct(),
                                 viewBinding.descriptionText.text.toString(),
                                 store, employeeDetailsResponse!!
-                            ), this@Drug
+                            ), this@Drug, context
                         )
                     }else{
                         Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
@@ -1385,7 +1385,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.createdBy.setText(Preferences.getToken())
         viewBinding.loactionSelect.setText(departmentDto.store_name)
 
-        viewModel.getTicketstatus(departmentDto.site, viewModel.reasonData.data.department.uid)
+        viewModel.getTicketstatus(departmentDto.site, viewModel.reasonData.data.department.uid, context)
     }
 
     fun imageType(pathname: File): String? {

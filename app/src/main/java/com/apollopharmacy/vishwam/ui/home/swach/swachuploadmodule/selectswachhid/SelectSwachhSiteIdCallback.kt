@@ -7,4 +7,5 @@ interface SelectSwachhSiteIdCallback {
     fun onClickCancel()
     fun noOrdersFound(size: Int)
     fun onItemClick(storeListItem: StoreListItem)
+    fun onFailureUat()
 }

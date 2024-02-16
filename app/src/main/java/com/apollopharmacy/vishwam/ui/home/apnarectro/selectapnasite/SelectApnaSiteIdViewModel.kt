@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.apnarectro.selectapnasite
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,7 +29,7 @@ class SelectApnaSiteIdViewModel : ViewModel() {
     var command = LiveEvent<SelectSiteActivityViewModel.CmsCommandSelectSiteId>()
     val state = MutableLiveData<State>()
     var fixedArrayList = MutableLiveData<ArrayList<StoreListItem>>()
-    fun siteId() {
+    fun siteId(context: Context, callback: SelectApnaSiteIdCallback) {
         if (Preferences.isSiteIdListFetched()) {
             siteLiveData.clear()
             val gson = Gson()
@@ -57,7 +60,7 @@ class SelectApnaSiteIdViewModel : ViewModel() {
                         state.value = State.SUCCESS
                         val response = withContext(Dispatchers.IO) {
                             RegistrationRepo.getDetails(
-                                baseUrL,token,
+                                baseUrL, token,
                                 GetDetailsRequest(
                                     baseUrl,
                                     "GET",
@@ -72,38 +75,57 @@ class SelectApnaSiteIdViewModel : ViewModel() {
                             is ApiResult.Success -> {
                                 state.value = State.ERROR
                                 val resp: String = response.value.string()
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val reasonmasterV2Response =
-                                    Gson().fromJson(BackShlash.removeSubString(res),
-                                        SiteDto::class.java
-                                    )
-
-                                if (reasonmasterV2Response.status) {
-                                    siteLiveData.clear()
-                                    reasonmasterV2Response.siteData?.listData?.rows?.map {
-                                        siteLiveData.add(it)
-                                        fixedArrayList.value = siteLiveData
-                                    }
-                                    // getDepartment()
-                                    command.value =
-                                        SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowSiteInfo(
-                                            "")
-                                } else {
-                                    command.value =
-                                        SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowToast(
-                                            reasonmasterV2Response.message.toString()
+                                try {
+                                    val res = BackShlash.removeBackSlashes(resp)
+                                    val reasonmasterV2Response =
+                                        Gson().fromJson(
+                                            BackShlash.removeSubString(res),
+                                            SiteDto::class.java
                                         )
+
+                                    if (reasonmasterV2Response.status) {
+                                        siteLiveData.clear()
+                                        reasonmasterV2Response.siteData?.listData?.rows?.map {
+                                            siteLiveData.add(it)
+                                            fixedArrayList.value = siteLiveData
+                                        }
+                                        // getDepartment()
+                                        command.value =
+                                            SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowSiteInfo(
+                                                ""
+                                            )
+                                    } else {
+                                        command.value =
+                                            SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowToast(
+                                                reasonmasterV2Response.message.toString()
+                                            )
+                                    }
+                                } catch (e: Exception) {
+                                    Log.e("API Error", "Received HTML response")
+                                    Toast.makeText(
+                                        context,
+                                        "Please try again later",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    callback.onFailureUat()
+                                    // Handle parsing error, e.g., show an error message to the user
                                 }
+
+
                             }
+
                             is ApiResult.GenericError -> {
                                 state.value = State.ERROR
                             }
+
                             is ApiResult.NetworkError -> {
                                 state.value = State.ERROR
                             }
+
                             is ApiResult.UnknownError -> {
                                 state.value = State.ERROR
                             }
+
                             is ApiResult.UnknownHostException -> {
                                 state.value = State.ERROR
                             }
@@ -113,6 +135,7 @@ class SelectApnaSiteIdViewModel : ViewModel() {
             }
         }
     }
+
     fun getSiteData(): ArrayList<StoreListItem> {
         return siteLiveData
     }

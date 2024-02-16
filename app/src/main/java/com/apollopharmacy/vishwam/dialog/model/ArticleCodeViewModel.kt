@@ -1,15 +1,16 @@
 package com.apollopharmacy.vishwam.dialog.model
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.model.cms.ArticleCodeRequest
-import com.apollopharmacy.vishwam.data.model.cms.ArticleCodeResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
@@ -23,7 +24,7 @@ class ArticleCodeViewModel : ViewModel() {
     var articleCode = ArrayList<FetchItemModel.Rows>()
     var mutableLiveData = LiveEvent<ArrayList<FetchItemModel.Rows>>()
 
-    fun searchArticleCode(articleCodeRequest: ArticleCodeRequest) {
+    fun searchArticleCode(articleCodeRequest: ArticleCodeRequest, context: Context?) {
         state.value = State.SUCCESS
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -66,17 +67,26 @@ class ArticleCodeViewModel : ViewModel() {
                             ))
                     when (response) {
                         is ApiResult.Success -> {
-                            val res = BackShlash.removeBackSlashes(response.value.string())
-                            val resString = BackShlash.removeSubString(res)
-                            val responseTicktResolvedapi =
-                                Gson().fromJson(
-                                    resString,
-                                    FetchItemModel::class.java
-                                )
-                            articleCode.clear()
-                            articleCode = responseTicktResolvedapi.data.listData.rows
-                            mutableLiveData.value = articleCode
-                            state.value = State.ERROR
+                            try {
+                                val res = BackShlash.removeBackSlashes(response.value.string())
+                                val resString = BackShlash.removeSubString(res)
+                                val responseTicktResolvedapi =
+                                    Gson().fromJson(
+                                        resString,
+                                        FetchItemModel::class.java
+                                    )
+                                articleCode.clear()
+                                articleCode = responseTicktResolvedapi.data.listData.rows
+                                mutableLiveData.value = articleCode
+                                state.value = State.ERROR
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
+                            }
+
+
                         }
                         is ApiResult.NetworkError -> {
                             state.value = State.ERROR

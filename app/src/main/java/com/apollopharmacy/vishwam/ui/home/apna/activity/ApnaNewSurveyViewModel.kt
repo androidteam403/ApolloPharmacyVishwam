@@ -178,15 +178,24 @@ class ApnaNewSurveyViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val dimensionTypeResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res), DimensionTypeResponse::class.java
-                    )
-                    if (dimensionTypeResponse.success!!) {
-                        mCallBack.onSuccessGetDimensionTypeApiCall(dimensionTypeResponse)
-                    } else {
-                        mCallBack.onFailureGetDimensionTypeApiCall(dimensionTypeResponse.success.toString())
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val dimensionTypeResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res), DimensionTypeResponse::class.java
+                        )
+                        if (dimensionTypeResponse.success!!) {
+                            mCallBack.onSuccessGetDimensionTypeApiCall(dimensionTypeResponse)
+                        } else {
+                            mCallBack.onFailureGetDimensionTypeApiCall(dimensionTypeResponse.success.toString())
+                        }
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+//                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
+
 //                    if (response.value.success ?: null == true) {
 //                        state.value = State.SUCCESS
 //                        mCallBack.onSuccessGetDimensionTypeApiCall(response.value)
@@ -234,15 +243,24 @@ class ApnaNewSurveyViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val parkingTypeResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res), ParkingTypeResponse::class.java
-                    )
-                    if (parkingTypeResponse.success!!) {
-                        mCallBack.onSuccessGetParkingTypeApiCall(parkingTypeResponse)
-                    } else {
-                        mCallBack.onFailureGetParkingTypeApiCall(parkingTypeResponse.success.toString())
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val parkingTypeResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res), ParkingTypeResponse::class.java
+                        )
+                        if (parkingTypeResponse.success!!) {
+                            mCallBack.onSuccessGetParkingTypeApiCall(parkingTypeResponse)
+                        } else {
+                            mCallBack.onFailureGetParkingTypeApiCall(parkingTypeResponse.success.toString())
+                        }
+
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+//                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
 
 //                    if (response.value.success ?: null == true) {
 //                        state.value = State.SUCCESS
@@ -291,15 +309,24 @@ class ApnaNewSurveyViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val trafficStreetTypeResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res), TrafficStreetTypeResponse::class.java
-                    )
-                    if (trafficStreetTypeResponse.success!!) {
-                        mCallBack.onSuccessGetTrafficStreetTypeApiCall(trafficStreetTypeResponse)
-                    } else {
-                        mCallBack.onFailureGetTrafficStreetTypeApiCall(trafficStreetTypeResponse.success.toString())
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val trafficStreetTypeResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res), TrafficStreetTypeResponse::class.java
+                        )
+                        if (trafficStreetTypeResponse.success!!) {
+                            mCallBack.onSuccessGetTrafficStreetTypeApiCall(trafficStreetTypeResponse)
+                        } else {
+                            mCallBack.onFailureGetTrafficStreetTypeApiCall(trafficStreetTypeResponse.success.toString())
+                        }
+
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+//                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
 
 //                    if (response.value.success ?: null == true) {
 //                        state.value = State.SUCCESS
@@ -348,19 +375,28 @@ class ApnaNewSurveyViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val neighbouringLocationResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res), NeighbouringLocationResponse::class.java
-                    )
-                    if (neighbouringLocationResponse.success!!) {
-                        mCallBack.onSuccessGetNeighbouringLocationApiCall(
-                            neighbouringLocationResponse
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val neighbouringLocationResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res), NeighbouringLocationResponse::class.java
                         )
-                    } else {
-                        mCallBack.onFailureGetNeighbouringLocationApiCall(
-                            neighbouringLocationResponse.success.toString()
-                        )
+                        if (neighbouringLocationResponse.success!!) {
+                            mCallBack.onSuccessGetNeighbouringLocationApiCall(
+                                neighbouringLocationResponse
+                            )
+                        } else {
+                            mCallBack.onFailureGetNeighbouringLocationApiCall(
+                                neighbouringLocationResponse.success.toString()
+                            )
+                        }
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+//                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
+
 
 //                    if (response.value.success ?: null == true) {
 //                        state.value = State.SUCCESS
@@ -409,15 +445,24 @@ class ApnaNewSurveyViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val trafficGeneratorsResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res), TrafficGeneratorsResponse::class.java
-                    )
-                    if (trafficGeneratorsResponse.success!!) {
-                        mCallBack.onSuccessGetTrafficGeneratorsTypeApiCall(trafficGeneratorsResponse)
-                    } else {
-                        mCallBack.onFailureGetTrafficGeneratorsTypeApiCall(trafficGeneratorsResponse.success.toString())
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val trafficGeneratorsResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res), TrafficGeneratorsResponse::class.java
+                        )
+                        if (trafficGeneratorsResponse.success!!) {
+                            mCallBack.onSuccessGetTrafficGeneratorsTypeApiCall(trafficGeneratorsResponse)
+                        } else {
+                            mCallBack.onFailureGetTrafficGeneratorsTypeApiCall(trafficGeneratorsResponse.success.toString())
+                        }
+
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+//                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
 
 //                    if (response.value.success ?: null == true) {
 //                        state.value = State.SUCCESS
@@ -466,15 +511,24 @@ class ApnaNewSurveyViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val apartmentTypeResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res), ApartmentTypeResponse::class.java
-                    )
-                    if (apartmentTypeResponse.success!!) {
-                        mCallBack.onSuccessGetApartmentTypeApiCall(apartmentTypeResponse)
-                    } else {
-                        mCallBack.onFailureGetApartmentTypeApiCall(apartmentTypeResponse.success.toString())
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val apartmentTypeResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res), ApartmentTypeResponse::class.java
+                        )
+                        if (apartmentTypeResponse.success!!) {
+                            mCallBack.onSuccessGetApartmentTypeApiCall(apartmentTypeResponse)
+                        } else {
+                            mCallBack.onFailureGetApartmentTypeApiCall(apartmentTypeResponse.success.toString())
+                        }
+
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+//                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
 
 //                    if (response.value.success ?: null == true) {
 //                        state.value = State.SUCCESS
@@ -525,15 +579,24 @@ class ApnaNewSurveyViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val surveyCreateResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res), SurveyCreateResponse::class.java
-                    )
-                    if (surveyCreateResponse.success!!) {
-                        mCallBack.onSuccessSurveyCreateApiCall(surveyCreateResponse)
-                    } else {
-                        mCallBack.onFailureSurveyCreateApiCall(surveyCreateResponse.message.toString())
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val surveyCreateResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res), SurveyCreateResponse::class.java
+                        )
+                        if (surveyCreateResponse.success!!) {
+                            mCallBack.onSuccessSurveyCreateApiCall(surveyCreateResponse)
+                        } else {
+                            mCallBack.onFailureSurveyCreateApiCall(surveyCreateResponse.message.toString())
+                        }
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+//                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
+
                 }
 
                 else -> {}
@@ -575,15 +638,24 @@ class ApnaNewSurveyViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val apnaSpecialityResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res), ApnaSpecialityResponse::class.java
-                    )
-                    if (apnaSpecialityResponse.success!!) {
-                        mCallBack.onSuccessGetApnaSpecialityApiCall(apnaSpecialityResponse)
-                    } else {
-                        mCallBack.onFailureGetApnaSpecialityApiCall(apnaSpecialityResponse.success.toString())
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val apnaSpecialityResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res), ApnaSpecialityResponse::class.java
+                        )
+                        if (apnaSpecialityResponse.success!!) {
+                            mCallBack.onSuccessGetApnaSpecialityApiCall(apnaSpecialityResponse)
+                        } else {
+                            mCallBack.onFailureGetApnaSpecialityApiCall(apnaSpecialityResponse.success.toString())
+                        }
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+//                        Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
+
 
 //                    if (response.value.success ?: null == true) {
 //                        state.value = State.SUCCESS

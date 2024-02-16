@@ -37,7 +37,7 @@ class SelectApnaSiteIDActivity : AppCompatActivity(), SelectApnaSiteIdCallback {
         viewModel = ViewModelProvider(this)[SelectApnaSiteIdViewModel::class.java]
         activitySelectSwachhSiteidBinding.callback = this
         Utlis.showLoading(this)
-        viewModel.siteId()
+        viewModel.siteId(applicationContext, this)
         onSuccessSiteIdLIst()
     }
 
@@ -159,5 +159,9 @@ class SelectApnaSiteIDActivity : AppCompatActivity(), SelectApnaSiteIdCallback {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
+    }
+
+    override fun onFailureUat() {
+        Utlis.hideLoading()
     }
 }

@@ -85,7 +85,7 @@ class HistoryFragment(
 
     override fun setup() {
 //        viewBinding.callback=this
-        viewModel.getTicketRatingApi()
+        viewModel.getTicketRatingApi(context)
 //                if (isApprovalListFragment) {
         if (orderDataWp.Tickethistory == null) {
             viewBinding.remarksLayout.visibility = View.GONE
@@ -736,7 +736,7 @@ class HistoryFragment(
                 responseList.get(position).status!!.name = "Resolved"
                 responseList.get(position).status!!.background_color = "#047604"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
-                viewModel.actionCCAccept(ccAcceptRejectModel, 0, complaintsListDetailsCallback)
+                viewModel.actionCCAccept(ccAcceptRejectModel, 0, complaintsListDetailsCallback, context)
 
 //                adapter.notifyDataSetChanged()
 
@@ -795,7 +795,12 @@ class HistoryFragment(
                 responseList.get(position).status!!.name = "Rejected"
                 responseList.get(position).status!!.background_color = "#ed001c"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
-                viewModel.actionCCAccept(ccAcceptRejectModel, 0, complaintsListDetailsCallback)
+                viewModel.actionCCAccept(
+                    ccAcceptRejectModel,
+                    0,
+                    complaintsListDetailsCallback,
+                    context
+                )
 
 //                adapter.notifyDataSetChanged()
 
@@ -884,7 +889,7 @@ class HistoryFragment(
                     inventoryAcceptrejectModel,
                     workFlowUpdateModel,
                     0,
-                    complaintsListDetailsCallback
+                    complaintsListDetailsCallback, context
                 )
 //                adapter.notifyDataSetChanged()
 
@@ -978,7 +983,8 @@ class HistoryFragment(
                     inventoryAcceptrejectModel,
                     workFlowUpdateModel,
                     0,
-                    complaintsListDetailsCallback
+                    complaintsListDetailsCallback,
+                    context
                 )
 //                adapter.notifyDataSetChanged()
 
@@ -1030,7 +1036,7 @@ class HistoryFragment(
                 viewModel.actionForwardToManager(
                     forwardToManagerModel,
                     0,
-                    complaintsListDetailsCallback
+                    complaintsListDetailsCallback, context
                 )
             }
         }
@@ -1258,7 +1264,7 @@ class HistoryFragment(
                 showLoading()
                 viewModel.userlistForSubworkflowApiCall(
                     this,
-                    data, responseList, position, row
+                    data, responseList, position, row, context
                 )
             }
         } else {
@@ -1278,6 +1284,10 @@ class HistoryFragment(
             Toast.LENGTH_SHORT
         ).show()
         requireActivity().finish()
+    }
+
+    override fun onFailureUat() {
+        Utlis.hideLoading()
     }
 
     fun doActionAssignToMe() {
@@ -1828,7 +1838,7 @@ class HistoryFragment(
                     actionRequest,
                     request,
                     0,
-                    complaintsListDetailsCallback
+                    complaintsListDetailsCallback, context
                 )
 
                 if (resListMnger != null) {

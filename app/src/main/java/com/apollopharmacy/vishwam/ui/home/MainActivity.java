@@ -5,8 +5,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -14,6 +16,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -46,6 +49,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.apollopharmacy.vishw.PendingFragment;
@@ -228,8 +232,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean isHomeScreen = true;
     private boolean isCeoDashboard = true;
 
-//    private NavigationListAdapter adapter;
-
+    //    private NavigationListAdapter adapter;
+    public static boolean isMainActivityRunning = false;
     private boolean isStoreSuperVisour;
 
     private TextView selectFilterType;
@@ -911,7 +915,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bundle2.putSerializable("notificationModelResponse", notificationModelResponse);
                 fragment = new HomeFragment();
                 fragment.setArguments(bundle2);
-
                 plusIconApna.setVisibility(View.GONE);
                 refreshIconQc.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
@@ -2192,34 +2195,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 switchBtn.setVisibility(View.GONE);
                 break;
             case "Community Advisor":
-            headerText.setText("Community Advisor");
-            fragment = new CommunityAdvisorFragment();
-            filterIcon.setVisibility(View.GONE);
-            onClickPlusIcon.setVisibility(View.GONE);
-            settingsWhite.setVisibility(View.GONE);
-            plusIconApna.setVisibility(View.VISIBLE);
-            filterIconApna.setVisibility(View.GONE);
-            refreshIconQc.setVisibility(View.GONE);
-            logo.setVisibility(View.GONE);
-            customerDetails.setVisibility(View.GONE);
-            backArrow.setVisibility(View.VISIBLE);
-            headerText.setVisibility(View.VISIBLE);
-            logoutBtn.setVisibility(View.GONE);
-            headerTextLocation.setVisibility(View.GONE);
-            plusIconAttendence.setVisibility(View.GONE);
-            helpIcon.setVisibility(View.GONE);
+                headerText.setText("Community Advisor");
+                fragment = new CommunityAdvisorFragment();
+                filterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
+                plusIconApna.setVisibility(View.VISIBLE);
+                filterIconApna.setVisibility(View.GONE);
+                refreshIconQc.setVisibility(View.GONE);
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
+                headerTextLocation.setVisibility(View.GONE);
+                plusIconAttendence.setVisibility(View.GONE);
+                helpIcon.setVisibility(View.GONE);
 
-            qcfilterIcon.setVisibility(View.GONE);
-            siteIdIcon.setVisibility(View.GONE);
-            scannerIcon.setVisibility(View.GONE);
-            spinnerLayout.setVisibility(View.GONE);
-            isHomeScreen = false;
+                qcfilterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                scannerIcon.setVisibility(View.GONE);
+                spinnerLayout.setVisibility(View.GONE);
+                isHomeScreen = false;
 //            riderNotificationLayout.setVisibility(View.GONE);
 //                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
-            bottomNavigationView.setVisibility(View.VISIBLE);
-            bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
-            switchBtn.setVisibility(View.GONE);
-            break;
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
+                switchBtn.setVisibility(View.GONE);
+                break;
             case "Logout":
                 dialogExit();
                 break;
@@ -2451,6 +2454,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 stopLocationUpdates();
             }
         }
+        MainActivity.isMainActivityRunning = true;
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(refreshReceiver);
+    }
+
+    private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Code to refresh Home Fragment
+            refreshHomeFragment();
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver(refreshReceiver, new IntentFilter("ACTION_REFRESH_HOME_FRAGMENT"));
+    }
+
+    @Override
+    protected void onStop() {
+
+        super.onStop();
+    }
+
+    private void refreshHomeFragment() {
+        // Example: Find the Home Fragment by tag or id
+        HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("HOME");
+        if (isHomeScreen) {
+            // Call a method in your fragment to refresh its content
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (fragment instanceof HomeFragment) {
+                    ((HomeFragment) fragment).refreshData();
+                    LocalBroadcastManager.getInstance(this).unregisterReceiver(refreshReceiver);
+                }
+            }
+
+        }
     }
 
     @Override
@@ -2462,6 +2503,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             updateLocationUI();
         }
+        MainActivity.isMainActivityRunning = true;
+        LocalBroadcastManager.getInstance(this).registerReceiver(refreshReceiver, new IntentFilter("ACTION_REFRESH_HOME_FRAGMENT"));
     }
 
     private boolean checkPermissions() {

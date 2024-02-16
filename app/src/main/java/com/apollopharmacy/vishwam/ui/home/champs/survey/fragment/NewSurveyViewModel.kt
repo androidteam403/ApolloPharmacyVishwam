@@ -189,7 +189,11 @@ class NewSurveyViewModel : ViewModel() {
     }
 
 
-    fun getStoreWiseDetailsChampsApi(newSurveyCallback: NewSurveyCallback, siteId: String) {
+    fun getStoreWiseDetailsChampsApi(
+        newSurveyCallback: NewSurveyCallback,
+        siteId: String,
+        applicationContext: Context
+    ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var proxyBaseUrl = ""
@@ -235,24 +239,33 @@ class NewSurveyViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val storeWiseDetailListResponse = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                GetStoreWiseDetailsModelResponse::class.java
-                            )
-                            if (storeWiseDetailListResponse.success) {
-                                newSurveyCallback.onSuccessgetStoreWiseDetails(
-                                    storeWiseDetailListResponse
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val storeWiseDetailListResponse = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    GetStoreWiseDetailsModelResponse::class.java
                                 )
+                                if (storeWiseDetailListResponse.success) {
+                                    newSurveyCallback.onSuccessgetStoreWiseDetails(
+                                        storeWiseDetailListResponse
+                                    )
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
-                            } else {
-                                newSurveyCallback.onFailuregetStoreWiseDetails(
-                                    storeWiseDetailListResponse
-                                )
+                                } else {
+                                    newSurveyCallback.onFailuregetStoreWiseDetails(
+                                        storeWiseDetailListResponse
+                                    )
 
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
 
                         }
 

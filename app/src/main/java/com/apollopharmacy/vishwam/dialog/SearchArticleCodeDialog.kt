@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.cms.ArticleCodeRequest
-import com.apollopharmacy.vishwam.data.model.cms.ArticleCodeResponse
 import com.apollopharmacy.vishwam.databinding.DialogSearchArticleBinding
 import com.apollopharmacy.vishwam.databinding.ViewItemRowBinding
 import com.apollopharmacy.vishwam.dialog.model.ArticleCodeViewModel
@@ -62,7 +61,7 @@ class SearchArticleCodeDialog : DialogFragment() {
                     viewModel.searchArticleCode(
                         ArticleCodeRequest(
                             viewBinding.searchSiteText.text.toString().trim()
-                        )
+                        ), context
                     )
                 }
             }

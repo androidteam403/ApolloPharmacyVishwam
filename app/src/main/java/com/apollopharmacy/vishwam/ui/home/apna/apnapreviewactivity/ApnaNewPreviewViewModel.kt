@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -82,26 +83,35 @@ class ApnaNewPreviewViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val surveyDetailsList = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                SurveyDetailsList::class.java
-                            )
-                            if (surveyDetailsList.success) {
-                                apnaNewPreviewCallBack.onSuccessgetSurveyDetails(
-                                    surveyDetailsList
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val surveyDetailsList = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    SurveyDetailsList::class.java
                                 )
-                                getSurveyListResponse.value =
-                                    surveyDetailsList
+                                if (surveyDetailsList.success) {
+                                    apnaNewPreviewCallBack.onSuccessgetSurveyDetails(
+                                        surveyDetailsList
+                                    )
+                                    getSurveyListResponse.value =
+                                        surveyDetailsList
 
 
-                            } else {
-                                state.value = State.ERROR
-                                apnaNewPreviewCallBack.onFailuregetSurveyWiseDetails(
-                                    getSurveyListResponse.value!!
-                                )
+                                } else {
+                                    state.value = State.ERROR
+                                    apnaNewPreviewCallBack.onFailuregetSurveyWiseDetails(
+                                        getSurveyListResponse.value!!
+                                    )
 
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+//                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
 
                         }
 

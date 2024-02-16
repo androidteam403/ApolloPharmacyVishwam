@@ -18,6 +18,8 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignationApnaRetro
 import com.apollopharmacy.vishwam.data.Preferences.getAppTheme
+import com.apollopharmacy.vishwam.data.Preferences.getEmployeeRoleUid
+import com.apollopharmacy.vishwam.data.Preferences.getRetroEmployeeRoleUid
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.FragmentHomeBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
@@ -43,6 +45,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     var isApnaSurveyRequired: Boolean = false
     var isApnaRetroRequired: Boolean = false
     var employeeRole: String = ""
+    var employeeRoleRetro: String = ""
     var userDesignation: String = ""
     var isDashboardRequired: Boolean = false
     var isRetroQrAppRequired: Boolean = false
@@ -58,7 +61,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     var planogramAdapter: MenuItemAdapter? = null
     var apnaRetroAdapter: MenuItemAdapter? = null
     var apnaAdapter: MenuItemAdapter? = null
-    var isEmployeeDetailsApiAvailable:Boolean = false
+    var isEmployeeDetailsApiAvailable: Boolean = false
     private var notificationResponse: NotificationModelResponse? = null
 
     override val layoutRes: Int
@@ -178,12 +181,13 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         isChampsRequired = MainActivity.isChampsRequired
         isApnaSurveyRequired = MainActivity.isApnaSurveyRequired
         isApnaRetroRequired = MainActivity.isApnaRetroRequired
-        employeeRole = MainActivity.mInstance.employeeRole
+        employeeRole = getEmployeeRoleUid()
+        employeeRoleRetro = getRetroEmployeeRoleUid()
         userDesignation = MainActivity.userDesignation
         isDashboardRequired = MainActivity.isDashboardRequired
         isRetroQrAppRequired = MainActivity.isRetroQrAppRequired
         isPlanogramAppRequired = MainActivity.isPlanogramAppRequired
-        isEmployeeDetailsApiAvailable=Preferences.getEmployeeApiAvailable()
+        isEmployeeDetailsApiAvailable = Preferences.getEmployeeApiAvailable()
         /*
         * isAttendanceRequired = accessDetails.getISATTENDENCEAPP(); //loginData.getIS_ATTANDENCEAPP();
                 isCMSRequired = accessDetails.getISCMSAPP(); //loginData.getIS_CMSAPP();
@@ -493,7 +497,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                         "Swachh Details", R.drawable.swachh_list, true, null, null
                     )
                 )
-            } else if (isEmployeeDetailsApiAvailable && employeeRole.equals("Yes", ignoreCase = true)) {
+            } else if (isEmployeeDetailsApiAvailable && employeeRole.equals(
+                    "Yes",
+                    ignoreCase = true
+                )
+            ) {
                 swachhMenuModel.add(
                     MenuModel(
                         "New Swachh", R.drawable.swachh_upload, true, null, null
@@ -536,7 +544,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
                         "Swachh", R.drawable.swachh_menu, true, swachhMenuModel, "Swachh Details"
                     )
                 )
-            } else if (isEmployeeDetailsApiAvailable && employeeRole.equals("Yes", ignoreCase = true)) {
+            } else if (isEmployeeDetailsApiAvailable && employeeRole.equals(
+                    "Yes",
+                    ignoreCase = true
+                )
+            ) {
                 attendanceMenuModel.add(
                     MenuModel(
                         "Swachh", R.drawable.swachh_menu, true, swachhMenuModel, "New Swachh"
@@ -598,7 +610,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         val apnaRetroMenuModel = ArrayList<MenuModel>()
         if (isApnaRetroRequired) {
-            if (MainActivity.mInstance.employeeRoleRetro.equals(
+            if (employeeRoleRetro.equals(
                     "Yes", ignoreCase = true
                 ) && isEmployeeDetailsApiAvailable && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
@@ -638,9 +650,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         )*/
 
         if (isApnaRetroRequired) {
-            if (MainActivity.mInstance.employeeRoleRetro.equals(
+            if (employeeRoleRetro.equals(
                     "Yes", ignoreCase = true
-                ) && isEmployeeDetailsApiAvailable && isEmployeeDetailsApiAvailable && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
+                ) && isEmployeeDetailsApiAvailable && (getAppLevelDesignationApnaRetro().contains(
+                    "EXECUTIVE"
+                ) || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
                 ) || getAppLevelDesignationApnaRetro() == "GENERAL MANAGER")
             ) {
@@ -790,7 +804,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         /*val apnaRetroMenuModel = ArrayList<MenuModel>()
         if (isApnaRetroRequired) {
-            if (MainActivity.mInstance.employeeRoleRetro.equals(
+            if (employeeRoleRetro.equals(
                     "Yes",
                     ignoreCase = true
                 ) && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
@@ -841,9 +855,13 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     }
 
 
-
     override fun onFialureMessage(message: String) {
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun refreshData() {
+        setup()
     }
 
     override fun onClickMenuItem(itemName: String?, menuModels: ArrayList<MenuModel>) {
