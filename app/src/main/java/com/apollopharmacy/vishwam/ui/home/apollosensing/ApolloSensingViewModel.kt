@@ -1,7 +1,10 @@
 package com.apollopharmacy.vishwam.ui.home.apollosensing
 
+import android.content.Context
 import android.text.Html
 import android.text.Spanned
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -264,6 +267,7 @@ class ApolloSensingViewModel : ViewModel() {
     fun updateDefaultSiteIdApiCall(
         updateUserDefaultSiteRequest: UpdateUserDefaultSiteRequest,
         callback: ApolloSensingFragmentCallback,
+        context: Context?,
     ) {
         val updateUserDefaultSiteRequestJson = Gson().toJson(updateUserDefaultSiteRequest)
         val url = Preferences.getApi()
@@ -309,23 +313,32 @@ class ApolloSensingViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val updateUserDefaultSiteResponse = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                UpdateUserDefaultSiteResponse::class.java
-                            )
-                            if (updateUserDefaultSiteResponse.success!!) {
-                                callback.onSuccessUpdateDefaultSiteIdApiCall(
-                                    updateUserDefaultSiteResponse
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val updateUserDefaultSiteResponse = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    UpdateUserDefaultSiteResponse::class.java
                                 )
+                                if (updateUserDefaultSiteResponse.success!!) {
+                                    callback.onSuccessUpdateDefaultSiteIdApiCall(
+                                        updateUserDefaultSiteResponse
+                                    )
 //                                updateUserDefaultSiteResponseMutable.value =
 //                                    updateUserDefaultSiteResponse
 
 //                                updateSwachhDefaultSiteResponseModel.value =
 //                                    updateSwachhDefaultSiteResponse
-                            } else {
+                                } else {
 
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
                         }
                     } else {
                     }

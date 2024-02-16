@@ -1000,22 +1000,31 @@ class ChampsSurveyViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val saveUpdateRequestJsonResponse =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    SaveUpdateResponse::class.java
-                                )
-                            champsSurveyCallBack.onSuccessSaveUpdateApi(
-                                saveUpdateRequestJsonResponse
-                            )
-                            if (saveUpdateRequestJsonResponse.success ?: null == false) {
-                                state.value = State.ERROR
-                                CommandsNewSwachImp.ShowToast(saveUpdateRequestJsonResponse.message)
-                                champsSurveyCallBack.onFailureSaveUpdateApi(
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val saveUpdateRequestJsonResponse =
+                                    Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        SaveUpdateResponse::class.java
+                                    )
+                                champsSurveyCallBack.onSuccessSaveUpdateApi(
                                     saveUpdateRequestJsonResponse
                                 )
+                                if (saveUpdateRequestJsonResponse.success ?: null == false) {
+                                    state.value = State.ERROR
+                                    CommandsNewSwachImp.ShowToast(saveUpdateRequestJsonResponse.message)
+                                    champsSurveyCallBack.onFailureSaveUpdateApi(
+                                        saveUpdateRequestJsonResponse
+                                    )
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+//                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
                         }
                     }
 

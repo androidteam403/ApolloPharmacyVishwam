@@ -108,7 +108,7 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
             this@DashboardDetailsActivity,
             Utils.getConvertedDateFormatyyyymmdd(fromDate),
             Utils.getConvertedDateFormatyyyymmdd(toDate),
-            row.employeeid, row.roleCode, if (!row.storeId.isNullOrEmpty()) row.storeId else ""
+            row.employeeid, row.roleCode, if (!row.storeId.isNullOrEmpty()) row.storeId else "", applicationContext
         )//Preferences.getValidatedEmpId()
 
         /* dashboardCategoryAdapter = DashboardCategoryAdapter(categoryList)
@@ -596,6 +596,10 @@ class DashboardDetailsActivity : AppCompatActivity(), DashboardDetailsCallback {
 
     override fun onClickBack() {
         onBackPressed()
+    }
+
+    override fun onFailureUat() {
+        Utlis.hideLoading()
     }
 
 }

@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,7 +29,7 @@ class SelectSwachhSiteIdViewModel : ViewModel() {
     var command = LiveEvent<SelectSiteActivityViewModel.CmsCommandSelectSiteId>()
     val state = MutableLiveData<State>()
     var fixedArrayList = MutableLiveData<ArrayList<StoreListItem>>()
-    fun siteId() {
+    fun siteId(context: Context, callback: SelectSwachhSiteIdCallback) {
         if (Preferences.isSiteIdListFetched()) {
             siteLiveData.clear()
             val gson = Gson()
@@ -72,28 +75,37 @@ class SelectSwachhSiteIdViewModel : ViewModel() {
                             is ApiResult.Success -> {
                                 state.value = State.ERROR
                                 val resp: String = response.value.string()
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val reasonmasterV2Response =
-                                    Gson().fromJson(BackShlash.removeSubString(res),
-                                        SiteDto::class.java
-                                    )
-
-                                if (reasonmasterV2Response.status) {
-                                    siteLiveData.clear()
-                                    reasonmasterV2Response.siteData?.listData?.rows?.map {
-                                        siteLiveData.add(it)
-                                        fixedArrayList.value = siteLiveData
-                                    }
-                                    // getDepartment()
-                                    command.value =
-                                        SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowSiteInfo(
-                                            "")
-                                } else {
-                                    command.value =
-                                        SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowToast(
-                                            reasonmasterV2Response.message.toString()
+                                try {
+                                    val res = BackShlash.removeBackSlashes(resp)
+                                    val reasonmasterV2Response =
+                                        Gson().fromJson(BackShlash.removeSubString(res),
+                                            SiteDto::class.java
                                         )
+
+                                    if (reasonmasterV2Response.status) {
+                                        siteLiveData.clear()
+                                        reasonmasterV2Response.siteData?.listData?.rows?.map {
+                                            siteLiveData.add(it)
+                                            fixedArrayList.value = siteLiveData
+                                        }
+                                        // getDepartment()
+                                        command.value =
+                                            SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowSiteInfo(
+                                                "")
+                                    } else {
+                                        command.value =
+                                            SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowToast(
+                                                reasonmasterV2Response.message.toString()
+                                            )
+                                    }
+                                } catch (e: Exception) {
+                                    Log.e("API Error", "Received HTML response")
+                                    Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                                    callback.onFailureUat()
+                                    // Handle parsing error, e.g., show an error message to the user
                                 }
+
+
                             }
                             is ApiResult.GenericError -> {
                                 state.value = State.ERROR

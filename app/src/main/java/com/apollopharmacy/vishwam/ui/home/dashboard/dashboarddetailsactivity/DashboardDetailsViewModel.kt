@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.dashboard.dashboarddetailsactivity
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,6 +31,7 @@ class DashboardDetailsViewModel : ViewModel() {
         employeeId: String,
         roleCode: String,
         storeId: String,
+        applicationContext: Context,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -68,20 +72,33 @@ class DashboardDetailsViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
-                    val res = BackShlash.removeBackSlashes(resp)
-                    val reasonWiseTicketCountByRoleResponse = Gson().fromJson(
-                        BackShlash.removeSubString(res),
-                        ReasonWiseTicketCountbyRoleResponse::class.java
-                    )
-                    if (reasonWiseTicketCountByRoleResponse.success!!) {
-                        dashboardDetailsCallback.onSuccessGetReasonWiseTicketCountByRoleApiCall(
-                            reasonWiseTicketCountByRoleResponse
+                    try {
+                        val res = BackShlash.removeBackSlashes(resp)
+                        val reasonWiseTicketCountByRoleResponse = Gson().fromJson(
+                            BackShlash.removeSubString(res),
+                            ReasonWiseTicketCountbyRoleResponse::class.java
                         )
-                    } else {
-                        dashboardDetailsCallback.onFailureGetReasonWiseTicketCountByRoleApiCall(
-                            reasonWiseTicketCountByRoleResponse
-                        )
+                        if (reasonWiseTicketCountByRoleResponse.success!!) {
+                            dashboardDetailsCallback.onSuccessGetReasonWiseTicketCountByRoleApiCall(
+                                reasonWiseTicketCountByRoleResponse
+                            )
+                        } else {
+                            dashboardDetailsCallback.onFailureGetReasonWiseTicketCountByRoleApiCall(
+                                reasonWiseTicketCountByRoleResponse
+                            )
+                        }
+                    } catch (e: Exception) {
+                        Log.e("API Error", "Received HTML response")
+                        Toast.makeText(
+                            applicationContext,
+                            "Please try again later",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        dashboardDetailsCallback.onFailureUat()
+                        // Handle parsing error, e.g., show an error message to the user
                     }
+
+
                 }
 
                 is ApiResult.GenericError -> {

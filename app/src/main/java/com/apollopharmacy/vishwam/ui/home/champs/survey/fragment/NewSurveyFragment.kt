@@ -224,12 +224,13 @@ class NewSurveyFragment : AppCompatActivity(), NewSurveyCallback {
                         if(storeId.isNullOrEmpty()){
                             newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
                                 this,
-                                Preferences.getSaveChampsSurveySiteId()
+                                Preferences.getSaveChampsSurveySiteId(), applicationContext
                             )
                         }else{
                             newSurveyViewModel!!.getStoreWiseDetailsChampsApi(
                                 this,
-                                storeId!!
+                                storeId!!,
+                                applicationContext
                             )
                         }
 

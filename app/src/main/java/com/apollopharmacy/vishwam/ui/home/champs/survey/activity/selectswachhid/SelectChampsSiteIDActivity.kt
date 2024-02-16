@@ -173,7 +173,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
                 showLoading(this)
                 viewModel.getProxyStoreWiseDetailResponse(
                     this,
-                    site
+                    site, applicationContext
                 )
             } else {
                 Toast.makeText(

@@ -19,6 +19,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignationApnaRetro
 import com.apollopharmacy.vishwam.data.Preferences.getAppTheme
 import com.apollopharmacy.vishwam.data.Preferences.getEmployeeRoleUid
+import com.apollopharmacy.vishwam.data.Preferences.getRetroEmployeeRoleUid
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.FragmentHomeBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
@@ -44,6 +45,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
     var isApnaSurveyRequired: Boolean = false
     var isApnaRetroRequired: Boolean = false
     var employeeRole: String = ""
+    var employeeRoleRetro: String = ""
     var userDesignation: String = ""
     var isDashboardRequired: Boolean = false
     var isRetroQrAppRequired: Boolean = false
@@ -180,6 +182,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         isApnaSurveyRequired = MainActivity.isApnaSurveyRequired
         isApnaRetroRequired = MainActivity.isApnaRetroRequired
         employeeRole = getEmployeeRoleUid()
+        employeeRoleRetro = getRetroEmployeeRoleUid()
         userDesignation = MainActivity.userDesignation
         isDashboardRequired = MainActivity.isDashboardRequired
         isRetroQrAppRequired = MainActivity.isRetroQrAppRequired
@@ -607,7 +610,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         val apnaRetroMenuModel = ArrayList<MenuModel>()
         if (isApnaRetroRequired) {
-            if (MainActivity.mInstance.employeeRoleRetro.equals(
+            if (employeeRoleRetro.equals(
                     "Yes", ignoreCase = true
                 ) && isEmployeeDetailsApiAvailable && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
@@ -647,9 +650,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         )*/
 
         if (isApnaRetroRequired) {
-            if (MainActivity.mInstance.employeeRoleRetro.equals(
+            if (employeeRoleRetro.equals(
                     "Yes", ignoreCase = true
-                ) && isEmployeeDetailsApiAvailable && isEmployeeDetailsApiAvailable && (getAppLevelDesignationApnaRetro().contains(
+                ) && isEmployeeDetailsApiAvailable && (getAppLevelDesignationApnaRetro().contains(
                     "EXECUTIVE"
                 ) || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(
                     "CEO"
@@ -801,7 +804,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
 
         /*val apnaRetroMenuModel = ArrayList<MenuModel>()
         if (isApnaRetroRequired) {
-            if (MainActivity.mInstance.employeeRoleRetro.equals(
+            if (employeeRoleRetro.equals(
                     "Yes",
                     ignoreCase = true
                 ) && (getAppLevelDesignationApnaRetro().contains("EXECUTIVE") || getAppLevelDesignationApnaRetro() == "MANAGER" || getAppLevelDesignationApnaRetro().contains(

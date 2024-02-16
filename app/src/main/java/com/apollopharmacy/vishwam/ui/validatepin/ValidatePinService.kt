@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.validatepin
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.os.Handler
@@ -37,6 +38,7 @@ class ValidatePinService : Service() {
         return START_NOT_STICKY
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun getRole(validatedEmpId: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -83,7 +85,7 @@ class ValidatePinService : Service() {
                                                 BackShlash.removeSubString(res),
                                                 EmployeeDetailsResponse::class.java
                                             )
-                                        if (it.success!!) {
+
                                             if (it.success!!) {
                                                 Preferences.setEmployeeApiAvailable(true);
                                                 if (it.success!! && it.data != null && it.data?.uploadSwach != null) {
@@ -221,9 +223,7 @@ class ValidatePinService : Service() {
                                                 LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(refreshIntent)
                                                 stopSelf()
                                             }
-                                        } else {
-//
-                                        }
+
                                     } catch (e: Exception) {
                                         Log.e("API Error", "Received HTML response")
 

@@ -486,7 +486,7 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
                 responseList.get(position).status!!.background_color = "#047604"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(
-                    inventoryAcceptrejectModel, workFlowUpdateModel, 0, this
+                    inventoryAcceptrejectModel, workFlowUpdateModel, 0, this, applicationContext
                 )
 //                adapter.notifyDataSetChanged()
 
@@ -578,7 +578,7 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
                 responseList.get(position).status!!.background_color = "#ed001c"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(
-                    inventoryAcceptrejectModel, workFlowUpdateModel, 0, this
+                    inventoryAcceptrejectModel, workFlowUpdateModel, 0, this, applicationContext
                 )
 //                adapter.notifyDataSetChanged()
 
@@ -823,7 +823,7 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
                 showLoading(this)
                 viewModel.userlistForSubworkflowApiCall(
                     this,
-                    data, responseList, position, row
+                    data, responseList, position, row, applicationContext
                 )
             }
         } else {
@@ -1237,6 +1237,10 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
 
     }
 
+    override fun onFailureUat() {
+        Utlis.hideLoading()
+    }
+
     override fun onSuccessSubWorkflowAcceptApiCall() {
         TODO("Not yet implemented")
     }
@@ -1583,7 +1587,7 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
                 responseList.get(position).status!!.background_color = "#047604"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(
-                    inventoryAcceptrejectModel, workFlowUpdateModel, 0, this
+                    inventoryAcceptrejectModel, workFlowUpdateModel, 0, this, applicationContext
                 )
 //                adapter.notifyDataSetChanged()
 
@@ -1672,7 +1676,7 @@ class ComplaintsListDetailsActivity() : AppCompatActivity(), ComplaintsListDetai
                 responseList.get(position).status!!.background_color = "#ed001c"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(
-                    inventoryAcceptrejectModel, workFlowUpdateModel, 0, this
+                    inventoryAcceptrejectModel, workFlowUpdateModel, 0, this, applicationContext
                 )
 //                adapter.notifyDataSetChanged()
 

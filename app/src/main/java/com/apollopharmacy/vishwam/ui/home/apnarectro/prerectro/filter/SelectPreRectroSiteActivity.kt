@@ -19,7 +19,6 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.ActivitySelectRectroSiteidBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.filter.adapter.SiteIdAdapterRectro
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.adapter.SiteIdListAdapter
 import com.apollopharmacy.vishwam.util.Utlis
 
 class SelectPreRectroSiteActivity : AppCompatActivity(), SelectRectroSiteCallback {
@@ -38,7 +37,7 @@ class SelectPreRectroSiteActivity : AppCompatActivity(), SelectRectroSiteCallbac
         )
         viewModel = ViewModelProvider(this)[SelectRectroSiteViewModel::class.java]
         activitySelectSwachhSiteidBinding.callback = this
-        viewModel.siteId()
+        viewModel.siteId(applicationContext)
         onSuccessSiteIdLIst()
     }
 

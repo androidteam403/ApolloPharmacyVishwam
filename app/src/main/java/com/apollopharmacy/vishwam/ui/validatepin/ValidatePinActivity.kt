@@ -11,7 +11,6 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.apollopharmacy.vishwam.BuildConfig
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
@@ -218,7 +217,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                     Preferences.getValidatedEmpId(), "RETRO", applicationContext, this
                 )
                 viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
-                viewModel.getNotificationDetailsApi(this)
+                viewModel.getNotificationDetailsApi(this , applicationContext)
 
                 viewModel.appLevelDesignationRespSwach.observeForever {
 
@@ -372,7 +371,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
 //                    handlePlayStoreIntent()
                         } else {
-                            viewModel.getNotificationDetailsApi(this)
+                            viewModel.getNotificationDetailsApi(this, applicationContext)
 //                    viewModel.getRole(Preferences.getValidatedEmpId())
 //                        handleNextIntent()
 

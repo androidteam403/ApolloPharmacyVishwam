@@ -123,5 +123,6 @@ interface HistoryCallback {
 //    fun onClickTicketResolveHistory()
 
     fun onSuccessSubworkflowAssignedtoMeApiCall(subworkFlowAssignedtoMeResponse: SubworkFlowAssignedtoMeResponse)
+    fun onFailureUat()
 
 }

@@ -1,5 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.cms.complainList.activity.fragments.viewmodel
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -129,6 +132,7 @@ class HistoryFragmentViewModel : ViewModel() {
         request: CCAcceptRejectModel?,
         itemPos: Int,
         complaintsListDetailsCallback: ComplaintsListDetailsCallback,
+        context: Context?,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -166,18 +170,27 @@ class HistoryFragmentViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val request = Gson().fromJson(
-                                BackShlash.removeSubString(res), CCAcceptRejectResponse::class.java
-                            )
-                            if (request.success) {
-                                complaintsListDetailsCallback.onClickBack()
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val request = Gson().fromJson(
+                                    BackShlash.removeSubString(res), CCAcceptRejectResponse::class.java
+                                )
+                                if (request.success) {
+                                    complaintsListDetailsCallback.onClickBack()
 //                                command.value = CmsCommand.RefreshPageOnSuccess(
 //                                    request.message
 //                                )
-                            } else {
-                                command.value = CmsCommand.ShowToast(request.message.toString())
+                                } else {
+                                    command.value = CmsCommand.ShowToast(request.message.toString())
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
 
                         }
                     }
@@ -207,6 +220,7 @@ class HistoryFragmentViewModel : ViewModel() {
         workFlowUpdateModel: WorkFlowUpdateModel,
         itemPos: Int,
         complaintsListDetailsCallback: ComplaintsListDetailsCallback,
+        context: Context?,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -244,13 +258,14 @@ class HistoryFragmentViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                InventoryAcceptRejectResponse::class.java
-                            )
-                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                complaintsListDetailsCallback.onClickBack()
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    InventoryAcceptRejectResponse::class.java
+                                )
+                                if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                    complaintsListDetailsCallback.onClickBack()
 //                                command.value = CmsCommand.RefreshPageOnSuccess(
 //                                    responseNewTicketlistNewTicketHistoryResponse.data.uid
 //                                )
@@ -258,11 +273,19 @@ class HistoryFragmentViewModel : ViewModel() {
 //                                    responseNewTicketlistNewTicketHistoryResponse.data.uid.toString()
 //                                )
 //                                actionWorkflowUpdate(workFlowUpdateModel,itemPos)
-                            } else {
-                                command.value = CmsCommand.ShowToast(
-                                    responseNewTicketlistNewTicketHistoryResponse.data.res.toString()
-                                )
+                                } else {
+                                    command.value = CmsCommand.ShowToast(
+                                        responseNewTicketlistNewTicketHistoryResponse.data.res.toString()
+                                    )
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
 
                         }
                     }
@@ -291,6 +314,7 @@ class HistoryFragmentViewModel : ViewModel() {
         request: ForwardToManagerModel?,
         itemPos: Int,
         complaintsListDetailsCallback: ComplaintsListDetailsCallback,
+        context: Context?,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -328,18 +352,27 @@ class HistoryFragmentViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val response = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                InventoryAcceptRejectResponse::class.java
-                            )
-                            if (response.success) {
-                                complaintsListDetailsCallback.onClickBack()
-                                command.value = CmsCommand.RefreshPageOnSuccess(response.message)
-                                command.value = CmsCommand.ShowToast(response.message.toString())
-                            } else {
-                                command.value = CmsCommand.ShowToast(response.message.toString())
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val response = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    InventoryAcceptRejectResponse::class.java
+                                )
+                                if (response.success) {
+                                    complaintsListDetailsCallback.onClickBack()
+                                    command.value = CmsCommand.RefreshPageOnSuccess(response.message)
+                                    command.value = CmsCommand.ShowToast(response.message.toString())
+                                } else {
+                                    command.value = CmsCommand.ShowToast(response.message.toString())
+                                }
+
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
 
                         }
                     }
@@ -404,18 +437,27 @@ class HistoryFragmentViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
-                                BackShlash.removeSubString(res), GetManagersModel::class.java
-                            )
-                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                getManagersLiveData.value =
-                                    responseNewTicketlistNewTicketHistoryResponse.data
-                            } else {
-                                command.value = CmsCommand.ShowToast(
-                                    responseNewTicketlistNewTicketHistoryResponse.message.toString()
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
+                                    BackShlash.removeSubString(res), GetManagersModel::class.java
                                 )
+                                if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                    getManagersLiveData.value =
+                                        responseNewTicketlistNewTicketHistoryResponse.data
+                                } else {
+                                    command.value = CmsCommand.ShowToast(
+                                        responseNewTicketlistNewTicketHistoryResponse.message.toString()
+                                    )
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+//                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
 
                         }
 
@@ -487,21 +529,29 @@ class HistoryFragmentViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                InventoryAcceptRejectResponse::class.java
-                            )
-                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                historyCallback.onSuccessBack(complaintsListDetailsCallback)
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    InventoryAcceptRejectResponse::class.java
+                                )
+                                if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                    historyCallback.onSuccessBack(complaintsListDetailsCallback)
 //                                command.value = CmsCommand.RefreshPageOnSuccess(
 //                                    ""
 //                                )
-                            } else {
-                                command.value = CmsCommand.ShowToast(
-                                    responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg
-                                )
+                                } else {
+                                    command.value = CmsCommand.ShowToast(
+                                        responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg
+                                    )
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+//                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
 
                         }
                     }
@@ -527,7 +577,7 @@ class HistoryFragmentViewModel : ViewModel() {
     }
 
     var cmsticketRatingresponse = MutableLiveData<ResponseticketRatingApi>()
-    fun getTicketRatingApi() {
+    fun getTicketRatingApi(context: Context?) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrL = ""
@@ -553,11 +603,20 @@ class HistoryFragmentViewModel : ViewModel() {
                         is ApiResult.Success -> {
                             state.value = State.ERROR
                             val resp: String = response.value.string()
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val responseticketRatingApi = Gson().fromJson(
-                                BackShlash.removeSubString(res), ResponseticketRatingApi::class.java
-                            )
-                            cmsticketRatingresponse.value = responseticketRatingApi
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val responseticketRatingApi = Gson().fromJson(
+                                    BackShlash.removeSubString(res), ResponseticketRatingApi::class.java
+                                )
+                                cmsticketRatingresponse.value = responseticketRatingApi
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
+                            }
+
+
                         }
 
                         is ApiResult.GenericError -> {
@@ -839,6 +898,7 @@ class HistoryFragmentViewModel : ViewModel() {
         actionRequest: ChangeManagerRequest?,
         itemPos: Int,
         complaintsListDetailsCallback: ComplaintsListDetailsCallback,
+        context: Context?,
 
         ) {
         val url = Preferences.getApi()
@@ -889,7 +949,7 @@ class HistoryFragmentViewModel : ViewModel() {
                                 actionInventoryItemsRequestSave(
                                     actionRequest,
                                     itemPos,
-                                    complaintsListDetailsCallback
+                                    complaintsListDetailsCallback, context
                                 )
                             } else {
                                 command.value = CmsCommand.ShowToast(response.message.toString())
@@ -922,6 +982,7 @@ class HistoryFragmentViewModel : ViewModel() {
         request: ChangeManagerRequest?,
         itemPos: Int,
         complaintsListDetailsCallback: ComplaintsListDetailsCallback,
+        context: Context?,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -963,20 +1024,29 @@ class HistoryFragmentViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val response = Gson().fromJson(
-                                BackShlash.removeSubString(res), ChangeManagerResponse::class.java
-                            )
-                            if (response.success) {
-                                complaintsListDetailsCallback.onClickBack()
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val response = Gson().fromJson(
+                                    BackShlash.removeSubString(res), ChangeManagerResponse::class.java
+                                )
+                                if (response.success) {
+                                    complaintsListDetailsCallback.onClickBack()
 //                                command.value = CmsCommand.RefreshPageOnSuccess(
 //                                    response.message
 //                                )
 
-                                command.value = CmsCommand.ShowToast(response.message.toString())
-                            } else {
-                                command.value = CmsCommand.ShowToast(response.message.toString())
+                                    command.value = CmsCommand.ShowToast(response.message.toString())
+                                } else {
+                                    command.value = CmsCommand.ShowToast(response.message.toString())
+                                }
+
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
 
                         }
                     }
@@ -1004,7 +1074,7 @@ class HistoryFragmentViewModel : ViewModel() {
     fun userlistForSubworkflowApiCall(
         historyCallback: HistoryCallback, ticketData: TicketData,
         responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
-        position: Int, row: SubworkflowConfigDetailsResponse.Rows,
+        position: Int, row: SubworkflowConfigDetailsResponse.Rows, context: Context?,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -1064,22 +1134,31 @@ class HistoryFragmentViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val request = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                UserListForSubworkflowResponse::class.java
-                            )
-                            if (request.success!!) {
-                                historyCallback.onSuccessUsersListforSubworkflow(
-                                    ticketData,
-                                    responseList,
-                                    position,
-                                    row,
-                                    request, historyCallback
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val request = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    UserListForSubworkflowResponse::class.java
                                 )
-                            } else {
-                                command.value = CmsCommand.ShowToast(request.message.toString())
+                                if (request.success!!) {
+                                    historyCallback.onSuccessUsersListforSubworkflow(
+                                        ticketData,
+                                        responseList,
+                                        position,
+                                        row,
+                                        request, historyCallback
+                                    )
+                                } else {
+                                    command.value = CmsCommand.ShowToast(request.message.toString())
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+                               Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT).show()
+                                historyCallback.onFailureUat()
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
 
                         }
                     }

@@ -1023,7 +1023,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 viewModel.siteTicketbyReason(
                     siteUid,
                     departmentDto!!.uid!!,
-                    departmentDto!!.allow_duplicate_st_creation!!.uid!!
+                    departmentDto!!.allow_duplicate_st_creation!!.uid!!, context, this
                 )
             } else {
                 Toast.makeText(
@@ -1796,7 +1796,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 var updateUserDefaultSiteRequest = UpdateUserDefaultSiteRequest()
                 updateUserDefaultSiteRequest.empId = Preferences.getValidatedEmpId()
                 updateUserDefaultSiteRequest.site = selectedSiteId!!.site
-                viewModel.updateDefaultSiteIdApiCall(updateUserDefaultSiteRequest)
+                viewModel.updateDefaultSiteIdApiCall(updateUserDefaultSiteRequest, context, this)
             }
         }
         viewModel.updateUserDefaultSiteResponseMutable.observe(viewLifecycleOwner) {

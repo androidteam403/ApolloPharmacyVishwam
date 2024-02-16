@@ -12,4 +12,5 @@ interface DashboardDetailsCallback {
     )
 
     fun onClickBack()
+    fun onFailureUat()
 }

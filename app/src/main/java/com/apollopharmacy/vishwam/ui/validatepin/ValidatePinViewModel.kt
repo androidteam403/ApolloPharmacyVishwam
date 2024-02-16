@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -95,6 +96,7 @@ class ValidatePinViewModel : ViewModel() {
 
     fun getNotificationDetailsApi(
         validatePinCallBack: ValidatePinCallBack,
+        applicationContext: Context,
     ) {
 
         val url = Preferences.getApi()
@@ -150,24 +152,33 @@ class ValidatePinViewModel : ViewModel() {
                     if (response != null) {
                         val resp: String = response.value.string()
                         if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val storeWiseDetailListResponse = Gson().fromJson(
-                                BackShlash.removeSubString(res),
-                                NotificationModelResponse::class.java
-                            )
-                            if (storeWiseDetailListResponse.success!!) {
-                                validatePinCallBack.onSuccessNotificationDetails(
-                                    storeWiseDetailListResponse
+                            try {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val storeWiseDetailListResponse = Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    NotificationModelResponse::class.java
                                 )
+                                if (storeWiseDetailListResponse.success!!) {
+                                    validatePinCallBack.onSuccessNotificationDetails(
+                                        storeWiseDetailListResponse
+                                    )
 
 //                                getSurveyListResponse.value =
 //                                    surveyListResponse
-                            } else {
-                                validatePinCallBack.onFailureNotificationDetails(
-                                    storeWiseDetailListResponse
-                                )
+                                } else {
+                                    validatePinCallBack.onFailureNotificationDetails(
+                                        storeWiseDetailListResponse
+                                    )
 
+                                }
+                            } catch (e: Exception) {
+                                Log.e("API Error", "Received HTML response")
+//                                Toast.makeText(applicationContext, "Please try again later", Toast.LENGTH_SHORT).show()
+
+                                // Handle parsing error, e.g., show an error message to the user
                             }
+
+
 
                         }
 
