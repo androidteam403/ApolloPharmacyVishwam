@@ -27,7 +27,6 @@ import com.apollopharmacy.vishwam.ui.home.communityadvisor.model.HomeServicesSav
 import com.apollopharmacy.vishwam.ui.home.communityadvisor.siteid.SelectCommunityAdvisorSiteIdActivity
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.signaturepad.NetworkUtils
-import java.util.regex.Pattern
 import java.util.stream.Collectors
 
 class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustomerCallback {
@@ -146,17 +145,22 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
     override fun onItemClick(listServices: GetServicesCustomerResponse.ListServices) {
         if (servicesCustomerReqList.size > 0) {
             for (i in servicesCustomerReqList) {
-                if (i.type.equals("CATEGORY")) {
-                    if (i.equals(listServices))
-                        i.isSelected = !i.isSelected!!
+                /* if (i.type.equals("CATEGORY")) {
+                     if (i.equals(listServices))
+                         i.isSelected = !i.isSelected!!
+                 } else {
+                     i.isSelected = !i.isSelected!!
+                 }
+             }*/
+                if (listServices.type == "CATEGORY") {
+                    listServices.isSelected = !listServices.isSelected!!
                 } else {
-                    i.isSelected = i.equals(listServices)
+                    listServices.isSelected = !listServices.isSelected!!
                 }
             }
-            servicesCustomerResponseAdapter.notifyDataSetChanged()
         }
+        servicesCustomerResponseAdapter.notifyDataSetChanged()
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -167,6 +171,7 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
                 if (isSiteIdEmpty) {
                     finish()
                 } else {
+                    
                     activityServicesCustomerInteractionBinding.siteId.setText("${Preferences.getCommunityAdvisorSiteId()} - ${Preferences.getCommunityAdvisorStoreName()}")
                 }
             } else {
@@ -188,22 +193,16 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
             showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_customer_name))
             activityServicesCustomerInteractionBinding.customerName.requestFocus()
             return false
-        } /*else if (!isValidCustomerName(customerName)) {
-            showErrorMsg(context?.resources?.getString(R.string.err_msg_invalid_customer_name))
-            activityServicesCustomerInteractionBinding.customerName.requestFocus()
-            return false
-        }*/
-        else if (!isValidCustomerName(customerName)) {
-          //  if (customerName.matches(".*\\d+.*")) {
-            if (Regex("\\d").containsMatchIn(customerName)){
+        } else if (!isValidCustomerName(customerName)) {
+            //  if (customerName.matches(".*\\d+.*")) {
+            if (Regex("\\d").containsMatchIn(customerName)) {
                 showErrorMsg(context?.resources?.getString(R.string.err_msg_contains_numbers))
             } else {
                 showErrorMsg(context?.resources?.getString(R.string.err_msg_invalid_customer_name))
             }
             activityServicesCustomerInteractionBinding.customerName.requestFocus()
             return false
-        }
-        else if (mobNumber.isEmpty()) {
+        } else if (mobNumber.isEmpty()) {
             showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_mob_number))
             activityServicesCustomerInteractionBinding.mobileNumber.requestFocus()
             return false
@@ -211,11 +210,10 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
             showErrorMsg(context?.resources?.getString(R.string.err_msg_mob_number_tendigits))
             activityServicesCustomerInteractionBinding.mobileNumber.requestFocus()
             return false
-        } else if (!isAtLeastOneServiceSelected()) {
+        } else if (!isAtLeastOneServiceSelected() && !isAtLeastOneCustomerInteractionServiceSelected()) {
             showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_services))
             return false
-        }
-        else if (comments.isEmpty()) {
+        } else if (comments.isEmpty()) {
             showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_comments))
             activityServicesCustomerInteractionBinding.commentsText.requestFocus()
             return false
@@ -223,14 +221,23 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
             return true
         }
     }
+
     private fun isAtLeastOneServiceSelected(): Boolean {
-        return servicesCustomerReqList.any { it.isSelected == true }
+        return servicesCustomerReqList.any {
+            it.isSelected == true
+        }
+    }
+
+    private fun isAtLeastOneCustomerInteractionServiceSelected(): Boolean {
+        return servicesCustomerReqList.any {
+            it.isSelected == true && it.type == "CUSTOMER INTERACTION"
+        }
     }
 
     private fun isValidCustomerName(name: String): Boolean {
-       // val pattern = Pattern.compile("^(?![\\p{Punct}\\s.0-9]+\$)[A-Za-z.]+\$")   //("^(?![\\p{Punct}\\s.]+\$)[a-zA-Z.]+\$")     //("^[a-zA-Z.]+\$")
+        // val pattern = Pattern.compile("^(?![\\p{Punct}\\s.0-9]+\$)[A-Za-z.]+\$")   //("^(?![\\p{Punct}\\s.]+\$)[a-zA-Z.]+\$")     //("^[a-zA-Z.]+\$")
         //return pattern.matcher(name).matches()
-        val regex="^(?![\\p{Punct}\\s.0-9]+\$)[A-Za-z.]+\$"
+        val regex = "^(?![\\p{Punct}\\s.0-9]+\$)[A-Za-z.]+\$"
         return name.matches(regex.toRegex())
     }
 
@@ -253,7 +260,8 @@ class ServicesCustomerInteractionActivity : AppCompatActivity(), ServicesCustome
                 activityServicesCustomerInteractionBinding.customerName.text.toString()
             val mobileNumber =
                 activityServicesCustomerInteractionBinding.mobileNumber.text.toString()
-            val comments = activityServicesCustomerInteractionBinding.commentsText.text.toString()
+            val comments =
+                activityServicesCustomerInteractionBinding.commentsText.text.toString()
             val type = "store"
             if (customerName.isEmpty() || mobileNumber.isEmpty()) {
                 return@setOnClickListener

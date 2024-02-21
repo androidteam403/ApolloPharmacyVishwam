@@ -70,7 +70,6 @@ class ServicesCustomerResponseAdapter(
         //  holder.adapterServicesCustomerResponseBinding.checkBoxes.visibility=View.GONE
         //}
     }
-
     override fun getItemCount(): Int {
         return servicesCustomerReqList.size
     }
