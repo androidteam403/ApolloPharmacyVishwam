@@ -358,7 +358,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         isPlanogramAppRequired: Boolean,
     ) {
         val attendanceMenuModel = ArrayList<MenuModel>()
-        if (false) {
+        if (true) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Cash Deposit", R.drawable.cash_deposite_menu, false, null, "Cash Deposit"
