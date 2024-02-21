@@ -55,7 +55,7 @@ class CashCloserPendingAdapter(
         holder.cashCloserLayoutBinding.dcId.text = cashDeposit[position].dcid
 
         val closingDate = cashDeposit[position].closingdate
-        val date = LocalDate.parse(closingDate)
+        val date = LocalDate.parse(closingDate!!.trim())
         val formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy")
         val formattedDate = date.format(formatter)
         holder.cashCloserLayoutBinding.closingDate.text = formattedDate
