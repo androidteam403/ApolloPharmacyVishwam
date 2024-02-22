@@ -38,7 +38,6 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
     lateinit var cashCloserPendingAdapter: CashCloserPendingAdapter
-
     private var cashDepositDetailsList = ArrayList<CashDepositDetailsResponse.Cashdeposit>()
 
     override val layoutRes: Int
@@ -50,7 +49,6 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
 
     override fun setup() {
         showLoading()
-
         viewModel.getCashDepositDetails("14068", this@CashCloserFragment)
     }
 

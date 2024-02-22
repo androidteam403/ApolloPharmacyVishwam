@@ -35,10 +35,6 @@ class CashCloserViewModel : ViewModel() {
                 break
             }
         }
-
-
-
-
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
             val result = withContext(Dispatchers.IO) {

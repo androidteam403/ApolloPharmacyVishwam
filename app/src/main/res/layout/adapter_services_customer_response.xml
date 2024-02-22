@@ -14,7 +14,7 @@
             android:clickable="false"
             android:visibility="visible" />
 
-        <RadioButton
+       <!-- <RadioButton
             android:id="@+id/radio_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,7 +22,15 @@
             android:text="@string/stringservices_briefing"
             android:textSize="@dimen/text_15sp"
             android:clickable="false"
-            android:visibility="gone"/>
+            android:visibility="gone"/>-->
+        <CheckBox
+            android:id="@+id/radio_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/vishwam_actionbar_color"
+            android:text="@string/stringservices_briefing"
+            android:clickable="false"
+            android:visibility="gone" />
 
     </LinearLayout>
 </layout>
