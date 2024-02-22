@@ -109,6 +109,24 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
                 statusList = intent.getSerializableExtra("statusList") as ArrayList<ActionResponse>
                 approveList = intent.getSerializableExtra("approveList") as ArrayList<QcListsResponse.Approved>
                 activityQcPendingBinding.orderid.setText(approveList.filter { it.orderno.equals(orderId) }.get(0).omsorderno.toString())
+                if (approveList != null) {
+                    for (i in approveList.indices) {
+                        if (orderId.equals(approveList.get(i).orderno)) {
+                            omsOrderno = approveList.get(i).omsorderno.toString()
+                            status = approveList.get(i).status.toString()
+                            activityQcPendingBinding.storeId.setText(approveList.get(i).storeid)
+                            activityQcPendingBinding.custmerName.setText(approveList.get(i).custname)
+                            activityQcPendingBinding.phoneNumber.setText(approveList.get(i).mobileno)
+                            activityQcPendingBinding.dcName.setText(approveList.get(i).dcCode)
+
+                            var reqDate = approveList.get(i).requesteddate.toString()!!.substring(
+                                0,
+                                Math.min(approveList.get(i).requesteddate.toString()!!.length, 10)
+                            )
+                            activityQcPendingBinding.postedDate.setText(Utlis.formatdate(reqDate))
+                        }
+                    }
+                }
 
                 activityQcPendingBinding.listName.setText("Approved List")
 
@@ -218,6 +236,24 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
                 activityQcPendingBinding.heaader.setBackgroundColor(ContextCompat.getColor(this, R.color.reject_list_qc))
                 rejectList = intent.getSerializableExtra("rejectList") as ArrayList<QcListsResponse.Reject>
                 activityQcPendingBinding.orderid.setText(rejectList.filter { it.orderno.equals(orderId) }.get(0).omsorderno.toString())
+                if (rejectList != null) {
+                    for (i in rejectList.indices) {
+                        if (orderId.equals(rejectList.get(i).orderno)) {
+                            omsOrderno = rejectList.get(i).omsorderno.toString()
+                            status = rejectList.get(i).status.toString()
+                            activityQcPendingBinding.storeId.setText(rejectList.get(i).storeid)
+                            activityQcPendingBinding.custmerName.setText(rejectList.get(i).custname)
+                            activityQcPendingBinding.phoneNumber.setText(rejectList.get(i).mobileno)
+                            activityQcPendingBinding.dcName.setText(rejectList.get(i).dcCode)
+
+                            var reqDate = rejectList.get(i).requesteddate.toString()!!.substring(
+                                0,
+                                Math.min(rejectList.get(i).requesteddate.toString()!!.length, 10)
+                            )
+                            activityQcPendingBinding.postedDate.setText(Utlis.formatdate(reqDate))
+                        }
+                    }
+                }
 
                 statusList = intent.getSerializableExtra("statusList") as ArrayList<ActionResponse>
                 activityQcPendingBinding.listName.setText("Rejected List")
@@ -444,8 +480,8 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
 
                 val rejItems = QcAcceptRejectRequest.Item()
                 rejItems.itemid = i.itemid
-                if (i.approvedqty != null) {
-                    rejItems.qty = i.approvedqty
+                if (i.approveQtyText != null) {
+                    rejItems.qty = i.approveQtyText
                 } else {
                     rejItems.qty = i.qty
                 }
@@ -482,10 +518,11 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
 
             Handler().postDelayed({ dialogBinding.yesBtn.setEnabled(true) }, TIME)
             customDialog.dismiss()
-//            viewModel.getQcPendingItemsList(orderId)
+
+
             viewModel.getAcceptRejectResult(
                 QcAcceptRejectRequest("ACCEPT", "", "", qcAccepttList),
-                this
+                this,"Approved Successfully"
             )
 
         }
@@ -581,10 +618,9 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
                             reason,
                             "REJ0001",
                             qcRejectList
-                        ), this
+                        ), this,"Rejected Successfully"
                     )
                 }
-//            viewModel.getAcceptRejectResult(QcAcceptRejectRequest("REJECT", remarks, qcRejectList))
 
             }
             dialogBinding?.close?.setOnClickListener {

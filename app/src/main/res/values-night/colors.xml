@@ -248,6 +248,10 @@
     <color name="sensing_send_link_bg_color">#1e1e1e</color>
     <color name="retro_qr_item_bg_color">#271913</color>
     <color name="very_lite_yellow">#131827</color>
+    <color name="whiteQc">#131827</color>
+    <color name="whitePending">#ffffff</color>
+    <color name="blueqc">#131827</color>
+
     <color name="complaintlist_search_bg_color">#595959</color>
     <color name="white_for_both">#ffffff</color>
     <color name="black_for_both">#000000</color>

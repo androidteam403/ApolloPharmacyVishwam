@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
@@ -30,6 +31,7 @@ class QcPendingOrderDetailsAdapter(
     ) :
     RecyclerView.Adapter<QcPendingOrderDetailsAdapter.ViewHolder>() {
     var count: Int = 0
+    private var customDialog: AlertDialog? = null
 
 
     var isClickReason: Boolean = false
@@ -79,6 +81,7 @@ class QcPendingOrderDetailsAdapter(
         }
         holder.orderdetailsBinding.approveQtyText.setText(items.approveQtyText.toString())
 
+
         if (items.qty == null) {
             holder.orderdetailsBinding.quantityText.setText("-")
 
@@ -86,38 +89,75 @@ class QcPendingOrderDetailsAdapter(
             holder.orderdetailsBinding.quantityText.setText(items.qty.toString())
 
         }
-        if (items.remarks != null) {
-            holder.orderdetailsBinding.reason.setText(items.remarks.toString())
-            pendingFragmentCallback.onNotify()
-        } else {
-            Toast.makeText(ViswamApp.context, "Reject Reasons not available", Toast.LENGTH_LONG)
+        if (Preferences.getAppLevelDesignationQCFail().equals("EXECUTIVE", true)) {
+            if (items.approveQtyText == 0) {
+                holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+                holder.orderdetailsBinding.reason.setText("Select")
 
-            holder.orderdetailsBinding.reason.setText("Select")
-        }
-        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
-        holder.orderdetailsBinding.medicineName.setText(items.itemname)
-        holder.orderdetailsBinding.categoryName.setText("( " + items.category + " )")
-        holder.orderdetailsBinding.price.setText(items.price.toString())
-        if (items.approvedqty == null) {
-            if (items.approvedqty == null || holder.orderdetailsBinding.approveQtyText.text.toString()
-                    .toInt() == 0
-            ) {
+                holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.rounded_dropdown_qcfail_bg)
                 holder.orderdetailsBinding.selectResonItem.isEnabled = true
                 holder.orderdetailsBinding.selectResonItem.alpha = 1f
             } else {
                 holder.orderdetailsBinding.selectResonItem.isEnabled = false
                 holder.orderdetailsBinding.selectResonItem.alpha = 0.5f
+                holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+                holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
+
             }
-        } else if (items.approvedqty == 0 || holder.orderdetailsBinding.approveQtyText.text.toString()
-                .toInt() == 0
-        ) {
-            holder.orderdetailsBinding.selectResonItem.isEnabled = true
-            holder.orderdetailsBinding.selectResonItem.alpha = 1f
 
         } else {
-            holder.orderdetailsBinding.selectResonItem.isEnabled = false
-            holder.orderdetailsBinding.selectResonItem.alpha = 0.5f
+            if (items.approvedqty == null) {
+                if (items.approvedqty == null || items.approvedqty == 0 || holder.orderdetailsBinding.approveQtyText.text.toString()
+                        .toInt() == 0
+                ) {
+                    holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+                    holder.orderdetailsBinding.reason.setText("Select")
+
+                    holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.rounded_dropdown_qcfail_bg)
+                    holder.orderdetailsBinding.selectResonItem.isEnabled = true
+                    holder.orderdetailsBinding.selectResonItem.alpha = 1f
+                } else {
+                    holder.orderdetailsBinding.selectResonItem.isEnabled = false
+                    holder.orderdetailsBinding.selectResonItem.alpha = 0.5f
+                    holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+                    holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
+
+                }
+            } else if (items.approvedqty == 0 || holder.orderdetailsBinding.approveQtyText.text.toString()
+                    .toInt() == 0
+            ) {
+                holder.orderdetailsBinding.selectResonItem.isEnabled = true
+                holder.orderdetailsBinding.selectResonItem.alpha = 1f
+                holder.orderdetailsBinding.reason.setText("Select")
+
+                holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+                holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.rounded_dropdown_qcfail_bg)
+            } else {
+                holder.orderdetailsBinding.selectResonItem.isEnabled = false
+                holder.orderdetailsBinding.selectResonItem.alpha = 0.5f
+                holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+                holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
+
+            }
         }
+
+        if (items.remarks.isNullOrEmpty()) {
+
+        } else {
+            holder.orderdetailsBinding.reason.setText(items.remarks.toString())
+            pendingFragmentCallback.onNotify()
+//            Toast.makeText(ViswamApp.context, "Reject Reasons not available", Toast.LENGTH_LONG)
+//
+//            holder.orderdetailsBinding.reason.setText("Select")
+        }
+
+
+
+
+        holder.orderdetailsBinding.medicineName.setText(items.itemname)
+        holder.orderdetailsBinding.categoryName.setText("( " + items.category + " )")
+        holder.orderdetailsBinding.price.setText(items.price.toString())
+
         holder.orderdetailsBinding.approveQtyText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -137,61 +177,71 @@ class QcPendingOrderDetailsAdapter(
                     ) {
                         if (Integer.parseInt(p0.toString()) > items.qty!!) {
 
-                            val dialogBinding: DialogResetBinding? =
-                                DataBindingUtil.inflate(
-                                    LayoutInflater.from(mContext),
-                                    R.layout.dialog_reset,
-                                    null,
-                                    false
-                                )
-                            val customDialog = android.app.AlertDialog.Builder(mContext, 0).create()
-                            customDialog.apply {
+                            items.approveQtyText = items.qty
+                            items.remarks=""
+                            pendingFragmentCallback.onNotify()
 
-                                setView(dialogBinding?.root)
-                                setCancelable(false)
-                            }.show()
+                            holder.orderdetailsBinding.approveQtyText.setText(items.qty.toString())
+                            showDialog()
+
+                        } else if (Integer.parseInt(p0.toString()) > 0) {
+
+                            holder.orderdetailsBinding.selectResonItem.isEnabled = false
+                            holder.orderdetailsBinding.selectResonItem.alpha = 0.5f
+                            holder.orderdetailsBinding.reason.text = "Select"
+                            holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+                            holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
+                            items.remarks=""
+                            pendingFragmentCallback.onNotify()
+                            //                            showDialog()
 
 
-                            if (dialogBinding != null) {
-                                dialogBinding.yesBtn.setOnClickListener {
+                        } else if (Integer.parseInt(p0.toString()) == 0) {
+                            holder.orderdetailsBinding.selectResonItem.isEnabled = true
+                            holder.orderdetailsBinding.selectResonItem.alpha = 1f
+                            holder.orderdetailsBinding.reason.setText("Select")
 
-                                    holder.orderdetailsBinding.approveQtyText.setText(items.qty.toString())
-                                    customDialog.dismiss()
+                            holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+                            holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.rounded_dropdown_qcfail_bg)
 
-//                                    holder.orderdetailsBinding.approveQtyText.clearFocus()
-
-                                }
-                            }
                         }
+
                     } else {
 
                         if (Integer.parseInt(p0.toString()) > items.approvedqty!!) {
 
-                            val dialogBinding: DialogResetBinding? =
-                                DataBindingUtil.inflate(
-                                    LayoutInflater.from(mContext),
-                                    R.layout.dialog_reset,
-                                    null,
-                                    false
-                                )
-                            val customDialog = android.app.AlertDialog.Builder(mContext, 0).create()
-                            customDialog.apply {
 
-                                setView(dialogBinding?.root)
-                                setCancelable(false)
-                            }.show()
+                            items.approveQtyText = items.approvedqty
+                            holder.orderdetailsBinding.selectResonItem.isEnabled = false
+                            holder.orderdetailsBinding.selectResonItem.alpha = 0.5f
+                            holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+                            holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
+                            items.remarks=""
+                            pendingFragmentCallback.onNotify()
+
+                            holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
+                            showDialog()
 
 
-                            if (dialogBinding != null) {
-                                dialogBinding.yesBtn.setOnClickListener {
+                        } else if (Integer.parseInt(p0.toString()) > 0) {
 
-                                    holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
-                                    customDialog.dismiss()
 
-//                                    holder.orderdetailsBinding.approveQtyText.clearFocus()
+                            holder.orderdetailsBinding.selectResonItem.isEnabled = false
+                            holder.orderdetailsBinding.selectResonItem.alpha = 0.5f
+                            holder.orderdetailsBinding.reason.text = "Select"
+                            holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+                            holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
+                            items.remarks=""
+                            pendingFragmentCallback.onNotify()
 
-                                }
-                            }
+                        } else if (Integer.parseInt(p0.toString()) == 0) {
+                            holder.orderdetailsBinding.selectResonItem.isEnabled = true
+                            holder.orderdetailsBinding.selectResonItem.alpha = 1f
+                            holder.orderdetailsBinding.reason.setText("Select")
+
+                            holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+                            holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.rounded_dropdown_qcfail_bg)
+
                         }
 
                     }
@@ -199,22 +249,7 @@ class QcPendingOrderDetailsAdapter(
 
                 }
 
-                if (p0.toString().length > 0) {
-//                    items.approvedqty = p0.toString().toInt()
-                    if (items.approvedqty == 0) {
-                        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
-                        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.rounded_dropdown_qcfail_bg)
-                        holder.orderdetailsBinding.selectResonItem.isEnabled = true
-                        holder.orderdetailsBinding.selectResonItem.alpha = 1f
 
-                    } else {
-                        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
-                        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
-                        holder.orderdetailsBinding.selectResonItem.isEnabled = false
-                        holder.orderdetailsBinding.selectResonItem.alpha = 0.5f
-
-                    }
-                }
             }
 
         })
@@ -302,11 +337,33 @@ class QcPendingOrderDetailsAdapter(
                     ).show()
                 } else {
                     items.approveQtyText = items.approveQtyText!! + 1;
+
                     holder.orderdetailsBinding.approveQtyText.setText(items.approveQtyText.toString())
                 }
 
             }
         }
+    }
+
+    private fun showDialog() {
+        if (customDialog == null) {
+            val dialogBinding: DialogResetBinding =
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(mContext),
+                    R.layout.dialog_reset,
+                    null,
+                    false
+                )
+            customDialog = AlertDialog.Builder(mContext, 0).create().apply {
+                setView(dialogBinding.root)
+                setCancelable(false)
+
+                dialogBinding.yesBtn.setOnClickListener {
+                    dismiss()
+                }
+            }
+        }
+        customDialog?.show()
     }
 
     fun subtractDiscount(discount: Double): Double {

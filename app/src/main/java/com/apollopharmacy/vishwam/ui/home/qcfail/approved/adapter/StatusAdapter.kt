@@ -71,7 +71,13 @@ class StatusAdapter(
 
 //        holder.statusLayoutBinding.date.text = Utlis.formatdate(approveddate)
         holder.statusLayoutBinding.date.setText(approveddate + " " +output )
-        holder.statusLayoutBinding.statusBy.setText(status.status + " (" + status.actionby + ") on ")
+        if (status.status!!.contains("Manager",true)){
+            holder.statusLayoutBinding.statusBy.setText("APPROVED BY MANAGER" + " (" + status.actionby + ") on ")
+
+        }else{
+            holder.statusLayoutBinding.statusBy.setText(status.status + " (" + status.actionby + ") on ")
+
+        }
 
 
 
