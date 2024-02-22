@@ -26,7 +26,7 @@ object SplashRepo {
             val encryptData = EncryptionManager.encryptData(Gson().toJson(validateApiRequest),
                 VALIDATEVENDOR_ENCRIPTION_KEY)
             Utils.printMessage("SplashScreen", Gson().toJson(validateApiRequest).toString())
-           // System.out.println("Validate Vendor:Request-->:"+Gson().toJson(validateApiRequest))
+           // System.out.println("Validate Vendor:Request-->:"+Gon().toJson(validateApiRequest))
             val response = Api.getClient()
                 .getValidate(VALIDATE_VENDOR_TOKEN, CommonRequest(encryptData.toString()))
             val decryptData =

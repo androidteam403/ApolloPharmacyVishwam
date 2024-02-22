@@ -77,7 +77,7 @@ class QcPendingActivityViewModel : ViewModel() {
         }
     }
 
-    fun getAcceptRejectResult(qcAcceptRejectRequest: QcAcceptRejectRequest,pendingActivityCallback: PendingActivityCallback) {
+    fun getAcceptRejectResult(qcAcceptRejectRequest: QcAcceptRejectRequest,pendingActivityCallback: PendingActivityCallback,toastMsg:String) {
 
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -100,7 +100,7 @@ class QcPendingActivityViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        Toast.makeText(context, "Sucessfull", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT).show()
                         pendingActivityCallback.onSuccessSaveAccept(result.value)
 
 

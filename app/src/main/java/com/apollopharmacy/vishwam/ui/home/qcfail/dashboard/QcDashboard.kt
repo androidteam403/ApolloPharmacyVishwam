@@ -59,10 +59,10 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     override fun setup() {
         showLoading()
         MainActivity.mInstance.mainActivityCallback = this
+        Preferences.savingToken("APL50767")
+        Preferences.setAppLevelDesignationQCFail("EXECUTIVE")
         callApi()
-        if (Preferences.getAppLevelDesignationQCFail().replace(" ", "")
-                .equals("GENERALMANAGER", true)
-        ) {
+        if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("GENERALMANAGER", true)) {
             viewBinding.selectedStatus = 1
             viewBinding.searchLayout.visibility = View.VISIBLE
             viewBinding.headingLayout.visibility = View.GONE
@@ -97,7 +97,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         viewBinding.close.setOnClickListener {
             viewBinding.searchView.text!!.clear()
             viewBinding.searchView.setText("")
-            viewBinding.rtoHeader.visibility=View.GONE
+            viewBinding.rtoHeader.visibility = View.GONE
 //            rtoPendencyAdapter?.rtoManagerAdapter!!.getFilter()!!.filter("")
 
             viewBinding.close.visibility = View.GONE
@@ -144,13 +144,13 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
                         if (qcDashboardList.isNullOrEmpty()) {
                             viewBinding.noOrderFound.visibility = View.VISIBLE
-
+                            viewBinding.rtodashboardrecycleview.visibility = View.GONE
                             viewBinding.summaryRecycleView.visibility = View.GONE
                         } else {
-                            viewBinding.summaryRecycleView.visibility = View.VISIBLE
-                            viewBinding.rtodashboardrecycleview.visibility=View.GONE
-
                             viewBinding.noOrderFound.visibility = View.GONE
+                            viewBinding.summaryRecycleView.visibility = View.VISIBLE
+                            viewBinding.rtodashboardrecycleview.visibility = View.GONE
+
 
 //                            rtoPendencyAdapter = context?.let { it1 ->
 //                                dashboardHistoryList?.let { it2 ->
@@ -159,16 +159,24 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 //                                    )
 //                                }
 //                            }
-                       rtoSummaryAdapter=     context?.let { DashboardSummaryAdapter(it,this@QcDashboard,desig, qcDashboardList,dashboardHistoryList,dashboardHierarchyList) }
+                            rtoSummaryAdapter = context?.let {
+                                DashboardSummaryAdapter(
+                                    it,
+                                    this@QcDashboard,
+                                    desig,
+                                    qcDashboardList,
+                                    dashboardHistoryList,
+                                    dashboardHierarchyList
+                                )
+                            }
 
-                            viewBinding.summaryRecycleView.adapter =rtoSummaryAdapter
+                            viewBinding.summaryRecycleView.adapter = rtoSummaryAdapter
                         }
 
                     }
 
 
-                }
-                else {
+                } else {
                     if (charText.length > 3) {
                         viewBinding.rtodashboardrecycleview.visibility = View.GONE
                         viewBinding.close.visibility = View.VISIBLE
@@ -192,14 +200,14 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
                         if (qcList.isNullOrEmpty()) {
                             viewBinding.noOrderFound.visibility = View.VISIBLE
-                            viewBinding.rtoHeader.visibility=View.GONE
+                            viewBinding.rtoHeader.visibility = View.GONE
 
                             viewBinding.searchrecycleview.visibility = View.GONE
 
 
                         } else {
                             viewBinding.searchrecycleview.visibility = View.VISIBLE
-                            viewBinding.rtoHeader.visibility=View.VISIBLE
+                            viewBinding.rtoHeader.visibility = View.VISIBLE
                             viewBinding.noOrderFound.visibility = View.GONE
                             viewBinding.searchrecycleview.adapter = context?.let {
                                 DashboardSearchSitesAdapter(
@@ -219,7 +227,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
                     viewBinding.noOrderFound.visibility = View.GONE
                     viewBinding.rtodashboardrecycleview.visibility = View.VISIBLE
                     viewBinding.summaryRecycleView.visibility = View.GONE
-                    viewBinding.rtoHeader.visibility=View.GONE
+                    viewBinding.rtoHeader.visibility = View.GONE
 
                     viewBinding.close.visibility = View.GONE
                     viewBinding.searchrecycleview.visibility = View.GONE
@@ -247,6 +255,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
                 viewBinding.dashboardrecycleview.visibility = View.VISIBLE
+                viewBinding.noOrderFoundText.visibility = View.GONE
 
                 if (!it.pendingcount.isNullOrEmpty()) {
                     pendingCountResponseList =
@@ -291,6 +300,8 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
             isVishwamPendingTab = false
             if (getdashboardHistoryList.isNullOrEmpty()) {
+                viewBinding.rtodashboardrecycleview.visibility = View.GONE
+
                 viewBinding.noOrderFoundText.visibility = View.VISIBLE
 
             } else {
@@ -305,6 +316,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         viewBinding.vishwampendency.setOnClickListener {
             viewBinding.selectedStatus = 2
             viewBinding.searchLayout.visibility = View.GONE
+            viewBinding.searchView.setText("")
             viewBinding.searchLayoutVishwam.visibility = View.VISIBLE
             isVishwamPendingTab = true
             if (pendingCountResponseList.isNullOrEmpty()) {
@@ -382,10 +394,13 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
     }
 
-    override fun onClickManagerHierarchy(position: Int, hierarchyList:ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>){
-        if (hierarchyList.get(position).isSearchClick){
+    override fun onClickManagerHierarchy(
+        position: Int,
+        hierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>,
+    ) {
+        if (hierarchyList.get(position).isSearchClick) {
             hierarchyList.get(position).setiisSearchClick(false)
-        }else{
+        } else {
             hierarchyList.get(position).setiisSearchClick(true)
 
         }
@@ -396,13 +411,14 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         position: Int,
         hierarchyList: java.util.ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>,
     ) {
-        if (hierarchyList.get(position).searchexecutiveClick){
+        if (hierarchyList.get(position).searchexecutiveClick) {
             hierarchyList.get(position).setsearchexecutiveClick(false)
-        }else{
+        } else {
             hierarchyList.get(position).setsearchexecutiveClick(true)
 
         }
-        rtoSummaryAdapter!!.rtoManagerAdapter!!.rtoExecutiveAdapter!!.notifyDataSetChanged()    }
+        rtoSummaryAdapter!!.rtoManagerAdapter!!.rtoExecutiveAdapter!!.notifyDataSetChanged()
+    }
 
 
     override fun onClickExecutive(position: Int, designation: String, empId: String) {
@@ -490,10 +506,10 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         position: Int,
         list: java.util.ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
     ) {
-        if (list.get(position).isSearchClick){
+        if (list.get(position).isSearchClick) {
             list.get(position).setisSearchClick(false)
 
-        }else{
+        } else {
             list.get(position).setisSearchClick(true)
 
         }
