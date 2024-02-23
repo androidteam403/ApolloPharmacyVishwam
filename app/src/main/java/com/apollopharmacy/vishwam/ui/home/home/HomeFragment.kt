@@ -387,6 +387,16 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             )
         }
 
+
+        if (true) {
+            attendanceMenuModel.add(
+                MenuModel(
+                    "Vahan", R.drawable.deliveryvahan, true, null, "Vahan"
+                )
+            )
+        }
+
+
         val attendanceSubMenuModel = ArrayList<MenuModel>()
         attendanceSubMenuModel.add(MenuModel("Attendance", R.drawable.attendance, true, null, null))
         attendanceSubMenuModel.add(MenuModel("History", R.drawable.history, true, null, null))

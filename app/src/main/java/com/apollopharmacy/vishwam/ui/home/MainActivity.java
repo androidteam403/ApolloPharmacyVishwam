@@ -97,6 +97,7 @@ import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.SwachLi
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy;
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.SampleSwachUi;
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
+import com.apollopharmacy.vishwam.ui.home.vahan.Vahan;
 import com.apollopharmacy.vishwam.ui.login.model.MobileAccessResponse;
 import com.apollopharmacy.vishwam.util.FragmentUtils;
 import com.apollopharmacy.vishwam.util.Utils;
@@ -1525,6 +1526,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
                 switchBtn.setVisibility(View.GONE);
                 break;
+
+
+
+            case "Vahan":
+                headerText.setText("Vahan Delivery");
+                fragment = new Vahan();
+                filterIcon.setVisibility(View.GONE);
+                onClickPlusIcon.setVisibility(View.GONE);
+                settingsWhite.setVisibility(View.GONE);
+                plusIconApna.setVisibility(View.GONE);
+                filterIconApna.setVisibility(View.GONE);
+                headerTextLocation.setVisibility(View.GONE);
+                plusIconAttendence.setVisibility(View.GONE);
+                helpIcon.setVisibility(View.GONE);
+
+                onClickPlusIcon.setVisibility(View.GONE);
+
+                qcfilterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                scannerIcon.setVisibility(View.GONE);
+                spinnerLayout.setVisibility(View.GONE);
+                isHomeScreen = false;
+//                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.retro_qr_actionbar_bg));
+                logo.setVisibility(View.GONE);
+                customerDetails.setVisibility(View.GONE);
+                backArrow.setVisibility(View.VISIBLE);
+                headerText.setVisibility(View.VISIBLE);
+                logoutBtn.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                bottomNavigationView.getMenu().findItem(R.id.menu).setVisible(false);
+                switchBtn.setVisibility(View.GONE);
+                break;
+
+
+
+
+
+
 
             case "Drug Requests":  //"Drug List":
                 headerText.setText("Drug Requests");
