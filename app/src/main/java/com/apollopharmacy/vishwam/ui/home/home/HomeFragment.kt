@@ -388,7 +388,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         }
 
 
-        if (true) {
+        if (false) {
             attendanceMenuModel.add(
                 MenuModel(
                     "Vahan", R.drawable.deliveryvahan, true, null, "Vahan"

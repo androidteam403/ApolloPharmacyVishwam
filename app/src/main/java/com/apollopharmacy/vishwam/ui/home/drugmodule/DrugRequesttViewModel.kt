@@ -440,8 +440,8 @@ class DrugFragmentViewModel : ViewModel() {
                             if (response != null) {
                                 val resp: String = response.value.string()
                                 if (resp != null) {
+
                                     try {
-                                    } catch (e: Exception) {
                                         val res = BackShlash.removeBackSlashes(resp)
                                         val responseTicktResolvedapi =
                                             Gson().fromJson(
@@ -449,6 +449,9 @@ class DrugFragmentViewModel : ViewModel() {
                                                 ResponseTicktResolvedapi::class.java
                                             )
                                         tisketstatusresponse = responseTicktResolvedapi
+                                    }
+                                    catch (e: Exception) {
+
 //                                    if (!responseTicktResolvedapi.success) {
 //                                        tisketstatusresponse.value = responseTicktResolvedapi
 //                                    } else {

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -20,6 +21,7 @@ import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.DashboardSiteBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryforhierarchy
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.PendingCountResponse
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcDashBoardCallback
 import java.util.stream.Collectors
 
 
@@ -27,6 +29,8 @@ var distinctpendingCountListList = java.util.ArrayList<PendingCountResponse.Pend
 
 class DashBaordAdapter(
     val mContext: Context,
+    val mCallBack: QcDashBoardCallback,
+
     var pendingCountResponseList: ArrayList<PendingCountResponse.Pendingcount>,
     var designations: ArrayList<String>,
     var distinctpendingCountList: ArrayList<PendingCountResponse.Pendingcount>,
@@ -68,6 +72,13 @@ class DashBaordAdapter(
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = distinctpendingCountList.get(position)
+        if (distinctpendingCountList.isEmpty()){
+            holder.dashboardSiteBinding.noOrderFoundText.visibility=View.VISIBLE
+        }
+        else{
+            holder.dashboardSiteBinding.noOrderFoundText.visibility=View.GONE
+
+        }
 
         gmPendingCountResponseList =
             pendingCountResponseList.stream()
@@ -328,10 +339,13 @@ class DashBaordAdapter(
                     distinctpendingCountList =
                         filterResults.values as java.util.ArrayList<PendingCountResponse.Pendingcount>
                     try {
+                        mCallBack.noDataFound(false)
+
                         notifyDataSetChanged()
                     } catch (e: Exception) {
                     }
                 } else {
+                    mCallBack.noDataFound(true)
                     notifyDataSetChanged()
                 }
             }

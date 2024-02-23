@@ -470,8 +470,10 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
     }
 
     override fun onClickBack() {
-        finish()
-    }
+        val intent = Intent()
+        intent.putExtra("reset", "Noreset")
+        setResult(Activity.RESULT_OK, intent)
+        finish()    }
 
     override fun accept() {
         qcRejectItemsList.clear()
@@ -638,6 +640,7 @@ class QcPendingActivity : AppCompatActivity(), PendingActivityCallback, QcListsC
     override fun onSuccessSaveAccept(acceptRejectList: QcAcceptRejectResponse) {
         Utlis.hideLoading()
         val intent = Intent()
+        intent.putExtra("reset", "reset")
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

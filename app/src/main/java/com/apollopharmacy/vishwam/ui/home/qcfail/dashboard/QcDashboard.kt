@@ -279,7 +279,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
                     pendingCountResponseList.distinctBy { it.empid } as ArrayList<PendingCountResponse.Pendingcount>
                 dashBaordAdapter = context?.let { it1 ->
                     DashBaordAdapter(
-                        it1, pendingCountResponseList, arrayList, distinctPendingCountResponseList
+                        it1,this, pendingCountResponseList, arrayList, distinctPendingCountResponseList
                     )
                 }
                 viewBinding.dashboardrecycleview.adapter = dashBaordAdapter
@@ -297,6 +297,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
             viewBinding.selectedStatus = 1
             viewBinding.searchLayout.visibility = View.VISIBLE
             viewBinding.searchLayoutVishwam.visibility = View.GONE
+            viewBinding.searchViewVishwam.setText("")
 
             isVishwamPendingTab = false
             if (getdashboardHistoryList.isNullOrEmpty()) {
@@ -380,10 +381,21 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         }
     }
 
+    override fun noDataFound(noData: Boolean) {
+        if (noData){
+            viewBinding.noOrderFoundText.visibility=View.VISIBLE
+        }else{
+            viewBinding.noOrderFoundText.visibility=View.GONE
+
+        }
+    }
+
     override fun notify(position: Int, click: Boolean) {
 
         rtoPendencyAdapter?.notifyDataSetChanged()
     }
+
+
 
     override fun onClickManagerDashBoard(position: Int, designation: String, empId: String) {
         showLoading()

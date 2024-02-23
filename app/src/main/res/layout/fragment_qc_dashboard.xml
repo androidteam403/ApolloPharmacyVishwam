@@ -430,34 +430,36 @@
             </LinearLayout>
 
 
-            <RelativeLayout
-                android:id="@+id/no_order_found_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <ImageView
-                    android:id="@+id/emptyImages"
-                    android:layout_width="@dimen/value_120dp"
-                    android:layout_height="@dimen/value_120dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/qca" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/emptyImages"
-                    android:gravity="center"
-                    android:text="No Pending Orders Found"
-                    android:textColor="@color/backgroundColor"
-                    android:textSize="@dimen/text_18sp" />
-
-            </RelativeLayout>
         </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/no_order_found_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/emptyImages"
+                android:layout_width="@dimen/value_120dp"
+                android:layout_height="@dimen/value_120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/qca" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/emptyImages"
+                android:gravity="center"
+                android:text="No Data Found"
+                android:textColor="@color/backgroundColor"
+                android:textSize="@dimen/text_18sp" />
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <data>
