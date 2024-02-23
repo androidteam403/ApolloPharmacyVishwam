@@ -59,8 +59,8 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     override fun setup() {
         showLoading()
         MainActivity.mInstance.mainActivityCallback = this
-        Preferences.savingToken("APL50767")
-        Preferences.setAppLevelDesignationQCFail("EXECUTIVE")
+        /*Preferences.savingToken("APL50767")
+          Preferences.setAppLevelDesignationQCFail("EXECUTIVE")*/
         callApi()
         if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("GENERALMANAGER", true)) {
             viewBinding.selectedStatus = 1
