@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.cashcloser
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
@@ -11,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.view.LayoutInflater
+import android.view.View
 import android.view.Window
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -23,22 +25,46 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.CashDepositConfirmDialogBinding
+import com.apollopharmacy.vishwam.databinding.DialogCashDepositFilterBinding
 import com.apollopharmacy.vishwam.databinding.FragmentCashCloserBinding
 import com.apollopharmacy.vishwam.databinding.PreviewImageDialogBinding
+import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.cashcloser.adapter.CashCloserPendingAdapter
 import com.apollopharmacy.vishwam.ui.home.cashcloser.cashdepositbolbstorage.CashDepositBlobStorage
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
+import com.apollopharmacy.vishwam.util.Utils
 import com.bumptech.glide.Glide
 import java.io.File
 
 
 class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserBinding>(),
+    CashCloserCalenderDialog.DateSelected,
     CashCloserFragmentCallback {
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
     lateinit var cashCloserPendingAdapter: CashCloserPendingAdapter
     private var cashDepositDetailsList = ArrayList<CashDepositDetailsResponse.Cashdeposit>()
+    lateinit var dialogCashDepositFilterBinding: DialogCashDepositFilterBinding
+    var fromDate = Utils.getCurrentDate()
+    var toDate = Utils.getCurrentDate()
+    var isPendingListClicked = true
+    var isCompletedListClicked = true
+    var isFromDateSelected: Boolean = false
+    var cashCloserList: String =
+        "pendingList,completedList,selectAll"
+
+
+    var isPendingGlobal: Boolean = true
+    var isCompletedGlobal: Boolean = false
+    var fromDateGlobal: String =
+        Utils.minusThirtyDays(Utils.getCurrentDate())//Utils.getthirtyDaysBackDate()
+    var toDateGlobal: String = Utils.getCurrentDate()
+
+    var isPendingInternal: Boolean = true
+    var isCompletedInternal: Boolean = false
+    var fromDateInternal: String = Utils.getthirtyDaysBackDate()
+    var toDateInternal: String = Utils.getCurrentDate()
 
     override val layoutRes: Int
         get() = R.layout.fragment_cash_closer
@@ -49,7 +75,23 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
 
     override fun setup() {
         showLoading()
-        viewModel.getCashDepositDetails("14068", this@CashCloserFragment)
+        viewModel.getCashDepositDetails(
+            "14068",
+            this@CashCloserFragment,
+            fromDateGlobal, toDateGlobal,
+            if (isPendingGlobal && isCompletedGlobal) {
+                ""
+            } else if (isPendingGlobal) {
+                "PENDING"
+            } else {
+                "COMPLETED"
+            },
+        )
+        //"2024-02-01", "2024-02-15", "PENDING"
+        MainActivity.mInstance.filterIconApna.setOnClickListener {
+            navigateToListActivity()
+        }
+
     }
 
     var imagePosition: Int = 0
@@ -65,6 +107,7 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
         } else {
             openCamera()
         }
+        // navigateToListActivity()
     }
 
     override fun deleteImage(position: Int, imageState: Int) {
@@ -79,6 +122,318 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
             }
         }
         cashCloserPendingAdapter.notifyDataSetChanged()
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun navigateToListActivity() {
+        isPendingInternal = isPendingGlobal
+        isCompletedInternal = isCompletedGlobal
+        fromDateInternal = fromDateGlobal
+        toDateInternal = toDateGlobal
+
+
+        val cashDepositFilterDialog =
+            Dialog(requireContext(), android.R.style.Theme_Translucent_NoTitleBar_Fullscreen)
+        dialogCashDepositFilterBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(context),
+            R.layout.dialog_cash_deposit_filter,
+            null,
+            false
+        )
+        cashDepositFilterDialog.setContentView(dialogCashDepositFilterBinding.root)
+        cashDepositFilterDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogCashDepositFilterBinding.fromDateText.text = fromDateGlobal//fromDate
+        dialogCashDepositFilterBinding.toDateText.text = toDateGlobal//toDate
+
+        if (isPendingInternal && isCompletedInternal) {
+            dialogCashDepositFilterBinding.selectAll.isChecked = true
+        } else {
+            dialogCashDepositFilterBinding.selectAll.isChecked = false
+        }
+
+        if (isPendingInternal) {
+            dialogCashDepositFilterBinding.pendingList.background =
+                requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+            dialogCashDepositFilterBinding.pendingList.setTextColor(
+                requireContext().resources.getColor(
+                    R.color.white_for_both
+                )
+            )
+        } else {
+            dialogCashDepositFilterBinding.pendingList.background =
+                requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+            dialogCashDepositFilterBinding.pendingList.setTextColor(
+                requireContext().resources.getColor(
+                    R.color.greyyy
+                )
+            )
+        }
+
+        if (isCompletedInternal) {
+            dialogCashDepositFilterBinding.completedList.background =
+                requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+            dialogCashDepositFilterBinding.completedList.setTextColor(
+                requireContext().resources.getColor(
+                    R.color.white_for_both
+                )
+            )
+        } else {
+            dialogCashDepositFilterBinding.completedList.setTextColor(
+                requireContext().resources.getColor(
+                    R.color.greyyy
+                )
+            )
+            dialogCashDepositFilterBinding.completedList.background =
+                requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+        }
+
+
+        dialogCashDepositFilterBinding!!.fromDateText.text =
+            fromDateInternal//Utils.getCurrentDate()
+        dialogCashDepositFilterBinding!!.toDateText.text = toDateInternal //Utils.getCurrentDate()
+        /*this.cashCloserList = ""
+        if (isPendingListClicked) {
+            this.cashCloserList = "pendingList"
+        }
+        if (isCompletedListClicked) {
+            if (this.cashCloserList.isEmpty()) {
+                this.cashCloserList = "completedList"
+            } else {
+                this.cashCloserList = "${this.cashCloserList},completedList"
+            }
+        }
+        if (dialogCashDepositFilterBinding.selectAll.isChecked) {
+            this.cashCloserList = "pendingList,completedList,selectAll"
+        }*/
+
+        dialogCashDepositFilterBinding.fromDate.setOnClickListener {
+            isFromDateSelected = true
+            openDateDialog()
+        }
+        dialogCashDepositFilterBinding.toDate.setOnClickListener {
+            isFromDateSelected = false
+            openDateDialog()
+        }
+
+
+        submitButtonEnable(
+            isPendingInternal,
+            isCompletedInternal,
+            dialogCashDepositFilterBinding
+        )
+
+        dialogCashDepositFilterBinding!!.pendingList.setOnClickListener {
+            if (isPendingInternal) {
+                isPendingInternal = false
+                dialogCashDepositFilterBinding!!.pendingList.background =
+                    requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogCashDepositFilterBinding!!.pendingList.setTextColor(
+                    requireContext().resources.getColor(
+                        R.color.greyyy
+                    )
+                )
+            } else {
+                isPendingInternal = true
+                dialogCashDepositFilterBinding!!.pendingList.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogCashDepositFilterBinding!!.pendingList.setTextColor(
+                    requireContext().resources.getColor(
+                        R.color.white_for_both
+                    )
+                )
+            }
+            submitButtonEnable(
+                isPendingInternal,
+                isCompletedInternal,
+                dialogCashDepositFilterBinding!!
+            )
+        }
+
+        dialogCashDepositFilterBinding!!.completedList.setOnClickListener {
+            if (isCompletedListClicked) {
+                isCompletedListClicked = false
+                dialogCashDepositFilterBinding!!.completedList.background =
+                    requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogCashDepositFilterBinding!!.completedList.setTextColor(
+                    requireContext().resources.getColor(
+                        R.color.greyyy
+                    )
+                )
+                isCompletedInternal = false
+            } else {
+                isCompletedListClicked = true
+                isCompletedInternal = true
+                dialogCashDepositFilterBinding!!.completedList.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogCashDepositFilterBinding!!.completedList.setTextColor(
+                    requireContext().resources.getColor(
+                        R.color.white_for_both
+                    )
+                )
+            }
+            submitButtonEnable(
+                isPendingInternal,
+                isCompletedInternal,
+                dialogCashDepositFilterBinding!!
+            )
+        }
+        dialogCashDepositFilterBinding!!.selectAllCheckboxLayout.setOnClickListener {
+            dialogCashDepositFilterBinding!!.selectAll.isChecked =
+                !dialogCashDepositFilterBinding!!.selectAll.isChecked
+            if (dialogCashDepositFilterBinding!!.selectAll.isChecked) {
+
+                isPendingInternal = true
+                isCompletedInternal = true
+                dialogCashDepositFilterBinding!!.pendingList.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogCashDepositFilterBinding!!.pendingList.setTextColor(
+                    requireContext().resources.getColor(
+                        R.color.white_for_both
+                    )
+                )
+                dialogCashDepositFilterBinding!!.completedList.background =
+                    requireContext().resources.getDrawable(R.drawable.skyblue_bgg)
+                dialogCashDepositFilterBinding!!.completedList.setTextColor(
+                    requireContext().resources.getColor(
+                        R.color.white_for_both
+                    )
+                )
+            } else {
+                isPendingInternal = false
+                isCompletedInternal = false
+                dialogCashDepositFilterBinding!!.pendingList.background =
+                    requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogCashDepositFilterBinding!!.pendingList.setTextColor(
+                    requireContext().resources.getColor(
+                        R.color.greyyy
+                    )
+                )
+                dialogCashDepositFilterBinding!!.completedList.background =
+                    requireContext().resources.getDrawable(R.drawable.checkbox_bgg)
+                dialogCashDepositFilterBinding!!.completedList.setTextColor(
+                    requireContext().resources.getColor(
+                        R.color.greyyy
+                    )
+                )
+                dialogCashDepositFilterBinding!!.selectAll.isChecked = true
+            }
+            submitButtonEnable(
+                isPendingInternal,
+                isCompletedInternal,
+                dialogCashDepositFilterBinding!!
+            )
+        }
+        dialogCashDepositFilterBinding.clearAllFilters.setOnClickListener {
+            isPendingInternal = true
+            isCompletedInternal = false
+
+            isPendingGlobal = isPendingInternal
+            isCompletedGlobal = isCompletedInternal
+
+            dialogCashDepositFilterBinding.fromDateText.text =
+                Utils.minusThirtyDays(Utils.getCurrentDate())
+            dialogCashDepositFilterBinding.toDateText.text = Utils.getCurrentDate()
+
+            fromDateGlobal = dialogCashDepositFilterBinding.fromDateText.text.toString()
+            toDateGlobal = dialogCashDepositFilterBinding.toDateText.text.toString()
+
+            cashDepositFilterDialog.dismiss()
+            showLoading()
+            viewModel.getCashDepositDetails(
+                "14068",
+                this@CashCloserFragment,
+                fromDateGlobal,
+                toDateGlobal,
+                if (isPendingGlobal && isCompletedGlobal) {
+                    ""
+                } else if (isPendingGlobal) {
+                    "PENDING"
+                } else {
+                    "COMPLETED"
+                },
+            )
+        }
+        dialogCashDepositFilterBinding.submit.setOnClickListener {
+            isPendingGlobal = isPendingInternal
+            isCompletedGlobal = isCompletedInternal
+            fromDateGlobal = dialogCashDepositFilterBinding.fromDateText.text.toString()
+            toDateGlobal = dialogCashDepositFilterBinding.toDateText.text.toString()
+            cashDepositFilterDialog.dismiss()
+            showLoading()
+            viewModel.getCashDepositDetails(
+                "14068",
+                this@CashCloserFragment,
+                fromDateGlobal,
+                toDateGlobal,
+                if (isPendingGlobal && isCompletedGlobal) {
+                    ""
+                } else if (isPendingGlobal) {
+                    "PENDING"
+                } else {
+                    "COMPLETED"
+                },
+            )
+        }
+        dialogCashDepositFilterBinding.closeDialog.setOnClickListener {
+            cashDepositFilterDialog.dismiss()
+        }
+        cashDepositFilterDialog.show()
+    }
+
+    fun submitButtonEnable(
+        isPendingListClicked: Boolean,
+        isCompletedListClicked: Boolean,
+        dialogCashDepositFilterBinding: DialogCashDepositFilterBinding,
+    ) {
+        if (!isPendingListClicked && !isCompletedListClicked) {
+            dialogCashDepositFilterBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
+            dialogCashDepositFilterBinding.isSubmitEnable = false
+            dialogCashDepositFilterBinding.isSelectAllChecked = false
+        } else if (isPendingListClicked && isCompletedListClicked) {
+            dialogCashDepositFilterBinding.submit.setBackgroundResource(R.drawable.dark_blue_bg_for_btn)
+            dialogCashDepositFilterBinding.isSubmitEnable = true
+            dialogCashDepositFilterBinding.isSelectAllChecked = true
+        } else {
+            dialogCashDepositFilterBinding.submit.setBackgroundResource(R.drawable.dark_blue_bg_for_btn)
+            dialogCashDepositFilterBinding.isSubmitEnable = true
+            dialogCashDepositFilterBinding.isSelectAllChecked = false
+        }
+    }
+
+    /*  fun submitClick() {
+        var fromDate = viewBinding.fromDateText.text.toString()
+        var toDate = viewBinding.toDateText.text.toString()
+        if (Utils.getDateDifference(fromDate, toDate) > 0) {
+            if (!viewBinding.pullToRefresh.isRefreshing) Utlis.showLoading(requireContext())
+            isLoadMoreAvailable = true
+            callAPI(1)
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.label_check_dates),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+    }*/
+    fun openDateDialog() {
+        if (isFromDateSelected) {
+            CashCloserCalenderDialog().apply {
+                arguments = generateParsedData(
+                    dialogCashDepositFilterBinding!!.fromDateText.text.toString(),
+                    false,
+                    dialogCashDepositFilterBinding!!.fromDateText.text.toString()
+                )
+            }.show(childFragmentManager, "")
+        } else {
+            CashCloserCalenderDialog().apply {
+                arguments = generateParsedData(
+                    dialogCashDepositFilterBinding!!.toDateText.text.toString(),
+                    true,
+                    dialogCashDepositFilterBinding!!.fromDateText.text.toString()
+                )
+            }.show(childFragmentManager, "")
+        }
     }
 
     override fun previewImage(file: String, position: Int) {
@@ -137,22 +492,30 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
             try {
 
                 if (imageurl != null && imageurlTwo != null) {
-                    capturedImageUrl = CashDepositBlobStorage.captureImageBlobStorage(imageurl,
-                        "${System.currentTimeMillis()}.jpg")
+                    capturedImageUrl = CashDepositBlobStorage.captureImageBlobStorage(
+                        imageurl,
+                        "${System.currentTimeMillis()}.jpg"
+                    )
 
                     capturedImageUrlTwo =
-                        CashDepositBlobStorage.captureImageBlobStorage(imageurlTwo,
-                            "${System.currentTimeMillis()}.jpg")
+                        CashDepositBlobStorage.captureImageBlobStorage(
+                            imageurlTwo,
+                            "${System.currentTimeMillis()}.jpg"
+                        )
 
                     url = "$capturedImageUrl,$capturedImageUrlTwo"
                 } else if (imageurl != null) {
-                    capturedImageUrl = CashDepositBlobStorage.captureImageBlobStorage(imageurl,
-                        "${System.currentTimeMillis()}.jpg")
+                    capturedImageUrl = CashDepositBlobStorage.captureImageBlobStorage(
+                        imageurl,
+                        "${System.currentTimeMillis()}.jpg"
+                    )
                     url = capturedImageUrl
                 } else {
                     capturedImageUrlTwo =
-                        CashDepositBlobStorage.captureImageBlobStorage(imageurlTwo!!,
-                            "${System.currentTimeMillis()}.jpg")
+                        CashDepositBlobStorage.captureImageBlobStorage(
+                            imageurlTwo!!,
+                            "${System.currentTimeMillis()}.jpg"
+                        )
                     url = capturedImageUrlTwo
                 }
 
@@ -176,6 +539,10 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
         if (cashDepositDetailsResponse != null && cashDepositDetailsResponse.cashdeposit != null && cashDepositDetailsResponse.cashdeposit!!.size > 0) {
             cashDepositDetailsList =
                 cashDepositDetailsResponse.cashdeposit as ArrayList<CashDepositDetailsResponse.Cashdeposit>
+            cashDepositDetailsList.sortByDescending { it.closingdate }
+
+            viewBinding.recyclerViewCashCloser.visibility = View.VISIBLE
+            viewBinding.emptyList.visibility = View.GONE
 
             cashCloserPendingAdapter = CashCloserPendingAdapter(
                 requireContext(),
@@ -185,12 +552,17 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
             val linearLayoutManager = LinearLayoutManager(requireContext())
             viewBinding.recyclerViewCashCloser.adapter = cashCloserPendingAdapter
             viewBinding.recyclerViewCashCloser.layoutManager = linearLayoutManager
+        } else {
+            viewBinding.recyclerViewCashCloser.visibility = View.GONE
+            viewBinding.emptyList.visibility = View.VISIBLE
         }
     }
 
     override fun onFailureGetCashDepositDetailsApiCall(message: String) {
         hideLoading()
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        viewBinding.recyclerViewCashCloser.visibility = View.GONE
+        viewBinding.emptyList.visibility = View.VISIBLE
+        //Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSuccessSaveCashDepositDetailsApiCall(cashDepositDetailsResponse: CashDepositDetailsResponse) {
@@ -208,7 +580,26 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
             )
             dialog.setContentView(cashDepositConfirmDialog.root)
             cashDepositConfirmDialog.okButton.setOnClickListener {
-            viewModel.getCashDepositDetails("14068", this@CashCloserFragment)
+                /*viewModel.getCashDepositDetails(
+                    "14068",
+                    this@CashCloserFragment,
+                    "2024-02-01",
+                    "2024-02-15",
+                    "PENDING",
+                )*/
+                showLoading()
+                viewModel.getCashDepositDetails(
+                    "14068",
+                    this@CashCloserFragment,
+                    fromDateGlobal, toDateGlobal,
+                    if (isPendingGlobal && isCompletedGlobal) {
+                        ""
+                    } else if (isPendingGlobal) {
+                        "PENDING"
+                    } else {
+                        "COMPLETED"
+                    },
+                )
                 dialog.dismiss()
             }
             dialog.setCancelable(false)
@@ -296,5 +687,40 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
                 ), PermissonCode
             )
         }
+    }
+
+    override fun selectedDateTo(dateSelected: String, showingDate: String) {
+        if (isFromDateSelected) {
+            isFromDateSelected = false
+            dialogCashDepositFilterBinding!!.fromDateText.setText(showingDate)
+            var toDateInternal = Utils.plusThirtyDays(showingDate)
+            if (Utils.getDateDifference(toDateInternal, Utils.getCurrentDate()) == 1) {
+                dialogCashDepositFilterBinding!!.toDateText.setText(toDateInternal)//Utils.getCurrentDate()
+            } else {
+                dialogCashDepositFilterBinding!!.toDateText.setText(Utils.getCurrentDate())
+            }
+        } else {
+            dialogCashDepositFilterBinding!!.toDateText.setText(showingDate)
+            var fromDateInternal = Utils.minusThirtyDays(showingDate)
+            dialogCashDepositFilterBinding!!.fromDateText.setText(fromDateInternal)
+        }
+        /*if (isFromDateSelected) {
+            isFromDateSelected = false;
+            dialogCashDepositFilterBinding!!.fromDateText.setText(showingDate);
+            var toDateInternal = Utils.plusThirtyDays(showingDate);
+            if (Utils.getDateDifference(toDateInternal, Utils.getCurrentDate()) < 30) {
+                dialogCashDepositFilterBinding!!.toDateText.setText(Utils.getCurrentDate());
+            } else {
+                dialogCashDepositFilterBinding!!.toDateText.setText(toDateInternal);
+            }
+        } else {
+            dialogCashDepositFilterBinding!!.toDateText.setText(showingDate);
+            var fromDateInternal = Utils.plusThirtyDays(showingDate);
+            dialogCashDepositFilterBinding!!.fromDateText.setText(fromDateInternal);
+        }*/
+    }
+
+    override fun selectedDatefrom(dateSelected: String, showingDate: String) {
+
     }
 }

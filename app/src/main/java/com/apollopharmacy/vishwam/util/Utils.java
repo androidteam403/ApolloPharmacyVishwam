@@ -35,9 +35,9 @@ import com.apollopharmacy.vishwam.data.model.cms.NewTicketHistoryResponse;
 import java.io.IOException;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -83,7 +83,7 @@ public class Utils {
 
     public static String getCurrentDateTimeMSUnique() {
         Date dNow = new Date();
-        java.text.SimpleDateFormat ft = new java.text.SimpleDateFormat("mmss",  Locale.ENGLISH);
+        java.text.SimpleDateFormat ft = new java.text.SimpleDateFormat("mmss", Locale.ENGLISH);
         String datetime = ft.format(dNow);
         return datetime;
     }
@@ -138,7 +138,17 @@ public class Utils {
         cal.add(Calendar.DATE, -7);
         String currDate = "";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            currDate = new SimpleDateFormat("dd-MMM-yyyy",Locale.ENGLISH).format(cal.getTime());
+            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(cal.getTime());
+        }
+        return currDate;
+    }
+
+    public static String getthirtyDaysBackDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -30);
+        String currDate = "";
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            currDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(cal.getTime());
         }
         return currDate;
     }
@@ -225,6 +235,7 @@ public class Utils {
         }
         return resultStr;
     }
+
     public static String getHistoryCustomDateNew(String orderedDate) {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;
@@ -244,6 +255,7 @@ public class Utils {
         }
         return convertedDate;
     }
+
     public static String getHistoryTimeFormat(String orderedDate) {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;
@@ -379,6 +391,7 @@ public class Utils {
         resultTime = hrsLbl;
         return resultTime;
     }
+
     public static String getDurationTimMin(String currentDate, String previousDate) {
         String resultTime = "";
         DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy - hh:mm:ss a", Locale.ENGLISH);
@@ -419,7 +432,7 @@ public class Utils {
         } else {
             secsLbl = String.valueOf(elapsedSeconds);
         }
-        resultTime =  minsLbl;
+        resultTime = minsLbl;
         return resultTime;
     }
 
@@ -436,7 +449,7 @@ public class Utils {
         }
 
         long timeDifference = dateCurrent.getTime() - dateBefore.getTime();
-        long secondsDifference = TimeUnit.MILLISECONDS.toSeconds(timeDifference)%60;
+        long secondsDifference = TimeUnit.MILLISECONDS.toSeconds(timeDifference) % 60;
 
         return String.valueOf(secondsDifference);
     }
@@ -481,6 +494,7 @@ public class Utils {
         }
         return convertedDate;
     }
+
     public static String getLastLoginDateNewFormatTime(String loginDate) {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;
@@ -599,6 +613,7 @@ public class Utils {
             return "";
         }
     }
+
     public static String getAttendanceCurrentDateNewFormatTime() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return new SimpleDateFormat("hh:mm:ss aa", Locale.ENGLISH).format(Calendar.getInstance().getTime());
@@ -614,6 +629,7 @@ public class Utils {
             return "";
         }
     }
+
     public static String getAttendanceCustomDateFormat(String orderedDate) {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;
@@ -633,6 +649,7 @@ public class Utils {
         }
         return convertedDate;
     }
+
     public static String getAttendanceCustomTimeFormat(String orderedDate) {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;
@@ -1020,4 +1037,156 @@ public class Utils {
 
     public static DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.ENGLISH);
 
+
+    public static String plusThirtyDays(String date) {
+        try {
+
+
+             //"2011-11-30";  // Start date
+            long milliseconds;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                SimpleDateFormat spf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+                Date newDate = spf.parse(date);
+                spf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+                String date1 = spf.format(newDate);
+                String[] splitDate = date1.split("-");
+
+                LocalDateTime dateTime = LocalDateTime.of(Integer.parseInt(splitDate[2]),  // Year
+                        Integer.parseInt(splitDate[1]),  // Month
+                        Integer.parseInt(splitDate[0]),  // Day
+                        Integer.parseInt("0"),  // Hour
+                        Integer.parseInt("0"),  // Minute
+                        Integer.parseInt("0")   // Second
+                );
+                // Convert LocalDateTime to Instant
+                Instant instant = dateTime.atZone(java.time.ZoneId.systemDefault()).toInstant();
+
+
+
+
+
+                // Get milliseconds from Instant
+                milliseconds = instant.toEpochMilli();
+
+
+                Instant instant1 = Instant.ofEpochMilli(milliseconds);
+                Duration duration = Duration.ofDays(30);
+                Instant newInstant = instant1.plus(duration);
+                long newMilliseconds = newInstant.toEpochMilli();
+
+                milliseconds = newMilliseconds;//milliseconds + 2592000000;
+            } else {
+                String[] splitDate = date.split("-");
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(Calendar.DAY_OF_YEAR, Integer.parseInt(splitDate[2]));
+                calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splitDate[1]));
+                calendar.set(Calendar.DATE, Integer.parseInt(splitDate[0]));
+                /*calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startTime[0]));
+                calendar.set(Calendar.MINUTE, Integer.parseInt(startTime[1]));
+                calendar.set(Calendar.SECOND, Integer.parseInt(startTime[2]));*/
+                calendar.add(Calendar.DATE, 30);
+                milliseconds = calendar.getTimeInMillis();
+
+            }
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            String dateString = formatter.format(new Date(milliseconds));
+            return dateString;
+        } catch (Exception e) {
+            return "";
+        }
+/*try {
+        String dateInString = "";
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-YYYY", Locale.ENGLISH);
+            Calendar c = Calendar.getInstance();
+            c.setTime(sdf.parse(dateInString));
+            c.add(Calendar.DATE, 30);
+            sdf = new SimpleDateFormat("dd-MMM-YYYY", Locale.ENGLISH);
+            Date resultdate = new Date(c.getTimeInMillis());
+            dateInString = sdf.format(resultdate);
+            System.out.println("String date:" + dateInString);
+            return dateInString;
+        } catch (Exception e) {
+            Log.e("plusThirtyDays::::::", e.getMessage());
+            return "";
+        }*/
+
+    }
+
+    public static String minusThirtyDays(String date) {
+       /* try {
+            String dateInString = date; //"2011-11-30";  // Start date
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-YYYY", Locale.ENGLISH);
+            Calendar c = Calendar.getInstance();
+            c.setTime(sdf.parse(dateInString));
+            c.add(Calendar.DATE, -30);
+            sdf = new SimpleDateFormat("dd-MMM-YYYY", Locale.ENGLISH);
+            Date resultdate = new Date(c.getTimeInMillis());
+            dateInString = sdf.format(resultdate);
+            System.out.println("String date:" + dateInString);
+            return dateInString;
+        } catch (Exception e) {
+            Log.e("plusThirtyDays::::::", e.getMessage());
+            return "";
+        }*/
+
+        try {
+
+
+            //"2011-11-30";  // Start date
+            long milliseconds;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                SimpleDateFormat spf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+                Date newDate = spf.parse(date);
+                spf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+                String date1 = spf.format(newDate);
+                String[] splitDate = date1.split("-");
+
+                LocalDateTime dateTime = LocalDateTime.of(Integer.parseInt(splitDate[2]),  // Year
+                        Integer.parseInt(splitDate[1]),  // Month
+                        Integer.parseInt(splitDate[0]),  // Day
+                        Integer.parseInt("0"),  // Hour
+                        Integer.parseInt("0"),  // Minute
+                        Integer.parseInt("0")   // Second
+                );
+                // Convert LocalDateTime to Instant
+                Instant instant = dateTime.atZone(java.time.ZoneId.systemDefault()).toInstant();
+
+
+
+
+
+                // Get milliseconds from Instant
+                milliseconds = instant.toEpochMilli();
+
+
+                Instant instant1 = Instant.ofEpochMilli(milliseconds);
+                Duration duration = Duration.ofDays(30);
+                Instant newInstant = instant1.minus(duration);
+                long newMilliseconds = newInstant.toEpochMilli();
+
+                milliseconds = newMilliseconds;//milliseconds + 2592000000;
+            } else {
+                String[] splitDate = date.split("-");
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(Calendar.DAY_OF_YEAR, Integer.parseInt(splitDate[2]));
+                calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splitDate[1]));
+                calendar.set(Calendar.DATE, Integer.parseInt(splitDate[0]));
+                /*calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startTime[0]));
+                calendar.set(Calendar.MINUTE, Integer.parseInt(startTime[1]));
+                calendar.set(Calendar.SECOND, Integer.parseInt(startTime[2]));*/
+                calendar.add(Calendar.DATE, -30);
+                milliseconds = calendar.getTimeInMillis();
+
+            }
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            String dateString = formatter.format(new Date(milliseconds));
+            return dateString;
+        } catch (Exception e) {
+            return "";
+        }
+
+    }
 }

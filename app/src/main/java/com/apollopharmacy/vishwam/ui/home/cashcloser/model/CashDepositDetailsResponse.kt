@@ -50,6 +50,8 @@ class CashDepositDetailsResponse {
 
         var isUploaded: Boolean? = false
 
+        var amountEdit: Int? = 0
+
         fun setIsExpanded(expanded: Boolean) {
             isExpanded = expanded
         }

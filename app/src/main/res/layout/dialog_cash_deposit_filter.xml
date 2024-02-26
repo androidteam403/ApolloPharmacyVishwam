@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+        <variable
+            name="isSubmitEnable"
+            type="Boolean" />
+
+        <variable
+            name="isSelectAllChecked"
+            type="Boolean" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CC000000"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:layout_width="@dimen/dimen330dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog_bg">
+
+            <RelativeLayout
+                android:id="@+id/header_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/vishwam_actionbar_color"
+                android:paddingTop="@dimen/value_15dp"
+                android:paddingBottom="@dimen/value_15dp">
+
+                <TextView
+                    android:id="@+id/textHead"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:gravity="start"
+                    android:text="@string/label_filters"
+                    android:textColor="@color/white_for_both"
+                    android:textSize="@dimen/text_18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/close_dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/qc_white_close_24"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:background="@drawable/dialog_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/header_layout"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_3dp"
+                            android:text="@string/label_by_status"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorBlack" />
+
+                        <RelativeLayout
+                            android:gravity="end"
+                            android:id="@+id/select_all_checkbox_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:id="@+id/select_all"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/vishwam_actionbar_color"
+                                android:checked="@{isSelectAllChecked}"
+                                android:clickable="false"
+                                android:text="@string/label_select_all"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/text_16sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="@dimen/value_2dp"
+                        android:background="@color/grey"
+                        android:visibility="gone" />
+                    <LinearLayout
+                        android:layout_margin="@dimen/value_15dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_marginStart="@dimen/text_dimen_10"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4">
+
+                                <TextView
+                                    android:textColor="#b7b7b7"
+                                    android:id="@+id/pending_list"
+                                    android:paddingStart="@dimen/value_9dp"
+                                    android:paddingEnd="@dimen/value_9dp"
+                                    android:paddingTop="@dimen/value_3dp"
+                                    android:paddingBottom="@dimen/value_3dp"
+                                    android:background="@drawable/checkbox_bgg"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/stringpending"
+                                    />
+                            </LinearLayout>
+
+                            <LinearLayout
+
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4">
+
+                                <TextView
+                                    android:textColor="#b7b7b7"
+                                    android:id="@+id/completed_list"
+                                    android:paddingStart="@dimen/value_9dp"
+                                    android:paddingEnd="@dimen/value_9dp"
+                                    android:paddingTop="@dimen/value_3dp"
+                                    android:paddingBottom="@dimen/value_3dp"
+                                    android:background="@drawable/checkbox_bgg"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/stringcompleted"
+                                    />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_1dp"
+                    android:layout_marginTop="@dimen/value_2dp"
+                    android:background="@color/grey" />
+
+                <LinearLayout
+                    android:background="@drawable/dialog_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:text="@string/label_by_date"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorBlack" />
+
+                    <LinearLayout
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:id="@+id/from_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/value_25dp"
+                                android:layout_height="@dimen/value_25dp"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/calendar_gray" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/label_from_date"
+                                    android:textColor="@color/grey" />
+
+                                <TextView
+                                    android:id="@+id/from_date_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="30-Oct 2023"
+                                    android:textColor="@color/colorBlack" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/to_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/value_25dp"
+                                android:layout_height="@dimen/value_25dp"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/calendar_gray" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="To Date"
+                                    android:textColor="@color/grey" />
+
+                                <TextView
+                                    android:id="@+id/to_date_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="30-Oct 2023"
+                                    android:textColor="@color/colorBlack" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/value_15dp"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/dialog_ash_corners"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:gravity="left"
+                            android:layout_marginStart="@dimen/value_30dp"
+                            android:layout_marginEnd="@dimen/value_10dp"
+                            android:id="@+id/clear_all_filters"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.5"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginBottom="@dimen/value_10dp"
+                            android:padding="@dimen/value_5dp"
+                            android:textSize="@dimen/text_16sp"
+                            android:text="@string/label_clear_all"
+                            android:textColor="@color/sky_bluee" />
+
+                        <LinearLayout
+                            android:layout_margin="@dimen/value_5dp"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5">
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:gravity="center"
+                                android:id="@+id/submit"
+                                android:layout_width="@dimen/value_120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@drawable/dark_blue_bg_for_btn"
+                                android:enabled="@{isSubmitEnable}"
+                                android:text="APPLY"
+                                android:textStyle="bold"
+                                android:textAlignment="center"
+                                android:textColor="@color/white_for_both"
+                                android:textSize="@dimen/text_15sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</layout>
+

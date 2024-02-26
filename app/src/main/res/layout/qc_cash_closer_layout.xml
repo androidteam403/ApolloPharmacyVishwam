@@ -12,7 +12,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/cash_deposit_item_background">
-            <!--            e5f7f7-->
 
             <LinearLayout
                 android:id="@+id/orderHead"
@@ -316,7 +315,7 @@
                                 android:layout_marginEnd="@dimen/value_5dp"
                                 android:layout_marginBottom="@dimen/value_5dp"
                                 android:layout_weight=".5"
-                                app:cardBackgroundColor="@color/white"
+                                app:cardBackgroundColor="@color/white_for_both"
                                 app:cardCornerRadius="@dimen/value_10dp"
                                 app:cardElevation="@dimen/value_5dp">
 
@@ -436,7 +435,7 @@
                                 android:layout_marginBottom="@dimen/value_5dp"
                                 android:layout_weight=".5"
                                 android:visibility="visible"
-                                app:cardBackgroundColor="@color/white"
+                                app:cardBackgroundColor="@color/white_for_both"
                                 app:cardCornerRadius="@dimen/value_10dp"
                                 app:cardElevation="@dimen/value_5dp">
 
@@ -583,6 +582,8 @@
                                         android:layout_height="wrap_content"
                                         android:background="@drawable/grey_border_bg"
                                         android:padding="@dimen/value_5dp"
+                                        android:digits="0123456789."
+                                        android:inputType="number"
                                         android:textAlignment="center"
                                         android:textSize="12sp" />
                                 </LinearLayout>

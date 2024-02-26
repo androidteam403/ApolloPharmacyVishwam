@@ -65,8 +65,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     ImageClickListener, ComplaintListCalendarDialog.DateSelected, MainActivityCallback,
     SubmitticketDialog.AbstractDialogFinanceClickListner, OnTransactionSearchManagerListnier,
     ComplaintListFragmentCallback {
-    var isNewStatusClicked = true
     var inProgressStatus = true
+    var isNewStatusClicked = true
     var rejectedStatus = true
     var reopenStatus = true
     var closedStatus = true

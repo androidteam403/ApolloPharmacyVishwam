@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,15 +62,24 @@ class CashCloserPendingAdapter(
         val formattedDate = date.format(formatter)
         holder.cashCloserLayoutBinding.closingDate.text = formattedDate
 
+        holder.cashCloserLayoutBinding.amountDeposit.setText(cashDeposit[position].amountEdit.toString())
+        
+
         if (cashDeposit[position].amount!!.isNotEmpty()) {
             holder.cashCloserLayoutBinding.amount.text =
                 DecimalFormat("#,###.00").format(cashDeposit[position].amount!!.toDouble())
                     .toString()
         }
         holder.cashCloserLayoutBinding.remarks.text = cashDeposit[position].remarks
-
-        holder.cashCloserLayoutBinding.amountDeposit.setText(cashDeposit[position].amount!!.toString())
-
+        holder.cashCloserLayoutBinding.amountDeposit.setText(cashDeposit[position].amount)
+        //holder.cashCloserLayoutBinding.amountDeposit.setText(cashDeposit[position].amount!!.toString())
+        holder.cashCloserLayoutBinding.uploadButton.setOnClickListener {
+            if (cashDeposit[position].isClicked!!) {
+                cashDeposit[position].amount =
+                    holder.cashCloserLayoutBinding.amountDeposit.text.toString()
+                openDialog(position, cashDeposit[position].amount!!)
+            }
+        }
 
         // image 1
         if (cashDeposit[position].imageurl!!.isNotEmpty() && cashDeposit[position].imageurl!! != "URL1"
@@ -162,12 +173,12 @@ class CashCloserPendingAdapter(
 
 
         // image 1
-        holder.cashCloserLayoutBinding.plusSysmbol1.setOnClickListener {
+        holder.cashCloserLayoutBinding.beforecapturelayout1.setOnClickListener {
             mCallback.addImage(cashDeposit[position].siteid!!, position, 1)
         }
 
         // image 2
-        holder.cashCloserLayoutBinding.plusSysmbol.setOnClickListener {
+        holder.cashCloserLayoutBinding.beforecapturelayout.setOnClickListener {
             mCallback.addImage(cashDeposit[position].siteid!!, position, 2)
         }
 
@@ -182,11 +193,14 @@ class CashCloserPendingAdapter(
         holder.cashCloserLayoutBinding.eyeImage1.setOnClickListener {
 
             if (cashDeposit[position].imageurl!!.isNotEmpty() && !cashDeposit[position].imageurl.equals(
-                    "URL1")
+                    "URL1"
+                )
             ) {
                 if (cashDeposit[position].imageurl!!.contains(",")) {
-                    mCallback.previewImage(cashDeposit[position].imageurl!!.split(",")[0],
-                        position)
+                    mCallback.previewImage(
+                        cashDeposit[position].imageurl!!.split(",")[0],
+                        position
+                    )
                 } else {
                     mCallback.previewImage(cashDeposit[position].imageurl!!, position)
                 }
@@ -197,17 +211,22 @@ class CashCloserPendingAdapter(
 
         holder.cashCloserLayoutBinding.eyeImage.setOnClickListener {
             if (cashDeposit[position].imageurl!!.isNotEmpty() && !cashDeposit[position].imageurl.equals(
-                    "URL1")
+                    "URL1"
+                )
             ) {
                 if (cashDeposit[position].imageurl!!.contains(",")) {
-                    mCallback.previewImage(cashDeposit[position].imageurl!!.split(",")[1],
-                        position)
+                    mCallback.previewImage(
+                        cashDeposit[position].imageurl!!.split(",")[1],
+                        position
+                    )
                 } else {
                     mCallback.previewImage(cashDeposit[position].imageurl!!, position)
                 }
             } else {
-                mCallback.previewImage(cashDeposit[position].imagePathTwo!!.toString(),
-                    position)
+                mCallback.previewImage(
+                    cashDeposit[position].imagePathTwo!!.toString(),
+                    position
+                )
             }
         }
 
@@ -238,6 +257,21 @@ class CashCloserPendingAdapter(
             mCallback.headrItemClickListener(cashDeposit[position].siteid!!, position)
         }
 
+        holder.cashCloserLayoutBinding.amountDeposit.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (!s.toString().isNullOrEmpty()) {
+                    cashDeposit[position].amountEdit = s.toString().toInt()
+                } else {
+                    cashDeposit[position].amountEdit = 0
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
         if (cashDeposit[position].imagePath != null || cashDeposit[position].imagePathTwo != null) {
             cashDeposit[position].setIsClicked(true)
         } else if (cashDeposit[position].imagePath == null || cashDeposit[position].imagePathTwo == null) {
@@ -255,7 +289,7 @@ class CashCloserPendingAdapter(
                 openDialog(position, holder.cashCloserLayoutBinding.amountDeposit.text.toString())
             }
         }
-        holder.cashCloserLayoutBinding.headerLayout.setOnClickListener{
+        holder.cashCloserLayoutBinding.headerLayout.setOnClickListener {
             mCallback.headrItemClickListener(cashDeposit[position].siteid!!, position)
         }
     }
@@ -293,6 +327,7 @@ class CashCloserPendingAdapter(
                 false
             )
         dialog.setContentView(dialogUploadCommentBinding.root)
+        dialogUploadCommentBinding.commentText.setText(amount)
 
         dialogUploadCommentBinding.cancelButton.setOnClickListener {
             dialog.dismiss()

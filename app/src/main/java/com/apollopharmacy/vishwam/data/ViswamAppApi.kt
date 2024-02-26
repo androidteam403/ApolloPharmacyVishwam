@@ -786,6 +786,9 @@ interface ViswamAppApi {
         @Url url: String,
         @Header("token") token: String,
         @Query("SITEID") siteid: String,
+        @Query("FROMDATE") fromDate: String,
+        @Query("TODATE") toDate: String,
+        @Query("STATUS") status: String,
     ): CashDepositDetailsResponse
 
     @POST //("https://online.apollopharmacy.org/LIGHTPOS/Apollo/UTIES/SAVECASHDEPOSITDETAILS")

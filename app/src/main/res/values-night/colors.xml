@@ -32,7 +32,7 @@
     <color name="colorBlack">#ffffff</color>
     <color name="label_color">#3f9bb3</color>
     <color name="label_color_ceo">#005EFF</color>
-
+<!--    005EFF-->
     <color name="customer_search_border">#d5d6d8</color>
     <color name="pay_btn_color">#8F6705</color>
     <color name="dark_yellow">#B58003</color>
@@ -296,4 +296,5 @@
     <color name="notifications_dialog_text">#ffffff</color>
     <color name="theme_option_bg">#393838</color>
     <color name="theme_setting_icon">#fbb831</color>
+    <color name="cash_deposit">#292E2E</color>
 </resources>

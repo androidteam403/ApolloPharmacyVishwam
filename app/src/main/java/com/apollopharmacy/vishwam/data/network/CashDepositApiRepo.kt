@@ -17,9 +17,12 @@ object CashDepositApiRepo {
         url: String,
         token: String,
         siteId: String,
+        fromDate: String,
+        toDate: String,
+        status: String,
     ): ApiResult<CashDepositDetailsResponse> {
         return try {
-            val response = Api.getClient().getCashDepositDetails(url, token, siteId)
+            val response = Api.getClient().getCashDepositDetails(url, token, siteId, fromDate, toDate, status)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

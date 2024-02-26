@@ -4,5 +4,5 @@
         android:color="#80bbb1"
         android:width="@dimen/value_1dp"/>
 
-    <solid android:color="#e5f7f7"/>
+    <solid android:color="@color/cash_deposit"/>
 </shape>

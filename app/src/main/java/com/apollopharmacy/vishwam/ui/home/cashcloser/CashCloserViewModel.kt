@@ -22,7 +22,13 @@ class CashCloserViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     val command = LiveEvent<Command>()
 
-    fun getCashDepositDetails(siteId: String, mCallback: CashCloserFragmentCallback) {
+    fun getCashDepositDetails(
+        siteId: String,
+        mCallback: CashCloserFragmentCallback,
+        fromDate: String,
+        toDate: String,
+        status: String,
+    ) {
         // var token = "h72genrSSNFivOi/cfiX3A=="
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -38,7 +44,7 @@ class CashCloserViewModel : ViewModel() {
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
             val result = withContext(Dispatchers.IO) {
-                CashDepositApiRepo.getCashDepositDetails(apiUrl, token, siteId)
+                CashDepositApiRepo.getCashDepositDetails(apiUrl, token, siteId, fromDate, toDate, status)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -50,20 +56,24 @@ class CashCloserViewModel : ViewModel() {
                         mCallback.onFailureGetCashDepositDetailsApiCall(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     command.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     command.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -103,20 +113,24 @@ class CashCloserViewModel : ViewModel() {
                         mCallback.onFailureSaveCashDepositDetailsApiCall(result.value.message!!)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     command.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     command.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR

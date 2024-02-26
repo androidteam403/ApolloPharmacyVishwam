@@ -1406,8 +1406,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerTextLocation.setVisibility(View.GONE);
                 plusIconAttendence.setVisibility(View.GONE);
                 helpIcon.setVisibility(View.GONE);
-
-                filterIconApna.setVisibility(View.GONE);
+                filterIconApna.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
                 onClickPlusIcon.setVisibility(View.GONE);
                 settingsWhite.setVisibility(View.GONE);
