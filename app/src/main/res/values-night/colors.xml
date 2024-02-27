@@ -297,4 +297,5 @@
     <color name="theme_option_bg">#393838</color>
     <color name="theme_setting_icon">#fbb831</color>
     <color name="cash_deposit">#292E2E</color>
+    <color name="cash_deposit_upload_receipt">#014659</color>
 </resources>

@@ -62,8 +62,8 @@ class CashCloserPendingAdapter(
         val formattedDate = date.format(formatter)
         holder.cashCloserLayoutBinding.closingDate.text = formattedDate
 
-        holder.cashCloserLayoutBinding.amountDeposit.setText(cashDeposit[position].amountEdit.toString())
-        
+//        holder.cashCloserLayoutBinding.amountDeposit.setText(cashDeposit[position].amountEdit.toString())
+
 
         if (cashDeposit[position].amount!!.isNotEmpty()) {
             holder.cashCloserLayoutBinding.amount.text =
@@ -72,6 +72,7 @@ class CashCloserPendingAdapter(
         }
         holder.cashCloserLayoutBinding.remarks.text = cashDeposit[position].remarks
         holder.cashCloserLayoutBinding.amountDeposit.setText(cashDeposit[position].amount)
+        holder.cashCloserLayoutBinding.amountDeposit.setSelection(holder.cashCloserLayoutBinding.amountDeposit.text.toString().length)
         //holder.cashCloserLayoutBinding.amountDeposit.setText(cashDeposit[position].amount!!.toString())
         holder.cashCloserLayoutBinding.uploadButton.setOnClickListener {
             if (cashDeposit[position].isClicked!!) {
@@ -80,7 +81,6 @@ class CashCloserPendingAdapter(
                 openDialog(position, cashDeposit[position].amount!!)
             }
         }
-
         // image 1
         if (cashDeposit[position].imageurl!!.isNotEmpty() && cashDeposit[position].imageurl!! != "URL1"
         ) {
@@ -229,7 +229,6 @@ class CashCloserPendingAdapter(
                 )
             }
         }
-
         if (cashDeposit[position].isExpanded) {
             holder.cashCloserLayoutBinding.arrow.visibility = View.GONE
             holder.cashCloserLayoutBinding.arrowClose.visibility = View.VISIBLE
@@ -239,7 +238,7 @@ class CashCloserPendingAdapter(
         } else {
             holder.cashCloserLayoutBinding.arrow.visibility = View.VISIBLE
             holder.cashCloserLayoutBinding.arrowClose.visibility = View.GONE
-            holder.cashCloserLayoutBinding.uploadReceiptLayout.setBackgroundColor(Color.parseColor("#01bec0"))
+            holder.cashCloserLayoutBinding.uploadReceiptLayout.setBackgroundColor(Color.parseColor("#045a71"))
             holder.cashCloserLayoutBinding.uploadReceiptText.setTextColor(Color.parseColor("#ffffff"))
             holder.cashCloserLayoutBinding.extraData.visibility = View.GONE
         }
@@ -260,9 +259,9 @@ class CashCloserPendingAdapter(
         holder.cashCloserLayoutBinding.amountDeposit.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (!s.toString().isNullOrEmpty()) {
-                    cashDeposit[position].amountEdit = s.toString().toInt()
+                    cashDeposit[position].amount = s.toString()//.toInt()
                 } else {
-                    cashDeposit[position].amountEdit = 0
+                    cashDeposit[position].amount = "0"
                 }
             }
 
@@ -327,7 +326,6 @@ class CashCloserPendingAdapter(
                 false
             )
         dialog.setContentView(dialogUploadCommentBinding.root)
-        dialogUploadCommentBinding.commentText.setText(amount)
 
         dialogUploadCommentBinding.cancelButton.setOnClickListener {
             dialog.dismiss()
